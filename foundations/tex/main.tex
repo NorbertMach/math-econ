@@ -1,0 +1,43 @@
+\documentclass[11pt,a4paper,twoside,openright]{book}
+\input{preamble}
+
+\title{\Huge Foundations of Analysis\\[0.4em]
+  \large A Training Sheet with Exercises and Worked Solutions\\[0.8em]
+  \normalsize Sequences \(\cdot\) Series \(\cdot\) Financial Mathematics
+  \(\cdot\) Limits \& Continuity}
+\author{}
+\date{}
+
+\begin{document}
+\frontmatter
+\maketitle
+
+\chapter*{About this sheet}
+\addcontentsline{toc}{chapter}{About this sheet}
+
+This sheet drills the analysis foundations that a first course in
+mathematics for economists opens with, and that every later volume silently
+assumes: sequences and their limits, series with the geometric series as the
+workhorse, the financial mathematics that the geometric series pays for
+(compound interest, discounting, present value, annuities), and finally
+limits and continuity of functions, up to the Intermediate Value Theorem.
+
+The material is deliberately computational: convergence is established with
+the standard limit rules rather than $\varepsilon$-arguments, and every
+financial formula is derived once from the geometric series and then
+drilled numerically.
+
+The structure is the same in every chapter: \textbf{Core Rules} states the
+rules compactly; \textbf{Practice Problems} drills them; \textbf{Solutions}
+works every problem through in full. Each chapter closes with
+\emph{additional problems} for a second pass.
+
+\tableofcontents
+
+\mainmatter
+\include{chapters/ch01}
+\include{chapters/ch02}
+\include{chapters/ch03}
+\include{chapters/ch04}
+
+\end{document}

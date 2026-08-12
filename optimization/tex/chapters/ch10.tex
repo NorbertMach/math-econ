@@ -1,0 +1,721 @@
+\chapter{Kuhn--Tucker Conditions and Nonlinear Programming}
+
+Equality constraints assume the constraint always binds. In reality a budget
+may be left unspent, a quota may not be reached, and consumption or input
+levels must be non-negative. The Karush--Kuhn--Tucker (KKT) conditions generalise the method of Lagrange to
+inequality constraints (the setting of nonlinear programming) and crucially they admit corner solutions
+where some constraints are slack and the corresponding multiplier is zero.
+
+Two ideas organise the chapter. \emph{Complementary slackness} couples each constraint to its multiplier:
+at the optimum a constraint binds or its shadow price is zero. And for
+\emph{convex programmes} (concave objective,
+convex constraint functions) the KKT conditions are not merely necessary
+but sufficient, and are tied to the \emph{saddle-point condition} of the Lagrangian. The solution routine is a
+disciplined case analysis: guess which constraints bind, solve the
+resulting equality-constrained system, and verify the remaining
+inequalities and multiplier signs.
+
+\section{Core Rules}
+
+\begin{rulebox}{The nonlinear programming problem}
+The standard form is
+\[
+  \max_{\mathbf{x}} \; f(\mathbf{x}) \quad \text{subject to} \quad
+  g_i(\mathbf{x}) \leq b_i, \quad i = 1, \dots, m,
+\]
+usually together with non-negativity $x_j \geq 0$. Any smooth problem can
+be brought to this form: an equality constraint is two inequalities
+($g \leq b$ and $-g \leq -b$), non-negativity $x_j \geq 0$ corresponds to
+$-x_j \leq 0$, and a minimisation is the maximisation of $-f$.
+\end{rulebox}
+
+\begin{rulebox}{The Kuhn--Tucker conditions (with complementary slackness)}
+Form the Lagrangian
+$\mathcal{L} = f(\mathbf{x}) + \sum_i \lambda_i\bigl(b_i - g_i(\mathbf{x})\bigr)$.
+At a local maximum $\mathbf{x}^*$ (assuming a constraint qualification)
+there exist multipliers $\lambda_i^* \geq 0$ such that:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Stationarity:} $\pd{\mathcal{L}}{x_j}(\mathbf{x}^*) = 0$
+        for $j = 1, \dots, n$, i.e.\
+        $\grad f(\mathbf{x}^*) = \sum_i \lambda_i^* \grad g_i(\mathbf{x}^*)$;
+  \item \textbf{Primal feasibility:} $g_i(\mathbf{x}^*) \leq b_i$ for every
+        $i$;
+  \item \textbf{Dual feasibility:} $\lambda_i^* \geq 0$ for every $i$;
+  \item \textbf{Complementary slackness:}
+        $\lambda_i^*\,\bigl(b_i - g_i(\mathbf{x}^*)\bigr) = 0$ for every
+        $i$. Equivalently: either the constraint binds ($g_i = b_i$) or its
+        multiplier is zero.
+\end{itemize}
+Read-out: if constraint $i$ does not bind at the optimum, relaxing it
+further has no effect on the value, so $\lambda_i^* = 0$. If it binds,
+$\lambda_i^* \geq 0$ measures the shadow price of relaxing it, exactly as
+in the equality case.
+\end{rulebox}
+
+\begin{rulebox}{Sign conventions for maximum problems with $g(\mathbf{x}) \leq b$}
+Write every constraint as $g_i(\mathbf{x}) \leq b_i$ and form
+\[
+  \mathcal{L} = f(\mathbf{x})
+  + \sum_i \lambda_i\bigl(b_i - g_i(\mathbf{x})\bigr),
+  \qquad \lambda_i \geq 0 .
+\]
+Each $\lambda_i$ is non-negative, and if constraint $i$ binds it is the
+shadow price of its right-hand side: $\partial V/\partial b_i = \lambda_i^*$.
+Rules of thumb:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item a ``$\geq$'' constraint $g \geq b$ becomes $-g \leq -b$;
+  \item for a \textbf{minimisation} $\min f$ s.t.\ $g \leq b$, the
+        multipliers in $\mathcal{L} = f - \lambda(b - g)$ should also be
+        $\geq 0$, careful with the sign! Many textbooks write all problems
+        as maxima after flipping signs.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Handling non-negativity constraints}
+Two equivalent treatments of $x_j \geq 0$:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{As explicit constraints:} write $-x_j \leq 0$ with
+        multiplier $\mu_j \geq 0$; stationarity becomes
+        $\pd{f}{x_j} - \sum_i \lambda_i \pd{g_i}{x_j} + \mu_j = 0$
+        together with $\mu_j\,x_j = 0$.
+  \item \textbf{Folded into stationarity:} drop the $\mu_j$ and replace the
+        FOC by
+        \[
+          \pd{\mathcal{L}}{x_j} \leq 0, \qquad x_j \geq 0, \qquad
+          x_j\,\pd{\mathcal{L}}{x_j} = 0 .
+        \]
+        In the interior ($x_j > 0$) this forces the usual
+        $\pd{\mathcal{L}}{x_j} = 0$; at a corner ($x_j = 0$) only
+        $\pd{\mathcal{L}}{x_j} \leq 0$ is required.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{When KKT is necessary: constraint qualification}
+The KKT conditions are necessary at a local maximum only under a
+\emph{constraint qualification}:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{LICQ:} the gradients of the constraints \emph{active} at
+        $\mathbf{x}^*$ are linearly independent;
+  \item \textbf{Slater's condition} (for convex programmes): some feasible
+        $\hat{\mathbf{x}}$ satisfies every inequality strictly,
+        $g_i(\hat{\mathbf{x}}) < b_i$;
+  \item affine (linear) constraints always qualify.
+\end{itemize}
+Standard economics problems (one budget plus non-negativity, or smooth
+convex constraint sets) satisfy these. When the qualification fails, the
+maximum may solve no KKT system: for $\max x$ s.t.\ $x^3 \leq 0$ the
+optimum is $x^* = 0$, but $f'(0) = 1 \neq \lambda\,g'(0) = 0$ for every
+$\lambda$.
+\end{rulebox}
+
+\begin{rulebox}{When KKT is sufficient: convex programmes}
+The problem $\max f$ s.t.\ $g_i \leq b_i$ is a \emph{convex programme} if $f$ is concave and every constraint function
+$g_i$ is convex, so that the feasible set is convex. Then:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item any point satisfying the KKT conditions is a \textbf{global
+        maximum}: the conditions are sufficient, and no second-order
+        (bordered-Hessian) check is needed;
+  \item if $f$ is strictly concave, the maximiser is unique.
+\end{itemize}
+Linear objectives and linear constraints always qualify (linear functions
+are both concave and convex). \textbf{Warning:} if the objective is convex
+(Problem~4), maxima sit at vertices of the feasible set and stationary
+points of the Lagrangian may be minima: KKT stationarity is then the wrong
+tool.
+\end{rulebox}
+
+\begin{rulebox}{The saddle-point condition of the Lagrangian}
+For $\max f(\mathbf{x})$ s.t.\ $g_i(\mathbf{x}) \leq b_i$ with
+$\mathcal{L}(\mathbf{x}, \boldsymbol{\lambda})
+= f(\mathbf{x}) + \sum_i \lambda_i\bigl(b_i - g_i(\mathbf{x})\bigr)$, a
+pair $(\mathbf{x}^*, \boldsymbol{\lambda}^*)$ with
+$\boldsymbol{\lambda}^* \geq \mathbf{0}$ is a \emph{saddle point} of the Lagrangian if
+\[
+  \mathcal{L}(\mathbf{x}, \boldsymbol{\lambda}^*)
+  \;\leq\; \mathcal{L}(\mathbf{x}^*, \boldsymbol{\lambda}^*)
+  \;\leq\; \mathcal{L}(\mathbf{x}^*, \boldsymbol{\lambda})
+  \qquad \text{for all } \mathbf{x}
+  \text{ and all } \boldsymbol{\lambda} \geq \mathbf{0},
+\]
+i.e.\ $\mathbf{x}^*$ maximises $\mathcal{L}(\cdot, \boldsymbol{\lambda}^*)$
+and $\boldsymbol{\lambda}^*$ minimises
+$\mathcal{L}(\mathbf{x}^*, \cdot)$ over
+$\boldsymbol{\lambda} \geq \mathbf{0}$.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item If $(\mathbf{x}^*, \boldsymbol{\lambda}^*)$ is a saddle point, then
+        $\mathbf{x}^*$ is feasible, complementary slackness holds, and
+        $\mathbf{x}^*$ is a \textbf{global maximum}: no differentiability,
+        concavity, or constraint qualification is needed (Problem~20).
+  \item Conversely, in a convex programme satisfying Slater's condition,
+        every solution $\mathbf{x}^*$ admits a multiplier vector
+        $\boldsymbol{\lambda}^*$ such that
+        $(\mathbf{x}^*, \boldsymbol{\lambda}^*)$ is a saddle point. For
+        differentiable convex programmes, therefore: saddle point
+        $\Leftrightarrow$ KKT point $\Leftrightarrow$ global maximum.
+  \item If non-negativity $\mathbf{x} \geq \mathbf{0}$ is kept as a domain
+        restriction rather than a constraint, the first inequality is only
+        required for $\mathbf{x} \geq \mathbf{0}$.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Solving strategy: systematic case analysis}
+With $m$ inequality constraints there are at most $2^m$ binding/slack
+patterns.
+\begin{enumerate}[leftmargin=1.8em,itemsep=0.3ex]
+  \item Guess which constraints bind (economic reasoning helps: a strictly
+        increasing utility spends the whole budget).
+  \item Impose the binding constraints as equalities, set the multipliers
+        of the slack constraints to zero, and solve the reduced FOC system.
+  \item Verify: (i) the omitted inequalities still hold at the candidate,
+        (ii) the multipliers of the binding constraints are non-negative.
+  \item If a check fails, switch the active set and re-solve.
+\end{enumerate}
+In a convex programme the first candidate that passes all checks is the
+global maximum; otherwise compare $f$ across all surviving candidates.
+\end{rulebox}
+
+\section{Practice Problems}
+
+Problems 1--15 drill the KKT system and the case analysis of binding and
+slack constraints; Problems 16--20 add convex-programme sufficiency and the
+saddle-point condition.
+
+\begin{problems}
+  \item Maximise $f(x, y) = x y$ on $x + y \leq 8$, $x \geq 0$, $y \geq 0$.
+  \item Maximise $f(x, y) = 4 x + 3 y$ on $x + y \leq 6$,
+        $2 x + y \leq 8$, $x, y \geq 0$.
+  \item Maximise $U(x, y) = x + \ln(1 + y)$ on $x + y \leq 10$,
+        $x, y \geq 0$. \emph{Test:} is the budget tight?
+  \item Maximise $f(x, y) = x^2 + y^2$ on $x + y \leq 1$, $x, y \geq 0$.
+        \emph{Careful:} the objective is convex; maxima are at vertices.
+  \item Minimise $f(x, y) = (x - 3)^2 + (y - 4)^2$ on $x + y \leq 5$,
+        $x, y \geq 0$.
+  \item Maximise $U(x, y) = \ln(x) + \ln(y)$ on $x + y \leq 10$,
+        $x \geq 1$, $y \geq 1$. Is the lower bound on $x$ binding? On $y$?
+  \item Maximise $f(x, y) = 2 x + y$ on $x^2 + y^2 \leq 5$.
+  \item A monopolist chooses $q \geq 0$ to maximise
+        $\pi(q) = (10 - q) q - 4 q = 6 q - q^2$. (Use the non-negativity
+        constraint explicitly.) Find $q^*$.
+  \item Maximise $U = x y$ on $p_x x + p_y y \leq M$, $x \geq 0$,
+        $y \geq 0$ (general parameters $p_x, p_y, M > 0$). Show the budget
+        binds.
+  \item Maximise $f(x, y) = x + 2 y$ on $x^2 + y^2 \leq 4$ and $y \leq 1$.
+  \item Minimise $f(x) = x^2 - 4 x + 7$ on $x \geq 5$. (Note: the
+        unconstrained optimum is at $x = 2$, infeasible.)
+  \item Maximise $U(x_1, x_2) = x_1 + 2 \ln(1 + x_2)$ on
+        $x_1 + x_2 \leq 5$, $x_1, x_2 \geq 0$.
+  \item Maximise $f(x, y) = \ln x + \ln y$ on $x + y \leq 10$,
+        $x \geq 1$, $y \geq 4$. Which constraints bind?
+  \item Maximise $U = x^{1/2} + y^{1/2}$ on $x + 2 y \leq 12$,
+        $x \geq 0$, $y \geq 0$.
+  \item Maximise $f(x, y) = 6 x + 4 y - x^2 - y^2$ on
+        $x \geq 0$, $y \geq 0$ (no upper-bound constraint).
+  \item Show that
+        \[
+          \max\; f(x, y) = -(x - 2)^2 - (y - 1)^2
+          \quad \text{s.t.} \quad x + 2 y \leq 2, \; x \geq 0, \; y \geq 0
+        \]
+        is a convex programme. Solve it via the KKT conditions and explain
+        why no second-order check is needed.
+  \item Maximise $U(x, y) = 4 \ln(1 + x) + y$ on $x + y \leq 2$,
+        $x, y \geq 0$. Carry out a systematic case analysis (budget
+        binding/slack, each variable zero or positive) and verify that the
+        problem is a convex programme, so the KKT point you find is the
+        global maximum.
+  \item A firm's profit from two products is
+        $\pi(x, y) = 12 x - x^2 + 8 y - y^2$; capacity restricts total
+        output to $x + y \leq 8$, with $x, y \geq 0$. (a)~Solve by KKT and
+        use convexity to certify a global maximum. (b)~Repeat with capacity
+        $12$ instead of $8$ and interpret the multiplier via complementary
+        slackness.
+  \item For $\max f(x) = -x^2 + 6 x$ s.t.\ $x \leq 2$: find the KKT point
+        $(x^*, \lambda^*)$ and verify \emph{directly} that it is a saddle
+        point of the Lagrangian, i.e.\
+        $\mathcal{L}(x, \lambda^*) \leq \mathcal{L}(x^*, \lambda^*)
+        \leq \mathcal{L}(x^*, \lambda)$ for all $x \in \R$ and all
+        $\lambda \geq 0$.
+  \item (Saddle-point theorem.) Let
+        $\mathcal{L}(\mathbf{x}, \lambda)
+        = f(\mathbf{x}) + \lambda\bigl(b - g(\mathbf{x})\bigr)$ and suppose
+        the pair $(\mathbf{x}^*, \lambda^*)$ with $\lambda^* \geq 0$
+        satisfies the saddle-point condition
+        $\mathcal{L}(\mathbf{x}, \lambda^*)
+        \leq \mathcal{L}(\mathbf{x}^*, \lambda^*)
+        \leq \mathcal{L}(\mathbf{x}^*, \lambda)$ for all $\mathbf{x}$ and
+        all $\lambda \geq 0$. Prove: (i)~$\mathbf{x}^*$ is feasible,
+        (ii)~$\lambda^*\bigl(b - g(\mathbf{x}^*)\bigr) = 0$, and
+        (iii)~$\mathbf{x}^*$ solves $\max f$ s.t.\ $g \leq b$. (No
+        differentiability or convexity assumptions are needed.)
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item Guess an interior solution with the budget binding.
+        $\mathcal{L} = x y + \lambda(8 - x - y)$. FOCs:
+        \[
+          \pd{\mathcal{L}}{x} = y - \lambda = 0, \qquad
+          \pd{\mathcal{L}}{y} = x - \lambda = 0
+          \;\Rightarrow\; x = y .
+        \]
+        Sum in the budget: $2 x = 8 \Rightarrow x^* = y^* = 4$, with
+        $\lambda^* = 4 \geq 0$ \checkmark. Non-negativity is slack
+        ($\mu_x = \mu_y = 0$). $f^* = 16$.
+
+  \item Linear programming. The vertices of the feasible polygon are
+        $(0, 0)$, $(4, 0)$, $(2, 4)$, $(0, 6)$. Evaluating $f$ there gives
+        $0$, $16$, $20$, $18$: the optimum is at $(2, 4)$ with $f^* = 20$.
+        Both inequality constraints bind; non-negativity is slack at this
+        vertex. Multipliers from stationarity:
+        \[
+          \pd{\mathcal{L}}{x} = 4 - \lambda_1 - 2 \lambda_2 = 0, \qquad
+          \pd{\mathcal{L}}{y} = 3 - \lambda_1 - \lambda_2 = 0 .
+        \]
+        Subtracting: $1 = \lambda_2$, hence $\lambda_1 = 2$. Both $\geq 0$.
+        \checkmark
+
+  \item Guess the budget binds with $x, y > 0$.
+        $\mathcal{L} = x + \ln(1 + y) + \lambda(10 - x - y)$. FOCs:
+        $1 = \lambda$ and $1/(1 + y) = \lambda = 1 \Rightarrow y^* = 0$,
+        but we assumed $y > 0$. Switch the case: try $y = 0$ binding. Then
+        $x = 10$, $y = 0$, $f^* = 10$. Multiplier for the budget:
+        $\lambda = 1$ (from the FOC on $x$). Multiplier for $y \geq 0$:
+        $\mu_y = \lambda - 1/(1 + 0) = 1 - 1 = 0$. So the corner $y = 0$
+        with $\mu_y = 0$ is consistent (a boundary solution with vanishing
+        multiplier, non-strict KKT). $x^* = 10$, $y^* = 0$, $U^* = 10$.
+        The budget is tight.
+
+  \item A convex objective on a compact convex set: the maximum is at a
+        vertex of the simplex, $(0, 0)$, $(1, 0)$, $(0, 1)$. The
+        $f$-values are $0$, $1$, $1$. \textbf{Both} $(1, 0)$ and $(0, 1)$
+        are optima with $f^* = 1$. (A Lagrange-style FOC would only flag
+        $(0, 0)$ as a critical point of $f$, which is a \emph{minimum}
+        here.)
+
+  \item The unconstrained minimum of the paraboloid is at $(3, 4)$, with
+        $3 + 4 = 7 > 5$: infeasible. So the budget binds. Use the form
+        $\mathcal{L} = (x - 3)^2 + (y - 4)^2 + \mu(x + y - 5)$ with
+        $\mu \geq 0$ (the KKT-standard form for $g(x,y) - b \leq 0$ in a
+        minimisation). FOCs:
+        \[
+          2(x - 3) + \mu = 0, \qquad 2(y - 4) + \mu = 0
+          \;\Rightarrow\; 2(x - 3) = 2(y - 4)
+          \;\Rightarrow\; y = x + 1 .
+        \]
+        Constraint: $x + y = 5 \Rightarrow 2 x + 1 = 5 \Rightarrow
+        x^* = 2$, $y^* = 3$. Both $\geq 0$ \checkmark.
+        $\mu^* = -2(x - 3) = -2(-1) = 2 \geq 0$ \checkmark.
+        $f^* = 1 + 1 = 2$.
+
+  \item Guess an interior solution with $x, y > 1$ and the budget binding.
+        $\mathcal{L} = \ln x + \ln y + \lambda(10 - x - y)$. FOCs:
+        $1/x = \lambda$, $1/y = \lambda \Rightarrow x = y = 5$. Both
+        $> 1$: the lower bounds are slack with multipliers zero.
+        $\lambda^* = 1/5$. $U^* = 2 \ln 5$.
+
+  \item Guess the circle constraint binding.
+        $\mathcal{L} = 2 x + y + \lambda(5 - x^2 - y^2)$. FOCs:
+        \[
+          2 = 2 \lambda x, \qquad 1 = 2 \lambda y
+          \;\Rightarrow\; x = 1/\lambda, \quad y = 1/(2 \lambda) .
+        \]
+        Constraint: $1/\lambda^2 + 1/(4 \lambda^2) = 5/(4 \lambda^2) = 5
+        \Rightarrow \lambda^2 = 1/4 \Rightarrow \lambda = 1/2$ (positive
+        for a max). $x^* = 2$, $y^* = 1$. $f^* = 5$.
+
+  \item The constraint is $-q \leq 0$, i.e.\ $q \geq 0$.
+        $\mathcal{L} = 6 q - q^2 + \mu q$ with $\mu \geq 0$ and
+        complementary slackness $\mu q = 0$. FOC: $6 - 2 q + \mu = 0$. Try
+        $\mu = 0$: $q^* = 3 > 0$, so $\mu^* = 0$ confirms the interior
+        solution. $\pi^* = 9$.
+
+  \item Lagrangian
+        $\mathcal{L} = x y + \lambda(M - p_x x - p_y y)
+        + \mu_x x + \mu_y y$. FOCs: $y = \lambda p_x - \mu_x$,
+        $x = \lambda p_y - \mu_y$. Since the utility $x y$ is strictly
+        increasing in both arguments (in the interior), the consumer always
+        wants to spend everything: the budget binds ($\lambda > 0$). And
+        $x = 0$ would give $U = 0$; one can always do better by buying some
+        of both. So $\mu_x = \mu_y = 0$. Then $y = \lambda p_x$,
+        $x = \lambda p_y$. Substituting into the budget:
+        \[
+          p_x \lambda p_y + p_y \lambda p_x = 2 p_x p_y \lambda = M
+          \;\Rightarrow\; \lambda^* = \frac{M}{2 p_x p_y} .
+        \]
+        Hence $x^* = M/(2 p_x)$, $y^* = M/(2 p_y)$.
+
+  \item Two constraints: $g_1\colon x^2 + y^2 \leq 4$ and
+        $g_2\colon y \leq 1$. The unconstrained maximum of $x + 2 y$ is
+        unbounded, so $g_1$ must bind.
+
+        \emph{Case A ($g_2$ binds too):} $y = 1$,
+        $x^2 = 3 \Rightarrow x = \sqrt{3}$ (the positive root maximises).
+        $f = \sqrt{3} + 2 \approx 3.73$. Multipliers:
+        $\mathcal{L} = x + 2 y + \lambda_1(4 - x^2 - y^2)
+        + \lambda_2(1 - y)$. FOCs: $1 = 2 \lambda_1 x \Rightarrow
+        \lambda_1 = 1/(2 \sqrt{3})$;
+        $2 = 2 \lambda_1 y + \lambda_2 = 2 \lambda_1 + \lambda_2
+        \Rightarrow \lambda_2 = 2 - 1/\sqrt{3} \approx 1.42$. Both
+        $\geq 0$ \checkmark.
+
+        \emph{Case B ($g_2$ slack, $y < 1$):} FOCs
+        $1 = 2 \lambda_1 x$, $2 = 2 \lambda_1 y \Rightarrow y = 2 x$. On
+        the circle: $x^2 + 4 x^2 = 4 \Rightarrow x = 2/\sqrt{5}$,
+        $y = 4/\sqrt{5} \approx 1.79 > 1$, infeasible.
+
+        So the binding-both case is correct: $x^* = \sqrt{3}$, $y^* = 1$,
+        $f^* = 2 + \sqrt{3}$.
+
+  \item Minimisation on $x \geq 5$. The unconstrained minimum at $x = 2$
+        is infeasible. The constraint is $-x + 5 \leq 0$, i.e.\
+        $5 - x \leq 0$, so the minimum sits on the boundary: $x^* = 5$.
+        $f(5) = 25 - 20 + 7 = 12$. KKT: stationarity $f'(x) = \mu$ where
+        $\mu \geq 0$ is the multiplier on $5 - x \leq 0$ (for a min).
+        $f'(5) = 6 = \mu \geq 0$. \checkmark
+
+  \item $\mathcal{L} = x_1 + 2 \ln(1 + x_2) + \lambda(5 - x_1 - x_2)
+        + \mu_1 x_1 + \mu_2 x_2$. Try an interior solution with the budget
+        binding: FOCs $1 = \lambda$ and
+        $2/(1 + x_2) = \lambda = 1 \Rightarrow x_2 = 1$. Then $x_1 = 4$.
+        Both $\geq 0$ \checkmark, so $\mu_1 = \mu_2 = 0$.
+        $U^* = 4 + 2 \ln 2$.
+
+  \item Try the interior (budget binding, both lower bounds slack): FOC
+        $1/x = 1/y \Rightarrow x = y = 5$. But $y = 5 > 4$ \checkmark and
+        $x = 5 > 1$ \checkmark, so both lower bounds are slack with
+        multipliers zero. $\lambda^* = 1/5$. $U^* = 2 \ln 5$. Confirmed by
+        checking: at $(5, 5)$ no constraint other than the budget is
+        binding.
+
+  \item The budget should bind (utility strictly increasing).
+        $\mathcal{L} = x^{1/2} + y^{1/2} + \lambda(12 - x - 2 y)$. FOCs:
+        \[
+          \frac{1}{2 \sqrt{x}} = \lambda, \qquad
+          \frac{1}{2 \sqrt{y}} = 2 \lambda = \frac{1}{\sqrt{x}}
+          \;\Rightarrow\; \sqrt{x} = 2 \sqrt{y}
+          \;\Rightarrow\; x = 4 y .
+        \]
+        Constraint: $4 y + 2 y = 6 y = 12 \Rightarrow y^* = 2$,
+        $x^* = 8$. $\lambda^* = 1/(2 \sqrt{8}) = 1/(4 \sqrt{2})$. Both
+        variables positive, lower bounds slack.
+        $U^* = \sqrt{8} + \sqrt{2} = 2 \sqrt{2} + \sqrt{2} = 3 \sqrt{2}$.
+
+  \item Unconstrained optimum: $f_x = 6 - 2 x = 0 \Rightarrow x = 3$;
+        $f_y = 4 - 2 y = 0 \Rightarrow y = 2$. Both $\geq 0$ \checkmark,
+        so the non-negativity constraints are slack. KKT multipliers
+        $\mu_x = \mu_y = 0$. $f^* = 18 + 8 - 9 - 4 = 13$. (A non-binding
+        non-negativity constraint in a problem whose unconstrained optimum
+        already lies in the positive orthant.)
+
+  \item \emph{Convexity check.} The Hessian of $f$ is
+        $\begin{pmatrix} -2 & 0 \\ 0 & -2 \end{pmatrix}$, negative
+        definite, so $f$ is strictly concave; the constraint functions
+        $x + 2y$, $-x$, $-y$ are linear, hence convex. This is a convex
+        programme: any KKT point is automatically the global maximum, and
+        no second-order (bordered-Hessian) check is needed.
+
+        \emph{Case A (budget slack, $\lambda = 0$):} stationarity gives the
+        unconstrained maximum $(2, 1)$, but $2 + 2 \cdot 1 = 4 > 2$:
+        infeasible. Discard.
+
+        \emph{Case B (budget binds, $x, y > 0$):}
+        $\mathcal{L} = -(x - 2)^2 - (y - 1)^2 + \lambda(2 - x - 2 y)$.
+        FOCs:
+        \[
+          -2(x - 2) - \lambda = 0
+          \;\Rightarrow\; \lambda = -2(x - 2), \qquad
+          -2(y - 1) - 2 \lambda = 0
+          \;\Rightarrow\; \lambda = -(y - 1) .
+        \]
+        Equating: $-2(x - 2) = -(y - 1) \Rightarrow 4 - 2 x = 1 - y
+        \Rightarrow y = 2 x - 3$. Budget:
+        $x + 2(2 x - 3) = 2 \Rightarrow 5 x = 8 \Rightarrow x^* = 8/5$,
+        $y^* = 1/5$. Multiplier:
+        $\lambda^* = -2(8/5 - 2) = 4/5 \geq 0$ \checkmark (and indeed
+        $-(1/5 - 1) = 4/5$, consistent). Non-negativity slack
+        ($x^*, y^* > 0$), so $\mu_x = \mu_y = 0$. All KKT conditions hold;
+        by sufficiency this is the global maximum:
+        \[
+          f^* = -\Bigl(\tfrac{8}{5} - 2\Bigr)^2
+                - \Bigl(\tfrac{1}{5} - 1\Bigr)^2
+              = -\tfrac{4}{25} - \tfrac{16}{25} = -\tfrac{4}{5} .
+        \]
+        (Geometrically: $(8/5, 1/5)$ is the orthogonal projection of the
+        unconstrained peak $(2, 1)$ onto the budget line $x + 2y = 2$.)
+
+  \item \emph{Convexity check.} $4 \ln(1 + x)$ is concave in $x$ (second
+        derivative $-4/(1 + x)^2 < 0$) and $y$ enters linearly, so $U$ is
+        concave; all constraints are linear. A convex programme: the first
+        KKT point found is the global maximum. Since
+        $\pd{U}{x} = 4/(1 + x) > 0$ and $\pd{U}{y} = 1 > 0$, utility is
+        strictly increasing, so the budget must bind ($\lambda > 0$).
+        Lagrangian:
+        $\mathcal{L} = 4 \ln(1 + x) + y + \lambda(2 - x - y)
+        + \mu_x x + \mu_y y$.
+
+        \emph{Case A ($x, y > 0$, budget binds):} $\mu_x = \mu_y = 0$.
+        FOC on $y$: $1 - \lambda = 0 \Rightarrow \lambda = 1$. FOC on $x$:
+        $4/(1 + x) = 1 \Rightarrow x = 3$, hence $y = 2 - 3 = -1 < 0$.
+        Infeasible; discard.
+
+        \emph{Case B ($y = 0$, $x > 0$, budget binds):} $x^* = 2$. FOC on
+        $x$ ($\mu_x = 0$): $\lambda = 4/(1 + 2) = 4/3$. FOC on $y$:
+        $1 - \lambda + \mu_y = 0 \Rightarrow \mu_y = 4/3 - 1 = 1/3 \geq 0$
+        \checkmark, and $\mu_y\,y = 0$ holds since $y = 0$. All KKT
+        conditions satisfied.
+
+        \emph{Case C ($x = 0$, $y > 0$, budget binds):} $y = 2$. FOC on
+        $y$: $\lambda = 1$. FOC on $x$:
+        $4/(1 + 0) - \lambda + \mu_x = 0 \Rightarrow \mu_x = 1 - 4 = -3
+        < 0$: violates dual feasibility. Discard.
+
+        By sufficiency, $(x^*, y^*) = (2, 0)$ is the global maximum with
+        $U^* = 4 \ln 3 \approx 4.39$.
+
+  \item (a) The Hessian of $\pi$ is
+        $\begin{pmatrix} -2 & 0 \\ 0 & -2 \end{pmatrix}$, negative
+        definite: $\pi$ is strictly concave, the constraints are linear,
+        so this is a convex programme. Unconstrained optimum:
+        $12 - 2 x = 0 \Rightarrow x = 6$,
+        $8 - 2 y = 0 \Rightarrow y = 4$; but $6 + 4 = 10 > 8$, infeasible,
+        so the capacity constraint binds.
+        $\mathcal{L} = 12 x - x^2 + 8 y - y^2 + \lambda(8 - x - y)$. FOCs:
+        \[
+          12 - 2 x = \lambda, \qquad 8 - 2 y = \lambda
+          \;\Rightarrow\; 12 - 2 x = 8 - 2 y
+          \;\Rightarrow\; x = y + 2 .
+        \]
+        Capacity: $(y + 2) + y = 8 \Rightarrow y^* = 3$, $x^* = 5$.
+        Multiplier: $\lambda^* = 12 - 10 = 2 \geq 0$ \checkmark (check:
+        $8 - 6 = 2$ \checkmark). Both outputs positive, non-negativity
+        slack. By convex-programme sufficiency this is the global maximum,
+        with no second-order check:
+        \[
+          \pi^* = 60 - 25 + 24 - 9 = 50 .
+        \]
+        An extra unit of capacity is worth $\lambda^* = 2$.
+
+        (b) With capacity $12$ the unconstrained optimum $(6, 4)$ is
+        feasible: $6 + 4 = 10 \leq 12$. The constraint is slack, so
+        complementary slackness $\lambda(12 - 10) = 0$ forces
+        $\lambda^* = 0$: extra capacity is worthless. Stationarity reduces
+        to the unconstrained FOCs, $(x^*, y^*) = (6, 4)$, and
+        \[
+          \pi^* = 72 - 36 + 32 - 16 = 52 .
+        \]
+
+  \item KKT point: $\mathcal{L}(x, \lambda) = -x^2 + 6 x + \lambda(2 - x)$.
+        The unconstrained maximum $x = 3$ violates $x \leq 2$, so the
+        constraint binds: $x^* = 2$. Stationarity:
+        $-2 x + 6 - \lambda = 0$ at $x = 2$ gives
+        $\lambda^* = 2 \geq 0$ \checkmark, and $f^* = -4 + 12 = 8$.
+
+        \emph{Saddle-point verification.} Left inequality: for all
+        $x \in \R$,
+        \[
+          \mathcal{L}(x, 2) = -x^2 + 6 x + 2(2 - x)
+                            = -x^2 + 4 x + 4
+                            = -(x - 2)^2 + 8 \;\leq\; 8
+                            = \mathcal{L}(2, 2),
+        \]
+        with equality exactly at $x = 2$: so $x^* = 2$ maximises
+        $\mathcal{L}(\cdot, \lambda^*)$. Right inequality: for all
+        $\lambda \geq 0$,
+        \[
+          \mathcal{L}(2, \lambda) = -4 + 12 + \lambda(2 - 2) = 8
+                                  = \mathcal{L}(2, 2),
+        \]
+        constant in $\lambda$ (the constraint binds), so
+        $\mathcal{L}(2, 2) \leq \mathcal{L}(2, \lambda)$ holds with
+        equality. Hence $(x^*, \lambda^*) = (2, 2)$ is a saddle point, and
+        by the saddle-point theorem (Problem~20) $x^* = 2$ is the global
+        constrained maximum: no concavity or constraint-qualification
+        argument was needed.
+
+  \item (i) \emph{Feasibility.} The right inequality reads
+        \[
+          f(\mathbf{x}^*) + \lambda^*\bigl(b - g(\mathbf{x}^*)\bigr)
+          \;\leq\;
+          f(\mathbf{x}^*) + \lambda\bigl(b - g(\mathbf{x}^*)\bigr)
+          \quad \text{for all } \lambda \geq 0,
+        \]
+        i.e.\ $(\lambda - \lambda^*)\bigl(b - g(\mathbf{x}^*)\bigr) \geq 0$
+        for all $\lambda \geq 0$. If $b - g(\mathbf{x}^*) < 0$, letting
+        $\lambda \to \infty$ makes the left side tend to $-\infty$, a
+        contradiction. Hence $g(\mathbf{x}^*) \leq b$: $\mathbf{x}^*$ is
+        feasible.
+
+        (ii) \emph{Complementary slackness.} Setting $\lambda = 0$ in the
+        same inequality gives
+        $-\lambda^*\bigl(b - g(\mathbf{x}^*)\bigr) \geq 0$, i.e.\
+        $\lambda^*\bigl(b - g(\mathbf{x}^*)\bigr) \leq 0$. But
+        $\lambda^* \geq 0$ and, by (i), $b - g(\mathbf{x}^*) \geq 0$, so
+        the product is also $\geq 0$. Therefore
+        $\lambda^*\bigl(b - g(\mathbf{x}^*)\bigr) = 0$.
+
+        (iii) \emph{Optimality.} Let $\mathbf{x}$ be any feasible point,
+        so $b - g(\mathbf{x}) \geq 0$. Using $\lambda^* \geq 0$, the left
+        saddle inequality, and (ii) in turn:
+        \[
+          f(\mathbf{x})
+          \;\leq\; f(\mathbf{x})
+             + \lambda^*\bigl(b - g(\mathbf{x})\bigr)
+          = \mathcal{L}(\mathbf{x}, \lambda^*)
+          \;\leq\; \mathcal{L}(\mathbf{x}^*, \lambda^*)
+          = f(\mathbf{x}^*)
+             + \lambda^*\bigl(b - g(\mathbf{x}^*)\bigr)
+          = f(\mathbf{x}^*) .
+        \]
+        Hence $f(\mathbf{x}^*) \geq f(\mathbf{x})$ for every feasible
+        $\mathbf{x}$: $\mathbf{x}^*$ is a global maximum. Nowhere did the
+        argument use differentiability, concavity, or a constraint
+        qualification; with several constraints the same steps apply to
+        each multiplier $\lambda_i$ separately.
+\end{solutions}
+
+\section{Additional Problems}
+
+\begin{problems}
+  \item Maximise $f(x, y) = x y$ on $x + 2 y \leq 12$, $x \geq 0$,
+        $y \geq 0$.
+  \item Maximise $f(x, y) = 3 x + 5 y$ on $x + y \leq 8$,
+        $2 x + y \leq 10$, $x, y \geq 0$.
+  \item Maximise $U(x, y) = \ln(x) + y$ on $x + y \leq 4$, $x, y \geq 0$.
+        Is the budget tight?
+  \item Minimise $f(x, y) = (x - 1)^2 + (y - 5)^2$ on $x + y \leq 4$,
+        $x, y \geq 0$.
+  \item Maximise $f(x, y) = x + 3 y$ on $x^2 + y^2 \leq 10$.
+  \item Maximise $U = x^{1/2} y^{1/2}$ on $x + y \leq 16$, $x \geq 2$,
+        $y \geq 2$. Are the lower bounds binding?
+  \item Minimise $f(x) = x^2 + 6 x + 12$ on $x \geq -1$.
+  \item Maximise $U = 2 x + \ln(1 + y)$ on $x + y \leq 6$, $x, y \geq 0$.
+  \item Maximise $f(x, y) = x y - x^2 - y^2$ on $x + y \leq 4$,
+        $x, y \geq 0$.
+  \item Maximise $f(x, y) = 4 x + y$ on $x^2 + 4 y^2 \leq 8$,
+        $y \leq 1$.
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item Interior solution with the budget binding.
+        $\mathcal{L} = x y + \lambda(12 - x - 2 y)$. FOCs: $y = \lambda$;
+        $x = 2 \lambda \Rightarrow x = 2 y$. Constraint:
+        $2 y + 2 y = 4 y = 12 \Rightarrow y^* = 3$, $x^* = 6$.
+        $\lambda^* = 3 \geq 0$ \checkmark. Non-negativity slack.
+        $f^* = 18$.
+
+  \item Linear programming. Vertices of the feasible polygon (intersect
+        $x + y = 8$, $2 x + y = 10$, $x = 0$, $y = 0$): $(0, 0)$,
+        $(5, 0)$, $(2, 6)$, $(0, 8)$. (Check: $(5, 0)$: $5 \leq 8$,
+        $10 \leq 10$. $(2, 6)$: $8 \leq 8$, $10 \leq 10$. $(0, 8)$:
+        $8 \leq 8$, $8 \leq 10$.) Evaluate $f = 3 x + 5 y$: $0$, $15$,
+        $36$, $40$. \textbf{Maximum} at $(0, 8)$ with $f^* = 40$. Only
+        $x + y \leq 8$ binds, plus $x \geq 0$. Multipliers: $\lambda_1$ on
+        the first budget, $\mu_x$ on $x \geq 0$. FOCs:
+        $3 - \lambda_1 + \mu_x = 0 \Rightarrow \mu_x = \lambda_1 - 3$;
+        $5 - \lambda_1 = 0 \Rightarrow \lambda_1 = 5$. Then
+        $\mu_x = 2 \geq 0$ \checkmark. The second budget is slack with
+        multiplier $0$.
+
+  \item Try an interior solution with the budget binding.
+        $\mathcal{L} = \ln x + y + \lambda(4 - x - y)$. FOCs:
+        $1/x = \lambda$; $1 = \lambda \Rightarrow x^* = 1$,
+        $\lambda^* = 1$. Then $y^* = 3 \geq 0$ \checkmark. All
+        non-negativity constraints slack with multipliers $0$.
+        $U^* = \ln 1 + 3 = 3$. The budget binds (with
+        $\lambda = 1 > 0$).
+
+  \item The unconstrained minimum at $(1, 5)$ has $1 + 5 = 6 > 4$:
+        infeasible. Try the budget binding in the interior:
+        $\mathcal{L} = (x - 1)^2 + (y - 5)^2 + \mu(x + y - 4)$ with
+        $\mu \geq 0$ (min form with $x + y - 4 \leq 0$). FOCs:
+        \[
+          2(x - 1) + \mu = 0, \qquad 2(y - 5) + \mu = 0
+          \;\Rightarrow\; x - 1 = y - 5 \;\Rightarrow\; y = x + 4 .
+        \]
+        Constraint: $x + x + 4 = 4 \Rightarrow x^* = 0$, $y^* = 4$. But
+        $x^* = 0$ lies on the boundary of $x \geq 0$. Check:
+        $\mu = -2(x - 1) = 2 \geq 0$ \checkmark. Non-negativity
+        $x \geq 0$ also binds at this corner; let $\mu_x$ be its
+        multiplier. Modified FOC:
+        $2(x - 1) + \mu - \mu_x = 0 \Rightarrow -2 + 2 - \mu_x = 0
+        \Rightarrow \mu_x = 0$. So the lower-bound constraint binds with
+        zero multiplier (a boundary solution with non-strict KKT).
+        $f^* = 1 + 1 = 2$.
+
+  \item The circle constraint should bind.
+        $\mathcal{L} = x + 3 y + \lambda(10 - x^2 - y^2)$. FOCs:
+        $1 = 2 \lambda x$; $3 = 2 \lambda y \Rightarrow
+        x = 1/(2 \lambda)$, $y = 3/(2 \lambda) = 3 x$. Constraint:
+        $x^2 + 9 x^2 = 10 x^2 = 10 \Rightarrow x^* = 1$ (positive for a
+        max), $y^* = 3$. $\lambda^* = 1/(2 x^*) = 1/2 \geq 0$ \checkmark.
+        $f^* = 1 + 9 = 10$.
+
+  \item Try an interior solution with the budget binding and the lower
+        bounds slack: the FOC for $U = \sqrt{x y}$ gives $y/x = 1$
+        (symmetric Cobb--Douglas), so $x = y$. Budget:
+        $2 x = 16 \Rightarrow x = y = 8 > 2$ \checkmark. The lower bounds
+        are slack with multipliers $0$. For $\lambda^*$ compute:
+        $\pd{U}{x} = \tfrac12 \sqrt{y/x} = \tfrac12$ at $x = y = 8$, and
+        the FOC sets this equal to $\lambda \cdot 1$, so
+        $\lambda^* = 1/2$. $U^* = 8$.
+
+  \item Constraint $x \geq -1$, i.e.\ $-1 - x \leq 0$. Unconstrained
+        minimum: $f'(x) = 2 x + 6 = 0 \Rightarrow x = -3$, infeasible
+        (violates $x \geq -1$). So the lower bound binds: $x^* = -1$.
+        $f(-1) = 1 - 6 + 12 = 7$. KKT for a min: $f'(x) - \mu = 0$ where
+        $\mu \geq 0$ is the multiplier on $-1 - x \leq 0$.
+        $f'(-1) = 4 = \mu \geq 0$ \checkmark.
+
+  \item Try an interior solution with the budget binding.
+        $\mathcal{L} = 2 x + \ln(1 + y) + \lambda(6 - x - y)$. FOCs:
+        $2 = \lambda$; $1/(1 + y) = \lambda = 2 \Rightarrow
+        1 + y = 1/2 \Rightarrow y = -1/2$, infeasible. So the
+        $y$-non-negativity binds: $y^* = 0$. Then $x^* = 6$. Check the FOC
+        at $y = 0$: $1/(1 + 0) = 1$ versus $\lambda = 2$. Multiplier on
+        $y \geq 0$: $\mu_y = \lambda - 1 = 1 \geq 0$ \checkmark.
+        $\lambda^* = 2$. $U^* = 12 + 0 = 12$.
+
+  \item Unconstrained maximum of $f = x y - x^2 - y^2$:
+        $f_x = y - 2 x = 0$, $f_y = x - 2 y = 0 \Rightarrow x = y = 0$
+        (and $f^* = 0$). At $(0, 0)$ all constraints are satisfied (budget
+        slack with multiplier $0$, non-negativity binding with multipliers
+        $0$). Hessian
+        $\begin{pmatrix} -2 & 1 \\ 1 & -2 \end{pmatrix}$ with leading
+        principal minors $D_1 = -2 < 0$, $D_2 = 3 > 0$: negative definite
+        $\Rightarrow$ maximum. $f^* = 0$. (A trivial KKT problem: the
+        unconstrained optimum is at the origin, which is feasible.)
+
+  \item \emph{Case A (ellipse and $y \leq 1$ both binding):} $y = 1$,
+        $x^2 + 4 = 8 \Rightarrow x^2 = 4 \Rightarrow x = 2$ (positive for
+        a max), $f = 8 + 1 = 9$.
+        $\mathcal{L} = 4 x + y + \lambda_1(8 - x^2 - 4 y^2)
+        + \lambda_2(1 - y)$. FOCs:
+        $4 = 2 \lambda_1 x \Rightarrow \lambda_1 = 1$;
+        $1 = 8 \lambda_1 y + \lambda_2 = 8 + \lambda_2 \Rightarrow
+        \lambda_2 = -7 < 0$: this combination fails.
+
+        \emph{Case B (only the ellipse binding, $y < 1$):}
+        $4 = 2 \lambda_1 x$, $1 = 8 \lambda_1 y \Rightarrow
+        x = 2/\lambda_1$, $y = 1/(8 \lambda_1)$. Constraint:
+        \[
+          \frac{4}{\lambda_1^2} + \frac{4}{64 \lambda_1^2}
+          = \frac{4}{\lambda_1^2} + \frac{1}{16 \lambda_1^2}
+          = \frac{64 + 1}{16 \lambda_1^2}
+          = \frac{65}{16 \lambda_1^2} = 8
+          \;\Rightarrow\; \lambda_1^2 = \frac{65}{128}
+          \;\Rightarrow\; \lambda_1 = \sqrt{65/128} .
+        \]
+        Then $y = 1/(8 \lambda_1) = \sqrt{128/65}/8 = \sqrt{2/65}$. Check
+        $y \leq 1$: $\sqrt{2/65} \approx 0.175 \leq 1$ \checkmark. So
+        $x^* = 2 \sqrt{128/65}$, $y^* = \sqrt{2/65}$, and
+        \[
+          f^* = 4 x^* + y^*
+              = 8 \sqrt{128/65} + \sqrt{2/65}
+              = \frac{8 \cdot 8 \sqrt{2} + \sqrt{2}}{\sqrt{65}}
+              = \frac{65 \sqrt{2}}{\sqrt{65}}
+              = \sqrt{65 \cdot 2} = \sqrt{130} \approx 11.4 .
+        \]
+        $\lambda_2 = 0$ in this case.
+\end{solutions}

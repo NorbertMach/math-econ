@@ -1,0 +1,368 @@
+\chapter{Definite Integrals and the Fundamental Theorem}
+
+The definite integral $\int_a^b f(x)\,\mathrm{d}x$ is the signed area
+between the graph of $f$ and the $x$-axis on $[a,b]$. The Fundamental
+Theorem of Calculus is the bridge between this
+geometric object and the indefinite integral of Section 1: and the
+reason any of the antiderivatives we have been computing matter for
+economic measurement.
+
+\section{Core Rules}
+
+\begin{rulebox}{Fundamental Theorem of Calculus, Part II (evaluation)}
+If $f$ is continuous on $[a,b]$ and $F$ is any antiderivative of $f$ on
+$[a,b]$, then
+\[
+  \int_{a}^{b} f(x)\,\mathrm{d}x \;=\; F(b)-F(a) \;=:\; \bigl[F(x)\bigr]_{a}^{b} .
+\]
+\end{rulebox}
+
+\begin{rulebox}{Fundamental Theorem, Part I (differentiation)}
+If $f$ is continuous and $A(x):=\int_{a}^{x} f(t)\,\mathrm{d}t$, then
+$A'(x)=f(x)$. With a variable upper limit $g(x)$,
+\[
+  \frac{\mathrm{d}}{\mathrm{d}x}\int_{a}^{g(x)} f(t)\,\mathrm{d}t
+    \;=\; f(g(x))\cdot g'(x) .
+\]
+\end{rulebox}
+
+\begin{rulebox}{Properties of the definite integral}
+For continuous $f,g$ on the relevant intervals and constants $\alpha,\beta$:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Linearity:}
+        $\displaystyle\int_{a}^{b}(\alpha f+\beta g)\,\mathrm{d}x
+          =\alpha\int_{a}^{b} f\,\mathrm{d}x+\beta\int_{a}^{b} g\,\mathrm{d}x$;
+  \item \textbf{Additivity over intervals:} for $a\le c\le b$,
+        $\displaystyle\int_{a}^{b} f\,\mathrm{d}x
+          =\int_{a}^{c} f\,\mathrm{d}x+\int_{c}^{b} f\,\mathrm{d}x$;
+  \item \textbf{Reversal of limits:}
+        $\displaystyle\int_{b}^{a} f\,\mathrm{d}x=-\int_{a}^{b} f\,\mathrm{d}x$;
+  \item \textbf{Empty interval:}
+        $\displaystyle\int_{a}^{a} f\,\mathrm{d}x=0$;
+  \item \textbf{Monotonicity:} if $f\le g$ on $[a,b]$, then
+        $\displaystyle\int_{a}^{b} f\,\mathrm{d}x\le\int_{a}^{b} g\,\mathrm{d}x$.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Substitution with limits}
+If $u=g(x)$ then
+\[
+  \int_{a}^{b} f(g(x))\,g'(x)\,\mathrm{d}x \;=\; \int_{g(a)}^{g(b)} f(u)\,\mathrm{d}u .
+\]
+Either change the limits to $u$-values (faster) or substitute back to $x$
+before evaluating.
+\end{rulebox}
+
+\begin{rulebox}{Average value of a function}
+The average (mean) value of $f$ over $[a,b]$ is
+\[
+  \bar f \;=\; \frac{1}{b-a}\int_{a}^{b} f(x)\,\mathrm{d}x .
+\]
+In economics this is how one averages a continuously varying cost,
+price, or income over time.
+\end{rulebox}
+
+\section{Practice Problems}
+
+Evaluate each definite integral; for the FTC-Part I problems,
+differentiate the indicated function.
+
+\begin{problems}
+  \item $\displaystyle\int_{0}^{2} x^{2}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{1} (3x^{2}+2x)\,\mathrm{d}x$
+  \item $\displaystyle\int_{1}^{3} \frac{1}{x}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{1} \mathrm{e}^{x}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{2} (4-x^{2})\,\mathrm{d}x$
+  \item $\displaystyle\int_{-1}^{1} (x^{3}+x)\,\mathrm{d}x$ \quad (symmetry?)
+  \item $\displaystyle\int_{1}^{4} \sqrt{x}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{1} \frac{x}{x^{2}+1}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{\ln 2} \mathrm{e}^{2x}\,\mathrm{d}x$
+  \item $\displaystyle\int_{1}^{\mathrm{e}} \frac{\ln x}{x}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{1} x\,\mathrm{e}^{x^{2}}\,\mathrm{d}x$
+  \item $\displaystyle\int_{1}^{2} \frac{1}{x^{2}}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{3} (2x+1)^{2}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{1} \frac{1}{2x+1}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{4} \sqrt{2x+1}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{1} x(1-x)^{4}\,\mathrm{d}x$
+  \item Average value of $f(x)=x^{2}$ on $[0,3]$.
+  \item Average value of $f(t)=\mathrm{e}^{-t}$ on $[0,1]$.
+  \item Compute $\displaystyle\int_{2}^{0} (x+1)\,\mathrm{d}x$.
+  \item $\displaystyle\int_{0}^{2} |x-1|\,\mathrm{d}x$ \quad (split at $x=1$)
+  \item Let $A(x)=\displaystyle\int_{0}^{x} \sqrt{1+t^{2}}\,\mathrm{d}t$.
+        Find $A'(x)$.
+  \item Let $G(x)=\displaystyle\int_{0}^{x^{2}} \mathrm{e}^{-t^{2}}\,\mathrm{d}t$.
+        Find $G'(x)$.
+  \item $\displaystyle\int_{1}^{2} x\ln x\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{1} \frac{1}{(2x+1)^{2}}\,\mathrm{d}x$
+  \item Total profit from marginal profit: $\Pi'(q)=16-0.3q$. Compute the
+        total additional profit gained by raising output from $q=10$ to
+        $q=30$.
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item $\displaystyle\Bigl[\frac{x^{3}}{3}\Bigr]_{0}^{2}=\frac{8}{3}$.
+
+  \item $\displaystyle\bigl[x^{3}+x^{2}\bigr]_{0}^{1}=2$.
+
+  \item $\displaystyle\bigl[\ln x\bigr]_{1}^{3}=\ln 3$.
+
+  \item $\displaystyle\bigl[\mathrm{e}^{x}\bigr]_{0}^{1}=\mathrm{e}-1$.
+
+  \item $\displaystyle\Bigl[4x-\frac{x^{3}}{3}\Bigr]_{0}^{2}
+        =8-\frac{8}{3}=\frac{16}{3}$.
+
+  \item Integrand is odd; interval symmetric about $0$. Therefore the
+        integral is $0$. (Check:
+        $\displaystyle\Bigl[\frac{x^{4}}{4}+\frac{x^{2}}{2}\Bigr]_{-1}^{1}
+        =\bigl(\tfrac14+\tfrac12\bigr)-\bigl(\tfrac14+\tfrac12\bigr)=0$.)
+
+  \item $\displaystyle\int_{1}^{4} x^{1/2}\,\mathrm{d}x
+        =\Bigl[\frac{2}{3}x^{3/2}\Bigr]_{1}^{4}=\frac{2}{3}(8-1)=\frac{14}{3}$.
+
+  \item Substitution $u=x^{2}+1$, $\mathrm{d}u=2x\,\mathrm{d}x$. Limits
+        $u:1\to 2$.
+        \[
+          \int_{1}^{2} \frac{1}{2u}\,\mathrm{d}u=\frac{1}{2}\ln 2 .
+        \]
+
+  \item $\displaystyle\Bigl[\frac{1}{2}\mathrm{e}^{2x}\Bigr]_{0}^{\ln 2}
+        =\frac{1}{2}\bigl(\mathrm{e}^{2\ln 2}-1\bigr)=\frac{1}{2}(4-1)=\frac{3}{2}$.
+
+  \item $u=\ln x$, $\mathrm{d}u=\frac{1}{x}\,\mathrm{d}x$. Limits
+        $u:0\to 1$.
+        \[
+          \int_{0}^{1} u\,\mathrm{d}u=\frac{1}{2} .
+        \]
+
+  \item $u=x^{2}$, $\mathrm{d}u=2x\,\mathrm{d}x$. Limits $u:0\to 1$.
+        \[
+          \int_{0}^{1} \frac{1}{2}\mathrm{e}^{u}\,\mathrm{d}u
+            =\frac{1}{2}(\mathrm{e}-1) .
+        \]
+
+  \item $\displaystyle\Bigl[-\frac{1}{x}\Bigr]_{1}^{2}
+        =-\frac{1}{2}+1=\frac{1}{2}$.
+
+  \item $u=2x+1$, $\mathrm{d}u=2\,\mathrm{d}x$. Limits $u:1\to 7$.
+        \[
+          \int_{1}^{7} \frac{u^{2}}{2}\,\mathrm{d}u
+            =\Bigl[\frac{u^{3}}{6}\Bigr]_{1}^{7}=\frac{343-1}{6}=57 .
+        \]
+
+  \item $\displaystyle\Bigl[\frac{1}{2}\ln(2x+1)\Bigr]_{0}^{1}
+        =\frac{1}{2}\ln 3$.
+
+  \item $u=2x+1$, limits $u:1\to 9$, $\mathrm{d}x=\frac{1}{2}\mathrm{d}u$.
+        \[
+          \int_{1}^{9} u^{1/2}\cdot\frac{1}{2}\,\mathrm{d}u
+            =\Bigl[\frac{1}{3}u^{3/2}\Bigr]_{1}^{9}=\frac{27-1}{3}=\frac{26}{3} .
+        \]
+
+  \item $u=1-x$, so $x=1-u$, $\mathrm{d}x=-\mathrm{d}u$. Limits $u:1\to 0$.
+        \[
+          \int_{1}^{0} (1-u)u^{4}(-\mathrm{d}u)
+            =\int_{0}^{1} (u^{4}-u^{5})\,\mathrm{d}u
+            =\frac{1}{5}-\frac{1}{6}=\frac{1}{30} .
+        \]
+
+  \item $\displaystyle\bar f=\frac{1}{3}\int_{0}^{3} x^{2}\,\mathrm{d}x
+        =\frac{1}{3}\cdot\frac{27}{3}=3$.
+
+  \item $\displaystyle\bar f=\frac{1}{1}\int_{0}^{1} \mathrm{e}^{-t}\,\mathrm{d}t
+        =\bigl[-\mathrm{e}^{-t}\bigr]_{0}^{1}=1-\mathrm{e}^{-1}\approx 0.632$.
+
+  \item Reverse limits:
+        $\displaystyle\int_{2}^{0} (x+1)\,\mathrm{d}x
+        =-\int_{0}^{2} (x+1)\,\mathrm{d}x
+        =-\Bigl[\frac{x^{2}}{2}+x\Bigr]_{0}^{2}=-(2+2)=-4$.
+
+  \item Split at $1$:
+        \[
+          \int_{0}^{1} (1-x)\,\mathrm{d}x+\int_{1}^{2} (x-1)\,\mathrm{d}x
+          =\Bigl[x-\frac{x^{2}}{2}\Bigr]_{0}^{1}
+           +\Bigl[\frac{x^{2}}{2}-x\Bigr]_{1}^{2}
+          =\frac{1}{2}+\bigl(0-(-\tfrac12)\bigr)=1 .
+        \]
+
+  \item By FTC I, $A'(x)=\sqrt{1+x^{2}}$.
+
+  \item Chain rule + FTC I:
+        $G'(x)=\mathrm{e}^{-(x^{2})^{2}}\cdot 2x=2x\,\mathrm{e}^{-x^{4}}$.
+
+  \item By Section 3 problem 3, an antiderivative of $x\ln x$ is
+        $\frac{x^{2}}{2}\ln x-\frac{x^{2}}{4}$. Evaluate:
+        \[
+          \Bigl[\frac{x^{2}}{2}\ln x-\frac{x^{2}}{4}\Bigr]_{1}^{2}
+            =(2\ln 2-1)-\bigl(0-\tfrac14\bigr)=2\ln 2-\frac{3}{4} .
+        \]
+
+  \item $u=2x+1$, limits $u:1\to 3$.
+        \[
+          \int_{1}^{3} u^{-2}\cdot\frac{1}{2}\,\mathrm{d}u
+            =\frac{1}{2}\bigl[-u^{-1}\bigr]_{1}^{3}
+            =\frac{1}{2}\Bigl(-\frac{1}{3}+1\Bigr)=\frac{1}{3} .
+        \]
+
+  \item Total change in profit is
+        $\displaystyle\int_{10}^{30} \Pi'(q)\,\mathrm{d}q$.
+        \[
+          \int_{10}^{30} (16-0.3q)\,\mathrm{d}q
+            =\bigl[16q-0.15q^{2}\bigr]_{10}^{30}
+            =(480-135)-(160-15)=345-145=200 .
+        \]
+\end{solutions}
+
+\section{Additional Problems}
+
+Evaluate each definite integral; for the FTC-Part I problems,
+differentiate the indicated function.
+
+\begin{problems}
+  \item $\displaystyle\int_{0}^{3} x^{3}\,\mathrm{d}x$
+  \item $\displaystyle\int_{1}^{2} (x^{2}+2)\,\mathrm{d}x$
+  \item $\displaystyle\int_{1}^{4} \frac{1}{\sqrt{x}}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{2} \mathrm{e}^{-x}\,\mathrm{d}x$
+  \item $\displaystyle\int_{-2}^{2} (x^{2}-4)\,\mathrm{d}x$
+  \item $\displaystyle\int_{-1}^{1} (x^{5}+x^{3})\,\mathrm{d}x$ \quad (symmetry?)
+  \item $\displaystyle\int_{0}^{1} x\,\mathrm{e}^{x^{2}+1}\,\mathrm{d}x$
+  \item $\displaystyle\int_{1}^{\mathrm{e}} \frac{(\ln x)^{2}}{x}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{2} (3x^{2}-4x+1)\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{1} (4x+1)^{3}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{1} \frac{x}{x^{2}+4}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{\ln 3} \mathrm{e}^{-x}\,\mathrm{d}x$
+  \item Average value of $f(x)=x^{3}$ on $[0,2]$.
+  \item Average value of $f(x)=1/x$ on $[1,\mathrm{e}]$.
+  \item $\displaystyle\int_{1}^{4} \frac{\sqrt{x}}{x}\,\mathrm{d}x$
+  \item $\displaystyle\int_{3}^{0} (2x-1)\,\mathrm{d}x$
+  \item $\displaystyle\int_{-1}^{3} |x|\,\mathrm{d}x$ \quad (split at $0$)
+  \item Let $A(x)=\displaystyle\int_{1}^{x} \frac{1}{1+t^{4}}\,\mathrm{d}t$.
+        Find $A'(x)$.
+  \item Let $G(x)=\displaystyle\int_{0}^{x^{3}} \ln(1+t^{2})\,\mathrm{d}t$.
+        Find $G'(x)$.
+  \item $\displaystyle\int_{0}^{1} x^{2}\,\mathrm{e}^{x}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{1} \frac{1}{(3x+2)^{2}}\,\mathrm{d}x$
+  \item Marginal profit $\Pi'(q)=20-0.4q$. Additional profit from $q=20$
+        to $q=50$.
+  \item $\displaystyle\int_{0}^{2} (x+1)\,\mathrm{e}^{-x}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{4} |x-2|\,\mathrm{d}x$
+  \item Marginal cost $MC(q)=2+0.5q$. Total cost increment as $q$ goes
+        from $0$ to $10$.
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item $\displaystyle\Bigl[\frac{x^{4}}{4}\Bigr]_{0}^{3}=\frac{81}{4}$.
+
+  \item $\displaystyle\Bigl[\frac{x^{3}}{3}+2x\Bigr]_{1}^{2}
+        =\Bigl(\frac{8}{3}+4\Bigr)-\Bigl(\frac{1}{3}+2\Bigr)
+        =\frac{7}{3}+2=\frac{13}{3}$.
+
+  \item $\displaystyle\bigl[2\sqrt{x}\bigr]_{1}^{4}=4-2=2$.
+
+  \item $\displaystyle\bigl[-\mathrm{e}^{-x}\bigr]_{0}^{2}
+        =-\mathrm{e}^{-2}+1=1-\mathrm{e}^{-2}$.
+
+  \item $\displaystyle\Bigl[\frac{x^{3}}{3}-4x\Bigr]_{-2}^{2}
+        =\Bigl(\frac{8}{3}-8\Bigr)-\Bigl(-\frac{8}{3}+8\Bigr)
+        =\frac{16}{3}-16=-\frac{32}{3}$.
+        (Integrand $\le 0$ on $[-2,2]$.)
+
+  \item Odd integrand on symmetric interval $\Rightarrow$ integral is $0$.
+
+  \item $u=x^{2}+1$, $\mathrm{d}u=2x\,\mathrm{d}x$. Limits $u:1\to 2$.
+        \[
+          \int_{1}^{2} \frac{1}{2}\mathrm{e}^{u}\,\mathrm{d}u
+            =\frac{1}{2}\bigl(\mathrm{e}^{2}-\mathrm{e}\bigr)
+            =\frac{\mathrm{e}(\mathrm{e}-1)}{2} .
+        \]
+
+  \item $u=\ln x$, $\mathrm{d}u=\frac{1}{x}\,\mathrm{d}x$. Limits
+        $u:0\to 1$.
+        \[
+          \int_{0}^{1} u^{2}\,\mathrm{d}u=\frac{1}{3} .
+        \]
+
+  \item $\displaystyle\bigl[x^{3}-2x^{2}+x\bigr]_{0}^{2}=8-8+2=2$.
+
+  \item $u=4x+1$, $\mathrm{d}u=4\,\mathrm{d}x$. Limits $u:1\to 5$.
+        \[
+          \int_{1}^{5} \frac{u^{3}}{4}\,\mathrm{d}u
+            =\Bigl[\frac{u^{4}}{16}\Bigr]_{1}^{5}=\frac{625-1}{16}=39 .
+        \]
+
+  \item $u=x^{2}+4$, $\mathrm{d}u=2x\,\mathrm{d}x$. Limits $u:4\to 5$.
+        \[
+          \int_{4}^{5} \frac{1}{2u}\,\mathrm{d}u=\frac{1}{2}\ln\frac{5}{4} .
+        \]
+
+  \item $\displaystyle\bigl[-\mathrm{e}^{-x}\bigr]_{0}^{\ln 3}
+        =-\frac{1}{3}+1=\frac{2}{3}$.
+
+  \item $\displaystyle\bar f=\frac{1}{2}\int_{0}^{2} x^{3}\,\mathrm{d}x
+        =\frac{1}{2}\cdot 4=2$.
+
+  \item $\displaystyle\bar f=\frac{1}{\mathrm{e}-1}\int_{1}^{\mathrm{e}}
+        \frac{1}{x}\,\mathrm{d}x=\frac{1}{\mathrm{e}-1}$.
+
+  \item $\displaystyle\frac{\sqrt{x}}{x}=x^{-1/2}$, so
+        $\bigl[2\sqrt{x}\bigr]_{1}^{4}=2$.
+
+  \item Reverse:
+        $\displaystyle\int_{3}^{0} (2x-1)\,\mathrm{d}x
+        =-\int_{0}^{3} (2x-1)\,\mathrm{d}x
+        =-\bigl[x^{2}-x\bigr]_{0}^{3}=-(9-3)=-6$.
+
+  \item Split at $0$:
+        \[
+          \int_{-1}^{0} (-x)\,\mathrm{d}x+\int_{0}^{3} x\,\mathrm{d}x
+          =\frac{1}{2}+\frac{9}{2}=5 .
+        \]
+
+  \item By FTC I, $\displaystyle A'(x)=\frac{1}{1+x^{4}}$.
+
+  \item Chain rule + FTC I: $G'(x)=\ln(1+x^{6})\cdot 3x^{2}$.
+
+  \item Antiderivative of $x^{2}\,\mathrm{e}^{x}$ is
+        $(x^{2}-2x+2)\,\mathrm{e}^{x}$ (Section 3 problem 5).
+        \[
+          \bigl[(x^{2}-2x+2)\,\mathrm{e}^{x}\bigr]_{0}^{1}
+            =(1-2+2)\,\mathrm{e}-2=\mathrm{e}-2 .
+        \]
+
+  \item $u=3x+2$, $\mathrm{d}u=3\,\mathrm{d}x$. Limits $u:2\to 5$.
+        \[
+          \int_{2}^{5} \frac{1}{3u^{2}}\,\mathrm{d}u
+            =\frac{1}{3}\Bigl[-\frac{1}{u}\Bigr]_{2}^{5}
+            =\frac{1}{3}\Bigl(-\frac{1}{5}+\frac{1}{2}\Bigr)
+            =\frac{1}{3}\cdot\frac{3}{10}=\frac{1}{10} .
+        \]
+
+  \item $\displaystyle\int_{20}^{50} (20-0.4q)\,\mathrm{d}q
+        =\bigl[20q-0.2q^{2}\bigr]_{20}^{50}
+        =(1000-500)-(400-80)=500-320=180$.
+
+  \item Split:
+        $\displaystyle\int_{0}^{2} x\,\mathrm{e}^{-x}\,\mathrm{d}x
+        +\int_{0}^{2} \mathrm{e}^{-x}\,\mathrm{d}x$. By Section 3
+        problem 2, $\int x\,\mathrm{e}^{-x}\,\mathrm{d}x=-(x+1)\,\mathrm{e}^{-x}$.
+        \[
+          \bigl[-(x+1)\,\mathrm{e}^{-x}\bigr]_{0}^{2}
+           +\bigl[-\mathrm{e}^{-x}\bigr]_{0}^{2}
+          =(-3\mathrm{e}^{-2}+1)+(-\mathrm{e}^{-2}+1)
+          =2-4\mathrm{e}^{-2} .
+        \]
+
+  \item Split at $2$:
+        \[
+          \int_{0}^{2} (2-x)\,\mathrm{d}x+\int_{2}^{4} (x-2)\,\mathrm{d}x
+          =\Bigl[2x-\frac{x^{2}}{2}\Bigr]_{0}^{2}
+           +\Bigl[\frac{x^{2}}{2}-2x\Bigr]_{2}^{4}
+          =2+2=4 .
+        \]
+
+  \item $\displaystyle\int_{0}^{10} (2+0.5q)\,\mathrm{d}q
+        =\bigl[2q+0.25q^{2}\bigr]_{0}^{10}=20+25=45$.
+\end{solutions}

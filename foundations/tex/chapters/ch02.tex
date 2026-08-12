@@ -1,0 +1,448 @@
+\chapter{Series}
+
+A series adds up the terms of a sequence. Since infinitely many
+additions cannot be carried out one after another, the value of a series is
+\emph{defined} as the limit of its partial sums: series theory is sequence
+theory applied to one particular sequence. This chapter covers the
+convergence basics: the two sum formulas everyone must know (arithmetic and
+geometric), the necessary condition for convergence with the harmonic series
+as its famous counterexample, telescoping sums, and two light convergence
+tests. The star of the chapter is the geometric series: the entire financial
+mathematics of the next chapter (compound interest, present value,
+annuities) is the geometric series in a suit.
+
+\section{Core Rules}
+
+\begin{rulebox}{Partial sums and convergence}
+Given a sequence $(a_k)_{k\ge 1}$, its $n$-th \emph{partial sum} is
+\[
+  s_n \;=\; \sum_{k=1}^{n} a_k \;=\; a_1+a_2+\dots+a_n .
+\]
+The series $\sum_{k=1}^{\infty} a_k$ \emph{converges} if the sequence
+$(s_n)$ of partial sums converges, and then
+\[
+  \sum_{k=1}^{\infty} a_k \;=\; \lim_{n\to\infty} s_n .
+\]
+If $(s_n)$ has no limit, the series \emph{diverges}. A series is thus
+nothing but a sequence in disguise: every statement about series is a
+statement about its sequence of partial sums.
+\end{rulebox}
+
+\begin{rulebox}{Arithmetic series (finite sum)}
+For an arithmetic sequence $a_k=a+(k-1)d$ the sum of the first $n$ terms is
+\[
+  \sum_{k=1}^{n}\bigl(a+(k-1)d\bigr)
+  \;=\; \frac{n}{2}\bigl(2a+(n-1)d\bigr)
+  \;=\; n\cdot\frac{a_1+a_n}{2}
+\],
+$n$ times the average of the first and the last term. The special case
+$a=d=1$ is Gauss' formula
+\[
+  \sum_{k=1}^{n} k \;=\; \frac{n(n+1)}{2} .
+\]
+An \emph{infinite} arithmetic series never
+converges unless all terms are $0$: its terms do not tend to $0$.
+\end{rulebox}
+
+\begin{rulebox}{Geometric series, finite sum}
+For a geometric sequence $a q^{k}$ with ratio $q\neq 1$,
+\[
+  \sum_{k=0}^{n-1} a q^{k}
+  \;=\; a\,\frac{1-q^{n}}{1-q} \qquad (n \text{ terms}).
+\]
+For $q=1$ the sum is simply $na$.
+\end{rulebox}
+
+\begin{rulebox}{Geometric series, infinite sum}
+If $|q|<1$, then $q^{n}\to 0$, so the partial sums converge and
+\[
+  \sum_{k=0}^{\infty} a q^{k} \;=\; \frac{a}{1-q},
+  \qquad\text{and starting at } k=1:\quad
+  \sum_{k=1}^{\infty} a q^{k} \;=\; \frac{aq}{1-q} .
+\]
+For $|q|\ge 1$ the series diverges. This is \textbf{the} key formula of the
+whole book: in the next chapter every present value, annuity and perpetuity
+formula of financial mathematics is obtained by choosing $q$ as a discount
+factor in the geometric series.
+\end{rulebox}
+
+\begin{rulebox}{Necessary condition: the terms must vanish}
+If $\sum_{k=1}^{\infty} a_k$ converges, then $a_k\to 0$. In contrapositive
+form this is the everyday \emph{divergence test}:
+\[
+  a_k \not\to 0 \quad\Longrightarrow\quad \sum_{k=1}^{\infty} a_k
+  \text{ diverges.}
+\]
+The converse is \textbf{false}: $a_k\to 0$ does \emph{not} guarantee
+convergence. The standard counterexample is the harmonic series
+\[
+  \sum_{k=1}^{\infty}\frac{1}{k} \;=\; 1+\frac12+\frac13+\frac14+\dots,
+\]
+whose terms tend to $0$ while the partial sums grow beyond every bound.
+\end{rulebox}
+
+\begin{rulebox}{Telescoping sums}
+If the terms can be written as consecutive differences, $a_k=b_k-b_{k+1}$,
+then everything in the middle cancels:
+\[
+  \sum_{k=1}^{n}(b_k-b_{k+1}) \;=\; b_1-b_{n+1} .
+\]
+The series converges precisely when $(b_n)$ converges, with sum
+$b_1-\lim_{n\to\infty} b_n$. A telescoping sum is
+usually uncovered by partial fractions, e.g.
+$\dfrac{1}{k(k+1)}=\dfrac{1}{k}-\dfrac{1}{k+1}$.
+\end{rulebox}
+
+\begin{rulebox}{Comparison test (simple form)}
+Suppose $0\le a_k\le b_k$ for all $k$ (or from some index on).
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Majorant}: if
+        $\sum b_k$ converges, so does $\sum a_k$.
+  \item \textbf{Minorant}: if
+        $\sum a_k$ diverges, so does $\sum b_k$.
+\end{itemize}
+The usual benchmarks are the geometric series (convergent for $|q|<1$) and
+the harmonic series (divergent). Example:
+$\dfrac{1}{2^{k}+1}\le\Bigl(\dfrac12\Bigr)^{k}$, so
+$\sum\dfrac{1}{2^{k}+1}$ converges.
+\end{rulebox}
+
+\begin{rulebox}{Ratio test (light form)}
+For $a_k>0$ suppose the ratio of consecutive terms has a limit,
+$\dfrac{a_{k+1}}{a_k}\to L$. Then:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item $L<1$: the series converges (it behaves like a geometric series
+        with ratio $L$);
+  \item $L>1$: the series diverges (the terms eventually grow);
+  \item $L=1$: no conclusion: both $\sum 1/k$ (divergent) and
+        $\sum 1/k^{2}$ (convergent) give $L=1$.
+\end{itemize}
+Example: for $a_k=k/2^{k}$ the ratio is
+$\dfrac{k+1}{2k}\to\dfrac12<1$, so $\sum k/2^{k}$ converges. The test shines when powers or factorials appear.
+\end{rulebox}
+
+\begin{rulebox}{Linearity}
+If $\sum a_k=A$ and $\sum b_k=B$ both converge and $\lambda,\mu\in\R$, then
+\[
+  \sum_{k=1}^{\infty}\bigl(\lambda a_k+\mu b_k\bigr)
+  \;=\; \lambda A+\mu B .
+\]
+Splitting a series into pieces is only legitimate when \emph{each} piece
+converges on its own.
+\end{rulebox}
+
+\section{Practice Problems}
+
+Evaluate the sums in Problems 1--14. In Problems 15--19 decide convergence
+or divergence with a justified test. Problem 20 previews the next chapter.
+
+\begin{problems}
+  \item $\displaystyle\sum_{k=1}^{100} k$
+  \item $7+10+13+\dots+118$
+  \item $\displaystyle\sum_{k=1}^{50}(2k-1)$ \quad (the first $50$ odd
+        numbers)
+  \item $\displaystyle\sum_{k=0}^{9} 2^{k}$
+  \item $\displaystyle\sum_{k=1}^{6} 5\cdot 3^{k-1}$
+  \item $\displaystyle\sum_{k=0}^{5}\Bigl(\frac12\Bigr)^{k}$
+  \item $\displaystyle\sum_{k=0}^{\infty}\Bigl(\frac13\Bigr)^{k}$
+  \item $\displaystyle\sum_{k=1}^{\infty}\Bigl(\frac25\Bigr)^{k}$
+  \item $\displaystyle\sum_{k=0}^{\infty}\Bigl(-\frac12\Bigr)^{k}$
+  \item Show that $0.999\ldots=0.\overline{9}$ equals exactly $1$.
+  \item Write $2.353535\ldots=2.\overline{35}$ as a fraction.
+  \item $\displaystyle\sum_{k=1}^{n}\frac{1}{k(k+1)}$ \quad (find a closed
+        formula, then the value of the infinite series)
+  \item $\displaystyle\sum_{k=1}^{99}\bigl(\sqrt{k+1}-\sqrt{k}\bigr)$
+  \item $\displaystyle\sum_{k=1}^{\infty}\frac{1}{(2k-1)(2k+1)}$
+  \item Does $\displaystyle\sum_{k=1}^{\infty}\frac{k}{k+1}$ converge?
+  \item The terms of $\displaystyle\sum_{k=1}^{\infty}\frac{1}{k}$ satisfy
+        $\frac{1}{k}\to 0$. Does the series converge? Justify carefully.
+  \item Does $\displaystyle\sum_{k=1}^{\infty}\frac{1}{2^{k}+1}$ converge?
+  \item Does $\displaystyle\sum_{k=1}^{\infty}\frac{1}{\sqrt{k}}$ converge?
+  \item Does $\displaystyle\sum_{k=1}^{\infty}\frac{k}{2^{k}}$ converge?
+  \item \emph{Perpetuity teaser.} A contract pays $100$ euros at the end of
+        every year, forever. At an interest rate of $5\%$ per year, a
+        payment $k$ years from now is worth $100\cdot(1/1.05)^{k}$ euros
+        today. What is the total value of the contract today?
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item Arithmetic with $a_1=1$, $a_{100}=100$, $n=100$:
+        \[
+          \sum_{k=1}^{100} k=\frac{100\cdot 101}{2}=5050 .
+        \]
+
+  \item Arithmetic with $a=7$, $d=3$. The last term fixes $n$:
+        $118=7+3(n-1)$ gives $3(n-1)=111$, so $n=38$. Hence
+        \[
+          7+10+\dots+118=\frac{38}{2}\,(7+118)=19\cdot 125=2375 .
+        \]
+
+  \item Arithmetic with $a_1=1$, $a_{50}=99$, $n=50$:
+        \[
+          \sum_{k=1}^{50}(2k-1)=50\cdot\frac{1+99}{2}=50\cdot 50=2500 .
+        \]
+        In general the first $n$ odd numbers sum to $n^{2}$.
+
+  \item Geometric, $a=1$, $q=2$, $10$ terms:
+        \[
+          \sum_{k=0}^{9}2^{k}=\frac{1-2^{10}}{1-2}=\frac{1-1024}{-1}=1023 .
+        \]
+
+  \item Pull out the factor $5$; the remaining sum is geometric with $q=3$
+        and $6$ terms:
+        \[
+          \sum_{k=1}^{6}5\cdot 3^{k-1}
+          =5\sum_{j=0}^{5}3^{j}
+          =5\cdot\frac{1-3^{6}}{1-3}
+          =5\cdot\frac{-728}{-2}=5\cdot 364=1820 .
+        \]
+
+  \item Geometric, $q=\tfrac12$, $6$ terms:
+        \[
+          \sum_{k=0}^{5}\Bigl(\frac12\Bigr)^{k}
+          =\frac{1-(1/2)^{6}}{1-1/2}
+          =2\Bigl(1-\frac{1}{64}\Bigr)=\frac{63}{32} .
+        \]
+
+  \item $|q|=\tfrac13<1$, so the infinite sum formula applies:
+        \[
+          \sum_{k=0}^{\infty}\Bigl(\frac13\Bigr)^{k}
+          =\frac{1}{1-\tfrac13}=\frac{3}{2} .
+        \]
+
+  \item The sum starts at $k=1$, so the first term is $\tfrac25$ and
+        $q=\tfrac25$:
+        \[
+          \sum_{k=1}^{\infty}\Bigl(\frac25\Bigr)^{k}
+          =\frac{2/5}{1-2/5}=\frac{2/5}{3/5}=\frac{2}{3} .
+        \]
+
+  \item The formula also covers negative ratios; here $q=-\tfrac12$ with
+        $|q|<1$:
+        \[
+          \sum_{k=0}^{\infty}\Bigl(-\frac12\Bigr)^{k}
+          =\frac{1}{1-(-\tfrac12)}=\frac{1}{3/2}=\frac{2}{3} .
+        \]
+
+  \item The decimal expansion is a geometric series with $q=\tfrac{1}{10}$:
+        \[
+          0.\overline{9}
+          =\sum_{k=1}^{\infty}\frac{9}{10^{k}}
+          =\frac{9\cdot\tfrac{1}{10}}{1-\tfrac{1}{10}}
+          =\frac{9/10}{9/10}=1 .
+        \]
+        The equality is exact: $0.\overline{9}$ is not ``a little less
+        than $1$'', it \emph{is} $1$.
+
+  \item Split off the integer part; the repeating block $35$ has period
+        $2$, so $q=\tfrac{1}{100}$:
+        \[
+          2.\overline{35}
+          =2+\sum_{k=1}^{\infty}\frac{35}{100^{k}}
+          =2+\frac{35\cdot\tfrac{1}{100}}{1-\tfrac{1}{100}}
+          =2+\frac{35}{99}=\frac{233}{99} .
+        \]
+
+  \item Partial fractions: $\dfrac{1}{k(k+1)}=\dfrac{1}{k}-\dfrac{1}{k+1}$,
+        so the sum telescopes:
+        \[
+          s_n=\sum_{k=1}^{n}\Bigl(\frac{1}{k}-\frac{1}{k+1}\Bigr)
+          =1-\frac{1}{n+1} .
+        \]
+        Since $\dfrac{1}{n+1}\to 0$,
+        \[
+          \sum_{k=1}^{\infty}\frac{1}{k(k+1)}=\lim_{n\to\infty} s_n=1 .
+        \]
+
+  \item Telescoping with $b_k=-\sqrt{k}$ (or simply: all middle terms
+        cancel):
+        \[
+          \sum_{k=1}^{99}\bigl(\sqrt{k+1}-\sqrt{k}\bigr)
+          =\sqrt{100}-\sqrt{1}=10-1=9 .
+        \]
+
+  \item Partial fractions:
+        \[
+          \frac{1}{(2k-1)(2k+1)}
+          =\frac12\Bigl(\frac{1}{2k-1}-\frac{1}{2k+1}\Bigr).
+        \]
+        The partial sums telescope:
+        \[
+          s_n=\frac12\Bigl(1-\frac{1}{2n+1}\Bigr)
+          \;\longrightarrow\;\frac12 ,
+        \]
+        so the series converges with sum $\dfrac12$.
+
+  \item No. The terms satisfy
+        \[
+          a_k=\frac{k}{k+1}\;\longrightarrow\;1\neq 0,
+        \]
+        so the necessary condition fails and the series diverges. (Each
+        late term adds almost $1$, so the partial sums grow roughly like
+        $n$.)
+
+  \item No: this is the harmonic series, the standard warning that
+        $a_k\to 0$ is necessary but \emph{not sufficient}. Group the terms
+        in blocks of doubling length:
+        \[
+          1+\frac12
+          +\underbrace{\Bigl(\frac13+\frac14\Bigr)}_{\ge\,2\cdot\frac14=\frac12}
+          +\underbrace{\Bigl(\frac15+\frac16+\frac17+\frac18\Bigr)}_{\ge\,4\cdot\frac18=\frac12}
+          +\dots
+        \]
+        Each block contributes at least $\tfrac12$, so
+        $s_{2^{m}}\ge 1+\tfrac{m}{2}$. The partial sums exceed every bound,
+        hence the series diverges.
+
+  \item Yes, by comparison with a geometric majorant: for all $k\ge 1$,
+        \[
+          0<\frac{1}{2^{k}+1}<\Bigl(\frac12\Bigr)^{k},
+          \qquad
+          \sum_{k=1}^{\infty}\Bigl(\frac12\Bigr)^{k}
+          =\frac{1/2}{1-1/2}=1<\infty ,
+        \]
+        so $\displaystyle\sum_{k=1}^{\infty}\frac{1}{2^{k}+1}$ converges.
+
+  \item No. For $k\ge 1$ we have $\sqrt{k}\le k$, hence
+        \[
+          \frac{1}{\sqrt{k}}\ \ge\ \frac{1}{k} .
+        \]
+        The harmonic series diverges, so by the minorant criterion
+        $\displaystyle\sum_{k=1}^{\infty}\frac{1}{\sqrt{k}}$ diverges as
+        well.
+
+  \item Yes, by the ratio test with $a_k=k/2^{k}$:
+        \[
+          \frac{a_{k+1}}{a_k}
+          =\frac{k+1}{2^{k+1}}\cdot\frac{2^{k}}{k}
+          =\frac{k+1}{2k}
+          \;\longrightarrow\;\frac12<1 ,
+        \]
+        so the series converges. (Its value happens to be $2$, but the
+        test alone does not reveal that.)
+
+  \item The total present value is a geometric series with
+        $q=\dfrac{1}{1.05}$, starting at $k=1$:
+        \[
+          \mathrm{PV}
+          =\sum_{k=1}^{\infty}100\,\Bigl(\frac{1}{1.05}\Bigr)^{k}
+          =100\cdot\frac{\tfrac{1}{1.05}}{1-\tfrac{1}{1.05}}
+          =100\cdot\frac{\tfrac{1}{1.05}}{\tfrac{0.05}{1.05}}
+          =\frac{100}{0.05}=2000 .
+        \]
+        An infinite stream of payments is worth a finite amount:
+        $2000$ euros. The rule of thumb
+        $\mathrm{PV}=\text{payment}/\text{interest rate}$ is exactly the
+        infinite geometric sum, the next chapter builds all of financial
+        mathematics on this observation.
+\end{solutions}
+
+\section{Additional Problems}
+
+\begin{problems}
+  \item $\displaystyle\sum_{k=1}^{200}(3k+2)$
+  \item $100+96+92+\dots+4$
+  \item $\displaystyle\sum_{k=0}^{7}3\cdot(-2)^{k}$
+  \item $\displaystyle\sum_{k=2}^{\infty}\Bigl(\frac14\Bigr)^{k}$
+  \item Write $0.727272\ldots=0.\overline{72}$ as a fraction.
+  \item $\displaystyle\sum_{k=1}^{\infty}\frac{1}{(k+1)(k+2)}$
+  \item Does $\displaystyle\sum_{k=1}^{\infty}\frac{2k+1}{3k+5}$ converge?
+  \item Show that $\displaystyle\sum_{k=1}^{\infty}\frac{1}{k^{2}}$
+        converges, by comparing with the telescoping series of
+        Problem~12 of the practice set
+        \emph{(hint: $\tfrac{1}{k^{2}}\le\tfrac{2}{k(k+1)}$)}.
+  \item Does $\displaystyle\sum_{k=1}^{\infty}\frac{2^{k}}{k!}$ converge?
+  \item $\displaystyle\sum_{k=0}^{\infty}
+        \Bigl(\Bigl(\frac12\Bigr)^{k}+2\cdot\Bigl(\frac13\Bigr)^{k}\Bigr)$
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item Split by linearity of finite sums and use Gauss' formula:
+        \[
+          \sum_{k=1}^{200}(3k+2)
+          =3\sum_{k=1}^{200}k+\sum_{k=1}^{200}2
+          =3\cdot\frac{200\cdot 201}{2}+400
+          =3\cdot 20100+400=60700 .
+        \]
+
+  \item Arithmetic with $a=100$, $d=-4$. The last term fixes $n$:
+        $4=100-4(n-1)$ gives $4(n-1)=96$, so $n=25$. Hence
+        \[
+          100+96+\dots+4=\frac{25}{2}\,(100+4)=25\cdot 52=1300 .
+        \]
+
+  \item Geometric with $q=-2$, $8$ terms:
+        \[
+          \sum_{k=0}^{7}3\cdot(-2)^{k}
+          =3\cdot\frac{1-(-2)^{8}}{1-(-2)}
+          =3\cdot\frac{1-256}{3}=-255 .
+        \]
+
+  \item Geometric with $|q|=\tfrac14<1$; the first term is $(1/4)^{2}$:
+        \[
+          \sum_{k=2}^{\infty}\Bigl(\frac14\Bigr)^{k}
+          =\frac{(1/4)^{2}}{1-1/4}
+          =\frac{1/16}{3/4}=\frac{1}{12} .
+        \]
+        (Check: full sum $\tfrac{4}{3}$ minus the terms $1+\tfrac14$
+        indeed leaves $\tfrac{4}{3}-\tfrac{5}{4}=\tfrac{1}{12}$.)
+
+  \item Repeating block $72$ of period $2$, so $q=\tfrac{1}{100}$:
+        \[
+          0.\overline{72}
+          =\sum_{k=1}^{\infty}\frac{72}{100^{k}}
+          =\frac{72\cdot\tfrac{1}{100}}{1-\tfrac{1}{100}}
+          =\frac{72}{99}=\frac{8}{11} .
+        \]
+
+  \item Partial fractions:
+        $\dfrac{1}{(k+1)(k+2)}=\dfrac{1}{k+1}-\dfrac{1}{k+2}$, so
+        \[
+          s_n=\frac12-\frac{1}{n+2}\;\longrightarrow\;\frac12 ,
+        \]
+        and the series converges with sum $\dfrac12$.
+
+  \item No. The terms satisfy
+        \[
+          \frac{2k+1}{3k+5}
+          =\frac{2+\tfrac{1}{k}}{3+\tfrac{5}{k}}
+          \;\longrightarrow\;\frac{2}{3}\neq 0 ,
+        \]
+        so the necessary condition fails and the series diverges.
+
+  \item For $k\ge 1$ we have $k+1\le 2k$, hence $k(k+1)\le 2k^{2}$ and
+        therefore
+        \[
+          \frac{1}{k^{2}}\ \le\ \frac{2}{k(k+1)} .
+        \]
+        The majorant is twice the telescoping series with sum $1$, so
+        $\sum_{k=1}^{\infty}\tfrac{2}{k(k+1)}=2$ converges. By the
+        comparison test, $\displaystyle\sum_{k=1}^{\infty}\frac{1}{k^{2}}$
+        converges (its partial sums are increasing and bounded by $2$).
+        Its exact value, $\pi^{2}/6$, is a famous result of Euler: far
+        beyond what the test tells us.
+
+  \item Yes, by the ratio test with $a_k=2^{k}/k!$:
+        \[
+          \frac{a_{k+1}}{a_k}
+          =\frac{2^{k+1}}{(k+1)!}\cdot\frac{k!}{2^{k}}
+          =\frac{2}{k+1}
+          \;\longrightarrow\;0<1 ,
+        \]
+        so the series converges. (Its value is $\mathrm{e}^{2}-1$, as the
+        exponential series will show later.)
+
+  \item Both pieces are convergent geometric series, so linearity applies:
+        \[
+          \sum_{k=0}^{\infty}\Bigl(\frac12\Bigr)^{k}
+          =\frac{1}{1-\tfrac12}=2 ,
+          \qquad
+          2\sum_{k=0}^{\infty}\Bigl(\frac13\Bigr)^{k}
+          =2\cdot\frac{1}{1-\tfrac13}=2\cdot\frac32=3 ,
+        \]
+        hence the total is $2+3=5$.
+\end{solutions}

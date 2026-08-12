@@ -1,0 +1,1115 @@
+\chapter{Simplex Tableaus in General Form and Reading the End Tableau}
+
+The previous chapter ran the simplex method on maximum problems whose
+constraints were all of the $\le$ type, where the slack variables hand us a
+feasible starting basis for free. This chapter removes that restriction: we
+set up tableaus for \emph{general} linear programs -- with $\ge$ and $=$
+constraints and with minimisation objectives -- and we learn to squeeze every
+drop of information out of the final tableau: the optimal solution, the status of
+each constraint, the shadow prices, the uniqueness (or not) of the optimum,
+and even the inverse of the basis matrix. Both the formal set-up of general
+tableaus and the interpretation of
+the end tableau are named exam topics; the mechanics of pivoting are assumed
+known from the previous chapter.
+
+\section{Core Rules}
+
+\begin{rulebox}{Conventions (recap)}
+We work with maximum problems in tableau form. The objective
+$z=c_{1}x_{1}+\dots+c_{n}x_{n}$ is written as the equation
+$z-c_{1}x_{1}-\dots-c_{n}x_{n}=0$, so the $z$-row of the starting tableau
+holds the \emph{negated} objective coefficients. Pivot rules:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Entering column:} most negative $z$-row entry
+        (ties: smallest index).
+  \item \textbf{Leaving row:} smallest ratio $\text{RHS}/\text{entry}$ over
+        the rows with positive entry in the entering column.
+  \item \textbf{Optimality:} the tableau is optimal when every $z$-row entry
+        is $\ge 0$.
+\end{itemize}
+Each basic variable owns a unit column; its value stands in the RHS of its
+row; every nonbasic variable equals $0$.
+\end{rulebox}
+
+\begin{rulebox}{From a general LP to equation form}
+First make every right-hand side non-negative (if $b_{i}<0$, multiply the
+constraint by $-1$ and flip the inequality). Then convert each constraint
+into an equation:
+\begin{center}
+\begin{tabular}{c|c|c}
+type & added variables & starts in the basis\\
+\hline
+$\le b_{i}$ & $+\,s_{i}$ \quad (slack) & $s_{i}$\\
+$\ge b_{i}$ & $-\,s_{i}+a_{i}$ \quad (surplus;
+              artificial) & $a_{i}$\\
+$= b_{i}$ & $+\,a_{i}$ \quad (artificial)
+            & $a_{i}$\\
+\end{tabular}
+\end{center}
+All added variables are $\ge 0$. A surplus variable measures by how much a
+$\ge$ constraint is \emph{over}-fulfilled, but its column $-e_{i}$ cannot
+serve as a starting basic column -- that is what the artificial variable is
+for. A minimisation problem is converted by
+\[
+  \min C \;=\; -\max\,(-C):
+  \qquad\text{maximise } z=-C,\quad\text{then } C^{*}=-z^{*}.
+\]
+\end{rulebox}
+
+\begin{rulebox}{The starting tableau in general form}
+One column per variable -- first the structural variables $x_{j}$, then the
+slack/surplus variables $s_{i}$ (we index them by constraint), then the
+artificial variables $a_{i}$ -- plus a Basis column on the left and the RHS
+on the right. The starting basis consists of the slacks of the $\le$ rows
+and the artificials of the $\ge$ and $=$ rows; together their columns form
+an identity matrix. If no artificial variable is needed, the ordinary
+simplex method of the previous chapter applies; as soon as at least one
+$a_{i}$ appears, a feasibility phase must precede it.
+\end{rulebox}
+
+\begin{rulebox}{The two-phase method (sketch)}
+\textbf{Phase I.} Replace the objective by
+\[
+  \text{maximise } w=-(a_{1}+a_{2}+\dots+a_{k}),
+\]
+the negated sum of all artificial variables, written as the row
+$w+a_{1}+\dots+a_{k}=0$. Because the $a_{i}$ start \emph{basic}, first clear
+them from the $w$-row (subtract each artificial's constraint row), then
+pivot as usual. Since $w\le 0$ always, the best possible value is $0$:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item $w^{*}=0$: all artificials have been driven to zero -- the basis at
+        hand is feasible for the original LP. Go to Phase II.
+  \item $w^{*}<0$: some artificial is stuck at a positive value -- the
+        original LP has \emph{no feasible solution}.
+\end{itemize}
+\textbf{Phase II.} Delete the artificial columns (an artificial that has
+left the basis never returns), restore the original $z$-row, clear the
+current basic variables from it, and continue pivoting to optimality.
+\end{rulebox}
+
+\begin{rulebox}{Reading the end tableau: solution and constraint status}
+In the end tableau:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item Each basic variable equals the RHS of its row; every nonbasic
+        variable equals $0$. The optimal value $z^{*}$ stands in the
+        bottom-right corner; for a converted minimum, $C^{*}=-z^{*}$.
+  \item Slack $s_{i}=0$: constraint $i$ is \emph{binding} --
+        it holds with equality, the resource is exhausted.
+  \item Slack $s_{i}>0$ (then $s_{i}$ is basic): constraint $i$ is
+        non-binding, with $s_{i}$ units of the resource left over.
+  \item Surplus $s_{i}>0$: the $\ge$ constraint is over-fulfilled by
+        $s_{i}$ units; surplus $=0$ means the requirement is met exactly.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Shadow prices in the $z$-row}
+For a maximum problem, the $z$-row entry of the end tableau \emph{under the
+slack column} $s_{i}$ is the shadow price (dual value)
+$y_{i}^{*}$ of constraint $i$: one extra unit of $b_{i}$ raises $z^{*}$ by
+$y_{i}^{*}$ (locally, i.e.\ as long as the basis stays optimal). A
+non-binding constraint always has shadow price $0$. Consistency check:
+\[
+  z^{*} \;=\; y_{1}^{*}b_{1}+y_{2}^{*}b_{2}+\dots+y_{m}^{*}b_{m}.
+\]
+For a minimum problem solved as $\max z=-C$, the entries under the
+\emph{surplus} columns are exactly the dual values of the minimum problem:
+one extra unit of the requirement $b_{i}$ raises the minimal cost $C^{*}$ by
+that amount.
+\end{rulebox}
+
+\begin{rulebox}{Multiple optima: a zero where none is needed}
+The $z$-row entries under the \emph{nonbasic} columns are the reduced costs. In an optimal tableau they are $\ge 0$; if one of
+them is exactly $0$, the corresponding variable can be pivoted in
+\emph{without changing} $z^{*}$: the LP has \emph{alternative optima}. Pivoting there produces a second optimal vertex;
+every convex combination of the two vertices is optimal as well. If all
+nonbasic $z$-row entries are strictly positive, the optimum is unique.
+\end{rulebox}
+
+\begin{rulebox}{The basis inverse hidden in the end tableau}
+The simplex method is organised Gaussian elimination: every tableau equals
+$B^{-1}$ times the starting tableau, where $B$ collects the columns of the
+current basic variables. Therefore, under the columns
+that started out as the identity (the slacks of $\le$ rows and the
+artificials), the end tableau displays $B^{-1}$ itself, and
+\[
+  \text{body}=B^{-1}A,\qquad
+  \text{RHS}=B^{-1}b=x_{B},\qquad
+  \text{$z$-row under those columns}=c_{B}^{T}B^{-1}=y^{T}.
+\]
+A surplus column started as $-e_{i}$, so under it the end tableau shows the
+\emph{negative} of the $i$-th column of $B^{-1}$. This is how computer
+output reconstructs everything about the optimal basis from the end tableau
+alone.
+\end{rulebox}
+
+\section{Practice Problems}
+
+Problems 1--4 drill the conversion to tableau-ready form, Problems 5--9 are
+short solves (two-phase or converted minimum), and Problems 10--14 give you
+a finished end tableau to interpret.
+
+\begin{problems}
+  \item Bring the LP
+        \[
+          \max\; z=3x_{1}+2x_{2}
+          \quad\text{s.t.}\quad
+          x_{1}+x_{2}\le 4,\qquad
+          x_{1}+3x_{2}\ge 6,\qquad
+          x_{1},x_{2}\ge 0
+        \]
+        into equation form. Classify every added variable, state the
+        starting basis, write down the Phase I objective, and give the
+        complete Phase I starting tableau (with the $w$-row already cleared
+        of basic artificials). Do not solve.
+
+  \item Bring the LP
+        \[
+          \min\; C=2x_{1}+3x_{2}
+          \quad\text{s.t.}\quad
+          x_{1}+x_{2}=10,\qquad
+          x_{1}-x_{2}\ge 2,\qquad
+          x_{1},x_{2}\ge 0
+        \]
+        into tableau-ready maximum form. State the starting basis and give
+        the cleared $w$-row. What is remarkable about the $x_{2}$ entry of
+        the $w$-row?
+
+  \item Bring the LP
+        \[
+          \max\; z=x_{1}+2x_{2}+x_{3}
+          \quad\text{s.t.}\quad
+          x_{1}+x_{2}+x_{3}\le 8,\qquad
+          x_{1}-x_{2}\ge 1,\qquad
+          x_{2}+x_{3}=4,
+        \]
+        $x_{1},x_{2},x_{3}\ge 0$, into equation form. How many variable
+        columns does the starting tableau have? State the starting basis and
+        the cleared $w$-row.
+
+  \item A diet problem:
+        \[
+          \min\; C=4x_{1}+3x_{2}
+          \quad\text{s.t.}\quad
+          2x_{1}+x_{2}\ge 10,\qquad
+          x_{1}+3x_{2}\ge 15,\qquad
+          x_{1},x_{2}\ge 0 .
+        \]
+        \begin{enumerate}[label=(\alph*),leftmargin=2.2em,itemsep=0.2ex]
+          \item Convert to a maximum problem in equation form.
+          \item Write the complete Phase I starting tableau with cleared
+                $w$-row.
+          \item What would it mean for the diet problem if Phase I ended
+                with $w^{*}<0$?
+        \end{enumerate}
+
+  \item Solve with the two-phase method:
+        \[
+          \max\; z=2x_{1}+3x_{2}
+          \quad\text{s.t.}\quad
+          x_{1}+x_{2}\le 4,\qquad
+          x_{1}+2x_{2}\ge 2,\qquad
+          x_{1},x_{2}\ge 0 .
+        \]
+
+  \item Solve by converting to a maximum problem:
+        \[
+          \min\; C=-2x_{1}-3x_{2}
+          \quad\text{s.t.}\quad
+          x_{1}+x_{2}\le 4,\qquad
+          x_{2}\le 3,\qquad
+          x_{1},x_{2}\ge 0 .
+        \]
+
+  \item Solve with the two-phase method:
+        \[
+          \max\; z=3x_{1}+x_{2}
+          \quad\text{s.t.}\quad
+          x_{1}+x_{2}=3,\qquad
+          x_{1}\le 2,\qquad
+          x_{1},x_{2}\ge 0 .
+        \]
+
+  \item Solve with the two-phase method and read the dual values from the
+        end tableau:
+        \[
+          \min\; C=2x_{1}+3x_{2}
+          \quad\text{s.t.}\quad
+          x_{1}+x_{2}\ge 4,\qquad
+          x_{1}+2x_{2}\ge 6,\qquad
+          x_{1},x_{2}\ge 0 .
+        \]
+
+  \item Solve with the two-phase method and interpret the value of the
+        surplus variable at the optimum:
+        \[
+          \max\; z=2x_{1}+x_{2}
+          \quad\text{s.t.}\quad
+          x_{1}+x_{2}\ge 3,\qquad
+          x_{1}+x_{2}\le 5,\qquad
+          x_{1},x_{2}\ge 0 .
+        \]
+
+  \item A firm maximises $z=5x_{1}+4x_{2}$ subject to
+        $2x_{1}+x_{2}\le 8$ (machine hours) and $x_{1}+2x_{2}\le 7$ (labour
+        hours), $x_{1},x_{2}\ge 0$; $s_{1},s_{2}$ are the slacks. The
+        simplex method ends with
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & RHS\\
+        \hline
+        $x_{1}$ & $1$ & $0$ & $\tfrac{2}{3}$ & $-\tfrac{1}{3}$ & $3$\\
+        $x_{2}$ & $0$ & $1$ & $-\tfrac{1}{3}$ & $\tfrac{2}{3}$ & $2$\\
+        \hline
+        $z$ & $0$ & $0$ & $2$ & $1$ & $23$\\
+        \end{tabular}
+        \end{center}
+        \begin{enumerate}[label=(\alph*),leftmargin=2.2em,itemsep=0.2ex]
+          \item Optimal production plan and optimal value?
+          \item Values of the slacks -- which constraints are binding?
+          \item Shadow prices of machine and labour hours?
+          \item Is the optimum unique?
+          \item Read off $B^{-1}$ and verify $B^{-1}b=$ RHS.
+        \end{enumerate}
+
+  \item The LP $\max\; z=3x_{1}+2x_{2}$ subject to $x_{1}+x_{2}\le 5$,
+        $x_{1}\le 3$, $x_{2}\le 4$, $x_{1},x_{2}\ge 0$ (slacks
+        $s_{1},s_{2},s_{3}$) has the end tableau
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & $s_{3}$ & RHS\\
+        \hline
+        $x_{1}$ & $1$ & $0$ & $0$ & $1$ & $0$ & $3$\\
+        $x_{2}$ & $0$ & $1$ & $1$ & $-1$ & $0$ & $2$\\
+        $s_{3}$ & $0$ & $0$ & $-1$ & $1$ & $1$ & $2$\\
+        \hline
+        $z$ & $0$ & $0$ & $2$ & $1$ & $0$ & $13$\\
+        \end{tabular}
+        \end{center}
+        Extract: optimal solution and $z^{*}$; binding and non-binding
+        constraints; all three shadow prices; uniqueness; $B^{-1}$
+        (verify $B^{-1}b=$ RHS).
+
+  \item The LP $\max\; z=2x_{1}+2x_{2}$ subject to $x_{1}+x_{2}\le 4$,
+        $x_{2}\le 3$, $x_{1},x_{2}\ge 0$ (slacks $s_{1},s_{2}$) ends with
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & RHS\\
+        \hline
+        $x_{1}$ & $1$ & $1$ & $1$ & $0$ & $4$\\
+        $s_{2}$ & $0$ & $1$ & $0$ & $1$ & $3$\\
+        \hline
+        $z$ & $0$ & $0$ & $2$ & $0$ & $8$\\
+        \end{tabular}
+        \end{center}
+        Read off the optimal solution, $z^{*}$, and the shadow prices. Why
+        does the tableau signal alternative optima? Perform one more pivot
+        to find a second optimal vertex and describe the whole set of
+        optimal solutions.
+
+  \item The diet LP $\min\; C=2x_{1}+3x_{2}$ subject to $x_{1}+x_{2}\ge 6$,
+        $x_{1}+2x_{2}\ge 8$, $x_{1},x_{2}\ge 0$ was solved as
+        $\max\; z=-C$ with surplus variables $s_{1},s_{2}$ (artificials
+        already dropped). End tableau:
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & RHS\\
+        \hline
+        $x_{1}$ & $1$ & $0$ & $-2$ & $1$ & $4$\\
+        $x_{2}$ & $0$ & $1$ & $1$ & $-1$ & $2$\\
+        \hline
+        $z$ & $0$ & $0$ & $1$ & $1$ & $-14$\\
+        \end{tabular}
+        \end{center}
+        Extract: the optimal diet and the minimal cost $C^{*}$; the status
+        of both requirements; the dual values and their meaning; whether
+        the optimum is unique; and $B^{-1}$.
+
+  \item The LP $\max\; z=2x_{1}+3x_{2}$ subject to $x_{1}+x_{2}\le 5$,
+        $2x_{1}+x_{2}\le 8$, $x_{2}\le 4$, $x_{1},x_{2}\ge 0$ (slacks
+        $s_{1},s_{2},s_{3}$) has the end tableau
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & $s_{3}$ & RHS\\
+        \hline
+        $x_{1}$ & $1$ & $0$ & $1$ & $0$ & $-1$ & $1$\\
+        $x_{2}$ & $0$ & $1$ & $0$ & $0$ & $1$ & $4$\\
+        $s_{2}$ & $0$ & $0$ & $-2$ & $1$ & $1$ & $2$\\
+        \hline
+        $z$ & $0$ & $0$ & $2$ & $0$ & $1$ & $14$\\
+        \end{tabular}
+        \end{center}
+        Extract \emph{everything}: optimal solution and $z^{*}$; slack
+        values and constraint status; shadow prices; uniqueness; $B^{-1}$;
+        and verify $z^{*}=y_{1}^{*}b_{1}+y_{2}^{*}b_{2}+y_{3}^{*}b_{3}$.
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item Constraint 1 ($\le$) gets a slack, constraint 2 ($\ge$) a surplus
+        and an artificial:
+        \[
+          x_{1}+x_{2}+s_{1}=4,\qquad
+          x_{1}+3x_{2}-s_{2}+a_{1}=6,\qquad
+          \text{all variables}\ge 0 .
+        \]
+        $s_{1}$ is a slack, $s_{2}$ a surplus, $a_{1}$ an artificial
+        variable. Starting basis: $(s_{1},a_{1})$ with values $(4,6)$.
+        Phase I objective: maximise $w=-a_{1}$, i.e.\ the row
+        $w+a_{1}=0$; clearing the basic $a_{1}$ means subtracting row 2:
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & $a_{1}$ & RHS\\
+        \hline
+        $s_{1}$ & $1$ & $1$ & $1$ & $0$ & $0$ & $4$\\
+        $a_{1}$ & $1$ & $3$ & $0$ & $-1$ & $1$ & $6$\\
+        \hline
+        $w$ & $-1$ & $-3$ & $0$ & $1$ & $0$ & $-6$\\
+        \end{tabular}
+        \end{center}
+
+  \item Convert the minimum: maximise $z=-C=-2x_{1}-3x_{2}$, with
+        $C^{*}=-z^{*}$ at the end. The equality gets an artificial only,
+        the $\ge$ constraint a surplus and an artificial:
+        \[
+          x_{1}+x_{2}+a_{1}=10,\qquad
+          x_{1}-x_{2}-s_{2}+a_{2}=2 .
+        \]
+        Starting basis: $(a_{1},a_{2})=(10,2)$. Phase I: maximise
+        $w=-(a_{1}+a_{2})$; clearing both artificials means subtracting
+        rows 1 and 2 from $w+a_{1}+a_{2}=0$:
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{2}$ & $a_{1}$ & $a_{2}$ & RHS\\
+        \hline
+        $a_{1}$ & $1$ & $1$ & $0$ & $1$ & $0$ & $10$\\
+        $a_{2}$ & $1$ & $-1$ & $-1$ & $0$ & $1$ & $2$\\
+        \hline
+        $w$ & $-2$ & $0$ & $1$ & $0$ & $0$ & $-12$\\
+        \end{tabular}
+        \end{center}
+        The $x_{2}$ entry of the $w$-row is $-(1)-(-1)=0$: the two $x_{2}$
+        coefficients cancel, so Phase I will not choose $x_{2}$ as the
+        first entering variable -- only $x_{1}$ reduces the total
+        infeasibility.
+
+  \item Equation form:
+        \[
+          x_{1}+x_{2}+x_{3}+s_{1}=8,\qquad
+          x_{1}-x_{2}-s_{2}+a_{1}=1,\qquad
+          x_{2}+x_{3}+a_{2}=4 .
+        \]
+        Seven variable columns ($x_{1},x_{2},x_{3},s_{1},s_{2},a_{1},a_{2}$)
+        plus the RHS. Starting basis: $(s_{1},a_{1},a_{2})=(8,1,4)$.
+        Phase I: maximise $w=-(a_{1}+a_{2})$; the cleared $w$-row is
+        $-(\text{row 2})-(\text{row 3})$:
+        \begin{center}
+        \begin{tabular}{c|ccccccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $x_{3}$ & $s_{1}$ & $s_{2}$
+              & $a_{1}$ & $a_{2}$ & RHS\\
+        \hline
+        $s_{1}$ & $1$ & $1$ & $1$ & $1$ & $0$ & $0$ & $0$ & $8$\\
+        $a_{1}$ & $1$ & $-1$ & $0$ & $0$ & $-1$ & $1$ & $0$ & $1$\\
+        $a_{2}$ & $0$ & $1$ & $1$ & $0$ & $0$ & $0$ & $1$ & $4$\\
+        \hline
+        $w$ & $-1$ & $0$ & $-1$ & $0$ & $1$ & $0$ & $0$ & $-5$\\
+        \end{tabular}
+        \end{center}
+        (In the $w$-row the $x_{2}$ entries $-(-1)-(1)=0$ cancel again.)
+
+  \item (a) Maximise $z=-C=-4x_{1}-3x_{2}$; both $\ge$ constraints get a
+        surplus and an artificial:
+        \[
+          2x_{1}+x_{2}-s_{1}+a_{1}=10,\qquad
+          x_{1}+3x_{2}-s_{2}+a_{2}=15 .
+        \]
+        (b) Starting basis $(a_{1},a_{2})=(10,15)$; the cleared $w$-row is
+        $-(\text{row 1})-(\text{row 2})$:
+        \begin{center}
+        \begin{tabular}{c|cccccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & $a_{1}$ & $a_{2}$
+              & RHS\\
+        \hline
+        $a_{1}$ & $2$ & $1$ & $-1$ & $0$ & $1$ & $0$ & $10$\\
+        $a_{2}$ & $1$ & $3$ & $0$ & $-1$ & $0$ & $1$ & $15$\\
+        \hline
+        $w$ & $-3$ & $-4$ & $1$ & $1$ & $0$ & $0$ & $-25$\\
+        \end{tabular}
+        \end{center}
+        (For Phase II one would restore the row $z+4x_{1}+3x_{2}=0$.)\\
+        (c) $w^{*}<0$ would mean that no diet satisfies both nutritional
+        requirements simultaneously with non-negative quantities -- the LP
+        would be infeasible. Here that cannot happen (large enough
+        $x_{1},x_{2}$ satisfy both $\ge$ constraints).
+
+  \item Equation form: $x_{1}+x_{2}+s_{1}=4$ and
+        $x_{1}+2x_{2}-s_{2}+a_{1}=2$; starting basis $(s_{1},a_{1})$.
+        \emph{Phase I} (maximise $w=-a_{1}$; $w$-row cleared by
+        subtracting the $a_{1}$-row):
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & $a_{1}$ & RHS\\
+        \hline
+        $s_{1}$ & $1$ & $1$ & $1$ & $0$ & $0$ & $4$\\
+        $a_{1}$ & $1$ & $2$ & $0$ & $-1$ & $1$ & $2$\\
+        \hline
+        $w$ & $-1$ & $-2$ & $0$ & $1$ & $0$ & $-2$\\
+        \end{tabular}
+        \end{center}
+        Entering: $x_{2}$ ($-2$). Ratios: $4/1=4$, $2/2=1$ -- the
+        $a_{1}$-row leaves; pivot on the $2$:
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & $a_{1}$ & RHS\\
+        \hline
+        $s_{1}$ & $\tfrac{1}{2}$ & $0$ & $1$ & $\tfrac{1}{2}$
+                & $-\tfrac{1}{2}$ & $3$\\
+        $x_{2}$ & $\tfrac{1}{2}$ & $1$ & $0$ & $-\tfrac{1}{2}$
+                & $\tfrac{1}{2}$ & $1$\\
+        \hline
+        $w$ & $0$ & $0$ & $0$ & $0$ & $1$ & $0$\\
+        \end{tabular}
+        \end{center}
+        $w^{*}=0$: feasible basis found. \emph{Phase II}: drop the
+        $a_{1}$-column, restore $z-2x_{1}-3x_{2}=0$ and clear the basic
+        $x_{2}$ (add $3\times$ the $x_{2}$-row):
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & RHS\\
+        \hline
+        $s_{1}$ & $\tfrac{1}{2}$ & $0$ & $1$ & $\tfrac{1}{2}$ & $3$\\
+        $x_{2}$ & $\tfrac{1}{2}$ & $1$ & $0$ & $-\tfrac{1}{2}$ & $1$\\
+        \hline
+        $z$ & $-\tfrac{1}{2}$ & $0$ & $0$ & $-\tfrac{3}{2}$ & $3$\\
+        \end{tabular}
+        \end{center}
+        Entering: $s_{2}$ ($-\tfrac32$); only the $s_{1}$-row has a
+        positive entry ($\tfrac12$, ratio $6$); pivot on it:
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & RHS\\
+        \hline
+        $s_{2}$ & $1$ & $0$ & $2$ & $1$ & $6$\\
+        $x_{2}$ & $1$ & $1$ & $1$ & $0$ & $4$\\
+        \hline
+        $z$ & $1$ & $0$ & $3$ & $0$ & $12$\\
+        \end{tabular}
+        \end{center}
+        All $z$-row entries $\ge 0$: optimal. Solution:
+        $x_{1}^{*}=0$, $x_{2}^{*}=4$, $z^{*}=12$. Constraint 1 is binding
+        ($s_{1}=0$, shadow price $3$); constraint 2 is over-fulfilled by
+        $s_{2}=6$ units ($0+2\cdot 4=8\ge 2$).
+
+  \item Maximise $z=-C=2x_{1}+3x_{2}$; both constraints are $\le$, so no
+        artificials are needed:
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & RHS\\
+        \hline
+        $s_{1}$ & $1$ & $1$ & $1$ & $0$ & $4$\\
+        $s_{2}$ & $0$ & $1$ & $0$ & $1$ & $3$\\
+        \hline
+        $z$ & $-2$ & $-3$ & $0$ & $0$ & $0$\\
+        \end{tabular}
+        \end{center}
+        Entering $x_{2}$ ($-3$); ratios $4/1=4$, $3/1=3$ -- pivot on the
+        $1$ in the $s_{2}$-row:
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & RHS\\
+        \hline
+        $s_{1}$ & $1$ & $0$ & $1$ & $-1$ & $1$\\
+        $x_{2}$ & $0$ & $1$ & $0$ & $1$ & $3$\\
+        \hline
+        $z$ & $-2$ & $0$ & $0$ & $3$ & $9$\\
+        \end{tabular}
+        \end{center}
+        Entering $x_{1}$ ($-2$); only ratio $1/1=1$ (the $x_{2}$-row has
+        entry $0$); pivot on the $1$ in the $s_{1}$-row:
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & RHS\\
+        \hline
+        $x_{1}$ & $1$ & $0$ & $1$ & $-1$ & $1$\\
+        $x_{2}$ & $0$ & $1$ & $0$ & $1$ & $3$\\
+        \hline
+        $z$ & $0$ & $0$ & $2$ & $1$ & $11$\\
+        \end{tabular}
+        \end{center}
+        Optimal: $x^{*}=(1,3)$ with $z^{*}=11$, hence
+        $C^{*}=-z^{*}=-11$.
+
+  \item Equation form: $x_{1}+x_{2}+a_{1}=3$ (equality: artificial only)
+        and $x_{1}+s_{2}=2$; starting basis $(a_{1},s_{2})$.
+        \emph{Phase I} ($w=-a_{1}$, cleared):
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{2}$ & $a_{1}$ & RHS\\
+        \hline
+        $a_{1}$ & $1$ & $1$ & $0$ & $1$ & $3$\\
+        $s_{2}$ & $1$ & $0$ & $1$ & $0$ & $2$\\
+        \hline
+        $w$ & $-1$ & $-1$ & $0$ & $0$ & $-3$\\
+        \end{tabular}
+        \end{center}
+        Entering $x_{1}$ (tie $-1/-1$, smallest index); ratios $3/1$,
+        $2/1$ -- pivot on the $1$ in the $s_{2}$-row:
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{2}$ & $a_{1}$ & RHS\\
+        \hline
+        $a_{1}$ & $0$ & $1$ & $-1$ & $1$ & $1$\\
+        $x_{1}$ & $1$ & $0$ & $1$ & $0$ & $2$\\
+        \hline
+        $w$ & $0$ & $-1$ & $1$ & $0$ & $-1$\\
+        \end{tabular}
+        \end{center}
+        Entering $x_{2}$; only ratio $1/1=1$; pivot on the $1$ in the
+        $a_{1}$-row:
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{2}$ & $a_{1}$ & RHS\\
+        \hline
+        $x_{2}$ & $0$ & $1$ & $-1$ & $1$ & $1$\\
+        $x_{1}$ & $1$ & $0$ & $1$ & $0$ & $2$\\
+        \hline
+        $w$ & $0$ & $0$ & $0$ & $1$ & $0$\\
+        \end{tabular}
+        \end{center}
+        $w^{*}=0$; feasible basis $(x_{2},x_{1})=(1,2)$. \emph{Phase II}:
+        drop $a_{1}$, restore $z-3x_{1}-x_{2}=0$, clear the basics by
+        adding $3\times$ the $x_{1}$-row and $1\times$ the $x_{2}$-row:
+        \begin{center}
+        \begin{tabular}{c|ccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{2}$ & RHS\\
+        \hline
+        $x_{2}$ & $0$ & $1$ & $-1$ & $1$\\
+        $x_{1}$ & $1$ & $0$ & $1$ & $2$\\
+        \hline
+        $z$ & $0$ & $0$ & $2$ & $7$\\
+        \end{tabular}
+        \end{center}
+        Already optimal -- Phase II needs no pivot at all. Solution:
+        $x^{*}=(2,1)$, $z^{*}=7$. The capacity $x_{1}\le 2$ is binding with
+        shadow price $2$. (Had we kept the $a_{1}$-column as a bookkeeping
+        column with cost $0$, its entries would be $(1,0)^{T}$ with $z$-row
+        entry $1$: the first column of $B^{-1}$ and the dual value of the
+        equality constraint.)
+
+  \item Maximise $z=-C$, i.e.\ $z+2x_{1}+3x_{2}=0$. Equation form:
+        $x_{1}+x_{2}-s_{1}+a_{1}=4$, $x_{1}+2x_{2}-s_{2}+a_{2}=6$;
+        starting basis $(a_{1},a_{2})$. \emph{Phase I}
+        ($w=-(a_{1}+a_{2})$, cleared by subtracting both rows):
+        \begin{center}
+        \begin{tabular}{c|cccccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & $a_{1}$ & $a_{2}$
+              & RHS\\
+        \hline
+        $a_{1}$ & $1$ & $1$ & $-1$ & $0$ & $1$ & $0$ & $4$\\
+        $a_{2}$ & $1$ & $2$ & $0$ & $-1$ & $0$ & $1$ & $6$\\
+        \hline
+        $w$ & $-2$ & $-3$ & $1$ & $1$ & $0$ & $0$ & $-10$\\
+        \end{tabular}
+        \end{center}
+        Entering $x_{2}$ ($-3$); ratios $4/1=4$, $6/2=3$ -- pivot on the
+        $2$ in the $a_{2}$-row:
+        \begin{center}
+        \begin{tabular}{c|cccccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & $a_{1}$ & $a_{2}$
+              & RHS\\
+        \hline
+        $a_{1}$ & $\tfrac{1}{2}$ & $0$ & $-1$ & $\tfrac{1}{2}$ & $1$
+                & $-\tfrac{1}{2}$ & $1$\\
+        $x_{2}$ & $\tfrac{1}{2}$ & $1$ & $0$ & $-\tfrac{1}{2}$ & $0$
+                & $\tfrac{1}{2}$ & $3$\\
+        \hline
+        $w$ & $-\tfrac{1}{2}$ & $0$ & $1$ & $-\tfrac{1}{2}$ & $0$
+            & $\tfrac{3}{2}$ & $-1$\\
+        \end{tabular}
+        \end{center}
+        Entering $x_{1}$ (tie with $s_{2}$ at $-\tfrac12$; smallest
+        index); ratios $1/\tfrac12=2$, $3/\tfrac12=6$ -- pivot on the
+        $\tfrac12$ in the $a_{1}$-row:
+        \begin{center}
+        \begin{tabular}{c|cccccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & $a_{1}$ & $a_{2}$
+              & RHS\\
+        \hline
+        $x_{1}$ & $1$ & $0$ & $-2$ & $1$ & $2$ & $-1$ & $2$\\
+        $x_{2}$ & $0$ & $1$ & $1$ & $-1$ & $-1$ & $1$ & $2$\\
+        \hline
+        $w$ & $0$ & $0$ & $0$ & $0$ & $1$ & $1$ & $0$\\
+        \end{tabular}
+        \end{center}
+        $w^{*}=0$: feasible basis $(x_{1},x_{2})=(2,2)$. \emph{Phase II}:
+        drop $a_{1},a_{2}$, restore $z+2x_{1}+3x_{2}=0$, clear the basics
+        (subtract $2\times$ the $x_{1}$-row and $3\times$ the $x_{2}$-row):
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & RHS\\
+        \hline
+        $x_{1}$ & $1$ & $0$ & $-2$ & $1$ & $2$\\
+        $x_{2}$ & $0$ & $1$ & $1$ & $-1$ & $2$\\
+        \hline
+        $z$ & $0$ & $0$ & $1$ & $1$ & $-10$\\
+        \end{tabular}
+        \end{center}
+        Already optimal. Solution: $x^{*}=(2,2)$, $z^{*}=-10$, hence
+        $C^{*}=10$. Both surpluses are nonbasic and $0$: both requirements
+        are met exactly. The entries under the surplus columns give the
+        dual values $y^{*}=(1,1)$: raising either requirement by one unit
+        raises the minimal cost by $1$. Check:
+        $1\cdot 4+1\cdot 6=10=C^{*}$.
+
+  \item Equation form: $x_{1}+x_{2}-s_{1}+a_{1}=3$,
+        $x_{1}+x_{2}+s_{2}=5$; starting basis $(a_{1},s_{2})$.
+        \emph{Phase I} ($w=-a_{1}$, cleared):
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & $a_{1}$ & RHS\\
+        \hline
+        $a_{1}$ & $1$ & $1$ & $-1$ & $0$ & $1$ & $3$\\
+        $s_{2}$ & $1$ & $1$ & $0$ & $1$ & $0$ & $5$\\
+        \hline
+        $w$ & $-1$ & $-1$ & $1$ & $0$ & $0$ & $-3$\\
+        \end{tabular}
+        \end{center}
+        Entering $x_{1}$ (tie, smallest index); ratios $3/1=3$, $5/1=5$ --
+        pivot on the $1$ in the $a_{1}$-row:
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & $a_{1}$ & RHS\\
+        \hline
+        $x_{1}$ & $1$ & $1$ & $-1$ & $0$ & $1$ & $3$\\
+        $s_{2}$ & $0$ & $0$ & $1$ & $1$ & $-1$ & $2$\\
+        \hline
+        $w$ & $0$ & $0$ & $0$ & $0$ & $1$ & $0$\\
+        \end{tabular}
+        \end{center}
+        $w^{*}=0$. \emph{Phase II}: drop $a_{1}$, restore
+        $z-2x_{1}-x_{2}=0$, add $2\times$ the $x_{1}$-row:
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & RHS\\
+        \hline
+        $x_{1}$ & $1$ & $1$ & $-1$ & $0$ & $3$\\
+        $s_{2}$ & $0$ & $0$ & $1$ & $1$ & $2$\\
+        \hline
+        $z$ & $0$ & $1$ & $-2$ & $0$ & $6$\\
+        \end{tabular}
+        \end{center}
+        Entering $s_{1}$ ($-2$); only the $s_{2}$-row has a positive entry
+        (ratio $2/1=2$); pivot on it:
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & RHS\\
+        \hline
+        $x_{1}$ & $1$ & $1$ & $0$ & $1$ & $5$\\
+        $s_{1}$ & $0$ & $0$ & $1$ & $1$ & $2$\\
+        \hline
+        $z$ & $0$ & $1$ & $0$ & $2$ & $10$\\
+        \end{tabular}
+        \end{center}
+        Optimal: $x^{*}=(5,0)$, $z^{*}=10$. The surplus $s_{1}=2$ is
+        \emph{basic}: the requirement $x_{1}+x_{2}\ge 3$ is over-fulfilled
+        by $2$ units ($5\ge 3$), so it is non-binding. Constraint 2 is
+        binding with shadow price $2$ (one more unit of the resource
+        raises $z^{*}$ by $2$). Since the nonbasic $x_{2}$ has reduced cost
+        $1>0$, the optimum is unique.
+
+  \item (a) Basic variables from the rows: $x_{1}^{*}=3$, $x_{2}^{*}=2$;
+        optimal value $z^{*}=23$ (bottom-right).\\
+        (b) $s_{1}$ and $s_{2}$ are nonbasic, so $s_{1}=s_{2}=0$: both
+        machine and labour hours are fully used -- both constraints are
+        binding ($2\cdot 3+2=8$, $3+2\cdot 2=7$).\\
+        (c) $z$-row under the slacks: $y_{1}^{*}=2$ per machine hour,
+        $y_{2}^{*}=1$ per labour hour. Check:
+        $2\cdot 8+1\cdot 7=23=z^{*}$.\\
+        (d) The nonbasic columns $s_{1},s_{2}$ have strictly positive
+        $z$-row entries $2$ and $1$, so the optimum is unique.\\
+        (e) The slack columns started as the identity, so
+        \[
+          B^{-1}=
+          \begin{pmatrix}
+            \tfrac{2}{3} & -\tfrac{1}{3}\\[2pt]
+            -\tfrac{1}{3} & \tfrac{2}{3}
+          \end{pmatrix},
+          \qquad
+          B^{-1}b=
+          \begin{pmatrix}
+            \tfrac{2}{3}\cdot 8-\tfrac{1}{3}\cdot 7\\[2pt]
+            -\tfrac{1}{3}\cdot 8+\tfrac{2}{3}\cdot 7
+          \end{pmatrix}
+          =\begin{pmatrix}3\\2\end{pmatrix},
+        \]
+        which is exactly the RHS column $(x_{1}^{*},x_{2}^{*})$.
+
+  \item Solution: $x_{1}^{*}=3$, $x_{2}^{*}=2$, $s_{3}=2$, $z^{*}=13$.
+        Status: $s_{1}=s_{2}=0$ nonbasic, so $x_{1}+x_{2}\le 5$ and
+        $x_{1}\le 3$ are binding; $s_{3}=2$ is basic, so $x_{2}\le 4$ is
+        non-binding with $2$ units to spare ($x_{2}=2<4$). Shadow prices
+        from the $z$-row under the slacks: $y^{*}=(2,1,0)$ -- the
+        non-binding third constraint has, as it must, shadow price $0$.
+        Uniqueness: the nonbasic columns $s_{1},s_{2}$ carry the strictly
+        positive entries $2,1$, so the optimum is unique. Basis inverse
+        (slack columns of the end tableau):
+        \[
+          B^{-1}=
+          \begin{pmatrix}
+            0 & 1 & 0\\
+            1 & -1 & 0\\
+            -1 & 1 & 1
+          \end{pmatrix},
+          \qquad
+          B^{-1}b=
+          \begin{pmatrix}
+            0\cdot 5+1\cdot 3+0\cdot 4\\
+            1\cdot 5-1\cdot 3+0\cdot 4\\
+            -1\cdot 5+1\cdot 3+1\cdot 4
+          \end{pmatrix}
+          =\begin{pmatrix}3\\2\\2\end{pmatrix},
+        \]
+        again exactly the RHS column $(x_{1}^{*},x_{2}^{*},s_{3})$. Check
+        of the value: $y^{*T}b=2\cdot 5+1\cdot 3+0\cdot 4=13=z^{*}$.
+
+  \item Read-off: $x^{*}=(4,0)$, $z^{*}=8$; $s_{2}=3$ basic, so
+        $x_{2}\le 3$ is non-binding, while $x_{1}+x_{2}\le 4$ is binding.
+        Shadow prices $y^{*}=(2,0)$. The tableau is optimal (no negative
+        $z$-row entries), but the \emph{nonbasic} variable $x_{2}$ has
+        reduced cost $0$: pivoting it in cannot change $z^{*}$ --
+        alternative optima. Entering $x_{2}$: ratios $4/1=4$, $3/1=3$ --
+        pivot on the $1$ in the $s_{2}$-row:
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & RHS\\
+        \hline
+        $x_{1}$ & $1$ & $0$ & $1$ & $-1$ & $1$\\
+        $x_{2}$ & $0$ & $1$ & $0$ & $1$ & $3$\\
+        \hline
+        $z$ & $0$ & $0$ & $2$ & $0$ & $8$\\
+        \end{tabular}
+        \end{center}
+        Second optimal vertex $(1,3)$, again $z^{*}=8$. The optimal set is
+        the whole edge
+        \[
+          (x_{1},x_{2})=\lambda\,(4,0)+(1-\lambda)\,(1,3),
+          \qquad \lambda\in[0,1],
+        \]
+        i.e.\ the segment of the line $x_{1}+x_{2}=4$ between the two
+        vertices; every such point yields $z=8$.
+
+  \item Optimal diet: $x_{1}^{*}=4$, $x_{2}^{*}=2$; the tableau maximises
+        $z=-C$, so $z^{*}=-14$ and the minimal cost is $C^{*}=14$. Both
+        surplus variables are nonbasic and $0$: both requirements are met
+        \emph{exactly} ($4+2=6$, $4+2\cdot 2=8$) -- binding. Dual values:
+        for a converted minimum they stand under the surplus columns,
+        $y^{*}=(1,1)$; raising the first (second) requirement by one unit
+        raises the minimal cost by $1$. Check:
+        $1\cdot 6+1\cdot 8=14=C^{*}$. Uniqueness: both nonbasic entries
+        are $1>0$, so the optimal diet is unique. Basis inverse: the
+        surplus columns started as $-e_{1},-e_{2}$, so the end tableau
+        shows $-B^{-1}$ there; negating,
+        \[
+          B^{-1}=
+          \begin{pmatrix}
+            2 & -1\\
+            -1 & 1
+          \end{pmatrix},
+          \qquad
+          B^{-1}b=
+          \begin{pmatrix}
+            2\cdot 6-1\cdot 8\\
+            -1\cdot 6+1\cdot 8
+          \end{pmatrix}
+          =\begin{pmatrix}4\\2\end{pmatrix}
+          =\begin{pmatrix}x_{1}^{*}\\x_{2}^{*}\end{pmatrix}.
+        \]
+
+  \item Solution: $x_{1}^{*}=1$, $x_{2}^{*}=4$, $z^{*}=14$. Slacks:
+        $s_{1}=0$ (constraint 1 binding, $1+4=5$), $s_{3}=0$ (constraint 3
+        binding, $x_{2}=4$), $s_{2}=2$ basic (constraint 2 non-binding:
+        $2\cdot 1+4=6<8$, two units spare). Shadow prices:
+        $y^{*}=(2,0,1)$; the slack capacity of constraint 2 is worthless
+        at the margin. Uniqueness: nonbasic $s_{1},s_{3}$ have entries
+        $2,1>0$ -- unique. Basis inverse from the slack columns:
+        \[
+          B^{-1}=
+          \begin{pmatrix}
+            1 & 0 & -1\\
+            0 & 0 & 1\\
+            -2 & 1 & 1
+          \end{pmatrix},
+          \qquad
+          B^{-1}b=
+          \begin{pmatrix}
+            5-4\\ 4\\ -10+8+4
+          \end{pmatrix}
+          =\begin{pmatrix}1\\4\\2\end{pmatrix},
+        \]
+        matching the RHS $(x_{1}^{*},x_{2}^{*},s_{2})$. Value check:
+        \[
+          y^{*T}b=2\cdot 5+0\cdot 8+1\cdot 4=14=z^{*}. \qquad\checkmark
+        \]
+\end{solutions}
+
+\section{Additional Problems}
+
+\begin{problems}
+  \item Bring the LP
+        \[
+          \max\; z=5x_{1}+x_{2}
+          \quad\text{s.t.}\quad
+          2x_{1}+x_{2}=8,\qquad
+          x_{1}+x_{2}\le 6,\qquad
+          x_{1},x_{2}\ge 0
+        \]
+        into equation form; state the starting basis and give the complete
+        Phase I starting tableau with cleared $w$-row.
+
+  \item Bring the LP
+        \[
+          \min\; C=x_{1}+2x_{2}+3x_{3}
+          \quad\text{s.t.}\quad
+          x_{1}+x_{2}\ge 5,\qquad
+          x_{2}+x_{3}=3,\qquad
+          x_{1}\le 4,
+        \]
+        $x_{1},x_{2},x_{3}\ge 0$, into tableau-ready maximum form. State
+        the starting basis and the cleared $w$-row.
+
+  \item Solve by converting to a maximum problem:
+        \[
+          \min\; C=-x_{1}-2x_{2}
+          \quad\text{s.t.}\quad
+          x_{1}+x_{2}\le 3,\qquad
+          x_{2}\le 2,\qquad
+          x_{1},x_{2}\ge 0 .
+        \]
+
+  \item Solve with the two-phase method:
+        \[
+          \max\; z=x_{1}+4x_{2}
+          \quad\text{s.t.}\quad
+          x_{1}+2x_{2}\le 6,\qquad
+          x_{2}\ge 1,\qquad
+          x_{1},x_{2}\ge 0 .
+        \]
+
+  \item The LP $\max\; z=3x_{1}+5x_{2}$ subject to $x_{1}\le 4$,
+        $x_{2}\le 3$, $x_{1}+x_{2}\le 6$, $x_{1},x_{2}\ge 0$ (slacks
+        $s_{1},s_{2},s_{3}$) has the end tableau
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & $s_{3}$ & RHS\\
+        \hline
+        $x_{1}$ & $1$ & $0$ & $0$ & $-1$ & $1$ & $3$\\
+        $x_{2}$ & $0$ & $1$ & $0$ & $1$ & $0$ & $3$\\
+        $s_{1}$ & $0$ & $0$ & $1$ & $1$ & $-1$ & $1$\\
+        \hline
+        $z$ & $0$ & $0$ & $0$ & $2$ & $3$ & $24$\\
+        \end{tabular}
+        \end{center}
+        Extract: optimal solution and $z^{*}$; constraint status; shadow
+        prices; uniqueness; $B^{-1}$ (verify $B^{-1}b=$ RHS and
+        $y^{*T}b=z^{*}$).
+
+  \item The LP $\max\; z=2x_{1}+4x_{2}$ subject to $x_{1}+2x_{2}\le 8$,
+        $x_{1}+x_{2}\le 6$, $x_{1},x_{2}\ge 0$ (slacks $s_{1},s_{2}$)
+        ends with
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & RHS\\
+        \hline
+        $x_{2}$ & $\tfrac{1}{2}$ & $1$ & $\tfrac{1}{2}$ & $0$ & $4$\\
+        $s_{2}$ & $\tfrac{1}{2}$ & $0$ & $-\tfrac{1}{2}$ & $1$ & $2$\\
+        \hline
+        $z$ & $0$ & $0$ & $2$ & $0$ & $16$\\
+        \end{tabular}
+        \end{center}
+        Read off the optimal solution, $z^{*}$, the shadow prices, and the
+        constraint status. Show that the LP has alternative optima, find
+        the second optimal vertex by one pivot, and describe the optimal
+        set.
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item Equation form: $2x_{1}+x_{2}+a_{1}=8$ (equality: artificial only)
+        and $x_{1}+x_{2}+s_{2}=6$. Starting basis $(a_{1},s_{2})=(8,6)$.
+        Phase I: maximise $w=-a_{1}$; clearing $a_{1}$ from $w+a_{1}=0$
+        means subtracting row 1:
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{2}$ & $a_{1}$ & RHS\\
+        \hline
+        $a_{1}$ & $2$ & $1$ & $0$ & $1$ & $8$\\
+        $s_{2}$ & $1$ & $1$ & $1$ & $0$ & $6$\\
+        \hline
+        $w$ & $-2$ & $-1$ & $0$ & $0$ & $-8$\\
+        \end{tabular}
+        \end{center}
+
+  \item Maximise $z=-C=-x_{1}-2x_{2}-3x_{3}$, with $C^{*}=-z^{*}$.
+        Equation form:
+        \[
+          x_{1}+x_{2}-s_{1}+a_{1}=5,\qquad
+          x_{2}+x_{3}+a_{2}=3,\qquad
+          x_{1}+s_{3}=4 .
+        \]
+        Starting basis $(a_{1},a_{2},s_{3})=(5,3,4)$. Phase I: maximise
+        $w=-(a_{1}+a_{2})$; the cleared $w$-row is
+        $-(\text{row 1})-(\text{row 2})$:
+        \begin{center}
+        \begin{tabular}{c|ccccccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $x_{3}$ & $s_{1}$ & $s_{3}$
+              & $a_{1}$ & $a_{2}$ & RHS\\
+        \hline
+        $a_{1}$ & $1$ & $1$ & $0$ & $-1$ & $0$ & $1$ & $0$ & $5$\\
+        $a_{2}$ & $0$ & $1$ & $1$ & $0$ & $0$ & $0$ & $1$ & $3$\\
+        $s_{3}$ & $1$ & $0$ & $0$ & $0$ & $1$ & $0$ & $0$ & $4$\\
+        \hline
+        $w$ & $-1$ & $-2$ & $-1$ & $1$ & $0$ & $0$ & $0$ & $-8$\\
+        \end{tabular}
+        \end{center}
+
+  \item Maximise $z=-C=x_{1}+2x_{2}$; no artificials needed:
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & RHS\\
+        \hline
+        $s_{1}$ & $1$ & $1$ & $1$ & $0$ & $3$\\
+        $s_{2}$ & $0$ & $1$ & $0$ & $1$ & $2$\\
+        \hline
+        $z$ & $-1$ & $-2$ & $0$ & $0$ & $0$\\
+        \end{tabular}
+        \end{center}
+        Entering $x_{2}$ ($-2$); ratios $3/1=3$, $2/1=2$ -- pivot on the
+        $1$ in the $s_{2}$-row:
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & RHS\\
+        \hline
+        $s_{1}$ & $1$ & $0$ & $1$ & $-1$ & $1$\\
+        $x_{2}$ & $0$ & $1$ & $0$ & $1$ & $2$\\
+        \hline
+        $z$ & $-1$ & $0$ & $0$ & $2$ & $4$\\
+        \end{tabular}
+        \end{center}
+        Entering $x_{1}$; only ratio $1/1=1$; pivot on the $1$ in the
+        $s_{1}$-row:
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & RHS\\
+        \hline
+        $x_{1}$ & $1$ & $0$ & $1$ & $-1$ & $1$\\
+        $x_{2}$ & $0$ & $1$ & $0$ & $1$ & $2$\\
+        \hline
+        $z$ & $0$ & $0$ & $1$ & $1$ & $5$\\
+        \end{tabular}
+        \end{center}
+        Optimal: $x^{*}=(1,2)$, $z^{*}=5$, hence $C^{*}=-5$.
+
+  \item Equation form: $x_{1}+2x_{2}+s_{1}=6$ and $x_{2}-s_{2}+a_{1}=1$;
+        starting basis $(s_{1},a_{1})$. \emph{Phase I} ($w=-a_{1}$,
+        cleared by subtracting the $a_{1}$-row):
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & $a_{1}$ & RHS\\
+        \hline
+        $s_{1}$ & $1$ & $2$ & $1$ & $0$ & $0$ & $6$\\
+        $a_{1}$ & $0$ & $1$ & $0$ & $-1$ & $1$ & $1$\\
+        \hline
+        $w$ & $0$ & $-1$ & $0$ & $1$ & $0$ & $-1$\\
+        \end{tabular}
+        \end{center}
+        Entering $x_{2}$; ratios $6/2=3$, $1/1=1$ -- pivot on the $1$ in
+        the $a_{1}$-row:
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & $a_{1}$ & RHS\\
+        \hline
+        $s_{1}$ & $1$ & $0$ & $1$ & $2$ & $-2$ & $4$\\
+        $x_{2}$ & $0$ & $1$ & $0$ & $-1$ & $1$ & $1$\\
+        \hline
+        $w$ & $0$ & $0$ & $0$ & $0$ & $1$ & $0$\\
+        \end{tabular}
+        \end{center}
+        $w^{*}=0$. \emph{Phase II}: drop $a_{1}$, restore
+        $z-x_{1}-4x_{2}=0$, add $4\times$ the $x_{2}$-row:
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & RHS\\
+        \hline
+        $s_{1}$ & $1$ & $0$ & $1$ & $2$ & $4$\\
+        $x_{2}$ & $0$ & $1$ & $0$ & $-1$ & $1$\\
+        \hline
+        $z$ & $-1$ & $0$ & $0$ & $-4$ & $4$\\
+        \end{tabular}
+        \end{center}
+        Entering $s_{2}$ ($-4$); only the $s_{1}$-row is eligible
+        (ratio $4/2=2$); pivot on the $2$:
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & RHS\\
+        \hline
+        $s_{2}$ & $\tfrac{1}{2}$ & $0$ & $\tfrac{1}{2}$ & $1$ & $2$\\
+        $x_{2}$ & $\tfrac{1}{2}$ & $1$ & $\tfrac{1}{2}$ & $0$ & $3$\\
+        \hline
+        $z$ & $1$ & $0$ & $2$ & $0$ & $12$\\
+        \end{tabular}
+        \end{center}
+        Optimal: $x^{*}=(0,3)$, $z^{*}=12$. Constraint 1 is binding
+        ($s_{1}=0$, shadow price $2$); the requirement $x_{2}\ge 1$ is
+        over-fulfilled by $s_{2}=2$ units.
+
+  \item Solution: $x_{1}^{*}=3$, $x_{2}^{*}=3$, $z^{*}=24$; $s_{1}=1$ is
+        basic. Status: $x_{1}\le 4$ is non-binding (one unit spare,
+        $x_{1}=3$); $x_{2}\le 3$ and $x_{1}+x_{2}\le 6$ are binding
+        ($s_{2}=s_{3}=0$). Shadow prices $y^{*}=(0,2,3)$: an extra unit of
+        capacity 1 is worthless, an extra unit of capacity 2 (3) is worth
+        $2$ ($3$). Uniqueness: nonbasic $s_{2},s_{3}$ have entries
+        $2,3>0$ -- unique. Basis inverse from the slack columns:
+        \[
+          B^{-1}=
+          \begin{pmatrix}
+            0 & -1 & 1\\
+            0 & 1 & 0\\
+            1 & 1 & -1
+          \end{pmatrix},
+          \qquad
+          B^{-1}b=
+          \begin{pmatrix}
+            -3+6\\ 3\\ 4+3-6
+          \end{pmatrix}
+          =\begin{pmatrix}3\\3\\1\end{pmatrix},
+        \]
+        matching the RHS $(x_{1}^{*},x_{2}^{*},s_{1})$. Value check:
+        $y^{*T}b=0\cdot 4+2\cdot 3+3\cdot 6=24=z^{*}$.
+
+  \item Read-off: $x^{*}=(0,4)$, $z^{*}=16$; $s_{2}=2$ basic, so
+        constraint 2 is non-binding ($0+4=4<6$) while constraint 1 is
+        binding ($0+2\cdot 4=8$). Shadow prices $y^{*}=(2,0)$. The
+        nonbasic $x_{1}$ has reduced cost $0$, so there are alternative
+        optima. Entering $x_{1}$: ratios $4/\tfrac12=8$, $2/\tfrac12=4$ --
+        pivot on the $\tfrac12$ in the $s_{2}$-row:
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & RHS\\
+        \hline
+        $x_{2}$ & $0$ & $1$ & $1$ & $-1$ & $2$\\
+        $x_{1}$ & $1$ & $0$ & $-1$ & $2$ & $4$\\
+        \hline
+        $z$ & $0$ & $0$ & $2$ & $0$ & $16$\\
+        \end{tabular}
+        \end{center}
+        Second optimal vertex $(4,2)$, again $z^{*}=16$. Optimal set: the
+        edge
+        \[
+          (x_{1},x_{2})=\lambda\,(0,4)+(1-\lambda)\,(4,2),
+          \qquad \lambda\in[0,1],
+        \]
+        on the binding line $x_{1}+2x_{2}=8$ (the objective
+        $2x_{1}+4x_{2}$ is proportional to its left-hand side, which is
+        why the whole edge is optimal).
+\end{solutions}

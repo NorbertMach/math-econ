@@ -1,0 +1,891 @@
+\chapter{Standard Form, Basic Solutions, and the Matrix View}
+
+The simplex method does not work on inequalities. It walks from corner to
+corner of the feasible region, and at each corner it solves a system of
+linear \emph{equations}. This chapter builds the bridge from the modelling
+form of an LP to that computational form: every LP can be rewritten in
+\emph{standard form} (a maximisation with equality
+constraints and nonnegative variables) by introducing slack and surplus
+variables, splitting free variables, and flipping minimisations.
+
+Once the LP reads $Ax=b$, $x\ge 0$, its corners acquire an algebraic
+fingerprint: the \emph{basic feasible solutions}. Choosing which variables
+are ``basic'' and setting the rest to zero produces at most
+$\binom{n}{m}$ candidate points, and the corners of the feasible region are
+exactly the feasible ones among them. Everything the simplex method does in
+later chapters is bookkeeping on this correspondence, so the hand skills
+drilled here (converting, enumerating, checking feasibility, matching
+corners) pay off on every exam problem that follows.
+
+\section{Core Rules}
+
+\begin{rulebox}{The two matrix forms of an LP}
+With $A$ an $m\times n$ matrix, $b\in\R^{m}$ and $c,x\in\R^{n}$, the
+\emph{inequality form} of an LP is
+\[
+  \max\; z=c^{T}x
+  \quad\text{s.t.}\quad Ax\le b,\;\; x\ge 0 ,
+\]
+where $Ax\le b$ is read row by row. The \emph{standard form} replaces the inequalities by equations:
+\[
+  \max\; z=c^{T}x
+  \quad\text{s.t.}\quad Ax=b,\;\; x\ge 0 .
+\]
+The simplex method operates exclusively on the standard form.
+\end{rulebox}
+
+\begin{rulebox}{Slack and surplus variables}
+Each inequality is turned into an equation by one new nonnegative variable
+with objective coefficient $0$:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{$\le$ constraint:} $a_{1}x_{1}+\dots+a_{n}x_{n}\le \beta$
+        becomes $a_{1}x_{1}+\dots+a_{n}x_{n}+s=\beta$, $s\ge 0$. The
+        \emph{slack variable} $s$ measures the unused
+        capacity of the constraint.
+  \item \textbf{$\ge$ constraint:} $a_{1}x_{1}+\dots+a_{n}x_{n}\ge \beta$
+        becomes $a_{1}x_{1}+\dots+a_{n}x_{n}-s=\beta$, $s\ge 0$. Here $s$
+        is a \emph{surplus variable}; it is
+        \emph{subtracted}.
+\end{itemize}
+Use a fresh variable for every constraint, never recycle one slack for
+two rows.
+\end{rulebox}
+
+\begin{rulebox}{Equality constraints and negative right-hand sides}
+An equality constraint is already in the required shape: copy it unchanged,
+\emph{no} new variable is introduced. If a right-hand side is negative,
+multiply the whole row by $-1$ first (which flips $\le$ into $\ge$ and vice
+versa), then convert as usual; the simplex start-up in later chapters
+assumes $b\ge 0$.
+\end{rulebox}
+
+\begin{rulebox}{Free and nonpositive variables}
+Standard form requires every variable to be nonnegative.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Free variable}: if $x_{j}$ has no sign
+        restriction, substitute
+        \[
+          x_{j}=x_{j}^{+}-x_{j}^{-},\qquad x_{j}^{+},x_{j}^{-}\ge 0
+        \]
+        everywhere ($x_{j}^{+}$ carries the positive part, $x_{j}^{-}$ the
+        negative part).
+  \item \textbf{Nonpositive variable:} if $x_{j}\le 0$, substitute
+        $y_{j}=-x_{j}\ge 0$ everywhere and drop $x_{j}$.
+\end{itemize}
+After solving, translate back: $x_{j}=x_{j}^{+}-x_{j}^{-}$ resp.\
+$x_{j}=-y_{j}$.
+\end{rulebox}
+
+\begin{rulebox}{Minimisation problems}
+Minimising $c^{T}x$ is the same task as maximising $-c^{T}x$ over the same
+feasible set:
+\[
+  \min\; c^{T}x \;=\; -\max\;\bigl(-c^{T}x\bigr) .
+\]
+The optimal \emph{points} coincide; only the optimal \emph{value} changes
+sign. So: negate the objective, solve the maximisation, and negate the
+optimal value at the very end.
+\end{rulebox}
+
+\begin{rulebox}{Basic and nonbasic variables, basic solutions}
+Let $Ax=b$ have $m$ equations and $n>m$ variables, with the rows of $A$
+linearly independent. Choose $m$ columns of $A$ that are linearly
+independent; they form a \emph{basis} $B$. The $m$ variables
+belonging to these columns are the \emph{basic variables}; the remaining $n-m$ variables are \emph{nonbasic}. Setting all nonbasic variables to $0$ and
+solving the resulting $m\times m$ system $Bx_{B}=b$ gives the unique
+\emph{basic solution} of that basis. If in addition
+$x_{B}\ge 0$, it is a \emph{basic feasible solution}, short BFS.
+\end{rulebox}
+
+\begin{rulebox}{Basic feasible solutions are corners}
+For the standard form $Ax=b$, $x\ge 0$:
+\[
+  x \text{ is a corner of the feasible region}
+  \iff
+  x \text{ is a basic feasible solution.}
+\]
+Moreover, if the LP has an optimal solution at all, then it has an optimal
+\emph{basic feasible} solution. Hence an optimum can be found by comparing
+the objective values of the finitely many BFS: which is exactly what
+the simplex method organises efficiently.
+\end{rulebox}
+
+\begin{rulebox}{Counting candidate bases}
+There are at most
+\[
+  \binom{n}{m}=\frac{n!}{m!\,(n-m)!}
+\]
+ways to choose $m$ basic variables out of $n$. The true number of corners
+is usually smaller, because a chosen column set may be linearly dependent
+(no basic solution), the basic solution may have negative entries
+(infeasible), or several bases may describe the same corner (degeneracy).
+\end{rulebox}
+
+\begin{rulebox}{Degeneracy}
+A basic solution is \emph{degenerate} if at least one
+\emph{basic} variable equals $0$: the solution then has fewer than $m$
+nonzero entries. Geometrically, more constraints are active at the corner
+than needed to define it (in the plane: three or more constraint lines
+through one point), and several different bases represent the same corner.
+Degeneracy is harmless for the theory but will require care in the simplex
+method.
+\end{rulebox}
+
+\section{Practice Problems}
+
+Convert by hand, enumerate by hand, and keep the bookkeeping tidy: write
+down which variables are nonbasic (set to $0$) before solving for the
+basic ones.
+
+\begin{problems}
+  \item Convert to standard form:
+        \[
+          \max\; z=3x_{1}+2x_{2}
+          \quad\text{s.t.}\quad
+          x_{1}+x_{2}\le 4,\;\;
+          x_{1}+3x_{2}\le 6,\;\;
+          x_{1},x_{2}\ge 0 .
+        \]
+  \item Convert to standard form:
+        \[
+          \max\; z=2x_{1}+5x_{2}
+          \quad\text{s.t.}\quad
+          x_{1}+2x_{2}\le 8,\;\;
+          3x_{1}+x_{2}\ge 3,\;\;
+          x_{1},x_{2}\ge 0 .
+        \]
+  \item Convert to a maximisation in standard form and state how the
+        optimal value of the original problem is recovered:
+        \[
+          \min\; z=4x_{1}+3x_{2}
+          \quad\text{s.t.}\quad
+          2x_{1}+x_{2}\ge 10,\;\;
+          x_{1}+3x_{2}\ge 15,\;\;
+          x_{1},x_{2}\ge 0 .
+        \]
+  \item Convert to standard form:
+        \[
+          \max\; z=x_{1}+4x_{2}
+          \quad\text{s.t.}\quad
+          x_{1}+x_{2}=5,\;\;
+          x_{1}+2x_{2}\le 8,\;\;
+          x_{1},x_{2}\ge 0 .
+        \]
+  \item Convert to standard form ($x_{2}$ has no sign restriction):
+        \[
+          \max\; z=2x_{1}+x_{2}
+          \quad\text{s.t.}\quad
+          x_{1}+x_{2}\le 3,\;\;
+          x_{1}-x_{2}\le 2,\;\;
+          x_{1}\ge 0,\; x_{2}\ \text{free}.
+        \]
+  \item Convert to standard form (note the sign restriction on $x_{2}$):
+        \[
+          \max\; z=3x_{1}-2x_{2}
+          \quad\text{s.t.}\quad
+          x_{1}-x_{2}\le 6,\;\;
+          2x_{1}+x_{2}\le 4,\;\;
+          x_{1}\ge 0,\; x_{2}\le 0 .
+        \]
+  \item Write the following LP in the matrix form $\max\,c^{T}x$ s.t.\
+        $Ax\le b$, $x\ge 0$, stating $c$, $A$, $b$ and their dimensions:
+        \[
+          \max\; z=5x_{1}+4x_{2}+3x_{3}
+          \quad\text{s.t.}\quad
+          \begin{aligned}[t]
+            2x_{1}+3x_{2}+x_{3}&\le 5,\\
+            4x_{1}+x_{2}+2x_{3}&\le 11,\\
+            3x_{1}+4x_{2}+2x_{3}&\le 8,
+          \end{aligned}
+          \qquad x_{1},x_{2},x_{3}\ge 0 .
+        \]
+  \item Bring the LP
+        \[
+          \max\; z=4x_{1}+3x_{2}
+          \quad\text{s.t.}\quad
+          2x_{1}+x_{2}\le 10,\;\;
+          x_{1}+3x_{2}\le 15,\;\;
+          x_{1},x_{2}\ge 0
+        \]
+        into standard form and write the standard form as a matrix system
+        $\bar{A}\bar{x}=b$, $\bar{x}\ge 0$: give $\bar{A}$, $\bar{x}$, $b$
+        and the extended cost vector $\bar{c}$.
+  \item Find \emph{all} basic solutions of the system
+        \[
+          \begin{aligned}
+            x_{1}+x_{2}+x_{3} &= 4\\
+            x_{2}+x_{4} &= 2
+          \end{aligned}
+          \qquad x_{1},\dots,x_{4}\ge 0 ,
+        \]
+        by going through all choices of two basic variables. State for each
+        choice whether it yields a basis, and whether the basic solution is
+        feasible.
+  \item Consider the system
+        \[
+          \begin{aligned}
+            x_{1}+x_{2}+x_{3} &= 4\\
+            2x_{1}+x_{2}+x_{4} &= 6
+          \end{aligned}
+          \qquad x_{1},\dots,x_{4}\ge 0 .
+        \]
+        For each of the following vectors $(x_{1},x_{2},x_{3},x_{4})$
+        decide: is it a solution of the equations, is it feasible, and is
+        it basic?
+        \begin{itemize}[leftmargin=1.8em,itemsep=0.2ex]
+          \item[(a)] $(2,2,0,0)$
+          \item[(b)] $(1,2,1,2)$
+          \item[(c)] $(3,0,1,0)$
+          \item[(d)] $(0,6,-2,0)$
+          \item[(e)] $(1,1,1,1)$
+        \end{itemize}
+  \item Bring the LP of Problem~1,
+        \[
+          \max\; z=3x_{1}+2x_{2}
+          \quad\text{s.t.}\quad
+          x_{1}+x_{2}\le 4,\;\;
+          x_{1}+3x_{2}\le 6,\;\;
+          x_{1},x_{2}\ge 0 ,
+        \]
+        into standard form and enumerate all basic solutions of the system.
+        Mark the basic \emph{feasible} solutions.
+  \item (Continuation of Problem~11.) Compute all corner points of the
+        feasible region in the $(x_{1},x_{2})$-plane by intersecting
+        constraint lines by hand. Match every BFS from Problem~11 to a
+        corner, interpret the two infeasible basic solutions geometrically,
+        and read off the optimum by comparing objective values.
+  \item For the LP
+        \[
+          \max\; z=2x_{1}+3x_{2}
+          \quad\text{s.t.}\quad
+          x_{1}+2x_{2}\le 6,\;\;
+          x_{1}\le 4,\;\;
+          x_{1},x_{2}\ge 0 ,
+        \]
+        convert to standard form, enumerate all choices of two basic
+        variables, determine all basic feasible solutions, match them to
+        the corners of the feasible region, and find the optimum.
+  \item How many candidate bases (choices of basic variables) are there at
+        most for
+        \begin{itemize}[leftmargin=1.8em,itemsep=0.2ex]
+          \item[(a)] a standard-form system with $m=2$ equations and $n=4$
+                variables,
+          \item[(b)] an LP with $2$ decision variables and $3$ constraints
+                of type $\le$ (after adding slack variables),
+          \item[(c)] an LP with $3$ decision variables and $3$ constraints
+                of type $\le$ (after adding slack variables)?
+        \end{itemize}
+        Explain why the number of corners of the feasible region can be
+        strictly smaller than this bound.
+  \item Convert the LP
+        \[
+          \max\; z=x_{1}+2x_{2}
+          \quad\text{s.t.}\quad
+          x_{1}+x_{2}\le 3,\;\;
+          x_{1}\le 3,\;\;
+          x_{1},x_{2}\ge 0
+        \]
+        to standard form and enumerate all basic solutions. Show that
+        several bases produce the same corner, identify the degenerate
+        basic solutions, and find the optimum.
+  \item Convert to a maximisation in standard form:
+        \[
+          \min\; z=2x_{1}+3x_{2}-x_{3}
+          \quad\text{s.t.}\quad
+          \begin{aligned}[t]
+            x_{1}+x_{2}+x_{3}&\le 10,\\
+            x_{1}-x_{2}&\ge 2,\\
+            x_{2}+x_{3}&=4,
+          \end{aligned}
+          \qquad x_{1},x_{2}\ge 0,\; x_{3}\ \text{free}.
+        \]
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item Both constraints are of type $\le$, so one slack variable per row:
+        \[
+          \begin{aligned}
+            \max\;\; & z=3x_{1}+2x_{2}+0s_{1}+0s_{2}\\
+            \text{s.t.}\;\; & x_{1}+x_{2}+s_{1}=4\\
+            & x_{1}+3x_{2}+s_{2}=6\\
+            & x_{1},x_{2},s_{1},s_{2}\ge 0 .
+          \end{aligned}
+        \]
+        $s_{1}$ and $s_{2}$ measure the unused capacity of the two
+        constraints and earn nothing in the objective.
+
+  \item The first constraint gets a slack variable ($+s_{1}$), the second
+        is of type $\ge$ and gets a \emph{surplus} variable ($-s_{2}$):
+        \[
+          \begin{aligned}
+            \max\;\; & z=2x_{1}+5x_{2}+0s_{1}+0s_{2}\\
+            \text{s.t.}\;\; & x_{1}+2x_{2}+s_{1}=8\\
+            & 3x_{1}+x_{2}-s_{2}=3\\
+            & x_{1},x_{2},s_{1},s_{2}\ge 0 .
+          \end{aligned}
+        \]
+
+  \item Two steps. \emph{Step 1 (min $\to$ max):} minimising
+        $4x_{1}+3x_{2}$ is equivalent to maximising
+        $w=-4x_{1}-3x_{2}$. \emph{Step 2 (surplus variables):} both
+        constraints are of type $\ge$:
+        \[
+          \begin{aligned}
+            \max\;\; & w=-4x_{1}-3x_{2}+0s_{1}+0s_{2}\\
+            \text{s.t.}\;\; & 2x_{1}+x_{2}-s_{1}=10\\
+            & x_{1}+3x_{2}-s_{2}=15\\
+            & x_{1},x_{2},s_{1},s_{2}\ge 0 .
+          \end{aligned}
+        \]
+        The optimal points are the same; the original minimum is recovered
+        as $z^{*}=-w^{*}$.
+
+  \item The equality constraint is copied unchanged; only the inequality
+        gets a slack variable:
+        \[
+          \begin{aligned}
+            \max\;\; & z=x_{1}+4x_{2}+0s_{1}\\
+            \text{s.t.}\;\; & x_{1}+x_{2}=5\\
+            & x_{1}+2x_{2}+s_{1}=8\\
+            & x_{1},x_{2},s_{1}\ge 0 .
+          \end{aligned}
+        \]
+        Note: no new variable for the equation: a common exam mistake is
+        to add one anyway.
+
+  \item The free variable is split: $x_{2}=x_{2}^{+}-x_{2}^{-}$ with
+        $x_{2}^{+},x_{2}^{-}\ge 0$. Substituting everywhere and adding
+        slacks:
+        \[
+          \begin{aligned}
+            \max\;\; & z=2x_{1}+x_{2}^{+}-x_{2}^{-}\\
+            \text{s.t.}\;\; & x_{1}+x_{2}^{+}-x_{2}^{-}+s_{1}=3\\
+            & x_{1}-x_{2}^{+}+x_{2}^{-}+s_{2}=2\\
+            & x_{1},x_{2}^{+},x_{2}^{-},s_{1},s_{2}\ge 0 .
+          \end{aligned}
+        \]
+        After solving, $x_{2}=x_{2}^{+}-x_{2}^{-}$ restores the original
+        variable.
+
+  \item Since $x_{2}\le 0$, substitute $y_{2}=-x_{2}\ge 0$, i.e.\
+        $x_{2}=-y_{2}$. The objective becomes $3x_{1}-2(-y_{2})
+        =3x_{1}+2y_{2}$; the constraints become $x_{1}+y_{2}\le 6$ and
+        $2x_{1}-y_{2}\le 4$. With slacks:
+        \[
+          \begin{aligned}
+            \max\;\; & z=3x_{1}+2y_{2}\\
+            \text{s.t.}\;\; & x_{1}+y_{2}+s_{1}=6\\
+            & 2x_{1}-y_{2}+s_{2}=4\\
+            & x_{1},y_{2},s_{1},s_{2}\ge 0 .
+          \end{aligned}
+        \]
+        At the end, $x_{2}=-y_{2}$.
+
+  \item With
+        \[
+          c=\begin{pmatrix}5\\4\\3\end{pmatrix},\qquad
+          x=\begin{pmatrix}x_{1}\\x_{2}\\x_{3}\end{pmatrix},\qquad
+          A=\begin{bmatrix}
+              2 & 3 & 1\\
+              4 & 1 & 2\\
+              3 & 4 & 2
+            \end{bmatrix},\qquad
+          b=\begin{pmatrix}5\\11\\8\end{pmatrix},
+        \]
+        the LP reads $\max\,c^{T}x$ s.t.\ $Ax\le b$, $x\ge 0$. Here $A$ is
+        a $3\times 3$ matrix ($m=3$ constraints, $n=3$ variables),
+        $b\in\R^{3}$, $c,x\in\R^{3}$.
+
+  \item Standard form with slacks $s_{1},s_{2}$:
+        \[
+          \begin{aligned}
+            \max\;\; & z=4x_{1}+3x_{2}+0s_{1}+0s_{2}\\
+            \text{s.t.}\;\; & 2x_{1}+x_{2}+s_{1}=10\\
+            & x_{1}+3x_{2}+s_{2}=15\\
+            & x_{1},x_{2},s_{1},s_{2}\ge 0 .
+          \end{aligned}
+        \]
+        In matrix notation $\bar{A}\bar{x}=b$, $\bar{x}\ge 0$ with
+        \[
+          \bar{A}=\begin{bmatrix}
+              2 & 1 & 1 & 0\\
+              1 & 3 & 0 & 1
+            \end{bmatrix},\qquad
+          \bar{x}=\begin{pmatrix}x_{1}\\x_{2}\\s_{1}\\s_{2}\end{pmatrix},
+          \qquad
+          b=\begin{pmatrix}10\\15\end{pmatrix},\qquad
+          \bar{c}=\begin{pmatrix}4\\3\\0\\0\end{pmatrix}.
+        \]
+        The slack columns form an identity block, and the slack costs are
+        zero: this identity block will serve as the starting basis of
+        the simplex method.
+
+  \item Here $m=2$, $n=4$, so there are $\binom{4}{2}=6$ candidate pairs.
+        Set the other two variables to $0$ each time and solve.
+        \begin{itemize}[leftmargin=1.8em,itemsep=0.3ex]
+          \item $\{x_{1},x_{2}\}$: $x_{3}=x_{4}=0$. Row~2: $x_{2}=2$;
+                row~1: $x_{1}=4-2=2$. Solution $(2,2,0,0)$, feasible.
+          \item $\{x_{1},x_{3}\}$: the columns of $x_{1}$ and $x_{3}$ are
+                $\begin{pmatrix}1\\0\end{pmatrix}$ and
+                $\begin{pmatrix}1\\0\end{pmatrix}$: linearly dependent,
+                \emph{no basis} (indeed $x_{2}=x_{4}=0$ makes row~2 read
+                $0=2$).
+          \item $\{x_{1},x_{4}\}$: $x_{2}=x_{3}=0$. Row~1: $x_{1}=4$;
+                row~2: $x_{4}=2$. Solution $(4,0,0,2)$, feasible.
+          \item $\{x_{2},x_{3}\}$: $x_{1}=x_{4}=0$. Row~2: $x_{2}=2$;
+                row~1: $x_{3}=4-2=2$. Solution $(0,2,2,0)$, feasible.
+          \item $\{x_{2},x_{4}\}$: $x_{1}=x_{3}=0$. Row~1: $x_{2}=4$;
+                row~2: $4+x_{4}=2$, so $x_{4}=-2$. Solution $(0,4,0,-2)$,
+                basic but \emph{infeasible}.
+          \item $\{x_{3},x_{4}\}$: $x_{1}=x_{2}=0$. Row~1: $x_{3}=4$;
+                row~2: $x_{4}=2$. Solution $(0,0,4,2)$, feasible.
+        \end{itemize}
+        Summary: $6$ candidate pairs, $5$ bases, $4$ basic feasible
+        solutions, $1$ infeasible basic solution.
+
+  \item Check the two equations, count the nonzero entries (a basic
+        solution has at most $m=2$), and check the independence of the
+        corresponding columns.
+        \begin{itemize}[leftmargin=1.8em,itemsep=0.3ex]
+          \item[(a)] $(2,2,0,0)$: row~1: $2+2+0=4$~\checkmark; row~2:
+                $4+2+0=6$~\checkmark. Nonzero entries $x_{1},x_{2}$ with
+                columns
+                $\begin{pmatrix}1\\2\end{pmatrix},
+                 \begin{pmatrix}1\\1\end{pmatrix}$
+                (determinant $1\cdot 1-1\cdot 2=-1\ne 0$): a
+                \emph{basic feasible solution}.
+          \item[(b)] $(1,2,1,2)$: row~1: $1+2+1=4$~\checkmark; row~2:
+                $2+2+2=6$~\checkmark. Feasible, but four positive entries
+                $>m=2$: \emph{feasible, not basic}.
+          \item[(c)] $(3,0,1,0)$: row~1: $3+0+1=4$~\checkmark; row~2:
+                $6+0+0=6$~\checkmark. Nonzero entries $x_{1},x_{3}$ with
+                columns
+                $\begin{pmatrix}1\\2\end{pmatrix},
+                 \begin{pmatrix}1\\0\end{pmatrix}$
+                (determinant $-2\ne 0$): a \emph{basic feasible solution}.
+          \item[(d)] $(0,6,-2,0)$: row~1: $0+6-2=4$~\checkmark; row~2:
+                $0+6+0=6$~\checkmark. A solution, and basic (columns of
+                $x_{2},x_{3}$ are independent), but $x_{3}=-2<0$:
+                \emph{basic, not feasible}.
+          \item[(e)] $(1,1,1,1)$: row~1: $1+1+1=3\ne 4$, \emph{not even
+                a solution} of the system.
+        \end{itemize}
+
+  \item Standard form (from Problem~1):
+        \[
+          x_{1}+x_{2}+s_{1}=4,\qquad
+          x_{1}+3x_{2}+s_{2}=6,\qquad
+          x_{1},x_{2},s_{1},s_{2}\ge 0 .
+        \]
+        All $\binom{4}{2}=6$ pairs of columns are linearly independent
+        here, so each pair gives exactly one basic solution:
+        \begin{center}
+        \begin{tabular}{llll}
+          \hline
+          basic variables & nonbasic $=0$ &
+          $(x_{1},x_{2},s_{1},s_{2})$ & feasible?\\
+          \hline
+          $\{s_{1},s_{2}\}$ & $x_{1},x_{2}$ & $(0,0,4,6)$ & yes (BFS)\\
+          $\{x_{1},s_{2}\}$ & $x_{2},s_{1}$ & $(4,0,0,2)$ & yes (BFS)\\
+          $\{x_{1},s_{1}\}$ & $x_{2},s_{2}$ & $(6,0,-2,0)$ & no\\
+          $\{x_{2},s_{1}\}$ & $x_{1},s_{2}$ & $(0,2,2,0)$ & yes (BFS)\\
+          $\{x_{2},s_{2}\}$ & $x_{1},s_{1}$ & $(0,4,0,-6)$ & no\\
+          $\{x_{1},x_{2}\}$ & $s_{1},s_{2}$ & $(3,1,0,0)$ & yes (BFS)\\
+          \hline
+        \end{tabular}
+        \end{center}
+        Sample computations: for $\{x_{1},s_{1}\}$, row~2 with
+        $x_{2}=s_{2}=0$ gives $x_{1}=6$, then row~1 gives
+        $s_{1}=4-6=-2<0$. For $\{x_{1},x_{2}\}$, subtracting the equations
+        $x_{1}+x_{2}=4$ and $x_{1}+3x_{2}=6$ gives $2x_{2}=2$, so
+        $x_{2}=1$, $x_{1}=3$. There are $4$ basic feasible solutions.
+
+  \item Corners are intersections of two active constraint lines that
+        satisfy all constraints:
+        \begin{itemize}[leftmargin=1.8em,itemsep=0.3ex]
+          \item $x_{1}=0$, $x_{2}=0$: $(0,0)$, feasible.
+          \item $x_{2}=0$, $x_{1}+x_{2}=4$: $(4,0)$; check
+                $4+0=4\le 6$~\checkmark, corner.
+          \item $x_{2}=0$, $x_{1}+3x_{2}=6$: $(6,0)$; but $6>4$ violates
+                the first constraint, \emph{not} a corner.
+          \item $x_{1}=0$, $x_{1}+3x_{2}=6$: $(0,2)$; check
+                $0+2=2\le 4$~\checkmark, corner.
+          \item $x_{1}=0$, $x_{1}+x_{2}=4$: $(0,4)$; but
+                $0+12=12>6$, \emph{not} a corner.
+          \item $x_{1}+x_{2}=4$, $x_{1}+3x_{2}=6$: subtracting,
+                $2x_{2}=2$, so $(3,1)$; feasible, corner.
+        \end{itemize}
+        Matching with Problem~11 ($z=3x_{1}+2x_{2}$):
+        \begin{center}
+        \begin{tabular}{llll}
+          \hline
+          corner $(x_{1},x_{2})$ & BFS $(x_{1},x_{2},s_{1},s_{2})$ &
+          basis & $z$\\
+          \hline
+          $(0,0)$ & $(0,0,4,6)$ & $\{s_{1},s_{2}\}$ & $0$\\
+          $(4,0)$ & $(4,0,0,2)$ & $\{x_{1},s_{2}\}$ & $12$\\
+          $(0,2)$ & $(0,2,2,0)$ & $\{x_{2},s_{1}\}$ & $4$\\
+          $(3,1)$ & $(3,1,0,0)$ & $\{x_{1},x_{2}\}$ & $11$\\
+          \hline
+        \end{tabular}
+        \end{center}
+        The two infeasible basic solutions are precisely the two rejected
+        intersection points: $(6,0,-2,0)$ sits at $(6,0)$ and
+        $(0,4,0,-6)$ at $(0,4)$, intersections of constraint lines
+        \emph{outside} the feasible region. The maximum of $z$ over the
+        BFS is $z^{*}=12$ at $(x_{1},x_{2})=(4,0)$, where $s_{1}=0$ (first
+        constraint binding) and $s_{2}=2$ (second constraint slack).
+
+  \item Standard form:
+        \[
+          x_{1}+2x_{2}+s_{1}=6,\qquad
+          x_{1}+s_{2}=4,\qquad
+          x_{1},x_{2},s_{1},s_{2}\ge 0 .
+        \]
+        Going through the $\binom{4}{2}=6$ pairs:
+        \begin{itemize}[leftmargin=1.8em,itemsep=0.3ex]
+          \item $\{s_{1},s_{2}\}$: $(0,0,6,4)$, BFS, corner $(0,0)$.
+          \item $\{x_{1},s_{1}\}$: row~2 gives $x_{1}=4$, row~1 gives
+                $s_{1}=6-4=2$: $(4,0,2,0)$, BFS, corner $(4,0)$.
+          \item $\{x_{1},s_{2}\}$: row~1 gives $x_{1}=6$, row~2 gives
+                $s_{2}=4-6=-2$: $(6,0,0,-2)$: infeasible (the point
+                $(6,0)$ lies outside).
+          \item $\{x_{2},s_{1}\}$: columns
+                $\begin{pmatrix}2\\0\end{pmatrix}$ and
+                $\begin{pmatrix}1\\0\end{pmatrix}$ are dependent:
+                \emph{no basis} (row~2 would read $0=4$).
+          \item $\{x_{2},s_{2}\}$: row~1 gives $2x_{2}=6$, so $x_{2}=3$;
+                row~2 gives $s_{2}=4$: $(0,3,0,4)$, BFS, corner
+                $(0,3)$.
+          \item $\{x_{1},x_{2}\}$: row~2 gives $x_{1}=4$; row~1 gives
+                $4+2x_{2}=6$, so $x_{2}=1$: $(4,1,0,0)$, BFS, corner
+                $(4,1)$.
+        \end{itemize}
+        Objective values $z=2x_{1}+3x_{2}$ at the four corners:
+        \[
+          z(0,0)=0,\qquad z(4,0)=8,\qquad z(0,3)=9,\qquad z(4,1)=11 .
+        \]
+        Optimum: $z^{*}=11$ at $(x_{1},x_{2})=(4,1)$, basis
+        $\{x_{1},x_{2}\}$.
+
+  \item Counting with the binomial coefficient:
+        \begin{itemize}[leftmargin=1.8em,itemsep=0.3ex]
+          \item[(a)] $\dbinom{4}{2}=\dfrac{4!}{2!\,2!}=6$.
+          \item[(b)] Slacks make $n=2+3=5$ variables and $m=3$ equations:
+                $\dbinom{5}{3}=10$.
+          \item[(c)] $n=3+3=6$, $m=3$:
+                $\dbinom{6}{3}=\dfrac{6\cdot 5\cdot 4}{3\cdot 2\cdot 1}
+                =20$.
+        \end{itemize}
+        The bound overcounts for three reasons: a chosen column set can be
+        linearly dependent (no basic solution at all), a basic solution
+        can have negative entries (an intersection point outside the
+        feasible region), and in the degenerate case several bases
+        describe the same corner. Hence: number of corners
+        $\le\binom{n}{m}$, usually with strict inequality.
+
+  \item Standard form:
+        \[
+          x_{1}+x_{2}+s_{1}=3,\qquad
+          x_{1}+s_{2}=3,\qquad
+          x_{1},x_{2},s_{1},s_{2}\ge 0 .
+        \]
+        The six pairs:
+        \begin{itemize}[leftmargin=1.8em,itemsep=0.3ex]
+          \item $\{s_{1},s_{2}\}$: $(0,0,3,3)$, BFS, corner $(0,0)$.
+          \item $\{x_{2},s_{2}\}$: row~1: $x_{2}=3$; row~2: $s_{2}=3$:
+                $(0,3,0,3)$, BFS, corner $(0,3)$.
+          \item $\{x_{2},s_{1}\}$: columns
+                $\begin{pmatrix}1\\0\end{pmatrix}$,
+                $\begin{pmatrix}1\\0\end{pmatrix}$ dependent, no basis.
+          \item $\{x_{1},x_{2}\}$: row~2: $x_{1}=3$; row~1: $x_{2}=0$:
+                $(3,0,0,0)$, BFS, \emph{degenerate} (basic variable
+                $x_{2}=0$).
+          \item $\{x_{1},s_{1}\}$: row~2: $x_{1}=3$; row~1: $s_{1}=0$:
+                $(3,0,0,0)$, the \emph{same} point, again degenerate.
+          \item $\{x_{1},s_{2}\}$: row~1: $x_{1}=3$; row~2: $s_{2}=0$:
+                $(3,0,0,0)$, the same point a third time.
+        \end{itemize}
+        Three different bases, $\{x_{1},x_{2}\}$, $\{x_{1},s_{1}\}$,
+        $\{x_{1},s_{2}\}$, all represent the corner $(3,0)$: there, the
+        three lines $x_{2}=0$, $x_{1}+x_{2}=3$ and $x_{1}=3$ all meet
+        (the constraint $x_{1}\le 3$ is redundant and touches the region
+        only in this point). The region has just $3$ corners: $(0,0)$,
+        $(3,0)$, $(0,3)$. Objective $z=x_{1}+2x_{2}$:
+        \[
+          z(0,0)=0,\qquad z(3,0)=3,\qquad z(0,3)=6 ,
+        \]
+        so $z^{*}=6$ at $(0,3)$.
+
+  \item Three conversions at once. \emph{Min $\to$ max:} maximise
+        $w=-2x_{1}-3x_{2}+x_{3}$. \emph{Free variable:}
+        $x_{3}=u-v$, $u,v\ge 0$. \emph{Constraints:} slack for the
+        $\le$ row, surplus for the $\ge$ row, the equation stays:
+        \[
+          \begin{aligned}
+            \max\;\; & w=-2x_{1}-3x_{2}+u-v\\
+            \text{s.t.}\;\; & x_{1}+x_{2}+u-v+s_{1}=10\\
+            & x_{1}-x_{2}-s_{2}=2\\
+            & x_{2}+u-v=4\\
+            & x_{1},x_{2},u,v,s_{1},s_{2}\ge 0 .
+          \end{aligned}
+        \]
+        Afterwards $x_{3}=u-v$ and $z^{*}=-w^{*}$.
+\end{solutions}
+
+\section{Additional Problems}
+
+\begin{problems}
+  \item Convert to standard form (watch the last constraint):
+        \[
+          \max\; z=4x_{1}+x_{2}
+          \quad\text{s.t.}\quad
+          x_{1}+2x_{2}\le 6,\;\;
+          3x_{1}+2x_{2}\ge 6,\;\;
+          x_{1}-x_{2}\ge -2,\;\;
+          x_{1},x_{2}\ge 0 .
+        \]
+  \item Convert to a maximisation in standard form:
+        \[
+          \min\; z=x_{1}-2x_{2}+x_{3}
+          \quad\text{s.t.}\quad
+          x_{1}+x_{2}-x_{3}=4,\;\;
+          x_{1}-x_{2}\le 2,\;\;
+          x_{1},x_{2}\ge 0,\; x_{3}\ \text{free}.
+        \]
+  \item Write the LP
+        \[
+          \max\; z=2x_{1}+3x_{2}+x_{3}
+          \quad\text{s.t.}\quad
+          x_{1}+x_{2}+x_{3}\le 6,\;\;
+          x_{1}+2x_{2}\le 4,\;\;
+          x_{1},x_{2},x_{3}\ge 0
+        \]
+        in the matrix form $\max\,c^{T}x$ s.t.\ $Ax\le b$, $x\ge 0$, then
+        give the standard-form matrix $\bar{A}$ and the extended cost
+        vector $\bar{c}$. How many candidate bases does the standard form
+        have?
+  \item Find all basic solutions of
+        \[
+          \begin{aligned}
+            2x_{1}+x_{2}+x_{3} &= 4\\
+            x_{1}+x_{2}+x_{4} &= 3
+          \end{aligned}
+          \qquad x_{1},\dots,x_{4}\ge 0 ,
+        \]
+        and state which are feasible.
+  \item For the LP
+        \[
+          \max\; z=x_{1}+x_{2}
+          \quad\text{s.t.}\quad
+          2x_{1}+x_{2}\le 6,\;\;
+          x_{1}+2x_{2}\le 6,\;\;
+          x_{1},x_{2}\ge 0 ,
+        \]
+        enumerate all basic solutions of the standard form, match the
+        basic feasible solutions to the corners of the feasible region,
+        and determine the optimum.
+  \item Consider the system
+        \[
+          \begin{aligned}
+            x_{1}+x_{2}+x_{3} &= 3\\
+            x_{2}+x_{4} &= 1
+          \end{aligned}
+          \qquad x_{1},\dots,x_{4}\ge 0 .
+        \]
+        Classify each vector as basic feasible / feasible but not basic /
+        basic but not feasible / not a solution:
+        \begin{itemize}[leftmargin=1.8em,itemsep=0.2ex]
+          \item[(a)] $(2,1,0,0)$
+          \item[(b)] $(1,1,1,0)$
+          \item[(c)] $(3,0,0,1)$
+          \item[(d)] $(0,3,0,-2)$
+        \end{itemize}
+  \item How many candidate bases are there at most for
+        \begin{itemize}[leftmargin=1.8em,itemsep=0.2ex]
+          \item[(a)] a standard-form system with $m=2$ equations and
+                $n=5$ variables,
+          \item[(b)] an LP with $4$ decision variables and $2$ constraints
+                of type $\le$,
+          \item[(c)] an LP with $2$ decision variables and $4$ constraints
+                of type $\le$?
+        \end{itemize}
+  \item For the LP
+        \[
+          \max\; z=x_{1}+x_{2}
+          \quad\text{s.t.}\quad
+          x_{1}\le 2,\;\;
+          x_{2}\le 2,\;\;
+          x_{1}+x_{2}\le 4,\;\;
+          x_{1},x_{2}\ge 0 ,
+        \]
+        write the standard form ($m=3$, $n=5$) and show by direct
+        computation that the three bases $\{x_{1},x_{2},s_{1}\}$,
+        $\{x_{1},x_{2},s_{2}\}$ and $\{x_{1},x_{2},s_{3}\}$ all yield the
+        same basic solution. Which corner is it, is it degenerate, and
+        what is the optimal value?
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item The third constraint has a negative right-hand side; multiply it
+        by $-1$ first: $x_{1}-x_{2}\ge -2$ becomes $-x_{1}+x_{2}\le 2$.
+        Then slack, surplus, slack:
+        \[
+          \begin{aligned}
+            \max\;\; & z=4x_{1}+x_{2}\\
+            \text{s.t.}\;\; & x_{1}+2x_{2}+s_{1}=6\\
+            & 3x_{1}+2x_{2}-s_{2}=6\\
+            & -x_{1}+x_{2}+s_{3}=2\\
+            & x_{1},x_{2},s_{1},s_{2},s_{3}\ge 0 .
+          \end{aligned}
+        \]
+
+  \item Maximise $w=-x_{1}+2x_{2}-x_{3}$ and split $x_{3}=u-v$ with
+        $u,v\ge 0$ (so $-x_{3}=-u+v$). The equation stays, the inequality
+        gets a slack:
+        \[
+          \begin{aligned}
+            \max\;\; & w=-x_{1}+2x_{2}-u+v\\
+            \text{s.t.}\;\; & x_{1}+x_{2}-u+v=4\\
+            & x_{1}-x_{2}+s_{1}=2\\
+            & x_{1},x_{2},u,v,s_{1}\ge 0 .
+          \end{aligned}
+        \]
+        Back-substitution: $x_{3}=u-v$ and $z^{*}=-w^{*}$.
+
+  \item Matrix (inequality) form:
+        \[
+          c=\begin{pmatrix}2\\3\\1\end{pmatrix},\qquad
+          A=\begin{bmatrix}
+              1 & 1 & 1\\
+              1 & 2 & 0
+            \end{bmatrix},\qquad
+          b=\begin{pmatrix}6\\4\end{pmatrix}.
+        \]
+        Standard form with slacks $s_{1},s_{2}$:
+        \[
+          \bar{A}=\begin{bmatrix}
+              1 & 1 & 1 & 1 & 0\\
+              1 & 2 & 0 & 0 & 1
+            \end{bmatrix},\qquad
+          \bar{x}=\begin{pmatrix}x_{1}\\x_{2}\\x_{3}\\s_{1}\\s_{2}
+            \end{pmatrix},\qquad
+          \bar{c}=\begin{pmatrix}2\\3\\1\\0\\0\end{pmatrix}.
+        \]
+        With $n=5$ variables and $m=2$ equations there are at most
+        $\binom{5}{2}=10$ candidate bases.
+
+  \item All $\binom{4}{2}=6$ column pairs are linearly independent here,
+        so each yields a basic solution:
+        \begin{center}
+        \begin{tabular}{llll}
+          \hline
+          basic variables & nonbasic $=0$ &
+          $(x_{1},x_{2},x_{3},x_{4})$ & feasible?\\
+          \hline
+          $\{x_{1},x_{2}\}$ & $x_{3},x_{4}$ & $(1,2,0,0)$ & yes (BFS)\\
+          $\{x_{1},x_{3}\}$ & $x_{2},x_{4}$ & $(3,0,-2,0)$ & no\\
+          $\{x_{1},x_{4}\}$ & $x_{2},x_{3}$ & $(2,0,0,1)$ & yes (BFS)\\
+          $\{x_{2},x_{3}\}$ & $x_{1},x_{4}$ & $(0,3,1,0)$ & yes (BFS)\\
+          $\{x_{2},x_{4}\}$ & $x_{1},x_{3}$ & $(0,4,0,-1)$ & no\\
+          $\{x_{3},x_{4}\}$ & $x_{1},x_{2}$ & $(0,0,4,3)$ & yes (BFS)\\
+          \hline
+        \end{tabular}
+        \end{center}
+        Sample computations: $\{x_{1},x_{2}\}$: subtracting
+        $x_{1}+x_{2}=3$ from $2x_{1}+x_{2}=4$ gives $x_{1}=1$, so
+        $x_{2}=2$. $\{x_{1},x_{3}\}$: row~2 gives $x_{1}=3$, row~1 gives
+        $x_{3}=4-6=-2<0$. $\{x_{2},x_{4}\}$: row~1 gives $x_{2}=4$,
+        row~2 gives $x_{4}=3-4=-1<0$. Four of the six basic solutions are
+        feasible.
+
+  \item Standard form:
+        \[
+          2x_{1}+x_{2}+s_{1}=6,\qquad
+          x_{1}+2x_{2}+s_{2}=6,\qquad
+          x_{1},x_{2},s_{1},s_{2}\ge 0 .
+        \]
+        All six pairs are bases:
+        \begin{center}
+        \begin{tabular}{lllll}
+          \hline
+          basis & $(x_{1},x_{2},s_{1},s_{2})$ & feasible? &
+          point & $z=x_{1}+x_{2}$\\
+          \hline
+          $\{s_{1},s_{2}\}$ & $(0,0,6,6)$ & yes & $(0,0)$ & $0$\\
+          $\{x_{1},s_{2}\}$ & $(3,0,0,3)$ & yes & $(3,0)$ & $3$\\
+          $\{x_{1},s_{1}\}$ & $(6,0,-6,0)$ & no & (&) \\
+          $\{x_{2},s_{1}\}$ & $(0,3,3,0)$ & yes & $(0,3)$ & $3$\\
+          $\{x_{2},s_{2}\}$ & $(0,6,0,-6)$ & no & (&) \\
+          $\{x_{1},x_{2}\}$ & $(2,2,0,0)$ & yes & $(2,2)$ & $4$\\
+          \hline
+        \end{tabular}
+        \end{center}
+        Sample computations: $\{x_{1},x_{2}\}$: doubling
+        $2x_{1}+x_{2}=6$ gives $4x_{1}+2x_{2}=12$; subtracting
+        $x_{1}+2x_{2}=6$ gives $3x_{1}=6$, so $x_{1}=2$, $x_{2}=2$.
+        $\{x_{1},s_{1}\}$: row~2 gives $x_{1}=6$, row~1 gives
+        $s_{1}=6-12=-6$. The corners are $(0,0)$, $(3,0)$, $(2,2)$,
+        $(0,3)$; the two infeasible basic solutions sit at the outside
+        intersections $(6,0)$ and $(0,6)$. Optimum: $z^{*}=4$ at
+        $(x_{1},x_{2})=(2,2)$.
+
+  \item With $m=2$, a basic solution has at most two nonzero entries.
+        \begin{itemize}[leftmargin=1.8em,itemsep=0.3ex]
+          \item[(a)] $(2,1,0,0)$: row~1: $2+1+0=3$~\checkmark; row~2:
+                $1+0=1$~\checkmark. Columns of $x_{1},x_{2}$:
+                $\begin{pmatrix}1\\0\end{pmatrix},
+                 \begin{pmatrix}1\\1\end{pmatrix}$, independent,
+                \emph{basic feasible}.
+          \item[(b)] $(1,1,1,0)$: row~1: $3$~\checkmark; row~2:
+                $1$~\checkmark. Three positive entries $>2$,
+                \emph{feasible, not basic}.
+          \item[(c)] $(3,0,0,1)$: row~1: $3$~\checkmark; row~2:
+                $0+1=1$~\checkmark. Columns of $x_{1},x_{4}$:
+                $\begin{pmatrix}1\\0\end{pmatrix},
+                 \begin{pmatrix}0\\1\end{pmatrix}$, independent,
+                \emph{basic feasible}.
+          \item[(d)] $(0,3,0,-2)$: row~1: $0+3+0=3$~\checkmark; row~2:
+                $3-2=1$~\checkmark. Columns of $x_{2},x_{4}$ independent,
+                but $x_{4}=-2<0$, \emph{basic, not feasible}.
+        \end{itemize}
+
+  \item Counting:
+        \begin{itemize}[leftmargin=1.8em,itemsep=0.3ex]
+          \item[(a)] $\dbinom{5}{2}=10$.
+          \item[(b)] $n=4+2=6$, $m=2$: $\dbinom{6}{2}=15$.
+          \item[(c)] $n=2+4=6$, $m=4$: $\dbinom{6}{4}=\dbinom{6}{2}=15$.
+        \end{itemize}
+        Parts (b) and (c) coincide because
+        $\binom{6}{4}=\binom{6}{2}$: choosing the $4$ basic variables is
+        the same as choosing the $2$ nonbasic ones.
+
+  \item Standard form ($m=3$ equations, $n=5$ variables):
+        \[
+          x_{1}+s_{1}=2,\qquad
+          x_{2}+s_{2}=2,\qquad
+          x_{1}+x_{2}+s_{3}=4,\qquad
+          \text{all}\ \ge 0 .
+        \]
+        \begin{itemize}[leftmargin=1.8em,itemsep=0.3ex]
+          \item Basis $\{x_{1},x_{2},s_{1}\}$, nonbasic $s_{2}=s_{3}=0$:
+                row~2 gives $x_{2}=2$; row~3 gives $x_{1}=4-2=2$; row~1
+                gives $s_{1}=2-2=0$. Solution $(2,2,0,0,0)$.
+          \item Basis $\{x_{1},x_{2},s_{2}\}$, nonbasic $s_{1}=s_{3}=0$:
+                row~1 gives $x_{1}=2$; row~3 gives $x_{2}=4-2=2$; row~2
+                gives $s_{2}=2-2=0$. Solution $(2,2,0,0,0)$.
+          \item Basis $\{x_{1},x_{2},s_{3}\}$, nonbasic $s_{1}=s_{2}=0$:
+                row~1 gives $x_{1}=2$; row~2 gives $x_{2}=2$; row~3 gives
+                $s_{3}=4-4=0$. Solution $(2,2,0,0,0)$.
+        \end{itemize}
+        All three bases yield the corner $(x_{1},x_{2})=(2,2)$, and in
+        each case one \emph{basic} variable equals $0$ (only $2<m=3$
+        nonzero entries): the basic solution is \emph{degenerate}.
+        Geometrically, the three lines $x_{1}=2$, $x_{2}=2$ and
+        $x_{1}+x_{2}=4$ all pass through $(2,2)$. The optimal value is
+        $z^{*}=2+2=4$, attained exactly at this degenerate corner.
+\end{solutions}

@@ -1,0 +1,436 @@
+\chapter{Interpreting the Multiplier: Shadow Prices and the Envelope Theorem}
+
+The multiplier $\lambda$ is more than algebraic clutter: at the optimum
+it is the rate at which the optimised value $V$ responds to a relaxation of
+the constraint. In consumer theory this is the marginal utility of income;
+in producer theory the shadow price of capital or labour. The envelope
+theorem makes this rigorous and supplies the tool for comparative statics.
+
+\section{Core Rules}
+
+\begin{rulebox}{Value function}
+Consider the parametric problem
+\[
+V(b) \;=\; \max_{(x, y)} f(x, y) \quad \text{s.t.} \quad g(x, y) = b.
+\]
+$V$ is the \emph{value function} or indirect objective.
+\end{rulebox}
+
+\begin{rulebox}{Envelope theorem (one constraint)}
+If $f, g$ are $C^1$ and the optimum $(x^*(b), y^*(b))$ varies smoothly in
+$b$, then
+\[
+\dd{V}{b} \;=\; \lambda^*(b).
+\]
+Thus $\lambda^*$ is the \textbf{shadow price} of the constraint: it tells
+you how much the optimised objective rises when the constraint is loosened
+by one unit. In consumer problems $V(M)$ is the \emph{indirect utility} and
+$\lambda^* = \partial V/\partial M$ is the marginal utility of income.
+\end{rulebox}
+
+\begin{rulebox}{Why ``envelope''?}
+At the unconstrained level
+$\mathcal{L}^*(b) = f(x^*, y^*) + \lambda^*(b - g(x^*, y^*)) = f(x^*, y^*)
+= V(b)$ at the optimum. Differentiating $\mathcal{L}^*$ with respect to
+$b$, the $x^*$ and $y^*$ contributions vanish thanks to the FOCs (chain
+rule with $\mathcal{L}_x = \mathcal{L}_y = 0$), leaving only the explicit
+$b$-dependence: $\partial \mathcal{L}/\partial b = \lambda^*$.
+\end{rulebox}
+
+\begin{rulebox}{General parameter}
+For any parameter $\alpha$ entering $f$ or $g$, the envelope theorem gives
+\[
+\dd{V}{\alpha} \;=\; \pd{\mathcal{L}}{\alpha}\bigg|_{x^*, y^*, \lambda^*}.
+\]
+Only the \emph{explicit} dependence on $\alpha$ matters.
+\end{rulebox}
+
+\begin{rulebox}{Sign and units of $\lambda^*$}
+For a maximisation problem with the convention
+$\mathcal{L} = f + \lambda(b - g)$, $\lambda^* \geq 0$: relaxing a binding
+constraint cannot hurt. Its units are (units of $f$) / (units of $g$),
+``utils per euro'' in consumer theory, ``additional output per additional
+input'' in production.
+\end{rulebox}
+
+\begin{rulebox}{Comparative statics (a brief preview)}
+Given $V(\alpha)$, the dependence of $x^*(\alpha)$ on $\alpha$ can be
+analysed via implicit differentiation of the FOC system. The envelope
+theorem allows the derivative $\mathrm{d}V/\mathrm{d}\alpha$ to be computed
+\emph{without} solving for $x^*(\alpha)$ explicitly.
+\end{rulebox}
+
+\section{Practice Problems}
+
+\begin{problems}
+  \item In problem 1 of the previous chapter ($\max x y$ s.t.\
+        $2 x + 3 y = 12$, with $\lambda^* = 1$, $V^* = 6$), verify the
+        envelope theorem: change $12 \to 13$, recompute $V$, and check
+        $\Delta V \approx \lambda^* \Delta b$.
+  \item For $\max \ln x + \ln y$ s.t.\ $x + y = M$, derive $V(M)$ and
+        verify $V'(M) = \lambda^*$.
+  \item For Cobb--Douglas demand $x^* = \alpha M/p_x$,
+        $y^* = (1 - \alpha) M/p_y$ from $U = x^\alpha y^{1 - \alpha}$,
+        compute the indirect utility $V(p_x, p_y, M)$.
+  \item For the indirect utility from problem 3, verify
+        $\partial V/\partial M = \lambda^*$ (you may need to compute
+        $\lambda^*$ from the FOC).
+  \item Cost minimisation: $\min p_K K + p_L L$ s.t.\
+        $K^{1/2} L^{1/2} = Q_0$. We found
+        $C^*(Q_0) = 2 Q_0 \sqrt{p_K p_L}$. Compute
+        $\mathrm{d}C^*/\mathrm{d}Q_0$ and identify the multiplier
+        $\lambda^*$ (here the multiplier on the output constraint).
+  \item In problem 9 of the previous chapter ($\min x^2 + y^2$ s.t.\
+        $x + y = b$), find $V(b)$ and verify $V'(b) = \lambda^*(b)$.
+  \item For utility $U = \alpha \ln x + \beta \ln y$ with budget
+        $p_x x + p_y y = M$, derive the indirect utility $V$ and the
+        marginal utility of income $\partial V/\partial M$.
+  \item Maximise $U = x y$ on $p_x x + p_y y = M$ as a function of
+        parameters: find $x^*, y^*, V(p_x, p_y, M)$. Then use the envelope
+        theorem to compute $\partial V/\partial p_x$ without re-solving.
+  \item A firm maximises $Q = K^{1/2} L^{1/2}$ subject to
+        $r K + w L = TC$. We found $Q^* = TC/(2 \sqrt{r w})$. Use the
+        envelope theorem to compute $\partial Q^*/\partial TC$ and
+        $\partial Q^*/\partial r$ from $\mathcal{L}$ directly, and confirm
+        with direct differentiation.
+  \item Maximise $f(x, y) = 2 x + 3 y$ on $x^2 + y^2 = r^2$ for $r > 0$.
+        Find $V(r) = f^*(r)$ and $\lambda^*(r)$. Verify $V'(r) = ?$:
+        careful, the constraint is $g = r^2$, so the multiplier corresponds
+        to changes in $r^2$, not $r$.
+  \item In problem 1, suppose the budget changes from $12$ to
+        $12 + \varepsilon$. Use $\lambda^*$ to estimate the new $V$ for
+        $\varepsilon = 0.4$, then compute $V$ exactly and compare.
+  \item A consumer has $U = x^{1/3} y^{2/3}$ and budget
+        $p_x x + p_y y = M$ with $p_x = 1, p_y = 2, M = 30$. Find
+        $x^*, y^*, \lambda^*$, and $V$. Then estimate how much $V$ changes
+        if $M$ rises by $1$.
+  \item For Cobb--Douglas with $\alpha = 2/5$, $p_x = 5, p_y = 4,
+        M = 100$, find $x^*, y^*, \lambda^*$. By how much does $V$ change
+        (approximately) when $p_x$ rises from $5$ to $5.1$? (Use
+        envelope.)
+  \item A firm maximises $Q = K^{1/3} L^{2/3}$ subject to
+        $r K + w L = TC$. From problem 13 of the previous chapter,
+        $K^* = TC/(3 r)$, $L^* = 2 TC/(3 w)$. Compute $Q^*(TC, r, w)$ and
+        verify via the envelope theorem that
+        $\partial Q^*/\partial w = -\lambda^* L^*$.
+  \item In problem 17 of the previous chapter,
+        $\min f = 3 x^2 + 2 y^2$ s.t.\ $x + y = b$ has
+        $\lambda^*(b) = ?$. Find $V(b)$ explicitly and verify
+        $V'(b) = \lambda^*(b)$.
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item Original: $\max x y$ on $2 x + 3 y = 12$: $V(12) = 6$,
+        $\lambda^* = 1$. New: $2 x + 3 y = 13$. Resolve: $y = 2 \lambda$,
+        $x = 3 \lambda$, constraint
+        $6 \lambda + 6 \lambda = 12 \lambda = 13 \Rightarrow
+        \lambda = 13/12$, $x = 13/4$, $y = 13/6$,
+        $V(13) = 13/4 \cdot 13/6 = 169/24 \approx 7.042$. Then
+        $\Delta V = 7.042 - 6 = 1.042$, while
+        $\lambda^* \Delta b = 1 \cdot 1 = 1$. Close, as expected (the
+        first-order approximation).
+
+  \item FOCs: $1/x = \lambda$, $1/y = \lambda \Rightarrow x = y$.
+        Constraint: $2 x = M \Rightarrow x^* = y^* = M/2$.
+        $\lambda^* = 2/M$. $V(M) = 2 \ln(M/2) = 2 \ln M - 2 \ln 2$.
+        $V'(M) = 2/M = \lambda^*$. \checkmark
+
+  \item $V(p_x, p_y, M) = (x^*)^\alpha (y^*)^{1 - \alpha}
+        = \left(\dfrac{\alpha M}{p_x}\right)^\alpha
+          \left(\dfrac{(1 - \alpha) M}{p_y}\right)^{1 - \alpha}
+        = \dfrac{\alpha^\alpha (1 - \alpha)^{1 - \alpha} M}{p_x^\alpha
+          p_y^{1 - \alpha}}$. (Linear in $M$.)
+
+  \item $\partial V/\partial M = \alpha^\alpha
+        (1 - \alpha)^{1 - \alpha}/(p_x^\alpha p_y^{1 - \alpha})$. To check
+        $\lambda^*$: from FOC,
+        $\alpha x^{\alpha - 1} y^{1 - \alpha} = \lambda p_x \Rightarrow
+        \lambda = \dfrac{\alpha U^*}{p_x x^*} = \dfrac{\alpha V}{\alpha M}
+        = \dfrac{V}{M}$. Since $V$ is linear in $M$, $V/M = $ same
+        constant $= \partial V/\partial M$. \checkmark
+
+  \item $C^*(Q_0) = 2 Q_0 \sqrt{p_K p_L}$. Derivative
+        $\mathrm{d}C^*/\mathrm{d}Q_0 = 2 \sqrt{p_K p_L}$. The constraint
+        was $Q_0 - K^{1/2} L^{1/2} = 0$; in the minimisation
+        $\mathcal{L} = C + \lambda(Q_0 - K^{1/2} L^{1/2})$, envelope gives
+        $\partial C^*/\partial Q_0 = \lambda^*$. From FOC
+        $p_K = \tfrac{\lambda}{2} K^{-1/2} L^{1/2}
+        = \tfrac{\lambda}{2}(L^*/K^*)^{1/2}$. With $L^*/K^* = p_K/p_L$:
+        $p_K = \tfrac{\lambda}{2} \sqrt{p_K/p_L} \Rightarrow
+        \lambda = 2 p_K \sqrt{p_L/p_K} = 2 \sqrt{p_K p_L}$. Matches.
+
+  \item FOCs: $2 x = \lambda$, $2 y = \lambda \Rightarrow x = y = b/2$.
+        $V(b) = 2(b/2)^2 = b^2/2$. $\lambda^* = b$.
+        $V'(b) = b = \lambda^*$. \checkmark
+
+  \item Demands: $x^* = \dfrac{\alpha M}{(\alpha + \beta) p_x}$,
+        $y^* = \dfrac{\beta M}{(\alpha + \beta) p_y}$.
+        $V = \alpha \ln x^* + \beta \ln y^* = (\alpha + \beta) \ln M
+        + \text{(terms in $\alpha, \beta, p_x, p_y$ not in $M$)}$. So
+        $\partial V/\partial M = (\alpha + \beta)/M$. From FOC
+        $\lambda^* = (\alpha + \beta)/M$ (problem 6 of the previous
+        chapter). \checkmark
+
+  \item FOCs: $y = \lambda p_x$, $x = \lambda p_y$. Divide:
+        $y/x = p_x/p_y \Rightarrow p_x x = p_y y$. Budget:
+        $2 p_x x = M \Rightarrow x^* = M/(2 p_x)$, $y^* = M/(2 p_y)$.
+        $V = x^* y^* = M^2/(4 p_x p_y)$.
+        $\lambda^* = y^*/p_x = M/(2 p_x p_y)$. Envelope:
+        $\partial V/\partial p_x$ comes from
+        $\partial \mathcal{L}/\partial p_x = -\lambda^* x^*$ (the only
+        term in $\mathcal{L}$ depending explicitly on $p_x$ is
+        $-\lambda p_x x$). Hence
+        $\partial V/\partial p_x = -\lambda^* x^*
+        = -\dfrac{M}{2 p_x p_y} \cdot \dfrac{M}{2 p_x}
+        = -\dfrac{M^2}{4 p_x^2 p_y}$. Direct check:
+        $\partial(M^2/(4 p_x p_y))/\partial p_x = -M^2/(4 p_x^2 p_y)$.
+        \checkmark
+
+  \item $\mathcal{L} = K^{1/2} L^{1/2} + \lambda(TC - r K - w L)$. By
+        envelope, $\partial Q^*/\partial TC = \lambda^*$ and
+        $\partial Q^*/\partial r = -\lambda^* K^*$. From problem 11 of the
+        previous chapter: $K^* = TC/(2 r)$, $\lambda^* = $ ? From FOC
+        $\tfrac{1}{2} K^{-1/2} L^{1/2} = \lambda r$, with $L^*/K^* = r/w$
+        gives $\lambda^* = \tfrac{1}{2 r} \sqrt{r/w} = 1/(2 \sqrt{r w})$.
+        Then $\partial Q^*/\partial TC = 1/(2 \sqrt{r w})$, matches
+        direct differentiation of $Q^* = TC/(2 \sqrt{r w})$.
+        $\partial Q^*/\partial r = -\dfrac{1}{2 \sqrt{r w}} \cdot
+        \dfrac{TC}{2 r} = -\dfrac{TC}{4 r \sqrt{r w}}$. Direct:
+        $Q^* = TC \cdot \tfrac{1}{2} r^{-1/2} w^{-1/2}$,
+        $\partial/\partial r = TC \cdot \tfrac{1}{2} \cdot
+        (-\tfrac{1}{2}) r^{-3/2} w^{-1/2}
+        = -\dfrac{TC}{4 r^{3/2} \sqrt{w}}
+        = -\dfrac{TC}{4 r \sqrt{r w}}$. \checkmark
+
+  \item Constraint $g = x^2 + y^2 = r^2$,
+        $\mathcal{L} = 2 x + 3 y + \lambda(r^2 - x^2 - y^2)$. From
+        problem 7 of the previous chapter with $13 \to r^2$:
+        $x = 2/(2 \lambda) = 1/\lambda$, $y = 3/(2 \lambda)$,
+        $1/\lambda^2 + 9/(4 \lambda^2) = 13/(4 \lambda^2) = r^2
+        \Rightarrow \lambda^* = \sqrt{13}/(2 r)$. Then
+        $x^* = 2 r/\sqrt{13}$, $y^* = 3 r/\sqrt{13}$,
+        $V(r) = 2(2 r/\sqrt{13}) + 3(3 r/\sqrt{13}) = 13 r/\sqrt{13}
+        = r \sqrt{13}$. Envelope:
+        $\partial V/\partial (r^2) = \lambda^*$. Indeed $V = r \sqrt{13}$
+        so $\partial V/\partial r = \sqrt{13}$; and
+        $\partial V/\partial(r^2) = \partial V/\partial r \cdot 1/(2 r)
+        = \sqrt{13}/(2 r) = \lambda^*$. \checkmark
+
+  \item $V(12.4) \approx V(12) + \lambda^* \cdot 0.4 = 6 + 0.4 = 6.4$.
+        Exact: $V(b) = (b/(2 \cdot 2))(b/(3 \cdot 2)) \cdot ?$ Let's redo:
+        FOCs $y = 2 \lambda$, $x = 3 \lambda$, $2 x + 3 y = b$,
+        $6 \lambda + 6 \lambda = 12 \lambda = b$, $\lambda = b/12$,
+        $x = b/4$, $y = b/6$, $V(b) = b^2/24$. So
+        $V(12.4) = 153.76/24 \approx 6.407$. Approximation $6.4$ is
+        accurate to two decimals.
+
+  \item Cobb--Douglas with $\alpha = 1/3, \beta = 2/3$. Demands:
+        $x^* = \alpha M/p_x = (1/3) \cdot 30 / 1 = 10$ and
+        $y^* = \beta M / p_y = (2/3) \cdot 30 / 2 = 10$.
+        $V = (x^*)^{1/3}(y^*)^{2/3} = 10^{1/3} \cdot 10^{2/3} = 10$. From
+        the FOC $\alpha x^{\alpha - 1} y^{1 - \alpha} = \lambda p_x$,
+        i.e.\ $(1/3) \cdot 10^{-2/3} \cdot 10^{2/3} = \lambda \cdot 1$, so
+        $\lambda^* = 1/3$. Cross-check via direct differentiation:
+        $V(M) = (\alpha M/p_x)^\alpha (\beta M/p_y)^\beta
+        = M \cdot (1/3)^{1/3}(1/3)^{2/3} \cdot 1^{-1/3} 2^{-2/3}$, but
+        more cleanly, plug in $p_x = 1, p_y = 2$:
+        $V(M) = (M/3)^{1/3}(M/3)^{2/3} = M/3$, so
+        $V'(M) = 1/3 = \lambda^*$. \checkmark A budget rise of $1$ raises
+        $V$ by approximately $1/3$.
+
+  \item Demands: $x^* = (2/5) \cdot 100/5 = 8$,
+        $y^* = (3/5) \cdot 100/4 = 15$. From FOC
+        $\alpha/x = \lambda p_x$,
+        $\lambda^* = (2/5)/(5 \cdot 8) = (2/5)/40 = 1/100$. By the
+        envelope theorem,
+        $\partial V/\partial p_x = -\lambda^* x^* = -(1/100) \cdot 8
+        = -0.08$. So $\Delta V \approx -0.08 \cdot 0.1 = -0.008$: a small
+        loss in utility as $p_x$ rises.
+
+  \item $Q^* = (K^*)^{1/3}(L^*)^{2/3}
+        = (TC/(3 r))^{1/3}(2 TC/(3 w))^{2/3}$. Factor $TC$:
+        $Q^* = TC \cdot (1/(3 r))^{1/3}(2/(3 w))^{2/3}
+        = TC \cdot 2^{2/3}/(3 r^{1/3} w^{2/3})$. Envelope theorem says
+        $\partial Q^*/\partial w = -\lambda^* L^*$. Direct:
+        $\partial Q^*/\partial w = TC \cdot 2^{2/3}/3 \cdot r^{-1/3}
+        \cdot (-2/3) w^{-5/3}$. From FOC
+        $\tfrac{1}{3} K^{-2/3} L^{2/3} = \lambda r$, with $L/K = 2 r/w$,
+        we get $\lambda = \tfrac{1}{3 r}(L/K)^{2/3}
+        = \tfrac{1}{3 r}(2 r/w)^{2/3}$, so
+        $\lambda^* L^* = \tfrac{1}{3 r}(2 r/w)^{2/3} \cdot 2 TC/(3 w)
+        = \tfrac{2 TC}{9 r w}(2 r/w)^{2/3}
+        = \tfrac{2 TC \cdot 2^{2/3} r^{2/3}}{9 r w \cdot w^{2/3}}
+        = \tfrac{2 \cdot 2^{2/3} TC}{9 r^{1/3} w^{5/3}}$. Direct:
+        $\tfrac{2^{2/3} TC \cdot (-2)}{9 r^{1/3} w^{5/3}}
+        = -\tfrac{2 \cdot 2^{2/3} TC}{9 r^{1/3} w^{5/3}}$. Matches
+        $-\lambda^* L^*$. \checkmark
+
+  \item FOCs: $6 x = \lambda, 4 y = \lambda \Rightarrow x = \lambda/6,
+        y = \lambda/4$. Constraint:
+        $\lambda/6 + \lambda/4 = (2 \lambda + 3 \lambda)/12
+        = 5 \lambda/12 = b \Rightarrow \lambda^*(b) = 12 b/5$. Then
+        $x^* = 2 b/5, y^* = 3 b/5$.
+        $V(b) = 3(2 b/5)^2 + 2(3 b/5)^2 = 12 b^2/25 + 18 b^2/25
+        = 30 b^2/25 = 6 b^2/5$. $V'(b) = 12 b/5 = \lambda^*(b)$.
+        \checkmark At $b = 5$: $\lambda^* = 12$, $V = 30$.
+\end{solutions}
+
+\section{Additional Problems}
+
+\begin{problems}
+  \item For $\max U = 3 x y$ s.t.\ $4 x + 5 y = b$, derive $V(b)$ and
+        $\lambda^*(b)$. Verify $V'(b) = \lambda^*$.
+  \item For $\max U = \ln x + 3 \ln y$ s.t.\ $2 x + y = b$, derive
+        $V(b)$. Use $b = 20$ to estimate the effect of a one-unit budget
+        increase.
+  \item Cobb--Douglas with $\alpha = 1/4$, $p_x = 2, p_y = 3, M = 60$:
+        find $x^*, y^*, \lambda^*$. By how much does $V$ change
+        approximately if $p_y$ rises from $3$ to $3.1$?
+  \item Cost minimisation $\min p_K K + p_L L$ s.t.\
+        $K^{1/3} L^{2/3} = Q_0$. Find $C^*(Q_0, p_K, p_L)$ and verify
+        $\partial C^*/\partial Q_0 = \lambda^*$.
+  \item $\min f = x^2 + 2 y^2$ s.t.\ $2 x + y = b$: find $V(b)$
+        explicitly and verify $V'(b) = \lambda^*(b)$.
+  \item A firm maximises $Q = K^{2/3} L^{1/3}$ subject to
+        $r K + w L = TC$. From the previous chapter, $K^* = 2 TC/(3 r)$,
+        $L^* = TC/(3 w)$. Use the envelope theorem to compute
+        $\partial Q^*/\partial TC$.
+  \item For $\max U = x^{1/2} y^{1/2}$ on $p_x x + p_y y = M$ at
+        $p_x = 4, p_y = 1, M = 40$, find $x^*, y^*, V, \lambda^*$. Use
+        envelope to estimate $\Delta V$ when $p_x$ drops from $4$ to
+        $3.9$.
+  \item For $\max U = \ln(x + 1) + \ln(y + 1)$ s.t.\ $x + y = b$, find
+        $V(b)$ and $\lambda^*(b)$ for general $b$. Check
+        $V'(b) = \lambda^*$.
+  \item For $\min f = (x - 2)^2 + (y - 3)^2$ s.t.\ $x + 2 y = b$, find
+        $V(b)$ and $\lambda^*(b)$ for $b$ near $8$ (note: at $b = 8$ the
+        constraint just touches the unconstrained min).
+  \item For Cobb--Douglas $U = x^{1/2} y^{1/2}$ with
+        $p_x = 1, p_y = 1, M = 10$, suppose a per-unit tax raises $p_x$
+        from $1$ to $1.5$. Use envelope for a first-order estimate of
+        $\Delta V$, then compute exact $\Delta V$ and compare.
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item FOCs: $3 y = 4 \lambda$, $3 x = 5 \lambda$, so
+        $y = 4 \lambda/3$, $x = 5 \lambda/3$. Constraint:
+        $4 \cdot 5 \lambda/3 + 5 \cdot 4 \lambda/3 = 40 \lambda/3 = b
+        \Rightarrow \lambda^*(b) = 3 b/40$. Then $x^* = b/8$,
+        $y^* = b/10$. $V(b) = 3 \cdot (b/8)(b/10) = 3 b^2/80$.
+        $V'(b) = 6 b/80 = 3 b/40 = \lambda^*(b)$. \checkmark At
+        $b = 40$: $V = 60$, $\lambda^* = 3$.
+
+  \item FOCs: $1/x = 2 \lambda$,
+        $3/y = \lambda \Rightarrow y = 3/\lambda = 6 x$. Constraint:
+        $2 x + 6 x = 8 x = b \Rightarrow x^* = b/8$, $y^* = 3 b/4$.
+        $\lambda^*(b) = 1/(2 x^*) = 4/b$.
+        $V(b) = \ln(b/8) + 3 \ln(3 b/4) = 4 \ln b + \text{const}$.
+        $V'(b) = 4/b = \lambda^*$. \checkmark At $b = 20$,
+        $\lambda^* = 1/5$, so a one-unit budget increase raises $V$ by
+        approximately $0.2$.
+
+  \item Cobb--Douglas demands: $x^* = \alpha M/p_x = (1/4)(60)/2
+        = 15/2$; $y^* = (3/4)(60)/3 = 15$. From FOC
+        $\alpha/x = \lambda p_x$ for the form
+        $U = \alpha \ln x + (1 - \alpha) \ln y$, but here
+        $U = x^\alpha y^{1 - \alpha}$. Use
+        $\lambda^* = V/M \cdot (\alpha + (1-\alpha))/1$. Actually, for
+        Cobb--Douglas $V$ is linear in $M$:
+        $V(M) = \alpha^\alpha (1 - \alpha)^{1 - \alpha} M /
+        (p_x^\alpha p_y^{1 - \alpha})$. At our parameters
+        $V = (1/4)^{1/4}(3/4)^{3/4} \cdot 60 / (2^{1/4} \cdot 3^{3/4})$.
+        Then $\lambda^* = V/M$. Envelope:
+        $\partial V/\partial p_y = -\lambda^* y^* = -(V/60) \cdot 15
+        = -V/4$. So $\Delta V \approx -(V/4) \cdot 0.1 = -V/40$.
+        Numerically: $(1/4)^{1/4} \approx 0.707$,
+        $(3/4)^{3/4} \approx 0.806$, $2^{1/4} \approx 1.189$,
+        $3^{3/4} \approx 2.280$.
+        $V \approx 0.707 \cdot 0.806 \cdot 60/(1.189 \cdot 2.280)
+        \approx 34.2/2.71 \approx 12.6$. Then
+        $\Delta V \approx -12.6/40 \approx -0.315$.
+
+  \item Cost min: from FOC
+        $w_1 - (\lambda/3) x_1^{-2/3} x_2^{2/3} = 0$ and
+        $w_2 - (2\lambda/3) x_1^{1/3} x_2^{-1/3} = 0$ (with
+        $w_1 = p_K, w_2 = p_L$, $x_1 = K, x_2 = L$). Divide:
+        $p_K/p_L = (1/2)(x_2/x_1) \Rightarrow x_2 = 2 (p_K/p_L) x_1$,
+        i.e.\ $L = 2 (p_K/p_L) K$. Constraint $K^{1/3} L^{2/3} = Q_0$:
+        $K^{1/3}(2 p_K/p_L)^{2/3} K^{2/3} = Q_0 \Rightarrow
+        K(2 p_K/p_L)^{2/3} = Q_0 \Rightarrow
+        K^* = Q_0 (p_L/(2 p_K))^{2/3}$ and
+        $L^* = 2 (p_K/p_L) K^* = Q_0 \cdot 2^{1/3} (p_K/p_L)^{1/3}$.
+        $C^* = p_K K^* + p_L L^*
+        = Q_0 [p_K (p_L/(2 p_K))^{2/3}
+        + p_L \cdot 2^{1/3}(p_K/p_L)^{1/3}]
+        = Q_0 \cdot p_K^{1/3} p_L^{2/3}[2^{-2/3} + 2^{1/3}]
+        = Q_0 \cdot p_K^{1/3} p_L^{2/3} \cdot 3 \cdot 2^{-2/3}$ (since
+        $2^{-2/3} + 2^{1/3} = 2^{-2/3}(1 + 2) = 3 \cdot 2^{-2/3}$). So
+        $C^*(Q_0) = 3 \cdot 2^{-2/3} Q_0 \, p_K^{1/3} p_L^{2/3}$.
+        $\mathrm{d}C^*/\mathrm{d}Q_0 = 3 \cdot 2^{-2/3} p_K^{1/3}
+        p_L^{2/3} = \lambda^*$. \checkmark
+
+  \item FOCs: $2 x = 2 \lambda \Rightarrow x = \lambda$;
+        $4 y = \lambda \Rightarrow y = \lambda/4$. Constraint:
+        $2 \lambda + \lambda/4 = 9 \lambda/4 = b \Rightarrow
+        \lambda^*(b) = 4 b/9$. Then $x^* = 4 b/9$, $y^* = b/9$.
+        $V(b) = (4 b/9)^2 + 2(b/9)^2 = 16 b^2/81 + 2 b^2/81
+        = 18 b^2/81 = 2 b^2/9$. $V'(b) = 4 b/9 = \lambda^*(b)$.
+        \checkmark
+
+  \item $\mathcal{L} = K^{2/3} L^{1/3} + \lambda(TC - r K - w L)$. From
+        FOC $(2/3) K^{-1/3} L^{1/3} = \lambda r$. At
+        $K^* = 2 TC/(3 r), L^* = TC/(3 w)$: $L^*/K^* = r/(2 w)$, so
+        $\lambda^* = (2/(3 r))(L^*/K^*)^{1/3}
+        = (2/(3 r))(r/(2 w))^{1/3}$. Envelope:
+        $\partial Q^*/\partial TC = \lambda^*
+        = (2/(3 r))(r/(2 w))^{1/3} = 2^{2/3}/(3 r^{2/3} w^{1/3})$.
+        Direct: $Q^* = (K^*)^{2/3}(L^*)^{1/3}
+        = (2 TC/(3 r))^{2/3}(TC/(3 w))^{1/3}
+        = TC \cdot 2^{2/3}/(3 r^{2/3} w^{1/3})$, so
+        $\partial Q^*/\partial TC = 2^{2/3}/(3 r^{2/3} w^{1/3})$.
+        Matches. \checkmark
+
+  \item Cobb--Douglas $\alpha = 1/2$: $x^* = M/(2 p_x) = 40/8 = 5$;
+        $y^* = M/(2 p_y) = 20$. $V = \sqrt{x^* y^*} = \sqrt{100} = 10$.
+        From additional problem 2 of the previous chapter,
+        $\lambda^* = 1/(2 \sqrt{p_x p_y}) = 1/(2 \cdot 2) = 1/4$.
+        Envelope: $\partial V/\partial p_x = -\lambda^* x^*
+        = -(1/4)(5) = -5/4$. $\Delta V \approx (-5/4)(-0.1) = 0.125$.
+        (When $p_x$ falls, utility rises.)
+
+  \item FOCs: $1/(x + 1) = \lambda$,
+        $1/(y + 1) = \lambda \Rightarrow x = y$. Constraint:
+        $2 x = b \Rightarrow x^* = y^* = b/2$.
+        $\lambda^*(b) = 1/(b/2 + 1) = 2/(b + 2)$.
+        $V(b) = 2 \ln(b/2 + 1) = 2 \ln((b + 2)/2)$.
+        $V'(b) = 2 \cdot (1/(b + 2)) = 2/(b + 2) = \lambda^*$.
+        \checkmark
+
+  \item FOCs: $2(x - 2) = \lambda$,
+        $2(y - 3) = 2 \lambda \Rightarrow y - 3 = \lambda$. So
+        $y - 3 = 2(x - 2) \Rightarrow y = 2 x - 1$. Constraint:
+        $x + 2(2 x - 1) = 5 x - 2 = b \Rightarrow x^* = (b + 2)/5$,
+        $y^* = 2(b + 2)/5 - 1 = (2 b - 1)/5$.
+        $\lambda^*(b) = 2(x^* - 2) = 2((b + 2)/5 - 2) = 2(b - 8)/5$. At
+        $b = 8$: $\lambda^* = 0$, $(x^*, y^*) = (2, 3)$, which is the
+        unconstrained minimum (constraint touches it).
+        $V(b) = (x^* - 2)^2 + (y^* - 3)^2
+        = ((b - 8)/5)^2 + (2(b - 8)/5)^2
+        = (b - 8)^2/25 + 4(b - 8)^2/25 = (b - 8)^2/5$.
+        $V'(b) = 2(b - 8)/5 = \lambda^*(b)$. \checkmark
+
+  \item Cobb--Douglas $\alpha = 1/2$, $p_x = 1, p_y = 1, M = 10$:
+        $x^* = 5, y^* = 5$, $V = 5$,
+        $\lambda^* = 1/(2 \sqrt{1 \cdot 1}) = 1/2$. Envelope:
+        $\partial V/\partial p_x = -\lambda^* x^* = -5/2$. Approx
+        $\Delta V \approx -2.5 \cdot 0.5 = -1.25$. Exact: at new prices
+        $V_{\text{new}} = M/(2 \sqrt{p_x p_y}) = 10/(2 \sqrt{1.5})
+        = 5/\sqrt{1.5} \approx 4.082$. Exact
+        $\Delta V = 4.082 - 5 = -0.918$. The approximation overshoots in
+        magnitude because $p_x$ changes by a large $50\%$; first-order
+        accurate only for small changes.
+\end{solutions}

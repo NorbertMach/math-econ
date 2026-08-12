@@ -1,0 +1,508 @@
+\chapter{Taylor Approximation}
+
+The previous chapter closed with a formula for the Taylor polynomial;
+this chapter turns it into a working tool. Most functions that appear in
+economics (utility, production, growth) are not polynomials, yet
+polynomials are the easiest objects to evaluate and to reason about.
+Taylor's theorem says that near a chosen base point every sufficiently
+smooth function \emph{is} a polynomial, up to a controllable error. This
+single idea underlies the linearisation of models around a steady state,
+the log-linearisation trick $\ln(1+g)\approx g$ for growth rates, the
+second-order conditions of optimisation, and quick numerical estimates
+such as $\sqrt{4.1}$ or $\mathrm{e}^{0.1}$ without a calculator.
+
+\section{Core Rules}
+
+\begin{rulebox}{Taylor polynomial of order $n$}
+Let $f$ be $n$ times differentiable at $a$. The \emph{Taylor polynomial}
+of order $n$ of $f$ at $a$ is
+\[
+  T_{n}(x)=\sum_{k=0}^{n}\frac{f^{(k)}(a)}{k!}(x-a)^{k}
+          =f(a)+f'(a)(x-a)+\frac{f''(a)}{2!}(x-a)^{2}+\cdots
+           +\frac{f^{(n)}(a)}{n!}(x-a)^{n}.
+\]
+It is the \emph{unique} polynomial of degree $\leq n$ whose value and
+first $n$ derivatives at $a$ all agree with those of $f$:
+$T_{n}^{(k)}(a)=f^{(k)}(a)$ for $k=0,1,\ldots,n$.
+\end{rulebox}
+
+\begin{rulebox}{Linear and quadratic approximation ($n=1,2$)}
+\[
+  T_{1}(x)=f(a)+f'(a)(x-a),
+  \qquad
+  T_{2}(x)=f(a)+f'(a)(x-a)+\tfrac12 f''(a)(x-a)^{2}.
+\]
+$T_{1}$ is the tangent line at $a$ (the \emph{linearisation} of $f$);
+$T_{2}$ is the best-fitting parabola, matching value, slope and
+curvature at $a$. Each extra order typically buys one further correct
+decimal place near $a$.
+\end{rulebox}
+
+\begin{rulebox}{Lagrange remainder and error bound}
+If $f$ is $(n+1)$ times differentiable on an interval containing $a$ and
+$x$, then
+\[
+  f(x)=T_{n}(x)+R_{n}(x),
+  \qquad
+  R_{n}(x)=\frac{f^{(n+1)}(\xi)}{(n+1)!}(x-a)^{n+1}
+\]
+for some $\xi$ strictly between $a$ and $x$. Since $\xi$ is unknown,
+bound it: if $|f^{(n+1)}(t)|\leq M$ for all $t$ between $a$ and $x$,
+then
+\[
+  \bigl|f(x)-T_{n}(x)\bigr|\leq\frac{M}{(n+1)!}\,|x-a|^{n+1}.
+\]
+The error shrinks like $|x-a|^{n+1}$: halving the distance to $a$
+divides the error of $T_{n}$ by about $2^{n+1}$.
+\end{rulebox}
+
+\begin{rulebox}{Maclaurin case ($a=0$): standard expansions}
+The Taylor polynomial at $a=0$ is called the \emph{Maclaurin}
+polynomial. The classical expansions are
+\begin{align*}
+  \mathrm{e}^{x}&=1+x+\frac{x^{2}}{2!}+\frac{x^{3}}{3!}+\cdots
+                  +\frac{x^{n}}{n!}+\cdots
+                  &&\text{(all }x\text{)},\\
+  \ln(1+x)&=x-\frac{x^{2}}{2}+\frac{x^{3}}{3}-\frac{x^{4}}{4}+\cdots
+                  &&(-1<x\leq 1),\\
+  (1+x)^{k}&=1+kx+\frac{k(k-1)}{2!}x^{2}
+                  +\frac{k(k-1)(k-2)}{3!}x^{3}+\cdots
+                  &&(|x|<1),\\
+  \sin(x)&=x-\frac{x^{3}}{3!}+\frac{x^{5}}{5!}-\cdots
+                  &&\text{(all }x\text{)},\\
+  \cos(x)&=1-\frac{x^{2}}{2!}+\frac{x^{4}}{4!}-\cdots
+                  &&\text{(all }x\text{)}.
+\end{align*}
+The first-order case $\ln(1+x)\approx x$ is the workhorse of
+log-linearisation in economics: a small growth rate $g$ and the log
+change $\ln(1+g)$ are interchangeable to first order.
+\end{rulebox}
+
+\begin{rulebox}{Quadratic approximation in economics}
+Near a stationary point $a$ (where $f'(a)=0$) the linear term vanishes
+and
+\[
+  f(x)\approx f(a)+\tfrac12 f''(a)(x-a)^{2}:
+\]
+locally, $f$ \emph{is} a parabola sitting on top of $f(a)$. If
+$f''(a)<0$ the parabola opens downward and $a$ is a local maximum; if
+$f''(a)>0$ it opens upward and $a$ is a local minimum. This is exactly
+where the second-order condition comes from. In several variables the
+role of $f''(a)$ is played by the Hessian, and the sign condition
+becomes definiteness.
+\end{rulebox}
+
+\begin{rulebox}{Caution: validity is local}
+A Taylor polynomial is a \emph{local} approximation: the error grows
+like $|x-a|^{n+1}$, so accuracy is excellent near $a$ and can be
+useless far away. For $\ln(1+x)$ and $(1+x)^{k}$ the expansions are
+only valid on $(-1,1]$ resp.\ $(-1,1)$: outside, adding more terms
+makes things \emph{worse}. Even inside: $T_{1}(x)=x$ for $\ln(1+x)$
+gives $\ln(2)\approx 1$ against the true $0.693$, a $44\%$ error,
+versus $0.5\%$ at $x=0.1$. Rule of thumb: expand around a base point
+close to where you evaluate, and use the remainder bound to check.
+\end{rulebox}
+
+\section{Practice Problems}
+
+\begin{problems}
+  \item Find $T_{1}$ of $f(x)=\ln(x)$ at $a=1$.
+  \item Find $T_{1}$ of $f(x)=\sqrt{x}$ at $a=4$.
+  \item Find $T_{1}$ of $f(x)=\dfrac{1}{x}$ at $a=1$.
+  \item Find $T_{1}$ of $f(x)=x^{3}-2x$ at $a=2$.
+  \item Find $T_{1}$ of $f(x)=\mathrm{e}^{2x}$ at $a=\ln 2$.
+  \item Find $T_{2}$ of $f(x)=\mathrm{e}^{x}$ at $a=0$ and use it to
+        approximate $\mathrm{e}^{0.1}$. Compare with the true value
+        $\mathrm{e}^{0.1}=1.105171$.
+  \item Find $T_{2}$ of $f(x)=\ln(x)$ at $a=1$ and use it to
+        approximate $\ln(1.05)$. Compare with the true value
+        $\ln(1.05)=0.048790$.
+  \item Find $T_{2}$ of $f(x)=\sqrt{x}$ at $a=4$ and use it to
+        approximate $\sqrt{4.1}$. Compare with the true value
+        $\sqrt{4.1}=2.024846$.
+  \item Find $T_{2}$ of $f(x)=\dfrac{1}{1-x}$ at $a=0$.
+  \item Find $T_{2}$ of $f(x)=x\ln(x)$ at $a=1$.
+  \item Find $T_{2}$ of $f(x)=\mathrm{e}^{-x^{2}}$ at $a=0$.
+  \item Find $T_{3}$ of $f(x)=\ln(1+x)$ at $a=0$ and use it to
+        approximate $\ln(0.9)$. Compare with the true value
+        $\ln(0.9)=-0.105361$.
+  \item Use the binomial expansion to find $T_{2}$ of
+        $f(x)=(1+x)^{1/2}$ at $a=0$, and use it to approximate
+        $\sqrt{1.1}$. Compare with the true value
+        $\sqrt{1.1}=1.048809$.
+  \item Find the Maclaurin polynomial $T_{4}$ of $f(x)=\cos(x)$ and use
+        it to approximate $\cos(0.2)$. Compare with the true value
+        $\cos(0.2)=0.980067$.
+  \item A firm produces $Q(L)=10\sqrt{L}$ units with $L$ hours of
+        labour. Find $T_{2}$ of $Q$ at $a=100$ and use it to
+        approximate output at $L=104$. Compare with the true value
+        $Q(104)=101.980390$.
+  \item (Log-linearisation.) Output grows from $Y_{0}$ to
+        $Y_{1}=Y_{0}(1+g)$. Show, using $T_{1}$ of $\ln(1+x)$ at $0$,
+        that $\ln Y_{1}-\ln Y_{0}\approx g$, and quantify the
+        approximation for $g=0.03$ given $\ln(1.03)=0.029559$.
+  \item Use the Lagrange remainder to bound the error of the $T_{1}$
+        approximation of $\sqrt{4.1}$ at $a=4$ (Problem 2), and compare
+        the bound with the actual error.
+  \item Use the Lagrange remainder to bound the error of the $T_{2}$
+        approximation of $\mathrm{e}^{0.1}$ at $a=0$ (Problem 6), and
+        compare the bound with the actual error.
+  \item Find the smallest $n$ such that the Maclaurin polynomial
+        $T_{n}$ of $\mathrm{e}^{x}$ approximates $\mathrm{e}^{0.5}$
+        with error at most $10^{-4}$. (Use $\mathrm{e}^{0.5}<2$ in the
+        remainder bound.)
+  \item Prove, using $T_{1}$ with Lagrange remainder: if $f'(a)=0$ and
+        $f''$ is continuous with $f''(a)<0$, then $a$ is a strict local
+        maximum of $f$.
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item $f(1)=\ln(1)=0$; $f'(x)=1/x$, so $f'(1)=1$. Hence
+        \[
+          T_{1}(x)=0+1\cdot(x-1)=x-1 .
+        \]
+
+  \item $f(4)=2$; $f'(x)=\dfrac{1}{2\sqrt{x}}$, so
+        $f'(4)=\dfrac{1}{2\cdot 2}=\dfrac14$. Hence
+        \[
+          T_{1}(x)=2+\tfrac14(x-4) .
+        \]
+
+  \item $f(1)=1$; $f'(x)=-1/x^{2}$, so $f'(1)=-1$. Hence
+        \[
+          T_{1}(x)=1-(x-1)=2-x .
+        \]
+
+  \item $f(2)=8-4=4$; $f'(x)=3x^{2}-2$, so $f'(2)=12-2=10$. Hence
+        \[
+          T_{1}(x)=4+10(x-2) .
+        \]
+
+  \item $f(\ln 2)=\mathrm{e}^{2\ln 2}=(\mathrm{e}^{\ln 2})^{2}=4$;
+        $f'(x)=2\mathrm{e}^{2x}$, so $f'(\ln 2)=2\cdot 4=8$. Hence
+        \[
+          T_{1}(x)=4+8(x-\ln 2) .
+        \]
+
+  \item $f^{(k)}(x)=\mathrm{e}^{x}$ for every $k$, so
+        $f(0)=f'(0)=f''(0)=1$ and
+        \[
+          T_{2}(x)=1+x+\frac{x^{2}}{2} .
+        \]
+        At $x=0.1$: $T_{2}(0.1)=1+0.1+\tfrac{0.01}{2}=1.105$. True
+        value $1.105171$; the error is about $1.7\cdot 10^{-4}$.
+
+  \item $f(1)=0$; $f'(x)=1/x$, $f'(1)=1$; $f''(x)=-1/x^{2}$,
+        $f''(1)=-1$. Hence
+        \[
+          T_{2}(x)=(x-1)-\tfrac12(x-1)^{2} .
+        \]
+        At $x=1.05$:
+        $T_{2}(1.05)=0.05-\tfrac12(0.0025)=0.05-0.00125=0.04875$. True
+        value $0.048790$; the error is about $4.0\cdot 10^{-5}$.
+
+  \item From Problem 2, $f(4)=2$ and $f'(4)=\tfrac14$. Further
+        $f''(x)=-\tfrac14 x^{-3/2}$, so
+        $f''(4)=-\tfrac14\cdot\tfrac18=-\tfrac{1}{32}$ and the
+        quadratic coefficient is
+        $\tfrac12 f''(4)=-\tfrac{1}{64}$:
+        \[
+          T_{2}(x)=2+\tfrac14(x-4)-\tfrac{1}{64}(x-4)^{2} .
+        \]
+        At $x=4.1$:
+        \[
+          T_{2}(4.1)=2+0.025-\tfrac{0.01}{64}
+                    =2.025-0.00015625=2.02484375 .
+        \]
+        True value $2.024846$; the error is about $1.9\cdot 10^{-6}$
+        (the linear estimate $2.025$ alone is off by
+        $1.5\cdot 10^{-4}$).
+
+  \item $f(0)=1$; $f'(x)=\dfrac{1}{(1-x)^{2}}$, $f'(0)=1$;
+        $f''(x)=\dfrac{2}{(1-x)^{3}}$, $f''(0)=2$, so
+        $\tfrac12 f''(0)=1$. Hence
+        \[
+          T_{2}(x)=1+x+x^{2} ,
+        \]
+        the start of the geometric series $1+x+x^{2}+\cdots$.
+
+  \item $f(1)=1\cdot\ln(1)=0$; $f'(x)=\ln(x)+1$, $f'(1)=1$;
+        $f''(x)=1/x$, $f''(1)=1$. Hence
+        \[
+          T_{2}(x)=(x-1)+\tfrac12(x-1)^{2} .
+        \]
+
+  \item $f(0)=1$; $f'(x)=-2x\mathrm{e}^{-x^{2}}$, $f'(0)=0$;
+        $f''(x)=(-2+4x^{2})\mathrm{e}^{-x^{2}}$, $f''(0)=-2$. Hence
+        \[
+          T_{2}(x)=1-x^{2} .
+        \]
+        (Equivalently: substitute $u=-x^{2}$ into
+        $\mathrm{e}^{u}\approx 1+u$.)
+
+  \item $f(0)=0$; $f'(x)=\dfrac{1}{1+x}$, $f'(0)=1$;
+        $f''(x)=-\dfrac{1}{(1+x)^{2}}$, $f''(0)=-1$;
+        $f'''(x)=\dfrac{2}{(1+x)^{3}}$, $f'''(0)=2$. The coefficients
+        are $1$, $-\tfrac{1}{2!}=-\tfrac12$ and
+        $\tfrac{2}{3!}=\tfrac13$:
+        \[
+          T_{3}(x)=x-\frac{x^{2}}{2}+\frac{x^{3}}{3} .
+        \]
+        At $x=-0.1$:
+        \[
+          T_{3}(-0.1)=-0.1-\frac{0.01}{2}+\frac{-0.001}{3}
+                     =-0.1-0.005-0.000333=-0.105333 .
+        \]
+        True value $-0.105361$; the error is about $2.7\cdot 10^{-5}$.
+
+  \item With $k=\tfrac12$ in the binomial expansion: the linear
+        coefficient is $k=\tfrac12$ and the quadratic coefficient is
+        \[
+          \frac{k(k-1)}{2!}
+            =\frac{\tfrac12\cdot\bigl(-\tfrac12\bigr)}{2}
+            =-\frac18 ,
+        \]
+        so
+        \[
+          T_{2}(x)=1+\frac{x}{2}-\frac{x^{2}}{8} .
+        \]
+        At $x=0.1$: $T_{2}(0.1)=1+0.05-0.00125=1.04875$. True value
+        $1.048809$; the error is about $5.9\cdot 10^{-5}$.
+
+  \item Derivatives of $\cos$ at $0$ cycle through
+        $1,\,0,\,-1,\,0,\,1$ for $k=0,\ldots,4$, so
+        \[
+          T_{4}(x)=1-\frac{x^{2}}{2!}+\frac{x^{4}}{4!}
+                  =1-\frac{x^{2}}{2}+\frac{x^{4}}{24} .
+        \]
+        At $x=0.2$: $(0.2)^{2}=0.04$ and $(0.2)^{4}=0.0016$, so
+        \[
+          T_{4}(0.2)=1-0.02+\frac{0.0016}{24}
+                    =1-0.02+0.000067=0.980067 ,
+        \]
+        agreeing with the true value $0.980067$ to all six decimals
+        shown (the next term is of size $\tfrac{(0.2)^{6}}{720}\approx
+        9\cdot 10^{-8}$).
+
+  \item $Q(100)=10\cdot 10=100$; $Q'(L)=5L^{-1/2}$,
+        $Q'(100)=\tfrac{5}{10}=0.5$; $Q''(L)=-\tfrac52 L^{-3/2}$,
+        $Q''(100)=-\tfrac{2.5}{1000}=-0.0025$, so
+        $\tfrac12 Q''(100)=-0.00125$. Hence
+        \[
+          T_{2}(L)=100+0.5\,(L-100)-0.00125\,(L-100)^{2} .
+        \]
+        At $L=104$ (so $L-100=4$):
+        \[
+          T_{2}(104)=100+0.5\cdot 4-0.00125\cdot 16=102-0.02=101.98 .
+        \]
+        True value $101.980390$; the error is about
+        $3.9\cdot 10^{-4}$, four extra labour hours raise output by
+        just under $2$ units, the shortfall against the linear estimate
+        $102$ reflecting diminishing returns ($Q''<0$).
+
+  \item Taking logs, $\ln Y_{1}=\ln Y_{0}+\ln(1+g)$. For
+        $f(x)=\ln(1+x)$ at $a=0$: $f(0)=0$ and $f'(0)=1$, so
+        $T_{1}(x)=x$ and
+        \[
+          \ln Y_{1}-\ln Y_{0}=\ln(1+g)\approx g .
+        \]
+        For $g=0.03$ the log change is $\ln(1.03)=0.029559$, while the
+        growth rate is $0.03$: the approximation is off by about
+        $4.4\cdot 10^{-4}$, i.e.\ by roughly $1.5\%$ of the quantity
+        itself. (The second-order term $-\tfrac12 g^{2}=-0.00045$
+        accounts for almost all of the gap.)
+
+  \item Here $n=1$, $a=4$, $x=4.1$ and $f''(t)=-\tfrac14 t^{-3/2}$.
+        For $t\in[4,4.1]$, $t^{-3/2}$ is decreasing, so
+        \[
+          |f''(t)|\leq\tfrac14\cdot 4^{-3/2}=\tfrac14\cdot\tfrac18
+                 =\tfrac{1}{32}=:M .
+        \]
+        The remainder bound gives
+        \[
+          |R_{1}(4.1)|\leq\frac{M}{2!}\,(0.1)^{2}
+            =\frac{1}{32}\cdot\frac{0.01}{2}
+            =\frac{0.01}{64}\approx 1.56\cdot 10^{-4} .
+        \]
+        Actual error: $T_{1}(4.1)=2.025$ versus $\sqrt{4.1}=2.024846$,
+        i.e.\ $1.54\cdot 10^{-4}$, just inside the bound.
+
+  \item Here $n=2$, $a=0$, $x=0.1$ and
+        $f'''(t)=\mathrm{e}^{t}$. For $t\in(0,0.1)$,
+        $\mathrm{e}^{t}<\mathrm{e}^{0.1}<1.2=:M$, so
+        \[
+          |R_{2}(0.1)|\leq\frac{M}{3!}\,(0.1)^{3}
+            =\frac{1.2\cdot 0.001}{6}=2\cdot 10^{-4} .
+        \]
+        Actual error: $T_{2}(0.1)=1.105$ versus
+        $\mathrm{e}^{0.1}=1.105171$, i.e.\ $1.7\cdot 10^{-4}$,
+        consistent with the bound.
+
+  \item With $f(x)=\mathrm{e}^{x}$, $a=0$, $x=0.5$:
+        $f^{(n+1)}(\xi)=\mathrm{e}^{\xi}\leq\mathrm{e}^{0.5}<2$ for
+        $\xi\in(0,0.5)$, so
+        \[
+          |R_{n}(0.5)|\leq\frac{2\,(0.5)^{n+1}}{(n+1)!} .
+        \]
+        Tabulate:
+        \[
+          n=3:\ \frac{2\cdot 0.0625}{24}\approx 5.2\cdot 10^{-3},
+          \qquad
+          n=4:\ \frac{2\cdot 0.03125}{120}\approx 5.2\cdot 10^{-4},
+          \qquad
+          n=5:\ \frac{2\cdot 0.015625}{720}\approx 4.3\cdot 10^{-5} .
+        \]
+        The first value below $10^{-4}$ occurs at $n=5$. Check with the
+        true value $\mathrm{e}^{0.5}=1.648721$: $T_{4}(0.5)=1.648438$
+        (error $2.8\cdot 10^{-4}$, indeed too large) while
+        $T_{5}(0.5)=1.648698$ (error $2.3\cdot 10^{-5}$). So $n=5$.
+
+  \item By Taylor's theorem with $n=1$: for each $x$ near $a$ there is
+        $\xi$ between $a$ and $x$ with
+        \[
+          f(x)=f(a)+f'(a)(x-a)+\tfrac12 f''(\xi)(x-a)^{2}
+              =f(a)+\tfrac12 f''(\xi)(x-a)^{2},
+        \]
+        using $f'(a)=0$. Since $f''$ is continuous and $f''(a)<0$,
+        there is a neighbourhood $U$ of $a$ on which $f''<0$. For
+        $x\in U$, $x\neq a$, the point $\xi$ also lies in $U$, so
+        $f''(\xi)<0$ while $(x-a)^{2}>0$, giving
+        \[
+          f(x)-f(a)=\tfrac12 f''(\xi)(x-a)^{2}<0 .
+        \]
+        Hence $f(x)<f(a)$ for all $x\in U\setminus\{a\}$: $a$ is a
+        strict local maximum. (This is the second-order condition in
+        its cleanest form: near a stationary point the function
+        \emph{is} its osculating parabola, up to higher-order terms.)
+\end{solutions}
+
+\section{Additional Problems}
+
+\begin{problems}
+  \item Find $T_{1}$ of $f(x)=(1+x)^{5}$ at $a=0$.
+  \item Find $T_{1}$ of $f(x)=\sin(x)$ at $a=0$ and use it to
+        approximate $\sin(0.1)$. Compare with the true value
+        $\sin(0.1)=0.099833$.
+  \item Find $T_{2}$ of $f(x)=x^{4}$ at $a=1$.
+  \item Find $T_{2}$ of $f(x)=\dfrac{1}{x}$ at $a=2$.
+  \item Find $T_{3}$ of $f(x)=\mathrm{e}^{x}$ at $a=0$ and use it to
+        approximate $\mathrm{e}^{0.2}$. Compare with the true value
+        $\mathrm{e}^{0.2}=1.221403$.
+  \item Find $T_{2}$ of $f(x)=\ln(1+2x)$ at $a=0$.
+  \item (Cobb--Douglas.) For $f(K)=K^{0.3}$, find $T_{2}$ at $a=1$ and
+        use it to approximate $1.1^{0.3}$. Compare with the true value
+        $1.1^{0.3}=1.029006$.
+  \item Use the Lagrange remainder to bound the error of approximating
+        $\ln(1.05)$ by $T_{1}(x)=x-1$ of $\ln(x)$ at $a=1$, and compare
+        the bound with the actual error (true value
+        $\ln(1.05)=0.048790$).
+  \item Find the smallest $n$ such that the Maclaurin polynomial
+        $T_{n}$ of $\ln(1+x)$ approximates $\ln(1.1)$ with error at
+        most $10^{-6}$ (true value $\ln(1.1)=0.095310$).
+  \item Suppose $|f'''(t)|\leq M$ for all $t$ between $a$ and $x$.
+        Derive a bound for $|f(x)-T_{2}(x)|$ in terms of $M$ and
+        $|x-a|$.
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item $f(0)=1$; $f'(x)=5(1+x)^{4}$, $f'(0)=5$. Hence
+        \[
+          T_{1}(x)=1+5x .
+        \]
+
+  \item $f(0)=0$; $f'(x)=\cos(x)$, $f'(0)=1$. Hence $T_{1}(x)=x$ (the
+        small-angle approximation) and $\sin(0.1)\approx 0.1$. True
+        value $0.099833$; the error is about $1.7\cdot 10^{-4}$
+        (matching the size of the first omitted term,
+        $\tfrac{x^{3}}{3!}=\tfrac{0.001}{6}$).
+
+  \item $f(1)=1$; $f'(x)=4x^{3}$, $f'(1)=4$; $f''(x)=12x^{2}$,
+        $f''(1)=12$, so $\tfrac12 f''(1)=6$. Hence
+        \[
+          T_{2}(x)=1+4(x-1)+6(x-1)^{2} .
+        \]
+
+  \item $f(2)=\tfrac12$; $f'(x)=-1/x^{2}$, $f'(2)=-\tfrac14$;
+        $f''(x)=2/x^{3}$, $f''(2)=\tfrac28=\tfrac14$, so
+        $\tfrac12 f''(2)=\tfrac18$. Hence
+        \[
+          T_{2}(x)=\frac12-\frac14(x-2)+\frac18(x-2)^{2} .
+        \]
+
+  \item All derivatives equal $1$ at $0$, so
+        \[
+          T_{3}(x)=1+x+\frac{x^{2}}{2}+\frac{x^{3}}{6} .
+        \]
+        At $x=0.2$:
+        \[
+          T_{3}(0.2)=1+0.2+\frac{0.04}{2}+\frac{0.008}{6}
+                    =1+0.2+0.02+0.001333=1.221333 .
+        \]
+        True value $1.221403$; the error is about $6.9\cdot 10^{-5}$.
+
+  \item $f(0)=0$; $f'(x)=\dfrac{2}{1+2x}$, $f'(0)=2$;
+        $f''(x)=-\dfrac{4}{(1+2x)^{2}}$, $f''(0)=-4$, so
+        $\tfrac12 f''(0)=-2$. Hence
+        \[
+          T_{2}(x)=2x-2x^{2} .
+        \]
+        (Equivalently: substitute $u=2x$ into
+        $\ln(1+u)\approx u-\tfrac12 u^{2}$.)
+
+  \item $f(1)=1$; $f'(K)=0.3\,K^{-0.7}$, $f'(1)=0.3$;
+        $f''(K)=0.3\cdot(-0.7)\,K^{-1.7}=-0.21\,K^{-1.7}$,
+        $f''(1)=-0.21$, so $\tfrac12 f''(1)=-0.105$. Hence
+        \[
+          T_{2}(K)=1+0.3\,(K-1)-0.105\,(K-1)^{2} .
+        \]
+        At $K=1.1$:
+        \[
+          T_{2}(1.1)=1+0.03-0.105\cdot 0.01=1.03-0.00105=1.02895 .
+        \]
+        True value $1.029006$; the error is about $5.6\cdot 10^{-5}$.
+
+  \item Here $n=1$, $a=1$, $x=1.05$ and $f''(t)=-1/t^{2}$. On
+        $[1,1.05]$, $|f''(t)|=1/t^{2}\leq 1=:M$. The remainder bound
+        gives
+        \[
+          |R_{1}(1.05)|\leq\frac{M}{2!}\,(0.05)^{2}
+            =\frac{0.0025}{2}=1.25\cdot 10^{-3} .
+        \]
+        Actual error: $T_{1}(1.05)=0.05$ versus $0.048790$, i.e.\
+        $1.21\cdot 10^{-3}$, close to the bound, because
+        $1/t^{2}\approx 1$ throughout the interval.
+
+  \item For $f(x)=\ln(1+x)$,
+        $f^{(n+1)}(t)=\dfrac{(-1)^{n}\,n!}{(1+t)^{n+1}}$, so on
+        $[0,0.1]$ we have $|f^{(n+1)}(t)|\leq n!$ and
+        \[
+          |R_{n}(0.1)|\leq\frac{n!}{(n+1)!}\,(0.1)^{n+1}
+            =\frac{(0.1)^{n+1}}{n+1} .
+        \]
+        Tabulate:
+        \[
+          n=4:\ \frac{(0.1)^{5}}{5}=2\cdot 10^{-6},
+          \qquad
+          n=5:\ \frac{(0.1)^{6}}{6}\approx 1.7\cdot 10^{-7} .
+        \]
+        The first value below $10^{-6}$ occurs at $n=5$. Check against
+        the true value $0.095310$: $T_{4}(0.1)=0.1-0.005+0.000333
+        -0.000025=0.095308$ (error $1.9\cdot 10^{-6}$, indeed too
+        large), while $T_{5}(0.1)=0.095308+0.000002=0.095310$ (error
+        about $1.5\cdot 10^{-7}$). So $n=5$.
+
+  \item Apply the Lagrange form with $n=2$: there is $\xi$ between $a$
+        and $x$ with
+        \[
+          f(x)-T_{2}(x)=\frac{f'''(\xi)}{3!}(x-a)^{3},
+        \]
+        hence
+        \[
+          |f(x)-T_{2}(x)|\leq\frac{|f'''(\xi)|}{6}\,|x-a|^{3}
+            \leq\frac{M}{6}\,|x-a|^{3} .
+        \]
+\end{solutions}

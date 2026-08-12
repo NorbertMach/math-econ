@@ -1,0 +1,707 @@
+\chapter{Higher-Order Partials, Young's Theorem, the Hessian, and Definiteness}
+
+First-order partials describe slopes; second-order partials describe
+\emph{curvature}. In one variable we used $f''$ to distinguish maxima from
+minima. In several variables we need a whole \emph{matrix} of second
+derivatives (the Hessian) and curvature is captured by its
+definiteness, which we test with the leading principal minors (Sylvester's
+criterion).
+
+\section{Core Rules}
+
+\begin{rulebox}{Direct second-order partials}
+For $f(x,y)$,
+\[
+  f_{xx} \;=\; \pd{}{x}\!\left(\pd{f}{x}\right) \;=\; \frac{\partial^{2} f}{\partial x^{2}},
+  \qquad
+  f_{yy} \;=\; \frac{\partial^{2} f}{\partial y^{2}} .
+\]
+\end{rulebox}
+
+\begin{rulebox}{Cross (mixed) partials}
+\[
+  f_{xy} \;=\; \pd{}{y}\!\left(\pd{f}{x}\right) \;=\; \frac{\partial^{2} f}{\partial y\,\partial x},
+  \qquad
+  f_{yx} \;=\; \pd{}{x}\!\left(\pd{f}{y}\right) .
+\]
+\end{rulebox}
+
+\begin{rulebox}{Young's Theorem (Schwarz / Clairaut)}
+If $f$ is $C^{2}$ on an open set (i.e.\ all second partials exist and
+are continuous) then the order of differentiation is irrelevant:
+\[
+  f_{xy} \;=\; f_{yx} .
+\]
+This is the symmetry of the Hessian. All standard polynomial, exponential,
+logarithmic, Cobb--Douglas, and CES forms are $C^{2}$ on their natural
+domains.
+\end{rulebox}
+
+\begin{rulebox}{Hessian matrix}
+For $f:\R^{n}\to\R$,
+\[
+  \Hess_f(\mathbf{x}) \;=\; \bigl[f_{x_ix_j}(\mathbf{x})\bigr]_{i,j=1}^{n}
+  \;=\;
+  \begin{pmatrix}
+    f_{x_1x_1} & f_{x_1x_2} & \cdots & f_{x_1x_n} \\
+    f_{x_2x_1} & f_{x_2x_2} & \cdots & f_{x_2x_n} \\
+    \vdots     & \vdots     & \ddots & \vdots     \\
+    f_{x_nx_1} & f_{x_nx_2} & \cdots & f_{x_nx_n}
+  \end{pmatrix} .
+\]
+For $C^{2}$ functions $\Hess_f$ is symmetric.
+\end{rulebox}
+
+\begin{rulebox}{Definiteness}
+A symmetric matrix $H$ is
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \emph{positive definite (PD)} if $\mathbf{v}^{T}H\mathbf{v}>0$ for
+        every $\mathbf{v}\neq\mathbf{0}$ (curvature ``up'' in every
+        direction $\Rightarrow$ local minimum;
+  \item \emph{negative definite (ND)} if $\mathbf{v}^{T}H\mathbf{v}<0$ for
+        every $\mathbf{v}\neq\mathbf{0}$) curvature ``down'' in every
+        direction $\Rightarrow$ local maximum;
+  \item \emph{indefinite} if $\mathbf{v}^{T}H\mathbf{v}$ takes both
+        positive and negative values $\Rightarrow$ saddle point.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Sylvester's criterion ($2\times2$ case)}
+Let $H=\begin{pmatrix}a&b\\b&c\end{pmatrix}$ with leading principal minors
+$D_1=a$ and $D_2=\det H=ac-b^{2}$. Then
+\[
+  \begin{aligned}
+    D_1>0 \text{ and } D_2>0 &\;\Rightarrow\; H \text{ is PD}, \\
+    D_1<0 \text{ and } D_2>0 &\;\Rightarrow\; H \text{ is ND}, \\
+    D_2<0 &\;\Rightarrow\; H \text{ is indefinite (saddle)}, \\
+    D_2=0 &\;\Rightarrow\; \text{test is inconclusive (semi-definite case)}.
+  \end{aligned}
+\]
+Note: ND requires $D_1<0$ \emph{and} $D_2>0$; the alternating-sign
+condition is what one generalises to higher $n$ (signs $-,+,-,+,\dots$ for
+ND).
+\end{rulebox}
+
+\begin{rulebox}{Classification of critical points}
+A point $\mathbf{x}_0$ is a \emph{critical point} of $f$ if
+$\grad f(\mathbf{x}_0)=\mathbf{0}$. Then evaluate $\Hess_f(\mathbf{x}_0)$:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item $H$ PD at $\mathbf{x}_0$ $\Rightarrow$ strict local minimum;
+  \item $H$ ND at $\mathbf{x}_0$ $\Rightarrow$ strict local maximum;
+  \item $H$ indefinite at $\mathbf{x}_0$ $\Rightarrow$ saddle point;
+  \item $D_2=0$ $\Rightarrow$ inconclusive, higher-order analysis
+        required.
+\end{itemize}
+\end{rulebox}
+
+\section{Practice Problems}
+
+\begin{problems}
+  \item Compute all second partials of $f(x,y) = 4x^{3} - 5x^{2}y + 7y^{4}$
+        and verify Young's theorem.
+  \item Construct the Hessian of
+        $f(x,y) = 5x^{2} + 6xy + 2y^{2} - 3x + 4y$.
+  \item Classify the definiteness of
+        $\Hess = \begin{pmatrix}6&2\\2&3\end{pmatrix}$ using Sylvester's
+        criterion.
+  \item Find and classify the critical points of
+        $f(x,y) = x^{2} + 4y^{2} - 6x + 8y + 11$.
+  \item Compute all second partials of $f(x,y) = (x+2y)^{3}$ and verify
+        $f_{xy} = f_{yx}$.
+  \item Construct the Hessian of $f(x,y) = x^{3} + 2xy^{2} - 4y$.
+  \item Classify $\Hess = \begin{pmatrix}-4&2\\2&-5\end{pmatrix}$.
+  \item Find and classify the critical points of
+        $f(x,y) = -x^{2} - 3y^{2} + 8x - 6y + 5$.
+  \item Compute all second partials of $f(x,y) = x^{2}\ln(y)$ ($y>0$) and
+        verify Young's theorem.
+  \item Construct the Hessian of $f(x,y) = \mathrm{e}^{2x-y}$.
+  \item Classify $\Hess = \begin{pmatrix}2&4\\4&2\end{pmatrix}$.
+  \item Find and classify the critical points of
+        $f(x,y) = x^{2} - y^{2} + 6x - 4y$.
+  \item Compute all second partials of $f(x,y) = \mathrm{e}^{x^{2}+y}$ and
+        verify Young's theorem.
+  \item Construct the Hessian of the Cobb--Douglas function
+        $f(K,L) = K^{1/3}L^{2/3}$, $K,L>0$.
+  \item Classify $\Hess = \begin{pmatrix}7&-3\\-3&1\end{pmatrix}$.
+  \item Find and classify the critical points of
+        $f(x,y) = x^{3} + y^{3} - 12x - 27y$.
+  \item Compute all second partials of $f(x,y) = 1/(x+y)$ and verify
+        Young's theorem.
+  \item Construct the Hessian of
+        $f(x,y,z) = x^{2} + 2y^{2} + 3z^{2} - xy + 2yz$.
+  \item Classify $\Hess = \begin{pmatrix}-3&1\\1&-3\end{pmatrix}$.
+  \item Find and classify the critical points of
+        $f(x,y) = x^{2} + 4xy + y^{2} + 2y$.
+  \item Compute all second partials of $f(x,y) = x^{1/2}y^{1/2}$
+        ($x,y>0$) and verify $f_{xy} = f_{yx}$.
+  \item Construct the Hessian of $f(x,y) = \ln(x^{2}+y^{2})$ at a generic
+        point $(x,y)\neq(0,0)$.
+  \item Find and classify the critical points of
+        $f(x,y) = x^{4} + y^{4} - 4xy$.
+  \item Compute all second partials of $f(x,y) = x\mathrm{e}^{y} + y\mathrm{e}^{x}$
+        and verify Young's theorem.
+  \item Construct the Hessian of $f(x,y) = x^{3} - 3xy^{2}$ (a harmonic
+        function).
+  \item Classify $\Hess = \begin{pmatrix}5&0\\0&-2\end{pmatrix}$ and state
+        what this implies if $H$ is the Hessian at a critical point.
+  \item Find and classify the critical points of
+        $f(x,y) = xy - x^{2} - y^{2} + 6x + 3y$.
+  \item Compute all second partials of $f(x,y) = \ln(xy)$ ($x,y>0$).
+  \item Construct the Hessian of $f(x,y) = (x^{2}+y^{2})^{2}$ at a generic
+        point.
+  \item Classify $\Hess = \begin{pmatrix}-1&2\\2&-1\end{pmatrix}$.
+  \item Find and classify the critical points of
+        $f(x,y) = x^{3} - 3xy + y^{3}$.
+  \item Compute all second partials of $f(x,y) = \sin(x)\cos(y)$ and
+        verify Young's theorem.
+  \item Construct the Hessian of $f(x,y,z) = \mathrm{e}^{xyz}$ at the point
+        $(1,1,1)$ (evaluate numerically).
+  \item Classify $\Hess = \begin{pmatrix}4&-2\\-2&4\end{pmatrix}$.
+  \item Find and classify the critical points of the profit function
+        $\pi(L,K) = 10L^{1/2}K^{1/2} - 2L - 3K$ (assume $L,K>0$).
+  \item Compute all second partials of $f(x,y) = x^{2}y^{3}$ and verify
+        Young's theorem.
+  \item Construct the Hessian of
+        $f(x,y) = \mathrm{e}^{x}\sin(y) - \mathrm{e}^{x}\cos(y)$.
+  \item Classify $\Hess = \begin{pmatrix}9&6\\6&4\end{pmatrix}$. (Note the
+        boundary case.)
+  \item Find and classify the critical points of
+        $f(x,y) = x^{2} + xy + y^{2} - 3x$.
+  \item Compute all second partials of $f(x,y) = \arctan(y/x)$ ($x>0$) and
+        verify Young's theorem.
+  \item Construct the Hessian of the CES function
+        $f(K,L) = (K^{1/2}+L^{1/2})^{2}$ at a generic point.
+  \item Find and classify the critical points of
+        $f(x,y) = -x^{4} - y^{4} + 8xy$.
+  \item Compute all second partials of $f(x,y) = x^{2}\mathrm{e}^{-y}$ and
+        verify Young's theorem.
+  \item Construct the Hessian of $f(x,y) = \cos(xy)$ at the origin
+        $(0,0)$.
+  \item Classify $\Hess = \begin{pmatrix}0&3\\3&0\end{pmatrix}$.
+  \item Find and classify the critical points of
+        $f(x,y) = x^{3} + 3xy^{2} - 15x - 12y$.
+  \item Construct the Hessian of $f(x,y) = \ln(1+x^{2}+y^{2})$ at the
+        origin.
+  \item Find and classify the critical points of
+        $f(x,y) = \mathrm{e}^{-(x^{2}+y^{2})}$.
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item $f_x = 12x^{2} - 10xy$, $f_y = -5x^{2} + 28y^{3}$. Then
+        $f_{xx} = 24x - 10y$, $f_{yy} = 84y^{2}$, and
+        \[
+          f_{xy} = \pd{}{y}\bigl(12x^{2}-10xy\bigr) = -10x, \qquad
+          f_{yx} = \pd{}{x}\bigl(-5x^{2}+28y^{3}\bigr) = -10x . \; \checkmark
+        \]
+
+  \item $f_x = 10x + 6y - 3$, $f_y = 6x + 4y + 4$. Hessian
+        \[
+          \Hess = \begin{pmatrix}10&6\\6&4\end{pmatrix} .
+        \]
+
+  \item $D_1 = 6 > 0$, $D_2 = 18 - 4 = 14 > 0$. \textbf{PD.}
+
+  \item $\grad f = (2x-6,\,8y+8) = (0,0) \Rightarrow x=3,\,y=-1$. Hessian
+        $\Hess = \begin{pmatrix}2&0\\0&8\end{pmatrix}$: $D_1=2>0$,
+        $D_2=16>0$, \textbf{PD}, so $(3,-1)$ is a strict \textbf{local
+        minimum} with $f(3,-1) = 9+4-18-8+11 = -2$.
+
+  \item Chain rule: $f_x = 3(x+2y)^{2}$, $f_y = 6(x+2y)^{2}$. So
+        $f_{xx} = 6(x+2y)$, $f_{yy} = 24(x+2y)$, and
+        \[
+          f_{xy} = 12(x+2y) = f_{yx} . \; \checkmark
+        \]
+
+  \item $f_x = 3x^{2} + 2y^{2}$, $f_y = 4xy - 4$. Hessian
+        \[
+          \Hess = \begin{pmatrix}6x&4y\\4y&4x\end{pmatrix} .
+        \]
+
+  \item $D_1 = -4 < 0$, $D_2 = 20 - 4 = 16 > 0$. \textbf{ND.}
+
+  \item $\grad f = (-2x+8,\,-6y-6) = (0,0) \Rightarrow x=4,\,y=-1$. Hessian
+        $\Hess = \begin{pmatrix}-2&0\\0&-6\end{pmatrix}$: $D_1=-2<0$,
+        $D_2=12>0$, \textbf{ND}, so $(4,-1)$ is a strict \textbf{local
+        maximum} with $f(4,-1) = -16-3+32+6+5 = 24$.
+
+  \item $f_x = 2x\ln(y)$, $f_y = x^{2}/y$. So $f_{xx} = 2\ln(y)$,
+        $f_{yy} = -x^{2}/y^{2}$, and
+        \[
+          f_{xy} = 2x/y = f_{yx} . \; \checkmark
+        \]
+
+  \item $f_x = 2\mathrm{e}^{2x-y}$, $f_y = -\mathrm{e}^{2x-y}$. So
+        $f_{xx} = 4\mathrm{e}^{2x-y}$, $f_{yy} = \mathrm{e}^{2x-y}$,
+        $f_{xy} = -2\mathrm{e}^{2x-y}$. Hessian
+        \[
+          \Hess = \mathrm{e}^{2x-y}\begin{pmatrix}4&-2\\-2&1\end{pmatrix} .
+        \]
+
+  \item $D_1 = 2 > 0$, $D_2 = 4 - 16 = -12 < 0$. \textbf{Indefinite
+        (saddle).}
+
+  \item $\grad f = (2x+6,\,-2y-4) = (0,0) \Rightarrow x=-3,\,y=-2$. Hessian
+        $\Hess = \begin{pmatrix}2&0\\0&-2\end{pmatrix}$: $D_2 = -4 < 0$,
+        \textbf{indefinite}, so $(-3,-2)$ is a \textbf{saddle point}.
+
+  \item Let $E = \mathrm{e}^{x^{2}+y}$. Then $f_x = 2xE$, $f_y = E$. So
+        $f_{xx} = 2E + 4x^{2}E = (2+4x^{2})E$, $f_{yy} = E$, and
+        \[
+          f_{xy} = \pd{}{y}(2xE) = 2xE, \qquad
+          f_{yx} = \pd{}{x}(E) = 2xE . \; \checkmark
+        \]
+
+  \item $f_K = \tfrac13K^{-2/3}L^{2/3}$, $f_L = \tfrac23K^{1/3}L^{-1/3}$.
+        So
+        \[
+          f_{KK} = -\tfrac29K^{-5/3}L^{2/3}, \quad
+          f_{LL} = -\tfrac29K^{1/3}L^{-4/3}, \quad
+          f_{KL} = \tfrac29K^{-2/3}L^{-1/3} = f_{LK} . \; \checkmark
+        \]
+        Hessian
+        \[
+          \Hess = \tfrac29
+          \begin{pmatrix}
+            -K^{-5/3}L^{2/3} & K^{-2/3}L^{-1/3} \\
+            K^{-2/3}L^{-1/3} & -K^{1/3}L^{-4/3}
+          \end{pmatrix} .
+        \]
+
+  \item $D_1 = 7 > 0$, $D_2 = 7 - 9 = -2 < 0$. \textbf{Indefinite.}
+
+  \item $\grad f = (3x^{2}-12,\,3y^{2}-27) = (0,0) \Rightarrow x^{2}=4,\,
+        y^{2}=9$, giving $(\pm2,\pm3)$. Hessian
+        $\Hess = \begin{pmatrix}6x&0\\0&6y\end{pmatrix}$, so $D_1=6x$,
+        $D_2=36xy$.
+        \begin{itemize}
+          \item $(2,3)$: $D_1=12>0$, $D_2=216>0$, \textbf{PD}: local
+                minimum, $f = 8+27-24-81 = -70$.
+          \item $(2,-3)$: $D_2=-216<0$, \textbf{saddle}.
+          \item $(-2,3)$: $D_2=-216<0$, \textbf{saddle}.
+          \item $(-2,-3)$: $D_1=-12<0$, $D_2=216>0$, \textbf{ND}: local
+                maximum, $f = -8-27+24+81 = 70$.
+        \end{itemize}
+
+  \item Let $S=x+y$, $f=S^{-1}$, $f_x = -S^{-2} = f_y$. So
+        $f_{xx} = 2S^{-3} = f_{yy}$, and
+        \[
+          f_{xy} = 2S^{-3} = f_{yx} = \frac{2}{(x+y)^{3}} . \; \checkmark
+        \]
+
+  \item $f_x = 2x-y$, $f_y = 4y-x+2z$, $f_z = 6z+2y$. Hessian
+        \[
+          \Hess = \begin{pmatrix}2&-1&0\\-1&4&2\\0&2&6\end{pmatrix} .
+        \]
+
+  \item $D_1 = -3 < 0$, $D_2 = 9 - 1 = 8 > 0$. \textbf{ND.}
+
+  \item $\grad f = (2x+4y,\,4x+2y+2) = (0,0)$. From the first, $x=-2y$;
+        substituting, $-8y+2y+2=0 \Rightarrow y=1/3$, $x=-2/3$. Hessian
+        $\Hess = \begin{pmatrix}2&4\\4&2\end{pmatrix}$: $D_1=2>0$,
+        $D_2=4-16=-12<0$, \textbf{indefinite: saddle point} at
+        $(-2/3,1/3)$.
+
+  \item $f_x = \tfrac12x^{-1/2}y^{1/2}$, $f_y = \tfrac12x^{1/2}y^{-1/2}$.
+        So
+        \[
+          f_{xx} = -\tfrac14x^{-3/2}y^{1/2}, \quad
+          f_{yy} = -\tfrac14x^{1/2}y^{-3/2}, \quad
+          f_{xy} = \tfrac14x^{-1/2}y^{-1/2} = f_{yx} . \; \checkmark
+        \]
+
+  \item Let $S=x^{2}+y^{2}$, $f=\ln S$, $f_x = 2x/S$, $f_y = 2y/S$. By the
+        quotient rule:
+        \[
+          f_{xx} = \frac{2S-2x\cdot2x}{S^{2}} = \frac{2(y^{2}-x^{2})}{(x^{2}+y^{2})^{2}}, \quad
+          f_{yy} = \frac{2(x^{2}-y^{2})}{(x^{2}+y^{2})^{2}}, \quad
+          f_{xy} = \frac{-4xy}{(x^{2}+y^{2})^{2}} .
+        \]
+        Hessian
+        \[
+          \Hess = \frac{2}{(x^{2}+y^{2})^{2}}
+          \begin{pmatrix}y^{2}-x^{2} & -2xy \\ -2xy & x^{2}-y^{2}\end{pmatrix} .
+        \]
+        Note $f_{xx}+f_{yy}=0$: $\ln(x^{2}+y^{2})$ is harmonic.
+
+  \item $\grad f = (4x^{3}-4y,\,4y^{3}-4x) = (0,0) \Rightarrow y=x^{3}$
+        and $x=y^{3}=x^{9}$. So $x(x^{8}-1)=0$, giving $x\in\{-1,0,1\}$.
+        Critical points: $(0,0),(1,1),(-1,-1)$. Hessian
+        $\Hess = \begin{pmatrix}12x^{2}&-4\\-4&12y^{2}\end{pmatrix}$.
+        \begin{itemize}
+          \item $(0,0)$: $\Hess = \begin{pmatrix}0&-4\\-4&0\end{pmatrix}$,
+                $D_2=-16<0$, \textbf{saddle}.
+          \item $(1,1)$: $\Hess = \begin{pmatrix}12&-4\\-4&12\end{pmatrix}$,
+                $D_1=12>0$, $D_2=144-16=128>0$, \textbf{PD}: local
+                minimum, $f=1+1-4=-2$.
+          \item $(-1,-1)$: same $H$, \textbf{PD}: local minimum, $f=-2$.
+        \end{itemize}
+
+  \item $f_x = \mathrm{e}^{y}+y\mathrm{e}^{x}$, $f_y = x\mathrm{e}^{y}+\mathrm{e}^{x}$. So
+        $f_{xx} = y\mathrm{e}^{x}$, $f_{yy} = x\mathrm{e}^{y}$, and
+        \[
+          f_{xy} = \mathrm{e}^{y}+\mathrm{e}^{x} = f_{yx} . \; \checkmark
+        \]
+
+  \item $f_x = 3x^{2}-3y^{2}$, $f_y = -6xy$. So $f_{xx}=6x$,
+        $f_{yy}=-6x$, $f_{xy}=-6y=f_{yx}$. Hessian
+        \[
+          \Hess = \begin{pmatrix}6x&-6y\\-6y&-6x\end{pmatrix} .
+        \]
+        Note $f_{xx}+f_{yy}=0$: $f$ is harmonic.
+
+  \item $D_1 = 5 > 0$, $D_2 = -10 < 0$. \textbf{Indefinite.} At a critical
+        point this would mean a \textbf{saddle}.
+
+  \item $\grad f = (y-2x+6,\,x-2y+3) = (0,0)$. So $2x-y=6$ and
+        $x-2y=-3$. From the first, $y=2x-6$; substituting:
+        $x-2(2x-6)=-3 \Rightarrow -3x+12=-3 \Rightarrow x=5$, $y=4$.
+        Hessian $\Hess = \begin{pmatrix}-2&1\\1&-2\end{pmatrix}$:
+        $D_1=-2<0$, $D_2=4-1=3>0$, \textbf{ND}, so $(5,4)$ is a
+        \textbf{local maximum} with $f(5,4) = 20-25-16+30+12 = 21$.
+
+  \item $\ln(xy) = \ln x + \ln y$. So $f_x = 1/x$, $f_y = 1/y$,
+        $f_{xx} = -1/x^{2}$, $f_{yy} = -1/y^{2}$, $f_{xy} = 0 = f_{yx}$.
+        \; $\checkmark$
+
+  \item $f_x = 2(x^{2}+y^{2})\cdot2x = 4x(x^{2}+y^{2})$,
+        $f_y = 4y(x^{2}+y^{2})$. Then
+        \[
+          f_{xx} = 4(x^{2}+y^{2})+4x\cdot2x = 4(3x^{2}+y^{2}), \quad
+          f_{yy} = 4(x^{2}+3y^{2}), \quad
+          f_{xy} = 4x\cdot2y = 8xy = f_{yx} .
+        \]
+        Hessian
+        \[
+          \Hess = 4\begin{pmatrix}3x^{2}+y^{2}&2xy\\2xy&x^{2}+3y^{2}\end{pmatrix} .
+        \]
+
+  \item $D_1 = -1 < 0$, $D_2 = 1 - 4 = -3 < 0$. Since $D_2<0$,
+        \textbf{indefinite.}
+
+  \item $\grad f = (3x^{2}-3y,\,-3x+3y^{2}) = (0,0) \Rightarrow y=x^{2}$
+        and $x=y^{2}=x^{4}$, so $x(x^{3}-1)=0$, giving $x\in\{0,1\}$.
+        Critical points: $(0,0)$ and $(1,1)$. Hessian
+        $\Hess = \begin{pmatrix}6x&-3\\-3&6y\end{pmatrix}$.
+        \begin{itemize}
+          \item $(0,0)$: $\Hess = \begin{pmatrix}0&-3\\-3&0\end{pmatrix}$,
+                $D_2=-9<0$, \textbf{saddle}.
+          \item $(1,1)$: $\Hess = \begin{pmatrix}6&-3\\-3&6\end{pmatrix}$,
+                $D_1=6>0$, $D_2=36-9=27>0$, \textbf{PD}: local minimum,
+                $f=1-3+1=-1$.
+        \end{itemize}
+
+  \item $f_x = \cos(x)\cos(y)$, $f_y = -\sin(x)\sin(y)$. So
+        $f_{xx} = -\sin(x)\cos(y)$, $f_{yy} = -\sin(x)\cos(y)$, and
+        \[
+          f_{xy} = -\cos(x)\sin(y) = f_{yx} . \; \checkmark
+        \]
+
+  \item Let $u=xyz$, $f=\mathrm{e}^{u}$. Then $f_x = yz\mathrm{e}^{u}$,
+        $f_y = xz\mathrm{e}^{u}$, $f_z = xy\mathrm{e}^{u}$. Direct
+        partials: $f_{xx} = (yz)^{2}\mathrm{e}^{u}$,
+        $f_{yy} = (xz)^{2}\mathrm{e}^{u}$, $f_{zz} = (xy)^{2}\mathrm{e}^{u}$.
+        Cross-partials (using the product rule on
+        $f_x = yz\,\mathrm{e}^{xyz}$):
+        \[
+          f_{xy} = z\mathrm{e}^{xyz} + yz\cdot xz\mathrm{e}^{xyz}
+                 = z\mathrm{e}^{xyz}(1+xyz) .
+        \]
+        Similarly $f_{xz} = y\mathrm{e}^{xyz}(1+xyz)$ and
+        $f_{yz} = x\mathrm{e}^{xyz}(1+xyz)$. (Symmetry $f_{xy}=f_{yx}$
+        etc.\ confirms Young's theorem.) At $(1,1,1)$: $u=1$,
+        $\mathrm{e}^{u}=\mathrm{e}$, $1+xyz=2$, and $yz=xz=xy=1$, so
+        \[
+          \Hess(1,1,1) = \mathrm{e}\begin{pmatrix}1&2&2\\2&1&2\\2&2&1\end{pmatrix} .
+        \]
+
+  \item $D_1 = 4 > 0$, $D_2 = 16 - 4 = 12 > 0$. \textbf{PD.}
+
+  \item $\pi_L = 5L^{-1/2}K^{1/2}-2$, $\pi_K = 5L^{1/2}K^{-1/2}-3$.
+        Setting both to zero gives $5K^{1/2}/L^{1/2}=2$ and
+        $5L^{1/2}/K^{1/2}=3$. Multiplying these two equations: $25=6$,
+        which is a contradiction. So $\pi$ has \textbf{no interior
+        critical point}. Why? The production function
+        $Q=10L^{1/2}K^{1/2}$ is homogeneous of degree 1 (constant returns
+        to scale), so along any ray $(\lambda L,\lambda K)$ revenue and
+        cost both scale linearly: $\pi(\lambda L,\lambda K)=\lambda\pi(L,K)$.
+        Hence profit is either identically zero, or unbounded above
+        (depending on sign of $\pi$ along some direction). With
+        $\max_{L/K}(10\sqrt{LK}-2L-3K)/K$: setting $t=L/K$ gives
+        $\pi/K = 10\sqrt{t}-2t-3$, maximised at $t=25/4$ giving
+        $\pi/K = 25-25/2-3 = 19/2 > 0$. So $\pi\to+\infty$ along the ray
+        $L=(25/4)K$. The Hessian test does not apply because there is no
+        critical point to classify. (Lesson: an inconsistent
+        first-order system is itself a meaningful answer about the
+        geometry of the problem.)
+
+  \item $f_x = 2xy^{3}$, $f_y = 3x^{2}y^{2}$. So $f_{xx} = 2y^{3}$,
+        $f_{yy} = 6x^{2}y$, and
+        \[
+          f_{xy} = 6xy^{2} = f_{yx} . \; \checkmark
+        \]
+
+  \item Let $g=\sin y-\cos y$, so $f=\mathrm{e}^{x}g$. Then
+        $f_x = \mathrm{e}^{x}g$, $f_y = \mathrm{e}^{x}(\cos y+\sin y)$. So
+        $f_{xx} = \mathrm{e}^{x}g = \mathrm{e}^{x}(\sin y-\cos y)$,
+        $f_{yy} = \mathrm{e}^{x}(-\sin y+\cos y) = -\mathrm{e}^{x}g$, and
+        \[
+          f_{xy} = \mathrm{e}^{x}(\cos y+\sin y) = f_{yx} . \; \checkmark
+        \]
+        Hessian
+        \[
+          \Hess = \mathrm{e}^{x}
+          \begin{pmatrix}
+            \sin y-\cos y & \cos y+\sin y \\
+            \cos y+\sin y & \cos y-\sin y
+          \end{pmatrix} .
+        \]
+
+  \item $D_1 = 9 > 0$, $D_2 = 36 - 36 = 0$. \textbf{Inconclusive
+        (positive semi-definite boundary case)}: Sylvester gives no
+        verdict; we cannot rule out PSD with a zero eigenvalue. (In fact
+        $H = (3,2)^{T}(3,2)$, so it is PSD with one zero eigenvalue.)
+
+  \item $\grad f = (2x+y-3,\,x+2y) = (0,0)$. From the second: $x=-2y$;
+        substituting: $-4y+y-3=0 \Rightarrow y=-1$, $x=2$. Critical point
+        $(2,-1)$. Hessian $\Hess = \begin{pmatrix}2&1\\1&2\end{pmatrix}$:
+        $D_1=2>0$, $D_2=4-1=3>0$, \textbf{PD}, so $(2,-1)$ is a strict
+        \textbf{local minimum} with $f(2,-1) = 4-2+1-6 = -3$.
+
+  \item With $u=y/x$, $f=\arctan u$: $f_x = -y/(x^{2}+y^{2})$,
+        $f_y = x/(x^{2}+y^{2})$. Let $S=x^{2}+y^{2}$. Then
+        \[
+          f_{xx} = \frac{2xy}{S^{2}}, \qquad
+          f_{yy} = \frac{-2xy}{S^{2}}, \qquad
+          f_{xy} = \frac{-S+2y^{2}}{S^{2}} = \frac{y^{2}-x^{2}}{(x^{2}+y^{2})^{2}}
+                  = f_{yx} . \; \checkmark
+        \]
+        (And $f_{xx}+f_{yy}=0$: $\arctan(y/x)$ is harmonic.)
+
+  \item Let $g=K^{1/2}+L^{1/2}$. From sec06 sol.\ 23, $f_K = g/K^{1/2}$,
+        $f_L = g/L^{1/2}$. Then
+        \[
+          f_{KK} = \frac{\tfrac12K^{-1/2}\cdot K^{1/2}-g\cdot\tfrac12K^{-1/2}}{K}
+                  = \frac{\tfrac12-g/(2K^{1/2})}{K}
+                  = \frac{1}{2K}-\frac{g}{2K^{3/2}} .
+        \]
+        More cleanly: $f_K = 1+(L/K)^{1/2}$, so
+        $f_{KK} = -\tfrac12L^{1/2}K^{-3/2}$, and by symmetry
+        $f_{LL} = -\tfrac12K^{1/2}L^{-3/2}$. Cross-partial:
+        $f_{KL} = \tfrac12K^{-1/2}L^{-1/2} = f_{LK}$. \; $\checkmark$
+        Hessian
+        \[
+          \Hess = \tfrac12
+          \begin{pmatrix}
+            -L^{1/2}K^{-3/2} & K^{-1/2}L^{-1/2} \\
+            K^{-1/2}L^{-1/2} & -K^{1/2}L^{-3/2}
+          \end{pmatrix} .
+        \]
+
+  \item $\grad f = (-4x^{3}+8y,\,-4y^{3}+8x) = (0,0) \Rightarrow x^{3}=2y$
+        and $y^{3}=2x$. Substituting: $y=x^{3}/2$, then
+        $(x^{3}/2)^{3}=2x \Rightarrow x^{9}/8=2x \Rightarrow x(x^{8}-16)=0$,
+        so $x\in\{0,\pm16^{1/8}\}=\{0,\pm\sqrt2\}$. Points: $(0,0)$,
+        $(\sqrt2,\sqrt2)$ (since $y=x^{3}/2=2\sqrt2/2=\sqrt2$), and
+        $(-\sqrt2,-\sqrt2)$. Hessian
+        $\Hess = \begin{pmatrix}-12x^{2}&8\\8&-12y^{2}\end{pmatrix}$.
+        \begin{itemize}
+          \item $(0,0)$: $\Hess = \begin{pmatrix}0&8\\8&0\end{pmatrix}$,
+                $D_2=-64<0$, \textbf{saddle}.
+          \item $(\sqrt2,\sqrt2)$: $x^{2}=y^{2}=2$,
+                $\Hess = \begin{pmatrix}-24&8\\8&-24\end{pmatrix}$,
+                $D_1=-24<0$, $D_2=576-64=512>0$, \textbf{ND}: local
+                maximum, $f=-4-4+16=8$.
+          \item $(-\sqrt2,-\sqrt2)$: same $H$, $f=-4-4+16=8$. \textbf{Local
+                maximum.}
+        \end{itemize}
+
+  \item $f_x = 2x\mathrm{e}^{-y}$, $f_y = -x^{2}\mathrm{e}^{-y}$. So
+        $f_{xx} = 2\mathrm{e}^{-y}$, $f_{yy} = x^{2}\mathrm{e}^{-y}$, and
+        \[
+          f_{xy} = -2x\mathrm{e}^{-y} = f_{yx} . \; \checkmark
+        \]
+
+  \item $f_x = -y\sin(xy)$, $f_y = -x\sin(xy)$. Then
+        $f_{xx} = -y^{2}\cos(xy)$, $f_{yy} = -x^{2}\cos(xy)$, and
+        (product rule)
+        \[
+          f_{xy} = -\sin(xy) - y\cdot x\cos(xy) = -\sin(xy) - xy\cos(xy) .
+        \]
+        At $(0,0)$: $\sin 0=0$, $\cos 0=1$. So $f_{xx}(0,0)=0$,
+        $f_{yy}(0,0)=0$, $f_{xy}(0,0)=0$. Hessian
+        \[
+          \Hess(0,0) = \begin{pmatrix}0&0\\0&0\end{pmatrix} .
+        \]
+
+  \item $D_1 = 0$. Sylvester's stated criterion is inconclusive because
+        $D_1$ is not strictly positive or negative. Directly:
+        $D_2 = 0-9 = -9 < 0$, which by the third clause of Sylvester
+        (sufficient on its own) gives \textbf{indefinite.}
+
+  \item $\grad f = (3x^{2}+3y^{2}-15,\,6xy-12) = (0,0)$. From the second:
+        $xy=2$. From the first: $x^{2}+y^{2}=5$. Combined with $xy=2$:
+        $(x+y)^{2}=5+4=9$ so $x+y=\pm3$; $(x-y)^{2}=5-4=1$ so
+        $x-y=\pm1$. Solutions $(x,y)\in\{(2,1),(1,2),(-2,-1),(-1,-2)\}$.
+        Hessian $\Hess = \begin{pmatrix}6x&6y\\6y&6x\end{pmatrix}$, so
+        $D_1=6x$, $D_2=36(x^{2}-y^{2})$.
+        \begin{itemize}
+          \item $(2,1)$: $D_1=12>0$, $D_2=36(4-1)=108>0$, \textbf{PD}:
+                local minimum, $f=8+6-30-12=-28$.
+          \item $(1,2)$: $D_1=6>0$, $D_2=36(1-4)=-108<0$, \textbf{saddle}.
+          \item $(-2,-1)$: $D_1=-12<0$, $D_2=108>0$, \textbf{ND}: local
+                maximum, $f=-8-6+30+12=28$.
+          \item $(-1,-2)$: $D_1=-6<0$, $D_2=-108<0$, $D_2<0$ gives
+                \textbf{saddle}.
+        \end{itemize}
+
+  \item Let $S=1+x^{2}+y^{2}$, $f=\ln S$, $f_x = 2x/S$, $f_y = 2y/S$.
+        Then (using quotient rule):
+        \[
+          f_{xx} = \frac{2S-2x\cdot2x}{S^{2}} = \frac{2(1+y^{2}-x^{2})}{S^{2}}, \quad
+          f_{yy} = \frac{2(1+x^{2}-y^{2})}{S^{2}}, \quad
+          f_{xy} = \frac{-4xy}{S^{2}} = f_{yx} . \; \checkmark
+        \]
+        At the origin $(0,0)$: $S=1$, so
+        \[
+          \Hess(0,0) = \begin{pmatrix}2&0\\0&2\end{pmatrix} .
+        \]
+
+  \item $\grad f = \mathrm{e}^{-(x^{2}+y^{2})}(-2x,-2y) = (0,0)
+        \Rightarrow x=y=0$, since $\mathrm{e}^{-r^{2}}>0$. Critical point
+        $(0,0)$. Compute the Hessian: $f_x = -2x\mathrm{e}^{-(x^{2}+y^{2})}$,
+        and at $(0,0)$, $f_{xx} = -2\mathrm{e}^{0}+(-2x)(-2x)\mathrm{e}^{0}\big|_{0,0}=-2$.
+        Similarly $f_{yy}(0,0)=-2$, and
+        $f_{xy}(0,0) = (-2x)(-2y)\mathrm{e}^{0}\big|_{0,0}=0$. Hessian
+        $\Hess(0,0) = \begin{pmatrix}-2&0\\0&-2\end{pmatrix}$: $D_1=-2<0$,
+        $D_2=4>0$, \textbf{ND: strict local maximum} at $(0,0)$ with
+        $f(0,0)=1$. (Indeed, this is the global maximum, since $f\to0$
+        at infinity and $f>0$ everywhere.)
+\end{solutions}
+
+\section{Additional Problems}
+
+\begin{problems}
+  \item Compute all second partials of $f(x,y) = 3x^{3} - 4x^{2}y + 5y^{3}$
+        and verify Young's theorem.
+  \item Construct the Hessian of
+        $f(x,y) = 3x^{2} - 4xy + 2y^{2} + x - 5y$.
+  \item Classify the definiteness of
+        $\Hess = \begin{pmatrix}5&-1\\-1&4\end{pmatrix}$ using Sylvester's
+        criterion.
+  \item Find and classify the critical points of
+        $f(x,y) = 2x^{2} + 3y^{2} - 4x + 6y + 1$.
+  \item Compute all second partials of $f(x,y) = (2x+y)^{4}$ and verify
+        $f_{xy} = f_{yx}$.
+  \item Construct the Hessian of $f(x,y) = \mathrm{e}^{x+2y}$.
+  \item Classify $\Hess = \begin{pmatrix}-3&1\\1&-2\end{pmatrix}$.
+  \item Find and classify the critical points of
+        $f(x,y) = -2x^{2} - 4y^{2} + 8x + 8y - 3$.
+  \item Compute all second partials of $f(x,y) = xy\ln y$ ($y>0$) and
+        verify Young's theorem.
+  \item Construct the Hessian of $f(x,y) = x^{3}y + xy^{3}$.
+  \item Classify $\Hess = \begin{pmatrix}2&3\\3&4\end{pmatrix}$.
+  \item Find and classify the critical points of
+        $f(x,y) = x^{2} - 2xy + 3y^{2} + 2x - 6y$.
+  \item Compute all second partials of the Cobb--Douglas
+        $f(K,L) = K^{1/2}L^{1/2}$ ($K,L>0$) and verify Young's theorem.
+  \item Find and classify the critical points of
+        $f(x,y) = x^{3} + y^{3} - 3x - 3y$.
+  \item Classify $\Hess = \begin{pmatrix}-5&0\\0&-3\end{pmatrix}$ and state
+        what it implies if $H$ is the Hessian at a critical point.
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item $f_x = 9x^{2} - 8xy$, $f_y = -4x^{2} + 15y^{2}$. Then
+        $f_{xx} = 18x - 8y$, $f_{yy} = 30y$, and
+        \[
+          f_{xy} = -8x = f_{yx} . \; \checkmark
+        \]
+
+  \item $f_x = 6x - 4y + 1$, $f_y = -4x + 4y - 5$. Hessian
+        \[
+          \Hess = \begin{pmatrix}6&-4\\-4&4\end{pmatrix} .
+        \]
+
+  \item $D_1 = 5 > 0$, $D_2 = 20 - 1 = 19 > 0$. \textbf{PD.}
+
+  \item $\grad f = (4x-4,\,6y+6) = (0,0) \Rightarrow x=1,\,y=-1$. Hessian
+        $\Hess = \begin{pmatrix}4&0\\0&6\end{pmatrix}$: $D_1=4>0$,
+        $D_2=24>0$, \textbf{PD}, so $(1,-1)$ is a strict \textbf{local
+        minimum} with $f(1,-1) = 2+3-4-6+1 = -4$.
+
+  \item Chain rule: $f_x = 4(2x+y)^{3}\cdot2 = 8(2x+y)^{3}$,
+        $f_y = 4(2x+y)^{3}$. So $f_{xx} = 48(2x+y)^{2}$,
+        $f_{yy} = 12(2x+y)^{2}$, and
+        \[
+          f_{xy} = 24(2x+y)^{2} = f_{yx} . \; \checkmark
+        \]
+
+  \item $f_x = \mathrm{e}^{x+2y}$, $f_y = 2\mathrm{e}^{x+2y}$. So
+        $f_{xx} = \mathrm{e}^{x+2y}$, $f_{yy} = 4\mathrm{e}^{x+2y}$,
+        $f_{xy} = 2\mathrm{e}^{x+2y}$. Hessian
+        \[
+          \Hess = \mathrm{e}^{x+2y}\begin{pmatrix}1&2\\2&4\end{pmatrix} .
+        \]
+        (Note $\det\Hess = 0$: this is rank-1 PSD, consistent with $f$
+        being a function of the single combination $x+2y$.)
+
+  \item $D_1 = -3 < 0$, $D_2 = 6 - 1 = 5 > 0$. \textbf{ND.}
+
+  \item $\grad f = (-4x+8,\,-8y+8) = (0,0) \Rightarrow x=2,\,y=1$. Hessian
+        $\Hess = \begin{pmatrix}-4&0\\0&-8\end{pmatrix}$: $D_1=-4<0$,
+        $D_2=32>0$, \textbf{ND}, so $(2,1)$ is a strict \textbf{local
+        maximum} with $f(2,1) = -8-4+16+8-3 = 9$.
+
+  \item $f_x = y\ln y$, $f_y = x\ln y + x = x(\ln y + 1)$. So
+        $f_{xx} = 0$, $f_{yy} = x/y$, and
+        \[
+          f_{xy} = \ln y + 1 = f_{yx} . \; \checkmark
+        \]
+
+  \item $f_x = 3x^{2}y + y^{3}$, $f_y = x^{3} + 3xy^{2}$. So
+        $f_{xx} = 6xy$, $f_{yy} = 6xy$,
+        $f_{xy} = 3x^{2} + 3y^{2} = f_{yx}$. Hessian
+        \[
+          \Hess = \begin{pmatrix}
+            6xy & 3x^{2}+3y^{2} \\
+            3x^{2}+3y^{2} & 6xy
+          \end{pmatrix} .
+        \]
+
+  \item $D_1 = 2 > 0$, $D_2 = 8 - 9 = -1 < 0$. \textbf{Indefinite
+        (saddle).}
+
+  \item $\grad f = (2x-2y+2,\,-2x+6y-6) = (0,0)$. From the first:
+        $x = y-1$. Substitute: $-2(y-1)+6y-6 = 4y-4 = 0 \Rightarrow y=1$,
+        $x=0$. Hessian $\Hess = \begin{pmatrix}2&-2\\-2&6\end{pmatrix}$:
+        $D_1=2>0$, $D_2=12-4=8>0$, \textbf{PD}, so $(0,1)$ is a strict
+        \textbf{local minimum} with $f(0,1) = 0-0+3+0-6 = -3$.
+
+  \item $f_K = \tfrac12K^{-1/2}L^{1/2}$, $f_L = \tfrac12K^{1/2}L^{-1/2}$.
+        So
+        \[
+          f_{KK} = -\tfrac14K^{-3/2}L^{1/2}, \quad
+          f_{LL} = -\tfrac14K^{1/2}L^{-3/2}, \quad
+          f_{KL} = \tfrac14K^{-1/2}L^{-1/2} = f_{LK} . \; \checkmark
+        \]
+
+  \item $\grad f = (3x^{2}-3,\,3y^{2}-3) = (0,0) \Rightarrow x^{2}=1,\,
+        y^{2}=1$, giving $(\pm1,\pm1)$. Hessian
+        $\Hess = \begin{pmatrix}6x&0\\0&6y\end{pmatrix}$, so $D_1=6x$,
+        $D_2=36xy$.
+        \begin{itemize}
+          \item $(1,1)$: $D_1=6>0$, $D_2=36>0$, \textbf{PD}: local
+                minimum, $f = 1+1-3-3 = -4$.
+          \item $(1,-1)$: $D_2=-36<0$, \textbf{saddle}.
+          \item $(-1,1)$: $D_2=-36<0$, \textbf{saddle}.
+          \item $(-1,-1)$: $D_1=-6<0$, $D_2=36>0$, \textbf{ND}: local
+                maximum, $f = -1-1+3+3 = 4$.
+        \end{itemize}
+
+  \item $D_1 = -5 < 0$, $D_2 = 15 > 0$. \textbf{ND}: at a critical point
+        this would mean a \textbf{strict local maximum.}
+\end{solutions}

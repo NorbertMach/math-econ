@@ -1,0 +1,541 @@
+\chapter{Higher-Order Derivatives, Convexity, Inflection}
+
+Once $f'$ exists and is itself differentiable, we can differentiate again to
+obtain $f''$, and iterate to higher orders. The second derivative records
+how the slope changes: it controls convexity/concavity and powers the
+second-order condition for optimisation. Higher derivatives of standard
+functions follow simple closed-form patterns, and the Leibniz rule extends
+the product rule to all orders.
+
+\section{Core Rules}
+
+\begin{rulebox}{Definition}
+For $f:I\subseteq\R\to\R$ smooth enough, write
+\[
+  f''(x)=\frac{\mathrm{d}^{2}f}{\mathrm{d}x^{2}},\qquad
+  f^{(n)}(x)=\frac{\mathrm{d}^{n}f}{\mathrm{d}x^{n}},\qquad
+  f^{(0)}:=f .
+\]
+\end{rulebox}
+
+\begin{rulebox}{Polynomials}
+\[
+  \frac{\mathrm{d}^{n}}{\mathrm{d}x^{n}}x^{k}
+    =k(k-1)\cdots(k-n+1)\,x^{k-n} .
+\]
+In particular $(x^{n})^{(n)}=n!$ and $(x^{n})^{(n+1)}=0$.
+\end{rulebox}
+
+\begin{rulebox}{Exponentials}
+\[
+  \frac{\mathrm{d}^{n}}{\mathrm{d}x^{n}}\mathrm{e}^{ax}=a^{n}\mathrm{e}^{ax} .
+\]
+\end{rulebox}
+
+\begin{rulebox}{Logarithm}
+\[
+  \frac{\mathrm{d}^{n}}{\mathrm{d}x^{n}}\ln(x)
+    =\frac{(-1)^{n-1}(n-1)!}{x^{n}}\qquad\text{for } n\geq 1 .
+\]
+\end{rulebox}
+
+\begin{rulebox}{Trig}
+\[
+  \frac{\mathrm{d}^{n}}{\mathrm{d}x^{n}}\sin(x)=\sin\Bigl(x+\frac{n\pi}{2}\Bigr),
+  \qquad
+  \frac{\mathrm{d}^{n}}{\mathrm{d}x^{n}}\cos(x)=\cos\Bigl(x+\frac{n\pi}{2}\Bigr) .
+\]
+\end{rulebox}
+
+\begin{rulebox}{Convexity / concavity}
+$f''\geq 0$ on $I$ implies $f$ is convex on $I$; $f''\leq 0$ implies
+concave. Strict inequalities give strict (con)cavity.
+\end{rulebox}
+
+\begin{rulebox}{Inflection point}
+$x_{0}$ is an inflection point if $f''$ \emph{changes sign} at $x_{0}$. The
+condition $f''(x_{0})=0$ alone is insufficient (e.g.\ $x^{4}$ at $x_{0}=0$).
+\end{rulebox}
+
+\begin{rulebox}{Second-derivative test}
+If $f'(x_{0})=0$ and $f''(x_{0})>0$, $x_{0}$ is a local minimum;
+$f''(x_{0})<0$ gives a local maximum.
+\end{rulebox}
+
+\begin{rulebox}{Leibniz rule (higher product)}
+\[
+  (fg)^{(n)}=\sum_{k=0}^{n}\binom{n}{k}f^{(k)}g^{(n-k)} .
+\]
+\end{rulebox}
+
+\begin{rulebox}{Taylor polynomial}
+The Taylor polynomial of order $n$ at $a$:
+\[
+  T_{n}(x)=\sum_{k=0}^{n}\frac{f^{(k)}(a)}{k!}(x-a)^{k},
+\]
+with remainder
+\[
+  R_{n}(x)=\frac{f^{(n+1)}(\xi)}{(n+1)!}(x-a)^{n+1}
+\]
+for some $\xi$ between $a$ and $x$.
+\end{rulebox}
+
+\section{Practice Problems}
+
+\begin{problems}
+  \item Compute $f''(x)$ for $f(x)=2x^{4}-5x^{3}+x-7$.
+  \item Determine the intervals on which $f(x)=x^{3}-6x^{2}+5$ is convex and
+        on which it is concave.
+  \item Find a closed form for $f^{(n)}(x)$ when $f(x)=\mathrm{e}^{-x}$.
+  \item Find all inflection points of $f(x)=x^{6}$.
+  \item Compute $f''(x)$ for $f(x)=\mathrm{e}^{-2x}$.
+  \item For a cost function $C(Q)=Q^{3}-12Q^{2}+50Q+100$, determine the
+        output level where marginal cost transitions from decreasing to
+        increasing.
+  \item Find a closed form for $f^{(n)}(x)$ when $f(x)=\ln(1+x)$.
+  \item Compute $f''(x)$ for $f(x)=x^{2}\mathrm{e}^{x}$.
+  \item Find all inflection points of $f(x)=x^{3}-9x^{2}+24x-3$.
+  \item Determine the convexity/concavity intervals of $f(x)=x\mathrm{e}^{-x}$.
+  \item Compute $f''(x)$ for $f(x)=\ln(2x+5)$.
+  \item Find a closed form for $f^{(n)}(x)$ when $f(x)=\dfrac{1}{x+a}$
+        (constant $a$).
+  \item Show that $f(x)=x^{4}$ has $f''(0)=0$ but $x=0$ is \emph{not} an
+        inflection point.
+  \item Compute $f''(x)$ for $f(x)=3x^{2/3}-x^{-2}$.
+  \item Determine the convexity intervals of $f(x)=\ln(1+\mathrm{e}^{x})$
+        (softplus).
+  \item Find all inflection points of $f(x)=x^{4}-12x^{2}+5$.
+  \item Compute $f''(x)$ for $f(x)=x^{2}\ln(x)$.
+  \item Find a closed form for $f^{(n)}(x)$ when $f(x)=\cos(x)$.
+  \item For utility $U(x)=\ln(x)$, $x>0$, verify that $U$ is strictly
+        concave (the standard ``risk-aversion'' condition).
+  \item Compute $f''(x)$ for $f(x)=\tan(x)$.
+  \item Find all inflection points of $f(x)=\dfrac{x^{2}}{x^{2}+3}$.
+  \item Determine convexity/concavity intervals of $f(x)=\mathrm{e}^{x}-x$.
+  \item Compute $f''(x)$ for $f(x)=\sin(x)\cos(x)$.
+  \item Find a closed form for $f^{(n)}(x)$ when $f(x)=\dfrac{1}{(1-x)^{2}}$.
+  \item Find all inflection points of $f(x)=x^{2}\mathrm{e}^{-x}$.
+  \item Compute $f''(x)$ for $f(x)=\dfrac{x}{x-3}$.
+  \item Determine convexity/concavity of $f(x)=x^{4}-8x^{3}+1$ and the
+        corresponding inflection points.
+  \item Find a closed form for $f^{(n)}(x)$ when $f(x)=\mathrm{e}^{ax}$ for
+        a constant $a$.
+  \item Compute $f''(x)$ for $f(x)=(x^{2}+4)^{3/2}$.
+  \item For $f(x)=x^{5}$, determine whether $x=0$ is an inflection point.
+  \item Compute $f''(x)$ for $f(x)=\sqrt{1+x^{2}}$.
+  \item Determine the inflection points of $f(x)=\arctan(x)$.
+  \item Find $f^{(n)}(x)$ for $f(x)=\sin(2x)$.
+  \item Compute $f''(x)$ for $f(x)=\dfrac{1}{1+x^{2}}$.
+  \item Determine convexity/concavity of $f(x)=x\ln(x)$, $x>0$.
+  \item For the logistic function $f(x)=\dfrac{1}{1+\mathrm{e}^{-x}}$, find
+        the inflection point.
+  \item Compute $f''(x)$ for $f(x)=x^{3}\ln(x)$.
+  \item For a profit function $\pi(Q)=-Q^{3}+15Q^{2}-27Q-10$, where is
+        $\pi$ concave?
+  \item Find $f^{(n)}(0)$ for $f(x)=\ln(1+x)$ at $x=0$ (i.e.\ the
+        coefficients in its Taylor series at zero).
+  \item Compute $f''(x)$ for $f(x)=\mathrm{e}^{x^{2}}$.
+  \item Determine all inflection points of $f(x)=x^{5}-5x^{4}$.
+  \item For $f(x)=x|x|$ (i.e.\ $x^{2}$ for $x\geq 0$, $-x^{2}$ for $x<0$),
+        determine whether $x=0$ is an inflection point and whether
+        $f''(0)$ exists.
+  \item Compute $f''(x)$ for $f(x)=\arctan(x)$.
+  \item Apply the Leibniz rule to compute $(x^{2}\mathrm{e}^{x})^{(n)}$ in
+        closed form.
+  \item Find the inflection points of $f(x)=(x-1)^{4}$.
+  \item For $f(x)=\sin(x)$, find the Taylor polynomial $T_{5}(x)$ at $a=0$.
+  \item Compute $f''(x)$ for $f(x)=\ln(\cos(x))$ on
+        $\bigl(-\tfrac{\pi}{2},\tfrac{\pi}{2}\bigr)$.
+  \item Find a closed form for $f^{(n)}(x)$ when $f(x)=x\mathrm{e}^{x}$,
+        using the Leibniz rule.
+  \item Determine the convexity intervals of $f(x)=\dfrac{1}{1+x^{2}}$ (the
+        standard Cauchy-type bell curve).
+  \item For a Cobb--Douglas production function $f(L)=AL^{\alpha}$ with
+        $0<\alpha<1$ and $A>0$, verify that $f$ is strictly concave in
+        $L>0$ (the law of diminishing returns).
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item $f'(x)=8x^{3}-15x^{2}+1$, $f''(x)=24x^{2}-30x$.
+
+  \item $f'(x)=3x^{2}-12x$, $f''(x)=6x-12=6(x-2)$. So $f''(x)\geq 0$ iff
+        $x\geq 2$: convex on $[2,\infty)$, concave on $(-\infty,2]$.
+
+  \item Each differentiation introduces a factor of $-1$:
+        $f^{(n)}(x)=(-1)^{n}\mathrm{e}^{-x}$.
+
+  \item $f'(x)=6x^{5}$, $f''(x)=30x^{4}\geq 0$ for all $x$, with equality
+        only at $x=0$. Since $f''$ does not change sign, $x=0$ is
+        \emph{not} an inflection point. $f$ has no inflection points.
+
+  \item $f'(x)=-2\mathrm{e}^{-2x}$, $f''(x)=4\mathrm{e}^{-2x}$.
+
+  \item $MC(Q)=C'(Q)=3Q^{2}-24Q+50$. $MC'(Q)=6Q-24=0\Rightarrow Q=4$.
+        $MC''(Q)=6>0$ so $Q=4$ minimises $MC$. At $Q=4$, $C''(Q)$ changes
+        sign there: $C''(Q)=6Q-24$, negative for $Q<4$, positive for
+        $Q>4$, so $Q=4$ is the inflection point of $C$ and the transition
+        output for marginal cost.
+
+  \item With $u=1+x$: $f'(x)=u^{-1}$, $f''(x)=-u^{-2}$,
+        $f'''(x)=2u^{-3}$, in general
+        \[
+          f^{(n)}(x)=\frac{(-1)^{n-1}(n-1)!}{(1+x)^{n}}\qquad (n\geq 1) .
+        \]
+
+  \item $f'(x)=2x\mathrm{e}^{x}+x^{2}\mathrm{e}^{x}=(x^{2}+2x)\mathrm{e}^{x}$,
+        then
+        \[
+          f''(x)=(2x+2)\mathrm{e}^{x}+(x^{2}+2x)\mathrm{e}^{x}
+                =(x^{2}+4x+2)\mathrm{e}^{x} .
+        \]
+
+  \item $f'(x)=3x^{2}-18x+24$, $f''(x)=6x-18=6(x-3)$. Sign change at
+        $x=3$. $f(3)=27-81+72-3=15$. Inflection at $(3,15)$.
+
+  \item $f'(x)=\mathrm{e}^{-x}-x\mathrm{e}^{-x}=(1-x)\mathrm{e}^{-x}$.
+        $f''(x)=-\mathrm{e}^{-x}-(1-x)\mathrm{e}^{-x}=(x-2)\mathrm{e}^{-x}$.
+        Since $\mathrm{e}^{-x}>0$, the sign of $f''$ is that of $x-2$.
+        Concave on $(-\infty,2]$, convex on $[2,\infty)$. Inflection at
+        $x=2$.
+
+  \item $f'(x)=\dfrac{2}{2x+5}$, $f''(x)=-\dfrac{4}{(2x+5)^{2}}$.
+
+  \item $f(x)=(x+a)^{-1}$, so
+        $f^{(n)}(x)=(-1)^{n}n!\,(x+a)^{-(n+1)}=\dfrac{(-1)^{n}n!}{(x+a)^{n+1}}$.
+
+  \item $f'(x)=4x^{3}$, $f''(x)=12x^{2}$. Then $f''(0)=0$. But
+        $f''(x)=12x^{2}\geq 0$ everywhere, no sign change. Hence $x=0$
+        is not an inflection point. Indeed $f$ is convex on all of $\R$.
+
+  \item $f'(x)=2x^{-1/3}+2x^{-3}$,
+        $f''(x)=-\tfrac{2}{3}x^{-4/3}-6x^{-4}$.
+
+  \item $f'(x)=\dfrac{\mathrm{e}^{x}}{1+\mathrm{e}^{x}}$. By the quotient
+        rule
+        \[
+          f''(x)=\frac{\mathrm{e}^{x}(1+\mathrm{e}^{x})-\mathrm{e}^{x}\cdot\mathrm{e}^{x}}
+                       {(1+\mathrm{e}^{x})^{2}}
+                =\frac{\mathrm{e}^{x}}{(1+\mathrm{e}^{x})^{2}}>0
+          \text{ for all } x .
+        \]
+        $f$ is strictly convex on all of $\R$.
+
+  \item $f'(x)=4x^{3}-24x$, $f''(x)=12x^{2}-24=12(x^{2}-2)$. Sign changes
+        at $x=\pm\sqrt{2}$. $f(\pm\sqrt{2})=4-24+5=-15$. Inflections at
+        $(\pm\sqrt{2},-15)$.
+
+  \item $f'(x)=2x\ln(x)+x$. Then $f''(x)=2\ln(x)+2+1=2\ln(x)+3$.
+
+  \item $f^{(n)}(x)=\cos\bigl(x+\tfrac{n\pi}{2}\bigr)$.
+
+  \item $U'(x)=1/x$, $U''(x)=-1/x^{2}<0$ for all $x>0$. So $U$ is strictly
+        concave on $(0,\infty)$.
+
+  \item $f'(x)=\sec^{2}(x)$. Then
+        $f''(x)=2\sec(x)\cdot\sec(x)\tan(x)=2\sec^{2}(x)\tan(x)$.
+
+  \item Write $f(x)=1-\dfrac{3}{x^{2}+3}$. Then
+        $f'(x)=\dfrac{6x}{(x^{2}+3)^{2}}$ and
+        \[
+          f''(x)=\frac{6(x^{2}+3)^{2}-6x\cdot 2(x^{2}+3)\cdot 2x}
+                       {(x^{2}+3)^{4}}
+                =\frac{6(x^{2}+3)-24x^{2}}{(x^{2}+3)^{3}}
+                =\frac{18-18x^{2}}{(x^{2}+3)^{3}} .
+        \]
+        Sign changes at $x=\pm 1$. $f(\pm 1)=1/4$. Inflections at
+        $(\pm 1,\tfrac14)$.
+
+  \item $f'(x)=\mathrm{e}^{x}-1$, $f''(x)=\mathrm{e}^{x}>0$ for all $x$.
+        Strictly convex on $\R$. No concave region.
+
+  \item $f(x)=\tfrac12\sin(2x)$, $f'(x)=\cos(2x)$, $f''(x)=-2\sin(2x)$.
+
+  \item Note $\dfrac{1}{(1-x)^{2}}=\dfrac{\mathrm{d}}{\mathrm{d}x}
+        \dfrac{1}{1-x}$. Since
+        $\dfrac{\mathrm{d}^{k}}{\mathrm{d}x^{k}}\dfrac{1}{1-x}
+        =\dfrac{k!}{(1-x)^{k+1}}$, we get
+        \[
+          f^{(n)}(x)=\frac{(n+1)!}{(1-x)^{n+2}} .
+        \]
+
+  \item $f'(x)=2x\mathrm{e}^{-x}-x^{2}\mathrm{e}^{-x}=(2x-x^{2})\mathrm{e}^{-x}$.
+        $f''(x)=(2-2x)\mathrm{e}^{-x}-(2x-x^{2})\mathrm{e}^{-x}
+               =(x^{2}-4x+2)\mathrm{e}^{-x}$. Roots: $x=2\pm\sqrt{2}$.
+        Inflections at $x=2\pm\sqrt{2}$; $y$-values
+        $(2\pm\sqrt{2})^{2}\mathrm{e}^{-(2\pm\sqrt{2})}
+        =(6\pm4\sqrt{2})\mathrm{e}^{-(2\pm\sqrt{2})}$.
+
+  \item Write $f(x)=1+\dfrac{3}{x-3}$. Then $f'(x)=-\dfrac{3}{(x-3)^{2}}$,
+        $f''(x)=\dfrac{6}{(x-3)^{3}}$.
+
+  \item $f'(x)=4x^{3}-24x^{2}$, $f''(x)=12x^{2}-48x=12x(x-4)$. Sign
+        changes at $x=0$ and $x=4$. Convex on $(-\infty,0]\cup[4,\infty)$,
+        concave on $[0,4]$. Inflections at $(0,1)$ and
+        $(4,4^{4}-8\cdot 64+1)=(4,256-512+1)=(4,-255)$.
+
+  \item Each derivative pulls out a factor $a$: $f^{(n)}(x)=a^{n}\mathrm{e}^{ax}$.
+
+  \item $f'(x)=\tfrac32(x^{2}+4)^{1/2}\cdot 2x=3x\sqrt{x^{2}+4}$. Then
+        \[
+          f''(x)=3\sqrt{x^{2}+4}+3x\cdot\frac{x}{\sqrt{x^{2}+4}}
+                =\frac{3(x^{2}+4)+3x^{2}}{\sqrt{x^{2}+4}}
+                =\frac{6x^{2}+12}{\sqrt{x^{2}+4}}
+                =\frac{6(x^{2}+2)}{\sqrt{x^{2}+4}} .
+        \]
+
+  \item $f'(x)=5x^{4}$, $f''(x)=20x^{3}$. $f''(x)<0$ for $x<0$,
+        $f''(x)>0$ for $x>0$: sign change at $x=0$. Hence $x=0$ is an
+        inflection point (with $f(0)=0$).
+
+  \item $f'(x)=\dfrac{x}{\sqrt{1+x^{2}}}$. Then
+        \[
+          f''(x)=\frac{\sqrt{1+x^{2}}-x\cdot\frac{x}{\sqrt{1+x^{2}}}}
+                       {1+x^{2}}
+                =\frac{(1+x^{2})-x^{2}}{(1+x^{2})^{3/2}}
+                =\frac{1}{(1+x^{2})^{3/2}} .
+        \]
+
+  \item $f'(x)=\dfrac{1}{1+x^{2}}$. Then
+        $f''(x)=-\dfrac{2x}{(1+x^{2})^{2}}$. Sign change at $x=0$, with
+        $f''(x)>0$ for $x<0$ and $f''(x)<0$ for $x>0$. Inflection at
+        $(0,0)$.
+
+  \item Write $\sin(2x)$. Each differentiation multiplies the
+        argument-shift trick by $2$:
+        \[
+          f^{(n)}(x)=2^{n}\sin\Bigl(2x+\frac{n\pi}{2}\Bigr) .
+        \]
+
+  \item $f(x)=(1+x^{2})^{-1}$. $f'(x)=-2x(1+x^{2})^{-2}$. Then
+        \[
+          f''(x)=-2(1+x^{2})^{-2}+(-2x)\cdot(-2)(1+x^{2})^{-3}\cdot 2x
+                =-\frac{2}{(1+x^{2})^{2}}+\frac{8x^{2}}{(1+x^{2})^{3}}
+                =\frac{-2(1+x^{2})+8x^{2}}{(1+x^{2})^{3}}
+                =\frac{6x^{2}-2}{(1+x^{2})^{3}} .
+        \]
+
+  \item $f'(x)=\ln(x)+1$, $f''(x)=1/x>0$ for all $x>0$. Strictly convex
+        on $(0,\infty)$.
+
+  \item $f(x)=\dfrac{1}{1+\mathrm{e}^{-x}}=\dfrac{\mathrm{e}^{x}}{1+\mathrm{e}^{x}}$.
+        Then $f'(x)=\dfrac{\mathrm{e}^{x}}{(1+\mathrm{e}^{x})^{2}}$.
+        Differentiate again using the quotient rule (with $u=\mathrm{e}^{x}$,
+        $v=(1+\mathrm{e}^{x})^{2}$, $v'=2(1+\mathrm{e}^{x})\mathrm{e}^{x}$):
+        \[
+          f''(x)=\frac{\mathrm{e}^{x}(1+\mathrm{e}^{x})^{2}
+                       -\mathrm{e}^{x}\cdot 2(1+\mathrm{e}^{x})\mathrm{e}^{x}}
+                       {(1+\mathrm{e}^{x})^{4}}
+                =\frac{\mathrm{e}^{x}(1+\mathrm{e}^{x})-2\mathrm{e}^{2x}}
+                       {(1+\mathrm{e}^{x})^{3}}
+                =\frac{\mathrm{e}^{x}(1-\mathrm{e}^{x})}{(1+\mathrm{e}^{x})^{3}} .
+        \]
+        Sign of $f''$ is the sign of $1-\mathrm{e}^{x}$: positive for
+        $x<0$, negative for $x>0$. Inflection at $x=0$, where
+        $f(0)=1/2$. Inflection point $(0,\tfrac12)$.
+
+  \item $f'(x)=3x^{2}\ln(x)+x^{2}=x^{2}(3\ln(x)+1)$. Then
+        \[
+          f''(x)=2x(3\ln(x)+1)+x^{2}\cdot\frac{3}{x}
+                =2x(3\ln(x)+1)+3x
+                =6x\ln(x)+5x=x(6\ln(x)+5) .
+        \]
+
+  \item $\pi'(Q)=-3Q^{2}+30Q-27$, $\pi''(Q)=-6Q+30=6(5-Q)$. $\pi$ is
+        concave on $\{Q:\pi''(Q)\leq 0\}=[5,\infty)$ and convex on
+        $(-\infty,5]$. (Economic note: the profit function changes from
+        convex to concave at the inflection $Q=5$.)
+
+  \item $f^{(n)}(x)=\dfrac{(-1)^{n-1}(n-1)!}{(1+x)^{n}}$ for $n\geq 1$. At
+        $x=0$: $f^{(n)}(0)=(-1)^{n-1}(n-1)!$ for $n\geq 1$, and $f(0)=0$.
+        So the Taylor series is
+        $\displaystyle\sum_{n\geq 1}\frac{(-1)^{n-1}}{n}x^{n}
+        =x-\frac{x^{2}}{2}+\frac{x^{3}}{3}-\cdots$.
+
+  \item $f'(x)=2x\mathrm{e}^{x^{2}}$. Then
+        $f''(x)=2\mathrm{e}^{x^{2}}+2x\cdot 2x\mathrm{e}^{x^{2}}
+               =(2+4x^{2})\mathrm{e}^{x^{2}}$.
+
+  \item $f'(x)=5x^{4}-20x^{3}$, $f''(x)=20x^{3}-60x^{2}=20x^{2}(x-3)$.
+        Now $20x^{2}\geq 0$, so the sign of $f''$ is determined by $x-3$
+        except at $x=0$ where $f''=0$. Check signs: for $x<0$, $x^{2}>0$
+        and $x-3<0$, so $f''<0$. For $0<x<3$, $x^{2}>0$ and $x-3<0$, so
+        $f''<0$. No sign change at $x=0$. For $x>3$, $f''>0$. Sign change
+        only at $x=3$. $f(3)=243-405=-162$. Inflection at $(3,-162)$.
+        ($x=0$ is \emph{not} an inflection.)
+
+  \item For $x>0$: $f(x)=x^{2}$, $f''(x)=2$. For $x<0$: $f(x)=-x^{2}$,
+        $f''(x)=-2$. So $f''$ has different one-sided limits at $0$ ($2$
+        from the right, $-2$ from the left). Hence $f''(0)$ does not
+        exist. But $f'(x)=2|x|$ exists and is continuous everywhere, and
+        $f''$ changes sign at $0$ (in the sense of one-sided values). The
+        graph changes from concave (left) to convex (right) at $x=0$, so
+        $x=0$ is an inflection point in the geometric sense even though
+        $f''(0)$ itself is undefined.
+
+  \item $f'(x)=\dfrac{1}{1+x^{2}}$. Then
+        $f''(x)=-\dfrac{2x}{(1+x^{2})^{2}}$.
+
+  \item Take $u=x^{2}$ and $v=\mathrm{e}^{x}$. Then $u'=2x$, $u''=2$,
+        $u^{(k)}=0$ for $k\geq 3$, and $v^{(k)}=\mathrm{e}^{x}$. By
+        Leibniz:
+        \[
+          (x^{2}\mathrm{e}^{x})^{(n)}
+            =\binom{n}{0}x^{2}\mathrm{e}^{x}
+             +\binom{n}{1}\cdot 2x\cdot\mathrm{e}^{x}
+             +\binom{n}{2}\cdot 2\cdot\mathrm{e}^{x}
+            =\mathrm{e}^{x}\bigl[x^{2}+2nx+n(n-1)\bigr] .
+        \]
+
+  \item $f'(x)=4(x-1)^{3}$, $f''(x)=12(x-1)^{2}\geq 0$ everywhere, with
+        equality only at $x=1$. No sign change. Hence $x=1$ is \emph{not}
+        an inflection point; $f$ is convex on all of $\R$.
+
+  \item Using $f^{(k)}(0)=\sin(k\pi/2)$: values are $0,1,0,-1,0,1$ for
+        $k=0,1,2,3,4,5$. Hence
+        \[
+          T_{5}(x)=x-\frac{x^{3}}{3!}+\frac{x^{5}}{5!}
+                  =x-\frac{x^{3}}{6}+\frac{x^{5}}{120} .
+        \]
+
+  \item $f'(x)=-\tan(x)$. Then $f''(x)=-\sec^{2}(x)<0$ on
+        $\bigl(-\tfrac{\pi}{2},\tfrac{\pi}{2}\bigr)$. So $f$ is strictly
+        concave on that interval.
+
+  \item Take $u=x$, $v=\mathrm{e}^{x}$. Then $u'=1$, $u^{(k)}=0$ for
+        $k\geq 2$, and $v^{(k)}=\mathrm{e}^{x}$. By Leibniz:
+        \[
+          (x\mathrm{e}^{x})^{(n)}
+            =\binom{n}{0}x\mathrm{e}^{x}+\binom{n}{1}\cdot 1\cdot\mathrm{e}^{x}
+            =(x+n)\mathrm{e}^{x} .
+        \]
+
+  \item From problem 34: $f''(x)=\dfrac{6x^{2}-2}{(1+x^{2})^{3}}$. Sign of
+        $f''$ equals sign of $6x^{2}-2$, i.e.\ positive iff
+        $|x|>1/\sqrt{3}$. So $f$ is convex on
+        $(-\infty,-1/\sqrt{3}]\cup[1/\sqrt{3},\infty)$ and concave on
+        $[-1/\sqrt{3},1/\sqrt{3}]$. Inflection points at $x=\pm 1/\sqrt{3}$.
+
+  \item $f'(L)=A\alpha L^{\alpha-1}$, $f''(L)=A\alpha(\alpha-1)L^{\alpha-2}$.
+        With $A>0$, $0<\alpha<1$: $\alpha(\alpha-1)<0$ and
+        $L^{\alpha-2}>0$, so $f''(L)<0$ for all $L>0$. Strictly concave on
+        $(0,\infty)$, diminishing marginal product of labour.
+\end{solutions}
+
+\section{Additional Problems}
+
+\begin{problems}
+  \item Compute $f''(x)$ for $f(x)=3x^{5}-2x^{4}+x^{2}-7$.
+  \item Determine the convexity/concavity intervals of
+        $f(x)=x^{3}-3x^{2}-9x+5$.
+  \item Find a closed form for $f^{(n)}(x)$ when $f(x)=\mathrm{e}^{3x}$.
+  \item Find all inflection points of $f(x)=x^{4}-6x^{2}+8$.
+  \item Compute $f''(x)$ for $f(x)=x\mathrm{e}^{-2x}$.
+  \item For a cost function $C(Q)=Q^{3}-15Q^{2}+72Q+50$, determine the
+        output level where marginal cost transitions from decreasing to
+        increasing.
+  \item Find a closed form for $f^{(n)}(x)$ when $f(x)=\ln(2-x)$, on
+        $x<2$.
+  \item Compute $f''(x)$ for $f(x)=\sqrt{x^{2}+4}$.
+  \item Find all inflection points of $f(x)=x^{3}-12x^{2}+45x-7$.
+  \item Determine the convexity intervals of $f(x)=\ln(x^{2}+1)$.
+  \item Compute $f''(x)$ for $f(x)=\sin(x)\,\mathrm{e}^{x}$.
+  \item Find a closed form for $f^{(n)}(x)$ when
+        $f(x)=\dfrac{1}{(1-2x)}$.
+  \item For utility $U(x)=\sqrt{x}$, $x>0$, verify that $U$ is strictly
+        concave (diminishing marginal utility).
+  \item Compute $f''(x)$ for $f(x)=x^{3}\mathrm{e}^{-x}$.
+  \item Apply the Leibniz rule to compute $(x^{3}\mathrm{e}^{x})^{(n)}$ in
+        closed form.
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item $f'(x)=15x^{4}-8x^{3}+2x$, $f''(x)=60x^{3}-24x^{2}+2$.
+
+  \item $f'(x)=3x^{2}-6x-9$, $f''(x)=6x-6=6(x-1)$. So $f''\geq 0$ iff
+        $x\geq 1$: convex on $[1,\infty)$, concave on $(-\infty,1]$.
+        Inflection at $x=1$, $f(1)=-6$.
+
+  \item Each differentiation introduces a factor of $3$:
+        $f^{(n)}(x)=3^{n}\mathrm{e}^{3x}$.
+
+  \item $f'(x)=4x^{3}-12x$, $f''(x)=12x^{2}-12=12(x^{2}-1)$. Sign changes
+        at $x=\pm 1$. $f(\pm 1)=1-6+8=3$. Inflections at $(\pm 1,3)$.
+
+  \item Product rule:
+        $f'(x)=\mathrm{e}^{-2x}-2x\mathrm{e}^{-2x}=(1-2x)\mathrm{e}^{-2x}$.
+        Then
+        \[
+          f''(x)=-2\mathrm{e}^{-2x}-2(1-2x)\mathrm{e}^{-2x}
+                =(4x-4)\mathrm{e}^{-2x}=4(x-1)\mathrm{e}^{-2x} .
+        \]
+
+  \item $MC(Q)=C'(Q)=3Q^{2}-30Q+72$. $MC'(Q)=6Q-30=0\Rightarrow Q=5$.
+        $MC''(Q)=6>0$, so $Q=5$ minimises $MC$. Equivalently,
+        $C''(Q)=6Q-30$ changes sign at $Q=5$: the cost function
+        transitions from concave to convex at the inflection $Q=5$.
+
+  \item With $u=2-x$: $f'(x)=-1/(2-x)$, $f''(x)=-1/(2-x)^{2}$,
+        $f'''(x)=-2/(2-x)^{3}$. By induction:
+        \[
+          f^{(n)}(x)=-\frac{(n-1)!}{(2-x)^{n}}\qquad (n\geq 1) .
+        \]
+
+  \item $f(x)=(x^{2}+4)^{1/2}$. $f'(x)=\dfrac{x}{\sqrt{x^{2}+4}}$. Then
+        \[
+          f''(x)=\frac{\sqrt{x^{2}+4}-x\cdot\frac{x}{\sqrt{x^{2}+4}}}
+                       {x^{2}+4}
+                =\frac{(x^{2}+4)-x^{2}}{(x^{2}+4)^{3/2}}
+                =\frac{4}{(x^{2}+4)^{3/2}} .
+        \]
+
+  \item $f'(x)=3x^{2}-24x+45$, $f''(x)=6x-24=6(x-4)$. Sign change at
+        $x=4$. $f(4)=64-192+180-7=45$. Inflection at $(4,45)$.
+
+  \item $f'(x)=\dfrac{2x}{x^{2}+1}$. By the quotient rule
+        \[
+          f''(x)=\frac{2(x^{2}+1)-2x\cdot 2x}{(x^{2}+1)^{2}}
+                =\frac{2-2x^{2}}{(x^{2}+1)^{2}}
+                =\frac{2(1-x^{2})}{(x^{2}+1)^{2}} .
+        \]
+        Sign of $f''$ matches sign of $1-x^{2}$. Convex on $[-1,1]$,
+        concave on $(-\infty,-1]\cup[1,\infty)$. Inflections at
+        $x=\pm 1$.
+
+  \item $f'(x)=\cos(x)\mathrm{e}^{x}+\sin(x)\mathrm{e}^{x}
+        =(\cos x+\sin x)\mathrm{e}^{x}$. Then
+        \[
+          f''(x)=(-\sin x+\cos x)\mathrm{e}^{x}
+                 +(\cos x+\sin x)\mathrm{e}^{x}
+                =2\cos(x)\,\mathrm{e}^{x} .
+        \]
+
+  \item $f(x)=(1-2x)^{-1}$. By induction:
+        $f^{(n)}(x)=\dfrac{2^{n}\,n!}{(1-2x)^{n+1}}$.
+
+  \item $U'(x)=\tfrac12 x^{-1/2}$, $U''(x)=-\tfrac14 x^{-3/2}<0$ for all
+        $x>0$. So $U$ is strictly concave on $(0,\infty)$.
+
+  \item $f'(x)=3x^{2}\mathrm{e}^{-x}-x^{3}\mathrm{e}^{-x}
+        =(3x^{2}-x^{3})\mathrm{e}^{-x}$. Then
+        \[
+          f''(x)=(6x-3x^{2})\mathrm{e}^{-x}-(3x^{2}-x^{3})\mathrm{e}^{-x}
+                =(x^{3}-6x^{2}+6x)\mathrm{e}^{-x}
+                =x(x^{2}-6x+6)\mathrm{e}^{-x} .
+        \]
+
+  \item Take $u=x^{3}$ and $v=\mathrm{e}^{x}$. Then $u'=3x^{2}$,
+        $u''=6x$, $u'''=6$, $u^{(k)}=0$ for $k\geq 4$, and
+        $v^{(k)}=\mathrm{e}^{x}$. By Leibniz:
+        \[
+          (x^{3}\mathrm{e}^{x})^{(n)}
+            =\binom{n}{0}x^{3}\mathrm{e}^{x}
+             +\binom{n}{1}\cdot 3x^{2}\cdot\mathrm{e}^{x}
+             +\binom{n}{2}\cdot 6x\cdot\mathrm{e}^{x}
+             +\binom{n}{3}\cdot 6\cdot\mathrm{e}^{x}
+            =\mathrm{e}^{x}\bigl[x^{3}+3nx^{2}+3n(n-1)x+n(n-1)(n-2)\bigr] .
+        \]
+\end{solutions}

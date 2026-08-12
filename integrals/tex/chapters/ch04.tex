@@ -1,0 +1,397 @@
+\chapter{Partial Fraction Decomposition}
+
+The integral of a rational function $\dfrac{P(x)}{Q(x)}$ is, in
+principle, always elementary: factor $Q$ into linear and
+irreducible-quadratic pieces, decompose the fraction into simple pieces, and integrate each piece via the rules of
+Section~1. Beyond exam exercises, partial fractions are how one solves
+the logistic model and computes the present value of an annuity, so the
+technique is genuinely economic in flavour.
+
+\section{Core Rules}
+
+\begin{rulebox}{Preliminary: Proper vs.\ Improper}
+If $\deg P \geq \deg Q$, divide $P$ by $Q$ first: $P=Q\cdot S+R$ with
+$\deg R < \deg Q$. Then $\dfrac{P}{Q}=S+\dfrac{R}{Q}$ and one integrates
+$S$ trivially and $R/Q$ via the decomposition below.
+\end{rulebox}
+
+\begin{rulebox}{Decomposition Forms}
+Factor $Q(x)$ over $\R$. For each factor write a partial-fraction
+template:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Distinct linear factor} $(x-a)$: contributes
+        $\dfrac{A}{x-a}$.
+  \item \textbf{Repeated linear factor} $(x-a)^{k}$: contributes
+        $\dfrac{A_{1}}{x-a}+\dfrac{A_{2}}{(x-a)^{2}}+\cdots
+         +\dfrac{A_{k}}{(x-a)^{k}}$.
+  \item \textbf{Irreducible quadratic factor} $(x^{2}+px+q)$ with
+        $p^{2}-4q<0$: contributes $\dfrac{Bx+D}{x^{2}+px+q}$.
+\end{itemize}
+Solve for the constants by multiplying through by $Q(x)$ and comparing
+coefficients, or by evaluating at convenient $x$-values (the cover-up
+method works cleanly for distinct linear factors).
+\end{rulebox}
+
+\begin{rulebox}{Integrating the Pieces}
+\[
+  \int \frac{1}{x-a}\,\mathrm{d}x = \ln|x-a|+C, \qquad
+  \int \frac{1}{(x-a)^{k}}\,\mathrm{d}x = \frac{(x-a)^{1-k}}{1-k}+C
+    \quad (k\geq 2) .
+\]
+\end{rulebox}
+
+\begin{rulebox}{Useful Identities}
+\[
+  \frac{1}{x(x-a)} = \frac1a\left(\frac{1}{x-a}-\frac1x\right), \qquad
+  \frac{1}{x(1-x)} = \frac1x+\frac{1}{1-x} .
+\]
+The second underpins the logistic integral.
+\end{rulebox}
+
+\begin{rulebox}{Economic Notes}
+The present value of a unit perpetuity paid continuously at constant
+rate is $\int_{0}^{\infty}\mathrm{e}^{-rt}\,\mathrm{d}t=1/r$, but the
+present value of an annuity that pays $1/(1+t)$ or that grows
+logistically requires partial fractions on $1/[x(K-x)]$.
+\end{rulebox}
+
+\section{Practice Problems}
+
+Decompose into partial fractions and integrate.
+
+\begin{problems}
+  \item $\displaystyle\int \frac{1}{x(x-1)}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{1}{x^{2}-1}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{1}{x^{2}-4}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{1}{(x-1)(x+2)}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{x+1}{x^{2}-5x+6}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{1}{x(x+1)(x+2)}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{3x+4}{x^{2}+x-2}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{1}{(x-1)^{2}}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{x}{(x-1)^{2}}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{1}{x(x-a)}\,\mathrm{d}x \quad (a\neq 0)$
+  \item $\displaystyle\int \frac{1}{x(K-x)}\,\mathrm{d}x \quad (K>0,\ \text{logistic})$
+  \item $\displaystyle\int \frac{2x-1}{x^{2}+x}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{1}{x^{3}-x}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{x^{2}}{x^{2}-1}\,\mathrm{d}x \quad \emph{(improper: divide first)}$
+  \item $\displaystyle\int \frac{x+3}{(x+1)^{2}}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{1}{x^{2}(x+1)}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{2}{x^{2}-9}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{5}{(x-2)(x+3)}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{x^{2}+1}{x^{2}-1}\,\mathrm{d}x \quad \emph{(improper)}$
+  \item $\displaystyle\int \frac{6}{x^{2}+5x+6}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{x+5}{x^{2}-x-6}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{1}{(x+1)(x+2)(x+3)}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{4x}{(x-1)^{2}(x+1)}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{x^{3}}{x-1}\,\mathrm{d}x \quad \emph{(improper: divide)}$
+  \item Present value: $\displaystyle\int \frac{1}{(1+r)(2+r)}\,\mathrm{d}r$
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item $\dfrac{1}{x(x-1)}=\dfrac{-1}{x}+\dfrac{1}{x-1}$ (cover-up). So
+        \[
+          \int = -\ln|x|+\ln|x-1|+C = \ln\left|\frac{x-1}{x}\right|+C .
+        \]
+
+  \item $\dfrac{1}{x^{2}-1}=\dfrac{1}{(x-1)(x+1)}
+        =\dfrac{1/2}{x-1}-\dfrac{1/2}{x+1}$.
+        \[
+          \int = \tfrac12\ln|x-1|-\tfrac12\ln|x+1|+C
+               = \tfrac12\ln\left|\frac{x-1}{x+1}\right|+C .
+        \]
+
+  \item $\dfrac{1}{x^{2}-4}=\dfrac{1/4}{x-2}-\dfrac{1/4}{x+2}$.
+        \[
+          \int = \tfrac14\ln\left|\frac{x-2}{x+2}\right|+C .
+        \]
+
+  \item $\dfrac{1}{(x-1)(x+2)}=\dfrac{1/3}{x-1}-\dfrac{1/3}{x+2}$.
+        \[
+          \int = \tfrac13\ln\left|\frac{x-1}{x+2}\right|+C .
+        \]
+
+  \item $x^{2}-5x+6=(x-2)(x-3)$. Write
+        $\dfrac{x+1}{(x-2)(x-3)}=\dfrac{A}{x-2}+\dfrac{B}{x-3}$. Cover-up:
+        $A=\dfrac{2+1}{2-3}=-3$, $B=\dfrac{3+1}{3-2}=4$.
+        \[
+          \int = -3\ln|x-2|+4\ln|x-3|+C .
+        \]
+
+  \item $\dfrac{1}{x(x+1)(x+2)}=\dfrac{1/2}{x}-\dfrac{1}{x+1}+\dfrac{1/2}{x+2}$
+        (cover-up at $x=0,-1,-2$).
+        \[
+          \int = \tfrac12\ln|x|-\ln|x+1|+\tfrac12\ln|x+2|+C .
+        \]
+
+  \item $x^{2}+x-2=(x-1)(x+2)$.
+        $\dfrac{3x+4}{(x-1)(x+2)}=\dfrac{A}{x-1}+\dfrac{B}{x+2}$. At
+        $x=1$: $A=7/3$. At $x=-2$: $B=-2/-3=2/3$.
+        \[
+          \int = \tfrac73\ln|x-1|+\tfrac23\ln|x+2|+C .
+        \]
+
+  \item $\displaystyle\int (x-1)^{-2}\,\mathrm{d}x = -\frac{1}{x-1}+C$.
+
+  \item $\dfrac{x}{(x-1)^{2}}=\dfrac{(x-1)+1}{(x-1)^{2}}
+        =\dfrac{1}{x-1}+\dfrac{1}{(x-1)^{2}}$.
+        \[
+          \int = \ln|x-1|-\frac{1}{x-1}+C .
+        \]
+
+  \item Generalised problem 1:
+        $\dfrac{1}{x(x-a)}=\dfrac1a\left(\dfrac{1}{x-a}-\dfrac1x\right)$.
+        \[
+          \int = \tfrac1a\bigl(\ln|x-a|-\ln|x|\bigr)+C
+               = \tfrac1a\ln\left|\frac{x-a}{x}\right|+C .
+        \]
+
+  \item $\dfrac{1}{x(K-x)}=\dfrac1K\left(\dfrac1x+\dfrac{1}{K-x}\right)$.
+        \[
+          \int = \tfrac1K\bigl(\ln|x|-\ln|K-x|\bigr)+C
+               = \tfrac1K\ln\left|\frac{x}{K-x}\right|+C .
+        \]
+        This is the integral that closes the logistic differential
+        equation $\dot x=rx(K-x)/K$.
+
+  \item $x^{2}+x=x(x+1)$. $\dfrac{2x-1}{x(x+1)}=\dfrac{A}{x}+\dfrac{B}{x+1}$.
+        At $x=0$: $A=-1$. At $x=-1$: $B=(-2-1)/(-1)=3$.
+        \[
+          \int = -\ln|x|+3\ln|x+1|+C .
+        \]
+
+  \item $x^{3}-x=x(x-1)(x+1)$. Decompose
+        $\dfrac{1}{x(x-1)(x+1)}=\dfrac{A}{x}+\dfrac{B}{x-1}+\dfrac{D}{x+1}$.
+        Cover-up: $A=\dfrac{1}{(-1)(1)}=-1$, $B=\dfrac{1}{(1)(2)}=1/2$,
+        $D=\dfrac{1}{(-1)(-2)}=1/2$.
+        \[
+          \int = -\ln|x|+\tfrac12\ln|x-1|+\tfrac12\ln|x+1|+C .
+        \]
+
+  \item Improper: $\dfrac{x^{2}}{x^{2}-1}=1+\dfrac{1}{x^{2}-1}$. Using
+        problem 2,
+        \[
+          \int = x+\tfrac12\ln\left|\frac{x-1}{x+1}\right|+C .
+        \]
+
+  \item $\dfrac{x+3}{(x+1)^{2}}=\dfrac{(x+1)+2}{(x+1)^{2}}
+        =\dfrac{1}{x+1}+\dfrac{2}{(x+1)^{2}}$.
+        \[
+          \int = \ln|x+1|-\frac{2}{x+1}+C .
+        \]
+
+  \item $\dfrac{1}{x^{2}(x+1)}=\dfrac{A}{x}+\dfrac{B}{x^{2}}+\dfrac{D}{x+1}$.
+        Multiply: $1=Ax(x+1)+B(x+1)+Dx^{2}$. At $x=0$: $B=1$. At $x=-1$:
+        $D=1$. Compare $x^{2}$: $0=A+D$, so $A=-1$.
+        \[
+          \int = -\ln|x|-\frac1x+\ln|x+1|+C
+               = \ln\left|\frac{x+1}{x}\right|-\frac1x+C .
+        \]
+
+  \item $\dfrac{2}{x^{2}-9}=\dfrac{2}{(x-3)(x+3)}
+        =\dfrac{1/3}{x-3}-\dfrac{1/3}{x+3}$.
+        \[
+          \int = \tfrac13\ln\left|\frac{x-3}{x+3}\right|+C .
+        \]
+
+  \item $\dfrac{5}{(x-2)(x+3)}=\dfrac{1}{x-2}-\dfrac{1}{x+3}$ (cover-up:
+        $A=5/5=1$, $B=5/(-5)=-1$).
+        \[
+          \int = \ln\left|\frac{x-2}{x+3}\right|+C .
+        \]
+
+  \item Improper: $\dfrac{x^{2}+1}{x^{2}-1}=1+\dfrac{2}{x^{2}-1}$.
+        \[
+          \int = x+\ln\left|\frac{x-1}{x+1}\right|+C .
+        \]
+
+  \item $x^{2}+5x+6=(x+2)(x+3)$.
+        $\dfrac{6}{(x+2)(x+3)}=\dfrac{6}{x+2}-\dfrac{6}{x+3}$ (cover-up).
+        \[
+          \int = 6\ln\left|\frac{x+2}{x+3}\right|+C .
+        \]
+
+  \item $x^{2}-x-6=(x-3)(x+2)$.
+        $\dfrac{x+5}{(x-3)(x+2)}=\dfrac{A}{x-3}+\dfrac{B}{x+2}$. At
+        $x=3$: $A=8/5$. At $x=-2$: $B=3/(-5)=-3/5$.
+        \[
+          \int = \tfrac85\ln|x-3|-\tfrac35\ln|x+2|+C .
+        \]
+
+  \item Cover-up:
+        $\dfrac{1}{(x+1)(x+2)(x+3)}=\dfrac{1/2}{x+1}-\dfrac{1}{x+2}
+        +\dfrac{1/2}{x+3}$.
+        \[
+          \int = \tfrac12\ln|x+1|-\ln|x+2|+\tfrac12\ln|x+3|+C .
+        \]
+
+  \item $\dfrac{4x}{(x-1)^{2}(x+1)}=\dfrac{A}{x-1}+\dfrac{B}{(x-1)^{2}}
+        +\dfrac{D}{x+1}$. Multiply: $4x=A(x-1)(x+1)+B(x+1)+D(x-1)^{2}$.
+        At $x=1$: $4=2B$, so $B=2$. At $x=-1$: $-4=4D$, so $D=-1$.
+        Compare $x^{2}$: $0=A+D=A-1$, so $A=1$.
+        \[
+          \int = \ln|x-1|-\frac{2}{x-1}-\ln|x+1|+C
+               = \ln\left|\frac{x-1}{x+1}\right|-\frac{2}{x-1}+C .
+        \]
+
+  \item Divide: $x^{3}=(x-1)(x^{2}+x+1)+1$, so
+        $\dfrac{x^{3}}{x-1}=x^{2}+x+1+\dfrac{1}{x-1}$.
+        \[
+          \int = \frac{x^{3}}{3}+\frac{x^{2}}{2}+x+\ln|x-1|+C .
+        \]
+
+  \item Treat $r$ as the variable.
+        $\dfrac{1}{(1+r)(2+r)}=\dfrac{1}{1+r}-\dfrac{1}{2+r}$.
+        \[
+          \int = \ln|1+r|-\ln|2+r|+C = \ln\left|\frac{1+r}{2+r}\right|+C .
+        \]
+\end{solutions}
+
+\section{Additional Problems}
+
+Decompose into partial fractions and integrate.
+
+\begin{problems}
+  \item $\displaystyle\int \frac{2x+3}{x^{2}-1}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{1}{x^{2}-9}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{1}{(x-2)(x+1)}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{4x-1}{x^{2}-x-2}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{2}{x^{2}+4x+3}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{1}{x(x+2)(x+4)}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{1}{(x-2)^{2}}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{x+2}{(x-1)^{2}}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{1}{(x+a)(x+b)}\,\mathrm{d}x \quad (a\neq b)$
+  \item $\displaystyle\int \frac{3}{x(2-x)}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{3x-2}{x^{2}-x}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{1}{x^{3}-4x}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{x^{2}+2x}{x^{2}-4}\,\mathrm{d}x \quad \emph{(improper: divide first)}$
+  \item $\displaystyle\int \frac{2x+5}{(x+2)^{2}}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{1}{x(x-1)^{2}}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{x^{3}+1}{x^{2}-1}\,\mathrm{d}x \quad \emph{(improper)}$
+  \item Present value: $\displaystyle\int \frac{1}{(2+r)(3+r)}\,\mathrm{d}r$
+  \item $\displaystyle\int \frac{4}{x^{2}-16}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{2x}{x^{2}+5x+6}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{1}{x^{2}(x-1)}\,\mathrm{d}x$
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item $\dfrac{2x+3}{(x-1)(x+1)}=\dfrac{A}{x-1}+\dfrac{B}{x+1}$.
+        Cover-up: $A=5/2$, $B=1/(-2)=-1/2$.
+        \[
+          \int = \tfrac52\ln|x-1|-\tfrac12\ln|x+1|+C .
+        \]
+
+  \item $\dfrac{1}{x^{2}-9}=\dfrac{1/6}{x-3}-\dfrac{1/6}{x+3}$.
+        \[
+          \int = \tfrac16\ln\left|\frac{x-3}{x+3}\right|+C .
+        \]
+
+  \item $\dfrac{1}{(x-2)(x+1)}=\dfrac{1/3}{x-2}-\dfrac{1/3}{x+1}$.
+        \[
+          \int = \tfrac13\ln\left|\frac{x-2}{x+1}\right|+C .
+        \]
+
+  \item $x^{2}-x-2=(x-2)(x+1)$. Cover-up: $A=7/3$, $B=5/3$.
+        \[
+          \int = \tfrac73\ln|x-2|+\tfrac53\ln|x+1|+C .
+        \]
+
+  \item $x^{2}+4x+3=(x+1)(x+3)$.
+        $\dfrac{2}{(x+1)(x+3)}=\dfrac{1}{x+1}-\dfrac{1}{x+3}$.
+        \[
+          \int = \ln\left|\frac{x+1}{x+3}\right|+C .
+        \]
+
+  \item Cover-up at $x=0,-2,-4$: $A=1/8$, $B=-1/4$, $D=1/8$.
+        \[
+          \int = \tfrac18\ln|x|-\tfrac14\ln|x+2|+\tfrac18\ln|x+4|+C .
+        \]
+
+  \item $\displaystyle\int (x-2)^{-2}\,\mathrm{d}x = -\frac{1}{x-2}+C$.
+
+  \item Rewrite: $\dfrac{x+2}{(x-1)^{2}}=\dfrac{(x-1)+3}{(x-1)^{2}}
+        =\dfrac{1}{x-1}+\dfrac{3}{(x-1)^{2}}$.
+        \[
+          \int = \ln|x-1|-\frac{3}{x-1}+C .
+        \]
+
+  \item $\dfrac{1}{(x+a)(x+b)}=\dfrac{1}{b-a}
+        \left(\dfrac{1}{x+a}-\dfrac{1}{x+b}\right)$.
+        \[
+          \int = \tfrac{1}{b-a}\ln\left|\frac{x+a}{x+b}\right|+C .
+        \]
+
+  \item Using $\dfrac{1}{x(2-x)}=\tfrac12\left(\dfrac1x+\dfrac{1}{2-x}\right)$,
+        so $\dfrac{3}{x(2-x)}=\tfrac32\left(\dfrac1x+\dfrac{1}{2-x}\right)$.
+        \[
+          \int = \tfrac32\bigl(\ln|x|-\ln|2-x|\bigr)+C
+               = \tfrac32\ln\left|\frac{x}{2-x}\right|+C .
+        \]
+
+  \item $x^{2}-x=x(x-1)$. Cover-up: $A=2$ (at $x=0$), $B=1$ (at $x=1$).
+        \[
+          \int = 2\ln|x|+\ln|x-1|+C .
+        \]
+
+  \item $x^{3}-4x=x(x-2)(x+2)$. Cover-up: $A=-1/4$ at $x=0$; $B=1/8$ at
+        $x=2$; $D=1/8$ at $x=-2$.
+        \[
+          \int = -\tfrac14\ln|x|+\tfrac18\ln|x-2|+\tfrac18\ln|x+2|+C .
+        \]
+
+  \item Divide: $\dfrac{x^{2}+2x}{x^{2}-4}=1+\dfrac{2x+4}{x^{2}-4}
+        =1+\dfrac{2(x+2)}{(x-2)(x+2)}=1+\dfrac{2}{x-2}$.
+        \[
+          \int = x+2\ln|x-2|+C .
+        \]
+
+  \item Substitute $u=x+2$: $\dfrac{2x+5}{(x+2)^{2}}
+        =\dfrac{2(u-2)+5}{u^{2}}=\dfrac{2}{u}+\dfrac{1}{u^{2}}$.
+        \[
+          \int = 2\ln|x+2|-\frac{1}{x+2}+C .
+        \]
+
+  \item $\dfrac{1}{x(x-1)^{2}}=\dfrac{A}{x}+\dfrac{B}{x-1}
+        +\dfrac{D}{(x-1)^{2}}$. Multiply: $1=A(x-1)^{2}+Bx(x-1)+Dx$.
+        At $x=0$: $A=1$. At $x=1$: $D=1$. Compare $x^{2}$: $0=A+B$, so
+        $B=-1$.
+        \[
+          \int = \ln|x|-\ln|x-1|-\frac{1}{x-1}+C
+               = \ln\left|\frac{x}{x-1}\right|-\frac{1}{x-1}+C .
+        \]
+
+  \item Divide: $x^{3}+1=x(x^{2}-1)+(x+1)$, so
+        $\dfrac{x^{3}+1}{x^{2}-1}=x+\dfrac{x+1}{(x-1)(x+1)}
+        =x+\dfrac{1}{x-1}$.
+        \[
+          \int = \frac{x^{2}}{2}+\ln|x-1|+C .
+        \]
+
+  \item $\dfrac{1}{(2+r)(3+r)}=\dfrac{1}{2+r}-\dfrac{1}{3+r}$.
+        \[
+          \int = \ln\left|\frac{2+r}{3+r}\right|+C .
+        \]
+
+  \item $\dfrac{4}{x^{2}-16}=\dfrac{4}{(x-4)(x+4)}
+        =\dfrac{1/2}{x-4}-\dfrac{1/2}{x+4}$.
+        \[
+          \int = \tfrac12\ln\left|\frac{x-4}{x+4}\right|+C .
+        \]
+
+  \item $x^{2}+5x+6=(x+2)(x+3)$. Cover-up: $A=-4$ at $x=-2$; $B=6$ at
+        $x=-3$.
+        \[
+          \int = -4\ln|x+2|+6\ln|x+3|+C .
+        \]
+
+  \item $\dfrac{1}{x^{2}(x-1)}=\dfrac{A}{x}+\dfrac{B}{x^{2}}+\dfrac{D}{x-1}$.
+        Multiply: $1=Ax(x-1)+B(x-1)+Dx^{2}$. At $x=0$: $B=-1$. At $x=1$:
+        $D=1$. Compare $x^{2}$: $0=A+D$, so $A=-1$.
+        \[
+          \int = -\ln|x|+\frac1x+\ln|x-1|+C
+               = \ln\left|\frac{x-1}{x}\right|+\frac1x+C .
+        \]
+\end{solutions}

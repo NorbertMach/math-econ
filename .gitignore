@@ -1,0 +1,17 @@
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+
+# Compiled book PDFs: rebuild with `make` in each volume's tex/ directory
+*/tex/*.pdf
+
+# Older material kept out of the published repo: the original study sheets
+# the volumes grew from, and scans of the early printouts
+sources/
+scans/
+
+# Course-page text copied from a university website (third-party, kept local)
+requirements/

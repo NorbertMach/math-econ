@@ -1,0 +1,843 @@
+\chapter{The Simplex Method}
+
+The graphical method solves linear programmes in two variables, but real
+planning problems involve many more. The simplex method, devised by George Dantzig in 1947, solves LPs of
+any size: it hops from vertex to vertex of the feasible polytope, improving
+the objective at every step, and every hop is nothing more than a round of
+elementary row operations on a tableau. This chapter drills the standard
+maximum case (all constraints of type $\le$ with non-negative right-hand
+sides) until choosing the pivot, carrying out the row operations, and
+reading off the solution are automatic.
+
+\section{Core Rules}
+
+\begin{rulebox}{Standard maximum form and slack variables}
+A \emph{standard maximum problem} reads
+\[
+  \max z=c^{\top}x \quad\text{s.t.}\quad Ax\le b,\; x\ge 0,
+  \qquad\text{with } b\ge 0 .
+\]
+For each constraint $a_i^{\top}x\le b_i$ introduce a slack variable $s_i=b_i-a_i^{\top}x\ge 0$, turning the system into
+equalities:
+\[
+  Ax+Is=b,\qquad x,s\ge 0 .
+\]
+A slack measures the unused capacity of its constraint: $s_i=0$ exactly
+when constraint $i$ binds. If some $b_i<0$, first multiply that row by
+$-1$ (which flips the inequality); mixed $\ge$ or $=$ constraints need the
+two-phase or Big-M method and are not treated here.
+\end{rulebox}
+
+\begin{rulebox}{The initial tableau}
+With $m$ constraints and $n$ decision variables the tableau has one row per
+constraint, one column per variable (decision and slack) and a right-hand
+side (RHS) column. The objective is rewritten as $-c^{\top}x+z=0$ and placed
+in the bottom row, so it starts with the \emph{negatives} of the objective
+coefficients. In block form:
+\begin{center}
+\begin{tabular}{c|cc|c}
+Basis & $x$ & $s$ & RHS\\
+\hline
+$s$ & $A$ & $I$ & $b$\\
+\hline
+$z$ & $-c^{\top}$ & $0$ & $0$\\
+\end{tabular}
+\end{center}
+The initial basis consists of the slacks; the corresponding
+basic feasible solution is $x=0$, $s=b$, $z=0$. We write $R_1,\dots,R_m$
+for the constraint rows (top to bottom) and $R_z$ for the objective row.
+\end{rulebox}
+
+\begin{rulebox}{Reading a basic solution from a tableau}
+At every stage of the algorithm:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item the \textbf{basic variables} are the row labels; each equals the
+        RHS entry of its row (its column is a unit vector);
+  \item all other (\textbf{non-basic}) variables equal $0$;
+  \item the current objective value $z$ is the RHS entry of the $z$-row.
+\end{itemize}
+A slack that is basic and positive means its constraint holds with room to
+spare; a slack equal to zero means its constraint binds.
+\end{rulebox}
+
+\begin{rulebox}{Pivot column: the entering variable}
+Inspect the $z$-row. The pivot column is the column with
+the \textbf{most negative} entry; its variable \emph{enters} the basis,
+because each unit of it raises $z$ fastest among all candidates. Ties may
+be broken arbitrarily (e.g.\ leftmost column). If the $z$-row contains
+\textbf{no negative entry}, stop: the current tableau is optimal.
+\end{rulebox}
+
+\begin{rulebox}{Pivot row: the minimum-ratio test}
+Only rows with a \textbf{strictly positive} entry in the pivot column take
+part; for each such row compute
+\[
+  \text{ratio}=\frac{\text{RHS}}{\text{entry in pivot column}} .
+\]
+The row with the \textbf{smallest ratio} is the pivot row; its label is the \emph{leaving} variable, and the entry
+where pivot row and pivot column cross is the \textbf{pivot element}. Rows
+with entry $\le 0$ are skipped: increasing the entering variable never
+drives their basic variable negative. If \emph{no} entry in the pivot
+column is positive, the LP is unbounded above.
+\end{rulebox}
+
+\begin{rulebox}{The pivot operation (recipe)}
+Let $a$ be the pivot element in pivot row $R_p$.
+\begin{enumerate}[leftmargin=1.8em,itemsep=0.3ex]
+  \item \textbf{Normalise:} $R_p\to R_p/a$, so the pivot element becomes
+        $1$.
+  \item \textbf{Clear the column:} for every other row, including $R_z$,
+        subtract the appropriate multiple of the \emph{new} pivot row:
+        $R_i\to R_i-(\text{entry of }R_i\text{ in pivot column})\cdot R_p$.
+        Rows with entry $0$ in the pivot column are unchanged.
+  \item \textbf{Relabel:} the entering variable replaces the leaving
+        variable as the label of row $p$.
+\end{enumerate}
+Afterwards the pivot column is a unit vector and the new basic solution can
+be read off as before.
+\end{rulebox}
+
+\begin{rulebox}{A worked pivot}
+Take $\max z=5x_1+4x_2$ s.t.\ $6x_1+4x_2\le 24$, $x_1+2x_2\le 6$,
+$x_1,x_2\ge 0$. Initial tableau:
+\begin{center}
+\begin{tabular}{c|cccc|c}
+Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+\hline
+$s_1$ & $6$ & $4$ & $1$ & $0$ & $24$\\
+$s_2$ & $1$ & $2$ & $0$ & $1$ & $6$\\
+\hline
+$z$ & $-5$ & $-4$ & $0$ & $0$ & $0$\\
+\end{tabular}
+\end{center}
+Pivot column $x_1$ ($-5$ is most negative). Ratios: $24/6=4$ and $6/1=6$;
+the minimum is $4$, so $s_1$ leaves and the pivot element is $6$.
+Row operations: $R_1\to R_1/6$; then $R_2\to R_2-1\cdot R_1$ and
+$R_z\to R_z+5R_1$ (both with the \emph{new} $R_1$):
+\begin{center}
+\begin{tabular}{c|cccc|c}
+Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+\hline
+$x_1$ & $1$ & $\tfrac{2}{3}$ & $\tfrac{1}{6}$ & $0$ & $4$\\
+$s_2$ & $0$ & $\tfrac{4}{3}$ & $-\tfrac{1}{6}$ & $1$ & $2$\\
+\hline
+$z$ & $0$ & $-\tfrac{2}{3}$ & $\tfrac{5}{6}$ & $0$ & $20$\\
+\end{tabular}
+\end{center}
+New basic solution: $x_1=4$, $s_2=2$, $x_2=s_1=0$, $z=20$. The $z$-row
+still contains $-\tfrac{2}{3}$, so another iteration would follow.
+\end{rulebox}
+
+\begin{rulebox}{Stopping rule and optimum}
+Iterate (pivot column, ratio test, pivot) until the $z$-row has no
+negative entry. Then the tableau is optimal: the basic
+variables take their RHS values, non-basic variables are zero, and the
+bottom-right entry is $z^{*}$. Every pivot moves to an adjacent vertex of
+the feasible polytope without ever decreasing $z$.
+\end{rulebox}
+
+\section{Practice Problems}
+
+All variables are non-negative in every problem. For each complete simplex
+run show the initial tableau, every intermediate tableau, and state the row
+operations of each pivot.
+
+\begin{problems}
+  \item Rewrite $\max z=2x_1+3x_2$ s.t.\ $x_1+x_2\le 4$, $2x_1+x_2\le 6$
+        in equation form with slack variables, set up the initial tableau,
+        and read off the initial basic feasible solution.
+  \item Solve the LP of Problem~1 with the simplex method.
+  \item Solve $\max z=3x_1+2x_2$ s.t.\ $x_1+x_2\le 4$, $x_1+3x_2\le 6$.
+  \item Solve $\max z=3x_1+5x_2$ s.t.\ $x_1\le 4$, $2x_2\le 12$,
+        $3x_1+2x_2\le 18$.
+  \item The initial tableau of $\max z=4x_1+3x_2$ s.t.\ $2x_1+x_2\le 8$,
+        $x_1+3x_2\le 9$ is
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $s_1$ & $2$ & $1$ & $1$ & $0$ & $8$\\
+        $s_2$ & $1$ & $3$ & $0$ & $1$ & $9$\\
+        \hline
+        $z$ & $-4$ & $-3$ & $0$ & $0$ & $0$\\
+        \end{tabular}
+        \end{center}
+        Determine the entering variable, all ratios of the minimum-ratio
+        test, the leaving variable, and the pivot element. Do \emph{not}
+        carry out the pivot.
+  \item Perform exactly one simplex iteration on $\max z=3x_1+x_2$ s.t.\
+        $x_1+x_2\le 4$, $2x_1+x_2\le 6$. Is the resulting tableau optimal?
+  \item A simplex run for $\max z=2x_1+5x_2$ s.t.\ $x_1+2x_2\le 10$,
+        $x_2\le 4$ ended with the tableau
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $x_1$ & $1$ & $0$ & $1$ & $-2$ & $2$\\
+        $x_2$ & $0$ & $1$ & $0$ & $1$ & $4$\\
+        \hline
+        $z$ & $0$ & $0$ & $2$ & $1$ & $24$\\
+        \end{tabular}
+        \end{center}
+        Verify that it is optimal, read off the optimal solution and
+        objective value, and decide which constraints bind.
+  \item Solve $\max z=2x_1+x_2+x_3$ s.t.\ $x_1+x_2+x_3\le 6$,
+        $2x_1+x_2\le 8$.
+  \item Solve $\max z=4x_1+5x_2$ s.t.\ $2x_1+x_2\le 8$, $x_1+2x_2\le 7$.
+  \item The initial tableau of $\max z=2x_1+3x_2$ s.t.\ $3x_1-x_2\le 6$,
+        $x_1+2x_2\le 4$ is
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $s_1$ & $3$ & $-1$ & $1$ & $0$ & $6$\\
+        $s_2$ & $1$ & $2$ & $0$ & $1$ & $4$\\
+        \hline
+        $z$ & $-2$ & $-3$ & $0$ & $0$ & $0$\\
+        \end{tabular}
+        \end{center}
+        Determine the pivot column and the pivot row, and explain why one
+        of the rows does not take part in the minimum-ratio test.
+  \item Solve $\max z=3x_1+2x_2$ s.t.\ $x_1+x_2\le 4$, $x_1+2x_2\le 6$,
+        $x_1\le 3$.
+  \item Solve $\max z=5x_1+4x_2+3x_3$ s.t.\ $2x_1+3x_2+x_3\le 5$,
+        $4x_1+x_2+2x_3\le 11$, $3x_1+4x_2+2x_3\le 8$.
+  \item Solve $\max z=x_1+2x_2$ s.t.\ $x_1+x_2\le 5$, $x_1\le 3$.
+  \item For $\max z=6x_1+5x_2$ s.t.\ $x_1+x_2\le 5$, $3x_1+2x_2\le 12$
+        one simplex iteration has already been carried out, producing
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $s_1$ & $0$ & $\tfrac{1}{3}$ & $1$ & $-\tfrac{1}{3}$ & $1$\\
+        $x_1$ & $1$ & $\tfrac{2}{3}$ & $0$ & $\tfrac{1}{3}$ & $4$\\
+        \hline
+        $z$ & $0$ & $-1$ & $0$ & $2$ & $24$\\
+        \end{tabular}
+        \end{center}
+        (a)~Read off the current basic solution. (b)~Is the tableau
+        optimal? (c)~If not, iterate to the optimum.
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item With slacks $s_1,s_2\ge 0$ the constraints become
+        $x_1+x_2+s_1=4$ and $2x_1+x_2+s_2=6$; the objective row is
+        $-2x_1-3x_2+z=0$. Initial tableau:
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $s_1$ & $1$ & $1$ & $1$ & $0$ & $4$\\
+        $s_2$ & $2$ & $1$ & $0$ & $1$ & $6$\\
+        \hline
+        $z$ & $-2$ & $-3$ & $0$ & $0$ & $0$\\
+        \end{tabular}
+        \end{center}
+        Initial basic feasible solution: $x_1=x_2=0$ (non-basic),
+        $s_1=4$, $s_2=6$, $z=0$.
+
+  \item Start from the tableau of Solution~1. Pivot column: $x_2$
+        ($-3$ is the most negative $z$-row entry). Ratios: $R_1$:
+        $4/1=4$; $R_2$: $6/1=6$. Minimum $4$, so $s_1$ leaves; pivot
+        element $1$. Row operations: $R_1$ unchanged (division by $1$),
+        relabel $s_1\to x_2$; $R_2\to R_2-R_1$; $R_z\to R_z+3R_1$.
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $x_2$ & $1$ & $1$ & $1$ & $0$ & $4$\\
+        $s_2$ & $1$ & $0$ & $-1$ & $1$ & $2$\\
+        \hline
+        $z$ & $1$ & $0$ & $3$ & $0$ & $12$\\
+        \end{tabular}
+        \end{center}
+        No negative entry in the $z$-row: optimal. $x_1^{*}=0$,
+        $x_2^{*}=4$, $z^{*}=12$; $s_2=2$, so constraint 1 binds and
+        constraint 2 has $2$ units of unused capacity.
+
+  \item Initial tableau:
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $s_1$ & $1$ & $1$ & $1$ & $0$ & $4$\\
+        $s_2$ & $1$ & $3$ & $0$ & $1$ & $6$\\
+        \hline
+        $z$ & $-3$ & $-2$ & $0$ & $0$ & $0$\\
+        \end{tabular}
+        \end{center}
+        Pivot column $x_1$ ($-3$). Ratios: $4/1=4$, $6/1=6$; pivot row
+        $R_1$, $s_1$ leaves, pivot element $1$. Row operations: relabel
+        $s_1\to x_1$; $R_2\to R_2-R_1$; $R_z\to R_z+3R_1$.
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $x_1$ & $1$ & $1$ & $1$ & $0$ & $4$\\
+        $s_2$ & $0$ & $2$ & $-1$ & $1$ & $2$\\
+        \hline
+        $z$ & $0$ & $1$ & $3$ & $0$ & $12$\\
+        \end{tabular}
+        \end{center}
+        All $z$-row entries non-negative: optimal. $x_1^{*}=4$,
+        $x_2^{*}=0$, $z^{*}=12$; constraint 1 binds, constraint 2 keeps
+        slack $s_2=2$.
+
+  \item Initial tableau:
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $s_3$ & RHS\\
+        \hline
+        $s_1$ & $1$ & $0$ & $1$ & $0$ & $0$ & $4$\\
+        $s_2$ & $0$ & $2$ & $0$ & $1$ & $0$ & $12$\\
+        $s_3$ & $3$ & $2$ & $0$ & $0$ & $1$ & $18$\\
+        \hline
+        $z$ & $-3$ & $-5$ & $0$ & $0$ & $0$ & $0$\\
+        \end{tabular}
+        \end{center}
+        \emph{Iteration 1.} Pivot column $x_2$ ($-5$). Ratios: $R_1$ is
+        skipped (entry $0$); $R_2$: $12/2=6$; $R_3$: $18/2=9$. Pivot row
+        $R_2$, $s_2$ leaves, pivot element $2$. Row operations:
+        $R_2\to R_2/2$; then $R_3\to R_3-2R_2$, $R_z\to R_z+5R_2$;
+        $R_1$ unchanged.
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $s_3$ & RHS\\
+        \hline
+        $s_1$ & $1$ & $0$ & $1$ & $0$ & $0$ & $4$\\
+        $x_2$ & $0$ & $1$ & $0$ & $\tfrac{1}{2}$ & $0$ & $6$\\
+        $s_3$ & $3$ & $0$ & $0$ & $-1$ & $1$ & $6$\\
+        \hline
+        $z$ & $-3$ & $0$ & $0$ & $\tfrac{5}{2}$ & $0$ & $30$\\
+        \end{tabular}
+        \end{center}
+        \emph{Iteration 2.} Pivot column $x_1$ ($-3$). Ratios: $R_1$:
+        $4/1=4$; $R_2$ skipped (entry $0$); $R_3$: $6/3=2$. Pivot row
+        $R_3$, $s_3$ leaves, pivot element $3$. Row operations:
+        $R_3\to R_3/3$; then $R_1\to R_1-R_3$, $R_z\to R_z+3R_3$.
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $s_3$ & RHS\\
+        \hline
+        $s_1$ & $0$ & $0$ & $1$ & $\tfrac{1}{3}$ & $-\tfrac{1}{3}$ & $2$\\
+        $x_2$ & $0$ & $1$ & $0$ & $\tfrac{1}{2}$ & $0$ & $6$\\
+        $x_1$ & $1$ & $0$ & $0$ & $-\tfrac{1}{3}$ & $\tfrac{1}{3}$ & $2$\\
+        \hline
+        $z$ & $0$ & $0$ & $0$ & $\tfrac{3}{2}$ & $1$ & $36$\\
+        \end{tabular}
+        \end{center}
+        Optimal: $x_1^{*}=2$, $x_2^{*}=6$, $z^{*}=36$; $s_1=2$, so
+        constraint 1 is slack while constraints 2 and 3 bind.
+
+  \item Entering variable: $x_1$, because $-4$ is the most negative
+        $z$-row entry. Ratios: $R_1$: $8/2=4$; $R_2$: $9/1=9$. The
+        minimum is $4$, so $s_1$ is the leaving variable and the pivot
+        element is the $2$ at the crossing of row $s_1$ and column
+        $x_1$.
+
+  \item Initial tableau:
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $s_1$ & $1$ & $1$ & $1$ & $0$ & $4$\\
+        $s_2$ & $2$ & $1$ & $0$ & $1$ & $6$\\
+        \hline
+        $z$ & $-3$ & $-1$ & $0$ & $0$ & $0$\\
+        \end{tabular}
+        \end{center}
+        Pivot column $x_1$ ($-3$). Ratios: $4/1=4$, $6/2=3$; pivot row
+        $R_2$, $s_2$ leaves, pivot element $2$. Row operations:
+        $R_2\to R_2/2$; then $R_1\to R_1-R_2$, $R_z\to R_z+3R_2$.
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $s_1$ & $0$ & $\tfrac{1}{2}$ & $1$ & $-\tfrac{1}{2}$ & $1$\\
+        $x_1$ & $1$ & $\tfrac{1}{2}$ & $0$ & $\tfrac{1}{2}$ & $3$\\
+        \hline
+        $z$ & $0$ & $\tfrac{1}{2}$ & $0$ & $\tfrac{3}{2}$ & $9$\\
+        \end{tabular}
+        \end{center}
+        All $z$-row entries are non-negative, so this single iteration
+        already reaches the optimum: $x_1^{*}=3$, $x_2^{*}=0$,
+        $z^{*}=9$, with $s_1=1$.
+
+  \item The $z$-row $(0,0,2,1\mid 24)$ has no negative entry, so the
+        tableau is optimal. Basic variables (row labels): $x_1=2$,
+        $x_2=4$; non-basic: $s_1=s_2=0$; $z^{*}=24$. Since both slacks
+        are zero, both constraints bind. Check: $2+2\cdot 4=10$ and
+        $x_2=4$; $z=2\cdot 2+5\cdot 4=24$.
+
+  \item Initial tableau:
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_1$ & $x_2$ & $x_3$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $s_1$ & $1$ & $1$ & $1$ & $1$ & $0$ & $6$\\
+        $s_2$ & $2$ & $1$ & $0$ & $0$ & $1$ & $8$\\
+        \hline
+        $z$ & $-2$ & $-1$ & $-1$ & $0$ & $0$ & $0$\\
+        \end{tabular}
+        \end{center}
+        \emph{Iteration 1.} Pivot column $x_1$ ($-2$). Ratios: $6/1=6$,
+        $8/2=4$; pivot row $R_2$, $s_2$ leaves, pivot element $2$. Row
+        operations: $R_2\to R_2/2$; then $R_1\to R_1-R_2$,
+        $R_z\to R_z+2R_2$.
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_1$ & $x_2$ & $x_3$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $s_1$ & $0$ & $\tfrac{1}{2}$ & $1$ & $1$ & $-\tfrac{1}{2}$ & $2$\\
+        $x_1$ & $1$ & $\tfrac{1}{2}$ & $0$ & $0$ & $\tfrac{1}{2}$ & $4$\\
+        \hline
+        $z$ & $0$ & $0$ & $-1$ & $0$ & $1$ & $8$\\
+        \end{tabular}
+        \end{center}
+        \emph{Iteration 2.} Pivot column $x_3$ ($-1$). Only $R_1$ has a
+        positive entry ($1$); ratio $2/1=2$; $s_1$ leaves, pivot element
+        $1$. Row operations: $R_1$ unchanged, relabel $s_1\to x_3$;
+        $R_2$ unchanged (entry $0$); $R_z\to R_z+R_1$.
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_1$ & $x_2$ & $x_3$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $x_3$ & $0$ & $\tfrac{1}{2}$ & $1$ & $1$ & $-\tfrac{1}{2}$ & $2$\\
+        $x_1$ & $1$ & $\tfrac{1}{2}$ & $0$ & $0$ & $\tfrac{1}{2}$ & $4$\\
+        \hline
+        $z$ & $0$ & $\tfrac{1}{2}$ & $0$ & $1$ & $\tfrac{1}{2}$ & $10$\\
+        \end{tabular}
+        \end{center}
+        Optimal: $x_1^{*}=4$, $x_2^{*}=0$, $x_3^{*}=2$, $z^{*}=10$;
+        both slacks are non-basic, so both constraints bind.
+
+  \item Initial tableau:
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $s_1$ & $2$ & $1$ & $1$ & $0$ & $8$\\
+        $s_2$ & $1$ & $2$ & $0$ & $1$ & $7$\\
+        \hline
+        $z$ & $-4$ & $-5$ & $0$ & $0$ & $0$\\
+        \end{tabular}
+        \end{center}
+        \emph{Iteration 1.} Pivot column $x_2$ ($-5$). Ratios: $8/1=8$,
+        $7/2=\tfrac{7}{2}$; pivot row $R_2$, $s_2$ leaves, pivot element
+        $2$. Row operations: $R_2\to R_2/2$; then $R_1\to R_1-R_2$,
+        $R_z\to R_z+5R_2$.
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $s_1$ & $\tfrac{3}{2}$ & $0$ & $1$ & $-\tfrac{1}{2}$ & $\tfrac{9}{2}$\\
+        $x_2$ & $\tfrac{1}{2}$ & $1$ & $0$ & $\tfrac{1}{2}$ & $\tfrac{7}{2}$\\
+        \hline
+        $z$ & $-\tfrac{3}{2}$ & $0$ & $0$ & $\tfrac{5}{2}$ & $\tfrac{35}{2}$\\
+        \end{tabular}
+        \end{center}
+        \emph{Iteration 2.} Pivot column $x_1$ ($-\tfrac{3}{2}$).
+        Ratios: $R_1$: $\tfrac{9}{2}\big/\tfrac{3}{2}=3$; $R_2$:
+        $\tfrac{7}{2}\big/\tfrac{1}{2}=7$. Pivot row $R_1$, $s_1$
+        leaves, pivot element $\tfrac{3}{2}$. Row operations:
+        $R_1\to \tfrac{2}{3}R_1$; then $R_2\to R_2-\tfrac{1}{2}R_1$,
+        $R_z\to R_z+\tfrac{3}{2}R_1$.
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $x_1$ & $1$ & $0$ & $\tfrac{2}{3}$ & $-\tfrac{1}{3}$ & $3$\\
+        $x_2$ & $0$ & $1$ & $-\tfrac{1}{3}$ & $\tfrac{2}{3}$ & $2$\\
+        \hline
+        $z$ & $0$ & $0$ & $1$ & $2$ & $22$\\
+        \end{tabular}
+        \end{center}
+        Optimal: $x_1^{*}=3$, $x_2^{*}=2$, $z^{*}=22$; both constraints
+        bind ($6+2=8$, $3+4=7$).
+
+  \item Pivot column: $x_2$, since $-3$ is the most negative $z$-row
+        entry. In the ratio test row $R_1$ is excluded because its entry
+        in the pivot column, $-1$, is not strictly positive: increasing
+        $x_2$ only \emph{loosens} constraint 1, so $s_1$ can never be
+        driven negative. The only ratio is $R_2$: $4/2=2$, so the pivot
+        row is $R_2$, $s_2$ leaves, and the pivot element is $2$.
+
+  \item Initial tableau:
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $s_3$ & RHS\\
+        \hline
+        $s_1$ & $1$ & $1$ & $1$ & $0$ & $0$ & $4$\\
+        $s_2$ & $1$ & $2$ & $0$ & $1$ & $0$ & $6$\\
+        $s_3$ & $1$ & $0$ & $0$ & $0$ & $1$ & $3$\\
+        \hline
+        $z$ & $-3$ & $-2$ & $0$ & $0$ & $0$ & $0$\\
+        \end{tabular}
+        \end{center}
+        \emph{Iteration 1.} Pivot column $x_1$ ($-3$). Ratios:
+        $4/1=4$, $6/1=6$, $3/1=3$; pivot row $R_3$, $s_3$ leaves, pivot
+        element $1$. Row operations: relabel $s_3\to x_1$;
+        $R_1\to R_1-R_3$; $R_2\to R_2-R_3$; $R_z\to R_z+3R_3$.
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $s_3$ & RHS\\
+        \hline
+        $s_1$ & $0$ & $1$ & $1$ & $0$ & $-1$ & $1$\\
+        $s_2$ & $0$ & $2$ & $0$ & $1$ & $-1$ & $3$\\
+        $x_1$ & $1$ & $0$ & $0$ & $0$ & $1$ & $3$\\
+        \hline
+        $z$ & $0$ & $-2$ & $0$ & $0$ & $3$ & $9$\\
+        \end{tabular}
+        \end{center}
+        \emph{Iteration 2.} Pivot column $x_2$ ($-2$). Ratios: $R_1$:
+        $1/1=1$; $R_2$: $3/2=\tfrac{3}{2}$; $R_3$ skipped (entry $0$).
+        Pivot row $R_1$, $s_1$ leaves, pivot element $1$. Row
+        operations: relabel $s_1\to x_2$; $R_2\to R_2-2R_1$;
+        $R_z\to R_z+2R_1$; $R_3$ unchanged.
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $s_3$ & RHS\\
+        \hline
+        $x_2$ & $0$ & $1$ & $1$ & $0$ & $-1$ & $1$\\
+        $s_2$ & $0$ & $0$ & $-2$ & $1$ & $1$ & $1$\\
+        $x_1$ & $1$ & $0$ & $0$ & $0$ & $1$ & $3$\\
+        \hline
+        $z$ & $0$ & $0$ & $2$ & $0$ & $1$ & $11$\\
+        \end{tabular}
+        \end{center}
+        Optimal: $x_1^{*}=3$, $x_2^{*}=1$, $z^{*}=11$; $s_2=1$, so
+        constraints 1 and 3 bind while constraint 2 is slack.
+
+  \item Initial tableau:
+        \begin{center}
+        \begin{tabular}{c|cccccc|c}
+        Basis & $x_1$ & $x_2$ & $x_3$ & $s_1$ & $s_2$ & $s_3$ & RHS\\
+        \hline
+        $s_1$ & $2$ & $3$ & $1$ & $1$ & $0$ & $0$ & $5$\\
+        $s_2$ & $4$ & $1$ & $2$ & $0$ & $1$ & $0$ & $11$\\
+        $s_3$ & $3$ & $4$ & $2$ & $0$ & $0$ & $1$ & $8$\\
+        \hline
+        $z$ & $-5$ & $-4$ & $-3$ & $0$ & $0$ & $0$ & $0$\\
+        \end{tabular}
+        \end{center}
+        \emph{Iteration 1.} Pivot column $x_1$ ($-5$). Ratios:
+        $5/2=\tfrac{5}{2}$, $11/4=\tfrac{11}{4}$, $8/3=\tfrac{8}{3}$;
+        the smallest is $\tfrac{5}{2}$, so $s_1$ leaves and the pivot
+        element is $2$. Row operations: $R_1\to R_1/2$; then
+        $R_2\to R_2-4R_1$, $R_3\to R_3-3R_1$, $R_z\to R_z+5R_1$.
+        \begin{center}
+        \begin{tabular}{c|cccccc|c}
+        Basis & $x_1$ & $x_2$ & $x_3$ & $s_1$ & $s_2$ & $s_3$ & RHS\\
+        \hline
+        $x_1$ & $1$ & $\tfrac{3}{2}$ & $\tfrac{1}{2}$ & $\tfrac{1}{2}$ & $0$ & $0$ & $\tfrac{5}{2}$\\
+        $s_2$ & $0$ & $-5$ & $0$ & $-2$ & $1$ & $0$ & $1$\\
+        $s_3$ & $0$ & $-\tfrac{1}{2}$ & $\tfrac{1}{2}$ & $-\tfrac{3}{2}$ & $0$ & $1$ & $\tfrac{1}{2}$\\
+        \hline
+        $z$ & $0$ & $\tfrac{7}{2}$ & $-\tfrac{1}{2}$ & $\tfrac{5}{2}$ & $0$ & $0$ & $\tfrac{25}{2}$\\
+        \end{tabular}
+        \end{center}
+        \emph{Iteration 2.} Pivot column $x_3$ ($-\tfrac{1}{2}$).
+        Ratios: $R_1$: $\tfrac{5}{2}\big/\tfrac{1}{2}=5$; $R_2$ skipped
+        (entry $0$); $R_3$: $\tfrac{1}{2}\big/\tfrac{1}{2}=1$. Pivot row
+        $R_3$, $s_3$ leaves, pivot element $\tfrac{1}{2}$. Row
+        operations: $R_3\to 2R_3$; then $R_1\to R_1-\tfrac{1}{2}R_3$,
+        $R_z\to R_z+\tfrac{1}{2}R_3$; $R_2$ unchanged.
+        \begin{center}
+        \begin{tabular}{c|cccccc|c}
+        Basis & $x_1$ & $x_2$ & $x_3$ & $s_1$ & $s_2$ & $s_3$ & RHS\\
+        \hline
+        $x_1$ & $1$ & $2$ & $0$ & $2$ & $0$ & $-1$ & $2$\\
+        $s_2$ & $0$ & $-5$ & $0$ & $-2$ & $1$ & $0$ & $1$\\
+        $x_3$ & $0$ & $-1$ & $1$ & $-3$ & $0$ & $2$ & $1$\\
+        \hline
+        $z$ & $0$ & $3$ & $0$ & $1$ & $0$ & $1$ & $13$\\
+        \end{tabular}
+        \end{center}
+        Optimal: $x_1^{*}=2$, $x_2^{*}=0$, $x_3^{*}=1$, $z^{*}=13$;
+        $s_2=1$, so constraints 1 and 3 bind and constraint 2 has one
+        unit of slack. Check: $2\cdot 2+1=5$, $4\cdot 2+2=10\le 11$,
+        $3\cdot 2+2=8$; $z=10+3=13$.
+
+  \item Initial tableau:
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $s_1$ & $1$ & $1$ & $1$ & $0$ & $5$\\
+        $s_2$ & $1$ & $0$ & $0$ & $1$ & $3$\\
+        \hline
+        $z$ & $-1$ & $-2$ & $0$ & $0$ & $0$\\
+        \end{tabular}
+        \end{center}
+        Pivot column $x_2$ ($-2$). Ratios: $R_1$: $5/1=5$; $R_2$ is
+        skipped (entry $0$: the bound $x_1\le 3$ does not restrict
+        $x_2$). Pivot row $R_1$, $s_1$ leaves, pivot element $1$. Row
+        operations: relabel $s_1\to x_2$; $R_2$ unchanged;
+        $R_z\to R_z+2R_1$.
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $x_2$ & $1$ & $1$ & $1$ & $0$ & $5$\\
+        $s_2$ & $1$ & $0$ & $0$ & $1$ & $3$\\
+        \hline
+        $z$ & $1$ & $0$ & $2$ & $0$ & $10$\\
+        \end{tabular}
+        \end{center}
+        The $x_1$ entry of the $z$-row became $-1+2\cdot 1=1\ge 0$, so
+        the tableau is optimal after one pivot: $x_1^{*}=0$,
+        $x_2^{*}=5$, $z^{*}=10$; $s_2=3$.
+
+  \item (a)~Basic variables: $s_1=1$ and $x_1=4$; non-basic:
+        $x_2=s_2=0$; current objective $z=24$. (b)~Not optimal: the
+        $x_2$ column still carries $-1$ in the $z$-row. (c)~Pivot column
+        $x_2$. Ratios: $R_1$: $1\big/\tfrac{1}{3}=3$; $R_2$:
+        $4\big/\tfrac{2}{3}=6$. Pivot row $R_1$, $s_1$ leaves, pivot
+        element $\tfrac{1}{3}$. Row operations: $R_1\to 3R_1$; then
+        $R_2\to R_2-\tfrac{2}{3}R_1$, $R_z\to R_z+R_1$.
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $x_2$ & $0$ & $1$ & $3$ & $-1$ & $3$\\
+        $x_1$ & $1$ & $0$ & $-2$ & $1$ & $2$\\
+        \hline
+        $z$ & $0$ & $0$ & $3$ & $1$ & $27$\\
+        \end{tabular}
+        \end{center}
+        Optimal: $x_1^{*}=2$, $x_2^{*}=3$, $z^{*}=27$; both slacks are
+        zero, so both constraints bind ($2+3=5$, $6+6=12$).
+\end{solutions}
+
+\section{Additional Problems}
+
+As before: all variables are non-negative, and complete runs must show
+every tableau and every row operation.
+
+\begin{problems}
+  \item Solve $\max z=2x_1+x_2$ s.t.\ $x_1+x_2\le 3$, $x_1+2x_2\le 4$.
+  \item Solve $\max z=4x_1+6x_2$ s.t.\ $x_1+x_2\le 5$, $x_1+3x_2\le 9$.
+  \item The initial tableau of $\max z=5x_1+6x_2$ s.t.\ $x_1+4x_2\le 8$,
+        $2x_1+3x_2\le 12$ is
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $s_1$ & $1$ & $4$ & $1$ & $0$ & $8$\\
+        $s_2$ & $2$ & $3$ & $0$ & $1$ & $12$\\
+        \hline
+        $z$ & $-5$ & $-6$ & $0$ & $0$ & $0$\\
+        \end{tabular}
+        \end{center}
+        Determine the entering variable, all ratios, the leaving
+        variable, and the pivot element. Do \emph{not} pivot.
+  \item For $\max z=4x_1+3x_2$ s.t.\ $2x_1+x_2\le 6$, $x_1+3x_2\le 9$,
+        set up the initial tableau, perform the first pivot, read off the
+        new basic solution, and decide whether the new tableau is
+        optimal.
+  \item Solve $\max z=3x_1+2x_2+x_3$ s.t.\ $x_1+x_2+x_3\le 5$,
+        $2x_1+x_2\le 6$.
+  \item Solve $\max z=4x_1+3x_2$ s.t.\ $2x_1+x_2\le 10$, $x_1+x_2\le 6$,
+        $x_1+2x_2\le 10$.
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item Initial tableau:
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $s_1$ & $1$ & $1$ & $1$ & $0$ & $3$\\
+        $s_2$ & $1$ & $2$ & $0$ & $1$ & $4$\\
+        \hline
+        $z$ & $-2$ & $-1$ & $0$ & $0$ & $0$\\
+        \end{tabular}
+        \end{center}
+        Pivot column $x_1$ ($-2$). Ratios: $3/1=3$, $4/1=4$; pivot row
+        $R_1$, $s_1$ leaves, pivot element $1$. Row operations: relabel
+        $s_1\to x_1$; $R_2\to R_2-R_1$; $R_z\to R_z+2R_1$.
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $x_1$ & $1$ & $1$ & $1$ & $0$ & $3$\\
+        $s_2$ & $0$ & $1$ & $-1$ & $1$ & $1$\\
+        \hline
+        $z$ & $0$ & $1$ & $2$ & $0$ & $6$\\
+        \end{tabular}
+        \end{center}
+        Optimal: $x_1^{*}=3$, $x_2^{*}=0$, $z^{*}=6$; $s_2=1$, so only
+        constraint 1 binds.
+
+  \item Initial tableau:
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $s_1$ & $1$ & $1$ & $1$ & $0$ & $5$\\
+        $s_2$ & $1$ & $3$ & $0$ & $1$ & $9$\\
+        \hline
+        $z$ & $-4$ & $-6$ & $0$ & $0$ & $0$\\
+        \end{tabular}
+        \end{center}
+        \emph{Iteration 1.} Pivot column $x_2$ ($-6$). Ratios: $5/1=5$,
+        $9/3=3$; pivot row $R_2$, $s_2$ leaves, pivot element $3$. Row
+        operations: $R_2\to R_2/3$; then $R_1\to R_1-R_2$,
+        $R_z\to R_z+6R_2$.
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $s_1$ & $\tfrac{2}{3}$ & $0$ & $1$ & $-\tfrac{1}{3}$ & $2$\\
+        $x_2$ & $\tfrac{1}{3}$ & $1$ & $0$ & $\tfrac{1}{3}$ & $3$\\
+        \hline
+        $z$ & $-2$ & $0$ & $0$ & $2$ & $18$\\
+        \end{tabular}
+        \end{center}
+        \emph{Iteration 2.} Pivot column $x_1$ ($-2$). Ratios: $R_1$:
+        $2\big/\tfrac{2}{3}=3$; $R_2$: $3\big/\tfrac{1}{3}=9$. Pivot row
+        $R_1$, $s_1$ leaves, pivot element $\tfrac{2}{3}$. Row
+        operations: $R_1\to \tfrac{3}{2}R_1$; then
+        $R_2\to R_2-\tfrac{1}{3}R_1$, $R_z\to R_z+2R_1$.
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $x_1$ & $1$ & $0$ & $\tfrac{3}{2}$ & $-\tfrac{1}{2}$ & $3$\\
+        $x_2$ & $0$ & $1$ & $-\tfrac{1}{2}$ & $\tfrac{1}{2}$ & $2$\\
+        \hline
+        $z$ & $0$ & $0$ & $3$ & $1$ & $24$\\
+        \end{tabular}
+        \end{center}
+        Optimal: $x_1^{*}=3$, $x_2^{*}=2$, $z^{*}=24$; both constraints
+        bind ($3+2=5$, $3+6=9$).
+
+  \item Entering variable: $x_2$ ($-6$ is most negative). Ratios:
+        $R_1$: $8/4=2$; $R_2$: $12/3=4$. The minimum is $2$, so $s_1$
+        leaves and the pivot element is the $4$ in row $s_1$, column
+        $x_2$.
+
+  \item Initial tableau:
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $s_1$ & $2$ & $1$ & $1$ & $0$ & $6$\\
+        $s_2$ & $1$ & $3$ & $0$ & $1$ & $9$\\
+        \hline
+        $z$ & $-4$ & $-3$ & $0$ & $0$ & $0$\\
+        \end{tabular}
+        \end{center}
+        Pivot column $x_1$ ($-4$). Ratios: $6/2=3$, $9/1=9$; pivot row
+        $R_1$, $s_1$ leaves, pivot element $2$. Row operations:
+        $R_1\to R_1/2$; then $R_2\to R_2-R_1$, $R_z\to R_z+4R_1$.
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $x_1$ & $1$ & $\tfrac{1}{2}$ & $\tfrac{1}{2}$ & $0$ & $3$\\
+        $s_2$ & $0$ & $\tfrac{5}{2}$ & $-\tfrac{1}{2}$ & $1$ & $6$\\
+        \hline
+        $z$ & $0$ & $-1$ & $2$ & $0$ & $12$\\
+        \end{tabular}
+        \end{center}
+        New basic solution: $x_1=3$, $s_2=6$, $x_2=s_1=0$, $z=12$. The
+        tableau is \emph{not} optimal: the $x_2$ column still has $-1$
+        in the $z$-row, so a further pivot (with $x_2$ entering) would
+        follow.
+
+  \item Initial tableau:
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_1$ & $x_2$ & $x_3$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $s_1$ & $1$ & $1$ & $1$ & $1$ & $0$ & $5$\\
+        $s_2$ & $2$ & $1$ & $0$ & $0$ & $1$ & $6$\\
+        \hline
+        $z$ & $-3$ & $-2$ & $-1$ & $0$ & $0$ & $0$\\
+        \end{tabular}
+        \end{center}
+        \emph{Iteration 1.} Pivot column $x_1$ ($-3$). Ratios: $5/1=5$,
+        $6/2=3$; pivot row $R_2$, $s_2$ leaves, pivot element $2$. Row
+        operations: $R_2\to R_2/2$; then $R_1\to R_1-R_2$,
+        $R_z\to R_z+3R_2$.
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_1$ & $x_2$ & $x_3$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $s_1$ & $0$ & $\tfrac{1}{2}$ & $1$ & $1$ & $-\tfrac{1}{2}$ & $2$\\
+        $x_1$ & $1$ & $\tfrac{1}{2}$ & $0$ & $0$ & $\tfrac{1}{2}$ & $3$\\
+        \hline
+        $z$ & $0$ & $-\tfrac{1}{2}$ & $-1$ & $0$ & $\tfrac{3}{2}$ & $9$\\
+        \end{tabular}
+        \end{center}
+        \emph{Iteration 2.} Pivot column $x_3$ ($-1$ beats
+        $-\tfrac{1}{2}$). Only $R_1$ has a positive entry ($1$); ratio
+        $2/1=2$; $s_1$ leaves, pivot element $1$. Row operations:
+        relabel $s_1\to x_3$; $R_2$ unchanged (entry $0$);
+        $R_z\to R_z+R_1$.
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_1$ & $x_2$ & $x_3$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $x_3$ & $0$ & $\tfrac{1}{2}$ & $1$ & $1$ & $-\tfrac{1}{2}$ & $2$\\
+        $x_1$ & $1$ & $\tfrac{1}{2}$ & $0$ & $0$ & $\tfrac{1}{2}$ & $3$\\
+        \hline
+        $z$ & $0$ & $0$ & $0$ & $1$ & $1$ & $11$\\
+        \end{tabular}
+        \end{center}
+        Optimal: $x_1^{*}=3$, $x_2^{*}=0$, $x_3^{*}=2$, $z^{*}=11$;
+        both constraints bind ($3+0+2=5$, $2\cdot 3+0=6$).
+
+  \item Initial tableau:
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $s_3$ & RHS\\
+        \hline
+        $s_1$ & $2$ & $1$ & $1$ & $0$ & $0$ & $10$\\
+        $s_2$ & $1$ & $1$ & $0$ & $1$ & $0$ & $6$\\
+        $s_3$ & $1$ & $2$ & $0$ & $0$ & $1$ & $10$\\
+        \hline
+        $z$ & $-4$ & $-3$ & $0$ & $0$ & $0$ & $0$\\
+        \end{tabular}
+        \end{center}
+        \emph{Iteration 1.} Pivot column $x_1$ ($-4$). Ratios:
+        $10/2=5$, $6/1=6$, $10/1=10$; pivot row $R_1$, $s_1$ leaves,
+        pivot element $2$. Row operations: $R_1\to R_1/2$; then
+        $R_2\to R_2-R_1$, $R_3\to R_3-R_1$, $R_z\to R_z+4R_1$.
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $s_3$ & RHS\\
+        \hline
+        $x_1$ & $1$ & $\tfrac{1}{2}$ & $\tfrac{1}{2}$ & $0$ & $0$ & $5$\\
+        $s_2$ & $0$ & $\tfrac{1}{2}$ & $-\tfrac{1}{2}$ & $1$ & $0$ & $1$\\
+        $s_3$ & $0$ & $\tfrac{3}{2}$ & $-\tfrac{1}{2}$ & $0$ & $1$ & $5$\\
+        \hline
+        $z$ & $0$ & $-1$ & $2$ & $0$ & $0$ & $20$\\
+        \end{tabular}
+        \end{center}
+        \emph{Iteration 2.} Pivot column $x_2$ ($-1$). Ratios: $R_1$:
+        $5\big/\tfrac{1}{2}=10$; $R_2$: $1\big/\tfrac{1}{2}=2$; $R_3$:
+        $5\big/\tfrac{3}{2}=\tfrac{10}{3}$. Pivot row $R_2$, $s_2$
+        leaves, pivot element $\tfrac{1}{2}$. Row operations:
+        $R_2\to 2R_2$; then $R_1\to R_1-\tfrac{1}{2}R_2$,
+        $R_3\to R_3-\tfrac{3}{2}R_2$, $R_z\to R_z+R_2$.
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $s_3$ & RHS\\
+        \hline
+        $x_1$ & $1$ & $0$ & $1$ & $-1$ & $0$ & $4$\\
+        $x_2$ & $0$ & $1$ & $-1$ & $2$ & $0$ & $2$\\
+        $s_3$ & $0$ & $0$ & $1$ & $-3$ & $1$ & $2$\\
+        \hline
+        $z$ & $0$ & $0$ & $1$ & $2$ & $0$ & $22$\\
+        \end{tabular}
+        \end{center}
+        Optimal: $x_1^{*}=4$, $x_2^{*}=2$, $z^{*}=22$; $s_3=2$, so
+        constraints 1 and 2 bind ($8+2=10$, $4+2=6$) while constraint 3
+        keeps $2$ units of slack ($4+4=8\le 10$).
+\end{solutions}

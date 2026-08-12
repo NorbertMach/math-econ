@@ -1,0 +1,564 @@
+\chapter{Basic Differentiation Rules}
+
+The derivative measures the instantaneous rate of change of a function. In
+economics this is the language of \emph{marginal} quantities: marginal cost,
+marginal product, marginal revenue. Before specialising to particular
+functional forms, master the structural rules below; almost every derivative
+computed later is built from a handful of them.
+
+\section{Core Rules}
+
+\begin{rulebox}{Definition (limit form)}
+For a function $f:\R\to\R$ the derivative at $x$ is
+\[
+  f'(x) \;=\; \lim_{h\to 0}\frac{f(x+h)-f(x)}{h},
+\]
+provided this limit exists. Equivalent notations include $\dd{f}{x}$,
+$\dfrac{\mathrm{d}}{\mathrm{d}x}f(x)$, and $Df(x)$.
+\end{rulebox}
+
+\begin{rulebox}{Linearity}
+For constants $c,\lambda\in\R$ and differentiable $u,v$:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Constant rule:} $\dfrac{\mathrm{d}}{\mathrm{d}x}(c)=0$
+  \item \textbf{Scalar multiple:} $(\lambda u)'=\lambda u'$
+  \item \textbf{Sum rule:} $(u+v)'=u'+v'$
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Power rule}
+For any real exponent $n$ (where the expression is defined):
+\[
+  \frac{\mathrm{d}}{\mathrm{d}x}x^{n} \;=\; n\,x^{n-1} .
+\]
+Special cases worth memorising: $(\sqrt{x})'=\dfrac{1}{2\sqrt{x}}$,
+$\Bigl(\dfrac{1}{x}\Bigr)'=-\dfrac{1}{x^{2}}$, and $(x)'=1$.
+\end{rulebox}
+
+\begin{rulebox}{Product rule}
+If $u,v$ are differentiable,
+\[
+  (uv)' \;=\; u'v+uv' .
+\]
+\end{rulebox}
+
+\begin{rulebox}{Quotient rule}
+If $u,v$ are differentiable and $v\neq 0$,
+\[
+  \left(\frac{u}{v}\right)' \;=\; \frac{u'v-uv'}{v^{2}} .
+\]
+\end{rulebox}
+
+\begin{rulebox}{Chain rule}
+If $f$ is differentiable at $g(x)$ and $g$ is differentiable at $x$,
+\[
+  (f\circ g)'(x) \;=\; f'\bigl(g(x)\bigr)\cdot g'(x) .
+\]
+In Leibniz notation, with $y=f(u)$ and $u=g(x)$, this reads
+$\dd{y}{x}=\dd{y}{u}\cdot\dd{u}{x}$.
+\end{rulebox}
+
+\begin{rulebox}{Higher-order derivatives (preview)}
+The second derivative is $f''(x)=(f'(x))'$, written also
+$\dfrac{\mathrm{d}^{2}f}{\mathrm{d}x^{2}}$. In economics $f'>0$ and $f''<0$
+characterise an increasing, concave production or utility function. Higher
+orders $f^{(n)}$ appear in Taylor expansions and in concavity tests.
+\end{rulebox}
+
+\section{Practice Problems}
+
+Differentiate each function with respect to $x$ (or the indicated variable).
+Simplify where natural.
+
+\begin{problems}
+  \item $f(x)=x^{7}$
+  \item $f(x)=(3x+5)^{6}$
+  \item $f(x)=\dfrac{x}{x+1}$
+  \item $f(x)=(x^{2}+1)(x^{3}-2x)$
+  \item $f(x)=x^{5}-4x^{3}+9x-2$
+  \item $f(x)=\sqrt{2x^{2}+1}$
+  \item $C(q)=100+4q+0.05q^{2}$ \quad (find $C'(q)$, the marginal cost)
+  \item $f(x)=\dfrac{2x-3}{x^{2}+1}$
+  \item $f(x)=(3x-1)(x^{2}+4x+5)$
+  \item $f(x)=\sqrt{x}$
+  \item $f(x)=(x^{2}-4x+1)^{4}$
+  \item $f(x)=\dfrac{x^{2}+1}{x^{2}-1}$
+  \item $f(x)=x\sqrt{x+1}$
+  \item $f(x)=6x^{4}+2x^{2}-x$
+  \item $f(x)=\bigl((x+1)^{2}+1\bigr)^{3}$ \quad (double chain)
+  \item $f(x)=\dfrac{\sqrt{x}}{x+1}$
+  \item $f(x)=(x^{2}+2)(\sqrt{x}-3)$
+  \item $f(x)=x^{2/3}$
+  \item $R(q)=20q-0.1q^{2}$ \quad (find $R'(q)$, the marginal revenue)
+  \item $f(x)=\dfrac{1}{(x^{2}+3)^{5}}$
+  \item $f(x)=(x^{3}-x)(2x^{2}+7)$
+  \item $f(x)=\dfrac{x^{3}-2x}{x+4}$
+  \item $f(x)=\dfrac{1}{x^{4}}$
+  \item $f(x)=\bigl(\sqrt{x}+2x\bigr)^{4}$
+  \item $f(x)=5x^{4}-\tfrac{1}{2}x^{2}+7$
+  \item $\Pi(L)=L\cdot(10-L)$ \quad (a profit-like product)
+  \item $f(x)=\sqrt[3]{(x^{2}+x+1)^{2}}$
+  \item Average cost: $\displaystyle AC(q)=\frac{100+2q^{2}}{q}$
+  \item $f(x)=3\sqrt[3]{x}+\dfrac{2}{x^{2}}$
+  \item $f(x)=(5x^{2}-1)\Bigl(\dfrac{1}{x}+2\Bigr)$
+  \item $f(x)=\dfrac{1-x^{2}}{1+x^{2}}$
+  \item $f(x)=\pi x^{3}-\sqrt{2}\,x+e$
+  \item $f(x)=\bigl(\sqrt{x}+1\bigr)^{2}$ \quad \emph{(expand first)}
+  \item $f(x)=x^{1/2}+x^{-1/2}$
+  \item $f(x)=\dfrac{x^{3}-5x+1}{x}$
+  \item $f(x)=\tfrac{1}{3}x^{6}+\tfrac{2}{5}x^{5}-4$
+  \item $f(x)=(x^{2}-9)^{5}$
+  \item $f(x)=\dfrac{x+2}{x-2}$
+  \item $f(x)=(4x+3)(x^{2}-x)$
+  \item $f(x)=2x^{8}-3x^{5}+x$
+  \item $f(x)=\sqrt{4-x^{2}}$
+  \item Profit: $\Pi(q)=(20-0.1q)q-(100+4q+0.05q^{2})$ \quad (find
+        $\Pi'(q)$)
+  \item $f(x)=\dfrac{1}{2x+7}$
+  \item $f(x)=(x^{2}+1)^{3}(x-1)$
+  \item $f(x)=\dfrac{x^{2}}{1+x}$
+  \item $f(x)=7\sqrt{x}-\dfrac{3}{x}$
+  \item $f(x)=\bigl(1+x^{3}\bigr)^{10}$
+  \item $f(x)=(x+1)^{2}(x-1)^{3}$
+  \item Marginal product: $Q(L)=5L^{1/2}$ \quad (find $Q'(L)$)
+  \item $f(x)=\dfrac{3x+1}{(x+2)^{2}}$
+  \item $f(x)=x^{3}-5x^{2}+7x-4$
+  \item $f(x)=\sqrt{x^{2}+9}$
+  \item $f(x)=(2x^{3}+1)(x^{2}+x)$
+  \item $f(x)=\dfrac{x^{2}-1}{x^{2}+1}$
+  \item $f(x)=\Bigl(\dfrac{1}{x}+x\Bigr)^{4}$
+  \item $f(x)=-3x^{5}+2x^{-3}$
+  \item $f(x)=\dfrac{1}{\sqrt{x^{2}+1}}$
+  \item $f(x)=(x-1)(x-2)(x-3)$
+  \item Cost: $C(q)=50+\sqrt{q^{2}+4}$ \quad (find $C'(q)$)
+  \item $f(x)=\dfrac{x+1}{x^{2}+2}$
+  \item $f(x)=(5-2x)^{7}$
+  \item $f(x)=x^{2}\sqrt{1+x}$
+  \item $f(x)=\dfrac{1}{x^{3}+1}$
+  \item $f(x)=(x^{4}+3x)^{6}$
+  \item $f(x)=\tfrac{2}{3}x^{3/2}-4x^{-1/2}$
+  \item Revenue per unit time: $R(t)=(50+2t)^{3}$ \quad (find $R'(t)$)
+  \item $f(x)=\dfrac{\sqrt{x}+1}{\sqrt{x}-1}$
+  \item $f(x)=(x^{2}+1)(x^{2}-1)(x+3)$
+  \item $f(x)=\sqrt{(x+1)(x+2)}$
+  \item $f(x)=\dfrac{x^{2}+2x}{(x+1)^{2}}$
+  \item $f(x)=\bigl(3x^{2}-2\sqrt{x}\bigr)^{5}$
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item $f'(x)=7x^{6}$ (power rule).
+
+  \item Outer $u^{6}$, inner $u=3x+5$. $f'(x)=6(3x+5)^{5}\cdot 3
+        =18(3x+5)^{5}$.
+
+  \item Quotient rule with $u=x$, $v=x+1$, $u'=1$, $v'=1$:
+        \[
+          f'(x)=\frac{1\cdot(x+1)-x\cdot 1}{(x+1)^{2}}=\frac{1}{(x+1)^{2}} .
+        \]
+
+  \item Let $u=x^{2}+1$, $v=x^{3}-2x$. Then $u'=2x$, $v'=3x^{2}-2$.
+        \[
+          f'(x)=2x(x^{3}-2x)+(x^{2}+1)(3x^{2}-2)=5x^{4}-3x^{2}-2 .
+        \]
+
+  \item $f'(x)=5x^{4}-12x^{2}+9$.
+
+  \item $f(x)=(2x^{2}+1)^{1/2}$, inner $u=2x^{2}+1$, $u'=4x$.
+        \[
+          f'(x)=\tfrac12(2x^{2}+1)^{-1/2}\cdot 4x=\frac{2x}{\sqrt{2x^{2}+1}} .
+        \]
+
+  \item $C'(q)=4+0.1q$. Marginal cost is linear in output.
+
+  \item $u=2x-3$, $v=x^{2}+1$, $u'=2$, $v'=2x$.
+        \[
+          f'(x)=\frac{2(x^{2}+1)-(2x-3)(2x)}{(x^{2}+1)^{2}}
+               =\frac{-2x^{2}+6x+2}{(x^{2}+1)^{2}} .
+        \]
+
+  \item $u=3x-1$, $v=x^{2}+4x+5$, $u'=3$, $v'=2x+4$.
+        \[
+          f'(x)=3(x^{2}+4x+5)+(3x-1)(2x+4)=9x^{2}+22x+11 .
+        \]
+
+  \item Write $\sqrt{x}=x^{1/2}$, so $f'(x)=\tfrac12x^{-1/2}
+        =\dfrac{1}{2\sqrt{x}}$.
+
+  \item Inner $u=x^{2}-4x+1$, $u'=2x-4$. $f'(x)=4(x^{2}-4x+1)^{3}(2x-4)
+        =8(x-2)(x^{2}-4x+1)^{3}$.
+
+  \item $u=x^{2}+1$, $v=x^{2}-1$, $u'=2x$, $v'=2x$.
+        \[
+          f'(x)=\frac{2x(x^{2}-1)-(x^{2}+1)(2x)}{(x^{2}-1)^{2}}
+               =\frac{-4x}{(x^{2}-1)^{2}} .
+        \]
+
+  \item $u=x$, $v=(x+1)^{1/2}$, $u'=1$, $v'=\tfrac12(x+1)^{-1/2}$.
+        \[
+          f'(x)=\sqrt{x+1}+\frac{x}{2\sqrt{x+1}}
+               =\frac{2(x+1)+x}{2\sqrt{x+1}}=\frac{3x+2}{2\sqrt{x+1}} .
+        \]
+
+  \item $f'(x)=24x^{3}+4x-1$.
+
+  \item Two layers. Let $g(x)=(x+1)^{2}+1$, $g'(x)=2(x+1)$. Then
+        \[
+          f'(x)=3\,g(x)^{2}\cdot g'(x)=6(x+1)\bigl((x+1)^{2}+1\bigr)^{2} .
+        \]
+
+  \item $u=x^{1/2}$, $v=x+1$, $u'=\tfrac12x^{-1/2}$, $v'=1$.
+        \[
+          f'(x)=\frac{\frac{1}{2\sqrt{x}}(x+1)-\sqrt{x}}{(x+1)^{2}}
+               =\frac{(x+1)-2x}{2\sqrt{x}(x+1)^{2}}
+               =\frac{1-x}{2\sqrt{x}(x+1)^{2}} .
+        \]
+
+  \item $u=x^{2}+2$, $v=x^{1/2}-3$, $u'=2x$, $v'=\tfrac12x^{-1/2}$.
+        \[
+          f'(x)=2x(\sqrt{x}-3)+(x^{2}+2)\cdot\frac{1}{2\sqrt{x}}
+               =2x\sqrt{x}-6x+\frac{x^{2}+2}{2\sqrt{x}} .
+        \]
+
+  \item $f'(x)=\tfrac23x^{-1/3}=\dfrac{2}{3\sqrt[3]{x}}$.
+
+  \item $R'(q)=20-0.2q$. Marginal revenue falls with $q$.
+
+  \item $f(x)=(x^{2}+3)^{-5}$, inner $u'=2x$.
+        \[
+          f'(x)=-5(x^{2}+3)^{-6}\cdot 2x=-\frac{10x}{(x^{2}+3)^{6}} .
+        \]
+
+  \item $u=x^{3}-x$, $v=2x^{2}+7$, $u'=3x^{2}-1$, $v'=4x$.
+        \[
+          f'(x)=(3x^{2}-1)(2x^{2}+7)+(x^{3}-x)(4x)=10x^{4}+15x^{2}-7 .
+        \]
+
+  \item $u=x^{3}-2x$, $v=x+4$, $u'=3x^{2}-2$, $v'=1$.
+        \[
+          f'(x)=\frac{(3x^{2}-2)(x+4)-(x^{3}-2x)}{(x+4)^{2}}
+               =\frac{2x^{3}+12x^{2}-8}{(x+4)^{2}} .
+        \]
+
+  \item Write $f(x)=x^{-4}$, so $f'(x)=-4x^{-5}=-\dfrac{4}{x^{5}}$.
+
+  \item Inner $u=\sqrt{x}+2x$, $u'=\dfrac{1}{2\sqrt{x}}+2$.
+        \[
+          f'(x)=4\bigl(\sqrt{x}+2x\bigr)^{3}\left(\frac{1}{2\sqrt{x}}+2\right) .
+        \]
+
+  \item $f'(x)=20x^{3}-x$.
+
+  \item $\Pi'(L)=1\cdot(10-L)+L\cdot(-1)=10-2L$.
+
+  \item $f(x)=(x^{2}+x+1)^{2/3}$, inner $u'=2x+1$.
+        \[
+          f'(x)=\tfrac23(x^{2}+x+1)^{-1/3}(2x+1)
+               =\frac{2(2x+1)}{3\sqrt[3]{x^{2}+x+1}} .
+        \]
+
+  \item Easier: $AC(q)=100q^{-1}+2q$, so $AC'(q)=-100q^{-2}+2
+        =2-\dfrac{100}{q^{2}}$.
+
+  \item $f(x)=3x^{1/3}+2x^{-2}$, hence $f'(x)=x^{-2/3}-4x^{-3}
+        =\dfrac{1}{x^{2/3}}-\dfrac{4}{x^{3}}$.
+
+  \item $u=5x^{2}-1$, $v=x^{-1}+2$, $u'=10x$, $v'=-x^{-2}$.
+        \[
+          f'(x)=10x(x^{-1}+2)+(5x^{2}-1)(-x^{-2})
+               =10+20x-5+x^{-2}=5+20x+\frac{1}{x^{2}} .
+        \]
+
+  \item $u=1-x^{2}$, $v=1+x^{2}$, $u'=-2x$, $v'=2x$.
+        \[
+          f'(x)=\frac{-2x(1+x^{2})-(1-x^{2})(2x)}{(1+x^{2})^{2}}
+               =\frac{-4x}{(1+x^{2})^{2}} .
+        \]
+
+  \item $f'(x)=3\pi x^{2}-\sqrt{2}$. ($e$ is a constant.)
+
+  \item Expand: $f(x)=x+2\sqrt{x}+1$, so $f'(x)=1+\dfrac{1}{\sqrt{x}}$.
+
+  \item $f'(x)=\tfrac12x^{-1/2}-\tfrac12x^{-3/2}
+        =\dfrac{1}{2\sqrt{x}}-\dfrac{1}{2x^{3/2}}$.
+
+  \item Simplify first: $f(x)=x^{2}-5+x^{-1}$, so $f'(x)=2x-x^{-2}
+        =2x-\dfrac{1}{x^{2}}$.
+
+  \item $f'(x)=2x^{5}+2x^{4}$.
+
+  \item Chain rule with $u=x^{2}-9$, $u'=2x$:
+        \[
+          f'(x)=5(x^{2}-9)^{4}\cdot 2x=10x(x^{2}-9)^{4} .
+        \]
+
+  \item $u=x+2$, $v=x-2$, $u'=1$, $v'=1$.
+        \[
+          f'(x)=\frac{1\cdot(x-2)-(x+2)\cdot 1}{(x-2)^{2}}
+               =\frac{-4}{(x-2)^{2}} .
+        \]
+
+  \item Product rule with $u=4x+3$, $v=x^{2}-x$, $u'=4$, $v'=2x-1$.
+        \[
+          f'(x)=4(x^{2}-x)+(4x+3)(2x-1)=12x^{2}-2x-3 .
+        \]
+
+  \item $f'(x)=16x^{7}-15x^{4}+1$.
+
+  \item $f(x)=(4-x^{2})^{1/2}$, inner $u'=-2x$.
+        \[
+          f'(x)=\tfrac12(4-x^{2})^{-1/2}\cdot(-2x)=-\frac{x}{\sqrt{4-x^{2}}} .
+        \]
+
+  \item Expand: $\Pi(q)=20q-0.1q^{2}-100-4q-0.05q^{2}
+        =-100+16q-0.15q^{2}$.
+        \[
+          \Pi'(q)=16-0.3q .
+        \]
+        Marginal profit is zero at $q^{*}=16/0.3\approx 53.33$.
+
+  \item Write $f(x)=(2x+7)^{-1}$. Chain rule: $f'(x)=-(2x+7)^{-2}\cdot 2
+        =-\dfrac{2}{(2x+7)^{2}}$.
+
+  \item Product rule with $u=(x^{2}+1)^{3}$, $v=x-1$. $u'=3(x^{2}+1)^{2}
+        \cdot 2x=6x(x^{2}+1)^{2}$, $v'=1$.
+        \[
+          f'(x)=6x(x^{2}+1)^{2}(x-1)+(x^{2}+1)^{3}
+               =(x^{2}+1)^{2}\bigl[6x(x-1)+(x^{2}+1)\bigr]
+               =(x^{2}+1)^{2}(7x^{2}-6x+1) .
+        \]
+
+  \item Quotient rule with $u=x^{2}$, $v=1+x$, $u'=2x$, $v'=1$.
+        \[
+          f'(x)=\frac{2x(1+x)-x^{2}}{(1+x)^{2}}=\frac{x^{2}+2x}{(1+x)^{2}}
+               =\frac{x(x+2)}{(1+x)^{2}} .
+        \]
+
+  \item $f(x)=7x^{1/2}-3x^{-1}$, so $f'(x)=\tfrac72x^{-1/2}+3x^{-2}
+        =\dfrac{7}{2\sqrt{x}}+\dfrac{3}{x^{2}}$.
+
+  \item Inner $u=1+x^{3}$, $u'=3x^{2}$.
+        \[
+          f'(x)=10(1+x^{3})^{9}\cdot 3x^{2}=30x^{2}(1+x^{3})^{9} .
+        \]
+
+  \item Product rule with $u=(x+1)^{2}$, $v=(x-1)^{3}$, $u'=2(x+1)$,
+        $v'=3(x-1)^{2}$.
+        \[
+          f'(x)=2(x+1)(x-1)^{3}+3(x+1)^{2}(x-1)^{2}
+               =(x+1)(x-1)^{2}\bigl[2(x-1)+3(x+1)\bigr]
+               =(x+1)(x-1)^{2}(5x+1) .
+        \]
+
+  \item $Q(L)=5L^{1/2}$, so $Q'(L)=\tfrac52L^{-1/2}=\dfrac{5}{2\sqrt{L}}$.
+        Marginal product is positive but diminishing.
+
+  \item Quotient rule with $u=3x+1$, $v=(x+2)^{2}$, $u'=3$,
+        $v'=2(x+2)$.
+        \[
+          f'(x)=\frac{3(x+2)^{2}-(3x+1)\cdot 2(x+2)}{(x+2)^{4}}
+               =\frac{3(x+2)-2(3x+1)}{(x+2)^{3}}=\frac{-3x+4}{(x+2)^{3}} .
+        \]
+
+  \item $f'(x)=3x^{2}-10x+7$.
+
+  \item $f(x)=(x^{2}+9)^{1/2}$, $u'=2x$.
+        \[
+          f'(x)=\tfrac12(x^{2}+9)^{-1/2}\cdot 2x=\frac{x}{\sqrt{x^{2}+9}} .
+        \]
+
+  \item Product rule with $u=2x^{3}+1$, $v=x^{2}+x$, $u'=6x^{2}$,
+        $v'=2x+1$.
+        \[
+          f'(x)=6x^{2}(x^{2}+x)+(2x^{3}+1)(2x+1)=10x^{4}+8x^{3}+2x+1 .
+        \]
+
+  \item Quotient rule with $u=x^{2}-1$, $v=x^{2}+1$, $u'=2x$, $v'=2x$.
+        \[
+          f'(x)=\frac{2x(x^{2}+1)-(x^{2}-1)(2x)}{(x^{2}+1)^{2}}
+               =\frac{4x}{(x^{2}+1)^{2}} .
+        \]
+
+  \item Inner $u=x^{-1}+x$, $u'=-x^{-2}+1$.
+        \[
+          f'(x)=4\Bigl(\frac{1}{x}+x\Bigr)^{3}\left(1-\frac{1}{x^{2}}\right) .
+        \]
+
+  \item $f'(x)=-15x^{4}-6x^{-4}=-15x^{4}-\dfrac{6}{x^{4}}$.
+
+  \item $f(x)=(x^{2}+1)^{-1/2}$, inner $u'=2x$.
+        \[
+          f'(x)=-\tfrac12(x^{2}+1)^{-3/2}\cdot 2x=-\frac{x}{(x^{2}+1)^{3/2}} .
+        \]
+
+  \item Expand or use the product rule iteratively. Quickest:
+        $(x-1)(x-2)(x-3)=x^{3}-6x^{2}+11x-6$, so $f'(x)=3x^{2}-12x+11$.
+
+  \item $C(q)=50+(q^{2}+4)^{1/2}$, $u'=2q$.
+        \[
+          C'(q)=\tfrac12(q^{2}+4)^{-1/2}\cdot 2q=\frac{q}{\sqrt{q^{2}+4}} .
+        \]
+
+  \item Quotient rule with $u=x+1$, $v=x^{2}+2$, $u'=1$, $v'=2x$.
+        \[
+          f'(x)=\frac{1\cdot(x^{2}+2)-(x+1)(2x)}{(x^{2}+2)^{2}}
+               =\frac{-x^{2}-2x+2}{(x^{2}+2)^{2}} .
+        \]
+
+  \item Inner $u=5-2x$, $u'=-2$.
+        \[
+          f'(x)=7(5-2x)^{6}\cdot(-2)=-14(5-2x)^{6} .
+        \]
+
+  \item Product rule with $u=x^{2}$, $v=(1+x)^{1/2}$, $u'=2x$,
+        $v'=\tfrac12(1+x)^{-1/2}$.
+        \[
+          f'(x)=2x\sqrt{1+x}+\frac{x^{2}}{2\sqrt{1+x}}
+               =\frac{4x(1+x)+x^{2}}{2\sqrt{1+x}}=\frac{5x^{2}+4x}{2\sqrt{1+x}} .
+        \]
+
+  \item $f(x)=(x^{3}+1)^{-1}$, inner $u'=3x^{2}$.
+        \[
+          f'(x)=-(x^{3}+1)^{-2}\cdot 3x^{2}=-\frac{3x^{2}}{(x^{3}+1)^{2}} .
+        \]
+
+  \item Inner $u=x^{4}+3x$, $u'=4x^{3}+3$.
+        \[
+          f'(x)=6(x^{4}+3x)^{5}(4x^{3}+3) .
+        \]
+
+  \item $f'(x)=\tfrac23\cdot\tfrac32x^{1/2}-4\cdot(-\tfrac12)x^{-3/2}
+        =x^{1/2}+2x^{-3/2}=\sqrt{x}+\dfrac{2}{x^{3/2}}$.
+
+  \item Inner $u=50+2t$, $u'=2$.
+        \[
+          R'(t)=3(50+2t)^{2}\cdot 2=6(50+2t)^{2} .
+        \]
+
+  \item Quotient rule with $u=\sqrt{x}+1$, $v=\sqrt{x}-1$,
+        $u'=v'=\dfrac{1}{2\sqrt{x}}$.
+        \[
+          f'(x)=\frac{\frac{1}{2\sqrt{x}}(\sqrt{x}-1)
+               -(\sqrt{x}+1)\cdot\frac{1}{2\sqrt{x}}}{(\sqrt{x}-1)^{2}}
+               =\frac{-1/\sqrt{x}}{(\sqrt{x}-1)^{2}}
+               =-\frac{1}{\sqrt{x}(\sqrt{x}-1)^{2}} .
+        \]
+
+  \item Group: note $(x^{2}+1)(x^{2}-1)=x^{4}-1$, so
+        $f(x)=(x^{4}-1)(x+3)=x^{5}+3x^{4}-x-3$. Hence
+        $f'(x)=5x^{4}+12x^{3}-1$.
+
+  \item $f(x)=\bigl((x+1)(x+2)\bigr)^{1/2}=(x^{2}+3x+2)^{1/2}$, inner
+        $u'=2x+3$.
+        \[
+          f'(x)=\tfrac12(x^{2}+3x+2)^{-1/2}(2x+3)
+               =\frac{2x+3}{2\sqrt{(x+1)(x+2)}} .
+        \]
+
+  \item Simplify first: $x^{2}+2x=x(x+2)$ and $(x+1)^{2}=x^{2}+2x+1$.
+        Quotient rule with $u=x^{2}+2x$, $v=(x+1)^{2}$, $u'=2x+2=2(x+1)$,
+        $v'=2(x+1)$.
+        \[
+          f'(x)=\frac{2(x+1)(x+1)^{2}-(x^{2}+2x)\cdot 2(x+1)}{(x+1)^{4}}
+               =\frac{2(x+1)^{2}-2(x^{2}+2x)}{(x+1)^{3}}=\frac{2}{(x+1)^{3}} .
+        \]
+
+  \item Inner $u=3x^{2}-2x^{1/2}$, $u'=6x-x^{-1/2}$.
+        \[
+          f'(x)=5\bigl(3x^{2}-2\sqrt{x}\bigr)^{4}\left(6x-\frac{1}{\sqrt{x}}\right) .
+        \]
+\end{solutions}
+
+\section{Additional Problems}
+
+\begin{problems}
+  \item $f(x)=4x^{5}-7x^{3}+2x-9$
+  \item $f(x)=(2x+3)^{8}$
+  \item $f(x)=\dfrac{x-1}{x+1}$
+  \item $f(x)=(x^{3}-2)(x^{2}+5)$
+  \item $f(x)=\sqrt{3x^{2}+4}$
+  \item $f(x)=\dfrac{x^{2}}{x^{3}+1}$
+  \item Cost: $C(q)=200+6q+0.02q^{3}$ \quad (find $C'(q)$)
+  \item $f(x)=(x^{2}+x)^{5}$
+  \item $f(x)=\dfrac{1}{(2x-5)^{3}}$
+  \item $f(x)=x\sqrt{x^{2}+1}$
+  \item $f(x)=\bigl((x^{2}+1)^{2}-3\bigr)^{4}$ \quad (double chain)
+  \item Marginal product: $Q(L)=8L^{2/3}$ \quad (find $Q'(L)$)
+  \item $f(x)=\dfrac{x^{2}+3x}{(x-1)^{2}}$
+  \item $f(x)=\sqrt[4]{x^{3}}$
+  \item Profit: $\Pi(q)=(30-0.2q)\,q-(50+2q+0.1q^{2})$ \quad (find
+        $\Pi'(q)$)
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item $f'(x)=20x^{4}-21x^{2}+2$.
+
+  \item Chain rule: $f'(x)=8(2x+3)^{7}\cdot 2=16(2x+3)^{7}$.
+
+  \item Quotient rule with $u=x-1$, $v=x+1$, $u'=1$, $v'=1$:
+        \[
+          f'(x)=\frac{(x+1)-(x-1)}{(x+1)^{2}}=\frac{2}{(x+1)^{2}} .
+        \]
+
+  \item Product rule: $u=x^{3}-2$, $v=x^{2}+5$, $u'=3x^{2}$, $v'=2x$.
+        \[
+          f'(x)=3x^{2}(x^{2}+5)+(x^{3}-2)(2x)=5x^{4}+15x^{2}-4x .
+        \]
+
+  \item $f(x)=(3x^{2}+4)^{1/2}$, inner $u'=6x$.
+        \[
+          f'(x)=\tfrac12(3x^{2}+4)^{-1/2}\cdot 6x=\frac{3x}{\sqrt{3x^{2}+4}} .
+        \]
+
+  \item Quotient rule with $u=x^{2}$, $v=x^{3}+1$, $u'=2x$, $v'=3x^{2}$.
+        \[
+          f'(x)=\frac{2x(x^{3}+1)-x^{2}\cdot 3x^{2}}{(x^{3}+1)^{2}}
+               =\frac{-x^{4}+2x}{(x^{3}+1)^{2}}
+               =\frac{x(2-x^{3})}{(x^{3}+1)^{2}} .
+        \]
+
+  \item $C'(q)=6+0.06q^{2}$. Marginal cost grows quadratically with output.
+
+  \item Chain rule: inner $u=x^{2}+x$, $u'=2x+1$.
+        $f'(x)=5(x^{2}+x)^{4}(2x+1)$.
+
+  \item $f(x)=(2x-5)^{-3}$. Chain rule: $f'(x)=-3(2x-5)^{-4}\cdot 2
+        =-\dfrac{6}{(2x-5)^{4}}$.
+
+  \item Product rule with $u=x$, $v=(x^{2}+1)^{1/2}$, $u'=1$,
+        $v'=x/(x^{2}+1)^{1/2}$.
+        \[
+          f'(x)=\sqrt{x^{2}+1}+\frac{x^{2}}{\sqrt{x^{2}+1}}
+               =\frac{2x^{2}+1}{\sqrt{x^{2}+1}} .
+        \]
+
+  \item Two layers. Let $g(x)=(x^{2}+1)^{2}-3$,
+        $g'(x)=2(x^{2}+1)\cdot 2x=4x(x^{2}+1)$.
+        \[
+          f'(x)=4\,g(x)^{3}\cdot g'(x)
+               =16x(x^{2}+1)\bigl((x^{2}+1)^{2}-3\bigr)^{3} .
+        \]
+
+  \item $Q'(L)=8\cdot\tfrac23L^{-1/3}=\dfrac{16}{3L^{1/3}}$. Marginal
+        product is positive but diminishing.
+
+  \item Quotient rule with $u=x^{2}+3x$, $v=(x-1)^{2}$, $u'=2x+3$,
+        $v'=2(x-1)$.
+        \[
+          f'(x)=\frac{(2x+3)(x-1)^{2}-(x^{2}+3x)\cdot 2(x-1)}{(x-1)^{4}}
+               =\frac{(2x+3)(x-1)-2(x^{2}+3x)}{(x-1)^{3}}
+               =\frac{-5x-3}{(x-1)^{3}} .
+        \]
+
+  \item $f(x)=x^{3/4}$, so $f'(x)=\tfrac34x^{-1/4}=\dfrac{3}{4\sqrt[4]{x}}$.
+
+  \item Expand: $\Pi(q)=30q-0.2q^{2}-50-2q-0.1q^{2}
+        =-50+28q-0.3q^{2}$.
+        \[
+          \Pi'(q)=28-0.6q .
+        \]
+        Marginal profit is zero at $q^{*}=28/0.6\approx 46.67$.
+\end{solutions}

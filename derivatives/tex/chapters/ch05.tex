@@ -1,0 +1,602 @@
+\chapter{Implicit Differentiation}
+
+When a curve in the plane is defined by an equation $F(x,y)=0$ that we
+cannot (or do not wish to) solve explicitly for $y$, implicit
+differentiation produces $\dd{y}{x}$ directly: differentiate both sides
+with respect to $x$, treat $y$ as a (locally) differentiable function of
+$x$, and solve algebraically for $y'$. The same idea drives logarithmic
+differentiation, comparative statics in economics, and the Implicit
+Function Theorem in higher dimensions.
+
+\section{Core Rules}
+
+\begin{rulebox}{Setup}
+Suppose $F(x,y)=0$ defines $y=y(x)$ implicitly. Differentiate every term
+with respect to $x$. Whenever an expression involves $y$, the chain rule
+produces an extra factor $\dd{y}{x}$:
+\[
+  \frac{\mathrm{d}}{\mathrm{d}x}\bigl[g(y)\bigr]=g'(y)\cdot\dd{y}{x} .
+\]
+\end{rulebox}
+
+\begin{rulebox}{Mixed terms}
+For a product such as $x^{3}y^{2}$ apply the product rule, treating $y$ as
+a function of $x$:
+\[
+  \frac{\mathrm{d}}{\mathrm{d}x}\bigl[x^{3}y^{2}\bigr]=3x^{2}y^{2}+x^{3}\cdot 2yy' .
+\]
+\end{rulebox}
+
+\begin{rulebox}{Solving for $y'$}
+Collect all terms containing $y'$ on one side and factor:
+\[
+  A(x,y)\,y'+B(x,y)=0\;\Longrightarrow\;y'=-\frac{B(x,y)}{A(x,y)} .
+\]
+\end{rulebox}
+
+\begin{rulebox}{Logarithmic differentiation}
+If $y=f(x)>0$ is a complicated product, quotient or power, take $\ln$
+first:
+\[
+  \ln y=\ln f(x)
+  \;\Longrightarrow\;
+  \frac{y'}{y}=\frac{\mathrm{d}}{\mathrm{d}x}\ln f(x)
+  \;\Longrightarrow\;
+  y'=y\cdot\frac{\mathrm{d}}{\mathrm{d}x}\ln f(x) .
+\]
+Particularly useful for $y=u(x)^{v(x)}$: $\ln y=v(x)\ln u(x)$.
+\end{rulebox}
+
+\begin{rulebox}{Higher-order implicit}
+To find $y''$, differentiate $y'$ a second time with respect to $x$, again
+remembering that any $y$ that appears contributes a factor $y'$.
+\end{rulebox}
+
+\begin{rulebox}{Tangent line via implicit slope}
+The tangent at $(x_{0},y_{0})$ on $F(x,y)=0$ is
+$y-y_{0}=y'(x_{0})\cdot(x-x_{0})$, where $y'(x_{0})$ is computed
+implicitly.
+\end{rulebox}
+
+\begin{rulebox}{IFT preview}
+If $F:\R^{2}\to\R$ is $C^{1}$ near $(x_{0},y_{0})$ with $F(x_{0},y_{0})=0$
+and $F_{y}(x_{0},y_{0})\neq 0$, then locally $y=y(x)$ exists and
+\[
+  \dd{y}{x}=-\frac{F_{x}(x,y)}{F_{y}(x,y)} .
+\]
+Implicit differentiation \emph{recovers} this formula on a
+problem-by-problem basis.
+\end{rulebox}
+
+\section{Practice Problems}
+
+\begin{problems}
+  \item Compute $\dd{y}{x}$ implicitly for $x^{2}+4y^{2}=16$.
+  \item Find the equation of the tangent line to $x^{2}+4y^{2}=20$ at
+        $(2,2)$.
+  \item Use logarithmic differentiation to find $y'$ for $y=x^{\sin x}$
+        ($x>0$, $\sin x>0$).
+  \item Compute $\dd{^{2}y}{x^{2}}$ implicitly for $x^{2}+4y^{2}=4$.
+  \item Compute $\dd{y}{x}$ implicitly for $x^{3}-y^{3}=3xy$.
+  \item Compute $\dd{y}{x}$ implicitly for $x^{2}y^{3}=8$.
+  \item Find the equation of the tangent line to $x^{2}y+y^{2}x=6$ at
+        $(1,2)$.
+  \item Use logarithmic differentiation to find $y'$ for $y=(\ln x)^{x}$
+        ($x>1$).
+  \item Compute $\dd{^{2}y}{x^{2}}$ implicitly for $x^{2}y=1$.
+  \item Compute $\dd{y}{x}$ implicitly for $\cos(y)+x=y$.
+  \item Find the equation of the tangent line to $y^{2}-x^{2}=3$ at
+        $(1,2)$.
+  \item Use logarithmic differentiation to find $y'$ for
+        \[
+          y=\frac{(2x+1)^{5}\sqrt{x^{2}+3}}{(x-4)^{3}}\qquad (x>4).
+        \]
+  \item Compute $\dd{y}{x}$ implicitly for $\mathrm{e}^{x+y}=xy$.
+  \item Compute $\dd{^{2}y}{x^{2}}$ implicitly for $y^{3}=x^{2}$.
+  \item Compute $\dd{y}{x}$ implicitly for $x^{2}+2xy+3y^{2}=12$.
+  \item Find the equation of the tangent line to $\mathrm{e}^{y}+xy=\mathrm{e}+1$
+        at $(1,1)$.
+  \item Use logarithmic differentiation to find $y'$ for $y=(x^{2}+1)^{x}$
+        ($x>0$).
+  \item Compute $\dd{y}{x}$ implicitly for $\sqrt{x+y}=x-y$.
+  \item Compute $\dd{^{2}y}{x^{2}}$ implicitly for $xy+y^{2}=1$.
+  \item Find the equation of the tangent line to $x^{2}+y^{2}=4y$ at
+        $(\sqrt{3},1)$.
+  \item Compute $\dd{y}{x}$ implicitly for $\tan(xy)=x$.
+  \item Use logarithmic differentiation to find $y'$ for $y=x^{1/x}$
+        ($x>0$).
+  \item Compute $\dd{y}{x}$ implicitly for $\ln(y)+xy=2$.
+  \item Compute $\dd{y}{x}$ implicitly for $y^{3}+y=x^{2}$.
+  \item Find the tangent line to the astroid $x^{2/3}+y^{2/3}=2$ at
+        $(1,1)$.
+  \item Compute $\dd{y}{x}$ implicitly for $\sin(x+y)=y$.
+  \item Use logarithmic differentiation to find $y'$ for
+        $y=\dfrac{\mathrm{e}^{2x}(x+1)^{3}}{\sqrt{x^{2}+5}}$ (assume $x>-1$).
+  \item Compute $\dd{^{2}y}{x^{2}}$ implicitly for $x^{2}+y^{2}=25$.
+  \item For an indifference curve given by $U(x,y)=x^{1/2}y^{1/2}=\bar U$
+        (constant), compute $\dd{y}{x}$, the marginal rate of
+        substitution.
+  \item Find all points on the curve $x^{2}+y^{2}=2x+4y$ where the tangent
+        line is horizontal.
+  \item Compute $\dd{y}{x}$ implicitly for $\arctan(y/x)=x$.
+  \item Use logarithmic differentiation to find $y'$ for $y=x^{x}$
+        ($x>0$).
+  \item Find the equation of the tangent line to $x^{3}+y^{3}=9xy$ at
+        $(2,4)$ (point on the folium of Descartes).
+  \item Compute $\dd{^{2}y}{x^{2}}$ implicitly for $y^{2}=4x$.
+  \item Compute $\dd{y}{x}$ implicitly for $x\mathrm{e}^{y}+y=x$.
+  \item Find all points on the ellipse $\dfrac{x^{2}}{9}+\dfrac{y^{2}}{4}=1$
+        where the tangent line has slope $-1$.
+  \item Use logarithmic differentiation to find $y'$ for
+        $y=(\sin x)^{\cos x}$ on $(0,\pi/2)$.
+  \item Compute $\dd{y}{x}$ implicitly for $x^{2}y-xy^{2}+x^{2}+y^{2}=0$.
+  \item For the production isoquant $K^{1/3}L^{2/3}=\bar Q$ (constant),
+        compute $\dd{K}{L}$, the marginal rate of technical
+        substitution.
+  \item Compute $\dd{^{2}y}{x^{2}}$ implicitly for $\sin(y)=x$.
+  \item Find the tangent line to $xy=4$ at $x=2$.
+  \item Use logarithmic differentiation to find $y'$ for
+        $y=\dfrac{\sqrt{x+1}\sqrt[3]{x-2}}{(x+5)^{4}}$ (assume $x>2$).
+  \item Compute $\dd{y}{x}$ implicitly for $\mathrm{e}^{y}\ln(x)+x^{2}=y$.
+  \item Show that on the circle $x^{2}+y^{2}=r^{2}$ the tangent at
+        $(x_{0},y_{0})$ is perpendicular to the radius. (I.e.\ derive the
+        tangent slope and compare with the radius slope.)
+  \item Use logarithmic differentiation to find $y'$ for $y=7^{x^{2}}$
+        ($y>0$).
+  \item Compute $\dd{^{2}y}{x^{2}}$ implicitly for $x^{2}+xy+y^{2}=3$.
+  \item For the budget surface $px+qy=m$ (a line, $p,q,m>0$ constants),
+        differentiate implicitly to recover $\dd{y}{x}=-p/q$.
+  \item Find the tangent line to $x^{2}-xy+y^{2}=7$ at $(3,2)$.
+  \item Compute $\dd{y}{x}$ implicitly for $\cos(xy)=x+y$.
+  \item Compute $\dd{^{2}y}{x^{2}}$ implicitly for $x^{3}+y^{3}=6xy$ at the
+        point $(3,3)$ (folium of Descartes). Express the answer as a
+        number.
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item $2x+8yy'=0\Rightarrow y'=-\dfrac{x}{4y}$.
+
+  \item Check $(2,2)$: $4+16=20$. From $2x+8yy'=0$: $y'=-x/(4y)$. At
+        $(2,2)$: $y'=-2/8=-1/4$. Tangent: $y-2=-\tfrac14(x-2)$, i.e.\
+        $x+4y=10$.
+
+  \item $\ln y=\sin(x)\ln(x)\Rightarrow\dfrac{y'}{y}=\cos(x)\ln(x)+\dfrac{\sin x}{x}$.
+        So
+        \[
+          y'=x^{\sin x}\left[\cos(x)\ln(x)+\frac{\sin x}{x}\right] .
+        \]
+
+  \item $2x+8yy'=0\Rightarrow y'=-\dfrac{x}{4y}$. Differentiate again:
+        \[
+          y''=-\frac{4y\cdot 1-x\cdot 4y'}{(4y)^{2}}=-\frac{y-xy'}{4y^{2}} .
+        \]
+        Substitute $y'=-x/(4y)$:
+        $y-xy'=y+\dfrac{x^{2}}{4y}=\dfrac{4y^{2}+x^{2}}{4y}=\dfrac{4}{4y}
+        =\dfrac{1}{y}$ (using $x^{2}+4y^{2}=4$). Hence
+        $y''=-\dfrac{1}{4y^{3}}$.
+
+  \item $3x^{2}-3y^{2}y'=3y+3xy'\Rightarrow -3(y^{2}+x)y'=3(y-x^{2})
+        \Rightarrow y'=\dfrac{x^{2}-y}{y^{2}+x}$.
+
+  \item $2xy^{3}+3x^{2}y^{2}y'=0\Rightarrow
+        y'=-\dfrac{2xy^{3}}{3x^{2}y^{2}}=-\dfrac{2y}{3x}$.
+
+  \item Differentiate $x^{2}y+y^{2}x=6$: $2xy+x^{2}y'+2yxy'+y^{2}=0
+        \Rightarrow y'(x^{2}+2xy)=-(2xy+y^{2})
+        \Rightarrow y'=-\dfrac{y(2x+y)}{x(x+2y)}$. At $(1,2)$:
+        $y'=-\dfrac{2\cdot 4}{1\cdot 5}=-\dfrac{8}{5}$. Tangent:
+        $y-2=-\tfrac85(x-1)$, i.e.\ $8x+5y=18$.
+
+  \item $\ln y=x\ln(\ln x)\Rightarrow\dfrac{y'}{y}=\ln(\ln x)+x\cdot
+        \dfrac{1/x}{\ln x}=\ln(\ln x)+\dfrac{1}{\ln x}$. So
+        $y'=(\ln x)^{x}\left[\ln(\ln x)+\dfrac{1}{\ln x}\right]$.
+
+  \item Explicit: $y=x^{-2}$, $y'=-2x^{-3}$, $y''=6x^{-4}$. Implicit
+        check: $2xy+x^{2}y'=0\Rightarrow y'=-2y/x$. Differentiate:
+        \[
+          y''=-\frac{2y'x-2y}{x^{2}}=-\frac{2(-2y/x)x-2y}{x^{2}}
+             =-\frac{-4y-2y}{x^{2}}=\frac{6y}{x^{2}}=\frac{6}{x^{4}} .
+        \]
+
+  \item $-\sin(y)y'+1=y'\Rightarrow y'(1+\sin y)=1\Rightarrow
+        y'=\dfrac{1}{1+\sin y}$.
+
+  \item $2yy'-2x=0\Rightarrow y'=x/y$. At $(1,2)$: $y'=1/2$. Tangent:
+        $y-2=\tfrac12(x-1)$, i.e.\ $x-2y+3=0$.
+
+  \item $\ln y=5\ln(2x+1)+\tfrac12\ln(x^{2}+3)-3\ln(x-4)$. Then
+        \[
+          \frac{y'}{y}=\frac{10}{2x+1}+\frac{x}{x^{2}+3}-\frac{3}{x-4} .
+        \]
+        Hence
+        \[
+          y'=\frac{(2x+1)^{5}\sqrt{x^{2}+3}}{(x-4)^{3}}
+             \left[\frac{10}{2x+1}+\frac{x}{x^{2}+3}-\frac{3}{x-4}\right] .
+        \]
+
+  \item $\mathrm{e}^{x+y}(1+y')=y+xy'\Rightarrow
+        y'(\mathrm{e}^{x+y}-x)=y-\mathrm{e}^{x+y}\Rightarrow
+        y'=\dfrac{y-\mathrm{e}^{x+y}}{\mathrm{e}^{x+y}-x}$.
+
+  \item $3y^{2}y'=2x\Rightarrow y'=\dfrac{2x}{3y^{2}}$. Differentiate
+        again:
+        \[
+          y''=\frac{2\cdot 3y^{2}-2x\cdot 6yy'}{9y^{4}}
+             =\frac{6y^{2}-12xy\cdot y'}{9y^{4}}
+             =\frac{2}{3y^{2}}-\frac{4xy'}{3y^{3}} .
+        \]
+        Substitute $y'=2x/(3y^{2})$:
+        \[
+          y''=\frac{2}{3y^{2}}-\frac{4x}{3y^{3}}\cdot\frac{2x}{3y^{2}}
+             =\frac{2}{3y^{2}}-\frac{8x^{2}}{9y^{5}}
+             =\frac{6y^{3}-8x^{2}}{9y^{5}}
+             =\frac{6x^{2}-8x^{2}}{9y^{5}}=-\frac{2x^{2}}{9y^{5}},
+        \]
+        using $y^{3}=x^{2}$. Equivalently, $y''=-\dfrac{2y^{3}}{9y^{5}}
+        =-\dfrac{2}{9y^{2}}$.
+
+  \item $2x+2y+2xy'+6yy'=0\Rightarrow y'(2x+6y)=-(2x+2y)\Rightarrow
+        y'=-\dfrac{x+y}{x+3y}$.
+
+  \item Differentiate $\mathrm{e}^{y}+xy=\mathrm{e}+1$:
+        $\mathrm{e}^{y}y'+y+xy'=0\Rightarrow y'(\mathrm{e}^{y}+x)=-y
+        \Rightarrow y'=-\dfrac{y}{\mathrm{e}^{y}+x}$. At $(1,1)$:
+        $y'=-\dfrac{1}{\mathrm{e}+1}$. Tangent:
+        $y-1=-\dfrac{1}{\mathrm{e}+1}(x-1)$.
+
+  \item $\ln y=x\ln(x^{2}+1)\Rightarrow\dfrac{y'}{y}=\ln(x^{2}+1)
+        +x\cdot\dfrac{2x}{x^{2}+1}=\ln(x^{2}+1)+\dfrac{2x^{2}}{x^{2}+1}$.
+        So
+        \[
+          y'=(x^{2}+1)^{x}\left[\ln(x^{2}+1)+\frac{2x^{2}}{x^{2}+1}\right] .
+        \]
+
+  \item $\dfrac{1+y'}{2\sqrt{x+y}}=1-y'$. Multiply by $2\sqrt{x+y}$:
+        $1+y'=2\sqrt{x+y}(1-y')\Rightarrow y'(1+2\sqrt{x+y})
+        =2\sqrt{x+y}-1\Rightarrow y'=\dfrac{2\sqrt{x+y}-1}{1+2\sqrt{x+y}}$.
+
+  \item $y+xy'+2yy'=0\Rightarrow y'(x+2y)=-y\Rightarrow
+        y'=-\dfrac{y}{x+2y}$. Differentiate again using the quotient
+        rule:
+        \[
+          y''=-\frac{y'(x+2y)-y(1+2y')}{(x+2y)^{2}}
+             =-\frac{y'(x+2y)-y-2yy'}{(x+2y)^{2}}
+             =-\frac{xy'-y}{(x+2y)^{2}} .
+        \]
+        Substitute $y'=-y/(x+2y)$:
+        \[
+          xy'-y=-\frac{xy}{x+2y}-y=-\frac{xy+y(x+2y)}{x+2y}
+               =-\frac{2xy+2y^{2}}{x+2y}=-\frac{2y(x+y)}{x+2y} .
+        \]
+        Hence
+        \[
+          y''=\frac{2y(x+y)}{(x+2y)^{3}} .
+        \]
+
+  \item $2x+2yy'=4y'\Rightarrow y'(2y-4)=-2x\Rightarrow
+        y'=\dfrac{x}{2-y}$. At $(\sqrt{3},1)$: $y'=\dfrac{\sqrt{3}}{1}
+        =\sqrt{3}$. Tangent: $y-1=\sqrt{3}(x-\sqrt{3})$, i.e.\
+        $y=\sqrt{3}x-2$.
+
+  \item $\sec^{2}(xy)\cdot(y+xy')=1\Rightarrow y+xy'=\cos^{2}(xy)
+        \Rightarrow y'=\dfrac{\cos^{2}(xy)-y}{x}$.
+
+  \item $\ln y=\dfrac{\ln x}{x}\Rightarrow\dfrac{y'}{y}
+        =\dfrac{(1/x)\cdot x-\ln x\cdot 1}{x^{2}}=\dfrac{1-\ln x}{x^{2}}$.
+        So $y'=x^{1/x}\cdot\dfrac{1-\ln x}{x^{2}}$.
+
+  \item $\dfrac{y'}{y}+y+xy'=0\Rightarrow y'\left(\dfrac1y+x\right)=-y
+        \Rightarrow y'=-\dfrac{y^{2}}{1+xy}$.
+
+  \item $3y^{2}y'+y'=2x\Rightarrow y'=\dfrac{2x}{3y^{2}+1}$.
+
+  \item Differentiate $x^{2/3}+y^{2/3}=2$: $\tfrac23x^{-1/3}
+        +\tfrac23y^{-1/3}y'=0\Rightarrow y'=-\dfrac{y^{1/3}}{x^{1/3}}
+        =-\sqrt[3]{y/x}$. At $(1,1)$: $y'=-1$. Tangent: $y-1=-(x-1)$,
+        i.e.\ $y=-x+2$.
+
+  \item $\cos(x+y)(1+y')=y'\Rightarrow\cos(x+y)+\cos(x+y)y'=y'
+        \Rightarrow\cos(x+y)=y'[1-\cos(x+y)]\Rightarrow
+        y'=\dfrac{\cos(x+y)}{1-\cos(x+y)}$.
+
+  \item $\ln y=2x+3\ln(x+1)-\tfrac12\ln(x^{2}+5)$. Differentiate:
+        \[
+          \frac{y'}{y}=2+\frac{3}{x+1}-\frac{x}{x^{2}+5} .
+        \]
+        Hence
+        \[
+          y'=\frac{\mathrm{e}^{2x}(x+1)^{3}}{\sqrt{x^{2}+5}}
+             \left[2+\frac{3}{x+1}-\frac{x}{x^{2}+5}\right] .
+        \]
+
+  \item $2x+2yy'=0\Rightarrow y'=-x/y$. Differentiate again:
+        \[
+          y''=-\frac{y\cdot 1-x\cdot y'}{y^{2}}
+             =-\frac{y-x(-x/y)}{y^{2}}
+             =-\frac{y+x^{2}/y}{y^{2}}
+             =-\frac{y^{2}+x^{2}}{y^{3}}=-\frac{25}{y^{3}},
+        \]
+        using $x^{2}+y^{2}=25$.
+
+  \item Differentiate $x^{1/2}y^{1/2}=\bar U$:
+        $\tfrac12x^{-1/2}y^{1/2}+x^{1/2}\cdot\tfrac12y^{-1/2}y'=0$.
+        Multiply by $2x^{1/2}y^{1/2}$: $y+xy'=0\Rightarrow y'=-y/x$. So
+        $\dd{y}{x}=-\dfrac{y}{x}$ (negative slope along the indifference
+        curve, standard MRS).
+
+  \item $2x+2yy'=2+4y'\Rightarrow y'(2y-4)=2-2x\Rightarrow
+        y'=\dfrac{1-x}{y-2}$. Horizontal tangent: $y'=0$ requires $x=1$
+        (and $y\neq 2$). Plug into the curve: $1+y^{2}=2+4y\Rightarrow
+        y^{2}-4y-1=0\Rightarrow y=2\pm\sqrt{5}$. So horizontal tangents at
+        $(1,2+\sqrt{5})$ and $(1,2-\sqrt{5})$.
+
+  \item Differentiate $\arctan(y/x)=x$:
+        $\dfrac{1}{1+(y/x)^{2}}\cdot\dfrac{y'x-y}{x^{2}}=1$, i.e.\
+        $\dfrac{y'x-y}{x^{2}+y^{2}}=1$. Hence $y'x-y=x^{2}+y^{2}$, so
+        $y'=\dfrac{x^{2}+y^{2}+y}{x}$.
+
+  \item $\ln y=x\ln x\Rightarrow\dfrac{y'}{y}=\ln x+1\Rightarrow
+        y'=x^{x}(\ln x+1)$.
+
+  \item Check $(2,4)$ on $x^{3}+y^{3}=9xy$: $8+64=72$, $9\cdot 8=72$.
+        Good. Differentiate: $3x^{2}+3y^{2}y'=9y+9xy'\Rightarrow
+        y'(3y^{2}-9x)=9y-3x^{2}\Rightarrow
+        y'=\dfrac{9y-3x^{2}}{3y^{2}-9x}=\dfrac{3y-x^{2}}{y^{2}-3x}$.
+        At $(2,4)$: $y'=\dfrac{12-4}{16-6}=\dfrac{8}{10}=\dfrac{4}{5}$.
+        Tangent: $y-4=\tfrac45(x-2)$, i.e.\ $4x-5y+12=0$.
+
+  \item $2yy'=4\Rightarrow y'=2/y$. Differentiate again:
+        $y''=-\dfrac{2y'}{y^{2}}=-\dfrac{2(2/y)}{y^{2}}=-\dfrac{4}{y^{3}}$.
+
+  \item $\mathrm{e}^{y}+x\mathrm{e}^{y}y'+y'=1\Rightarrow
+        y'(x\mathrm{e}^{y}+1)=1-\mathrm{e}^{y}\Rightarrow
+        y'=\dfrac{1-\mathrm{e}^{y}}{1+x\mathrm{e}^{y}}$.
+
+  \item $\dfrac{2x}{9}+\dfrac{2y}{4}y'=0\Rightarrow y'=-\dfrac{4x}{9y}$.
+        Set $-\dfrac{4x}{9y}=-1\Rightarrow 4x=9y\Rightarrow y=\dfrac{4x}{9}$.
+        Plug into the ellipse: $\dfrac{x^{2}}{9}+\dfrac{(4x/9)^{2}}{4}=1
+        \Rightarrow\dfrac{x^{2}}{9}+\dfrac{16x^{2}}{4\cdot 81}=1
+        \Rightarrow\dfrac{x^{2}}{9}+\dfrac{4x^{2}}{81}=1
+        \Rightarrow\dfrac{9x^{2}+4x^{2}}{81}=1\Rightarrow
+        13x^{2}=81\Rightarrow x=\pm 9/\sqrt{13}$. Corresponding
+        $y=\pm 4/\sqrt{13}$ (same sign as $x$). Points:
+        $\left(\dfrac{9}{\sqrt{13}},\dfrac{4}{\sqrt{13}}\right)$ and
+        $\left(-\dfrac{9}{\sqrt{13}},-\dfrac{4}{\sqrt{13}}\right)$.
+
+  \item $\ln y=\cos(x)\ln(\sin x)\Rightarrow\dfrac{y'}{y}
+        =-\sin(x)\ln(\sin x)+\cos(x)\cdot\dfrac{\cos x}{\sin x}
+        =-\sin(x)\ln(\sin x)+\dfrac{\cos^{2}x}{\sin x}$. So
+        \[
+          y'=(\sin x)^{\cos x}\left[-\sin(x)\ln(\sin x)
+             +\frac{\cos^{2}x}{\sin x}\right] .
+        \]
+
+  \item $2xy+x^{2}y'-y^{2}-x\cdot 2yy'+2x+2yy'=0$. Collect $y'$:
+        $y'(x^{2}-2xy+2y)=y^{2}-2xy-2x$. So
+        $y'=\dfrac{y^{2}-2xy-2x}{x^{2}-2xy+2y}$.
+
+  \item $\tfrac13K^{-2/3}L^{2/3}\dd{K}{L}\cdot L^{2/3}\ldots$
+        carefully: differentiate $K^{1/3}L^{2/3}=\bar Q$ with respect to
+        $L$, treating $K=K(L)$:
+        \[
+          \tfrac13K^{-2/3}K'(L)\cdot L^{2/3}+K^{1/3}\cdot\tfrac23L^{-1/3}=0 .
+        \]
+        Multiply by $3K^{2/3}L^{1/3}$: $LK'(L)+2K=0\Rightarrow
+        K'(L)=-\dfrac{2K}{L}$. So $\dd{K}{L}=-\dfrac{2K}{L}$ (the MRTS).
+
+  \item $\cos(y)y'=1\Rightarrow y'=\dfrac{1}{\cos y}=\sec(y)$.
+        Differentiate again: $y''=\sec(y)\tan(y)\cdot y'
+        =\sec^{2}(y)\tan(y)$.
+
+  \item At $x=2$, $y=2$. Differentiate $xy=4$: $y+xy'=0\Rightarrow
+        y'=-y/x$. At $(2,2)$: $y'=-1$. Tangent: $y-2=-(x-2)$, i.e.\
+        $y=-x+4$.
+
+  \item $\ln y=\tfrac12\ln(x+1)+\tfrac13\ln(x-2)-4\ln(x+5)$.
+        Differentiate:
+        \[
+          \frac{y'}{y}=\frac{1}{2(x+1)}+\frac{1}{3(x-2)}-\frac{4}{x+5} .
+        \]
+        Hence
+        \[
+          y'=\frac{\sqrt{x+1}\sqrt[3]{x-2}}{(x+5)^{4}}
+             \left[\frac{1}{2(x+1)}+\frac{1}{3(x-2)}-\frac{4}{x+5}\right] .
+        \]
+
+  \item $\mathrm{e}^{y}y'\ln(x)+\dfrac{\mathrm{e}^{y}}{x}+2x=y'\Rightarrow
+        y'[\mathrm{e}^{y}\ln(x)-1]=-\dfrac{\mathrm{e}^{y}}{x}-2x\Rightarrow
+        y'=\dfrac{\mathrm{e}^{y}/x+2x}{1-\mathrm{e}^{y}\ln(x)}$.
+
+  \item Differentiate $x^{2}+y^{2}=r^{2}$: $2x+2yy'=0\Rightarrow
+        y'=-x/y$. The radius from origin to $(x_{0},y_{0})$ has slope
+        $y_{0}/x_{0}$. Product of slopes:
+        $(-x_{0}/y_{0})\cdot(y_{0}/x_{0})=-1$, confirming
+        perpendicularity.
+
+  \item $\ln y=x^{2}\ln(7)\Rightarrow\dfrac{y'}{y}=2x\ln(7)\Rightarrow
+        y'=2x\ln(7)\cdot 7^{x^{2}}$.
+
+  \item Differentiate $x^{2}+xy+y^{2}=3$: $2x+y+xy'+2yy'=0\Rightarrow
+        y'(x+2y)=-(2x+y)\Rightarrow y'=-\dfrac{2x+y}{x+2y}$.
+        Differentiate again using the quotient rule:
+        \[
+          y''=-\frac{(2+y')(x+2y)-(2x+y)(1+2y')}{(x+2y)^{2}} .
+        \]
+        Expand the numerator: $(2+y')(x+2y)=2x+4y+xy'+2yy'$, and
+        $(2x+y)(1+2y')=2x+y+4xy'+2yy'$. Subtract:
+        $N:=(2+y')(x+2y)-(2x+y)(1+2y')=(2x+4y+xy'+2yy')
+        -(2x+y+4xy'+2yy')=3y-3xy'$. So
+        $y''=-\dfrac{3y-3xy'}{(x+2y)^{2}}=\dfrac{3(xy'-y)}{(x+2y)^{2}}$.
+        Substitute $y'=-\dfrac{2x+y}{x+2y}$:
+        \[
+          xy'-y=-\frac{x(2x+y)}{x+2y}-y
+               =-\frac{x(2x+y)+y(x+2y)}{x+2y}
+               =-\frac{2x^{2}+xy+xy+2y^{2}}{x+2y}
+               =-\frac{2(x^{2}+xy+y^{2})}{x+2y},
+        \]
+        using $x^{2}+xy+y^{2}=3$. Hence
+        \[
+          y''=\frac{3}{(x+2y)^{2}}\cdot\left(-\frac{6}{x+2y}\right)
+             =-\frac{18}{(x+2y)^{3}} .
+        \]
+
+  \item Differentiate $px+qy=m$ w.r.t.\ $x$: $p+qy'=0\Rightarrow
+        y'=-p/q$, as required (the budget line has constant slope).
+
+  \item Differentiate $x^{2}-xy+y^{2}=7$: $2x-y-xy'+2yy'=0\Rightarrow
+        y'(2y-x)=y-2x\Rightarrow y'=\dfrac{y-2x}{2y-x}$. At $(3,2)$:
+        $y'=\dfrac{2-6}{4-3}=-4$. Tangent: $y-2=-4(x-3)$, i.e.\
+        $y=-4x+14$.
+
+  \item Differentiate $\cos(xy)=x+y$: $-\sin(xy)\cdot(y+xy')=1+y'
+        \Rightarrow -y\sin(xy)-x\sin(xy)y'=1+y'\Rightarrow
+        -y'(x\sin(xy)+1)=1+y\sin(xy)\Rightarrow
+        y'=-\dfrac{1+y\sin(xy)}{1+x\sin(xy)}$.
+
+  \item First verify $(3,3)$: $27+27=54$ and $6\cdot 9=54$. Good.
+        Differentiate $x^{3}+y^{3}=6xy$: $3x^{2}+3y^{2}y'=6y+6xy'
+        \Rightarrow y'(3y^{2}-6x)=6y-3x^{2}\Rightarrow
+        y'=\dfrac{6y-3x^{2}}{3y^{2}-6x}=\dfrac{2y-x^{2}}{y^{2}-2x}$.
+        At $(3,3)$: $y'=\dfrac{6-9}{9-6}=-1$. For $y''$, differentiate
+        $y'=\dfrac{2y-x^{2}}{y^{2}-2x}$:
+        \[
+          y''=\frac{(2y'-2x)(y^{2}-2x)-(2y-x^{2})(2yy'-2)}{(y^{2}-2x)^{2}} .
+        \]
+        At $(3,3)$ with $y'=-1$: numerator pieces:
+        \[
+          (2y'-2x)(y^{2}-2x)=(-2-6)(9-6)=(-8)(3)=-24,
+        \]
+        \[
+          (2y-x^{2})(2yy'-2)=(6-9)(6\cdot(-1)-2)=(-3)(-8)=24 .
+        \]
+        So numerator $=-24-24=-48$ and denominator $=(9-6)^{2}=9$.
+        Hence $y''(3)=-\dfrac{48}{9}=-\dfrac{16}{3}$.
+\end{solutions}
+
+\section{Additional Problems}
+
+\begin{problems}
+  \item Compute $\dd{y}{x}$ implicitly for $x^{2}+9y^{2}=36$.
+  \item Find the equation of the tangent line to $x^{2}+y^{2}=25$ at
+        $(3,4)$.
+  \item Use logarithmic differentiation to find $y'$ for $y=x^{\cos x}$
+        ($x>0$).
+  \item Compute $\dd{y}{x}$ implicitly for $x^{2}y+xy^{2}=6$.
+  \item Compute $\dd{^{2}y}{x^{2}}$ implicitly for $x^{2}-y^{2}=4$.
+  \item Find the equation of the tangent line to $x^{3}+xy+y^{3}=11$ at
+        $(1,2)$.
+  \item Use logarithmic differentiation to find $y'$ for
+        \[
+          y=\frac{(x+1)^{2}\sqrt{x-3}}{(2x+5)^{4}}\qquad (x>3).
+        \]
+  \item Compute $\dd{y}{x}$ implicitly for $\mathrm{e}^{xy}=x+y$.
+  \item For an indifference curve $U(x,y)=x^{1/3}y^{2/3}=\bar U$
+        (constant), compute $\dd{y}{x}$, the marginal rate of
+        substitution.
+  \item Compute $\dd{y}{x}$ implicitly for $\sin(x+y)=xy$.
+  \item Find the equation of the tangent line to $x^{2}-2xy+3y^{2}=9$ at
+        $(1,2)$.
+  \item Compute $\dd{^{2}y}{x^{2}}$ implicitly for $x^{2}+y^{2}=9$.
+  \item Find all points on the curve $x^{2}+y^{2}=4x-2y$ where the tangent
+        line is vertical.
+  \item For the production isoquant $K^{2/5}L^{3/5}=\bar Q$ (constant),
+        compute $\dd{K}{L}$, the marginal rate of technical
+        substitution.
+  \item Use logarithmic differentiation to find $y'$ for
+        $y=(x^{2}+1)^{\sin x}$ ($x\in\R$).
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item $2x+18yy'=0\Rightarrow y'=-\dfrac{x}{9y}$.
+
+  \item Check $(3,4)$: $9+16=25$. From $2x+2yy'=0$: $y'=-x/y$. At
+        $(3,4)$: $y'=-3/4$. Tangent: $y-4=-\tfrac34(x-3)$, i.e.\
+        $3x+4y=25$.
+
+  \item $\ln y=\cos(x)\ln(x)\Rightarrow\dfrac{y'}{y}
+        =-\sin(x)\ln(x)+\dfrac{\cos x}{x}$. So
+        \[
+          y'=x^{\cos x}\left[-\sin(x)\ln(x)+\frac{\cos x}{x}\right] .
+        \]
+
+  \item Differentiate $x^{2}y+xy^{2}=6$: $2xy+x^{2}y'+y^{2}+2xyy'=0
+        \Rightarrow y'(x^{2}+2xy)=-(2xy+y^{2})
+        \Rightarrow y'=-\dfrac{y(2x+y)}{x(x+2y)}$.
+
+  \item $2x-2yy'=0\Rightarrow y'=x/y$. Differentiate again:
+        \[
+          y''=\frac{y-xy'}{y^{2}}=\frac{y-x(x/y)}{y^{2}}
+             =\frac{y^{2}-x^{2}}{y^{3}}=\frac{-4}{y^{3}},
+        \]
+        using $x^{2}-y^{2}=4\Rightarrow y^{2}-x^{2}=-4$.
+
+  \item Check $(1,2)$: $1+2+8=11$. Differentiate:
+        $3x^{2}+y+xy'+3y^{2}y'=0\Rightarrow y'(x+3y^{2})=-(3x^{2}+y)
+        \Rightarrow y'=-\dfrac{3x^{2}+y}{x+3y^{2}}$. At $(1,2)$:
+        $y'=-\dfrac{3+2}{1+12}=-\dfrac{5}{13}$. Tangent:
+        $y-2=-\tfrac{5}{13}(x-1)$, i.e.\ $5x+13y=31$.
+
+  \item $\ln y=2\ln(x+1)+\tfrac12\ln(x-3)-4\ln(2x+5)$. Then
+        \[
+          \frac{y'}{y}=\frac{2}{x+1}+\frac{1}{2(x-3)}-\frac{8}{2x+5} .
+        \]
+        Hence
+        \[
+          y'=\frac{(x+1)^{2}\sqrt{x-3}}{(2x+5)^{4}}
+             \left[\frac{2}{x+1}+\frac{1}{2(x-3)}-\frac{8}{2x+5}\right] .
+        \]
+
+  \item Differentiate $\mathrm{e}^{xy}=x+y$:
+        $\mathrm{e}^{xy}(y+xy')=1+y'\Rightarrow
+        y'(x\mathrm{e}^{xy}-1)=1-y\mathrm{e}^{xy}\Rightarrow
+        y'=\dfrac{1-y\mathrm{e}^{xy}}{x\mathrm{e}^{xy}-1}$.
+
+  \item Differentiate $x^{1/3}y^{2/3}=\bar U$:
+        $\tfrac13x^{-2/3}y^{2/3}+x^{1/3}\cdot\tfrac23y^{-1/3}y'=0$.
+        Multiply by $3x^{2/3}y^{1/3}$: $y+2xy'=0\Rightarrow y'=-y/(2x)$.
+        So $\dd{y}{x}=-\dfrac{y}{2x}$ (the MRS).
+
+  \item Differentiate $\sin(x+y)=xy$: $\cos(x+y)(1+y')=y+xy'
+        \Rightarrow y'(\cos(x+y)-x)=y-\cos(x+y)\Rightarrow
+        y'=\dfrac{y-\cos(x+y)}{\cos(x+y)-x}$.
+
+  \item Check $(1,2)$: $1-4+12=9$. Good. Differentiate:
+        $2x-2y-2xy'+6yy'=0\Rightarrow y'(6y-2x)=2y-2x\Rightarrow
+        y'=\dfrac{y-x}{3y-x}$. At $(1,2)$: $y'=\dfrac{1}{5}$. Tangent:
+        $y-2=\tfrac15(x-1)$, i.e.\ $x-5y+9=0$.
+
+  \item $2x+2yy'=0\Rightarrow y'=-x/y$. Differentiate again:
+        \[
+          y''=-\frac{y-xy'}{y^{2}}=-\frac{y-x(-x/y)}{y^{2}}
+             =-\frac{y+x^{2}/y}{y^{2}}
+             =-\frac{y^{2}+x^{2}}{y^{3}}=-\frac{9}{y^{3}},
+        \]
+        using $x^{2}+y^{2}=9$.
+
+  \item $2x+2yy'=4-2y'\Rightarrow y'(2y+2)=4-2x\Rightarrow
+        y'=\dfrac{2-x}{y+1}$. Vertical tangent: $y'$ undefined when
+        $y+1=0\Rightarrow y=-1$ (and $x\neq 2$). Plug into the curve:
+        $x^{2}+1=4x+2\Rightarrow x^{2}-4x-1=0\Rightarrow
+        x=2\pm\sqrt{5}$. Vertical tangents at $(2+\sqrt{5},-1)$ and
+        $(2-\sqrt{5},-1)$.
+
+  \item Differentiate $K^{2/5}L^{3/5}=\bar Q$ w.r.t.\ $L$, treating
+        $K=K(L)$:
+        \[
+          \tfrac25K^{-3/5}K'(L)\cdot L^{3/5}+K^{2/5}\cdot\tfrac35L^{-2/5}=0 .
+        \]
+        Multiply by $5K^{3/5}L^{2/5}$: $2LK'(L)+3K=0\Rightarrow
+        K'(L)=-\dfrac{3K}{2L}$. So $\dd{K}{L}=-\dfrac{3K}{2L}$ (the
+        MRTS).
+
+  \item $\ln y=\sin(x)\ln(x^{2}+1)\Rightarrow\dfrac{y'}{y}
+        =\cos(x)\ln(x^{2}+1)+\sin(x)\cdot\dfrac{2x}{x^{2}+1}$. So
+        \[
+          y'=(x^{2}+1)^{\sin x}\left[\cos(x)\ln(x^{2}+1)
+             +\frac{2x\sin x}{x^{2}+1}\right] .
+        \]
+\end{solutions}

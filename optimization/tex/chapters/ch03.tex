@@ -1,0 +1,639 @@
+\chapter{Convex and Concave Functions}
+
+A convex set has no dents: it contains the whole chord between any two of
+its points. This chapter transfers that idea from sets to functions. A
+function is \emph{concave} if every chord of its graph lies on or below the
+graph, \emph{convex} if every chord lies on or above it, the graph bends
+consistently one way. The technical engine, the Hessian and its
+definiteness, was drilled in the companion volumes (\emph{Derivatives \&
+Partial Derivatives} and \emph{Matrix Algebra}); what is new here is
+\emph{where} we evaluate it. Definiteness at a single critical point
+classifies that point locally; semidefiniteness at \emph{every} point of the
+domain classifies the whole function globally.
+
+The reward is the central convenience of optimization theory: for a concave
+objective the first-order conditions are not merely necessary but
+\emph{sufficient}, and under strict concavity the maximizer is unique. We
+close with the weaker ordinal notion of quasiconcavity (convex upper
+contour sets) which survives increasing transformations and is the
+natural home of the Cobb--Douglas function: concave only when its exponents
+sum to at most one, but quasiconcave always.
+
+\section{Core Rules}
+
+\begin{rulebox}{The chord criterion}
+Throughout, the domain $S\subseteq\R^{n}$ is a \emph{convex set}:
+otherwise a chord could leave the domain. A function $f:S\to\R$ is
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \emph{convex} if for all $\mathbf{x},\mathbf{y}\in S$
+        and all $\lambda\in[0,1]$
+        \[
+          f\bigl(\lambda\mathbf{x}+(1-\lambda)\mathbf{y}\bigr)
+          \;\le\; \lambda f(\mathbf{x})+(1-\lambda)f(\mathbf{y})
+        \]
+        (the chord lies on or above the graph);
+  \item \emph{concave} if the reverse inequality $\ge$ holds
+        (the chord lies on or below the graph).
+\end{itemize}
+\emph{Strictly} convex/concave: the inequality is strict whenever
+$\mathbf{x}\neq\mathbf{y}$ and $\lambda\in(0,1)$. Basic facts: $f$ is
+concave iff $-f$ is convex; affine functions
+$f(\mathbf{x})=\mathbf{a}^{T}\mathbf{x}+b$ are both convex and concave, and
+neither strictly.
+\end{rulebox}
+
+\begin{rulebox}{One variable: the second-derivative test}
+Let $f$ be twice differentiable on an interval $I$. Then
+\[
+  f \text{ convex on } I \iff f''(x)\ge0 \text{ on } I,
+  \qquad
+  f \text{ concave on } I \iff f''(x)\le0 \text{ on } I .
+\]
+Moreover $f''>0$ on $I$ $\Rightarrow$ strictly convex, and $f''<0$
+$\Rightarrow$ strictly concave: sufficient but \emph{not} necessary:
+$f(x)=x^{4}$ is strictly convex although $f''(0)=0$.
+\end{rulebox}
+
+\begin{rulebox}{Several variables: the Hessian test}
+Let $S\subseteq\R^{n}$ be open and convex and $f\in C^{2}(S)$. Then
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item $f$ is convex on $S$ $\iff$ $\Hess_f(\mathbf{x})$ is positive
+        \emph{semi}definite (PSD) for every $\mathbf{x}\in S$;
+  \item $f$ is concave on $S$ $\iff$ $\Hess_f(\mathbf{x})$ is negative
+        \emph{semi}definite (NSD) for every $\mathbf{x}\in S$;
+  \item $\Hess_f$ PD everywhere $\Rightarrow$ $f$ strictly convex;
+        $\Hess_f$ ND everywhere $\Rightarrow$ $f$ strictly concave.
+        (Sufficient, not necessary: $-x^{4}-y^{4}$ is strictly concave with
+        a singular Hessian at the origin.)
+\end{itemize}
+The contrast with the local theory: definiteness \emph{at one critical
+point} classifies that point; semidefiniteness \emph{at every point of $S$}
+classifies the function.
+\end{rulebox}
+
+\begin{rulebox}{Checking semidefiniteness: the minor trap}
+Sylvester's leading-minor criterion decides the \emph{strict} cases: for
+$H=\begin{pmatrix}a&b\\b&c\end{pmatrix}$, $D_1=a$, $D_2=ac-b^{2}$,
+\[
+  D_1>0,\ D_2>0 \Rightarrow \text{PD}; \qquad
+  D_1<0,\ D_2>0 \Rightarrow \text{ND}; \qquad
+  D_2<0 \Rightarrow \text{indefinite}.
+\]
+For \emph{semi}definiteness the leading minors are not enough
+($\operatorname{diag}(0,-1)$ has $D_1=D_2=0$ but is NSD, not PSD); one must
+check \emph{all} principal minors. Practical $2\times2$ rule:
+\[
+  H \text{ PSD} \iff a\ge0,\ c\ge0,\ ac-b^{2}\ge0;
+  \qquad
+  H \text{ NSD} \iff a\le0,\ c\le0,\ ac-b^{2}\ge0 .
+\]
+In general: PSD $\iff$ every principal minor is $\ge0$; NSD $\iff$ every
+principal minor of order $k$ has sign $(-1)^{k}$ or vanishes.
+\end{rulebox}
+
+\begin{rulebox}{Operations that preserve concavity}
+Let $f,g$ be concave on a convex $S$.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \emph{Nonnegative weighted sums:} $\alpha f+\beta g$ is concave for
+        $\alpha,\beta\ge0$; strictly concave if in addition one summand is
+        strictly concave and carries a positive weight.
+  \item \emph{Pointwise minimum:} $\min\{f,g\}$ (indeed the pointwise
+        infimum of any family of concave functions) is concave. Mirror
+        image: the pointwise maximum of convex functions is convex.
+  \item \emph{Concave increasing composition:} if $g$ is concave and
+        $F:\R\to\R$ is increasing \emph{and concave}, then $F\circ g$ is
+        concave. (Convex version: $F$ increasing and convex, $g$ convex
+        $\Rightarrow$ $F\circ g$ convex.)
+  \item \emph{Affine substitution:} if $f$ is concave, so is
+        $\mathbf{x}\mapsto f(A\mathbf{x}+\mathbf{b})$.
+\end{itemize}
+Warning: products of concave functions and general increasing transforms do
+\emph{not} preserve concavity ($\mathrm{e}^{-x^{2}-y^{2}}$ is an increasing
+transform of a concave function but is not concave, Problem~17). What an
+increasing transform does preserve is quasiconcavity.
+\end{rulebox}
+
+\begin{rulebox}{Quasiconcavity and quasiconvexity}
+For $c\in\R$ the \emph{upper contour set} and
+\emph{lower contour set} of $f:S\to\R$ are
+\[
+  U_c=\{\mathbf{x}\in S: f(\mathbf{x})\ge c\}, \qquad
+  L_c=\{\mathbf{x}\in S: f(\mathbf{x})\le c\}.
+\]
+$f$ is \emph{quasiconcave} iff every $U_c$ is convex,
+equivalently
+\[
+  f\bigl(\lambda\mathbf{x}+(1-\lambda)\mathbf{y}\bigr)
+  \;\ge\; \min\{f(\mathbf{x}),f(\mathbf{y})\} ;
+\]
+\emph{strictly} quasiconcave if the inequality is strict for
+$\mathbf{x}\neq\mathbf{y}$, $\lambda\in(0,1)$. $f$ is \emph{quasiconvex}
+iff every $L_c$ is convex (equivalently $f\le\max\{\cdot,\cdot\}$ along
+chords), iff $-f$ is quasiconcave. Facts:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item concave $\Rightarrow$ quasiconcave (convex $\Rightarrow$
+        quasiconvex); the converse fails.
+  \item if $F$ is increasing and $f$ quasiconcave, then $F\circ f$ is
+        quasiconcave: $F$ merely relabels the level curves, leaving every
+        contour set unchanged. Quasiconcavity is an \emph{ordinal}
+        property.
+  \item every monotone function of one variable is both quasiconcave and
+        quasiconvex (all contour sets are intervals).
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Cobb--Douglas: the flagship example}
+For $f(x,y)=x^{\alpha}y^{\beta}$ with $\alpha,\beta>0$ on
+$\R^{2}_{++}=\{(x,y):x>0,\ y>0\}$,
+\[
+  \det\Hess_f \;=\; \alpha\beta\,(1-\alpha-\beta)\,x^{2\alpha-2}y^{2\beta-2},
+\]
+so (Problem~12)
+\[
+  f \text{ strictly concave} \iff \alpha+\beta<1, \qquad
+  f \text{ concave} \iff \alpha+\beta\le1,
+\]
+and $f$ is neither convex nor concave when $\alpha+\beta>1$. But $f$ is
+\emph{quasiconcave for all} $\alpha,\beta>0$: it is the increasing
+transform $\mathrm{e}^{(\cdot)}$ of the strictly concave function
+$\alpha\ln x+\beta\ln y$.
+\end{rulebox}
+
+\begin{rulebox}{Why concavity matters: the FOC becomes sufficient}
+Let $S\subseteq\R^{n}$ be open and convex and $f$ differentiable on $S$.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item If $f$ is \emph{concave}, then
+        $\grad f(\mathbf{x}^{*})=\mathbf{0}$ $\iff$ $\mathbf{x}^{*}$ is a
+        \emph{global} maximizer: stationarity is necessary \emph{and}
+        sufficient.
+  \item If $f$ is \emph{strictly concave}, it has at most one maximizer,
+        so a stationary point is \emph{the unique global maximum}.
+  \item Mirror image for convex $f$ and global minima.
+  \item Quasiconcavity is too weak for this: $f(x)=x^{3}$ is strictly
+        quasiconcave with $f'(0)=0$, yet $0$ is no maximum at all
+        (Problem~19). What strict quasiconcavity does guarantee: at most
+        one maximizer, and any local maximizer is global.
+\end{itemize}
+\end{rulebox}
+
+\section{Practice Problems}
+
+\begin{problems}
+  \item Show directly from the chord criterion that an affine function
+        $f(x)=ax+b$ is both convex and concave on $\R$, but neither
+        strictly.
+  \item Show from the chord criterion that $f(x)=|x|$ is convex on $\R$.
+        Why is the second-derivative test unavailable here? Is $f$
+        strictly convex?
+  \item Classify $f(x)=x^{2}-4x+7$ on $\R$ (convex, concave, or neither;
+        note strictness).
+  \item Classify on $(0,\infty)$: (a) $f(x)=\ln x$; (b) $g(x)=x\ln x$.
+  \item Classify $f(x)=x^{3}$, first on $\R$, then on $(0,\infty)$.
+  \item For which values of $a\in\R$ is $f(x)=\mathrm{e}^{ax}$ convex on
+        $\R$? For which is it strictly convex?
+  \item Classify $f(x,y)=x^{2}+y^{2}-4x+6y+13$ on $\R^{2}$ via its
+        Hessian, and draw the optimization consequence for its stationary
+        point.
+  \item Classify $f(x,y)=-x^{2}+xy-y^{2}$ on $\R^{2}$.
+  \item Classify $f(x,y)=x^{2}-y^{2}$ on $\R^{2}$.
+  \item Classify $f(x,y)=x^{2}+2xy+y^{2}$ on $\R^{2}$. (Careful: this is a
+        semidefinite case.)
+  \item Classify $f(x,y)=xy$ on $\R^{2}_{++}$.
+  \item (Cobb--Douglas, flagship.) Let $f(x,y)=x^{\alpha}y^{\beta}$ with
+        $\alpha,\beta>0$ on $\R^{2}_{++}$. Compute the Hessian, show that
+        \[
+          \det\Hess_f=\alpha\beta(1-\alpha-\beta)\,x^{2\alpha-2}y^{2\beta-2},
+        \]
+        and classify $f$ according to the value of $\alpha+\beta$.
+  \item Using Problem~12, classify on $\R^{2}_{++}$:
+        (a) $x^{1/4}y^{1/4}$; \; (b) $x^{1/2}y^{1/2}$; \;
+        (c) $x^{2/3}y^{2/3}$.
+  \item Show that $f(x,y)=\ln x+\ln y$ is strictly concave on
+        $\R^{2}_{++}$, and deduce that $g(x,y)=xy$ is quasiconcave there.
+  \item Classify $f(x,y)=-2x^{2}-3y^{2}+4\ln x+6\ln y$ on $\R^{2}_{++}$,
+        (a) by the operations rules, (b) directly via the Hessian.
+  \item Show that $f(x,y)=\min\{2x+y,\;x+2y\}$ is concave on $\R^{2}$.
+        Why does the Hessian test not apply? Is $f$ strictly concave?
+  \item Let $g(x,y)=\mathrm{e}^{-x^{2}-y^{2}}$ on $\R^{2}$. Show that $g$
+        is \emph{not} concave (evaluate the Hessian at $(1,0)$), but that
+        $g$ \emph{is} quasiconcave. Is $g$ quasiconvex?
+  \item Show via upper contour sets that $f(x,y)=xy$ is quasiconcave on
+        $\R^{2}_{++}$.
+  \item Show that $f(x)=x^{3}$ is both quasiconcave and quasiconvex on
+        $\R$, and explain what its stationary point $x=0$ teaches about
+        FOC sufficiency under mere quasiconcavity.
+  \item Classify $f(x,y,z)=x^{2}+2y^{2}+3z^{2}-2xy-2yz$ on $\R^{3}$ using
+        the leading principal minors of its Hessian.
+  \item For which values of $a\in\R$ is $f(x,y)=ax^{2}+2xy+y^{2}$ convex
+        on $\R^{2}$? Strictly convex? Can it ever be concave?
+  \item A firm produces output $Q(x,y)=10x+14y-x^{2}-y^{2}-xy$ from inputs
+        $x,y$ (prices normalized). Show that $Q$ is strictly concave on
+        $\R^{2}$ and find its unique global maximizer and the maximal
+        output.
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item For any $x,y$ and $\lambda\in[0,1]$:
+        \[
+          f\bigl(\lambda x+(1-\lambda)y\bigr)
+          = a\bigl(\lambda x+(1-\lambda)y\bigr)+b
+          = \lambda(ax+b)+(1-\lambda)(ay+b)
+          = \lambda f(x)+(1-\lambda)f(y),
+        \]
+        using $b=\lambda b+(1-\lambda)b$. The chord value \emph{equals}
+        the function value, so both defining inequalities hold with
+        equality: $f$ is \textbf{convex and concave}. Because equality
+        (never strict inequality) holds for all $x\neq y$, it is
+        \textbf{neither strictly convex nor strictly concave}.
+
+  \item By the triangle inequality, for $\lambda\in[0,1]$:
+        \[
+          f\bigl(\lambda x+(1-\lambda)y\bigr)
+          = |\lambda x+(1-\lambda)y|
+          \;\le\; |\lambda x|+|(1-\lambda)y|
+          = \lambda|x|+(1-\lambda)|y| ,
+        \]
+        since $\lambda,1-\lambda\ge0$. So $f$ is \textbf{convex} on $\R$.
+        The second-derivative test is unavailable because $f$ is not
+        differentiable at $x=0$ (the graph has a kink). Not strictly
+        convex: for $x=1$, $y=2$, $\lambda=\tfrac12$ we get
+        $|\tfrac32|=\tfrac32=\tfrac12\cdot1+\tfrac12\cdot2$, equality
+        along any chord with both endpoints on the same side of $0$.
+        (Remark: being convex, $|x|$ is automatically quasiconvex; it is
+        \emph{not} quasiconcave, since for $c>0$ the upper contour set
+        $\{|x|\ge c\}=(-\infty,-c]\cup[c,\infty)$ is not convex.)
+
+  \item $f'(x)=2x-4$, $f''(x)=2>0$ for all $x$, so $f$ is
+        \textbf{strictly convex} on $\R$. (Consequently its stationary
+        point $x=2$ is the unique global minimum, with
+        $f(2)=4-8+7=3$.)
+
+  \item (a) $f'(x)=1/x$, $f''(x)=-1/x^{2}<0$ on $(0,\infty)$:
+        \textbf{strictly concave}. \;
+        (b) $g'(x)=\ln x+1$, $g''(x)=1/x>0$ on $(0,\infty)$:
+        \textbf{strictly convex}.
+
+  \item $f''(x)=6x$. On $\R$ this changes sign: $f''(-1)=-6<0$ rules out
+        convexity ($f''\ge0$ would be needed everywhere), and $f''(1)=6>0$
+        rules out concavity. \textbf{Neither} on $\R$. On $(0,\infty)$:
+        $f''(x)=6x>0$, so \textbf{strictly convex} there.
+
+  \item $f''(x)=a^{2}\mathrm{e}^{ax}\ge0$ for every $a$ and every $x$, so
+        $f$ is \textbf{convex for all} $a\in\R$. If $a\neq0$ then
+        $a^{2}>0$ and $\mathrm{e}^{ax}>0$ give $f''>0$ everywhere:
+        \textbf{strictly convex}. If $a=0$ then $f\equiv1$ is affine:
+        convex but not strictly.
+
+  \item $f_x=2x-4$, $f_y=2y+6$, so
+        $\Hess=\begin{pmatrix}2&0\\0&2\end{pmatrix}$ at every point.
+        $D_1=2>0$, $D_2=4>0$: PD everywhere, hence \textbf{strictly
+        convex} on $\R^{2}$. Consequence: the stationary point from
+        $2x-4=0$, $2y+6=0$, i.e.\ $(2,-3)$, is the \emph{unique global
+        minimum}, with $f(2,-3)=4+9-8-18+13=0$.
+
+  \item $f_{xx}=-2$, $f_{yy}=-2$, $f_{xy}=1$:
+        $\Hess=\begin{pmatrix}-2&1\\1&-2\end{pmatrix}$ constant.
+        $D_1=-2<0$, $D_2=4-1=3>0$: ND everywhere, hence
+        \textbf{strictly concave} on $\R^{2}$.
+
+  \item $\Hess=\begin{pmatrix}2&0\\0&-2\end{pmatrix}$ constant.
+        $D_2=-4<0$: indefinite at every point, so $f$ is
+        \textbf{neither convex nor concave} on $\R^{2}$ (the graph is a
+        saddle everywhere).
+
+  \item $f_{xx}=2$, $f_{yy}=2$, $f_{xy}=2$:
+        $\Hess=\begin{pmatrix}2&2\\2&2\end{pmatrix}$ constant. Leading
+        minors: $D_1=2>0$ but $D_2=4-4=0$, so Sylvester's strict test is
+        silent. Check semidefiniteness with \emph{all} principal minors:
+        diagonal entries $2\ge0$, $2\ge0$, and $\det=0\ge0$: PSD at every
+        point, hence \textbf{convex} on $\R^{2}$. Not strictly: indeed
+        $f=(x+y)^{2}$ vanishes identically along the line $y=-x$, so
+        chords along that line lie \emph{on} the graph.
+
+  \item $f_{xx}=0$, $f_{yy}=0$, $f_{xy}=1$:
+        $\Hess=\begin{pmatrix}0&1\\1&0\end{pmatrix}$ with
+        $D_2=-1<0$ at every point of $\R^{2}_{++}$: indefinite everywhere,
+        so \textbf{neither convex nor concave}, even restricted to the
+        positive orthant. (It is, however, quasiconcave there,
+        Problems~14 and~18.)
+
+  \item First partials: $f_x=\alpha x^{\alpha-1}y^{\beta}$,
+        $f_y=\beta x^{\alpha}y^{\beta-1}$. Second partials:
+        \[
+          f_{xx}=\alpha(\alpha-1)x^{\alpha-2}y^{\beta}, \quad
+          f_{yy}=\beta(\beta-1)x^{\alpha}y^{\beta-2}, \quad
+          f_{xy}=\alpha\beta x^{\alpha-1}y^{\beta-1}=f_{yx}.
+        \]
+        Determinant:
+        \[
+          \det\Hess_f
+          = \alpha(\alpha-1)\beta(\beta-1)x^{2\alpha-2}y^{2\beta-2}
+            -\alpha^{2}\beta^{2}x^{2\alpha-2}y^{2\beta-2}
+          = \alpha\beta\,x^{2\alpha-2}y^{2\beta-2}
+            \bigl[(\alpha-1)(\beta-1)-\alpha\beta\bigr].
+        \]
+        Since $(\alpha-1)(\beta-1)-\alpha\beta
+        =\alpha\beta-\alpha-\beta+1-\alpha\beta=1-\alpha-\beta$,
+        \[
+          \det\Hess_f=\alpha\beta(1-\alpha-\beta)\,x^{2\alpha-2}y^{2\beta-2}.
+        \]
+        The prefactor $\alpha\beta x^{2\alpha-2}y^{2\beta-2}$ is positive
+        on $\R^{2}_{++}$, so $\sgn\det\Hess_f=\sgn(1-\alpha-\beta)$.
+        Classification:
+        \begin{itemize}
+          \item $\alpha+\beta<1$: then $\alpha\le\alpha+\beta<1$, so
+                $f_{xx}=\alpha(\alpha-1)x^{\alpha-2}y^{\beta}<0$ and
+                $\det\Hess_f>0$: ND at every point, hence
+                \textbf{strictly concave}.
+          \item $\alpha+\beta=1$: then $\alpha<1$ (as $\beta>0$), so
+                $f_{xx}<0$, $f_{yy}<0$, and $\det\Hess_f=0$: NSD at every
+                point (all principal minors have the right signs), hence
+                \textbf{concave, but not strictly}. Indeed $f$ is then
+                homogeneous of degree $1$:
+                $f(tx,ty)=t^{\alpha+\beta}f(x,y)=tf(x,y)$, so $f$ is
+                \emph{linear along every ray} through the origin and
+                chords along rays lie on the graph.
+          \item $\alpha+\beta>1$: $\det\Hess_f<0$: indefinite everywhere,
+                hence \textbf{neither convex nor concave}.
+        \end{itemize}
+
+  \item Apply Problem~12. (a) $\alpha+\beta=\tfrac14+\tfrac14=\tfrac12<1$:
+        \textbf{strictly concave}. \;
+        (b) $\alpha+\beta=\tfrac12+\tfrac12=1$: \textbf{concave, not
+        strictly} (linear along rays). \;
+        (c) $\alpha+\beta=\tfrac23+\tfrac23=\tfrac43>1$: $\det\Hess<0$
+        everywhere, \textbf{neither convex nor concave}. (All three are
+        quasiconcave, see the Cobb--Douglas rule and Additional
+        Problem~8.)
+
+  \item $f_x=1/x$, $f_y=1/y$, so
+        $\Hess=\begin{pmatrix}-1/x^{2}&0\\0&-1/y^{2}\end{pmatrix}$.
+        $D_1=-1/x^{2}<0$ and $D_2=1/(x^{2}y^{2})>0$ at every point of
+        $\R^{2}_{++}$: ND everywhere, hence \textbf{strictly concave}.
+        Now $g(x,y)=xy=\mathrm{e}^{\ln x+\ln y}=F(f(x,y))$ with
+        $F=\exp$ increasing. A concave function is quasiconcave, and an
+        increasing transform preserves quasiconcavity, so $g$ is
+        \textbf{quasiconcave} on $\R^{2}_{++}$: even though Problem~11
+        showed it is not concave.
+
+  \item (a) Operations rules: $-2x^{2}$ and $-3y^{2}$ are concave (each is
+        a negative multiple of a convex square, and constant in the other
+        variable), and $\ln x$, $\ln y$ are (strictly) concave by
+        Solution~4(a). A sum with nonnegative weights $2,3,4,6$ of concave
+        functions is concave. \;
+        (b) Hessian: $f_x=-4x+4/x$, $f_y=-6y+6/y$, so
+        \[
+          \Hess=\begin{pmatrix}-4-4/x^{2}&0\\0&-6-6/y^{2}\end{pmatrix}.
+        \]
+        $D_1=-4-4/x^{2}<0$ and
+        $D_2=(4+4/x^{2})(6+6/y^{2})>0$ everywhere on $\R^{2}_{++}$: ND,
+        hence \textbf{strictly concave}.
+
+  \item Both pieces $2x+y$ and $x+2y$ are affine, hence concave; the
+        pointwise minimum of concave functions is concave, so $f$ is
+        \textbf{concave} on $\R^{2}$. The two pieces cross where
+        $2x+y=x+2y$, i.e.\ along $x=y$; there the gradient jumps from
+        $(2,1)$ to $(1,2)$, so $f$ is not differentiable on that line and
+        the Hessian test cannot be applied, the min rule delivers the
+        verdict anyway. Not strictly concave: on the region $x\le y$
+        (where $2x+y\le x+2y$) $f$ equals the affine function $2x+y$, so
+        chords there lie on the graph.
+
+  \item Write $g=\mathrm{e}^{h}$ with $h(x,y)=-x^{2}-y^{2}$. Partials:
+        $g_x=-2xg$, $g_y=-2yg$, and
+        \[
+          g_{xx}=(4x^{2}-2)g, \qquad g_{yy}=(4y^{2}-2)g, \qquad
+          g_{xy}=4xyg .
+        \]
+        At $(1,0)$: $g=\mathrm{e}^{-1}$ and
+        \[
+          \Hess(1,0)=\mathrm{e}^{-1}\begin{pmatrix}2&0\\0&-2\end{pmatrix},
+          \qquad D_2=-4\mathrm{e}^{-2}<0 :
+        \]
+        indefinite, so $g$ is \textbf{not concave} (nor convex) on
+        $\R^{2}$. But $h$ has $\Hess_h=-2I$ (ND everywhere), so $h$ is
+        strictly concave, hence quasiconcave; and $F=\exp$ is increasing,
+        so $g=F\circ h$ is \textbf{quasiconcave}. Check via contour sets:
+        for $0<c\le1$,
+        $U_c=\{\mathrm{e}^{-x^{2}-y^{2}}\ge c\}
+        =\{x^{2}+y^{2}\le-\ln c\}$ is a closed disk (convex); for $c\le0$
+        it is all of $\R^{2}$; for $c>1$ it is empty. \emph{Not}
+        quasiconvex: for $0<c<1$ the lower contour set
+        $L_c=\{x^{2}+y^{2}\ge-\ln c\}$ is the complement of an open disk,
+        which is not convex.
+
+  \item Fix $c$. For $c\le0$ the upper contour set is all of
+        $\R^{2}_{++}$ (since $xy>0$), which is convex. For $c>0$,
+        \[
+          U_c=\{(x,y)\in\R^{2}_{++}: y\ge c/x\},
+        \]
+        the region on or above the graph of $\varphi(x)=c/x$. Since
+        $\varphi''(x)=2c/x^{3}>0$, $\varphi$ is convex, and the region
+        above the graph of a convex function is a convex set: if
+        $y_1\ge\varphi(x_1)$ and $y_2\ge\varphi(x_2)$, then
+        \[
+          \lambda y_1+(1-\lambda)y_2
+          \;\ge\; \lambda\varphi(x_1)+(1-\lambda)\varphi(x_2)
+          \;\ge\; \varphi\bigl(\lambda x_1+(1-\lambda)x_2\bigr).
+        \]
+        Every $U_c$ is convex, so $f$ is \textbf{quasiconcave} on
+        $\R^{2}_{++}$, consistent with Solution~14.
+
+  \item $f(x)=x^{3}$ is strictly increasing, so for every $c$ the upper
+        contour set is $\{x:x^{3}\ge c\}=[c^{1/3},\infty)$ and the lower
+        contour set is $(-\infty,c^{1/3}]$, both intervals, hence
+        convex. So $f$ is \textbf{both quasiconcave and quasiconvex}.
+        Yet $f'(0)=3\cdot0^{2}=0$: the FOC holds at $x=0$, but $0$ is not
+        even a local maximum ($f$ is strictly increasing, and $f$ is
+        unbounded above). Moral: for a merely quasiconcave function the
+        FOC is \emph{not} sufficient for a maximum, that privilege
+        belongs to concavity.
+
+  \item $f_x=2x-2y$, $f_y=4y-2x-2z$, $f_z=6z-2y$, so the (constant)
+        Hessian is
+        \[
+          \Hess=\begin{pmatrix}2&-2&0\\-2&4&-2\\0&-2&6\end{pmatrix}.
+        \]
+        Leading principal minors: $D_1=2>0$;
+        $D_2=2\cdot4-(-2)(-2)=8-4=4>0$;
+        \[
+          D_3=2\,(4\cdot6-(-2)(-2))-(-2)\,((-2)\cdot6-(-2)\cdot0)+0
+             =2\cdot20+2\cdot(-12)=40-24=16>0 .
+        \]
+        All positive: PD at every point, hence \textbf{strictly convex}
+        on $\R^{3}$.
+
+  \item $\Hess=\begin{pmatrix}2a&2\\2&2\end{pmatrix}$ constant. Convexity
+        requires PSD, i.e.\ (all principal minors) $2a\ge0$, $2\ge0$,
+        $\det=4a-4\ge0$. The binding condition is $a\ge1$ (which implies
+        $2a\ge0$): \textbf{convex $\iff a\ge1$}. Strict convexity: PD
+        needs $D_1=2a>0$ and $D_2=4a-4>0$, i.e.\ \textbf{$a>1$}. At the
+        boundary $a=1$, $f=(x+y)^{2}$ is convex but not strictly
+        (Problem~10). For $a<1$, $D_2<0$: indefinite, neither. Concavity
+        is impossible for any $a$ because $f_{yy}=2>0$ violates the NSD
+        requirement $f_{yy}\le0$.
+
+  \item $Q_x=10-2x-y$, $Q_y=14-2y-x$, so
+        $\Hess=\begin{pmatrix}-2&-1\\-1&-2\end{pmatrix}$ constant.
+        $D_1=-2<0$, $D_2=4-1=3>0$: ND everywhere, hence $Q$ is
+        \textbf{strictly concave} on $\R^{2}$, and any stationary point
+        is the unique global maximum. FOC: $10-2x-y=0$ and $14-2y-x=0$.
+        From the first, $y=10-2x$; substituting,
+        \[
+          14-2(10-2x)-x = 14-20+4x-x = 3x-6 = 0
+          \;\Rightarrow\; x^{*}=2,\quad y^{*}=10-4=6 .
+        \]
+        Unique global maximizer $(x^{*},y^{*})=(2,6)$ with
+        \[
+          Q^{*}=10\cdot2+14\cdot6-4-36-2\cdot6 = 20+84-4-36-12 = 52 .
+        \]
+\end{solutions}
+
+\section{Additional Problems}
+
+A second pass over the same rules, with fresh functions.
+
+\begin{problems}
+  \item Prove directly from the chord criterion that $f(x)=x^{2}$ is
+        strictly convex on $\R$: simplify
+        $\lambda f(x)+(1-\lambda)f(y)-f\bigl(\lambda x+(1-\lambda)y\bigr)$.
+  \item Classify on $(0,\infty)$: (a) $f(x)=\sqrt{x}$; (b) $g(x)=1/x$.
+  \item Classify $f(x,y)=3x^{2}-4xy+2y^{2}+x-5y$ on $\R^{2}$.
+  \item Classify $f(x,y)=-x^{4}-y^{4}$ on $\R^{2}$. What does this example
+        show about the ``ND everywhere'' test for strict concavity?
+  \item Classify on $\R^{2}_{++}$: (a) $f(x,y)=x^{0.3}y^{0.5}$;
+        (b) $g(x,y)=x^{0.6}y^{0.7}$. Which of the two are quasiconcave?
+  \item For which values of $b\in\R$ is $f(x,y)=-x^{2}+bxy-y^{2}$ concave
+        on $\R^{2}$? Strictly concave? What happens for $|b|>2$?
+  \item Show that the Leontief function $U(x,y)=\min\{x,y\}$ is concave on
+        $\R^{2}$, describe its upper contour sets, and confirm
+        quasiconcavity.
+  \item Show that $f(x,y)=x^{\alpha}y^{\beta}$ is quasiconcave on
+        $\R^{2}_{++}$ for \emph{all} $\alpha,\beta>0$.
+  \item Classify $f(x,y,z)=-x^{2}-y^{2}-z^{2}+xy$ on $\R^{3}$ using the
+        leading principal minors of its Hessian.
+  \item A two-product monopolist has profit
+        $\pi(q_1,q_2)=20q_1+30q_2-2q_1^{2}-3q_2^{2}-q_1q_2$. Show that
+        $\pi$ is strictly concave on $\R^{2}$ and find the unique global
+        profit maximizer.
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item Expand the gap between chord and graph:
+        \[
+          \lambda x^{2}+(1-\lambda)y^{2}
+          -\bigl(\lambda x+(1-\lambda)y\bigr)^{2}
+          = \lambda x^{2}+(1-\lambda)y^{2}
+            -\lambda^{2}x^{2}-2\lambda(1-\lambda)xy-(1-\lambda)^{2}y^{2}.
+        \]
+        Since $\lambda-\lambda^{2}=\lambda(1-\lambda)$ and
+        $(1-\lambda)-(1-\lambda)^{2}=\lambda(1-\lambda)$, this equals
+        \[
+          \lambda(1-\lambda)x^{2}-2\lambda(1-\lambda)xy
+          +\lambda(1-\lambda)y^{2}
+          = \lambda(1-\lambda)(x-y)^{2} \;\ge\; 0 ,
+        \]
+        with strict inequality whenever $x\neq y$ and $\lambda\in(0,1)$.
+        Hence $f$ is \textbf{strictly convex} on $\R$.
+
+  \item (a) $f'(x)=\tfrac12x^{-1/2}$,
+        $f''(x)=-\tfrac14x^{-3/2}<0$ on $(0,\infty)$:
+        \textbf{strictly concave}. \;
+        (b) $g'(x)=-x^{-2}$, $g''(x)=2x^{-3}>0$ on $(0,\infty)$:
+        \textbf{strictly convex}.
+
+  \item $f_x=6x-4y+1$, $f_y=-4x+4y-5$, so
+        $\Hess=\begin{pmatrix}6&-4\\-4&4\end{pmatrix}$ constant.
+        $D_1=6>0$, $D_2=24-16=8>0$: PD everywhere, hence
+        \textbf{strictly convex} on $\R^{2}$.
+
+  \item $f_x=-4x^{3}$, $f_y=-4y^{3}$, so
+        $\Hess=\begin{pmatrix}-12x^{2}&0\\0&-12y^{2}\end{pmatrix}$.
+        Principal minors: $-12x^{2}\le0$, $-12y^{2}\le0$,
+        $\det=144x^{2}y^{2}\ge0$: NSD at \emph{every} point, hence
+        \textbf{concave} on $\R^{2}$. The Hessian is singular wherever
+        $x=0$ or $y=0$ (and zero at the origin), so the ``ND
+        everywhere'' test cannot certify strictness: yet $f$ \emph{is}
+        strictly concave. One variable first: $h(t)=-t^{4}$ has
+        $h''(t)=-12t^{2}\le0$ with equality only at the isolated point
+        $t=0$, so $h'$ is strictly decreasing and $h$ is strictly
+        concave. Then for distinct points
+        $(x_1,y_1)\neq(x_2,y_2)$ at least one coordinate differs, and
+        \[
+          f\bigl(\lambda(x_1,y_1)+(1-\lambda)(x_2,y_2)\bigr)
+          = h\bigl(\lambda x_1+(1-\lambda)x_2\bigr)
+          + h\bigl(\lambda y_1+(1-\lambda)y_2\bigr)
+        \]
+        exceeds $\lambda f(x_1,y_1)+(1-\lambda)f(x_2,y_2)$ strictly,
+        because the coordinate that differs contributes a strict chord
+        inequality and the other contributes at least equality. Lesson:
+        ND everywhere is \emph{sufficient, not necessary}, for strict
+        concavity.
+
+  \item Apply the Cobb--Douglas rule (Problem~12 of the main list).
+        (a) $\alpha+\beta=0.3+0.5=0.8<1$: \textbf{strictly concave}
+        (hence also quasiconcave). \;
+        (b) $\alpha+\beta=0.6+0.7=1.3>1$:
+        $\det\Hess=0.6\cdot0.7\cdot(1-1.3)\,x^{-0.8}y^{-0.6}<0$
+        everywhere, so \textbf{neither convex nor concave}: but still
+        \textbf{quasiconcave}, by Additional Problem~8. So: both are
+        quasiconcave; only (a) is concave.
+
+  \item $\Hess=\begin{pmatrix}-2&b\\b&-2\end{pmatrix}$ constant. NSD
+        requires $-2\le0$ (twice, satisfied) and
+        $\det=4-b^{2}\ge0$, i.e.\ $|b|\le2$: \textbf{concave $\iff
+        |b|\le2$}. Strict concavity: ND needs $D_1=-2<0$ and
+        $D_2=4-b^{2}>0$, i.e.\ \textbf{$|b|<2$}. At $b=\pm2$,
+        $f=-(x\mp y)^{2}$ is concave but not strictly (it vanishes along
+        a whole line). For $|b|>2$, $D_2<0$: indefinite everywhere, so
+        $f$ is neither convex nor concave.
+
+  \item The functions $(x,y)\mapsto x$ and $(x,y)\mapsto y$ are affine,
+        hence concave; the pointwise minimum of concave functions is
+        concave, so $U$ is \textbf{concave} on $\R^{2}$, and therefore
+        quasiconcave. Directly: for any $c$,
+        \[
+          U_c=\{(x,y): \min\{x,y\}\ge c\} = \{x\ge c\}\cap\{y\ge c\}
+             = [c,\infty)\times[c,\infty),
+        \]
+        a ``northeast corner'' set, the intersection of two half-planes,
+        hence convex. \; $\checkmark$ (Not strictly concave: on the region
+        $x<y$, $U=x$ is affine.)
+
+  \item Take logarithms: $\ln f(x,y)=\alpha\ln x+\beta\ln y$, with
+        Hessian
+        $\begin{pmatrix}-\alpha/x^{2}&0\\0&-\beta/y^{2}\end{pmatrix}$:
+        $D_1=-\alpha/x^{2}<0$, $D_2=\alpha\beta/(x^{2}y^{2})>0$, ND
+        everywhere, so $\ln f$ is strictly concave, hence quasiconcave.
+        Since $f=\mathrm{e}^{\ln f}$ and $\mathrm{e}^{(\cdot)}$ is
+        increasing, and increasing transforms preserve quasiconcavity,
+        $f$ is \textbf{quasiconcave} on $\R^{2}_{++}$ for all
+        $\alpha,\beta>0$, no restriction on $\alpha+\beta$.
+
+  \item $f_x=-2x+y$, $f_y=-2y+x$, $f_z=-2z$, so the constant Hessian is
+        \[
+          \Hess=\begin{pmatrix}-2&1&0\\1&-2&0\\0&0&-2\end{pmatrix}.
+        \]
+        Leading principal minors: $D_1=-2<0$;
+        $D_2=(-2)(-2)-1\cdot1=4-1=3>0$; expanding along the third row,
+        $D_3=-2\cdot D_2=-6<0$. The pattern $(-,+,-)$ means ND at every
+        point, hence \textbf{strictly concave} on $\R^{3}$.
+
+  \item $\pi_{q_1}=20-4q_1-q_2$, $\pi_{q_2}=30-6q_2-q_1$, so
+        $\Hess=\begin{pmatrix}-4&-1\\-1&-6\end{pmatrix}$ constant.
+        $D_1=-4<0$, $D_2=24-1=23>0$: ND everywhere, hence $\pi$ is
+        \textbf{strictly concave} and any stationary point is the unique
+        global maximum. FOC: from $20-4q_1-q_2=0$, $q_2=20-4q_1$;
+        substituting into $30-6q_2-q_1=0$:
+        \[
+          30-6(20-4q_1)-q_1 = 30-120+24q_1-q_1 = 23q_1-90 = 0
+          \;\Rightarrow\; q_1^{*}=\frac{90}{23},
+        \]
+        and $q_2^{*}=20-\frac{360}{23}=\frac{460-360}{23}=\frac{100}{23}$.
+        Unique global profit maximizer
+        $(q_1^{*},q_2^{*})=\bigl(\tfrac{90}{23},\tfrac{100}{23}\bigr)$.
+\end{solutions}

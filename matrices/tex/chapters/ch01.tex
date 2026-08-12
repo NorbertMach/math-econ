@@ -1,0 +1,403 @@
+\chapter{Vectors and the Inner Product}
+
+Economic data almost never comes as a single number: a household consumes a
+bundle of goods, a firm produces several outputs, a portfolio holds many
+assets. The natural object for such lists is the vector, and the single most useful operation on vectors is the inner
+product, which turns two
+vectors into one number and thereby measures expenditure, length, angle, and
+orthogonality. This chapter drills vector arithmetic and the inner product;
+it is the required review material for everything that follows. The other
+half of the review topic (linear (in)dependence) has its own chapter
+later in the book (Chapter~6); here we only prepare the ground with linear
+combinations.
+
+\section{Core Rules}
+
+\begin{rulebox}{Vectors in $\R^{n}$}
+A vector $x \in \R^{n}$ is an ordered list of $n$ real numbers, written as
+a column:
+\[
+x = \begin{pmatrix} x_{1} \\ x_{2} \\ \vdots \\ x_{n} \end{pmatrix},
+\qquad
+x^{T} = (x_{1}, x_{2}, \dots, x_{n}) \text{ is the row version.}
+\]
+The zero vector $0$ has every entry $0$. The standard basis vectors
+$e_{1}, \dots, e_{n}$ have a $1$ in one position and $0$ elsewhere. Two
+vectors are equal iff they have the same dimension and all entries agree.
+\end{rulebox}
+
+\begin{rulebox}{Addition and scalar multiplication}
+For $x, y \in \R^{n}$ and $\lambda \in \R$, both operations work entry by
+entry:
+\[
+(x + y)_{i} = x_{i} + y_{i}, \qquad (\lambda x)_{i} = \lambda \, x_{i}.
+\]
+Addition requires equal dimensions. Geometric reading: a vector is an arrow
+from the origin; $x + y$ is the tip-to-tail (parallelogram) construction;
+$\lambda x$ stretches the arrow by $|\lambda|$ and, if $\lambda < 0$, flips
+its direction. As with matrices, addition is commutative and associative,
+and $\lambda(\mu x) = (\lambda \mu) x$.
+\end{rulebox}
+
+\begin{rulebox}{Linear and convex combinations}
+A linear combination of $v_{1}, \dots, v_{k}$ is
+any vector of the form
+\[
+\lambda_{1} v_{1} + \lambda_{2} v_{2} + \cdots + \lambda_{k} v_{k},
+\qquad \lambda_{1}, \dots, \lambda_{k} \in \R.
+\]
+Every $x \in \R^{n}$ is the linear combination
+$x = x_{1} e_{1} + \cdots + x_{n} e_{n}$ of the standard basis. If all
+weights satisfy $\lambda_{i} \ge 0$ and $\lambda_{1} + \cdots + \lambda_{k}
+= 1$, the combination is \emph{convex}, a
+weighted average of the $v_{i}$.
+\end{rulebox}
+
+\begin{rulebox}{Inner product}
+For $x, y \in \R^{n}$ the inner product is the scalar
+\[
+x \cdot y \;=\; x^{T} y \;=\; \sum_{i=1}^{n} x_{i} y_{i}
+\;=\; x_{1} y_{1} + x_{2} y_{2} + \cdots + x_{n} y_{n}.
+\]
+Rules, for all $x, y, z \in \R^{n}$ and $\lambda \in \R$:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item Symmetry: $x \cdot y = y \cdot x$.
+  \item Linearity in each slot: $(x + y) \cdot z = x \cdot z + y \cdot z$
+        and $(\lambda x) \cdot y = \lambda \, (x \cdot y)$.
+  \item Positive definiteness: $x \cdot x \ge 0$, with $x \cdot x = 0$ iff
+        $x = 0$.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Norm and unit vectors}
+The (Euclidean) norm of $x \in \R^{n}$ is its length,
+\[
+\|x\| \;=\; \sqrt{x \cdot x} \;=\; \sqrt{x_{1}^{2} + \cdots + x_{n}^{2}},
+\qquad \text{so } \|x\|^{2} = x \cdot x = x^{T} x .
+\]
+Properties: $\|x\| \ge 0$ with equality iff $x = 0$;
+$\|\lambda x\| = |\lambda| \, \|x\|$; and the triangle inequality $\|x + y\| \le \|x\| + \|y\|$. Expanding the
+square gives the frequently used identity
+$\|x + y\|^{2} = \|x\|^{2} + 2\, x \cdot y + \|y\|^{2}$.
+A unit vector has norm $1$; every $x \neq 0$ is
+normalised by $\hat{x} = x / \|x\|$, which keeps the direction and rescales
+the length to $1$.
+\end{rulebox}
+
+\begin{rulebox}{Angle and Cauchy--Schwarz}
+The Cauchy--Schwarz inequality
+states that for all $x, y \in \R^{n}$
+\[
+|x \cdot y| \;\le\; \|x\| \, \|y\|,
+\]
+with equality iff one vector is a scalar multiple of the other. Hence for
+$x, y \neq 0$ the quotient below lies in $[-1, 1]$, and the angle $\theta \in [0, \pi]$ between $x$ and $y$ is defined by
+\[
+\cos \theta \;=\; \frac{x \cdot y}{\|x\| \, \|y\|}.
+\]
+Sign reading: $x \cdot y > 0$ means an acute angle, $x \cdot y < 0$ an
+obtuse angle, $x \cdot y = 0$ a right angle.
+\end{rulebox}
+
+\begin{rulebox}{Orthogonality}
+Two vectors are orthogonal, written
+$x \perp y$, iff
+\[
+x \cdot y = 0 .
+\]
+For orthogonal vectors the identity for $\|x + y\|^{2}$ loses its middle
+term and becomes Pythagoras' theorem:
+$\|x + y\|^{2} = \|x\|^{2} + \|y\|^{2}$. The zero vector is orthogonal to
+every vector.
+\end{rulebox}
+
+\begin{rulebox}{Projection}
+For $v \neq 0$, the orthogonal projection of $w$ onto $v$ is
+\[
+\operatorname{proj}_{v}(w) \;=\; \frac{v \cdot w}{\|v\|^{2}} \, v ,
+\]
+the scalar multiple of $v$ closest to $w$. The residual
+$w - \operatorname{proj}_{v}(w)$ is orthogonal to $v$; the projection thus
+splits $w$ into a part along $v$ and a part perpendicular to $v$. This
+construction reappears in least-squares regression.
+\end{rulebox}
+
+\begin{rulebox}{Economic readings}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item Expenditure: if $p$ is a price vector and $q$ a quantity vector,
+        then $p \cdot q = p^{T} q$ is total expenditure; the budget
+        constraint with income $m$ reads $p \cdot q \le m$.
+  \item Weighted averages: if the weights $w_{i} \ge 0$ sum to $1$, then
+        $w \cdot x$ is a weighted average of the entries of $x$ (a convex
+        combination), e.g.\ a portfolio return $w^{T} r$ or a course
+        grade built from exam scores.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Lines and planes}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item Line, parametric form: in $\R^{2}$ or
+        $\R^{3}$, $x = p + t \, v$ with $t \in \R$, a point $p$ on the
+        line, and a direction vector $v \neq 0$.
+  \item Line in $\R^{2}$, normal form: $n \cdot x = c$,
+        i.e.\ $n_{1} x_{1} + n_{2} x_{2} = c$, with normal vector
+        $n \perp v$. Switching: from $v = (v_{1}, v_{2})^{T}$ take
+        $n = (-v_{2}, v_{1})^{T}$ and $c = n \cdot p$; from $n$ take
+        $v = (-n_{2}, n_{1})^{T}$ and any point $p$ with $n \cdot p = c$.
+  \item Plane in $\R^{3}$: parametric form $x = p + s \, v + t \, w$ with
+        non-parallel directions $v, w$; normal form $n \cdot x = c$ with
+        $n$ orthogonal to both $v$ and $w$ and $c = n \cdot p$.
+  \item Distance from a point $q$ to a line in $\R^{2}$ or a plane in
+        $\R^{3}$ with normal form $n \cdot x = c$: dividing by the norm
+        of the normal,
+        \[
+        d \;=\; \frac{|n \cdot q - c|}{\|n\|} .
+        \]
+  \item Intersections lead to small linear systems: for two lines in
+        $\R^{2}$, equate the parametric forms (or solve the two normal
+        equations), one solution, none (parallel), or infinitely many
+        (coinciding). For a line $x = p + t \, v$ and a plane
+        $n \cdot x = c$, solve $n \cdot p + t \, (n \cdot v) = c$ for
+        $t$; a unique intersection point exists iff $n \cdot v \neq 0$.
+\end{itemize}
+\end{rulebox}
+
+One bridge remark before drilling: a set of vectors is \emph{linearly
+independent} when none of them is a linear combination of the others,
+equivalently, when the only combination giving $0$ uses all-zero weights.
+That concept, listed alongside the inner product as required review, is
+developed and drilled in Chapter~6; the combinations practised here are its
+raw material.
+
+\section{Practice Problems}
+
+Use the following vectors throughout:
+\[
+u = \begin{pmatrix} 1 \\ 2 \\ 2 \end{pmatrix}, \quad
+v = \begin{pmatrix} 2 \\ -1 \\ 2 \end{pmatrix}, \quad
+w = \begin{pmatrix} 4 \\ 0 \\ 3 \end{pmatrix}, \quad
+a = \begin{pmatrix} 3 \\ 4 \end{pmatrix}, \quad
+b = \begin{pmatrix} -4 \\ 3 \end{pmatrix}.
+\]
+
+\begin{problems}
+  \item Compute $u + v$ and $u - w$.
+  \item Compute $3 u - 2 v$.
+  \item Compute $2 a + b$.
+  \item Write $w$ as a linear combination of the standard basis vectors $e_{1}, e_{2}, e_{3}$.
+  \item Compute $u \cdot v$, $u \cdot w$, and $v \cdot w$.
+  \item Compute $a \cdot b$. What does the result tell you about $a$ and $b$?
+  \item Compute $\|u\|$, $\|v\|$, $\|w\|$, and $\|a\|$.
+  \item Using $\|\lambda x\| = |\lambda| \, \|x\|$, compute $\|2 w\|$ and $\|-3 u\|$; confirm one of them by direct calculation.
+  \item Find the unit vector $\hat{w}$ in the direction of $w$ and check that its norm is $1$.
+  \item Find the unit vector in the direction of $c = (6, -8)^{T}$.
+  \item Compute $\cos \theta$ for the angle between $u$ and $w$, and give $\theta$ in degrees (two decimals).
+  \item Compute the angle between $a$ and $d = (4, 3)^{T}$ (degrees, two decimals).
+  \item Compute the angle between $(1, 0)^{T}$ and $(1, 1)^{T}$.
+  \item Are $p = (2, 1, -1)^{T}$ and $q = (1, -1, 1)^{T}$ orthogonal? Are $u$ and $v$?
+  \item Find $t \in \R$ such that $(t, 2, -1)^{T} \perp (3, t, 4)^{T}$.
+  \item Find all $t \in \R$ such that $(t, 3, 2)^{T} \perp (t, t, -5)^{T}$.
+  \item Verify the Cauchy--Schwarz inequality numerically for $u$ and $v$. Is it strict here?
+  \item Verify the triangle inequality for $a$ and $b$.
+  \item Compute $\operatorname{proj}_{v}(w)$ for $v = (1, 2)^{T}$ and $w = (8, 1)^{T}$.
+  \item For the data of the previous problem, verify that $w - \operatorname{proj}_{v}(w)$ is orthogonal to $v$.
+  \item A consumer buys quantities $q = (10, 4, 6)^{T}$ at prices $p = (3, 2, 5)^{T}$ (in euros). Compute total expenditure $p \cdot q$.
+  \item A course grade is the weighted average of scores $x = (90, 70, 80)^{T}$ with weights $\omega = (0.5, 0.3, 0.2)^{T}$. Check that $\omega^{T} x$ is a convex combination of the scores and compute the grade.
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item $u + v = (3, 1, 4)^{T}$ and $u - w = (1 - 4,\, 2 - 0,\, 2 - 3)^{T} = (-3, 2, -1)^{T}$.
+
+  \item $3 u - 2 v = (3, 6, 6)^{T} - (4, -2, 4)^{T} = (-1, 8, 2)^{T}$.
+
+  \item $2 a + b = (6, 8)^{T} + (-4, 3)^{T} = (2, 11)^{T}$.
+
+  \item $w = 4 e_{1} + 0 \, e_{2} + 3 e_{3} = 4 e_{1} + 3 e_{3}$.
+
+  \item $u \cdot v = 1 \cdot 2 + 2 \cdot (-1) + 2 \cdot 2 = 2 - 2 + 4 = 4$;
+        $u \cdot w = 4 + 0 + 6 = 10$;
+        $v \cdot w = 8 + 0 + 6 = 14$.
+
+  \item $a \cdot b = 3 \cdot (-4) + 4 \cdot 3 = -12 + 12 = 0$: the vectors
+        are orthogonal, $a \perp b$.
+
+  \item $\|u\| = \sqrt{1 + 4 + 4} = 3$;\;
+        $\|v\| = \sqrt{4 + 1 + 4} = 3$;\;
+        $\|w\| = \sqrt{16 + 0 + 9} = 5$;\;
+        $\|a\| = \sqrt{9 + 16} = 5$.
+
+  \item $\|2 w\| = 2 \cdot 5 = 10$ and $\|-3 u\| = 3 \cdot 3 = 9$. Direct
+        check: $2 w = (8, 0, 6)^{T}$, so
+        $\|2 w\| = \sqrt{64 + 0 + 36} = \sqrt{100} = 10$.
+
+  \item $\hat{w} = w / \|w\| = \bigl(\tfrac{4}{5}, 0, \tfrac{3}{5}\bigr)^{T}$.
+        Check: $\|\hat{w}\|^{2} = \tfrac{16}{25} + 0 + \tfrac{9}{25} = 1$.
+
+  \item $\|c\| = \sqrt{36 + 64} = 10$, so
+        $\hat{c} = \bigl(\tfrac{3}{5}, -\tfrac{4}{5}\bigr)^{T}$.
+
+  \item $\cos \theta = \dfrac{u \cdot w}{\|u\| \, \|w\|}
+        = \dfrac{10}{3 \cdot 5} = \dfrac{2}{3}$, so
+        $\theta = \arccos\bigl(\tfrac{2}{3}\bigr) \approx 48.19^{\circ}$.
+
+  \item $a \cdot d = 12 + 12 = 24$ and $\|a\| = \|d\| = 5$, so
+        $\cos \theta = \tfrac{24}{25}$ and
+        $\theta = \arccos(0.96) \approx 16.26^{\circ}$.
+
+  \item $\cos \theta = \dfrac{1}{1 \cdot \sqrt{2}} = \dfrac{1}{\sqrt{2}}$,
+        so $\theta = 45^{\circ}$.
+
+  \item $p \cdot q = 2 - 1 - 1 = 0$: yes, $p \perp q$. But
+        $u \cdot v = 4 \neq 0$, so $u$ and $v$ are \emph{not} orthogonal.
+
+  \item $(t, 2, -1) \cdot (3, t, 4) = 3 t + 2 t - 4 = 5 t - 4 = 0$, so
+        $t = \tfrac{4}{5}$.
+
+  \item $(t, 3, 2) \cdot (t, t, -5) = t^{2} + 3 t - 10 = (t + 5)(t - 2)
+        = 0$, so $t = 2$ or $t = -5$.
+
+  \item $|u \cdot v| = 4$ and $\|u\| \, \|v\| = 3 \cdot 3 = 9$, and indeed
+        $4 \le 9$. The inequality is strict, since $u$ and $v$ are not
+        scalar multiples of each other.
+
+  \item $a + b = (-1, 7)^{T}$, so
+        $\|a + b\| = \sqrt{1 + 49} = \sqrt{50} = 5 \sqrt{2} \approx 7.07$,
+        while $\|a\| + \|b\| = 5 + 5 = 10$. Indeed $7.07 \le 10$.
+
+  \item $v \cdot w = 8 + 2 = 10$ and $\|v\|^{2} = 1 + 4 = 5$, so
+        $\operatorname{proj}_{v}(w) = \tfrac{10}{5} \, (1, 2)^{T}
+        = (2, 4)^{T}$.
+
+  \item $w - \operatorname{proj}_{v}(w) = (8, 1)^{T} - (2, 4)^{T}
+        = (6, -3)^{T}$, and $(6, -3) \cdot (1, 2) = 6 - 6 = 0$.
+        Orthogonal, as claimed.
+
+  \item $p \cdot q = 3 \cdot 10 + 2 \cdot 4 + 5 \cdot 6
+        = 30 + 8 + 30 = 68$ euros.
+
+  \item The weights are nonnegative and $0.5 + 0.3 + 0.2 = 1$, so
+        $\omega^{T} x$ is a convex combination. Grade:
+        $0.5 \cdot 90 + 0.3 \cdot 70 + 0.2 \cdot 80 = 45 + 21 + 16 = 82$,
+        a value between the smallest score ($70$) and the largest
+        ($90$), as every weighted average must be.
+\end{solutions}
+
+\section{Additional Problems}
+
+Use the following vectors throughout:
+\[
+r = \begin{pmatrix} 2 \\ 3 \\ 6 \end{pmatrix}, \quad
+s = \begin{pmatrix} 6 \\ 2 \\ 3 \end{pmatrix}, \quad
+m = \begin{pmatrix} 5 \\ 12 \end{pmatrix}, \quad
+n = \begin{pmatrix} -12 \\ 5 \end{pmatrix}.
+\]
+
+\begin{problems}
+  \item Compute $r + s$ and $2 r - s$.
+  \item Compute $r \cdot s$ and $m \cdot n$.
+  \item Compute $\|r\|$, $\|s\|$, and $\|m\|$.
+  \item Find the unit vector in the direction of $m$.
+  \item Compute $\cos \theta$ for the angle between $r$ and $s$, and give $\theta$ in degrees (one decimal).
+  \item Find $t \in \R$ such that $(2, t, 1)^{T} \perp (t, 4, -6)^{T}$.
+  \item Find all $t \in \R$ such that $(t, 4, 1)^{T} \perp (t, t, -12)^{T}$.
+  \item Compute $\operatorname{proj}_{v}(w)$ for $v = (2, 1)^{T}$ and $w = (3, 4)^{T}$, and verify that the residual $w - \operatorname{proj}_{v}(w)$ is orthogonal to $v$.
+  \item Prices are $p = (4, 3, 2)^{T}$ and a consumer wants the bundle $q = (5, 6, 7)^{T}$ with a budget of $50$ euros. Is the bundle affordable? By how much is the budget met or exceeded?
+  \item A portfolio puts weights $\omega = (0.25, 0.25, 0.5)^{T}$ on assets with returns $r = (0.04, 0.08, 0.02)^{T}$. Check that the weights form a convex combination and compute the portfolio return $\omega^{T} r$.
+  \item Find a parametric form and a normal form of the line $g$ in $\R^{2}$ through the points $P = (1, 2)^{T}$ and $Q = (5, -1)^{T}$.
+  \item Compute the distance from the point $q = (4, 6)^{T}$ to the line $g$ of the previous problem.
+  \item Decide whether the lines $g\colon x = (1, 1)^{T} + t \, (2, 1)^{T}$ and $h\colon x = (5, 0)^{T} + u \, (-1, 1)^{T}$ intersect, are parallel, or coincide; if they intersect, find the intersection point.
+  \item Find the normal form of the plane $E$ in $\R^{3}$ through the point $p = (1, 1, 2)^{T}$ with normal vector $n = (1, 2, 2)^{T}$, and check whether the point $(3, 0, 2)^{T}$ lies on $E$.
+  \item Compute the distance from the point $q = (4, 3, 3)^{T}$ to the plane $E$ of the previous problem.
+  \item Find the intersection point of the line $x = (2, -1, 1)^{T} + t \, (1, 2, 0)^{T}$ with the plane $E$.
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item $r + s = (8, 5, 9)^{T}$ and
+        $2 r - s = (4, 6, 12)^{T} - (6, 2, 3)^{T} = (-2, 4, 9)^{T}$.
+
+  \item $r \cdot s = 12 + 6 + 18 = 36$ and
+        $m \cdot n = -60 + 60 = 0$ (so $m \perp n$).
+
+  \item $\|r\| = \sqrt{4 + 9 + 36} = \sqrt{49} = 7$;\;
+        $\|s\| = \sqrt{36 + 4 + 9} = 7$;\;
+        $\|m\| = \sqrt{25 + 144} = \sqrt{169} = 13$.
+
+  \item $\hat{m} = m / \|m\|
+        = \bigl(\tfrac{5}{13}, \tfrac{12}{13}\bigr)^{T}$.
+        Check: $\tfrac{25}{169} + \tfrac{144}{169} = 1$.
+
+  \item $\cos \theta = \dfrac{36}{7 \cdot 7} = \dfrac{36}{49} \approx
+        0.7347$, so $\theta \approx 42.7^{\circ}$.
+
+  \item $(2, t, 1) \cdot (t, 4, -6) = 2 t + 4 t - 6 = 6 t - 6 = 0$, so
+        $t = 1$.
+
+  \item $(t, 4, 1) \cdot (t, t, -12) = t^{2} + 4 t - 12 = (t + 6)(t - 2)
+        = 0$, so $t = 2$ or $t = -6$.
+
+  \item $v \cdot w = 6 + 4 = 10$ and $\|v\|^{2} = 4 + 1 = 5$, so
+        $\operatorname{proj}_{v}(w) = \tfrac{10}{5} \, (2, 1)^{T}
+        = (4, 2)^{T}$. Residual: $w - (4, 2)^{T} = (-1, 2)^{T}$, and
+        $(-1, 2) \cdot (2, 1) = -2 + 2 = 0$. Orthogonal.
+
+  \item $p \cdot q = 20 + 18 + 14 = 52 > 50$: the bundle is \emph{not}
+        affordable; it exceeds the budget by $2$ euros.
+
+  \item The weights are nonnegative and $0.25 + 0.25 + 0.5 = 1$: a convex
+        combination. Return:
+        $\omega^{T} r = 0.25 \cdot 0.04 + 0.25 \cdot 0.08 + 0.5 \cdot 0.02
+        = 0.01 + 0.02 + 0.01 = 0.04 = 4\%$.
+
+  \item Direction: $v = Q - P = (4, -3)^{T}$, so a parametric form is
+        \[
+        g\colon\; x = \begin{pmatrix} 1 \\ 2 \end{pmatrix}
+        + t \begin{pmatrix} 4 \\ -3 \end{pmatrix}, \qquad t \in \R .
+        \]
+        A normal vector is $n = (3, 4)^{T}$, since
+        $n \cdot v = 12 - 12 = 0$, and $c = n \cdot P = 3 + 8 = 11$, so
+        the normal form is $3 x_{1} + 4 x_{2} = 11$. Check with $Q$:
+        $3 \cdot 5 + 4 \cdot (-1) = 15 - 4 = 11$. Correct.
+
+  \item With $n = (3, 4)^{T}$, $c = 11$, and $\|n\| = \sqrt{9 + 16} = 5$:
+        $n \cdot q = 3 \cdot 4 + 4 \cdot 6 = 12 + 24 = 36$, so
+        \[
+        d = \frac{|n \cdot q - c|}{\|n\|} = \frac{|36 - 11|}{5}
+        = \frac{25}{5} = 5 .
+        \]
+
+  \item The directions $(2, 1)^{T}$ and $(-1, 1)^{T}$ are not scalar
+        multiples of each other ($2 \cdot 1 - 1 \cdot (-1) = 3 \neq 0$),
+        so the lines are neither parallel nor coinciding: they intersect
+        in exactly one point. Equating components gives the system
+        $1 + 2 t = 5 - u$ and $1 + t = u$. Substituting the second
+        equation into the first: $1 + 2 t = 5 - (1 + t) = 4 - t$, so
+        $3 t = 3$, i.e.\ $t = 1$ and $u = 2$. Intersection point:
+        $(1, 1)^{T} + 1 \cdot (2, 1)^{T} = (3, 2)^{T}$. Check on $h$:
+        $(5, 0)^{T} + 2 \, (-1, 1)^{T} = (3, 2)^{T}$. Correct.
+
+  \item $c = n \cdot p = 1 \cdot 1 + 2 \cdot 1 + 2 \cdot 2 = 1 + 2 + 4
+        = 7$, so
+        \[
+        E\colon\; x_{1} + 2 x_{2} + 2 x_{3} = 7 .
+        \]
+        For $(3, 0, 2)^{T}$: $3 + 0 + 4 = 7$, so the point \emph{does}
+        lie on $E$.
+
+  \item $\|n\| = \sqrt{1 + 4 + 4} = 3$ and
+        $n \cdot q = 4 + 6 + 6 = 16$, so
+        \[
+        d = \frac{|n \cdot q - c|}{\|n\|} = \frac{|16 - 7|}{3}
+        = \frac{9}{3} = 3 .
+        \]
+
+  \item Substitute the line into the normal form of $E$: with
+        $p = (2, -1, 1)^{T}$ and $v = (1, 2, 0)^{T}$ we get
+        $n \cdot p = 2 - 2 + 2 = 2$ and $n \cdot v = 1 + 4 + 0 = 5$, so
+        $2 + 5 t = 7$, i.e.\ $t = 1$. Intersection point:
+        $(2, -1, 1)^{T} + 1 \cdot (1, 2, 0)^{T} = (3, 1, 1)^{T}$.
+        Check: $3 + 2 \cdot 1 + 2 \cdot 1 = 7$. Correct.
+\end{solutions}

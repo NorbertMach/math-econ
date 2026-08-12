@@ -1,0 +1,692 @@
+\chapter{Duality, Complementary Slackness, and the Price Theorem}
+
+Every linear program comes with a hidden companion: its \emph{dual}. Where the primal asks how to use scarce resources to
+maximise profit, the dual asks what those resources are actually worth. The
+two problems are locked together by a family of results (weak duality,
+strong duality, and complementary slackness) that turn the dual solution
+into a certificate of optimality for the primal and, at the same time, into
+a price list: the optimal dual variables are the \emph{shadow prices} of the constraints.
+
+This chapter drills the mechanics: constructing the dual of a general LP
+(including $\ge$ and $=$ constraints and free variables), bounding and
+certifying optima with weak duality, recovering one optimal solution from
+the other via complementary slackness, and reading the dual solution
+straight out of the simplex end tableau. The price
+theorem then gives the economic payoff: it tells you,
+constraint by constraint, how much an extra unit of each resource is worth.
+
+\section{Core Rules}
+
+\begin{rulebox}{The standard primal--dual pair}
+For a primal LP in standard maximum form the dual is built as follows:
+\[
+  \textbf{Primal:}\;\;
+  \max\; Z=c^{\top}x,\;\; Ax\le b,\;\; x\ge 0
+  \qquad
+  \textbf{Dual:}\;\;
+  \min\; W=b^{\top}y,\;\; A^{\top}y\ge c,\;\; y\ge 0 .
+\]
+Construction recipe:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item one dual variable $y_{i}$ per primal \emph{constraint}, one dual
+        constraint per primal \emph{variable};
+  \item the primal right-hand sides $b_{i}$ become the dual objective
+        coefficients; the primal objective coefficients $c_{j}$ become the
+        dual right-hand sides;
+  \item the coefficient matrix is transposed: the \emph{column} of $x_{j}$
+        in the primal is the \emph{row} of the $j$-th dual constraint;
+  \item $\max\leftrightarrow\min$ and $\le\leftrightarrow\ge$.
+\end{itemize}
+Applying the recipe twice returns the original problem: \emph{the dual of
+the dual is the primal}.
+\end{rulebox}
+
+\begin{rulebox}{Sign rules for the general dual}
+When the primal is a maximum problem with mixed constraint types:
+\begin{center}
+\begin{tabular}{l|l}
+\textbf{Primal (max)} & \textbf{Dual (min)}\\
+\hline
+$i$-th constraint $\le b_{i}$ & $y_{i}\ge 0$\\
+$i$-th constraint $\ge b_{i}$ & $y_{i}\le 0$\\
+$i$-th constraint $= b_{i}$   & $y_{i}$ free\\
+\hline
+variable $x_{j}\ge 0$ & $j$-th constraint $\ge c_{j}$\\
+variable $x_{j}\le 0$ & $j$-th constraint $\le c_{j}$\\
+variable $x_{j}$ free & $j$-th constraint $= c_{j}$\\
+\end{tabular}
+\end{center}
+The table is symmetric: for a primal in \emph{minimum} form, locate its
+features in the right-hand column and read off the dual feature on the
+left. (Example: a $\ge$ constraint of a min problem gets a dual variable
+$u_{i}\ge 0$; a variable $x_{j}\ge 0$ of a min problem gets a dual
+constraint $\le c_{j}$.) Memory aid: in a max problem, $\le$ constraints
+and $\ge 0$ variables are the ``natural'' ingredients and produce
+sign-restricted partners; each ``unnatural'' ingredient flips the sign,
+and equalities pair with free variables.
+\end{rulebox}
+
+\begin{rulebox}{Weak duality}
+For \emph{every} primal-feasible $x$ and \emph{every} dual-feasible $y$ of
+a max/min pair:
+\[
+  Z(x) \;=\; c^{\top}x \;\le\; b^{\top}y \;=\; W(y) .
+\]
+Consequences:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item any dual-feasible $y$ gives an \emph{upper bound} on $Z^{*}$; any
+        primal-feasible $x$ gives a \emph{lower bound} on $W^{*}$;
+  \item \textbf{certificate:} if a feasible pair satisfies
+        $Z(x)=W(y)$, then $x$ is primal-optimal and $y$ is dual-optimal;
+  \item if the primal is unbounded, the dual is infeasible (and vice
+        versa): otherwise a dual-feasible point would cap $Z$.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Strong duality}
+If the primal has an optimal solution $x^{*}$, then the dual has an
+optimal solution $y^{*}$ and the optimal values coincide:
+\[
+  Z^{*} \;=\; c^{\top}x^{*} \;=\; b^{\top}y^{*} \;=\; W^{*} .
+\]
+The bound from weak duality is therefore \emph{tight}: solving either
+problem solves both.
+\end{rulebox}
+
+\begin{rulebox}{Complementary slackness}
+Feasible $x^{*}$ and $y^{*}$ are optimal for their respective problems if
+and only if
+\[
+  y_{i}^{*}\,\bigl(b_{i}-a_{i}^{\top}x^{*}\bigr)=0 \;\;\forall i,
+  \qquad
+  x_{j}^{*}\,\bigl((A^{\top}y^{*})_{j}-c_{j}\bigr)=0 \;\;\forall j .
+\]
+In words: a slack primal constraint forces its dual variable to zero, and
+a positive primal variable forces its dual constraint to bind, and
+symmetrically in the other direction. Recipe for recovering $y^{*}$ from a
+known primal optimum $x^{*}$:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item constraint $i$ has slack at $x^{*}$ $\;\Rightarrow\;$ set
+        $y_{i}=0$;
+  \item $x_{j}^{*}>0$ $\;\Rightarrow\;$ write the $j$-th dual constraint
+        as an \emph{equation};
+  \item solve the resulting linear system, then check dual feasibility and
+        $W=Z^{*}$.
+\end{itemize}
+The same recipe run backwards recovers $x^{*}$ from a known $y^{*}$.
+\end{rulebox}
+
+\begin{rulebox}{The price theorem (shadow prices)}
+The optimal dual variable of constraint $i$ measures the marginal value of
+its right-hand side:
+\[
+  y_{i}^{*} \;=\; \pd{Z^{*}}{b_{i}} ,
+\]
+i.e.\ enlarging the resource stock $b_{i}$ by one (small) unit raises the
+optimal value by $y_{i}^{*}$: valid as long as the optimal basis does not
+change. Hence $y_{i}^{*}$ is the \emph{shadow price} of resource $i$:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{decision rule:} buy an extra unit of resource $i$ if and
+        only if its market price is below $y_{i}^{*}$;
+  \item a constraint with slack has shadow price $0$: unused capacity is
+        worthless at the margin;
+  \item only binding constraints can carry a positive shadow price.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{The dual as a pricing problem}
+Read the dual of a production LP as the problem of an outside bidder who
+wants to rent the firm's entire resource stock:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item $y_{i}$ = offered rental price per unit of resource $i$;
+  \item dual constraint $j$: the resources consumed by one unit of product
+        $j$, valued at prices $y$, must be worth at least its profit
+        $c_{j}$: otherwise the firm would rather produce than rent out;
+  \item dual objective: minimise the total rent
+        $b^{\top}y$ for the stock;
+  \item strong duality: the cheapest acceptable offer equals the maximal
+        profit $Z^{*}$ the firm could earn itself.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Dual values in the end tableau}
+For a max LP in $\le$ form solved with slack variables $s_{1},\dots,s_{m}$:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item the bottom-row entry under slack column $s_{i}$ in the end tableau
+        is the optimal dual variable $y_{i}^{*}$;
+  \item the bottom-right entry is $Z^{*}=W^{*}$;
+  \item a slack variable that is basic with positive value marks a
+        non-binding constraint, so its bottom-row entry (its shadow price)
+        is $0$;
+  \item the primal solution sits in the RHS column (basic variables);
+        non-basic variables are $0$.
+\end{itemize}
+\end{rulebox}
+
+\section{Practice Problems}
+
+\begin{problems}
+  \item Write the dual of
+        \[
+          \max\; Z=3x_{1}+2x_{2}
+          \quad\text{s.t.}\quad
+          x_{1}+x_{2}\le 4,\qquad 2x_{1}+x_{2}\le 6,\qquad
+          x_{1},x_{2}\ge 0 .
+        \]
+  \item Write the dual of
+        \[
+          \max\; Z=4x_{1}+3x_{2}
+          \quad\text{s.t.}\quad
+          2x_{1}+x_{2}\le 10,\qquad x_{1}+x_{2}\le 6,\qquad
+          x_{1}+2x_{2}\le 10,\qquad x_{1},x_{2}\ge 0 .
+        \]
+  \item Write the dual of the minimum problem
+        \[
+          \min\; Z=6x_{1}+4x_{2}
+          \quad\text{s.t.}\quad
+          3x_{1}+x_{2}\ge 3,\qquad x_{1}+x_{2}\ge 2,\qquad
+          x_{1}+2x_{2}\ge 2,\qquad x_{1},x_{2}\ge 0 .
+        \]
+  \item Using the general sign rules, write the dual of
+        \[
+          \max\; Z=2x_{1}+5x_{2}
+          \quad\text{s.t.}\quad
+          x_{1}+3x_{2}\le 12,\qquad x_{1}-x_{2}\ge 2,\qquad
+          x_{1}+x_{2}= 8,\qquad x_{1},x_{2}\ge 0 .
+        \]
+  \item Write the dual of
+        \[
+          \max\; Z=x_{1}+4x_{2}
+          \quad\text{s.t.}\quad
+          2x_{1}+x_{2}\le 8,\qquad x_{1}+2x_{2}\le 10,\qquad
+          x_{1}\ge 0,\; x_{2}\ \text{free}.
+        \]
+  \item For the LP
+        $\max\; Z=5x_{1}+4x_{2}$ s.t.\ $6x_{1}+4x_{2}\le 24$,
+        $x_{1}+2x_{2}\le 6$, $x_{1},x_{2}\ge 0$, form the dual, then form
+        the dual of the dual, and confirm that the primal reappears.
+  \item Consider the LP of Problem~1. Show that $\hat{x}=(1,2)$ is primal
+        feasible and $\hat{y}=(1,1)$ is dual feasible, compute
+        $Z(\hat{x})$ and $W(\hat{y})$, verify the weak-duality inequality,
+        and state the bounds this pair puts on the optimal value $Z^{*}$.
+  \item Still for the LP of Problem~1: show that $x=(2,2)$ and $y=(1,1)$
+        are feasible with $Z(x)=W(y)$, and conclude (using weak duality
+        only) that both are optimal.
+  \item Consider
+        $\max\; Z=x_{1}+x_{2}$ s.t.\ $x_{1}-x_{2}\le 1$,
+        $x_{1},x_{2}\ge 0$.
+        (a)~Show that the LP is unbounded.
+        (b)~Write its dual and show that the dual is infeasible.
+        (c)~Explain why weak duality makes (b) a necessary consequence of
+        (a).
+  \item The LP of Problem~2 has the optimal solution $x^{*}=(4,2)$. Use
+        complementary slackness to compute the optimal dual solution
+        $y^{*}$, and verify strong duality.
+  \item Consider
+        $\max\; Z=2x_{1}+x_{2}$ s.t.\ $x_{1}+x_{2}\le 4$,
+        $x_{1}+3x_{2}\le 6$, $x_{1},x_{2}\ge 0$.
+        Its dual has the optimal solution $y^{*}=(2,0)$. Use complementary
+        slackness to recover the optimal primal solution $x^{*}$ and
+        verify $Z^{*}=W^{*}$.
+  \item For the LP of Problem~1, check whether the feasible pair
+        $x=(3,0)$, $y=(1,1)$ satisfies all complementary-slackness
+        conditions. What do you conclude?
+  \item The minimum problem
+        $\min\; Z=2x_{1}+3x_{2}$ s.t.\ $x_{1}+x_{2}\ge 5$,
+        $x_{1}+2x_{2}\ge 6$, $x_{1},x_{2}\ge 0$
+        has the optimal solution $x^{*}=(4,1)$. Write the dual and use
+        complementary slackness to find its optimal solution $u^{*}$;
+        verify the objective values agree.
+  \item Solving
+        $\max\; Z=3x_{1}+2x_{2}$ s.t.\
+        $x_{1}+x_{2}\le 4$ (resource A, slack $s_{1}$),
+        $2x_{1}+x_{2}\le 6$ (resource B, slack $s_{2}$),
+        $x_{1},x_{2}\ge 0$
+        by the simplex method produces the end tableau
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+          Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & RHS\\
+          \hline
+          $x_{1}$ & $1$ & $0$ & $-1$ & $1$  & $2$\\
+          $x_{2}$ & $0$ & $1$ & $2$  & $-1$ & $2$\\
+          \hline
+          $Z$     & $0$ & $0$ & $1$  & $1$  & $10$\\
+        \end{tabular}
+        \end{center}
+        Read off (a)~the optimal solution and $Z^{*}$, (b)~which
+        constraints bind, (c)~the shadow prices, and (d)~verify that the
+        dual solution taken from the tableau is dual feasible with
+        $W=Z^{*}$.
+  \item (Price theorem.) In the LP of Problem~14 the stock of resource A
+        rises from $b_{1}=4$ to $b_{1}=5$. Predict the new optimal value
+        with the price theorem, then verify the prediction by re-solving
+        the LP (the same two constraints remain binding).
+  \item Purchasing decisions with the shadow prices $y_{1}^{*}=1$,
+        $y_{2}^{*}=1$ from Problem~14 (all prices in units of $Z$):
+        (a)~a supplier offers one extra unit of resource A at price
+        $1.25$ (accept?
+        (b)~one extra unit of resource B at price $0.8$) accept?
+        (c)~In the LP of Problem~10, extra units of resource 3 are offered
+        at price $0.1$ each: accept?
+  \item A joiner makes tables ($x_{1}$) and shelves ($x_{2}$). A table
+        earns profit $3$ and needs $1$ unit of wood and $2$ machine-hours;
+        a shelf earns $2$ and needs $1$ unit of wood and $1$ machine-hour.
+        Available: $4$ units of wood, $6$ machine-hours: this is exactly
+        the LP of Problem~14 with $Z^{*}=10$ and $y^{*}=(1,1)$.
+        (a)~Write the dual.
+        (b)~Interpret the dual variables, the dual constraints, and the
+        dual objective economically.
+        (c)~What is the smallest total payment for which the joiner should
+        be willing to rent out his entire stock of wood and machine time?
+  \item In Problem~10 the third constraint has slack $2$ at the optimum
+        and $y_{3}^{*}=0$. Explain this value twice: once through
+        complementary slackness and once economically. Does
+        $y_{i}^{*}=0$ conversely always imply that constraint $i$ has
+        slack?
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item Two constraints give two dual variables $y_{1},y_{2}\ge 0$; the
+        right-hand sides $(4,6)$ become the dual objective; the columns of
+        $x_{1}$ and $x_{2}$, namely $(1,2)$ and $(1,1)$, become the dual
+        constraint rows with right-hand sides $c=(3,2)$:
+        \[
+          \min\; W=4y_{1}+6y_{2}
+          \quad\text{s.t.}\quad
+          y_{1}+2y_{2}\ge 3,\qquad y_{1}+y_{2}\ge 2,\qquad
+          y_{1},y_{2}\ge 0 .
+        \]
+
+  \item Three constraints, two variables, so the dual has three variables
+        and two constraints:
+        \[
+          \min\; W=10y_{1}+6y_{2}+10y_{3}
+          \quad\text{s.t.}\quad
+          2y_{1}+y_{2}+y_{3}\ge 4,\qquad
+          y_{1}+y_{2}+2y_{3}\ge 3,\qquad
+          y_{1},y_{2},y_{3}\ge 0 .
+        \]
+
+  \item A minimum problem with $\ge$ constraints and non-negative
+        variables dualises to a maximum problem with $\le$ constraints and
+        non-negative variables. One dual variable per constraint,
+        objective from the right-hand sides $(3,2,2)$, constraints from
+        the variable columns $(3,1,1)$ and $(1,1,2)$ with right-hand
+        sides $(6,4)$:
+        \[
+          \max\; W=3u_{1}+2u_{2}+2u_{3}
+          \quad\text{s.t.}\quad
+          3u_{1}+u_{2}+u_{3}\le 6,\qquad
+          u_{1}+u_{2}+2u_{3}\le 4,\qquad
+          u_{1},u_{2},u_{3}\ge 0 .
+        \]
+
+  \item Sign rules for a max primal: the $\le$ constraint gives
+        $y_{1}\ge 0$, the $\ge$ constraint gives $y_{2}\le 0$, the
+        equality gives $y_{3}$ free. Both variables satisfy
+        $x_{j}\ge 0$, so both dual constraints are of type $\ge$:
+        \[
+          \min\; W=12y_{1}+2y_{2}+8y_{3}
+          \quad\text{s.t.}\quad
+          y_{1}+y_{2}+y_{3}\ge 2,\qquad
+          3y_{1}-y_{2}+y_{3}\ge 5,
+        \]
+        with $y_{1}\ge 0$, $y_{2}\le 0$, $y_{3}$ free.
+
+  \item Both constraints are $\le$, so $y_{1},y_{2}\ge 0$. The variable
+        $x_{1}\ge 0$ gives a $\ge$ dual constraint, while the \emph{free}
+        variable $x_{2}$ tightens its dual constraint to an equality:
+        \[
+          \min\; W=8y_{1}+10y_{2}
+          \quad\text{s.t.}\quad
+          2y_{1}+y_{2}\ge 1,\qquad
+          y_{1}+2y_{2}= 4,\qquad
+          y_{1},y_{2}\ge 0 .
+        \]
+
+  \item The dual of the given LP is
+        \[
+          \min\; W=24y_{1}+6y_{2}
+          \quad\text{s.t.}\quad
+          6y_{1}+y_{2}\ge 5,\qquad 4y_{1}+2y_{2}\ge 4,\qquad
+          y_{1},y_{2}\ge 0 .
+        \]
+        Now dualise this minimum problem: its two $\ge$ constraints give
+        variables $u_{1},u_{2}\ge 0$; its right-hand sides $(5,4)$ become
+        the new objective; its variables $y_{1},y_{2}\ge 0$ give $\le$
+        constraints with right-hand sides $(24,6)$, rows taken from the
+        columns of $y_{1}$ and $y_{2}$:
+        \[
+          \max\; 5u_{1}+4u_{2}
+          \quad\text{s.t.}\quad
+          6u_{1}+4u_{2}\le 24,\qquad u_{1}+2u_{2}\le 6,\qquad
+          u_{1},u_{2}\ge 0 .
+        \]
+        Renaming $u$ as $x$ recovers the primal exactly.
+
+  \item Primal feasibility of $\hat{x}=(1,2)$: $1+2=3\le 4$ and
+        $2\cdot 1+2=4\le 6$; also $\hat{x}\ge 0$. Dual feasibility of
+        $\hat{y}=(1,1)$ (dual from Solution~1): $1+2\cdot 1=3\ge 3$ and
+        $1+1=2\ge 2$; $\hat{y}\ge 0$. Objective values:
+        \[
+          Z(\hat{x})=3\cdot 1+2\cdot 2=7,
+          \qquad
+          W(\hat{y})=4\cdot 1+6\cdot 1=10 .
+        \]
+        Indeed $7\le 10$, as weak duality requires. Bounds: every
+        dual-feasible point caps the primal optimum and every
+        primal-feasible point supports it, so
+        $7\le Z^{*}\le 10$.
+
+  \item Feasibility of $x=(2,2)$: $2+2=4\le 4$ (binds) and
+        $2\cdot 2+2=6\le 6$ (binds); $Z=3\cdot 2+2\cdot 2=10$.
+        Feasibility of $y=(1,1)$: checked in Solution~7; $W=10$.
+        Since $Z(x)=10=W(y)$, weak duality closes the gap: for any
+        primal-feasible $x'$ we have $Z(x')\le W(y)=10=Z(x)$, so $x$ is
+        primal-optimal; for any dual-feasible $y'$ we have
+        $W(y')\ge Z(x)=10=W(y)$, so $y$ is dual-optimal. Hence
+        $Z^{*}=W^{*}=10$.
+
+  \item (a)~The points $(t,t)$, $t\ge 0$, are feasible since
+        $t-t=0\le 1$, and $Z=2t\to\infty$: the LP is unbounded.
+        (b)~The dual has one variable $y_{1}\ge 0$ and one constraint per
+        primal variable:
+        \[
+          \min\; W=y_{1}
+          \quad\text{s.t.}\quad
+          y_{1}\ge 1,\qquad -y_{1}\ge 1,\qquad y_{1}\ge 0 .
+        \]
+        The second constraint forces $y_{1}\le -1$, contradicting
+        $y_{1}\ge 0$: the dual is infeasible.
+        (c)~If the dual had any feasible point $y$, weak duality would
+        give $Z(x)\le W(y)<\infty$ for all primal-feasible $x$, so $Z$
+        could not grow without bound. An unbounded primal therefore
+        forces an infeasible dual.
+
+  \item First classify the constraints at $x^{*}=(4,2)$:
+        \[
+          2\cdot 4+2=10 \;(\text{binds}),\qquad
+          4+2=6 \;(\text{binds}),\qquad
+          4+2\cdot 2=8<10 \;(\text{slack }2).
+        \]
+        Complementary slackness: the slack third constraint forces
+        $y_{3}=0$; the positive variables $x_{1}^{*}=4>0$ and
+        $x_{2}^{*}=2>0$ force both dual constraints (Solution~2) to bind:
+        \[
+          2y_{1}+y_{2}+y_{3}=4,\qquad y_{1}+y_{2}+2y_{3}=3 .
+        \]
+        With $y_{3}=0$: $2y_{1}+y_{2}=4$ and $y_{1}+y_{2}=3$; subtracting
+        gives $y_{1}=1$, hence $y_{2}=2$. So $y^{*}=(1,2,0)$, which is
+        non-negative and dual feasible. Strong duality:
+        \[
+          W^{*}=10\cdot 1+6\cdot 2+10\cdot 0=22
+          = 4\cdot 4+3\cdot 2 = Z^{*}. \checkmark
+        \]
+
+  \item The dual is
+        $\min\; W=4y_{1}+6y_{2}$ s.t.\ $y_{1}+y_{2}\ge 2$,
+        $y_{1}+3y_{2}\ge 1$, $y\ge 0$. At $y^{*}=(2,0)$ the first dual
+        constraint binds ($2+0=2$) and the second is strict
+        ($2+0=2>1$). Complementary slackness backwards:
+        \begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+          \item $y_{1}^{*}=2>0$ $\Rightarrow$ constraint 1 binds:
+                $x_{1}+x_{2}=4$;
+          \item dual constraint 2 strict $\Rightarrow$ $x_{2}^{*}=0$.
+        \end{itemize}
+        Hence $x_{1}^{*}=4$, $x^{*}=(4,0)$. Feasibility check:
+        $4\le 4$ (binds) and $4+0=4\le 6$ (slack, consistent with
+        $y_{2}^{*}=0$). Values:
+        $Z^{*}=2\cdot 4+1\cdot 0=8$ and $W^{*}=4\cdot 2+6\cdot 0=8$.
+        $\checkmark$
+
+  \item Feasibility: $x=(3,0)$ satisfies $3\le 4$ (slack $1$) and
+        $6\le 6$ (binds), with $Z=9$; $y=(1,1)$ is dual feasible with
+        $W=10$ (Solution~7). Now the four conditions:
+        \[
+          y_{1}(4-x_{1}-x_{2})=1\cdot(4-3)=1\ne 0
+          \quad\textbf{(violated)},
+        \]
+        \[
+          y_{2}(6-2x_{1}-x_{2})=1\cdot 0=0,\qquad
+          x_{1}(y_{1}+2y_{2}-3)=3\cdot 0=0,\qquad
+          x_{2}(y_{1}+y_{2}-2)=0\cdot 0=0 .
+        \]
+        One condition fails, so the pair is \emph{not} jointly optimal.
+        Consistently, the duality gap is open: $Z=9<10=W$. (In fact $y$
+        is dual-optimal by Solution~8, so it is $x$ that is not optimal.)
+
+  \item Dual (min primal with $\ge$ constraints $\Rightarrow$ max dual
+        with $\le$ constraints):
+        \[
+          \max\; W=5u_{1}+6u_{2}
+          \quad\text{s.t.}\quad
+          u_{1}+u_{2}\le 2,\qquad u_{1}+2u_{2}\le 3,\qquad
+          u_{1},u_{2}\ge 0 .
+        \]
+        At $x^{*}=(4,1)$ both primal constraints bind:
+        $4+1=5$ and $4+2\cdot 1=6$. Since $x_{1}^{*}=4>0$ and
+        $x_{2}^{*}=1>0$, both dual constraints must bind:
+        \[
+          u_{1}+u_{2}=2,\qquad u_{1}+2u_{2}=3
+          \quad\Longrightarrow\quad u_{2}=1,\; u_{1}=1 .
+        \]
+        So $u^{*}=(1,1)\ge 0$, dual feasible, and
+        \[
+          W^{*}=5\cdot 1+6\cdot 1=11
+          =2\cdot 4+3\cdot 1=Z^{*}. \checkmark
+        \]
+
+  \item (a)~Basic variables and their RHS values: $x_{1}=2$, $x_{2}=2$;
+        the slacks are non-basic, hence zero. Optimal solution
+        $x^{*}=(2,2)$ with $Z^{*}=10$ (bottom right).
+        (b)~$s_{1}=s_{2}=0$: both constraints bind.
+        (c)~Shadow prices are the bottom-row entries under the slack
+        columns: $y_{1}^{*}=1$, $y_{2}^{*}=1$.
+        (d)~Dual (Solution~1): $y_{1}+2y_{2}=1+2=3\ge 3$ and
+        $y_{1}+y_{2}=2\ge 2$, both satisfied (as equalities), $y\ge 0$;
+        and $W=4\cdot 1+6\cdot 1=10=Z^{*}$. $\checkmark$
+
+  \item Price theorem: $\Delta Z^{*}=y_{1}^{*}\cdot\Delta b_{1}
+        =1\cdot 1=1$, so the predicted optimum is $Z^{*}=10+1=11$.
+        Verification: with the same binding set,
+        \[
+          x_{1}+x_{2}=5,\qquad 2x_{1}+x_{2}=6
+          \quad\Longrightarrow\quad x_{1}=1,\; x_{2}=4 ,
+        \]
+        both non-negative, and $Z=3\cdot 1+2\cdot 4=11$. $\checkmark$
+        The prediction is exact here because the optimal basis is
+        unchanged; for large enough increases of $b_{1}$ the basis would
+        switch and the rate $y_{1}^{*}$ would no longer apply.
+
+  \item (a)~No: the price $1.25$ exceeds the shadow price
+        $y_{1}^{*}=1$; the extra unit would raise $Z$ by $1$ but cost
+        $1.25$, a net loss of $0.25$.
+        (b)~Yes: $0.8<y_{2}^{*}=1$; net gain $1-0.8=0.2$ per unit.
+        (c)~No: resource 3 has shadow price $y_{3}^{*}=0$ (its constraint
+        already has slack), so an extra unit adds nothing to $Z^{*}$;
+        any positive price is too high.
+
+  \item (a)~Dual:
+        \[
+          \min\; W=4y_{1}+6y_{2}
+          \quad\text{s.t.}\quad
+          y_{1}+2y_{2}\ge 3,\qquad y_{1}+y_{2}\ge 2,\qquad
+          y_{1},y_{2}\ge 0 .
+        \]
+        (b)~$y_{1}$ is the rental price offered per unit of wood, $y_{2}$
+        per machine-hour. The first dual constraint prices the resource
+        bundle of one table ($1$ wood, $2$ machine-hours) at no less than
+        the table's profit $3$; the second does the same for a shelf. If
+        such a constraint were violated, the joiner would refuse the
+        offer and produce that good instead. The dual objective
+        $4y_{1}+6y_{2}$ is the bidder's total rent for the whole stock,
+        which the bidder minimises subject to making an acceptable offer.
+        (c)~By strong duality the cheapest acceptable offer equals the
+        maximal profit: $W^{*}=Z^{*}=10$. Indeed at $y^{*}=(1,1)$:
+        $4\cdot 1+6\cdot 1=10$. Below a total of $10$ the joiner does
+        better producing himself.
+
+  \item Complementary slackness: the condition
+        $y_{3}^{*}\,(b_{3}-a_{3}^{\top}x^{*})=0$ with slack
+        $b_{3}-a_{3}^{\top}x^{*}=10-8=2>0$ forces $y_{3}^{*}=0$.
+        Economically: two units of resource 3 are already lying idle at
+        the optimum, so an additional unit cannot raise profit: its
+        marginal value, the shadow price, is zero. The converse is
+        \emph{not} valid in general: in a degenerate optimum a
+        \emph{binding} constraint can also have shadow price zero. Only
+        the direction ``slack $\Rightarrow$ zero price'' is guaranteed.
+\end{solutions}
+
+\section{Additional Problems}
+
+\begin{problems}
+  \item Write the dual of
+        \[
+          \max\; Z=6x_{1}+x_{2}+2x_{3}
+          \quad\text{s.t.}\quad
+          x_{1}+2x_{2}+x_{3}\le 5,\qquad
+          2x_{1}+x_{2}+3x_{3}\le 8,\qquad
+          x_{1},x_{2},x_{3}\ge 0 .
+        \]
+  \item Using the general sign rules, write the dual of
+        \[
+          \min\; Z=4x_{1}+2x_{2}
+          \quad\text{s.t.}\quad
+          x_{1}+x_{2}\ge 3,\qquad
+          x_{1}-x_{2}\le 1,\qquad
+          x_{1}+2x_{2}= 6,\qquad x_{1},x_{2}\ge 0 .
+        \]
+  \item For
+        $\max\; Z=2x_{1}+3x_{2}$ s.t.\ $x_{1}+2x_{2}\le 6$,
+        $x_{1}+x_{2}\le 4$, $x_{1},x_{2}\ge 0$:
+        verify that $\hat{x}=(2,1)$ is primal feasible and
+        $\hat{y}=(1,1)$ is dual feasible, state the resulting bounds on
+        $Z^{*}$, and then show that $x=(2,2)$ closes the gap, proving
+        $\hat{y}$ optimal.
+  \item The LP of Additional Problem~3 has the optimal solution
+        $x^{*}=(2,2)$. Use complementary slackness to compute $y^{*}$ and
+        verify strong duality.
+  \item Consider
+        $\max\; Z=x_{1}+2x_{2}$ s.t.\ $x_{1}+x_{2}\le 3$, $x_{2}\le 2$,
+        $x_{1},x_{2}\ge 0$. Its dual has the optimal solution
+        $y^{*}=(1,1)$. Recover the optimal primal solution via
+        complementary slackness and verify the objective values.
+  \item Solving
+        $\max\; Z=2x_{1}+3x_{2}$ s.t.\
+        $x_{1}+2x_{2}\le 6$ (wood, slack $s_{1}$),
+        $x_{1}+x_{2}\le 4$ (labour, slack $s_{2}$),
+        $x_{1},x_{2}\ge 0$
+        yields the end tableau
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+          Basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & RHS\\
+          \hline
+          $x_{1}$ & $1$ & $0$ & $-1$ & $2$  & $2$\\
+          $x_{2}$ & $0$ & $1$ & $1$  & $-1$ & $2$\\
+          \hline
+          $Z$     & $0$ & $0$ & $1$  & $1$  & $10$\\
+        \end{tabular}
+        \end{center}
+        Read off the optimal solution, the binding constraints, and the
+        shadow prices, and verify dual feasibility and $W=Z^{*}$.
+  \item (Price theorem.) In the LP of Additional Problem~6 the labour
+        stock rises from $b_{2}=4$ to $b_{2}=5$. Predict the new optimal
+        value with the price theorem and verify by re-solving (the same
+        constraints remain binding).
+  \item Economics of the LP of Additional Problem~6 ($6$ wood, $4$
+        labour, $y^{*}=(1,1)$, $Z^{*}=10$):
+        (a)~What is the smallest total payment for which the firm should
+        hand over its entire resource stock?
+        (b)~An extra unit of wood is offered at price $0.5$: accept, and
+        with what net gain?
+        (c)~What does it mean if a resource is offered at a price exactly
+        equal to its shadow price?
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item Two constraints give $y_{1},y_{2}\ge 0$; three variables give
+        three $\ge$ constraints with right-hand sides $(6,1,2)$:
+        \[
+          \min\; W=5y_{1}+8y_{2}
+          \quad\text{s.t.}\quad
+          y_{1}+2y_{2}\ge 6,\qquad
+          2y_{1}+y_{2}\ge 1,\qquad
+          y_{1}+3y_{2}\ge 2,\qquad
+          y_{1},y_{2}\ge 0 .
+        \]
+
+  \item For a min primal the dual is a max problem. Sign rules: the
+        $\ge$ constraint gives $u_{1}\ge 0$, the $\le$ constraint gives
+        $u_{2}\le 0$, the equality gives $u_{3}$ free; the variables
+        $x_{1},x_{2}\ge 0$ give $\le$ dual constraints:
+        \[
+          \max\; W=3u_{1}+u_{2}+6u_{3}
+          \quad\text{s.t.}\quad
+          u_{1}+u_{2}+u_{3}\le 4,\qquad
+          u_{1}-u_{2}+2u_{3}\le 2,
+        \]
+        with $u_{1}\ge 0$, $u_{2}\le 0$, $u_{3}$ free.
+
+  \item Primal feasibility of $\hat{x}=(2,1)$: $2+2=4\le 6$,
+        $2+1=3\le 4$; $Z(\hat{x})=2\cdot 2+3\cdot 1=7$. The dual is
+        \[
+          \min\; W=6y_{1}+4y_{2}
+          \quad\text{s.t.}\quad
+          y_{1}+y_{2}\ge 2,\qquad 2y_{1}+y_{2}\ge 3,\qquad y\ge 0,
+        \]
+        and $\hat{y}=(1,1)$ satisfies $1+1=2\ge 2$, $2+1=3\ge 3$;
+        $W(\hat{y})=6+4=10$. Weak duality gives $7\le Z^{*}\le 10$.
+        The point $x=(2,2)$ is feasible ($2+4=6\le 6$, $2+2=4\le 4$)
+        with $Z=2\cdot 2+3\cdot 2=10=W(\hat{y})$: the certificate
+        argument makes $x$ primal-optimal and $\hat{y}$ dual-optimal,
+        so $Z^{*}=W^{*}=10$.
+
+  \item At $x^{*}=(2,2)$ both constraints bind ($2+4=6$, $2+2=4$), and
+        both variables are positive, so both dual constraints bind:
+        \[
+          y_{1}+y_{2}=2,\qquad 2y_{1}+y_{2}=3
+          \quad\Longrightarrow\quad y_{1}=1,\; y_{2}=1 .
+        \]
+        $y^{*}=(1,1)\ge 0$ is dual feasible, and
+        $W^{*}=6\cdot 1+4\cdot 1=10=2\cdot 2+3\cdot 2=Z^{*}$.
+        $\checkmark$
+
+  \item Dual:
+        $\min\; W=3y_{1}+2y_{2}$ s.t.\ $y_{1}\ge 1$,
+        $y_{1}+y_{2}\ge 2$, $y\ge 0$. At $y^{*}=(1,1)$:
+        $y_{1}^{*}=1>0$ forces $x_{1}+x_{2}=3$, and $y_{2}^{*}=1>0$
+        forces $x_{2}=2$. Hence $x_{1}=1$, i.e.\ $x^{*}=(1,2)$, which is
+        feasible. Values:
+        $Z^{*}=1+2\cdot 2=5$ and $W^{*}=3\cdot 1+2\cdot 1=5$.
+        $\checkmark$
+
+  \item Basic variables: $x_{1}=2$, $x_{2}=2$, so $x^{*}=(2,2)$ and
+        $Z^{*}=10$; the slacks are non-basic and zero, so both
+        constraints bind. Shadow prices from the bottom row under the
+        slack columns: $y_{1}^{*}=1$ (wood), $y_{2}^{*}=1$ (labour).
+        Dual feasibility (dual from Additional Solution~3):
+        $y_{1}+y_{2}=2\ge 2$ and $2y_{1}+y_{2}=3\ge 3$, both binding,
+        $y\ge 0$; and $W=6\cdot 1+4\cdot 1=10=Z^{*}$. $\checkmark$
+
+  \item Prediction: $\Delta Z^{*}=y_{2}^{*}\cdot\Delta b_{2}=1\cdot 1=1$,
+        so $Z^{*}=10+1=11$. Verification with the same binding set:
+        \[
+          x_{1}+2x_{2}=6,\qquad x_{1}+x_{2}=5
+          \quad\Longrightarrow\quad x_{2}=1,\; x_{1}=4 ,
+        \]
+        both non-negative, and $Z=2\cdot 4+3\cdot 1=11$. $\checkmark$
+
+  \item (a)~By strong duality the resource stock is worth exactly
+        $W^{*}=6y_{1}^{*}+4y_{2}^{*}=10$: any total payment below $10$
+        is worse than producing, any payment of at least $10$ is
+        acceptable.
+        (b)~Accept: the shadow price of wood is $1$, so the extra unit
+        raises $Z^{*}$ by $1$ at a cost of $0.5$, net gain $0.5$.
+        (c)~At a price equal to the shadow price the firm is exactly
+        indifferent at the margin: the extra unit raises profit by
+        precisely what it costs.
+\end{solutions}

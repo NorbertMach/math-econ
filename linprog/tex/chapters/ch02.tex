@@ -1,0 +1,559 @@
+\chapter{Graphical Solution and the Geometry of Linear Programs}
+
+A linear program in two variables can be solved completely with pencil,
+paper, and a basic calculator. The constraints cut a convex polygon out of
+the first quadrant, and the optimum of a linear objective (if one exists) is always attained at a corner of that polygon. The graphical method therefore reduces to algebra: intersect the
+constraint lines pairwise, keep those intersection points that satisfy every
+constraint, and evaluate the objective at each of them. This chapter drills
+that routine together with the geometric vocabulary (feasible region,
+corner point, iso-profit line, binding constraint) and the two ways an LP
+can fail to have an optimal corner: unboundedness and infeasibility. The
+same geometry, in $n$ dimensions, is exactly what makes the simplex method
+of the later chapters work.
+
+\section{Core Rules}
+
+\begin{rulebox}{The feasible region is an intersection of half-planes}
+A linear constraint $a_{1}x_{1}+a_{2}x_{2}\le b$ describes a
+\emph{half-plane}: the boundary line
+$a_{1}x_{1}+a_{2}x_{2}=b$ together with all points on one side of it. To
+decide which side, test a single point not on the line (the origin, whenever
+it is not on the line): if the test point satisfies the inequality, its side
+is the feasible one. The \emph{feasible region}
+of an LP is the intersection of all its half-planes, including the sign
+constraints $x_{1}\ge 0$ and $x_{2}\ge 0$. An intersection of half-planes is
+always convex; in two variables it is a convex polygon, possibly
+unbounded, possibly empty.
+\end{rulebox}
+
+\begin{rulebox}{Corner points and how to compute them}
+A \emph{corner point} (vertex) of the feasible region is a
+feasible point at which two constraint boundary lines with different
+directions meet. With $m$ structural constraints plus the two sign
+constraints there are at most $\binom{m+2}{2}$ candidate points. Procedure:
+\begin{enumerate}[leftmargin=1.8em,itemsep=0.3ex]
+  \item Take every pair of boundary lines (structural constraints as
+        equalities, plus $x_{1}=0$ and $x_{2}=0$).
+  \item Solve each $2\times 2$ linear system; parallel lines give no
+        candidate.
+  \item Check the candidate against \emph{all remaining} constraints,
+        including non-negativity. Discard it if any constraint is violated.
+\end{enumerate}
+The surviving candidates are precisely the corners of the feasible region.
+\end{rulebox}
+
+\begin{rulebox}{Iso-profit lines and the corner theorem}
+The level sets of a linear objective $z=c_{1}x_{1}+c_{2}x_{2}$ are the
+parallel lines $c_{1}x_{1}+c_{2}x_{2}=z$, called \emph{iso-profit lines} when maximizing and \emph{iso-cost lines} when minimizing. Shifting the line in the direction
+of the vector $(c_{1},c_{2})$ increases $z$; maximizing means sliding the
+line as far as possible in that direction while it still touches the
+feasible region. \textbf{Corner theorem}: if the LP has an
+optimal solution at all, then at least one corner is optimal; a bounded,
+non-empty feasible region guarantees this. If \emph{two} corners are both
+optimal, the objective is constant along the edge joining them, and every
+point of that edge is optimal as well.
+\end{rulebox}
+
+\begin{rulebox}{Recipe: solving a two-variable LP by corner enumeration}
+\begin{enumerate}[leftmargin=1.8em,itemsep=0.3ex]
+  \item List all boundary lines and compute all pairwise intersection
+        points.
+  \item Discard every candidate that violates some constraint; the rest are
+        the corners.
+  \item Evaluate the objective $z$ at every corner.
+  \item Maximization: the largest value wins; minimization: the smallest.
+  \item If two corners tie for the optimal value, report the whole edge
+        between them as optimal. If the region is unbounded, first check
+        whether some feasible direction improves $z$ without limit.
+\end{enumerate}
+\end{rulebox}
+
+\begin{rulebox}{Binding and slack constraints}
+At a feasible point $(x_{1},x_{2})$ the constraint
+$a_{1}x_{1}+a_{2}x_{2}\le b$ has \emph{slack}
+\[
+  s \;=\; b-a_{1}x_{1}-a_{2}x_{2}\;\ge\;0 .
+\]
+The constraint is \emph{binding} if $s=0$, i.e.\ the point
+lies on the boundary line, and \emph{slack} if $s>0$.
+At every corner of a two-variable LP at least two constraints are binding.
+Economically, the constraints binding at the optimum are the scarce
+resources; a slack constraint has leftover capacity equal to its slack
+value.
+\end{rulebox}
+
+\begin{rulebox}{Special cases: unbounded and infeasible LPs}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Unbounded LP}: the feasible region
+        contains a ray along which the objective improves without limit,
+        no finite optimum exists. To certify it, exhibit feasible points
+        $(x_{1}(t),x_{2}(t))$ for all $t\ge 0$ with $z\to\infty$ (or
+        $-\infty$ when minimizing).
+  \item \textbf{Infeasible LP}: the constraints
+        contradict each other and the feasible region is empty,
+        typically two parallel half-planes facing away from each other.
+  \item An unbounded \emph{region} does not by itself make the LP
+        unbounded: minimizing a positive-coefficient objective over a
+        region that opens up and to the right still has a corner minimum,
+        because moving into the region only increases the objective.
+\end{itemize}
+\end{rulebox}
+
+\section{Practice Problems}
+
+Work every problem by corner enumeration: list the candidate intersection
+points, discard the infeasible ones, evaluate the objective at every
+corner, and state the optimal value, the optimal point(s), and the
+constraints binding there. All variables are non-negative:
+$x_{1},x_{2}\ge 0$ holds in every problem, in addition to the constraints
+listed.
+
+\begin{problems}
+  \item Solve $\max\ z=3x_{1}+2x_{2}$ subject to $x_{1}+x_{2}\le 4$.
+  \item List all corner points of the region
+        $\{(x_{1},x_{2}):x_{1}+x_{2}\le 5,\ 2x_{1}+x_{2}\le 8,\
+        x_{1},x_{2}\ge 0\}$. For every pair of boundary lines state whether
+        the intersection point is feasible.
+  \item Maximize $z=5x_{1}+4x_{2}$ over the region of Problem~2.
+  \item Solve $\max\ z=x_{1}+x_{2}$ subject to $2x_{1}+x_{2}\le 6$ and
+        $x_{1}+2x_{2}\le 6$.
+  \item Solve $\max\ z=4x_{1}+3x_{2}$ subject to $2x_{1}+x_{2}\le 10$ and
+        $x_{1}+3x_{2}\le 15$.
+  \item Solve $\max\ z=x_{1}+2x_{2}$ subject to $x_{1}+x_{2}\le 6$,
+        $x_{1}\le 4$, $x_{2}\le 5$. At the optimum, classify every
+        constraint as binding or slack and give the slack values.
+  \item Solve $\max\ z=2x_{1}+x_{2}$ subject to $x_{1}+x_{2}\le 4$ and
+        $2x_{1}+x_{2}\le 6$, and describe the \emph{complete} set of
+        optimal solutions.
+  \item Decide whether $\max\ z=x_{1}+x_{2}$ subject to $-x_{1}+x_{2}\le 1$
+        has a finite optimum. If not, exhibit a feasible ray along which
+        $z\to\infty$.
+  \item Show that the constraint set $x_{1}+x_{2}\le 2$,
+        $x_{1}+x_{2}\ge 5$, $x_{1},x_{2}\ge 0$ is infeasible, and describe
+        the geometry of the two structural half-planes.
+  \item Solve $\min\ z=2x_{1}+3x_{2}$ subject to $x_{1}+x_{2}\ge 4$.
+        Explain why a corner minimum exists even though the feasible region
+        is unbounded.
+  \item Find \emph{all} optimal solutions of $\max\ z=x_{1}+2x_{2}$
+        subject to $x_{1}+2x_{2}\le 10$.
+  \item A workshop builds tables ($x_{1}$) and chairs ($x_{2}$). A table
+        uses $2$ units of wood and $1$ hour of labour, a chair uses $1$
+        unit of wood and $1$ hour of labour; $10$ units of wood and $6$
+        hours of labour are available. Profits are $30$ per table and $20$
+        per chair. Find the profit-maximizing production plan and state
+        which resources are fully used.
+  \item Find all corner points of the region
+        $R=\{(x_{1},x_{2}):x_{1}+2x_{2}\le 8,\ 3x_{1}+2x_{2}\le 12,\
+        x_{1},x_{2}\ge 0\}$, listing the infeasible candidate
+        intersections as well.
+  \item Maximize $z=3x_{1}+5x_{2}$ over the region $R$ of Problem~13.
+  \item Maximize $z=3x_{1}+2x_{2}$ over the region $R$ of Problem~13. Is
+        the optimal solution unique?
+  \item A farmer has $40$ hectares of land and $60$ tons of fertilizer.
+        One hectare of wheat ($x_{1}$) needs $2$ tons of fertilizer and
+        yields profit $5$; one hectare of barley ($x_{2}$) needs $1$ ton
+        and yields profit $4$. Maximize total profit.
+  \item Solve $\max\ z=x_{1}$ subject to $x_{1}+x_{2}\le 4$ and
+        $x_{1}-x_{2}\le 2$: that is, find the easternmost point of the
+        feasible region.
+  \item For $\max\ z=cx_{1}+x_{2}$ subject to $x_{1}+x_{2}\le 1$ with a
+        parameter $c\ge 0$, find all values of $c$ for which $(1,0)$ is
+        optimal. For which $c$ is it the \emph{unique} optimum?
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item Boundary lines: $x_{1}=0$, $x_{2}=0$, and (C1) $x_{1}+x_{2}=4$.
+        Pairwise intersections: $(0,0)$; $x_{2}=0$ with (C1) gives
+        $(4,0)$; $x_{1}=0$ with (C1) gives $(0,4)$. All three satisfy
+        every constraint, so the corners are $(0,0)$, $(4,0)$, $(0,4)$.
+        Objective values:
+        \[
+          z(0,0)=0,\qquad z(4,0)=12,\qquad z(0,4)=8 .
+        \]
+        Optimum $z^{*}=12$ at $(4,0)$. Binding there: (C1) (since
+        $4+0=4$) and $x_{2}\ge 0$; the constraint $x_{1}\ge 0$ is slack.
+
+  \item Label (C1) $x_{1}+x_{2}\le 5$ and (C2) $2x_{1}+x_{2}\le 8$. The
+        six candidate intersections:
+        \begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+          \item $x_{1}=0$, $x_{2}=0$: $(0,0)$; satisfies (C1), (C2).
+                Corner.
+          \item $x_{1}=0$ with (C1): $(0,5)$; check (C2):
+                $2(0)+5=5\le 8$. Corner.
+          \item $x_{1}=0$ with (C2): $(0,8)$; check (C1): $0+8=8>5$.
+                Infeasible.
+          \item $x_{2}=0$ with (C1): $(5,0)$; check (C2):
+                $2(5)+0=10>8$. Infeasible.
+          \item $x_{2}=0$ with (C2): $(4,0)$; check (C1): $4+0=4\le 5$.
+                Corner.
+          \item (C1) with (C2): subtracting $x_{1}+x_{2}=5$ from
+                $2x_{1}+x_{2}=8$ gives $x_{1}=3$, hence $x_{2}=2$; both
+                coordinates non-negative. Corner.
+        \end{itemize}
+        Corners: $(0,0)$, $(4,0)$, $(3,2)$, $(0,5)$.
+
+  \item Using the corner list from Problem~2 and $z=5x_{1}+4x_{2}$:
+        \[
+          z(0,0)=0,\quad z(4,0)=20,\quad z(3,2)=15+8=23,\quad
+          z(0,5)=20 .
+        \]
+        Optimum $z^{*}=23$ at $(3,2)$. Binding there: both structural
+        constraints, since $3+2=5$ and $2(3)+2=8$; both sign constraints
+        are slack.
+
+  \item Label (C1) $2x_{1}+x_{2}=6$ and (C2) $x_{1}+2x_{2}=6$.
+        Candidates: $(0,0)$ feasible; $x_{2}=0$ with (C1): $(3,0)$,
+        check (C2): $3\le 6$, corner; $x_{2}=0$ with (C2): $(6,0)$,
+        check (C1): $12>6$, infeasible; $x_{1}=0$ with (C1): $(0,6)$,
+        check (C2): $12>6$, infeasible; $x_{1}=0$ with (C2): $(0,3)$,
+        check (C1): $3\le 6$, corner. (C1) with (C2): doubling (C2)
+        gives $2x_{1}+4x_{2}=12$; subtracting (C1) leaves $3x_{2}=6$, so
+        $x_{2}=2$ and $x_{1}=2$: corner $(2,2)$. Evaluate
+        $z=x_{1}+x_{2}$:
+        \[
+          z(0,0)=0,\quad z(3,0)=3,\quad z(2,2)=4,\quad z(0,3)=3 .
+        \]
+        Optimum $z^{*}=4$ at $(2,2)$; both structural constraints are
+        binding ($2\cdot 2+2=6$ and $2+2\cdot 2=6$).
+
+  \item Label (C1) $2x_{1}+x_{2}=10$ and (C2) $x_{1}+3x_{2}=15$.
+        Candidates: $(0,0)$ feasible; $x_{2}=0$ with (C1): $(5,0)$,
+        check (C2): $5\le 15$, corner; $x_{2}=0$ with (C2): $(15,0)$,
+        check (C1): $30>10$, infeasible; $x_{1}=0$ with (C1): $(0,10)$,
+        check (C2): $30>15$, infeasible; $x_{1}=0$ with (C2): $(0,5)$,
+        check (C1): $5\le 10$, corner. (C1) with (C2): from (C1),
+        $x_{2}=10-2x_{1}$; substituting into (C2),
+        \[
+          x_{1}+3(10-2x_{1})=15
+          \;\Longrightarrow\; -5x_{1}=-15
+          \;\Longrightarrow\; x_{1}=3,\ x_{2}=4 .
+        \]
+        Corners: $(0,0)$, $(5,0)$, $(3,4)$, $(0,5)$. Evaluate
+        $z=4x_{1}+3x_{2}$:
+        \[
+          z(0,0)=0,\quad z(5,0)=20,\quad z(3,4)=12+12=24,\quad
+          z(0,5)=15 .
+        \]
+        Optimum $z^{*}=24$ at $(3,4)$; binding: (C1) ($6+4=10$) and
+        (C2) ($3+12=15$).
+
+  \item Label (C1) $x_{1}+x_{2}\le 6$, (C2) $x_{1}\le 4$, (C3)
+        $x_{2}\le 5$. Candidates (pairs of parallel or identical
+        direction, such as $x_{1}=0$ with (C2), give no intersection):
+        $(0,0)$ feasible; (C2) with $x_{2}=0$: $(4,0)$, check (C1):
+        $4\le 6$, corner; (C1) with $x_{2}=0$: $(6,0)$, violates (C2),
+        infeasible; (C3) with $x_{1}=0$: $(0,5)$, check (C1): $5\le 6$,
+        corner; (C1) with $x_{1}=0$: $(0,6)$, violates (C3), infeasible;
+        (C1) with (C2): $(4,2)$, check (C3): $2\le 5$, corner; (C1) with
+        (C3): $(1,5)$, check (C2): $1\le 4$, corner; (C2) with (C3):
+        $(4,5)$, check (C1): $9>6$, infeasible. Corners: $(0,0)$,
+        $(4,0)$, $(4,2)$, $(1,5)$, $(0,5)$. Evaluate $z=x_{1}+2x_{2}$:
+        \[
+          z(0,0)=0,\quad z(4,0)=4,\quad z(4,2)=8,\quad z(1,5)=11,\quad
+          z(0,5)=10 .
+        \]
+        Optimum $z^{*}=11$ at $(1,5)$. Classification there: (C1)
+        binding ($1+5=6$, slack $0$); (C3) binding ($x_{2}=5$, slack
+        $0$); (C2) slack with slack value $4-1=3$; $x_{1}\ge 0$ slack
+        (value $1$), $x_{2}\ge 0$ slack (value $5$).
+
+  \item Label (C1) $x_{1}+x_{2}\le 4$, (C2) $2x_{1}+x_{2}\le 6$.
+        Candidates: $(0,0)$ feasible; $x_{2}=0$ with (C1): $(4,0)$,
+        check (C2): $8>6$, infeasible; $x_{2}=0$ with (C2): $(3,0)$,
+        check (C1): $3\le 4$, corner; $x_{1}=0$ with (C1): $(0,4)$,
+        check (C2): $4\le 6$, corner; $x_{1}=0$ with (C2): $(0,6)$,
+        check (C1): $6>4$, infeasible; (C1) with (C2): subtracting
+        gives $x_{1}=2$, $x_{2}=2$, corner. Corners: $(0,0)$, $(3,0)$,
+        $(2,2)$, $(0,4)$. Evaluate $z=2x_{1}+x_{2}$:
+        \[
+          z(0,0)=0,\quad z(3,0)=6,\quad z(2,2)=6,\quad z(0,4)=4 .
+        \]
+        The maximum $z^{*}=6$ is attained at \emph{both} $(3,0)$ and
+        $(2,2)$: the iso-profit lines $2x_{1}+x_{2}=z$ are parallel to
+        the binding constraint line $2x_{1}+x_{2}=6$. By the corner
+        theorem the whole edge between the two corners is optimal:
+        \[
+          \{(3-t,\,2t):t\in[0,1]\},
+        \]
+        every point of which satisfies $2x_{1}+x_{2}=6$.
+
+  \item The region $\{-x_{1}+x_{2}\le 1,\ x_{1},x_{2}\ge 0\}$ has
+        corners $(0,0)$ and $(0,1)$ only (the pair $x_{2}=0$ with
+        $-x_{1}+x_{2}=1$ gives $x_{1}=-1$, infeasible), but it is
+        unbounded: for every $t\ge 0$ the point $(t,0)$ satisfies
+        $-t+0\le 1$ and the sign constraints. Along this ray
+        $z=x_{1}+x_{2}=t\to\infty$, so the LP is \emph{unbounded}: no
+        finite optimum exists. This shows why corner enumeration alone
+        is not conclusive over an unbounded region: one must also
+        check improving directions.
+
+  \item Suppose $(x_{1},x_{2})$ were feasible. Then simultaneously
+        $x_{1}+x_{2}\le 2$ and $x_{1}+x_{2}\ge 5$, i.e.\
+        $5\le x_{1}+x_{2}\le 2$, a contradiction. The region is
+        empty and the LP infeasible. Geometrically the two structural
+        constraints demand the half-plane on or below the line
+        $x_{1}+x_{2}=2$ and the half-plane on or above the parallel
+        line $x_{1}+x_{2}=5$; the two half-planes face away from each
+        other across a gap and share no point.
+
+  \item The region $\{x_{1}+x_{2}\ge 4,\ x_{1},x_{2}\ge 0\}$ is
+        unbounded (it contains $(t,t)$ for all $t\ge 2$). Its corners:
+        $x_{2}=0$ with $x_{1}+x_{2}=4$ gives $(4,0)$; $x_{1}=0$ with
+        the same line gives $(0,4)$; the origin violates
+        $x_{1}+x_{2}\ge 4$ and is infeasible. Both objective
+        coefficients of $z=2x_{1}+3x_{2}$ are positive, so moving
+        deeper into the region (increasing either variable) can only
+        increase $z$; the minimum therefore lies on the boundary and,
+        by the corner theorem, at a corner. Evaluate:
+        \[
+          z(4,0)=8,\qquad z(0,4)=12 .
+        \]
+        Minimum $z^{*}=8$ at $(4,0)$; binding there:
+        $x_{1}+x_{2}\ge 4$ and $x_{2}\ge 0$.
+
+  \item Corners of $\{x_{1}+2x_{2}\le 10,\ x_{1},x_{2}\ge 0\}$:
+        $(0,0)$, $(10,0)$, $(0,5)$. Evaluate $z=x_{1}+2x_{2}$:
+        \[
+          z(0,0)=0,\qquad z(10,0)=10,\qquad z(0,5)=10 .
+        \]
+        The two corners $(10,0)$ and $(0,5)$ tie at $z^{*}=10$: the
+        objective is the left-hand side of the constraint, so the
+        iso-profit line for $z=10$ \emph{coincides} with the constraint
+        line. The optimal set is the entire edge
+        \[
+          \{(x_{1},x_{2}):x_{1}+2x_{2}=10,\ x_{1},x_{2}\ge 0\}
+          =\{(10-2t,\,t):t\in[0,5]\} .
+        \]
+
+  \item Model: $\max\ z=30x_{1}+20x_{2}$ subject to wood (C1)
+        $2x_{1}+x_{2}\le 10$, labour (C2) $x_{1}+x_{2}\le 6$,
+        $x_{1},x_{2}\ge 0$. Candidates: $(0,0)$ feasible; $x_{2}=0$
+        with (C1): $(5,0)$, check (C2): $5\le 6$, corner; $x_{2}=0$
+        with (C2): $(6,0)$, check (C1): $12>10$, infeasible; $x_{1}=0$
+        with (C1): $(0,10)$, check (C2): $10>6$, infeasible; $x_{1}=0$
+        with (C2): $(0,6)$, check (C1): $6\le 10$, corner; (C1) with
+        (C2): subtracting gives $x_{1}=4$, hence $x_{2}=2$, corner.
+        Corners: $(0,0)$, $(5,0)$, $(4,2)$, $(0,6)$. Profits:
+        \[
+          z(0,0)=0,\quad z(5,0)=150,\quad z(4,2)=120+40=160,\quad
+          z(0,6)=120 .
+        \]
+        Optimal plan: $4$ tables and $2$ chairs with profit
+        $z^{*}=160$. Both resources are fully used (binding): wood
+        $2(4)+2=10$ and labour $4+2=6$.
+
+  \item Label (C1) $x_{1}+2x_{2}=8$ and (C2) $3x_{1}+2x_{2}=12$.
+        Candidates: $(0,0)$ feasible, corner; $x_{2}=0$ with (C1):
+        $(8,0)$, check (C2): $24>12$, infeasible; $x_{2}=0$ with (C2):
+        $(4,0)$, check (C1): $4\le 8$, corner; $x_{1}=0$ with (C1):
+        $(0,4)$, check (C2): $8\le 12$, corner; $x_{1}=0$ with (C2):
+        $(0,6)$, check (C1): $12>8$, infeasible; (C1) with (C2):
+        subtracting (C1) from (C2) gives $2x_{1}=4$, so $x_{1}=2$ and,
+        from (C1), $2x_{2}=6$, $x_{2}=3$: corner $(2,3)$. Corners of
+        $R$: $(0,0)$, $(4,0)$, $(2,3)$, $(0,4)$.
+
+  \item Evaluate $z=3x_{1}+5x_{2}$ at the corners of $R$:
+        \[
+          z(0,0)=0,\quad z(4,0)=12,\quad z(2,3)=6+15=21,\quad
+          z(0,4)=20 .
+        \]
+        Optimum $z^{*}=21$ at $(2,3)$; binding: both structural
+        constraints ($2+6=8$ and $6+6=12$).
+
+  \item Evaluate $z=3x_{1}+2x_{2}$ at the corners of $R$:
+        \[
+          z(0,0)=0,\quad z(4,0)=12,\quad z(2,3)=6+6=12,\quad
+          z(0,4)=8 .
+        \]
+        The maximum $z^{*}=12$ is attained at both $(4,0)$ and
+        $(2,3)$, so the optimum is \emph{not} unique: the iso-profit
+        lines $3x_{1}+2x_{2}=z$ are parallel to the constraint
+        $3x_{1}+2x_{2}=12$, which is binding along the whole optimal
+        edge
+        \[
+          \{(4-2t,\,3t):t\in[0,1]\} .
+        \]
+
+  \item Model: $\max\ z=5x_{1}+4x_{2}$ subject to land (C1)
+        $x_{1}+x_{2}\le 40$, fertilizer (C2) $2x_{1}+x_{2}\le 60$,
+        $x_{1},x_{2}\ge 0$. Candidates: $(0,0)$ feasible; $x_{2}=0$
+        with (C1): $(40,0)$, check (C2): $80>60$, infeasible;
+        $x_{2}=0$ with (C2): $(30,0)$, check (C1): $30\le 40$, corner;
+        $x_{1}=0$ with (C1): $(0,40)$, check (C2): $40\le 60$, corner;
+        $x_{1}=0$ with (C2): $(0,60)$, check (C1): $60>40$,
+        infeasible; (C1) with (C2): subtracting gives $x_{1}=20$,
+        hence $x_{2}=20$, corner. Corners: $(0,0)$, $(30,0)$,
+        $(20,20)$, $(0,40)$. Profits:
+        \[
+          z(0,0)=0,\quad z(30,0)=150,\quad z(20,20)=100+80=180,\quad
+          z(0,40)=160 .
+        \]
+        Optimum: $20$ hectares of wheat and $20$ of barley, profit
+        $z^{*}=180$. Both land ($20+20=40$) and fertilizer
+        ($40+20=60$) are binding.
+
+  \item Label (C1) $x_{1}+x_{2}\le 4$, (C2) $x_{1}-x_{2}\le 2$.
+        Candidates: $(0,0)$ feasible; $x_{2}=0$ with (C1): $(4,0)$,
+        check (C2): $4>2$, infeasible; $x_{2}=0$ with (C2): $(2,0)$,
+        check (C1): $2\le 4$, corner; $x_{1}=0$ with (C1): $(0,4)$,
+        check (C2): $-4\le 2$, corner; $x_{1}=0$ with (C2): $(0,-2)$,
+        violates $x_{2}\ge 0$, infeasible; (C1) with (C2): adding the
+        two equations gives $2x_{1}=6$, so $x_{1}=3$, $x_{2}=1$,
+        corner. Corners: $(0,0)$, $(2,0)$, $(3,1)$, $(0,4)$. Evaluate
+        $z=x_{1}$:
+        \[
+          z(0,0)=0,\quad z(2,0)=2,\quad z(3,1)=3,\quad z(0,4)=0 .
+        \]
+        Optimum $z^{*}=3$ at $(3,1)$: the easternmost corner, where
+        (C1) and (C2) are both binding ($3+1=4$, $3-1=2$).
+
+  \item Corners of $\{x_{1}+x_{2}\le 1,\ x_{1},x_{2}\ge 0\}$: $(0,0)$,
+        $(1,0)$, $(0,1)$. Objective values: $z(0,0)=0$, $z(1,0)=c$,
+        $z(0,1)=1$. The corner $(1,0)$ is optimal exactly when its
+        value beats the other corners: $c\ge 1$ (which also gives
+        $c\ge 0$). For $c>1$ the optimum is unique; for $c=1$ the
+        corners $(1,0)$ and $(0,1)$ tie, the iso-profit lines
+        $x_{1}+x_{2}=z$ are parallel to the constraint, and the whole
+        edge $x_{1}+x_{2}=1$, $x_{1},x_{2}\ge 0$ is optimal.
+\end{solutions}
+
+\section{Additional Problems}
+
+As before, $x_{1},x_{2}\ge 0$ holds in every problem in addition to the
+constraints listed.
+
+\begin{problems}
+  \item Solve $\max\ z=2x_{1}+3x_{2}$ subject to $x_{1}+x_{2}\le 5$.
+  \item Find all corner points of
+        $\{x_{1}+3x_{2}\le 9,\ x_{1}+x_{2}\le 5,\ x_{1},x_{2}\ge 0\}$ and
+        maximize $z=4x_{1}+5x_{2}$ over this region.
+  \item Solve $\max\ z=2x_{1}+2x_{2}$ subject to $x_{1}+x_{2}\le 6$ and
+        $x_{1}\le 5$, and describe the complete set of optimal solutions.
+  \item Decide whether $\max\ z=3x_{1}+x_{2}$ subject to
+        $x_{1}-2x_{2}\le 2$ has a finite optimum. If not, exhibit a
+        feasible ray along which $z\to\infty$.
+  \item Show that the constraint set $2x_{1}+x_{2}\le 4$,
+        $x_{1}+x_{2}\ge 6$, $x_{1},x_{2}\ge 0$ is infeasible.
+  \item Solve $\min\ z=3x_{1}+2x_{2}$ subject to $x_{1}+x_{2}\ge 6$,
+        $x_{1}\ge 1$, $x_{2}\ge 1$, and classify the constraints at the
+        optimum.
+  \item A bakery sells bread ($x_{1}$, profit $3$) and cake ($x_{2}$,
+        profit $5$). Flour: $x_{1}+2x_{2}\le 12$; sugar:
+        $x_{1}+x_{2}\le 8$. Find the profit-maximizing plan.
+  \item Solve $\max\ z=2x_{1}+x_{2}$ subject to $x_{1}+x_{2}\le 5$,
+        $x_{1}\le 3$, $x_{2}\le 4$. Classify every constraint at the
+        optimum as binding or slack, giving slack values.
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item Corners of $\{x_{1}+x_{2}\le 5,\ x_{1},x_{2}\ge 0\}$: $(0,0)$,
+        $(5,0)$, $(0,5)$. Evaluate $z=2x_{1}+3x_{2}$:
+        \[
+          z(0,0)=0,\qquad z(5,0)=10,\qquad z(0,5)=15 .
+        \]
+        Optimum $z^{*}=15$ at $(0,5)$; binding there:
+        $x_{1}+x_{2}\le 5$ and $x_{1}\ge 0$.
+
+  \item Label (C1) $x_{1}+3x_{2}=9$ and (C2) $x_{1}+x_{2}=5$.
+        Candidates: $(0,0)$ feasible; $x_{2}=0$ with (C1): $(9,0)$,
+        check (C2): $9>5$, infeasible; $x_{2}=0$ with (C2): $(5,0)$,
+        check (C1): $5\le 9$, corner; $x_{1}=0$ with (C1): $(0,3)$,
+        check (C2): $3\le 5$, corner; $x_{1}=0$ with (C2): $(0,5)$,
+        check (C1): $15>9$, infeasible; (C1) with (C2): subtracting
+        (C2) from (C1) gives $2x_{2}=4$, so $x_{2}=2$, $x_{1}=3$,
+        corner. Corners: $(0,0)$, $(5,0)$, $(3,2)$, $(0,3)$. Evaluate
+        $z=4x_{1}+5x_{2}$:
+        \[
+          z(0,0)=0,\quad z(5,0)=20,\quad z(3,2)=12+10=22,\quad
+          z(0,3)=15 .
+        \]
+        Optimum $z^{*}=22$ at $(3,2)$; binding: (C1) ($3+6=9$) and
+        (C2) ($3+2=5$).
+
+  \item Label (C1) $x_{1}+x_{2}\le 6$, (C2) $x_{1}\le 5$. Candidates:
+        $(0,0)$ feasible; (C2) with $x_{2}=0$: $(5,0)$, check (C1):
+        $5\le 6$, corner; (C1) with $x_{2}=0$: $(6,0)$, violates (C2),
+        infeasible; (C1) with $x_{1}=0$: $(0,6)$, check (C2):
+        $0\le 5$, corner; (C1) with (C2): $(5,1)$, feasible, corner.
+        Corners: $(0,0)$, $(5,0)$, $(5,1)$, $(0,6)$. Evaluate
+        $z=2x_{1}+2x_{2}$:
+        \[
+          z(0,0)=0,\quad z(5,0)=10,\quad z(5,1)=12,\quad z(0,6)=12 .
+        \]
+        The maximum $z^{*}=12$ is attained at both $(5,1)$ and
+        $(0,6)$: the iso-profit lines $2x_{1}+2x_{2}=z$ are parallel
+        to the binding line $x_{1}+x_{2}=6$. Optimal set: the edge
+        $\{(5-5t,\,1+5t):t\in[0,1]\}$, on which $x_{1}+x_{2}=6$
+        throughout.
+
+  \item The region $\{x_{1}-2x_{2}\le 2,\ x_{1},x_{2}\ge 0\}$ has
+        corners $(0,0)$ and $(2,0)$ (the pair $x_{1}=0$ with
+        $x_{1}-2x_{2}=2$ gives $(0,-1)$, infeasible), but it is
+        unbounded: for every $t\ge 0$ the point $(0,t)$ satisfies
+        $0-2t\le 2$. Along this ray $z=3(0)+t=t\to\infty$, so the LP
+        is unbounded and has no finite optimum.
+
+  \item For any point with $x_{1},x_{2}\ge 0$,
+        \[
+          x_{1}+x_{2}\;\le\;2x_{1}+x_{2}\;\le\;4,
+        \]
+        which contradicts $x_{1}+x_{2}\ge 6$. Hence no feasible point
+        exists: the LP is infeasible (the half-plane on or below
+        $2x_{1}+x_{2}=4$ lies entirely below the line $x_{1}+x_{2}=6$
+        within the first quadrant).
+
+  \item Label (C1) $x_{1}+x_{2}\ge 6$, (C2) $x_{1}\ge 1$, (C3)
+        $x_{2}\ge 1$. Candidates: (C1) with (C2): $(1,5)$, check
+        (C3): $5\ge 1$, corner; (C1) with (C3): $(5,1)$, check (C2):
+        $5\ge 1$, corner; (C2) with (C3): $(1,1)$, check (C1):
+        $2<6$, infeasible. The region is unbounded, but both
+        coefficients of $z=3x_{1}+2x_{2}$ are positive, so moving
+        deeper into the region only increases $z$; the minimum sits at
+        a corner. Evaluate:
+        \[
+          z(1,5)=3+10=13,\qquad z(5,1)=15+2=17 .
+        \]
+        Minimum $z^{*}=13$ at $(1,5)$. Binding there: (C1)
+        ($1+5=6$) and (C2) ($x_{1}=1$); slack: (C3) with slack value
+        $5-1=4$.
+
+  \item Model: $\max\ z=3x_{1}+5x_{2}$ subject to flour (C1)
+        $x_{1}+2x_{2}\le 12$, sugar (C2) $x_{1}+x_{2}\le 8$.
+        Candidates: $(0,0)$ feasible; $x_{2}=0$ with (C1): $(12,0)$,
+        check (C2): $12>8$, infeasible; $x_{2}=0$ with (C2): $(8,0)$,
+        check (C1): $8\le 12$, corner; $x_{1}=0$ with (C1): $(0,6)$,
+        check (C2): $6\le 8$, corner; $x_{1}=0$ with (C2): $(0,8)$,
+        check (C1): $16>12$, infeasible; (C1) with (C2): subtracting
+        gives $x_{2}=4$, hence $x_{1}=4$, corner. Corners: $(0,0)$,
+        $(8,0)$, $(4,4)$, $(0,6)$. Profits:
+        \[
+          z(0,0)=0,\quad z(8,0)=24,\quad z(4,4)=12+20=32,\quad
+          z(0,6)=30 .
+        \]
+        Optimum: $4$ breads and $4$ cakes with profit $z^{*}=32$; both
+        flour ($4+8=12$) and sugar ($4+4=8$) are binding.
+
+  \item Label (C1) $x_{1}+x_{2}\le 5$, (C2) $x_{1}\le 3$, (C3)
+        $x_{2}\le 4$. Candidates: $(0,0)$ feasible; (C2) with
+        $x_{2}=0$: $(3,0)$, check (C1): $3\le 5$, corner; (C1) with
+        $x_{2}=0$: $(5,0)$, violates (C2), infeasible; (C3) with
+        $x_{1}=0$: $(0,4)$, check (C1): $4\le 5$, corner; (C1) with
+        $x_{1}=0$: $(0,5)$, violates (C3), infeasible; (C1) with
+        (C2): $(3,2)$, check (C3): $2\le 4$, corner; (C1) with (C3):
+        $(1,4)$, check (C2): $1\le 3$, corner; (C2) with (C3):
+        $(3,4)$, check (C1): $7>5$, infeasible. Corners: $(0,0)$,
+        $(3,0)$, $(3,2)$, $(1,4)$, $(0,4)$. Evaluate
+        $z=2x_{1}+x_{2}$:
+        \[
+          z(0,0)=0,\quad z(3,0)=6,\quad z(3,2)=8,\quad z(1,4)=6,\quad
+          z(0,4)=4 .
+        \]
+        Optimum $z^{*}=8$ at $(3,2)$. Classification: (C1) binding
+        ($3+2=5$, slack $0$); (C2) binding ($x_{1}=3$, slack $0$);
+        (C3) slack with slack value $4-2=2$; both sign constraints
+        slack.
+\end{solutions}

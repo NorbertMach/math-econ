@@ -1,0 +1,47 @@
+\documentclass[11pt,a4paper,twoside,openright]{book}
+\input{preamble}
+
+\title{\Huge Matrix Algebra\\[0.4em]
+  \large A Training Sheet with Exercises and Worked Solutions}
+\author{}
+\date{}
+
+\begin{document}
+\frontmatter
+\maketitle
+
+\chapter*{About this sheet}
+\addcontentsline{toc}{chapter}{About this sheet}
+
+This sheet drills vectors and matrix algebra, the linear-algebra toolkit
+that the optimization work later takes for granted: vectors and the inner
+product, matrix operations, determinants, inverses, rank and linear
+independence, eigenvalues and eigenvectors, and quadratic forms with
+definiteness. The last of these is the workhorse of the optimization
+volumes: every second-order condition in several variables is a definiteness
+check on a Hessian.
+
+The structure is the same in every chapter: the \textbf{Core Rules} section
+states the rules compactly and says when each one applies; \textbf{Practice
+Problems} drills them; \textbf{Solutions} works every problem through in
+full. Each chapter closes with a block of \emph{additional problems} for a
+second pass through the material.
+
+Work the problems before reading the solutions, and row-reduce by hand. The
+point is to make the mechanics automatic, so nothing here needs a
+matrix-capable calculator.
+
+\tableofcontents
+
+\mainmatter
+\include{chapters/ch01}
+\include{chapters/ch02}
+\include{chapters/ch03}
+\include{chapters/ch04}
+\include{chapters/ch05}
+\include{chapters/ch06}
+\include{chapters/ch07}
+\include{chapters/ch08}
+\include{chapters/ch09}
+
+\end{document}

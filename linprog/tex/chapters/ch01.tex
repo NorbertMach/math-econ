@@ -1,0 +1,784 @@
+\chapter{Model Formulation and Assumptions}
+
+A linear program optimises a linear
+objective over a set described by linear constraints. Before any tableau is
+pivoted or any feasible region sketched, the economic story must be
+translated into such a model: choose the decision variables, write down what
+is being maximised or minimised, and turn every scarce resource, contractual
+obligation, and policy rule into a linear inequality or equation. This
+translation step is where most exam points are won or lost — a wrong model
+solved perfectly is still wrong.
+
+This chapter drills exactly that step: the four components of an LP, the
+standard formulation recipe, the sign conventions for inequalities, and the
+four assumptions (proportionality, additivity, divisibility, certainty)
+under which a linear model is an honest description of the economics.
+Solving the models — graphically, and later by the simplex method — begins
+in the next chapter; here every answer is a complete model statement, not a
+number.
+
+\section{Core Rules}
+
+\begin{rulebox}{The four components of an LP}
+Every linear program consists of:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Decision variables}
+        $x_1,\dots,x_n$: the quantities the decision maker controls.
+        Always define them in words \emph{with units} (``$x_1=$ number of
+        tables produced per week'').
+  \item \textbf{Linear objective function}
+        $z=c_1x_1+\dots+c_nx_n$, to be maximised (profit, revenue, reach)
+        or minimised (cost, risk).
+  \item \textbf{Linear constraints}
+        $a_{i1}x_1+\dots+a_{in}x_n\ \{\le,=,\ge\}\ b_i$: one per scarce
+        resource, requirement, or balance condition.
+  \item \textbf{Nonnegativity conditions} $x_j\ge 0$: negative
+        production, shipments, or investments are meaningless in almost
+        every economic story. State them explicitly — they are constraints
+        too.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{General and standard form}
+The general LP is
+\[
+  \max\ (\text{or } \min)\quad z=c_1x_1+\dots+c_nx_n
+  \quad\text{s.t.}\quad
+  \sum_{j=1}^{n} a_{ij}x_j\ \{\le,=,\ge\}\ b_i\ (i=1,\dots,m),
+  \quad x_j\ge 0 .
+\]
+The \emph{standard maximum form} has a maximisation objective and only
+$\le$ constraints besides nonnegativity:
+\[
+  \max\ z=c^{\top}x \quad\text{s.t.}\quad Ax\le b,\ x\ge 0 .
+\]
+Every LP can be brought to this form by the conversions in the sign-rules
+box below; being able to do so mechanically is required for the simplex
+chapters.
+\end{rulebox}
+
+\begin{rulebox}{Formulation recipe}
+\begin{enumerate}[leftmargin=1.8em,itemsep=0.3ex]
+  \item \textbf{Identify the decisions.} What does the decision maker
+        actually choose? One variable per elementary decision (per product,
+        per route, per asset), each with units.
+  \item \textbf{Write the objective.} Multiply each variable by its per-unit
+        contribution (profit, cost, reach, return) and add up. Decide max
+        or min from the story.
+  \item \textbf{Write one constraint per restriction.} For each resource:
+        (usage per unit)$\,\times\,$(units), summed over variables,
+        compared with availability. For each requirement: the same, but
+        $\ge$ the target. Check that units match on both sides of every
+        constraint.
+  \item \textbf{Add sign restrictions,} normally $x_j\ge 0$.
+  \item \textbf{State the full model} and re-read the story once more:
+        every number in the text must appear in the model, and every
+        constraint must be traceable to a sentence.
+\end{enumerate}
+\end{rulebox}
+
+\begin{rulebox}{Sign conventions and conversions}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Resource limits} (``at most'', ``available'', ``budget'')
+        give $\le$; \textbf{minimum requirements} (``at least'',
+        ``contract'', ``must contain'') give $\ge$; \textbf{exact balances}
+        (``exactly'', ``all of the budget is invested'') give $=$.
+  \item \textbf{Max $\leftrightarrow$ min:}\ \
+        $\min z$ has the same optimal points as $\max\,(-z)$, and the
+        optimal values satisfy $z^{*}=-(-z)^{*}$.
+  \item \textbf{Flipping an inequality:} multiplying both sides by $-1$
+        turns $\ge$ into $\le$ (and conversely):
+        $a^{\top}x\ge b \iff -a^{\top}x\le -b$.
+  \item \textbf{Equalities:} $a^{\top}x=b$ is equivalent to the pair
+        $a^{\top}x\le b$ and $a^{\top}x\ge b$.
+  \item \textbf{Percentage and ratio conditions} must be cleared of the
+        variable-dependent total before they are linear. Example: ``good 1
+        is at most $60\%$ of total output'' is
+        $x_1\le 0.6(x_1+x_2)$, i.e.\ $0.4x_1-0.6x_2\le 0$, i.e.\
+        $2x_1-3x_2\le 0$. Never divide by an expression containing
+        variables.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{The four LP assumptions}
+A linear model is only an honest description of the economics if:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Proportionality}: each variable's
+        contribution to objective and constraints is proportional to its
+        level — no quantity discounts, no set-up costs, no economies of
+        scale, no overtime premia. Fails: piecewise prices, fixed charges,
+        learning effects.
+  \item \textbf{Additivity}: total contribution is the
+        \emph{sum} of the individual contributions — no interaction between
+        variables. Fails: overlapping advertising audiences, synergy or
+        crowding effects, joint set-ups.
+  \item \textbf{Divisibility}: fractional values of the
+        variables are meaningful. Fails: aircraft, workers, machines,
+        batches — then integer programming is needed; fractional answers
+        are fine for rates, flows, litres, tonnes, and money.
+  \item \textbf{Certainty}: all coefficients
+        $c_j,a_{ij},b_i$ are known constants. Fails: forecast demand,
+        random yields, uncertain prices — then one works with expected
+        values plus sensitivity analysis, or stochastic models.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Classic model families}
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Family} & \textbf{Decision variables} & \textbf{Typical shape}\\
+\hline
+Production planning & output of each product & max profit; resources $\le$\\
+Diet / blending & amount of each ingredient & min cost; nutrients,
+  quality $\ge$\\
+Transport & shipment on each route & min cost; supply $\le$,
+  demand $\ge$\\
+Resource allocation & budget or effort per activity & max return;
+  budget $\le$, policy limits\\
+Portfolio & money in each asset & max return; budget, risk,
+  share limits\\
+\hline
+\end{tabular}
+\end{center}
+Recognising the family tells you immediately which direction the
+inequalities point and whether to maximise or minimise.
+\end{rulebox}
+
+\section{Practice Problems}
+
+Formulate each model completely: define the variables with units, state the
+objective, justify every constraint, and include the nonnegativity
+conditions. Do \emph{not} solve — solving begins in the next chapter.
+
+\begin{problems}
+  \item A workshop makes tables and chairs. Each table requires $2$ hours
+        of carpentry and $1$ hour of finishing; each chair requires $1$
+        hour of carpentry and $2$ hours of finishing. Per week, $8$ hours
+        of carpentry and $10$ hours of finishing are available. Profit is
+        $5$ per table and $4$ per chair. Formulate the LP that maximises
+        weekly profit.
+  \item For the LP
+        \[
+          \max\ z=6x_1+8x_2
+          \quad\text{s.t.}\quad
+          3x_1+4x_2\le 24,\quad 2x_1+x_2\le 10,\quad x_1\ge 2,\quad
+          x_1,x_2\ge 0,
+        \]
+        identify the four components: decision variables, objective
+        function with its coefficients, the constraints (classifying each
+        as a resource limit or a minimum requirement) with their
+        right-hand sides, and the nonnegativity conditions.
+  \item A diet is to be assembled from two foods. One unit of food $1$
+        costs $2$ and provides $1$ unit of protein and $3$ units of
+        vitamins; one unit of food $2$ costs $3$ and provides $2$ units of
+        protein and $1$ unit of vitamins. The diet must supply at least
+        $8$ units of protein and at least $9$ units of vitamins. Formulate
+        the LP that meets the requirements at minimum cost.
+  \item A roaster produces exactly $100$ kg of a coffee blend from bean
+        $A$ (cost $4$ per kg, aroma score $6$) and bean $B$ (cost $8$ per
+        kg, aroma score $9$). The blend's average aroma score must be at
+        least $8$. Formulate the minimum-cost blending LP, and simplify
+        the aroma constraint.
+  \item A firm ships a product from two warehouses to two shops.
+        Warehouse $1$ holds $30$ units, warehouse $2$ holds $20$ units;
+        shop $1$ needs $25$ units, shop $2$ needs $25$ units. Unit
+        shipping costs:
+        \begin{center}
+        \begin{tabular}{|l|c|c|}
+          \hline
+           & Shop 1 & Shop 2\\
+          \hline
+          Warehouse 1 & 2 & 3\\
+          Warehouse 2 & 4 & 1\\
+          \hline
+        \end{tabular}
+        \end{center}
+        Formulate the LP that meets all demand at minimum shipping cost,
+        and comment on whether the supply and demand constraints may be
+        written as equalities.
+  \item An agency buys TV spots and radio spots. A TV spot costs $6$ and
+        reaches $10$ (thousand people); a radio spot costs $2$ and reaches
+        $3$ (thousand people). The budget is $60$. At most $8$ TV spots
+        can be booked, and the client insists on at least $5$ radio spots.
+        Formulate the LP that maximises total reach.
+  \item An investor can place up to $100$ (thousand euros) in an equity
+        fund with expected return $8\%$ and a bond fund with expected
+        return $4\%$; uninvested money earns nothing. Policy rules: at
+        least $30$ must go into bonds, and equity may make up at most
+        $60\%$ of the total amount invested. Formulate the LP that
+        maximises expected return, writing the percentage rule as a linear
+        constraint.
+  \item A raw material costs $5$ per unit for the first $100$ units
+        ordered and $3$ per unit for every unit beyond $100$. Which LP
+        assumption does this pricing scheme violate, and why can the total
+        purchasing cost not appear as a single term $c\,x$ in a linear
+        objective?
+  \item An airline's fleet-planning model returns the answer ``buy
+        $x_1=2.5$ aircraft''. Which assumption is violated? Give two
+        examples of decision variables for which fractional optimal values
+        are perfectly acceptable.
+  \item Run separately, a TV campaign reaches $10$ (thousand people) per
+        spot and an online campaign $4$ per ad; run together, many viewers
+        are counted twice, so total reach is \emph{less} than the sum of
+        the separate reaches. Which assumption of the LP model does this
+        violate, and where in the model does it show up?
+  \item A farmer's planting model uses per-hectare yields and autumn
+        selling prices as coefficients — but yields depend on the weather
+        and prices on next year's market. Which assumption is violated,
+        and what do practitioners typically do about it while still using
+        an LP?
+  \item Rewrite
+        \[
+          \min\ z=2x_1-3x_2
+          \quad\text{s.t.}\quad
+          x_1+x_2\ge 4,\quad x_1-2x_2\le 6,\quad x_1,x_2\ge 0
+        \]
+        in standard maximum form (maximisation, all functional constraints
+        $\le$), and state how the optimal value of the new problem relates
+        to $z^{*}$.
+  \item A juice producer mixes $x_1$ litres of apple juice and $x_2$
+        litres of mango juice. Marketing requires that (a) mango be at
+        least $20\%$ of the mix, and (b) the mix contain at least twice as
+        much apple as mango. Write both conditions as linear constraints
+        of the form $a^{\top}x\le 0$, and check that the two conditions
+        are consistent.
+  \item A dairy makes yogurt and cheese. One batch of yogurt uses $2$
+        litres of milk and $1$ hour of labour; one batch of cheese uses
+        $8$ litres of milk and $2$ hours of labour. Per day, $80$ litres
+        of milk and $30$ hours of labour are available. A supermarket
+        contract obliges the dairy to deliver at least $5$ batches of
+        yogurt and at least $2$ batches of cheese daily. Profit is $3$ per
+        yogurt batch and $9$ per cheese batch. Formulate the LP, and state
+        the direction ($\le$ or $\ge$) of each constraint with a one-line
+        justification.
+  \item A farmer has $50$ hectares of land and $100$ tonnes of
+        fertiliser. One unit of wheat needs $1$ hectare and $2$ tonnes of
+        fertiliser and yields profit $4$; one unit of corn needs $1$
+        hectare and $1$ tonne of fertiliser and yields profit $3$.
+        Formulate the profit-maximising LP.
+  \item A bakery sells bread at $3$ per loaf and cake at $5$ per piece. A
+        loaf of bread uses $1$ kg of flour and $1$ kg of sugar; a cake
+        uses $2$ kg of flour and $1$ kg of sugar. In stock are $12$ kg of
+        flour and $8$ kg of sugar. Formulate the LP that maximises
+        revenue.
+  \item A furniture firm makes desks, shelves, and cabinets with unit
+        profits $4$, $3$, and $6$. Per unit, machine time is $1$, $1$, and
+        $2$ hours ($40$ hours available); labour is $2$, $1$, and $1$
+        hours ($50$ hours available); wood is $3$, $2$, and $4$ square
+        metres ($90$ available). The market absorbs at most $10$ cabinets.
+        Formulate the LP.
+  \item A brewery plans next month's production of lager and ale (in
+        hectolitres). Per hectolitre, lager needs $2$ units of malt and
+        $1$ unit of hops; ale needs $3$ units of malt and $2$ units of
+        hops. Available: $60$ units of malt, $36$ units of hops. The sales
+        department \emph{forecasts} that at most $25$ hl of lager and at
+        most $15$ hl of ale can be sold. Profit is $5$ per hl of lager and
+        $7$ per hl of ale. Brewing is technically only possible in whole
+        $5$-hl batches, but you are asked for a linear model. Formulate
+        the LP, then name the two assumptions that are questionable in
+        this story (with reasons) and one assumption that seems safe.
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item \textbf{Variables:} $x_1=$ tables produced per week, $x_2=$ chairs
+        produced per week.
+        \textbf{Objective:} each table contributes $5$, each chair $4$, so
+        maximise $z=5x_1+4x_2$.
+        \textbf{Constraints:} carpentry used is $2x_1+1x_2$ hours, at most
+        $8$ available; finishing used is $1x_1+2x_2$ hours, at most $10$
+        available. Units check: hours per unit $\times$ units $=$ hours on
+        both sides. Production cannot be negative.
+        \[
+          \begin{aligned}
+            \max\quad & z=5x_1+4x_2\\
+            \text{s.t.}\quad & 2x_1+x_2\le 8 &&\text{(carpentry hours)}\\
+            & x_1+2x_2\le 10 &&\text{(finishing hours)}\\
+            & x_1,\ x_2\ge 0 .
+          \end{aligned}
+        \]
+
+  \item \textbf{Decision variables:} $x_1,x_2$ (two of them).
+        \textbf{Objective function:} $z=6x_1+8x_2$, a maximisation, with
+        coefficients $c_1=6$, $c_2=8$.
+        \textbf{Constraints:} $3x_1+4x_2\le 24$ (resource limit, RHS
+        $24$); $2x_1+x_2\le 10$ (resource limit, RHS $10$); $x_1\ge 2$
+        (minimum requirement, RHS $2$ — e.g.\ a delivery contract for
+        good $1$).
+        \textbf{Nonnegativity:} $x_1,x_2\ge 0$; note $x_1\ge 2$ makes
+        $x_1\ge 0$ redundant, but it is still stated as part of the
+        model's sign restrictions.
+
+  \item \textbf{Variables:} $x_1,x_2=$ units of food $1$ and food $2$ in
+        the diet.
+        \textbf{Objective:} cost is $2$ per unit of food $1$ and $3$ per
+        unit of food $2$: minimise $z=2x_1+3x_2$.
+        \textbf{Constraints:} protein supplied is $1x_1+2x_2$ units and
+        must reach at least $8$; vitamins supplied are $3x_1+1x_2$ units
+        and must reach at least $9$. Requirements point the inequalities
+        as $\ge$.
+        \[
+          \begin{aligned}
+            \min\quad & z=2x_1+3x_2\\
+            \text{s.t.}\quad & x_1+2x_2\ge 8 &&\text{(protein)}\\
+            & 3x_1+x_2\ge 9 &&\text{(vitamins)}\\
+            & x_1,\ x_2\ge 0 .
+          \end{aligned}
+        \]
+        (Check that the model is not vacuous: $x_1=2$, $x_2=3$ supplies
+        protein $2+6=8$ and vitamins $6+3=9$ — both requirements are
+        attainable.)
+
+  \item \textbf{Variables:} $x_1,x_2=$ kg of bean $A$ and bean $B$ in the
+        blend.
+        \textbf{Objective:} minimise cost $z=4x_1+8x_2$.
+        \textbf{Constraints:} the blend size is fixed: $x_1+x_2=100$
+        (``exactly'' $\Rightarrow$ equality). Average aroma is total aroma
+        divided by total kg; clearing the denominator (total $=100$ kg):
+        \[
+          \frac{6x_1+9x_2}{100}\ge 8
+          \iff 6x_1+9x_2\ge 800 .
+        \]
+        \[
+          \begin{aligned}
+            \min\quad & z=4x_1+8x_2\\
+            \text{s.t.}\quad & x_1+x_2=100 &&\text{(blend size)}\\
+            & 6x_1+9x_2\ge 800 &&\text{(average aroma}\ \ge 8)\\
+            & x_1,\ x_2\ge 0 .
+          \end{aligned}
+        \]
+        Substituting $x_1=100-x_2$ into the aroma constraint gives
+        $600+3x_2\ge 800$, i.e.\ $x_2\ge \frac{200}{3}$: at least two
+        thirds of the blend must be bean $B$. The constraint is genuinely
+        linear only after the denominator is cleared.
+
+  \item \textbf{Variables:} $x_{ij}=$ units shipped from warehouse $i$ to
+        shop $j$, for $i,j\in\{1,2\}$ — four variables, one per route.
+        \textbf{Objective:} minimise
+        $z=2x_{11}+3x_{12}+4x_{21}+x_{22}$.
+        \textbf{Constraints:} each warehouse cannot ship more than it
+        holds (supply, $\le$); each shop must receive its demand
+        (requirement, $\ge$):
+        \[
+          \begin{aligned}
+            \min\quad & z=2x_{11}+3x_{12}+4x_{21}+x_{22}\\
+            \text{s.t.}\quad & x_{11}+x_{12}\le 30
+              &&\text{(supply warehouse 1)}\\
+            & x_{21}+x_{22}\le 20 &&\text{(supply warehouse 2)}\\
+            & x_{11}+x_{21}\ge 25 &&\text{(demand shop 1)}\\
+            & x_{12}+x_{22}\ge 25 &&\text{(demand shop 2)}\\
+            & x_{11},x_{12},x_{21},x_{22}\ge 0 .
+          \end{aligned}
+        \]
+        Total supply is $30+20=50$ and total demand is $25+25=50$: the
+        problem is \emph{balanced}. Meeting all demand then forces every
+        warehouse to ship out its whole stock, so all four constraints
+        hold with equality at any feasible point and may equivalently be
+        written as equalities.
+
+  \item \textbf{Variables:} $x_1=$ number of TV spots, $x_2=$ number of
+        radio spots booked.
+        \textbf{Objective:} reach (in thousands) is $10$ per TV spot and
+        $3$ per radio spot: maximise $z=10x_1+3x_2$.
+        \textbf{Constraints:} spending is $6x_1+2x_2$, at most the budget
+        $60$; the booking cap gives $x_1\le 8$; the client's insistence
+        gives the requirement $x_2\ge 5$.
+        \[
+          \begin{aligned}
+            \max\quad & z=10x_1+3x_2\\
+            \text{s.t.}\quad & 6x_1+2x_2\le 60 &&\text{(budget)}\\
+            & x_1\le 8 &&\text{(TV cap)}\\
+            & x_2\ge 5 &&\text{(radio minimum)}\\
+            & x_1,\ x_2\ge 0 .
+          \end{aligned}
+        \]
+        (The model is feasible: $x_1=8$, $x_2=5$ costs $48+10=58\le 60$.
+        Strictly, spots come in whole numbers — the divisibility
+        assumption; we model them as continuous here.)
+
+  \item \textbf{Variables:} $x_1,x_2=$ thousand euros placed in the
+        equity fund and the bond fund.
+        \textbf{Objective:} expected return is maximised:
+        $z=0.08x_1+0.04x_2$.
+        \textbf{Constraints:} the budget gives $x_1+x_2\le 100$ (``up
+        to'', so $\le$, not $=$); the bond floor gives $x_2\ge 30$; the
+        percentage rule is a ratio condition on the \emph{variable} total
+        $x_1+x_2$ and must be expanded, not divided:
+        \[
+          x_1\le 0.6\,(x_1+x_2)
+          \iff 0.4x_1-0.6x_2\le 0
+          \iff 2x_1-3x_2\le 0 .
+        \]
+        \[
+          \begin{aligned}
+            \max\quad & z=0.08x_1+0.04x_2\\
+            \text{s.t.}\quad & x_1+x_2\le 100 &&\text{(budget)}\\
+            & x_2\ge 30 &&\text{(bond floor)}\\
+            & 2x_1-3x_2\le 0 &&\text{(equity share}\ \le 60\%)\\
+            & x_1,\ x_2\ge 0 .
+          \end{aligned}
+        \]
+        Check of the share constraint: at $x_1=60$, $x_2=40$ we get
+        $2(60)-3(40)=0$ and the equity share is $60/100=60\%$ — exactly
+        the boundary, as it should be.
+
+  \item This violates \textbf{proportionality}. Total purchasing cost is
+        \[
+          K(x)=
+          \begin{cases}
+            5x, & 0\le x\le 100,\\
+            500+3(x-100), & x>100,
+          \end{cases}
+        \]
+        a piecewise-linear function whose per-unit cost is \emph{not}
+        constant: the first unit costs $5$, the $101$st costs $3$. A term
+        $c\,x$ in a linear objective assumes every unit contributes the
+        same amount $c$, which is false here. Because the discount makes
+        $K$ concave, the kink cannot be removed by a simple LP trick
+        either (minimising a concave cost rewards jumping past the
+        breakpoint); such quantity discounts require piecewise or integer
+        programming formulations.
+
+  \item \textbf{Divisibility} is violated: aircraft exist only in whole
+        units, so the fractional answer $2.5$ is not implementable, and
+        naive rounding can be infeasible or far from optimal — the honest
+        model is an integer program. Fractional values are perfectly
+        acceptable when the variable measures a divisible quantity, e.g.\
+        litres of juice in a blend, tonnes of steel shipped, hours of
+        machine time allocated, or thousands of euros invested (also:
+        production \emph{rates} interpreted as long-run averages).
+
+  \item \textbf{Additivity} is violated, and it shows up in the
+        \emph{objective function}. The LP objective $10x_1+4x_2$ assumes
+        total reach is the sum of the two campaigns' separate reaches; with
+        overlapping audiences the true reach is
+        $10x_1+4x_2-(\text{overlap})$, an interaction term depending on
+        both variables jointly. No choice of linear coefficients can
+        represent this. (The constraints — money spent simply adds — remain
+        additive.) Remedies lie outside pure LP: nonlinear models or
+        piecewise-linear approximations of the overlap.
+
+  \item \textbf{Certainty} is violated: the model treats the yields
+        $a_{ij}$ and prices $c_j$ as known constants, but they are random
+        variables at planting time. Standard practice is to formulate the
+        LP with \emph{expected} (or conservatively estimated) values, then
+        run a \emph{sensitivity analysis}: how much can a price or yield
+        change before the optimal plan changes? (Sensitivity analysis is
+        treated systematically in a later chapter.) When randomness is
+        severe, stochastic programming replaces the LP.
+
+  \item Two conversions are needed. First, $\min z$ becomes
+        $\max\,(-z)$: maximise $w=-2x_1+3x_2$. Second, the $\ge$
+        constraint is multiplied by $-1$:
+        $x_1+x_2\ge 4 \iff -x_1-x_2\le -4$. The $\le$ constraint and the
+        nonnegativity conditions stay as they are:
+        \[
+          \begin{aligned}
+            \max\quad & w=-2x_1+3x_2\\
+            \text{s.t.}\quad & -x_1-x_2\le -4\\
+            & x_1-2x_2\le 6\\
+            & x_1,\ x_2\ge 0 .
+          \end{aligned}
+        \]
+        Both problems have the same optimal points, and the optimal
+        values satisfy $z^{*}=-w^{*}$.
+
+  \item (a) ``Mango at least $20\%$ of the mix'':
+        \[
+          x_2\ge 0.2\,(x_1+x_2)
+          \iff 0.2x_1-0.8x_2\le 0
+          \iff x_1-4x_2\le 0 .
+        \]
+        (b) ``At least twice as much apple as mango'':
+        \[
+          x_1\ge 2x_2 \iff 2x_2-x_1\le 0 .
+        \]
+        \textbf{Consistency:} together they demand
+        $2x_2\le x_1\le 4x_2$, which is satisfiable, e.g.\ $x_1=3$,
+        $x_2=1$: apple is three times mango ($\ge$ twice), and the mango
+        share is $1/4=25\%\ge 20\%$. In share terms the two rules confine
+        mango to between $20\%$ and $\frac{1}{3}\approx 33.3\%$ of the
+        mix — a nonempty band.
+
+  \item \textbf{Variables:} $x_1,x_2=$ batches of yogurt and cheese made
+        per day.
+        \textbf{Objective:} maximise profit $z=3x_1+9x_2$.
+        \textbf{Constraints and directions:}
+        \begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+          \item $2x_1+8x_2\le 80$ (milk): resource limit, cannot use more
+                milk than is delivered, hence $\le$.
+          \item $x_1+2x_2\le 30$ (labour): resource limit, hence $\le$.
+          \item $x_1\ge 5$, $x_2\ge 2$ (contract): minimum delivery
+                obligations, hence $\ge$.
+        \end{itemize}
+        \[
+          \begin{aligned}
+            \max\quad & z=3x_1+9x_2\\
+            \text{s.t.}\quad & 2x_1+8x_2\le 80 &&\text{(milk, litres)}\\
+            & x_1+2x_2\le 30 &&\text{(labour, hours)}\\
+            & x_1\ge 5,\ x_2\ge 2 &&\text{(contract)}\\
+            & x_1,\ x_2\ge 0 .
+          \end{aligned}
+        \]
+        The contract point $(5,2)$ uses $10+16=26\le 80$ litres of milk
+        and $5+4=9\le 30$ labour hours, so the obligations are compatible
+        with the resources and the model is feasible.
+
+  \item \textbf{Variables:} $x_1=$ units of wheat, $x_2=$ units of corn
+        planted.
+        \textbf{Objective:} maximise profit $z=4x_1+3x_2$.
+        \textbf{Constraints:} land used is $1x_1+1x_2$ hectares of the
+        $50$ available; fertiliser used is $2x_1+1x_2$ tonnes of the
+        $100$ available — both resource limits, hence $\le$.
+        \[
+          \begin{aligned}
+            \max\quad & z=4x_1+3x_2\\
+            \text{s.t.}\quad & x_1+x_2\le 50 &&\text{(land, ha)}\\
+            & 2x_1+x_2\le 100 &&\text{(fertiliser, t)}\\
+            & x_1,\ x_2\ge 0 .
+          \end{aligned}
+        \]
+
+  \item \textbf{Variables:} $x_1=$ loaves of bread, $x_2=$ cakes
+        produced.
+        \textbf{Objective:} revenue is $3$ per loaf and $5$ per cake:
+        maximise $z=3x_1+5x_2$.
+        \textbf{Constraints:} flour used is $1x_1+2x_2$ kg of $12$ kg in
+        stock; sugar used is $1x_1+1x_2$ kg of $8$ kg in stock.
+        \[
+          \begin{aligned}
+            \max\quad & z=3x_1+5x_2\\
+            \text{s.t.}\quad & x_1+2x_2\le 12 &&\text{(flour, kg)}\\
+            & x_1+x_2\le 8 &&\text{(sugar, kg)}\\
+            & x_1,\ x_2\ge 0 .
+          \end{aligned}
+        \]
+
+  \item \textbf{Variables:} $x_1,x_2,x_3=$ desks, shelves, cabinets
+        produced.
+        \textbf{Objective:} maximise $z=4x_1+3x_2+6x_3$.
+        \textbf{Constraints:} one per resource — machine time
+        $1x_1+1x_2+2x_3$ of $40$ hours; labour $2x_1+1x_2+1x_3$ of $50$
+        hours; wood $3x_1+2x_2+4x_3$ of $90$ square metres — plus the
+        market cap on cabinets, $x_3\le 10$.
+        \[
+          \begin{aligned}
+            \max\quad & z=4x_1+3x_2+6x_3\\
+            \text{s.t.}\quad & x_1+x_2+2x_3\le 40 &&\text{(machine hours)}\\
+            & 2x_1+x_2+x_3\le 50 &&\text{(labour hours)}\\
+            & 3x_1+2x_2+4x_3\le 90 &&\text{(wood, m}^2)\\
+            & x_3\le 10 &&\text{(market cap)}\\
+            & x_1,\ x_2,\ x_3\ge 0 .
+          \end{aligned}
+        \]
+        Every number of the story appears exactly once; each row's units
+        are consistent (resource per unit $\times$ units $=$ resource).
+
+  \item \textbf{Variables:} $x_1,x_2=$ hectolitres of lager and ale
+        brewed next month.
+        \textbf{Objective:} maximise profit $z=5x_1+7x_2$.
+        \textbf{Constraints:} malt $2x_1+3x_2\le 60$; hops
+        $x_1+2x_2\le 36$; forecast sales ceilings $x_1\le 25$,
+        $x_2\le 15$ (producing more than can be sold earns nothing).
+        \[
+          \begin{aligned}
+            \max\quad & z=5x_1+7x_2\\
+            \text{s.t.}\quad & 2x_1+3x_2\le 60 &&\text{(malt)}\\
+            & x_1+2x_2\le 36 &&\text{(hops)}\\
+            & x_1\le 25,\ x_2\le 15 &&\text{(forecast demand)}\\
+            & x_1,\ x_2\ge 0 .
+          \end{aligned}
+        \]
+        \textbf{Questionable assumptions:} \emph{divisibility} — brewing
+        happens in whole $5$-hl batches, so only multiples of $5$ are
+        implementable, and an LP answer such as $x_1=18$ would have to be
+        adjusted (integer/batch model); \emph{certainty} — the demand
+        ceilings $25$ and $15$ are forecasts, not known constants, so the
+        right-hand sides are uncertain data. \textbf{A safe assumption:}
+        \emph{additivity} of resource use — the malt consumed by lager
+        and by ale simply adds up in the brewhouse; there is no
+        interaction between the two products' ingredient use.
+\end{solutions}
+
+\section{Additional Problems}
+
+\begin{problems}
+  \item A firm makes standard and premium phone cases. A standard case
+        uses $2$ units of plastic and $1$ minute of machine time; a
+        premium case uses $3$ units of plastic and $2$ minutes of machine
+        time. Available per hour: $12$ units of plastic and $8$ minutes of
+        machine time. Profits are $3$ (standard) and $5$ (premium).
+        Formulate the profit-maximising LP.
+  \item A pig feed is mixed from two grains. Per kg, grain $1$ costs $3$
+        and provides $2$ units of nutrient $A$ and $1$ unit of nutrient
+        $B$; grain $2$ costs $2$ and provides $1$ unit of $A$ and $1$
+        unit of $B$. The daily ration must provide at least $10$ units of
+        $A$ and at least $8$ units of $B$, and a pig can eat at most $12$
+        kg per day. Formulate the minimum-cost feed LP.
+  \item Two plants supply two markets. Plant $1$ can produce $40$ units,
+        plant $2$ can produce $30$; market $1$ demands $35$, market $2$
+        demands $30$. Unit shipping costs: plant $1$ to markets $1,2$:
+        $1$ and $4$; plant $2$ to markets $1,2$: $3$ and $2$. Formulate
+        the minimum-cost transport LP and state whether the problem is
+        balanced.
+  \item An endowment of $60$ (thousand euros) must be \emph{fully}
+        invested in shares (expected return $9\%$, risk score $8$ per
+        thousand) and bonds (expected return $5\%$, risk score $2$ per
+        thousand). The portfolio's average risk score per thousand euros
+        may be at most $4$. Formulate the return-maximising LP and
+        simplify the risk constraint.
+  \item Starting production of a product — at any positive level —
+        requires cleaning and retooling a machine at a fixed cost of
+        $50$, on top of a variable cost of $2$ per unit. Which LP
+        assumption does the fixed cost violate, and why?
+  \item Rewrite
+        \[
+          \max\ z=x_1+4x_2
+          \quad\text{s.t.}\quad
+          x_1+x_2=5,\quad x_1-x_2\ge 1,\quad x_1,x_2\ge 0
+        \]
+        in standard maximum form (all functional constraints $\le$).
+  \item An alloy of at least $100$ kg must be produced from scrap type
+        $1$ ($60\%$ copper, cost $3$ per kg) and scrap type $2$ ($30\%$
+        copper, cost $1$ per kg). The alloy must contain at least $40\%$
+        copper. Formulate the minimum-cost LP, writing the copper
+        condition as a linear constraint.
+  \item For each mini-story, name the LP assumption that fails:
+        (a) a machine's output per hour falls during long production runs
+        as it overheats;
+        (b) an airline assigns whole aircraft to routes;
+        (c) baking two products together in one oven uses less energy
+        than baking them separately;
+        (d) next quarter's selling prices in the objective are estimates
+        from the sales team.
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item \textbf{Variables:} $x_1,x_2=$ standard and premium cases made
+        per hour. \textbf{Objective:} maximise $z=3x_1+5x_2$.
+        \textbf{Constraints:} plastic $2x_1+3x_2\le 12$; machine time
+        $x_1+2x_2\le 8$; both are resource limits.
+        \[
+          \begin{aligned}
+            \max\quad & z=3x_1+5x_2\\
+            \text{s.t.}\quad & 2x_1+3x_2\le 12 &&\text{(plastic)}\\
+            & x_1+2x_2\le 8 &&\text{(machine minutes)}\\
+            & x_1,\ x_2\ge 0 .
+          \end{aligned}
+        \]
+
+  \item \textbf{Variables:} $x_1,x_2=$ kg of grain $1$ and grain $2$ in
+        the daily ration. \textbf{Objective:} minimise cost
+        $z=3x_1+2x_2$. \textbf{Constraints:} nutrient requirements point
+        $\ge$, the stomach capacity points $\le$:
+        \[
+          \begin{aligned}
+            \min\quad & z=3x_1+2x_2\\
+            \text{s.t.}\quad & 2x_1+x_2\ge 10 &&\text{(nutrient } A)\\
+            & x_1+x_2\ge 8 &&\text{(nutrient } B)\\
+            & x_1+x_2\le 12 &&\text{(capacity, kg)}\\
+            & x_1,\ x_2\ge 0 .
+          \end{aligned}
+        \]
+        Feasibility check: $x_1=2$, $x_2=6$ gives $A$: $4+6=10\ge 10$,
+        $B$: $2+6=8\ge 8$, total $8\le 12$ — the requirements fit inside
+        the capacity.
+
+  \item \textbf{Variables:} $x_{ij}=$ units shipped from plant $i$ to
+        market $j$. \textbf{Objective:} minimise
+        $z=x_{11}+4x_{12}+3x_{21}+2x_{22}$.
+        \[
+          \begin{aligned}
+            \min\quad & z=x_{11}+4x_{12}+3x_{21}+2x_{22}\\
+            \text{s.t.}\quad & x_{11}+x_{12}\le 40 &&\text{(capacity plant 1)}\\
+            & x_{21}+x_{22}\le 30 &&\text{(capacity plant 2)}\\
+            & x_{11}+x_{21}\ge 35 &&\text{(demand market 1)}\\
+            & x_{12}+x_{22}\ge 30 &&\text{(demand market 2)}\\
+            & x_{ij}\ge 0\ \ (i,j=1,2) .
+          \end{aligned}
+        \]
+        Total capacity $40+30=70$ exceeds total demand $35+30=65$: the
+        problem is \emph{unbalanced} (excess supply $5$), so the supply
+        constraints must stay $\le$ — some plant will not ship its full
+        capacity — while demand is met with $\ge$ (at minimum cost it
+        will hold with equality, since extra shipping only adds cost).
+
+  \item \textbf{Variables:} $x_1,x_2=$ thousand euros in shares and
+        bonds. \textbf{Objective:} maximise $z=0.09x_1+0.05x_2$.
+        \textbf{Constraints:} ``fully invested'' forces the equality
+        $x_1+x_2=60$. The average risk score is
+        $(8x_1+2x_2)/(x_1+x_2)\le 4$; clearing the (positive) total,
+        $8x_1+2x_2\le 4(x_1+x_2)$, i.e.\ $4x_1-2x_2\le 0$, i.e.\
+        $2x_1\le x_2$: bonds must be at least twice the equity position.
+        Using $x_1+x_2=60$ one may also write it as $8x_1+2x_2\le 240$.
+        \[
+          \begin{aligned}
+            \max\quad & z=0.09x_1+0.05x_2\\
+            \text{s.t.}\quad & x_1+x_2=60 &&\text{(full investment)}\\
+            & 2x_1-x_2\le 0 &&\text{(average risk}\ \le 4)\\
+            & x_1,\ x_2\ge 0 .
+          \end{aligned}
+        \]
+        Check: $x_1=20$, $x_2=40$ has average risk
+        $(160+80)/60=4$ — exactly the boundary, matching
+        $2(20)-40=0$.
+
+  \item \textbf{Proportionality} fails. The true cost of producing $x>0$
+        units is $50+2x$, but producing $x=0$ costs $0$: the cost
+        function jumps at zero and is not proportional to the level of
+        activity — the first unit effectively costs $52$, each further
+        unit $2$. No single coefficient $c$ makes $c\,x$ reproduce this,
+        because $c\,x$ is forced through the origin with constant slope.
+        Fixed-charge situations require a binary ``switch-on'' variable,
+        i.e.\ integer programming.
+
+  \item The objective already maximises. Split the equality into two
+        inequalities and flip the $\ge$ constraint:
+        $x_1+x_2=5 \iff x_1+x_2\le 5$ and $-x_1-x_2\le -5$;
+        $x_1-x_2\ge 1 \iff -x_1+x_2\le -1$. Hence
+        \[
+          \begin{aligned}
+            \max\quad & z=x_1+4x_2\\
+            \text{s.t.}\quad & x_1+x_2\le 5\\
+            & -x_1-x_2\le -5\\
+            & -x_1+x_2\le -1\\
+            & x_1,\ x_2\ge 0 .
+          \end{aligned}
+        \]
+
+  \item \textbf{Variables:} $x_1,x_2=$ kg of scrap $1$ and scrap $2$
+        used. \textbf{Objective:} minimise $z=3x_1+x_2$.
+        \textbf{Constraints:} output size $x_1+x_2\ge 100$ (``at
+        least''); copper content: total copper is $0.6x_1+0.3x_2$ kg, and
+        it must be at least $40\%$ of the (variable) total weight:
+        \[
+          0.6x_1+0.3x_2\ge 0.4\,(x_1+x_2)
+          \iff 0.2x_1-0.1x_2\ge 0
+          \iff 2x_1-x_2\ge 0 .
+        \]
+        \[
+          \begin{aligned}
+            \min\quad & z=3x_1+x_2\\
+            \text{s.t.}\quad & x_1+x_2\ge 100 &&\text{(alloy size, kg)}\\
+            & 2x_1-x_2\ge 0 &&\text{(copper}\ \ge 40\%)\\
+            & x_1,\ x_2\ge 0 .
+          \end{aligned}
+        \]
+        Check: $x_1=40$, $x_2=60$ gives $100$ kg containing
+        $24+18=42$ kg of copper, a share of $42\%\ge 40\%$, and indeed
+        $2(40)-60=20\ge 0$.
+
+  \item (a) \textbf{Proportionality}: output is no longer proportional
+        to running time — the per-hour yield coefficient is not constant.
+        (b) \textbf{Divisibility}: aircraft are indivisible units, so
+        fractional assignments are meaningless.
+        (c) \textbf{Additivity}: the joint energy use is less than the
+        sum of the separate uses — an interaction between the two
+        activities that a sum of individual terms cannot capture.
+        (d) \textbf{Certainty}: the objective coefficients are estimates,
+        not known constants; the LP treats them as if they were certain.
+\end{solutions}

@@ -1,0 +1,471 @@
+\chapter{Comparative Statics and the Envelope Theorem}
+
+Once an optimization problem is solved, the economically interesting
+question is almost always the next one: how does the solution respond when
+a parameter shifts? If the wage rises, how much labor does the firm shed?
+If a tax is introduced, how fast does profit fall? \emph{Comparative
+statics} answers the first question by implicit
+differentiation of the first-order condition; the \emph{envelope theorem} answers the second: a small parameter change
+moves the optimal \emph{value} only through its direct effect on the
+objective, the induced re-optimization contributes nothing at first
+order. Hotelling's lemma, the workhorse identity of producer theory, is a
+direct instance. This chapter drills both tools for unconstrained
+problems; the constrained version, where the derivative of the value
+function is the Lagrange multiplier, follows in the chapters on the method
+of Lagrange.
+
+\section{Core Rules}
+
+\begin{rulebox}{Parametric problem, optimizer, value function}
+Let $f(x,\alpha)$ be a smooth objective with choice variable $x$ and
+parameter $\alpha$, and suppose an interior maximum exists for each
+$\alpha$. The \emph{optimizer} and the \emph{value function} are
+\[
+  x^*(\alpha)=\operatorname*{arg\,max}_x f(x,\alpha), \qquad
+  V(\alpha)=\max_x f(x,\alpha)=f\bigl(x^*(\alpha),\alpha\bigr).
+\]
+In consumer theory $V$ is the indirect utility; in producer theory it is the profit
+function. Throughout we abbreviate
+$f_x=\pd{f}{x}$, $f_\alpha=\pd{f}{\alpha}$,
+$f_{xx}=\dfrac{\partial^{2}f}{\partial x^{2}}$,
+$f_{x\alpha}=\pdd{f}{x}{\alpha}$.
+\end{rulebox}
+
+\begin{rulebox}{Comparative statics: differentiate the FOC}
+The optimizer solves $f_x\bigl(x^*(\alpha),\alpha\bigr)=0$ identically in
+$\alpha$. If the second-order condition is strict
+($f_{xx}(x^*,\alpha)\neq0$), the implicit function theorem makes
+$x^*(\alpha)$ smooth, and differentiating the FOC gives
+\[
+  f_{xx}\cdot\dd{x^*}{\alpha}+f_{x\alpha}=0
+  \quad\Longrightarrow\quad
+  \dd{x^*}{\alpha}=-\frac{f_{x\alpha}(x^*,\alpha)}{f_{xx}(x^*,\alpha)}.
+\]
+At a maximum $f_{xx}<0$, so
+$\sgn\Bigl(\dd{x^*}{\alpha}\Bigr)=\sgn\bigl(f_{x\alpha}\bigr)$: the
+optimizer moves in the direction in which the marginal payoff $f_x$ rises
+with $\alpha$. At a minimum ($f_{xx}>0$) the sign flips.
+\end{rulebox}
+
+\begin{rulebox}{Envelope theorem (unconstrained)}
+For $V(\alpha)=\max_x f(x,\alpha)$ with interior optimizer $x^*(\alpha)$,
+\[
+  \dd{V}{\alpha}
+  =\underbrace{f_x\bigl(x^*(\alpha),\alpha\bigr)}_{=0\text{ (FOC)}}
+   \cdot\dd{x^*}{\alpha}
+   +f_\alpha\bigl(x^*(\alpha),\alpha\bigr)
+  =f_\alpha\bigl(x^*(\alpha),\alpha\bigr).
+\]
+Only the \emph{direct} effect of $\alpha$ on the objective matters; the
+indirect effect through the re-optimized choice vanishes because $f_x=0$
+at the optimum. The same identity holds at an interior minimum.
+Geometrically, $V$ is the upper envelope of the
+family of curves $\alpha\mapsto f(x,\alpha)$, one for each fixed $x$,
+hence the name.
+\end{rulebox}
+
+\begin{rulebox}{Envelope workflow}
+To find $\dd{V}{\alpha}$ without differentiating an explicit formula for
+$V$:
+\begin{enumerate}[leftmargin=1.6em,itemsep=0.3ex]
+  \item Write the objective $f(x,\alpha)$.
+  \item Differentiate with respect to the \emph{parameter only}:
+        compute $f_\alpha(x,\alpha)$, treating $x$ as fixed.
+  \item Evaluate at the optimum $x=x^*(\alpha)$ (explicitly known or
+        symbolic).
+\end{enumerate}
+For $\dd{x^*}{\alpha}$ use the comparative-statics formula
+$-f_{x\alpha}/f_{xx}$ instead.
+\end{rulebox}
+
+\begin{rulebox}{Economic readings}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Output price.} $\pi(p)=\max_q\,[\,pq-C(q)\,]$ gives
+        $\pi'(p)=q^*(p)$: the marginal profit of a price increase equals
+        current output.
+  \item \textbf{Per-unit tax or cost.} If the objective contains $-tq$,
+        then $\pd{V}{t}=-q^*$: profit falls at the rate of current
+        output.
+  \item \textbf{Wage.} For $\pi(w)=\max_L\,[\,p\,g(L)-wL\,]$,
+        $\pd{V}{w}=-L^*$: the marginal loss equals current employment.
+  \item \textbf{Prices in utility.} In quasi-linear consumer problems
+        the derivative of indirect utility with respect to a price is
+        $-(\text{quantity consumed})$.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Hotelling's lemma}
+Let a price-taking firm with production function $g$ solve
+\[
+  \pi(p,w)=\max_{L\ge0}\,\bigl[\,p\,g(L)-wL\,\bigr].
+\]
+Then, by the envelope theorem,
+\[
+  \pd{\pi}{p}=g\bigl(L^*(p,w)\bigr)=y^*(p,w), \qquad
+  \pd{\pi}{w}=-L^*(p,w):
+\]
+differentiating the profit function with respect to the output price
+recovers the \emph{supply function}, and with respect to an input price
+recovers \emph{minus the factor demand}, no re-optimization needed.
+\end{rulebox}
+
+\begin{rulebox}{Curvature of the value function}
+If $f(x,\alpha)$ is convex in $\alpha$ for every fixed $x$, then
+$V(\alpha)=\max_x f(x,\alpha)$ is convex: a pointwise maximum of convex
+functions is convex. In particular, profit functions are convex in
+prices, since $p\mapsto pq-C(q)$ is affine for each fixed $q$. Combined
+with Hotelling's lemma this yields $\pi''(p)=\dd{q^*}{p}\ge0$, the law
+of supply.
+\end{rulebox}
+
+\section{Practice Problems}
+
+\begin{problems}
+  \item For $f(x,\alpha)=-(x-\alpha)^2$, find $x^*(\alpha)$ and
+        $V(\alpha)$, and verify the envelope theorem.
+  \item Maximize $f(x,\alpha)=\alpha x-x^2$. Find $x^*(\alpha)$ and
+        $\dd{x^*}{\alpha}$ (also via the comparative-statics formula),
+        compute $V(\alpha)$, and check $V'(\alpha)=x^*(\alpha)$.
+  \item For $f(x,a,b)=ax-\dfrac{b}{2}x^2$ with $b>0$, find $x^*(a,b)$
+        and both partial derivatives of $V(a,b)$; verify each against the
+        envelope theorem.
+  \item Sign questions. (a) At an interior maximum with
+        $f_{x\alpha}<0$, what is the sign of $\dd{x^*}{\alpha}$?
+        (b) At an interior \emph{minimum} with $f_{x\alpha}>0$?
+  \item Maximize $\pi(q,p)=pq-\dfrac{q^3}{3}$ over $q>0$ (with $p>0$).
+        Find $q^*(p)$ and $\dd{q^*}{p}$, compute $V(p)$, and verify
+        $V'(p)=q^*(p)$ both directly and by the envelope theorem.
+  \item For $\pi(q,p,c)=pq-cq^2$ with $c>0$: find $q^*$, then
+        $\pd{V}{p}$ and $\pd{V}{c}$ by the envelope theorem, and verify
+        $\pd{V}{p}=q^*$ by computing $V$ directly.
+  \item Maximize $\pi(q,p)=p\sqrt{q}-q$ for $p>0$. Find $q^*(p)$ and
+        $\dd{q^*}{p}$, compute $V(p)$, and verify the envelope theorem.
+  \item Let $V(p)=\max_q\bigl(pq-\dfrac{q^4}{4}\bigr)$ for $p>0$. Find
+        $V'(p)$ via the envelope theorem \emph{without} computing $V$
+        explicitly.
+  \item A firm with a per-unit cost parameter: $\pi(q,c)=10q-q^2-cq$
+        with $0<c<10$. Find $q^*(c)$, the sign of $\dd{q^*}{c}$, and
+        $\dd{V}{c}$ by the envelope theorem; verify the latter directly.
+  \item Labor demand: $\pi(L,w)=6\sqrt{L}-wL$ with $w>0$. Find
+        $L^*(w)$ and $\dd{L^*}{w}$; compute $V(w)$ directly and check it
+        against the envelope theorem.
+  \item Demand response: a quasi-linear consumer solves
+        $\max_{c>0} u(c,p)$ with $u(c,p)=\ln c-pc$ and price $p>0$. Find
+        $c^*(p)$ and $\dd{c^*}{p}$, compute the indirect utility $V(p)$,
+        verify $V'(p)=-c^*(p)$, and interpret.
+  \item For $f(x,\alpha)=\alpha\ln x-x$ with $\alpha>0$: find
+        $x^*(\alpha)$ and $\dd{x^*}{\alpha}$, obtain $V'(\alpha)$ by the
+        envelope theorem, and verify it directly.
+  \item A worker chooses hours $h\ge0$ to maximize
+        $u(h,w)=wh-\dfrac{h^2}{2}-\dfrac{h^3}{6}$ at wage $w>0$. Find
+        $h^*(w)$ and the sign of $\dd{h^*}{w}$, and give $\dd{V}{w}$ in
+        terms of $h^*$.
+  \item \emph{Minimize} $f(x,\alpha)=\alpha\mathrm{e}^{-x}+x$ over
+        $x\in\R$ for $\alpha>0$. Find $x^*(\alpha)$ and $V(\alpha)$, and
+        check that the envelope theorem also holds at a minimum.
+  \item An output tax: $\pi(q,p,t)=(p-t)q-q^2$ with $0<t<p$. Find
+        $q^*(p,t)$ and $\pd{V}{t}$ by the envelope theorem; verify
+        directly and interpret economically.
+  \item Hotelling's lemma: a price-taking firm produces $y=\sqrt{L}$
+        and solves $\pi(p,w)=\max_{L\ge0}\,[\,p\sqrt{L}-wL\,]$. Find
+        $L^*(p,w)$, the supply $y^*(p,w)$, and $\pi(p,w)$, and verify
+        both parts of Hotelling's lemma: $\pd{\pi}{p}=y^*$ and
+        $\pd{\pi}{w}=-L^*$.
+  \item Maximize $f(K,L;r,w)=4K^{1/4}L^{1/4}-rK-wL$ over $K,L>0$.
+        (a) Without solving the first-order conditions, give
+        $\pd{V}{r}$ and $\pd{V}{w}$ via the envelope theorem, in terms
+        of $K^*$ and $L^*$. (b) Solve the FOCs for $K^*(r,w)$,
+        $L^*(r,w)$, and $V(r,w)$, and confirm your answer to (a).
+  \item Show: if $f(x,\alpha)$ is convex in $\alpha$ for every fixed
+        $x$, then $V(\alpha)=\max_x f(x,\alpha)$ is convex. Deduce that
+        the profit function $\pi(p)=\max_q\,[\,pq-C(q)\,]$ is convex in
+        $p$, and interpret $\pi''(p)\ge0$ in the light of Hotelling's
+        lemma.
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item FOC: $f_x=-2(x-\alpha)=0\Rightarrow x^*(\alpha)=\alpha$. SOC:
+        $f_{xx}=-2<0$, a maximum. $V(\alpha)=f(\alpha,\alpha)=0$, so
+        $V'(\alpha)=0$. Envelope: $f_\alpha=2(x-\alpha)$, evaluated at
+        $x=x^*=\alpha$ this is $0=V'(\alpha)$. Verified. (The peak
+        merely slides along; its height never changes.)
+
+  \item FOC: $\alpha-2x=0\Rightarrow x^*=\alpha/2$. SOC: $f_{xx}=-2<0$.
+        Directly $\dd{x^*}{\alpha}=\dfrac12$; via the formula, with
+        $f_{x\alpha}=1$:
+        $\dd{x^*}{\alpha}=-\dfrac{f_{x\alpha}}{f_{xx}}
+        =-\dfrac{1}{-2}=\dfrac12$. Consistent.
+        $V(\alpha)=\alpha\cdot\dfrac{\alpha}{2}-\dfrac{\alpha^2}{4}
+        =\dfrac{\alpha^2}{4}$, so $V'(\alpha)=\dfrac{\alpha}{2}=x^*$.
+        Envelope: $f_\alpha=x\big|_{x^*}=\alpha/2$. Match.
+
+  \item FOC: $a-bx=0\Rightarrow x^*=a/b$. SOC: $f_{xx}=-b<0$. Value:
+        $V=a\cdot\dfrac ab-\dfrac b2\cdot\dfrac{a^2}{b^2}
+        =\dfrac{a^2}{b}-\dfrac{a^2}{2b}=\dfrac{a^2}{2b}$. Then
+        $\pd{V}{a}=\dfrac ab=x^*$, which is the envelope value
+        $f_a=x\big|_{x^*}$; and $\pd{V}{b}=-\dfrac{a^2}{2b^2}$, which
+        matches the envelope value
+        $f_b=-\dfrac{x^2}{2}\Big|_{x^*}=-\dfrac{a^2}{2b^2}$. Both
+        verified.
+
+  \item (a) $\dd{x^*}{\alpha}=-f_{x\alpha}/f_{xx}$ with
+        $f_{x\alpha}<0$ and $f_{xx}<0$: the quotient of two negatives is
+        positive, and the leading minus makes
+        $\dd{x^*}{\alpha}<0$. (b) At a minimum $f_{xx}>0$; with
+        $f_{x\alpha}>0$, $\dd{x^*}{\alpha}=-(+)/(+)<0$. In both cases
+        the optimizer falls as $\alpha$ rises.
+
+  \item FOC: $p-q^2=0\Rightarrow q^*(p)=\sqrt{p}$. SOC:
+        $\pi_{qq}=-2q=-2\sqrt{p}<0$ at $q^*$, a maximum.
+        $\dd{q^*}{p}=\dfrac{1}{2\sqrt{p}}>0$; via the formula,
+        $-\pi_{qp}/\pi_{qq}=-1/(-2\sqrt p)=\dfrac1{2\sqrt p}$.
+        Consistent. Value:
+        $V(p)=p\sqrt p-\dfrac{p^{3/2}}{3}=\dfrac23\,p^{3/2}$, so
+        $V'(p)=p^{1/2}=q^*(p)$. Envelope:
+        $\pi_p=q\big|_{q^*}=\sqrt p$. Match.
+
+  \item FOC: $p-2cq=0\Rightarrow q^*=\dfrac{p}{2c}$. SOC: $-2c<0$.
+        Envelope: $\pd{V}{p}=\pi_p\big|_{q^*}=q^*=\dfrac{p}{2c}$ and
+        $\pd{V}{c}=\pi_c\big|_{q^*}=-(q^*)^2=-\dfrac{p^2}{4c^2}$.
+        Direct check:
+        $V=p\cdot\dfrac{p}{2c}-c\cdot\dfrac{p^2}{4c^2}
+        =\dfrac{p^2}{2c}-\dfrac{p^2}{4c}=\dfrac{p^2}{4c}$, so
+        $\pd{V}{p}=\dfrac{p}{2c}=q^*$ (and
+        $\pd{V}{c}=-\dfrac{p^2}{4c^2}$). Verified.
+
+  \item FOC: $\dfrac{p}{2\sqrt q}-1=0\Rightarrow\sqrt{q^*}=\dfrac p2
+        \Rightarrow q^*=\dfrac{p^2}{4}$. SOC:
+        $\pi_{qq}=-\dfrac{p}{4}q^{-3/2}<0$, a maximum.
+        $\dd{q^*}{p}=\dfrac p2>0$. Value:
+        $V(p)=p\cdot\dfrac p2-\dfrac{p^2}4=\dfrac{p^2}4$, so
+        $V'(p)=\dfrac p2$. Envelope:
+        $\pi_p=\sqrt q\big|_{q^*}=\dfrac p2$. Match.
+
+  \item FOC: $p-q^3=0\Rightarrow q^*=p^{1/3}$; SOC: $-3q^2<0$ at
+        $q^*>0$. Envelope:
+        $V'(p)=\pi_p\big|_{q^*}=q^*=p^{1/3}$, with no need for $V$
+        itself. (Cross-check: $V(p)=p\cdot p^{1/3}\cdot\ldots$,
+        explicitly, $V=p^{4/3}-\dfrac14p^{4/3}=\dfrac34\,p^{4/3}$ and
+        indeed $V'(p)=p^{1/3}$.)
+
+  \item FOC: $10-2q-c=0\Rightarrow q^*(c)=\dfrac{10-c}{2}>0$. SOC:
+        $-2<0$. Then $\dd{q^*}{c}=-\dfrac12<0$: a higher unit cost
+        lowers output. Envelope:
+        $\dd{V}{c}=\pi_c\big|_{q^*}=-q^*=-\dfrac{10-c}{2}$. Direct:
+        $V=(10-c)q^*-(q^*)^2=2(q^*)^2-(q^*)^2=(q^*)^2
+        =\dfrac{(10-c)^2}{4}$, so
+        $\dd{V}{c}=\dfrac{2(10-c)\cdot(-1)}{4}=-\dfrac{10-c}{2}$.
+        Verified.
+
+  \item FOC: $\dfrac{3}{\sqrt L}-w=0\Rightarrow\sqrt L=\dfrac3w
+        \Rightarrow L^*(w)=\dfrac{9}{w^2}$. SOC:
+        $\pi_{LL}=-\dfrac32L^{-3/2}<0$. Then
+        $\dd{L^*}{w}=-\dfrac{18}{w^3}<0$: labor demand falls in the
+        wage. Direct value:
+        $V(w)=6\cdot\dfrac3w-w\cdot\dfrac9{w^2}
+        =\dfrac{18}w-\dfrac9w=\dfrac9w$, so $V'(w)=-\dfrac9{w^2}$.
+        Envelope: $\pi_w=-L\big|_{L^*}=-\dfrac9{w^2}$. Match.
+
+  \item FOC: $\dfrac1c-p=0\Rightarrow c^*(p)=\dfrac1p$. SOC:
+        $u_{cc}=-\dfrac1{c^2}<0$. Then
+        $\dd{c^*}{p}=-\dfrac1{p^2}<0$: demand slopes down. Indirect
+        utility: $V(p)=\ln\dfrac1p-p\cdot\dfrac1p=-\ln p-1$, so
+        $V'(p)=-\dfrac1p=-c^*(p)$. Envelope:
+        $u_p=-c\big|_{c^*}=-\dfrac1p$. Verified. Interpretation: a
+        marginal price increase lowers optimized utility at exactly the
+        rate of current consumption: the re-optimization of $c$ has
+        no first-order effect.
+
+  \item FOC: $\dfrac{\alpha}{x}-1=0\Rightarrow x^*(\alpha)=\alpha$.
+        SOC: $f_{xx}=-\dfrac{\alpha}{x^2}<0$ for $\alpha>0$. Then
+        $\dd{x^*}{\alpha}=1$. Envelope:
+        $V'(\alpha)=f_\alpha\big|_{x^*}=\ln x^*=\ln\alpha$. Direct:
+        $V(\alpha)=\alpha\ln\alpha-\alpha$, so
+        $V'(\alpha)=\ln\alpha+1-1=\ln\alpha$. Match.
+
+  \item FOC: $w-h-\dfrac{h^2}{2}=0\Rightarrow h^2+2h-2w=0\Rightarrow
+        h^*(w)=-1+\sqrt{1+2w}$ (the positive root). SOC:
+        $u_{hh}=-1-h<0$ for $h\ge0$. Differentiating,
+        $\dd{h^*}{w}=\dfrac{1}{\sqrt{1+2w}}>0$: hours rise with the
+        wage. (Formula cross-check: $u_{hw}=1$, so
+        $\dd{h^*}{w}=-\dfrac{1}{u_{hh}}=\dfrac{1}{1+h^*}
+        =\dfrac{1}{\sqrt{1+2w}}$, using $1+h^*=\sqrt{1+2w}$.)
+        Envelope: $\dd{V}{w}=u_w\big|_{h^*}=h^*=\sqrt{1+2w}-1$.
+
+  \item FOC: $-\alpha\mathrm{e}^{-x}+1=0\Rightarrow
+        \mathrm{e}^{-x}=\dfrac1\alpha\Rightarrow x^*(\alpha)=\ln\alpha$.
+        SOC: $f_{xx}=\alpha\mathrm{e}^{-x}>0$, so this is a minimum.
+        Value:
+        $V(\alpha)=\alpha\cdot\dfrac1\alpha+\ln\alpha=1+\ln\alpha$, so
+        $V'(\alpha)=\dfrac1\alpha$. Envelope:
+        $f_\alpha=\mathrm{e}^{-x}\big|_{x^*}
+        =\mathrm{e}^{-\ln\alpha}=\dfrac1\alpha$. Match, the FOC kills
+        the indirect effect at a minimum exactly as at a maximum.
+
+  \item FOC: $(p-t)-2q=0\Rightarrow q^*=\dfrac{p-t}{2}>0$. SOC:
+        $-2<0$. Envelope:
+        $\pd{V}{t}=\pi_t\big|_{q^*}=-q^*=-\dfrac{p-t}{2}$. Direct:
+        $V=(p-t)q^*-(q^*)^2=(q^*)^2=\dfrac{(p-t)^2}{4}$, so
+        $\pd{V}{t}=-\dfrac{p-t}{2}$. Verified. Interpretation: a
+        marginal tax increase destroys profit at the rate of current
+        output; the firm's downward output adjustment
+        ($\dd{q^*}{t}=-\tfrac12$) affects profit only at second order,
+        because the firm is already optimizing.
+
+  \item FOC: $\dfrac{p}{2\sqrt L}-w=0\Rightarrow
+        \sqrt{L^*}=\dfrac{p}{2w}\Rightarrow
+        L^*(p,w)=\dfrac{p^2}{4w^2}$. SOC:
+        $\pi_{LL}=-\dfrac p4L^{-3/2}<0$. Supply:
+        $y^*=\sqrt{L^*}=\dfrac{p}{2w}$. Profit function:
+        $\pi(p,w)=p\cdot\dfrac{p}{2w}-w\cdot\dfrac{p^2}{4w^2}
+        =\dfrac{p^2}{2w}-\dfrac{p^2}{4w}=\dfrac{p^2}{4w}$. Hotelling:
+        $\pd{\pi}{p}=\dfrac{2p}{4w}=\dfrac{p}{2w}=y^*$ and
+        $\pd{\pi}{w}=-\dfrac{p^2}{4w^2}=-L^*$. Both parts verified.
+        (Note also
+        $\dfrac{\partial^{2}\pi}{\partial p^{2}}=\dfrac{1}{2w}
+        =\pd{y^*}{p}>0$: the profit function is convex in $p$ and the
+        supply curve slopes upward.)
+
+  \item (a) The prices enter only through $-rK-wL$, so
+        $f_r=-K$ and $f_w=-L$; by the envelope theorem
+        $\pd{V}{r}=-K^*<0$ and $\pd{V}{w}=-L^*<0$, no solving
+        needed. (b) FOCs: $f_K=K^{-3/4}L^{1/4}-r=0$ and
+        $f_L=K^{1/4}L^{-3/4}-w=0$. Dividing them:
+        $\dfrac{L}{K}=\dfrac{r}{w}\Rightarrow L=\dfrac rwK$;
+        multiplying them:
+        $K^{-1/2}L^{-1/2}=rw\Rightarrow KL=\dfrac{1}{(rw)^2}$.
+        Substituting $L=rK/w$:
+        $\dfrac rwK^2=\dfrac{1}{r^2w^2}\Rightarrow
+        K^2=\dfrac{1}{r^3w}\Rightarrow K^*=r^{-3/2}w^{-1/2}$, hence
+        $L^*=\dfrac rwK^*=r^{-1/2}w^{-3/2}$. (SOC:
+        $f_{KK}=-\tfrac34K^{-7/4}L^{1/4}<0$ and
+        $\det\Hess f=\tfrac9{16}K^{-3/2}L^{-3/2}
+        -\tfrac1{16}K^{-3/2}L^{-3/2}
+        =\tfrac12K^{-3/2}L^{-3/2}>0$: negative definite, a maximum.)
+        Since $(K^*L^*)^{1/4}=\bigl((rw)^{-2}\bigr)^{1/4}=(rw)^{-1/2}$
+        and $rK^*=wL^*=(rw)^{-1/2}$,
+        \[
+          V(r,w)=\frac{4}{\sqrt{rw}}-\frac{1}{\sqrt{rw}}
+          -\frac{1}{\sqrt{rw}}=\frac{2}{\sqrt{rw}}.
+        \]
+        Check: $\pd{V}{w}=2\cdot\bigl(-\tfrac12\bigr)r^{-1/2}w^{-3/2}
+        =-r^{-1/2}w^{-3/2}=-L^*$ and
+        $\pd{V}{r}=-r^{-3/2}w^{-1/2}=-K^*$. Confirmed.
+
+  \item Let $\alpha_\lambda=\lambda\alpha_0+(1-\lambda)\alpha_1$ with
+        $\lambda\in[0,1]$, and let $\bar x$ maximize
+        $f(\,\cdot\,,\alpha_\lambda)$. Then
+        \[
+          V(\alpha_\lambda)=f(\bar x,\alpha_\lambda)
+          \le\lambda f(\bar x,\alpha_0)+(1-\lambda)f(\bar x,\alpha_1)
+          \le\lambda V(\alpha_0)+(1-\lambda)V(\alpha_1),
+        \]
+        the first inequality by convexity of $f(\bar x,\cdot)$ in
+        $\alpha$, the second because $V(\alpha_i)\ge f(\bar x,\alpha_i)$
+        by definition of the maximum. Hence $V$ is convex. For the
+        profit function: for each fixed $q$ the map $p\mapsto pq-C(q)$
+        is affine, hence convex, so $\pi(p)$ is convex. Where $\pi$ is
+        twice differentiable, Hotelling's lemma gives
+        $\pi'(p)=q^*(p)$, so $\pi''(p)=\dd{q^*}{p}\ge0$: supply cannot
+        slope downward, the law of supply.
+\end{solutions}
+
+\section{Additional Problems}
+
+\begin{problems}
+  \item For $f(x,\alpha)=6\alpha x-3x^2$, find $x^*(\alpha)$ and
+        $V(\alpha)$, and verify the envelope theorem.
+  \item Maximize $\pi(q,p)=pq-q^2-4$ (fixed cost $4$). Find $q^*(p)$
+        and $\dd{q^*}{p}$, compute $V(p)$, and check $V'(p)=q^*(p)$.
+  \item Labor demand: $\pi(L,w)=10\sqrt{L}-wL$ with $w>0$. Find
+        $L^*(w)$ and $\dd{L^*}{w}$, compute $V(w)$, and verify the
+        envelope theorem.
+  \item For $f(x,\alpha)=\alpha\ln x-2x$ with $\alpha>0$: find
+        $x^*(\alpha)$ and $\dd{x^*}{\alpha}$, obtain $V'(\alpha)$ via
+        the envelope theorem, and verify it directly.
+  \item For $\pi(q,c)=20q-(1+c)q^2$ with $c>0$: find $q^*(c)$ and
+        $\pd{V}{c}$ via the envelope theorem; verify directly.
+  \item A firm produces $y=2\sqrt{L}$ and solves
+        $\pi(p,w)=\max_{L\ge0}\,[\,2p\sqrt{L}-wL\,]$. Find $L^*$, the
+        supply $y^*$, and $\pi(p,w)$, and verify both parts of
+        Hotelling's lemma.
+  \item Maximize $f(K,L;r,w)=8\sqrt{K}+8\sqrt{L}-rK-wL$ over
+        $K,L>0$. Find $K^*$, $L^*$, and $V(r,w)$, and verify
+        $\pd{V}{r}=-K^*$ and $\pd{V}{w}=-L^*$.
+  \item A worker with utility $u(h;w,t)=(w-t)h-\dfrac{h^2}{2}$, where
+        $0<t<w$ is a wage tax, chooses hours $h\ge0$. Find $h^*(w,t)$,
+        the sign of $\dd{h^*}{t}$, and $\pd{V}{t}$; verify directly and
+        interpret.
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item FOC: $6\alpha-6x=0\Rightarrow x^*=\alpha$. SOC: $f_{xx}=-6<0$.
+        $V(\alpha)=6\alpha^2-3\alpha^2=3\alpha^2$, so $V'(\alpha)=6\alpha$.
+        Envelope: $f_\alpha=6x\big|_{x^*}=6\alpha$. Match.
+
+  \item FOC: $p-2q=0\Rightarrow q^*=\dfrac p2$. SOC: $-2<0$.
+        $\dd{q^*}{p}=\dfrac12$. Value:
+        $V(p)=p\cdot\dfrac p2-\dfrac{p^2}4-4=\dfrac{p^2}4-4$, so
+        $V'(p)=\dfrac p2=q^*$. Verified. (The fixed cost shifts $V$
+        down but changes neither $q^*$ nor $V'$.)
+
+  \item FOC: $\dfrac{5}{\sqrt L}-w=0\Rightarrow\sqrt L=\dfrac5w
+        \Rightarrow L^*=\dfrac{25}{w^2}$. SOC:
+        $\pi_{LL}=-\dfrac52L^{-3/2}<0$. Then
+        $\dd{L^*}{w}=-\dfrac{50}{w^3}<0$. Value:
+        $V(w)=10\cdot\dfrac5w-w\cdot\dfrac{25}{w^2}
+        =\dfrac{50}w-\dfrac{25}w=\dfrac{25}w$, so
+        $V'(w)=-\dfrac{25}{w^2}=-L^*$, exactly the envelope value
+        $\pi_w\big|_{L^*}$. Verified.
+
+  \item FOC: $\dfrac{\alpha}{x}-2=0\Rightarrow x^*=\dfrac{\alpha}{2}$.
+        SOC: $-\dfrac{\alpha}{x^2}<0$. Then
+        $\dd{x^*}{\alpha}=\dfrac12$. Envelope:
+        $V'(\alpha)=\ln x\big|_{x^*}=\ln\dfrac{\alpha}{2}$. Direct:
+        $V(\alpha)=\alpha\ln\dfrac{\alpha}{2}-\alpha$, so
+        $V'(\alpha)=\ln\dfrac{\alpha}{2}
+        +\alpha\cdot\dfrac{2}{\alpha}\cdot\dfrac12-1
+        =\ln\dfrac{\alpha}{2}+1-1=\ln\dfrac{\alpha}{2}$. Match.
+
+  \item FOC: $20-2(1+c)q=0\Rightarrow q^*=\dfrac{10}{1+c}$. SOC:
+        $-2(1+c)<0$. Envelope: $\pi_c=-q^2$, so
+        $\pd{V}{c}=-(q^*)^2=-\dfrac{100}{(1+c)^2}$. Direct:
+        $V=20\cdot\dfrac{10}{1+c}-(1+c)\cdot\dfrac{100}{(1+c)^2}
+        =\dfrac{200}{1+c}-\dfrac{100}{1+c}=\dfrac{100}{1+c}$, so
+        $\pd{V}{c}=-\dfrac{100}{(1+c)^2}$. Verified.
+
+  \item FOC: $\dfrac{p}{\sqrt L}-w=0\Rightarrow\sqrt{L^*}=\dfrac pw
+        \Rightarrow L^*=\dfrac{p^2}{w^2}$. SOC:
+        $-\dfrac p2L^{-3/2}<0$. Supply:
+        $y^*=2\sqrt{L^*}=\dfrac{2p}{w}$. Profit function:
+        $\pi(p,w)=2p\cdot\dfrac pw-w\cdot\dfrac{p^2}{w^2}
+        =\dfrac{2p^2}{w}-\dfrac{p^2}{w}=\dfrac{p^2}{w}$. Hotelling:
+        $\pd{\pi}{p}=\dfrac{2p}{w}=y^*$ and
+        $\pd{\pi}{w}=-\dfrac{p^2}{w^2}=-L^*$. Both parts verified.
+
+  \item The problem separates. FOCs:
+        $\dfrac{4}{\sqrt K}-r=0\Rightarrow K^*=\dfrac{16}{r^2}$ and
+        $\dfrac{4}{\sqrt L}-w=0\Rightarrow L^*=\dfrac{16}{w^2}$. SOC:
+        the Hessian is diagonal with entries $-2K^{-3/2}<0$ and
+        $-2L^{-3/2}<0$, negative definite. Value:
+        $V=8\cdot\dfrac4r+8\cdot\dfrac4w-r\cdot\dfrac{16}{r^2}
+        -w\cdot\dfrac{16}{w^2}
+        =\dfrac{32}r+\dfrac{32}w-\dfrac{16}r-\dfrac{16}w
+        =\dfrac{16}r+\dfrac{16}w$. Then
+        $\pd{V}{r}=-\dfrac{16}{r^2}=-K^*$ and
+        $\pd{V}{w}=-\dfrac{16}{w^2}=-L^*$, as the envelope theorem
+        predicts. Verified.
+
+  \item FOC: $(w-t)-h=0\Rightarrow h^*=w-t>0$. SOC: $u_{hh}=-1<0$.
+        Then $\dd{h^*}{t}=-1<0$: the tax reduces hours worked.
+        Envelope: $u_t=-h$, so $\pd{V}{t}=-h^*=-(w-t)$. Direct:
+        $V=(w-t)^2-\dfrac{(w-t)^2}{2}=\dfrac{(w-t)^2}{2}$, so
+        $\pd{V}{t}=-(w-t)$. Verified. Interpretation: at the margin the
+        worker's welfare falls at the rate of hours currently worked;
+        the induced cut in hours has no first-order welfare effect,
+        pure envelope logic.
+\end{solutions}

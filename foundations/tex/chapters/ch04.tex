@@ -1,0 +1,625 @@
+\chapter{Limits of Functions and Continuity}
+
+The limits of sequences studied so far let $n$ run through the natural
+numbers. This closing chapter transfers the idea to functions of a
+continuous variable: what value does $f(x)$ approach as $x$ approaches a
+point $a$, or as $x$ grows beyond all bounds? The answer leads directly
+to \emph{continuity}, the property that makes a function
+graph drawable without lifting the pen, and to the Intermediate Value
+Theorem, the tool that guarantees roots and market equilibria exist and
+tells us how to hunt them down numerically.
+
+The treatment stays computational: limits are evaluated with the same
+limit rules as for sequences, and the indeterminate form $0/0$ is resolved
+by algebra (factoring, expanding, or multiplying by a conjugate)
+never by differentiation, which only enters in the next volume. Economic
+examples run through the chapter: price schedules with quantity discounts
+are natural piecewise functions, and their discontinuities have a concrete
+monetary meaning.
+
+\section{Core Rules}
+
+\begin{rulebox}{Limit of a function; one-sided limits}
+$\displaystyle\lim_{x\to a}f(x)=L$ means: as $x$ gets
+arbitrarily close to $a$ (from either side, without ever equalling $a$) the values $f(x)$ get arbitrarily close to $L$. The point $a$ itself
+need not lie in the domain of $f$, and $f(a)$, if it exists, plays no role.
+
+The \textbf{one-sided limits}
+\[
+  \lim_{x\to a^{-}}f(x)
+  \qquad\text{and}\qquad
+  \lim_{x\to a^{+}}f(x)
+\]
+approach $a$ from the left ($x<a$) and from the right ($x>a$) only.
+\textbf{The two-sided limit exists exactly when both one-sided limits
+exist and are equal}, and then all three coincide. For piecewise-defined
+functions, always compute the two one-sided limits separately.
+\end{rulebox}
+
+\begin{rulebox}{Limit rules}
+If $\lim_{x\to a}f(x)=L$ and $\lim_{x\to a}g(x)=M$ (both finite), then
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item $\lim\limits_{x\to a}\bigl(f(x)\pm g(x)\bigr)=L\pm M$,
+  \item $\lim\limits_{x\to a}\bigl(f(x)\cdot g(x)\bigr)=L\cdot M$,
+        \quad in particular $\lim\limits_{x\to a}c\,f(x)=cL$,
+  \item $\lim\limits_{x\to a}\dfrac{f(x)}{g(x)}=\dfrac{L}{M}$ \quad
+        provided $M\neq 0$,
+  \item $\lim\limits_{x\to a}f(x)^{k}=L^{k}$ and
+        $\lim\limits_{x\to a}\sqrt[k]{f(x)}=\sqrt[k]{L}$ (where defined).
+\end{itemize}
+These are the same rules as for sequences, with $x\to a$ in place of
+$n\to\infty$; they also hold for $x\to\pm\infty$ and for one-sided limits.
+For all the standard functions below, limits at points of the domain are
+found by \textbf{direct substitution}: $\lim_{x\to a}f(x)=f(a)$.
+\end{rulebox}
+
+\begin{rulebox}{The indeterminate form $0/0$}
+If numerator and denominator both tend to $0$, the quotient rule does not
+apply: the limit can still be anything. Two algebraic escapes:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Factor and cancel:} if a polynomial vanishes at $x=a$,
+        then $(x-a)$ is one of its factors. Factor numerator and
+        denominator, cancel the common factor $(x-a)$, then substitute.
+        Example:
+        \[
+          \lim_{x\to 2}\frac{x^{2}-4}{x-2}
+          =\lim_{x\to 2}\frac{(x-2)(x+2)}{x-2}
+          =\lim_{x\to 2}\,(x+2)=4 .
+        \]
+  \item \textbf{Conjugate trick for roots:} expand the fraction with the
+        conjugate $\sqrt{u}+v$ of a root expression $\sqrt{u}-v$ and use
+        $(\sqrt{u}-v)(\sqrt{u}+v)=u-v^{2}$. Example:
+        \[
+          \lim_{x\to 0}\frac{\sqrt{x+9}-3}{x}
+          =\lim_{x\to 0}\frac{x}{x\bigl(\sqrt{x+9}+3\bigr)}
+          =\lim_{x\to 0}\frac{1}{\sqrt{x+9}+3}=\frac{1}{6} .
+        \]
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Limits at $\pm\infty$; horizontal and vertical asymptotes}
+For a rational function $\dfrac{p(x)}{q(x)}$ compare the degrees: divide
+numerator and denominator by the highest power of $x$ in the denominator.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item $\deg p<\deg q$: \quad limit $0$ as $x\to\pm\infty$,
+  \item $\deg p=\deg q$: \quad limit $=$ ratio of the leading
+        coefficients,
+  \item $\deg p>\deg q$: \quad the limit is $+\infty$ or $-\infty$
+        (sign from the leading terms).
+\end{itemize}
+The line $y=L$ is a \textbf{horizontal asymptote} if $f(x)\to L$ as $x\to\infty$ or $x\to-\infty$. The line
+$x=a$ is a \textbf{vertical asymptote} if at
+least one one-sided limit at $a$ is $+\infty$ or $-\infty$; for rational
+functions this happens where the denominator vanishes but the numerator
+does not \emph{after cancelling common factors}. A common factor that
+cancels completely produces a hole in the graph, not an asymptote.
+\end{rulebox}
+
+\begin{rulebox}{Sandwich rule}
+If $g(x)\le f(x)\le h(x)$ for all $x$ near $a$ and
+\[
+  \lim_{x\to a}g(x)=\lim_{x\to a}h(x)=L,
+  \qquad\text{then}\qquad
+  \lim_{x\to a}f(x)=L .
+\]
+The same holds for $x\to\pm\infty$. The standard application is
+``bounded times vanishing'': since $-1\le\sin t\le 1$ for all $t$,
+\[
+  -x^{2}\;\le\; x^{2}\sin\frac{1}{x}\;\le\; x^{2}
+  \quad\Longrightarrow\quad
+  \lim_{x\to 0}x^{2}\sin\frac{1}{x}=0 .
+\]
+\end{rulebox}
+
+\begin{rulebox}{Continuity}
+$f$ is \textbf{continuous at $a$} if three things hold:
+$f(a)$ is defined, $\lim_{x\to a}f(x)$ exists, and
+\[
+  \lim_{x\to a}f(x)=f(a) .
+\]
+$f$ is \textbf{continuous on an interval} if it is continuous at every
+point of the interval. All the standard functions are continuous wherever
+they are defined: polynomials and rational functions, roots $\sqrt[k]{x}$,
+powers $x^{r}$, the absolute value $|x|$, exponentials $\mathrm{e}^{x}$
+and $a^{x}$, the logarithm $\ln x$, and $\sin x$, $\cos x$. Moreover,
+\textbf{sums, differences, products, quotients (where the denominator is
+nonzero), and compositions of continuous functions are continuous}. In
+practice, discontinuities can therefore only occur at points where a
+formula breaks down (denominator $=0$, log of $0$, \dots) or where a
+piecewise definition switches branches.
+\end{rulebox}
+
+\begin{rulebox}{Classification of discontinuities}
+Suppose $f$ is not continuous at $a$. Compute the one-sided limits.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Removable}: the
+        two-sided limit $L$ exists (finite), but $f(a)\neq L$ or $f(a)$
+        is undefined. Redefining $f(a):=L$ repairs the function:
+        the graph has a single hole. Typical source: a cancelled $0/0$.
+  \item \textbf{Jump}: both one-sided limits exist
+        and are finite but differ. The jump has size
+        $\lim_{x\to a^{+}}f(x)-\lim_{x\to a^{-}}f(x)$.
+  \item \textbf{Pole}: at least one one-sided limit is
+        $+\infty$ or $-\infty$; the line $x=a$ is a vertical asymptote.
+\end{itemize}
+Piecewise price schedules are the standard economic example: if a
+quantity discount applies to \emph{all} units once the order passes a
+threshold, the total bill jumps \emph{downward} at the threshold: a
+jump discontinuity that makes some order sizes irrational to choose. If
+the discount applies only to the units \emph{above} the threshold, the
+bill is continuous.
+\end{rulebox}
+
+\begin{rulebox}{Intermediate Value Theorem (IVT)}
+Let $f$ be continuous on $[a,b]$. Then $f$
+attains every value between $f(a)$ and $f(b)$. In particular:
+\[
+  f(a)\cdot f(b)<0
+  \quad\Longrightarrow\quad
+  f(x^{*})=0 \text{ for some } x^{*}\in(a,b).
+\]
+This is the existence tool for roots and for market equilibria (apply it
+to excess demand $D(p)-S(p)$). It also drives the \textbf{bisection
+method}: evaluate $f$ at the midpoint $m=\tfrac{a+b}{2}$ and keep the
+half-interval on which $f$ still changes sign. Each step halves the
+bracket, so after $n$ steps the root is located to within
+$(b-a)/2^{n}$. Continuity is essential: a function with a jump can change
+sign without ever being zero.
+\end{rulebox}
+
+\begin{rulebox}{Weierstrass: extreme values on $[a,b]$}
+A function continuous on a \emph{closed, bounded} interval $[a,b]$
+attains a maximum and a minimum there.
+This is the one-variable case of the extreme value theorem that later
+volumes drill in several variables; here it guarantees, before any
+optimisation technique is available, that ``best'' and ``worst'' values
+exist at all. Both hypotheses matter: $f(x)=1/x$ on $(0,1]$ has no
+maximum, and $f(x)=x$ on $[0,\infty)$ has none either.
+\end{rulebox}
+
+\section{Practice Problems}
+
+Evaluate each limit or answer the question posed. Where a limit fails to
+exist, say so and give the one-sided limits; write $+\infty$ or $-\infty$
+where appropriate.
+
+\begin{problems}
+  \item $\displaystyle\lim_{x\to 2}\frac{x^{2}+1}{x+3}$
+  \item $\displaystyle\lim_{x\to 2}\frac{x^{2}-4}{x-2}$
+  \item $\displaystyle\lim_{x\to -3}\frac{x^{2}+5x+6}{x+3}$
+  \item $\displaystyle\lim_{x\to 1}\frac{x^{3}-1}{x-1}$
+  \item $\displaystyle\lim_{x\to 2}\frac{x^{2}-5x+6}{x^{2}-4}$
+  \item $\displaystyle\lim_{x\to 4}\frac{\sqrt{x}-2}{x-4}$
+  \item $\displaystyle\lim_{x\to 0}\frac{\sqrt{x+9}-3}{x}$
+  \item For $f(x)=\dfrac{|x-2|}{x-2}$ compute
+        $\displaystyle\lim_{x\to 2^{-}}f(x)$ and
+        $\displaystyle\lim_{x\to 2^{+}}f(x)$. Does
+        $\displaystyle\lim_{x\to 2}f(x)$ exist?
+  \item For
+        \[
+          f(x)=
+          \begin{cases}
+            x^{2}, & x<1,\\
+            3-x,   & x\ge 1,
+          \end{cases}
+        \]
+        compute both one-sided limits at $x=1$. Does the two-sided limit
+        exist? Classify the discontinuity, if any.
+  \item $\displaystyle\lim_{x\to\infty}\frac{3x^{2}-5x+1}{2x^{2}+7}$
+        \quad and \quad
+        $\displaystyle\lim_{x\to-\infty}\frac{3x^{2}-5x+1}{2x^{2}+7}$
+  \item $\displaystyle\lim_{x\to\infty}\frac{2x+1}{x^{2}-4}$. Which
+        horizontal asymptote does this give?
+  \item $\displaystyle\lim_{x\to\infty}\frac{x^{3}-2x}{5x^{2}+1}$
+        \quad and \quad
+        $\displaystyle\lim_{x\to-\infty}\frac{x^{3}-2x}{5x^{2}+1}$
+  \item Find all horizontal and vertical asymptotes of
+        $f(x)=\dfrac{2x^{2}-8}{x^{2}-1}$, including the one-sided
+        behaviour at each vertical asymptote.
+  \item Find all asymptotes of $f(x)=\dfrac{x^{2}-9}{x-3}$ and classify
+        the discontinuity at $x=3$.
+  \item Use the sandwich rule to compute
+        $\displaystyle\lim_{x\to 0}\,x^{2}\sin\frac{1}{x}$.
+  \item Find the constant $c$ that makes
+        \[
+          f(x)=
+          \begin{cases}
+            cx+3,    & x<2,\\
+            x^{2}+1, & x\ge 2,
+          \end{cases}
+        \]
+        continuous at $x=2$ (and hence on all of $\R$).
+  \item Classify all discontinuities of
+        $f(x)=\dfrac{x+2}{x^{2}-4}$.
+  \item A supplier offers a quantity discount on the \emph{whole} order:
+        \[
+          C(q)=
+          \begin{cases}
+            12q, & 0\le q\le 50,\\
+            9q,  & q>50,
+          \end{cases}
+        \]
+        where $C(q)$ is the total bill for $q$ units.
+        (a)~Compute the one-sided limits of $C$ at $q=50$ and classify
+        the discontinuity.
+        (b)~The supplier switches to $C(q)=9q+F$ for $q>50$ with a fixed
+        fee $F$. Which $F$ makes $C$ continuous at $q=50$, and what does
+        the continuous schedule mean economically?
+  \item Show with the Intermediate Value Theorem that
+        $f(x)=x^{3}-3x+1$ has a root in $[0,1]$, then perform one
+        bisection step: evaluate $f$ at the midpoint and state the new,
+        halved bracket.
+  \item On which set is
+        $g(x)=\dfrac{\sqrt{x+2}}{x-1}$
+        continuous? Justify using the continuity of standard functions
+        and of compositions and quotients.
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item The denominator does not vanish at $x=2$, so substitute
+        directly:
+        \[
+          \lim_{x\to 2}\frac{x^{2}+1}{x+3}=\frac{4+1}{2+3}=1 .
+        \]
+
+  \item At $x=2$ both numerator and denominator are $0$: the form is
+        $0/0$. Factor and cancel:
+        \[
+          \frac{x^{2}-4}{x-2}=\frac{(x-2)(x+2)}{x-2}=x+2
+          \quad (x\neq 2),
+          \qquad
+          \lim_{x\to 2}\,(x+2)=4 .
+        \]
+
+  \item Form $0/0$. Since $x^{2}+5x+6=(x+2)(x+3)$,
+        \[
+          \lim_{x\to -3}\frac{(x+2)(x+3)}{x+3}
+          =\lim_{x\to -3}\,(x+2)=-1 .
+        \]
+
+  \item Form $0/0$. Use $x^{3}-1=(x-1)(x^{2}+x+1)$:
+        \[
+          \lim_{x\to 1}\frac{(x-1)(x^{2}+x+1)}{x-1}
+          =\lim_{x\to 1}\,(x^{2}+x+1)=1+1+1=3 .
+        \]
+
+  \item Form $0/0$; both quadratics contain the factor $(x-2)$:
+        \[
+          \frac{x^{2}-5x+6}{x^{2}-4}
+          =\frac{(x-2)(x-3)}{(x-2)(x+2)}
+          =\frac{x-3}{x+2}
+          \quad (x\neq 2),
+        \]
+        so the limit is $\dfrac{2-3}{2+2}=-\dfrac{1}{4}$.
+
+  \item Form $0/0$. Expand with the conjugate $\sqrt{x}+2$:
+        \[
+          \frac{\sqrt{x}-2}{x-4}
+          =\frac{(\sqrt{x}-2)(\sqrt{x}+2)}{(x-4)(\sqrt{x}+2)}
+          =\frac{x-4}{(x-4)(\sqrt{x}+2)}
+          =\frac{1}{\sqrt{x}+2},
+        \]
+        hence the limit is $\dfrac{1}{\sqrt{4}+2}=\dfrac{1}{4}$.
+
+  \item Form $0/0$. Conjugate $\sqrt{x+9}+3$:
+        \[
+          \frac{\sqrt{x+9}-3}{x}
+          =\frac{(x+9)-9}{x\bigl(\sqrt{x+9}+3\bigr)}
+          =\frac{1}{\sqrt{x+9}+3}
+          \;\xrightarrow[x\to 0]{}\;
+          \frac{1}{3+3}=\frac{1}{6} .
+        \]
+
+  \item For $x<2$ we have $|x-2|=-(x-2)$, so $f(x)=-1$; for $x>2$ we
+        have $|x-2|=x-2$, so $f(x)=+1$. Hence
+        \[
+          \lim_{x\to 2^{-}}f(x)=-1,
+          \qquad
+          \lim_{x\to 2^{+}}f(x)=+1 .
+        \]
+        The one-sided limits differ, so $\lim_{x\to 2}f(x)$ does not
+        exist ($f$ has a jump of size $2$ at $x=2$).
+
+  \item Left branch: $\lim_{x\to 1^{-}}x^{2}=1$. Right branch:
+        $\lim_{x\to 1^{+}}(3-x)=2$, and $f(1)=3-1=2$. The one-sided
+        limits are finite but different, so the two-sided limit does not
+        exist: $f$ has a \textbf{jump discontinuity} at $x=1$ with jump
+        $2-1=1$.
+
+  \item Degrees are equal, so the limit is the ratio of the leading
+        coefficients. Dividing by $x^{2}$:
+        \[
+          \frac{3x^{2}-5x+1}{2x^{2}+7}
+          =\frac{3-\frac{5}{x}+\frac{1}{x^{2}}}{2+\frac{7}{x^{2}}}
+          \;\longrightarrow\;\frac{3}{2}
+          \qquad (x\to\infty\ \text{and}\ x\to-\infty).
+        \]
+        Both limits equal $\tfrac{3}{2}$.
+
+  \item The numerator has smaller degree than the denominator, so
+        \[
+          \lim_{x\to\infty}\frac{2x+1}{x^{2}-4}
+          =\lim_{x\to\infty}
+           \frac{\frac{2}{x}+\frac{1}{x^{2}}}{1-\frac{4}{x^{2}}}
+          =\frac{0}{1}=0 .
+        \]
+        The horizontal asymptote is $y=0$ (the $x$-axis).
+
+  \item The numerator has larger degree. Divide by $x^{2}$:
+        \[
+          \frac{x^{3}-2x}{5x^{2}+1}
+          =\frac{x-\frac{2}{x}}{5+\frac{1}{x^{2}}} .
+        \]
+        The denominator tends to $5$ while the numerator tends to
+        $+\infty$ resp.\ $-\infty$, so
+        \[
+          \lim_{x\to\infty}\frac{x^{3}-2x}{5x^{2}+1}=+\infty,
+          \qquad
+          \lim_{x\to-\infty}\frac{x^{3}-2x}{5x^{2}+1}=-\infty .
+        \]
+
+  \item \textbf{Horizontal:} equal degrees, ratio of leading
+        coefficients $\tfrac{2}{1}=2$, so $y=2$ as $x\to\pm\infty$.
+        \textbf{Vertical:} the denominator $x^{2}-1=(x-1)(x+1)$
+        vanishes at $x=\pm 1$; the numerator $2x^{2}-8$ equals $-6\neq 0$
+        at both points, so no cancellation: both are poles. Near $x=1$
+        the numerator is close to $-6$, and $(x-1)(x+1)$ is a small
+        positive number for $x\to 1^{+}$, a small negative number for
+        $x\to 1^{-}$:
+        \[
+          \lim_{x\to 1^{+}}f(x)=-\infty,\qquad
+          \lim_{x\to 1^{-}}f(x)=+\infty .
+        \]
+        Near $x=-1$ the numerator is again close to $-6$, while
+        $(x-1)(x+1)$ is negative for $x\to-1^{+}$ and positive for
+        $x\to-1^{-}$:
+        \[
+          \lim_{x\to -1^{+}}f(x)=+\infty,\qquad
+          \lim_{x\to -1^{-}}f(x)=-\infty .
+        \]
+        Asymptotes: $y=2$, $x=1$, $x=-1$.
+
+  \item Factor: $x^{2}-9=(x-3)(x+3)$, so for $x\neq 3$
+        \[
+          f(x)=\frac{(x-3)(x+3)}{x-3}=x+3,
+          \qquad
+          \lim_{x\to 3}f(x)=6 .
+        \]
+        The limit exists but $f(3)$ is undefined: the discontinuity at
+        $x=3$ is \textbf{removable} (a hole at $(3,6)$), \emph{not} a
+        vertical asymptote, the common factor cancels completely.
+        Since $f(x)=x+3\to\pm\infty$ as $x\to\pm\infty$, there is no
+        horizontal asymptote either: $f$ has no asymptotes at all.
+
+  \item Since $-1\le\sin\frac{1}{x}\le 1$ for all $x\neq 0$ and
+        $x^{2}\ge 0$,
+        \[
+          -x^{2}\;\le\; x^{2}\sin\frac{1}{x}\;\le\; x^{2}.
+        \]
+        Both bounds tend to $0$ as $x\to 0$, so by the sandwich rule
+        \[
+          \lim_{x\to 0}\,x^{2}\sin\frac{1}{x}=0 .
+        \]
+
+  \item Both branches are polynomials, hence continuous away from
+        $x=2$; only the seam matters. One-sided limits at $x=2$:
+        \[
+          \lim_{x\to 2^{-}}(cx+3)=2c+3,
+          \qquad
+          \lim_{x\to 2^{+}}(x^{2}+1)=5=f(2).
+        \]
+        Continuity requires $2c+3=5$, i.e.\ $c=1$. With $c=1$
+        both one-sided limits equal $f(2)=5$, so $f$ is continuous on
+        $\R$.
+
+  \item Factor the denominator: $x^{2}-4=(x-2)(x+2)$, so for
+        $x\neq -2$
+        \[
+          f(x)=\frac{x+2}{(x-2)(x+2)}=\frac{1}{x-2}.
+        \]
+        \textbf{At $x=-2$:} the factor cancels and
+        $\lim_{x\to-2}f(x)=\frac{1}{-4}=-\frac14$ exists, while $f(-2)$
+        is undefined: a \textbf{removable} discontinuity.
+        \textbf{At $x=2$:} after cancelling, the denominator still
+        vanishes while the numerator is $1$:
+        \[
+          \lim_{x\to 2^{-}}\frac{1}{x-2}=-\infty,
+          \qquad
+          \lim_{x\to 2^{+}}\frac{1}{x-2}=+\infty,
+        \]
+        a \textbf{pole} (vertical asymptote $x=2$).
+
+  \item (a) One-sided limits at the threshold:
+        \[
+          \lim_{q\to 50^{-}}C(q)=12\cdot 50=600=C(50),
+          \qquad
+          \lim_{q\to 50^{+}}C(q)=9\cdot 50=450 .
+        \]
+        Both are finite but different: a \textbf{jump discontinuity}
+        with jump $450-600=-150$. The bill \emph{drops} by $150$ as the
+        order passes $50$ units: ordering $51$ units costs
+        $9\cdot 51=459$, less than the $600$ charged for $50$ units,
+        indeed less than the $12\cdot 39=468$ charged for $39$ units.
+        No rational customer orders between about $39$ and $50$ units.
+
+        (b) Continuity at $q=50$ requires
+        \[
+          \lim_{q\to 50^{+}}(9q+F)=450+F\overset{!}{=}600
+          \quad\Longrightarrow\quad
+          F=150 .
+        \]
+        Then for $q>50$,
+        \[
+          C(q)=9q+150=12\cdot 50+9\,(q-50):
+        \]
+        the first $50$ units cost $12$ each and only the units
+        \emph{beyond} the threshold get the discounted price $9$. The
+        continuous schedule is exactly the marginal-discount tariff.
+
+  \item $f(x)=x^{3}-3x+1$ is a polynomial, hence continuous on $[0,1]$.
+        Endpoint values:
+        \[
+          f(0)=1>0,
+          \qquad
+          f(1)=1-3+1=-1<0 .
+        \]
+        The sign changes, so by the IVT there is an $x^{*}\in(0,1)$ with
+        $f(x^{*})=0$. \textbf{Bisection step:} midpoint $m=\tfrac12$,
+        \[
+          f\Bigl(\tfrac12\Bigr)
+          =\tfrac18-\tfrac32+1=-\tfrac38<0 .
+        \]
+        The sign change now sits between $f(0)>0$ and
+        $f(\tfrac12)<0$: the new bracket is $\bigl[0,\tfrac12\bigr]$,
+        half as long as before.
+
+  \item The numerator $\sqrt{x+2}$ is the composition of the continuous
+        functions $x\mapsto x+2$ and $t\mapsto\sqrt{t}$, hence
+        continuous wherever it is defined, i.e.\ for $x+2\ge 0$. The
+        denominator $x-1$ is continuous everywhere, and a quotient of
+        continuous functions is continuous wherever the denominator is
+        nonzero. Therefore $g$ is continuous on its whole domain
+        \[
+          [-2,1)\cup(1,\infty),
+        \]
+        i.e.\ for all $x\ge -2$ with $x\neq 1$.
+\end{solutions}
+
+\section{Additional Problems}
+
+\begin{problems}
+  \item $\displaystyle\lim_{x\to -2}\frac{x^{2}-x-6}{x+2}$
+  \item $\displaystyle\lim_{x\to 9}\frac{\sqrt{x}-3}{x-9}$
+  \item $\displaystyle\lim_{x\to 0}\frac{\sqrt{4+x}-2}{x}$
+  \item $\displaystyle\lim_{x\to\infty}\frac{5x^{3}+2x}{2x^{3}-x^{2}+4}$
+        \quad and \quad
+        $\displaystyle\lim_{x\to-\infty}\frac{5x^{3}+2x}{2x^{3}-x^{2}+4}$
+  \item Find all asymptotes of $f(x)=\dfrac{3x+1}{x-2}$, including the
+        one-sided behaviour at the vertical asymptote.
+  \item Find the constant $c$ that makes
+        \[
+          f(x)=
+          \begin{cases}
+            cx^{2}, & x\le 2,\\
+            3x+2,   & x>2,
+          \end{cases}
+        \]
+        continuous on $\R$.
+  \item Classify all discontinuities of
+        $f(x)=\dfrac{x^{2}-1}{x^{2}-3x+2}$.
+  \item Use the sandwich rule to compute
+        $\displaystyle\lim_{x\to\infty}\frac{2+\cos x}{x}$.
+  \item Show that $f(x)=x^{3}+x-3$ has a root in $[1,2]$ and perform
+        one bisection step, stating the new bracket.
+  \item Explain why $f(x)=x^{2}-4x+1$ attains a maximum and a minimum
+        on $[0,3]$, and find both values (no derivatives: complete the
+        square).
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item Form $0/0$. Factor $x^{2}-x-6=(x-3)(x+2)$:
+        \[
+          \lim_{x\to -2}\frac{(x-3)(x+2)}{x+2}
+          =\lim_{x\to -2}\,(x-3)=-5 .
+        \]
+
+  \item Form $0/0$. Conjugate $\sqrt{x}+3$, using
+        $x-9=(\sqrt{x}-3)(\sqrt{x}+3)$:
+        \[
+          \frac{\sqrt{x}-3}{x-9}=\frac{1}{\sqrt{x}+3}
+          \;\xrightarrow[x\to 9]{}\;
+          \frac{1}{3+3}=\frac{1}{6} .
+        \]
+
+  \item Form $0/0$. Conjugate $\sqrt{4+x}+2$:
+        \[
+          \frac{\sqrt{4+x}-2}{x}
+          =\frac{(4+x)-4}{x\bigl(\sqrt{4+x}+2\bigr)}
+          =\frac{1}{\sqrt{4+x}+2}
+          \;\xrightarrow[x\to 0]{}\;
+          \frac{1}{4} .
+        \]
+
+  \item Equal degrees: the limit is the ratio of the leading
+        coefficients,
+        \[
+          \lim_{x\to\pm\infty}\frac{5x^{3}+2x}{2x^{3}-x^{2}+4}
+          =\frac{5}{2}
+        \]
+        in both directions (divide numerator and denominator by
+        $x^{3}$).
+
+  \item \textbf{Horizontal:} equal degrees give
+        $y=\tfrac{3}{1}=3$ as $x\to\pm\infty$. \textbf{Vertical:} the
+        denominator vanishes at $x=2$, the numerator equals $7\neq 0$
+        there, so $x=2$ is a pole. Near $x=2$ the numerator is close to
+        $7>0$, so the sign follows $x-2$:
+        \[
+          \lim_{x\to 2^{-}}f(x)=-\infty,
+          \qquad
+          \lim_{x\to 2^{+}}f(x)=+\infty .
+        \]
+        Asymptotes: $y=3$ and $x=2$.
+
+  \item Both branches are continuous; match them at the seam $x=2$:
+        \[
+          \lim_{x\to 2^{-}}cx^{2}=4c=f(2),
+          \qquad
+          \lim_{x\to 2^{+}}(3x+2)=8 .
+        \]
+        Continuity requires $4c=8$, so $c=2$.
+
+  \item Factor: $x^{2}-1=(x-1)(x+1)$ and $x^{2}-3x+2=(x-1)(x-2)$, so
+        for $x\neq 1$
+        \[
+          f(x)=\frac{(x-1)(x+1)}{(x-1)(x-2)}=\frac{x+1}{x-2}.
+        \]
+        \textbf{At $x=1$:} the factor cancels,
+        $\lim_{x\to 1}f(x)=\frac{2}{-1}=-2$ exists while $f(1)$ is
+        undefined: \textbf{removable}. \textbf{At $x=2$:} the numerator
+        tends to $3\neq 0$ while the denominator vanishes:
+        \[
+          \lim_{x\to 2^{-}}\frac{x+1}{x-2}=-\infty,
+          \qquad
+          \lim_{x\to 2^{+}}\frac{x+1}{x-2}=+\infty,
+        \]
+        a \textbf{pole} with vertical asymptote $x=2$.
+
+  \item Since $-1\le\cos x\le 1$, we have $1\le 2+\cos x\le 3$, and for
+        $x>0$
+        \[
+          \frac{1}{x}\;\le\;\frac{2+\cos x}{x}\;\le\;\frac{3}{x} .
+        \]
+        Both bounds tend to $0$ as $x\to\infty$, so the limit is $0$ by
+        the sandwich rule.
+
+  \item $f(x)=x^{3}+x-3$ is continuous (polynomial), and
+        \[
+          f(1)=1+1-3=-1<0,
+          \qquad
+          f(2)=8+2-3=7>0,
+        \]
+        so by the IVT a root lies in $(1,2)$. \textbf{Bisection step:}
+        midpoint $m=1.5$,
+        \[
+          f(1.5)=3.375+1.5-3=1.875>0 .
+        \]
+        The sign change is now between $f(1)<0$ and $f(1.5)>0$: new
+        bracket $[1,\,1.5]$.
+
+  \item $f$ is a polynomial, hence continuous, and $[0,3]$ is a closed
+        bounded interval, so by the Weierstrass theorem $f$ attains a
+        maximum and a minimum on $[0,3]$. Completing the square,
+        \[
+          f(x)=x^{2}-4x+1=(x-2)^{2}-3 ,
+        \]
+        which is smallest when $(x-2)^{2}=0$: minimum $-3$ at $x=2$
+        (which lies in $[0,3]$). The maximum of $(x-2)^{2}$ over
+        $[0,3]$ occurs at the endpoint farther from $2$, namely $x=0$:
+        $f(0)=1$ versus $f(3)=9-12+1=-2$. Maximum $1$ at $x=0$,
+        minimum $-3$ at $x=2$.
+\end{solutions}

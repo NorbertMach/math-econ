@@ -1,0 +1,382 @@
+\chapter{Improper Integrals}
+
+An improper integral is one where either
+the interval of integration is unbounded, or the integrand has a
+vertical asymptote inside the interval. Both are defined as limits of
+proper integrals and may or may not converge. The economist's archetype
+is $\int_{0}^{\infty} \mathrm{e}^{-rt}\,\mathrm{d}t$, the present value
+of a unit perpetual flow.
+
+\section{Core Rules}
+
+\begin{rulebox}{Type I: unbounded interval}
+For continuous $f$,
+\[
+  \int_{a}^{\infty} f(x)\,\mathrm{d}x \;:=\; \lim_{b\to\infty}\int_{a}^{b} f(x)\,\mathrm{d}x,
+\]
+\[
+  \int_{-\infty}^{b} f(x)\,\mathrm{d}x \;:=\; \lim_{a\to-\infty}\int_{a}^{b} f(x)\,\mathrm{d}x,
+\]
+\[
+  \int_{-\infty}^{\infty} f(x)\,\mathrm{d}x \;:=\; \int_{-\infty}^{c} f(x)\,\mathrm{d}x+\int_{c}^{\infty} f(x)\,\mathrm{d}x,
+\]
+the last requiring \emph{both} pieces to converge separately
+(independent of the splitting point $c$).
+\end{rulebox}
+
+\begin{rulebox}{Type II: vertical asymptote}
+If $f$ is continuous on $[a,b)$ and blows up at $b$,
+\[
+  \int_{a}^{b} f(x)\,\mathrm{d}x \;:=\; \lim_{t\to b^{-}}\int_{a}^{t} f(x)\,\mathrm{d}x .
+\]
+Analogously for an asymptote at $a$ (limit from $a^{+}$), or at an
+interior point $c$ (split at $c$ and treat each piece).
+\end{rulebox}
+
+\begin{rulebox}{Convergence vs.\ divergence}
+If the limit exists and is finite, the improper integral
+\emph{converges} to that value; otherwise it \emph{diverges} (either to
+$\pm\infty$, or by oscillation).
+\end{rulebox}
+
+\begin{rulebox}{Two benchmark families}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item $\displaystyle\int_{1}^{\infty} \frac{1}{x^{p}}\,\mathrm{d}x$
+        converges iff $p>1$, and equals $\dfrac{1}{p-1}$ in that case.
+  \item $\displaystyle\int_{0}^{1} \frac{1}{x^{p}}\,\mathrm{d}x$
+        converges iff $p<1$, and equals $\dfrac{1}{1-p}$ in that case.
+\end{itemize}
+The borderline case $p=1$ diverges in both.
+\end{rulebox}
+
+\begin{rulebox}{The economist's identity}
+For any $r>0$,
+\[
+  \int_{0}^{\infty} \mathrm{e}^{-rt}\,\mathrm{d}t=\frac{1}{r},\qquad
+  \int_{0}^{\infty} t\,\mathrm{e}^{-rt}\,\mathrm{d}t=\frac{1}{r^{2}},\qquad
+  \int_{0}^{\infty} \mathrm{e}^{-rt}f(t)\,\mathrm{d}t=\text{PV of cash flow }f .
+\]
+\end{rulebox}
+
+\section{Practice Problems}
+
+Decide whether each integral converges; if it does, evaluate it.
+
+\begin{problems}
+  \item $\displaystyle\int_{1}^{\infty} \frac{1}{x^{2}}\,\mathrm{d}x$
+  \item $\displaystyle\int_{1}^{\infty} \frac{1}{x}\,\mathrm{d}x$
+  \item $\displaystyle\int_{1}^{\infty} \frac{1}{\sqrt{x}}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{\infty} \mathrm{e}^{-x}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{\infty} \mathrm{e}^{-rt}\,\mathrm{d}t$
+        \quad ($r>0$)
+  \item $\displaystyle\int_{0}^{\infty} t\,\mathrm{e}^{-t}\,\mathrm{d}t$
+  \item $\displaystyle\int_{0}^{\infty} t^{2}\,\mathrm{e}^{-t}\,\mathrm{d}t$
+  \item $\displaystyle\int_{1}^{\infty} \frac{1}{x^{3}}\,\mathrm{d}x$
+  \item $\displaystyle\int_{-\infty}^{0} \mathrm{e}^{x}\,\mathrm{d}x$
+  \item $\displaystyle\int_{-\infty}^{\infty} \frac{x}{1+x^{2}}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{1} \frac{1}{\sqrt{x}}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{1} \frac{1}{x}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{1} \frac{1}{x^{1/3}}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{1} \ln x\,\mathrm{d}x$
+  \item $\displaystyle\int_{1}^{\infty} \frac{\ln x}{x^{2}}\,\mathrm{d}x$
+  \item $\displaystyle\int_{2}^{\infty} \frac{1}{x(\ln x)^{2}}\,\mathrm{d}x$
+  \item $\displaystyle\int_{2}^{\infty} \frac{1}{x\ln x}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{\infty} \frac{1}{(1+x)^{2}}\,\mathrm{d}x$
+  \item $\displaystyle\int_{-\infty}^{\infty} \frac{1}{1+x^{2}}\,\mathrm{d}x$
+        \quad (antideriv.\ is $\arctan x$)
+  \item Present value of a perpetuity that pays continuously at rate
+        $D=1000$ per year, discounted at $r=0.05$:
+        $\displaystyle\int_{0}^{\infty} 1000\,\mathrm{e}^{-0.05t}\,\mathrm{d}t$.
+  \item Present value of a finite annuity:
+        $\displaystyle\int_{0}^{T} D\,\mathrm{e}^{-rt}\,\mathrm{d}t$.
+  \item $\displaystyle\int_{0}^{2} \frac{1}{(x-2)^{2}}\,\mathrm{d}x$
+        \quad (asymptote at $x=2$)
+  \item $\displaystyle\int_{0}^{1} \frac{1}{(1-x)^{1/2}}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{\infty} x\,\mathrm{e}^{-x^{2}}\,\mathrm{d}x$
+  \item $\displaystyle\int_{1}^{\infty} \frac{1}{x^{2}-x}\,\mathrm{d}x
+        = \int_{1}^{\infty} \frac{1}{x(x-1)}\,\mathrm{d}x$
+        \quad (careful! asymptote at $x=1$)
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item $\displaystyle\Bigl[-\frac{1}{x}\Bigr]_{1}^{b}=-\frac{1}{b}+1\to 1$
+        as $b\to\infty$. Converges to $1$.
+
+  \item $\displaystyle\bigl[\ln x\bigr]_{1}^{b}=\ln b\to\infty$. Diverges.
+
+  \item $\displaystyle\bigl[2\sqrt{x}\bigr]_{1}^{b}=2\sqrt{b}-2\to\infty$.
+        Diverges.
+
+  \item $\displaystyle\bigl[-\mathrm{e}^{-x}\bigr]_{0}^{b}=1-\mathrm{e}^{-b}\to 1$.
+        Converges to $1$.
+
+  \item $\displaystyle\Bigl[-\frac{1}{r}\mathrm{e}^{-rt}\Bigr]_{0}^{b}
+        =\frac{1}{r}(1-\mathrm{e}^{-rb})\to\frac{1}{r}$. Converges to
+        $1/r$. This is the present value of a unit perpetual flow.
+
+  \item By parts (Section 3 problem 11 with $r=1$): an antiderivative is
+        $-(t+1)\mathrm{e}^{-t}$.
+        \[
+          \bigl[-(t+1)\mathrm{e}^{-t}\bigr]_{0}^{b}=-(b+1)\mathrm{e}^{-b}+1\to 1 .
+        \]
+        Converges to $1$. (Generalised:
+        $\int_{0}^{\infty} t\mathrm{e}^{-rt}\,\mathrm{d}t=1/r^{2}$.)
+
+  \item Tabular IBP gives antiderivative
+        $-(t^{2}+2t+2)\mathrm{e}^{-t}$ (Section 3 problem 13).
+        \[
+          \bigl[-(t^{2}+2t+2)\mathrm{e}^{-t}\bigr]_{0}^{b}
+            =-(b^{2}+2b+2)\mathrm{e}^{-b}+2\to 2 .
+        \]
+        Converges to $2$. (This is $\Gamma(3)=2!$.)
+
+  \item $\displaystyle\Bigl[-\frac{1}{2x^{2}}\Bigr]_{1}^{b}
+        =-\frac{1}{2b^{2}}+\frac{1}{2}\to\frac{1}{2}$. Converges to $1/2$.
+
+  \item $\displaystyle\bigl[\mathrm{e}^{x}\bigr]_{a}^{0}=1-\mathrm{e}^{a}\to 1$
+        as $a\to-\infty$. Converges to $1$.
+
+  \item Split at $0$.
+        $\int_{0}^{\infty} \frac{x}{1+x^{2}}\,\mathrm{d}x
+        =\lim_{b}\frac{1}{2}\ln(1+b^{2})=\infty$. The right piece
+        already diverges, so the doubly improper integral
+        \textbf{diverges} (even though the integrand is odd: the
+        principal value is $0$ but the standard definition requires
+        both halves to converge separately).
+
+  \item $\displaystyle\bigl[2\sqrt{x}\bigr]_{t}^{1}=2-2\sqrt{t}\to 2$
+        as $t\to 0^{+}$. Converges to $2$.
+
+  \item $\displaystyle\bigl[\ln x\bigr]_{t}^{1}=-\ln t\to\infty$ as
+        $t\to 0^{+}$. Diverges.
+
+  \item $\displaystyle\int_{t}^{1} x^{-1/3}\,\mathrm{d}x
+        =\Bigl[\tfrac{3}{2}x^{2/3}\Bigr]_{t}^{1}
+        =\tfrac{3}{2}(1-t^{2/3})\to\tfrac{3}{2}$. Converges to $3/2$.
+
+  \item Antiderivative $x\ln x-x$ (Section 3 problem 4).
+        \[
+          \bigl[x\ln x-x\bigr]_{t}^{1}=(0-1)-(t\ln t-t)=-1-t\ln t+t .
+        \]
+        As $t\to 0^{+}$, $t\ln t\to 0$, so the limit is $-1$. Converges
+        to $-1$.
+
+  \item By parts: $u=\ln x$, $v'=x^{-2}$, $v=-x^{-1}$.
+        \[
+          \int \frac{\ln x}{x^{2}}\,\mathrm{d}x
+            =-\frac{\ln x}{x}+\int \frac{1}{x^{2}}\,\mathrm{d}x
+            =-\frac{\ln x}{x}-\frac{1}{x}+C=-\frac{\ln x+1}{x}+C .
+        \]
+        Evaluate $\displaystyle\Bigl[-\frac{\ln x+1}{x}\Bigr]_{1}^{b}
+        =-\frac{\ln b+1}{b}+1\to 1$ (numerator grows like $\ln b$,
+        denominator like $b$). Converges to $1$.
+
+  \item $u=\ln x$, $\mathrm{d}u=\mathrm{d}x/x$. Antiderivative
+        $-\dfrac{1}{\ln x}$.
+        \[
+          \Bigl[-\frac{1}{\ln x}\Bigr]_{2}^{b}
+            =-\frac{1}{\ln b}+\frac{1}{\ln 2}\to\frac{1}{\ln 2} .
+        \]
+        Converges to $1/\ln 2$.
+
+  \item Same substitution; antiderivative $\ln|\ln x|$.
+        \[
+          \bigl[\ln\ln x\bigr]_{2}^{b}=\ln\ln b-\ln\ln 2\to\infty .
+        \]
+        Diverges (just barely).
+
+  \item $u=1+x$. Antiderivative $-\dfrac{1}{1+x}$.
+        \[
+          \Bigl[-\frac{1}{1+x}\Bigr]_{0}^{b}
+            =-\frac{1}{1+b}+1\to 1 .
+        \]
+        Converges to $1$.
+
+  \item $\displaystyle\bigl[\arctan x\bigr]_{-a}^{b}
+        \to\frac{\pi}{2}-\bigl(-\frac{\pi}{2}\bigr)=\pi$. Converges to
+        $\pi$.
+
+  \item By problem 5 with $r=0.05$:
+        \[
+          PV=\frac{1000}{0.05}=20{,}000 .
+        \]
+
+  \item $\displaystyle\int_{0}^{T} D\,\mathrm{e}^{-rt}\,\mathrm{d}t
+        =D\bigl[-\tfrac{1}{r}\mathrm{e}^{-rt}\bigr]_{0}^{T}
+        =\frac{D(1-\mathrm{e}^{-rT})}{r}$. As $T\to\infty$ this tends
+        to $D/r$, recovering the perpetuity.
+
+  \item Antiderivative $-\dfrac{1}{x-2}$. As $t\to 2^{-}$,
+        \[
+          \Bigl[-\frac{1}{x-2}\Bigr]_{0}^{t}
+            =-\frac{1}{t-2}-\frac{1}{2}=\frac{1}{2-t}-\frac{1}{2}\to\infty .
+        \]
+        Diverges.
+
+  \item $u=1-x$, $\mathrm{d}u=-\mathrm{d}x$. Antiderivative
+        $-2\sqrt{1-x}$.
+        \[
+          \bigl[-2\sqrt{1-x}\bigr]_{0}^{t}=-2\sqrt{1-t}+2\to 2 .
+        \]
+        Converges to $2$.
+
+  \item $u=x^{2}$, $\mathrm{d}u=2x\,\mathrm{d}x$. Antiderivative
+        $-\tfrac12\mathrm{e}^{-x^{2}}$.
+        \[
+          \Bigl[-\tfrac12\mathrm{e}^{-x^{2}}\Bigr]_{0}^{b}
+            =-\tfrac12\mathrm{e}^{-b^{2}}+\tfrac12\to\tfrac12 .
+        \]
+        Converges to $1/2$.
+
+  \item The integrand also blows up at the left endpoint $x=1$, so the
+        integral is improper at \emph{both} ends. Split, say at $2$:
+        $\int_{1}^{2}+\int_{2}^{\infty}$. Partial fractions:
+        $\dfrac{1}{x(x-1)}=\dfrac{1}{x-1}-\dfrac{1}{x}$, antiderivative
+        $\ln\left|\dfrac{x-1}{x}\right|$. Near $x=1^{+}$ this
+        $\to-\infty$, so the lower piece \textbf{diverges} and the
+        whole integral diverges.
+\end{solutions}
+
+\section{Additional Problems}
+
+Decide whether each integral converges; if it does, evaluate it.
+
+\begin{problems}
+  \item $\displaystyle\int_{1}^{\infty} \frac{1}{x^{3/2}}\,\mathrm{d}x$
+  \item $\displaystyle\int_{1}^{\infty} \frac{1}{x^{4}}\,\mathrm{d}x$
+  \item $\displaystyle\int_{2}^{\infty} \mathrm{e}^{-3x}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{\infty} \mathrm{e}^{-x/2}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{\infty} \frac{1}{(1+x)^{3}}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{1} \frac{1}{x^{2/3}}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{1} \frac{\ln x}{x}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{\infty} t^{3}\,\mathrm{e}^{-t}\,\mathrm{d}t$
+  \item $\displaystyle\int_{0}^{\infty} t\,\mathrm{e}^{-2t}\,\mathrm{d}t$
+  \item $\displaystyle\int_{-\infty}^{0} x\,\mathrm{e}^{x}\,\mathrm{d}x$
+  \item $\displaystyle\int_{\mathrm{e}}^{\infty} \frac{1}{x(\ln x)^{3}}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{4} \frac{1}{\sqrt{x}}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{9} \frac{1}{\sqrt{9-x}}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{1} \frac{\ln x}{\sqrt{x}}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{\infty} x^{2}\,\mathrm{e}^{-2x}\,\mathrm{d}x$
+  \item $\displaystyle\int_{1}^{\infty} \frac{(\ln x)^{2}}{x^{2}}\,\mathrm{d}x$
+  \item $\displaystyle\int_{2}^{\infty} \frac{1}{(x-1)^{2}}\,\mathrm{d}x$
+  \item Present value of a perpetuity paying \$2{,}000 per year
+        continuously at $r=0.08$.
+  \item $\displaystyle\int_{3}^{\infty} \frac{1}{x^{2}-4}\,\mathrm{d}x$
+  \item $\displaystyle\int_{0}^{1} \frac{1}{(1-x)^{1/3}}\,\mathrm{d}x$
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item $p=3/2>1$, so converges to $\dfrac{1}{p-1}=2$. Check:
+        $\displaystyle\bigl[-2x^{-1/2}\bigr]_{1}^{b}=-2/\sqrt{b}+2\to 2$.
+
+  \item $\displaystyle\Bigl[-\frac{1}{3x^{3}}\Bigr]_{1}^{b}
+        =-\frac{1}{3b^{3}}+\frac{1}{3}\to\frac{1}{3}$. Converges to
+        $1/3$.
+
+  \item $\displaystyle\Bigl[-\frac{1}{3}\mathrm{e}^{-3x}\Bigr]_{2}^{b}
+        =-\frac{1}{3}\mathrm{e}^{-3b}+\frac{1}{3}\mathrm{e}^{-6}
+        \to\frac{1}{3}\mathrm{e}^{-6}$. Converges to $\mathrm{e}^{-6}/3$.
+
+  \item $\displaystyle\bigl[-2\mathrm{e}^{-x/2}\bigr]_{0}^{b}
+        =-2\mathrm{e}^{-b/2}+2\to 2$. Converges to $2$. (Matches $1/r$
+        with $r=1/2$.)
+
+  \item Antiderivative $-\dfrac{1}{2(1+x)^{2}}$.
+        $\displaystyle\Bigl[-\frac{1}{2(1+x)^{2}}\Bigr]_{0}^{b}
+        \to 0+\frac{1}{2}=\frac{1}{2}$. Converges to $1/2$.
+
+  \item $p=2/3<1$, so converges.
+        $\displaystyle\int_{t}^{1} x^{-2/3}\,\mathrm{d}x
+        =\bigl[3x^{1/3}\bigr]_{t}^{1}=3-3t^{1/3}\to 3$. Converges to
+        $3$.
+
+  \item Antiderivative $\dfrac{(\ln x)^{2}}{2}$.
+        $\displaystyle\Bigl[\frac{(\ln x)^{2}}{2}\Bigr]_{t}^{1}
+        =0-\frac{(\ln t)^{2}}{2}\to-\infty$ as $t\to 0^{+}$. Diverges.
+
+  \item By the gamma identity,
+        $\int_{0}^{\infty} t^{n}\mathrm{e}^{-t}\,\mathrm{d}t=n!$. Here
+        $n=3$, so the value is $6$.
+
+  \item By the formula
+        $\int_{0}^{\infty} t\mathrm{e}^{-rt}\,\mathrm{d}t=1/r^{2}$ with
+        $r=2$: $1/4$.
+
+  \item Antiderivative $(x-1)\mathrm{e}^{x}$.
+        $\bigl[(x-1)\mathrm{e}^{x}\bigr]_{a}^{0}=-1-(a-1)\mathrm{e}^{a}$.
+        As $a\to-\infty$, $(a-1)\mathrm{e}^{a}\to 0$, so the limit is
+        $-1$. Converges to $-1$.
+
+  \item $u=\ln x$, $\mathrm{d}u=\mathrm{d}x/x$. Limits $u:1\to\infty$.
+        \[
+          \int_{1}^{\infty} \frac{1}{u^{3}}\,\mathrm{d}u
+            =\Bigl[-\frac{1}{2u^{2}}\Bigr]_{1}^{\infty}=\frac{1}{2} .
+        \]
+        Converges to $1/2$.
+
+  \item $p=1/2<1$. $\displaystyle\bigl[2\sqrt{x}\bigr]_{t}^{4}
+        =4-2\sqrt{t}\to 4$. Converges to $4$.
+
+  \item $u=9-x$, $\mathrm{d}u=-\mathrm{d}x$. Antiderivative of
+        $-(9-x)^{-1/2}\cdot(-1)=(9-x)^{-1/2}$ is $-2\sqrt{9-x}$.
+        \[
+          \bigl[-2\sqrt{9-x}\bigr]_{0}^{t}=-2\sqrt{9-t}+6\to 6 .
+        \]
+        Converges to $6$ as $t\to 9^{-}$.
+
+  \item By parts: $u=\ln x$, $v'=x^{-1/2}$, $v=2\sqrt{x}$, $u'=1/x$.
+        \[
+          \int \frac{\ln x}{\sqrt{x}}\,\mathrm{d}x
+            =2\sqrt{x}\ln x-\int \frac{2}{\sqrt{x}}\,\mathrm{d}x
+            =2\sqrt{x}\ln x-4\sqrt{x}+C .
+        \]
+        As $t\to 0^{+}$: $\sqrt{t}\ln t\to 0$, $\sqrt{t}\to 0$. At
+        $x=1$: $0-4=-4$. So the integral converges to $-4$.
+
+  \item By the formula
+        $\int_{0}^{\infty} t^{n}\mathrm{e}^{-rt}\,\mathrm{d}t=n!/r^{n+1}$
+        with $n=2$, $r=2$: $2/8=1/4$.
+
+  \item By parts twice. From Section 3 problem 15,
+        $\int \frac{\ln x}{x^{2}}\,\mathrm{d}x=-\frac{\ln x+1}{x}$.
+        Apply parts to the original: $u=(\ln x)^{2}$, $v'=x^{-2}$,
+        $v=-x^{-1}$, $u'=2\ln x/x$.
+        \[
+          \int \frac{(\ln x)^{2}}{x^{2}}\,\mathrm{d}x
+            =-\frac{(\ln x)^{2}}{x}+2\int \frac{\ln x}{x^{2}}\,\mathrm{d}x
+            =-\frac{(\ln x)^{2}+2\ln x+2}{x}+C .
+        \]
+        As $b\to\infty$, $(\ln b)^{k}/b\to 0$ for any $k$. So the value
+        is $0-(-2)=2$.
+
+  \item Antiderivative $-\dfrac{1}{x-1}$.
+        \[
+          \Bigl[-\frac{1}{x-1}\Bigr]_{2}^{b}=-\frac{1}{b-1}+1\to 1 .
+        \]
+        Converges to $1$.
+
+  \item Perpetuity formula: $PV=D/r=2000/0.08=25{,}000$.
+
+  \item Partial fractions:
+        $\dfrac{1}{x^{2}-4}
+        =\dfrac{1}{4}\left(\dfrac{1}{x-2}-\dfrac{1}{x+2}\right)$, with
+        antiderivative $\dfrac{1}{4}\ln\left|\dfrac{x-2}{x+2}\right|$.
+        \[
+          \Bigl[\tfrac{1}{4}\ln\tfrac{x-2}{x+2}\Bigr]_{3}^{b}
+            =\tfrac{1}{4}\ln\tfrac{b-2}{b+2}-\tfrac{1}{4}\ln\tfrac{1}{5} .
+        \]
+        As $b\to\infty$, $(b-2)/(b+2)\to 1$, so $\ln\to 0$. Value:
+        $-\tfrac{1}{4}\ln\tfrac{1}{5}=\dfrac{\ln 5}{4}$.
+
+  \item $u=1-x$, $\mathrm{d}u=-\mathrm{d}x$. Antiderivative
+        $-\tfrac{3}{2}(1-x)^{2/3}$.
+        \[
+          \Bigl[-\tfrac{3}{2}(1-x)^{2/3}\Bigr]_{0}^{t}
+            =-\tfrac{3}{2}(1-t)^{2/3}+\tfrac{3}{2}\to\tfrac{3}{2} .
+        \]
+        Converges to $3/2$.
+\end{solutions}

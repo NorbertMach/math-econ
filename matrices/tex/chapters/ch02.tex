@@ -1,0 +1,244 @@
+\chapter{Matrix Basics: Notation, Addition, Transpose}
+
+A matrix is a rectangular array of numbers organised into rows and columns.
+In economics matrices store coefficients of linear equations, technology
+coefficients in input-output models, covariances of asset returns, and design
+matrices in regression. Before any deeper structure (determinants, inverses,
+eigenvalues) can be discussed, one needs the basic vocabulary: dimensions,
+entries, addition, scalar multiplication, and the transpose. This chapter
+drills those mechanics.
+
+\section{Core Rules}
+
+\begin{rulebox}{Notation}
+An $m \times n$ matrix $A \in \R^{m \times n}$ has $m$ rows and $n$ columns.
+Its $(i, j)$-entry is written $a_{ij}$, so
+\[
+A \;=\; \bigl(a_{ij}\bigr)_{1 \le i \le m,\, 1 \le j \le n}.
+\]
+A row vector lies in $\R^{1 \times n}$, a column vector in $\R^{n \times 1}$
+(or simply $\R^{n}$).
+\end{rulebox}
+
+\begin{rulebox}{Equality}
+Two matrices are equal iff they have the same shape \emph{and} all entries
+agree: $A = B$ iff $A, B \in \R^{m \times n}$ and $a_{ij} = b_{ij}$ for all
+$i, j$.
+\end{rulebox}
+
+\begin{rulebox}{Addition and scalar multiplication}
+For $A, B \in \R^{m \times n}$ and $\lambda \in \R$,
+\[
+(A + B)_{ij} = a_{ij} + b_{ij}, \qquad (\lambda A)_{ij} = \lambda \, a_{ij}.
+\]
+Addition requires matching dimensions. The set $\R^{m \times n}$ is a vector
+space under these operations; in particular addition is commutative and
+associative, and $\lambda(\mu A) = (\lambda \mu) A$.
+\end{rulebox}
+
+\begin{rulebox}{Zero, identity, diagonal}
+The zero matrix $0$ has every entry $0$. The identity
+$I_{n} \in \R^{n \times n}$ has $1$ on the diagonal and $0$ elsewhere. A
+diagonal matrix has $a_{ij} = 0$ whenever $i \neq j$.
+\end{rulebox}
+
+\begin{rulebox}{Transpose}
+The transpose $A^{T}$ of $A \in \R^{m \times n}$ is the $n \times m$ matrix
+with $(A^{T})_{ij} = a_{ji}$. Rules:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item $(A^{T})^{T} = A$
+  \item $(A + B)^{T} = A^{T} + B^{T}$
+  \item $(\lambda A)^{T} = \lambda A^{T}$
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Symmetric and skew-symmetric}
+A square matrix $A$ is \emph{symmetric} if $A^{T} = A$, equivalently
+$a_{ij} = a_{ji}$. It is \emph{skew-symmetric} if $A^{T} = -A$ (in particular
+all diagonal entries are zero). Covariance matrices, Hessians of $C^{2}$
+functions, and the matrix $X^{T} X$ in regression are all symmetric.
+\end{rulebox}
+
+\section{Practice Problems}
+
+Use the following matrices throughout:
+\[
+A = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}, \quad
+B = \begin{pmatrix} 0 & -1 \\ 2 & 5 \end{pmatrix}, \quad
+C = \begin{pmatrix} 1 & 0 & 2 \\ -1 & 3 & 1 \end{pmatrix}, \quad
+D = \begin{pmatrix} 2 & 1 & 0 \\ 0 & 4 & -1 \end{pmatrix}.
+\]
+
+\begin{problems}
+  \item State the dimensions of $A$, $B$, $C$, $D$.
+  \item Compute $A + B$.
+  \item Compute $A - B$.
+  \item Compute $3 A$.
+  \item Compute $2 A - 3 B$.
+  \item Compute $C + D$.
+  \item Compute $C - 2 D$.
+  \item Compute $A^{T}$.
+  \item Compute $B^{T}$.
+  \item Compute $C^{T}$.
+  \item Compute $(A + B)^{T}$ and verify it equals $A^{T} + B^{T}$.
+  \item Is the matrix $\bigl(\begin{smallmatrix} 1 & 2 \\ 2 & 5 \end{smallmatrix}\bigr)$ symmetric? Skew-symmetric? Neither?
+  \item Is the matrix $\bigl(\begin{smallmatrix} 0 & 3 \\ -3 & 0 \end{smallmatrix}\bigr)$ symmetric? Skew-symmetric? Neither?
+  \item Write the $3 \times 3$ identity matrix $I_{3}$.
+  \item Find all $x$ such that $\bigl(\begin{smallmatrix} x & 2 \\ 2 & x-1 \end{smallmatrix}\bigr)$ is symmetric.
+  \item Find all $x, y$ such that $\bigl(\begin{smallmatrix} 0 & x \\ y & 0 \end{smallmatrix}\bigr)$ is skew-symmetric.
+  \item Compute $A + A^{T}$. Is it symmetric?
+  \item Compute $A - A^{T}$. Is it skew-symmetric?
+  \item Solve for the matrix $X$: $X + A = B$.
+  \item Solve for the matrix $X$: $2 X - 3 A = B$.
+  \item Can you compute $A + C$? Justify briefly.
+  \item Write the $2 \times 2$ zero matrix and verify $A + 0 = A$.
+  \item Show by computation that $(2 A)^{T} = 2 A^{T}$.
+  \item Compute the trace $\mathrm{tr}(A) = a_{11} + a_{22}$ for $A$ above, and for $B$.
+  \item A diagonal matrix $\mathrm{diag}(2, -1, 3)$ has what dimensions and what $(2,2)$-entry?
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item $A, B$ are $2 \times 2$. $C, D$ are $2 \times 3$.
+
+  \item $A + B = \bigl(\begin{smallmatrix} 1 & 1 \\ 5 & 9 \end{smallmatrix}\bigr)$.
+
+  \item $A - B = \bigl(\begin{smallmatrix} 1 & 3 \\ 1 & -1 \end{smallmatrix}\bigr)$.
+
+  \item $3 A = \bigl(\begin{smallmatrix} 3 & 6 \\ 9 & 12 \end{smallmatrix}\bigr)$.
+
+  \item $2 A - 3 B = \bigl(\begin{smallmatrix} 2 & 4 \\ 6 & 8 \end{smallmatrix}\bigr) - \bigl(\begin{smallmatrix} 0 & -3 \\ 6 & 15 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 2 & 7 \\ 0 & -7 \end{smallmatrix}\bigr)$.
+
+  \item $C + D = \bigl(\begin{smallmatrix} 3 & 1 & 2 \\ -1 & 7 & 0 \end{smallmatrix}\bigr)$.
+
+  \item $C - 2 D = \bigl(\begin{smallmatrix} 1 & 0 & 2 \\ -1 & 3 & 1 \end{smallmatrix}\bigr) - \bigl(\begin{smallmatrix} 4 & 2 & 0 \\ 0 & 8 & -2 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} -3 & -2 & 2 \\ -1 & -5 & 3 \end{smallmatrix}\bigr)$.
+
+  \item $A^{T} = \bigl(\begin{smallmatrix} 1 & 3 \\ 2 & 4 \end{smallmatrix}\bigr)$.
+
+  \item $B^{T} = \bigl(\begin{smallmatrix} 0 & 2 \\ -1 & 5 \end{smallmatrix}\bigr)$.
+
+  \item $C^{T} = \bigl(\begin{smallmatrix} 1 & -1 \\ 0 & 3 \\ 2 & 1 \end{smallmatrix}\bigr) \in \R^{3 \times 2}$.
+
+  \item $(A + B)^{T} = \bigl(\begin{smallmatrix} 1 & 1 \\ 5 & 9 \end{smallmatrix}\bigr)^{T} = \bigl(\begin{smallmatrix} 1 & 5 \\ 1 & 9 \end{smallmatrix}\bigr)$, and $A^{T} + B^{T} = \bigl(\begin{smallmatrix} 1 & 3 \\ 2 & 4 \end{smallmatrix}\bigr) + \bigl(\begin{smallmatrix} 0 & 2 \\ -1 & 5 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 1 & 5 \\ 1 & 9 \end{smallmatrix}\bigr)$. Equal.
+
+  \item Symmetric, since $a_{12} = a_{21} = 2$.
+
+  \item Skew-symmetric: $a_{12} = 3$, $a_{21} = -3 = -a_{12}$, and diagonal entries are $0$.
+
+  \item $I_{3} = \bigl(\begin{smallmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{smallmatrix}\bigr)$.
+
+  \item Off-diagonal entries are both $2$ regardless of $x$, so the matrix is symmetric for \emph{every} $x \in \R$.
+
+  \item Skew-symmetry needs $a_{21} = -a_{12}$, i.e.\ $y = -x$. So $\{(x, -x) : x \in \R\}$.
+
+  \item $A + A^{T} = \bigl(\begin{smallmatrix} 1 & 2 \\ 3 & 4 \end{smallmatrix}\bigr) + \bigl(\begin{smallmatrix} 1 & 3 \\ 2 & 4 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 2 & 5 \\ 5 & 8 \end{smallmatrix}\bigr)$, symmetric (general fact: $A + A^{T}$ is always symmetric).
+
+  \item $A - A^{T} = \bigl(\begin{smallmatrix} 0 & -1 \\ 1 & 0 \end{smallmatrix}\bigr)$, skew-symmetric.
+
+  \item $X = B - A = \bigl(\begin{smallmatrix} -1 & -3 \\ -1 & 1 \end{smallmatrix}\bigr)$.
+
+  \item $2 X = B + 3 A = \bigl(\begin{smallmatrix} 0 & -1 \\ 2 & 5 \end{smallmatrix}\bigr) + \bigl(\begin{smallmatrix} 3 & 6 \\ 9 & 12 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 3 & 5 \\ 11 & 17 \end{smallmatrix}\bigr)$, so $X = \bigl(\begin{smallmatrix} 3/2 & 5/2 \\ 11/2 & 17/2 \end{smallmatrix}\bigr)$.
+
+  \item No: $A$ is $2 \times 2$ and $C$ is $2 \times 3$, dimensions disagree.
+
+  \item $0 = \bigl(\begin{smallmatrix} 0 & 0 \\ 0 & 0 \end{smallmatrix}\bigr)$, and entry-wise $A + 0 = A$.
+
+  \item $2 A = \bigl(\begin{smallmatrix} 2 & 4 \\ 6 & 8 \end{smallmatrix}\bigr)$, so $(2 A)^{T} = \bigl(\begin{smallmatrix} 2 & 6 \\ 4 & 8 \end{smallmatrix}\bigr)$. Also $2 A^{T} = 2 \bigl(\begin{smallmatrix} 1 & 3 \\ 2 & 4 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 2 & 6 \\ 4 & 8 \end{smallmatrix}\bigr)$. Equal.
+
+  \item $\mathrm{tr}(A) = 1 + 4 = 5$, $\mathrm{tr}(B) = 0 + 5 = 5$.
+
+  \item $\mathrm{diag}(2, -1, 3) \in \R^{3 \times 3}$ and its $(2,2)$-entry is $-1$.
+\end{solutions}
+
+\section{Additional Problems}
+
+Use the following matrices throughout:
+\[
+E = \begin{pmatrix} 2 & -1 \\ 0 & 3 \end{pmatrix}, \quad
+F = \begin{pmatrix} 1 & 4 \\ -2 & 2 \end{pmatrix}, \quad
+G = \begin{pmatrix} 3 & 0 & -1 \\ 2 & 1 & 4 \end{pmatrix}, \quad
+H = \begin{pmatrix} -1 & 2 & 5 \\ 0 & 3 & 1 \end{pmatrix}.
+\]
+
+\begin{problems}
+  \item Compute $E + F$.
+  \item Compute $E - F$.
+  \item Compute $4 E$.
+  \item Compute $3 E + 2 F$.
+  \item Compute $G - H$.
+  \item Compute $2 G + H$.
+  \item Compute $E^{T}$.
+  \item Compute $G^{T}$.
+  \item Verify $(E + F)^{T} = E^{T} + F^{T}$.
+  \item Is $\bigl(\begin{smallmatrix} 3 & -2 \\ -2 & 7 \end{smallmatrix}\bigr)$ symmetric, skew-symmetric, or neither?
+  \item Is $\bigl(\begin{smallmatrix} 0 & 5 & -2 \\ -5 & 0 & 1 \\ 2 & -1 & 0 \end{smallmatrix}\bigr)$ symmetric, skew-symmetric, or neither?
+  \item Find all $a$ such that $\bigl(\begin{smallmatrix} 2 & a+1 \\ 3a-5 & 7 \end{smallmatrix}\bigr)$ is symmetric.
+  \item Solve for $X$: $2 X - E = 3 F$.
+  \item Solve for $X$: $X^{T} = E + F$.
+  \item Compute $\mathrm{tr}(E)$ and $\mathrm{tr}(F)$, and verify $\mathrm{tr}(E + F) = \mathrm{tr}(E) + \mathrm{tr}(F)$.
+  \item Decompose $E$ as a sum of a symmetric and a skew-symmetric matrix: $E = \tfrac{1}{2}(E + E^{T}) + \tfrac{1}{2}(E - E^{T})$.
+  \item For $E$, compute the matrix $E + E^{T}$ and verify it is symmetric.
+  \item Can you compute $G + E$? Justify.
+  \item Find all $b, c$ such that $\bigl(\begin{smallmatrix} 0 & b & 1 \\ c & 0 & -3 \\ -1 & 3 & 0 \end{smallmatrix}\bigr)$ is skew-symmetric.
+  \item Compute the $(2, 1)$-entry of $E^{T}$ and confirm it equals the $(1, 2)$-entry of $E$.
+  \item Write the $2 \times 3$ zero matrix and check $G + 0 = G$.
+  \item For $D = \mathrm{diag}(5, -2)$, compute $D + D^{T}$.
+  \item Show by computation that $(-3 F)^{T} = -3 F^{T}$.
+  \item For the matrix $\bigl(\begin{smallmatrix} 4 & 2 \\ 2 & 4 \end{smallmatrix}\bigr)$, find its trace and check whether it is symmetric.
+  \item A skew-symmetric $3 \times 3$ matrix has how many free parameters?
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item $E + F = \bigl(\begin{smallmatrix} 3 & 3 \\ -2 & 5 \end{smallmatrix}\bigr)$.
+
+  \item $E - F = \bigl(\begin{smallmatrix} 1 & -5 \\ 2 & 1 \end{smallmatrix}\bigr)$.
+
+  \item $4 E = \bigl(\begin{smallmatrix} 8 & -4 \\ 0 & 12 \end{smallmatrix}\bigr)$.
+
+  \item $3 E + 2 F = \bigl(\begin{smallmatrix} 6 & -3 \\ 0 & 9 \end{smallmatrix}\bigr) + \bigl(\begin{smallmatrix} 2 & 8 \\ -4 & 4 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 8 & 5 \\ -4 & 13 \end{smallmatrix}\bigr)$.
+
+  \item $G - H = \bigl(\begin{smallmatrix} 4 & -2 & -6 \\ 2 & -2 & 3 \end{smallmatrix}\bigr)$.
+
+  \item $2 G + H = \bigl(\begin{smallmatrix} 6 & 0 & -2 \\ 4 & 2 & 8 \end{smallmatrix}\bigr) + \bigl(\begin{smallmatrix} -1 & 2 & 5 \\ 0 & 3 & 1 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 5 & 2 & 3 \\ 4 & 5 & 9 \end{smallmatrix}\bigr)$.
+
+  \item $E^{T} = \bigl(\begin{smallmatrix} 2 & 0 \\ -1 & 3 \end{smallmatrix}\bigr)$.
+
+  \item $G^{T} = \bigl(\begin{smallmatrix} 3 & 2 \\ 0 & 1 \\ -1 & 4 \end{smallmatrix}\bigr) \in \R^{3 \times 2}$.
+
+  \item $(E + F)^{T} = \bigl(\begin{smallmatrix} 3 & 3 \\ -2 & 5 \end{smallmatrix}\bigr)^{T} = \bigl(\begin{smallmatrix} 3 & -2 \\ 3 & 5 \end{smallmatrix}\bigr)$, and $E^{T} + F^{T} = \bigl(\begin{smallmatrix} 2 & 0 \\ -1 & 3 \end{smallmatrix}\bigr) + \bigl(\begin{smallmatrix} 1 & -2 \\ 4 & 2 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 3 & -2 \\ 3 & 5 \end{smallmatrix}\bigr)$. Equal.
+
+  \item Symmetric: $a_{12} = a_{21} = -2$.
+
+  \item Skew-symmetric: all $a_{ij} = -a_{ji}$ and diagonal entries are $0$.
+
+  \item Need $a + 1 = 3 a - 5 \Rightarrow 2 a = 6 \Rightarrow a = 3$.
+
+  \item $2 X = E + 3 F = \bigl(\begin{smallmatrix} 2 & -1 \\ 0 & 3 \end{smallmatrix}\bigr) + \bigl(\begin{smallmatrix} 3 & 12 \\ -6 & 6 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 5 & 11 \\ -6 & 9 \end{smallmatrix}\bigr)$, so $X = \bigl(\begin{smallmatrix} 5/2 & 11/2 \\ -3 & 9/2 \end{smallmatrix}\bigr)$.
+
+  \item $X = (E + F)^{T} = \bigl(\begin{smallmatrix} 3 & -2 \\ 3 & 5 \end{smallmatrix}\bigr)$.
+
+  \item $\mathrm{tr}(E) = 2 + 3 = 5$, $\mathrm{tr}(F) = 1 + 2 = 3$. $\mathrm{tr}(E + F) = 3 + 5 = 8 = 5 + 3$. Check.
+
+  \item Symmetric part: $\tfrac{1}{2}(E + E^{T}) = \tfrac{1}{2}\bigl(\begin{smallmatrix} 4 & -1 \\ -1 & 6 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 2 & -1/2 \\ -1/2 & 3 \end{smallmatrix}\bigr)$. Skew part: $\tfrac{1}{2}(E - E^{T}) = \tfrac{1}{2}\bigl(\begin{smallmatrix} 0 & -1 \\ 1 & 0 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 0 & -1/2 \\ 1/2 & 0 \end{smallmatrix}\bigr)$. Sum returns $E$.
+
+  \item $E + E^{T} = \bigl(\begin{smallmatrix} 4 & -1 \\ -1 & 6 \end{smallmatrix}\bigr)$. The off-diagonal entries are both $-1$: symmetric.
+
+  \item No: $G$ is $2 \times 3$ and $E$ is $2 \times 2$, dimensions disagree.
+
+  \item Skew-symmetry requires $a_{12} = -a_{21}$ and $a_{13} = -a_{31}$, $a_{23} = -a_{32}$. Here $a_{13} = 1, a_{31} = -1$: OK. $a_{23} = -3, a_{32} = 3$: OK. So need $b = -c$, i.e.\ $(b, c) = (t, -t)$ for any $t \in \R$.
+
+  \item $(E^{T})_{21} = E_{12} = -1$. Confirmed.
+
+  \item $0 = \bigl(\begin{smallmatrix} 0 & 0 & 0 \\ 0 & 0 & 0 \end{smallmatrix}\bigr)$ and $G + 0 = G$ entry-wise.
+
+  \item $D + D^{T} = 2 D = \bigl(\begin{smallmatrix} 10 & 0 \\ 0 & -4 \end{smallmatrix}\bigr)$ (since $D$ is diagonal, hence symmetric).
+
+  \item $-3 F = \bigl(\begin{smallmatrix} -3 & -12 \\ 6 & -6 \end{smallmatrix}\bigr)$, so $(-3 F)^{T} = \bigl(\begin{smallmatrix} -3 & 6 \\ -12 & -6 \end{smallmatrix}\bigr)$. Also $-3 F^{T} = -3 \bigl(\begin{smallmatrix} 1 & -2 \\ 4 & 2 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} -3 & 6 \\ -12 & -6 \end{smallmatrix}\bigr)$. Equal.
+
+  \item $\mathrm{tr} = 4 + 4 = 8$. The matrix is symmetric since the off-diagonal entries are both $2$.
+
+  \item A $3 \times 3$ skew-symmetric matrix has zero diagonal and the entries below the diagonal are minus those above; only the entries strictly above the diagonal are free. That gives $3$ free parameters ($a_{12}, a_{13}, a_{23}$).
+\end{solutions}

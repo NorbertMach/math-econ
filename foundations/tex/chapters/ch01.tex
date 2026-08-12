@@ -1,0 +1,467 @@
+\chapter{Sequences and Their Limits}
+
+A capital of $1000$ euro earning $2\%$ interest per period does not grow in
+one smooth sweep; it grows step by step: $1000$, $1020$, $1040.40,\dots$,
+one number per period. Economic processes are full of such step-by-step
+lists: iterated interest, instalment plans, prices adjusting period by
+period towards an equilibrium, GDP figures year by year. The mathematical
+object behind all of them is the \emph{sequence}, and the single most
+important question about a sequence is what happens \emph{in the long run}:
+does it settle down to a limit, or does it run off beyond every bound?
+
+This chapter builds the toolkit. We state once, informally, what
+convergence means, and then compute limits the practical way: with the
+limit rules and a short list of standard limits that cover almost every
+sequence met in economics. The star among them, $(1+x/n)^{n}\to\mathrm{e}^{x}$,
+is exactly the step from period-by-period to \emph{continuous} compounding
+and will carry the financial mathematics of a later chapter.
+
+\section{Core Rules}
+
+\begin{rulebox}{Sequences: explicit and recursive}
+A \textbf{sequence} is a function that assigns to every index
+$n\in\mathbb{N}$ a real number $a_{n}$; we write $(a_{n})_{n\geq 1}$ or
+simply $a_{1},a_{2},a_{3},\dots$ It can be given
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{explicitly}, by a formula in $n$: e.g.\ $a_{n}=\dfrac{1}{n}$
+        or $a_{n}=1000\cdot(1.02)^{n}$ (capital after $n$ periods at
+        $2\%$ interest);
+  \item \textbf{recursively}, by a start value and a rule for the next
+        term: e.g.\ $a_{1}=1000$, $a_{n+1}=1.02\,a_{n}+100$ (interest plus
+        a deposit of $100$ each period).
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Monotone and bounded sequences}
+$(a_{n})$ is \textbf{increasing} if
+$a_{n+1}\geq a_{n}$ for all $n$, and \textbf{decreasing} if
+$a_{n+1}\leq a_{n}$ for all $n$ (with strict inequalities: strictly
+increasing/decreasing). Either way the sequence is called
+\textbf{monotone}.
+
+$(a_{n})$ is \textbf{bounded above} if $a_{n}\leq M$ for some fixed $M$ and
+all $n$, \textbf{bounded below} if $a_{n}\geq m$ for some fixed $m$, and
+\textbf{bounded} if both hold.
+
+\emph{Practical test for monotonicity:} compute the difference
+$a_{n+1}-a_{n}$ and determine its sign; for sequences with positive terms
+one may instead compare the ratio $a_{n+1}/a_{n}$ with $1$.
+\end{rulebox}
+
+\begin{rulebox}{Convergence and the limit}
+$(a_{n})$ \textbf{converges} to the \textbf{limit} $a$ if the terms come arbitrarily close to $a$ and stay
+there: for every tolerance $\varepsilon>0$, all but finitely many terms
+satisfy $|a_{n}-a|<\varepsilon$. We write
+\[
+  \lim_{n\to\infty}a_{n}=a \qquad\text{or}\qquad a_{n}\to a .
+\]
+A sequence has \emph{at most one} limit. A sequence that does not converge
+is \textbf{divergent}; if its terms eventually exceed every bound we say it
+\emph{diverges to $\infty$} and write $a_{n}\to\infty$ (analogously
+$-\infty$). In this book we never chase $\varepsilon$'s: limits are
+computed with the rules and standard limits below.
+\end{rulebox}
+
+\begin{rulebox}{Limit rules}
+Suppose $a_{n}\to a$ and $b_{n}\to b$. Then
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Sum rule:} $a_{n}+b_{n}\to a+b$ \ (and $c\,a_{n}\to c\,a$
+        for any constant $c$);
+  \item \textbf{Product rule:} $a_{n}\,b_{n}\to a\,b$;
+  \item \textbf{Quotient rule:} $\dfrac{a_{n}}{b_{n}}\to\dfrac{a}{b}$,
+        provided $b\neq 0$;
+  \item \textbf{Sandwich rule:} if $a_{n}\leq c_{n}\leq b_{n}$ from some
+        index on and $a=b$, then $c_{n}\to a$ as well.
+\end{itemize}
+\emph{Working method for ratios of polynomials in $n$:} divide numerator
+and denominator by the highest power of $n$ that occurs, then apply the
+rules together with $1/n^{k}\to 0$.
+\end{rulebox}
+
+\begin{rulebox}{Standard limits}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item $\dfrac{1}{n^{k}}\to 0$ \ for every fixed $k>0$;
+  \item $q^{n}\to 0$ \ if $|q|<1$; \quad $q^{n}\to\infty$ \ if $q>1$;
+        \quad $q^{n}=1$ for $q=1$; \quad divergent for $q\leq -1$;
+  \item $\sqrt[n]{n}\to 1$ \ and \ $\sqrt[n]{c}\to 1$ for every constant
+        $c>0$;
+  \item $\Bigl(1+\dfrac{x}{n}\Bigr)^{n}\to\mathrm{e}^{x}$ \ for every
+        $x\in\R$; in particular
+        $\Bigl(1+\dfrac{1}{n}\Bigr)^{n}\to\mathrm{e}\approx 2.71828$.
+\end{itemize}
+The last limit is the bridge to \emph{continuous compounding}: splitting a
+yearly interest rate $x$ into $n$ compounding steps turns capital $K$ into
+$K\,(1+x/n)^{n}$, and as the steps become infinitely fine this tends to
+$K\,\mathrm{e}^{x}$, the formula behind continuous interest in financial
+mathematics.
+\end{rulebox}
+
+\begin{rulebox}{Monotone convergence principle}
+\textbf{Bounded $+$ monotone $\Rightarrow$ convergent.} An increasing
+sequence that is bounded above converges; a decreasing sequence that is
+bounded below converges. This is the workhorse for recursive sequences:
+first establish monotonicity and boundedness, then find the candidate
+limit $a$ from the \emph{fixed-point equation} obtained by letting
+$n\to\infty$ in the recursion (e.g.\ $a=1.02\,a+100$ for
+$a_{n+1}=1.02\,a_{n}+100$).
+\end{rulebox}
+
+\begin{rulebox}{Growth hierarchy}
+For every $k>0$ and every $q>1$,
+\[
+  \ln n \;\ll\; n^{k} \;\ll\; q^{n},
+  \qquad\text{meaning}\qquad
+  \frac{\ln n}{n^{k}}\to 0
+  \quad\text{and}\quad
+  \frac{n^{k}}{q^{n}}\to 0 .
+\]
+Every power beats every logarithm, and every exponential with base $q>1$
+beats every power. A useful consequence: $n^{k}q^{n}\to 0$ whenever
+$|q|<1$, geometric decay swallows polynomial growth.
+\end{rulebox}
+
+\section{Practice Problems}
+
+Compute the limit of each sequence or show that it diverges; where
+indicated, also decide monotonicity and boundedness.
+
+\begin{problems}
+  \item $a_{n}=\dfrac{3n+5}{n+2}$
+  \item $a_{n}=\dfrac{2n^{2}-n+4}{5n^{2}+3}$
+  \item $a_{n}=\dfrac{n+1}{n^{2}+1}$
+  \item $a_{n}=\dfrac{n^{3}-2n}{4n^{2}+n}$
+  \item $a_{n}=\sqrt{n^{2}+n}-n$
+  \item $a_{n}=\dfrac{\sqrt{4n^{2}+1}}{3n-2}$
+  \item $a_{n}=(0.9)^{n}$ \ and \ $b_{n}=(1.1)^{n}$ \quad (limit or
+        divergence for each)
+  \item $a_{n}=\dfrac{2^{n}+5^{n}}{5^{n}}$
+  \item $a_{n}=\dfrac{3^{n}-2^{n}}{3^{n}+2^{n}}$
+  \item $a_{n}=\sqrt[n]{5n}$
+  \item $a_{n}=\Bigl(1+\dfrac{3}{n}\Bigr)^{n}$
+  \item $a_{n}=\Bigl(1-\dfrac{2}{n}\Bigr)^{n}$
+  \item $a_{n}=\Bigl(1+\dfrac{1}{2n}\Bigr)^{n}$
+  \item $a_{n}=\Bigl(\dfrac{n+4}{n}\Bigr)^{n}$
+  \item $a_{n}=\dfrac{n}{n+1}$ \quad (monotone? bounded? convergent?,
+        justify all three)
+  \item $b_{n}=(-1)^{n}\,\dfrac{n}{n+1}$ \quad (monotone? bounded?
+        convergent?)
+  \item Savings account: $a_{1}=1000$ and $a_{n+1}=1.02\,a_{n}+100$
+        (interest of $2\%$ per period plus a deposit of $100$). Compute
+        $a_{2}$ and $a_{3}$, derive a closed formula for $a_{n}$, and
+        describe the behaviour as $n\to\infty$.
+  \item $a_{n}=\dfrac{2n+(-1)^{n}}{n}$ \quad (use the sandwich rule)
+  \item $a_{n}=\dfrac{n^{2}}{2^{n}}$
+  \item Classify as convergent or divergent, giving the limit where it
+        exists:
+        \[
+          \text{(a)}\; a_{n}=(-1)^{n},\qquad
+          \text{(b)}\; b_{n}=5-\frac{3}{n},\qquad
+          \text{(c)}\; c_{n}=\ln n,\qquad
+          \text{(d)}\; d_{n}=(-0.5)^{n}.
+        \]
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item Divide numerator and denominator by $n$:
+        \[
+          a_{n}=\frac{3+\dfrac{5}{n}}{1+\dfrac{2}{n}}
+          \;\longrightarrow\;\frac{3+0}{1+0}=3 ,
+        \]
+        using $5/n\to 0$, $2/n\to 0$ and the quotient rule. So
+        $\lim_{n\to\infty}a_{n}=3$.
+
+  \item Divide by the highest power $n^{2}$:
+        \[
+          a_{n}=\frac{2-\dfrac{1}{n}+\dfrac{4}{n^{2}}}{5+\dfrac{3}{n^{2}}}
+          \;\longrightarrow\;\frac{2-0+0}{5+0}=\frac{2}{5} .
+        \]
+
+  \item Divide by $n^{2}$ (the highest power in the denominator):
+        \[
+          a_{n}=\frac{\dfrac{1}{n}+\dfrac{1}{n^{2}}}{1+\dfrac{1}{n^{2}}}
+          \;\longrightarrow\;\frac{0+0}{1+0}=0 .
+        \]
+        Degree of the numerator below degree of the denominator: limit $0$.
+
+  \item Divide by $n^{2}$:
+        \[
+          a_{n}=\frac{n-\dfrac{2}{n}}{4+\dfrac{1}{n}} .
+        \]
+        The denominator tends to $4$, while the numerator $n-2/n\to\infty$.
+        Hence $a_{n}\to\infty$: the sequence is \textbf{divergent}
+        (for large $n$, $a_{n}\approx n/4$).
+
+  \item Multiply by the conjugate:
+        \[
+          a_{n}=\bigl(\sqrt{n^{2}+n}-n\bigr)
+                \cdot\frac{\sqrt{n^{2}+n}+n}{\sqrt{n^{2}+n}+n}
+               =\frac{(n^{2}+n)-n^{2}}{\sqrt{n^{2}+n}+n}
+               =\frac{n}{\sqrt{n^{2}+n}+n} .
+        \]
+        Now divide numerator and denominator by $n$:
+        \[
+          a_{n}=\frac{1}{\sqrt{1+\dfrac{1}{n}}+1}
+          \;\longrightarrow\;\frac{1}{\sqrt{1}+1}=\frac{1}{2} .
+        \]
+
+  \item Divide numerator and denominator by $n$ (inside the root: by
+        $n^{2}$):
+        \[
+          a_{n}=\frac{\sqrt{4+\dfrac{1}{n^{2}}}}{3-\dfrac{2}{n}}
+          \;\longrightarrow\;\frac{\sqrt{4}}{3}=\frac{2}{3} .
+        \]
+
+  \item For $a_{n}=(0.9)^{n}$: here $q=0.9$ with $|q|<1$, so
+        $a_{n}\to 0$ (convergent). For $b_{n}=(1.1)^{n}$: here $q=1.1>1$,
+        so $b_{n}\to\infty$ (divergent), capital growing at $10\%$ per
+        period exceeds every bound.
+
+  \item Split the fraction:
+        \[
+          a_{n}=\frac{2^{n}}{5^{n}}+\frac{5^{n}}{5^{n}}
+               =\Bigl(\frac{2}{5}\Bigr)^{n}+1
+          \;\longrightarrow\;0+1=1 ,
+        \]
+        since $|2/5|<1$.
+
+  \item Divide numerator and denominator by the dominant term $3^{n}$:
+        \[
+          a_{n}=\frac{1-\bigl(\tfrac{2}{3}\bigr)^{n}}
+                     {1+\bigl(\tfrac{2}{3}\bigr)^{n}}
+          \;\longrightarrow\;\frac{1-0}{1+0}=1 ,
+        \]
+        because $(2/3)^{n}\to 0$ ($|q|<1$).
+
+  \item Factor the root:
+        \[
+          a_{n}=\sqrt[n]{5n}=\sqrt[n]{5}\cdot\sqrt[n]{n}
+          \;\longrightarrow\;1\cdot 1=1 ,
+        \]
+        by the standard limits $\sqrt[n]{c}\to 1$ ($c>0$) and
+        $\sqrt[n]{n}\to 1$, combined with the product rule.
+
+  \item This is the standard limit with $x=3$:
+        \[
+          \lim_{n\to\infty}\Bigl(1+\frac{3}{n}\Bigr)^{n}=\mathrm{e}^{3} .
+        \]
+
+  \item Standard limit with $x=-2$:
+        \[
+          \lim_{n\to\infty}\Bigl(1-\frac{2}{n}\Bigr)^{n}
+          =\mathrm{e}^{-2}=\frac{1}{\mathrm{e}^{2}} .
+        \]
+
+  \item Rewrite the inner fraction so the pattern $x/n$ appears:
+        $\dfrac{1}{2n}=\dfrac{1/2}{n}$, so
+        \[
+          a_{n}=\Bigl(1+\frac{1/2}{n}\Bigr)^{n}
+          \;\longrightarrow\;\mathrm{e}^{1/2}=\sqrt{\mathrm{e}} .
+        \]
+
+  \item Simplify the base first:
+        \[
+          \frac{n+4}{n}=1+\frac{4}{n}
+          \qquad\Longrightarrow\qquad
+          a_{n}=\Bigl(1+\frac{4}{n}\Bigr)^{n}\to\mathrm{e}^{4} .
+        \]
+
+  \item \textbf{Monotone:} compute the difference
+        \[
+          a_{n+1}-a_{n}=\frac{n+1}{n+2}-\frac{n}{n+1}
+          =\frac{(n+1)^{2}-n(n+2)}{(n+1)(n+2)}
+          =\frac{n^{2}+2n+1-n^{2}-2n}{(n+1)(n+2)}
+          =\frac{1}{(n+1)(n+2)}>0 ,
+        \]
+        so $(a_{n})$ is strictly increasing.
+        \textbf{Bounded:} $0<a_{n}<1$ for all $n$, since $n<n+1$.
+        \textbf{Convergent:} yes, by the monotone convergence principle
+        (increasing and bounded above), and directly:
+        \[
+          a_{n}=\frac{1}{1+\dfrac{1}{n}}\;\longrightarrow\;\frac{1}{1+0}=1 .
+        \]
+
+  \item First terms: $b_{1}=-\tfrac{1}{2}$, $b_{2}=\tfrac{2}{3}$,
+        $b_{3}=-\tfrac{3}{4}$, $b_{4}=\tfrac{4}{5}$. The signs alternate,
+        so the sequence is \textbf{not monotone}. It is \textbf{bounded},
+        because $|b_{n}|=\dfrac{n}{n+1}<1$ for all $n$. It is
+        \textbf{divergent}: the even-indexed terms
+        $b_{2m}=\tfrac{2m}{2m+1}\to 1$ while the odd-indexed terms tend to
+        $-1$; a convergent sequence cannot approach two different values
+        (uniqueness of the limit). Boundedness alone does not force
+        convergence.
+
+  \item First terms:
+        \[
+          a_{2}=1.02\cdot 1000+100=1020+100=1120 ,\qquad
+          a_{3}=1.02\cdot 1120+100=1142.40+100=1242.40 .
+        \]
+        \textbf{Fixed point:} a constant solution $a^{*}$ would satisfy
+        $a^{*}=1.02\,a^{*}+100$, i.e.\ $-0.02\,a^{*}=100$, so
+        $a^{*}=-5000$. \textbf{Closed formula:} set
+        $d_{n}=a_{n}-a^{*}=a_{n}+5000$. Then
+        \[
+          d_{n+1}=a_{n+1}+5000=1.02\,a_{n}+100+5000
+                 =1.02\,(a_{n}+5000)=1.02\,d_{n} ,
+        \]
+        a geometric sequence with $d_{1}=1000+5000=6000$. Hence
+        $d_{n}=6000\cdot(1.02)^{n-1}$ and
+        \[
+          a_{n}=6000\cdot(1.02)^{n-1}-5000 .
+        \]
+        Check: $a_{3}=6000\cdot 1.0404-5000=6242.40-5000=1242.40$,
+        matches. \textbf{Behaviour:} $(a_{n})$ is strictly increasing
+        ($a_{n+1}-a_{n}=0.02\,a_{n}+100>0$ since all terms are positive)
+        and, because $1.02>1$ gives $(1.02)^{n-1}\to\infty$, the sequence
+        \textbf{diverges to $\infty$}: interest plus steady deposits grow
+        beyond every bound.
+
+  \item Split: $a_{n}=2+\dfrac{(-1)^{n}}{n}$. Since
+        $-1\leq(-1)^{n}\leq 1$,
+        \[
+          2-\frac{1}{n}\;\leq\;a_{n}\;\leq\;2+\frac{1}{n} .
+        \]
+        Both bounds tend to $2$, so by the sandwich rule
+        $\lim_{n\to\infty}a_{n}=2$.
+
+  \item Growth hierarchy: $n^{k}\ll q^{n}$ for $q>1$, here with $k=2$ and
+        $q=2$, so
+        \[
+          \lim_{n\to\infty}\frac{n^{2}}{2^{n}}=0 .
+        \]
+        The decay is fast: for $n=10$ the term is
+        $\tfrac{100}{1024}\approx 0.098$, for $n=20$ already
+        $\tfrac{400}{1048576}\approx 0.0004$. Convergent with limit $0$.
+
+  \item (a) $(-1)^{n}$ alternates between $-1$ and $1$ forever: bounded
+        but \textbf{divergent} (no single limit). \
+        (b) $3/n\to 0$, so $b_{n}\to 5-0=5$: \textbf{convergent} with
+        limit $5$. \
+        (c) $\ln n$ grows without bound (slowly, but beyond every $M$):
+        \textbf{divergent} to $\infty$. \
+        (d) $q=-0.5$ with $|q|<1$, so $d_{n}\to 0$: \textbf{convergent}
+        with limit $0$.
+\end{solutions}
+
+\section{Additional Problems}
+
+\begin{problems}
+  \item $a_{n}=\dfrac{7n-4}{2n+9}$
+  \item $a_{n}=\dfrac{n^{2}+6n}{3n^{2}-n+1}$
+  \item $a_{n}=\dfrac{\sqrt{9n^{2}+n}}{n+1}$
+  \item $a_{n}=\sqrt{n+1}-\sqrt{n}$
+  \item $a_{n}=\dfrac{4^{n}-3^{n}}{4^{n}}$
+  \item $a_{n}=\Bigl(1+\dfrac{5}{n}\Bigr)^{n}$
+  \item $a_{n}=\Bigl(1-\dfrac{1}{n}\Bigr)^{2n}$
+  \item $a_{n}=3+\dfrac{2}{n}$ \quad (monotone? bounded? convergent?,
+        justify all three)
+  \item Price adjustment: $p_{1}=200$ and $p_{n+1}=0.5\,p_{n}+60$ (each
+        period the price moves halfway towards a demand-driven level plus
+        a constant mark-up). Compute $p_{2}$ and $p_{3}$, derive a closed
+        formula for $p_{n}$, and describe the behaviour as $n\to\infty$.
+  \item Classify as convergent or divergent, giving the limit where it
+        exists:
+        \[
+          \text{(a)}\; a_{n}=\frac{n}{2^{n}},\qquad
+          \text{(b)}\; b_{n}=(1.05)^{n},\qquad
+          \text{(c)}\; c_{n}=(-1)^{n}\,n,\qquad
+          \text{(d)}\; d_{n}=\frac{2n+3}{n+1}.
+        \]
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item Divide numerator and denominator by $n$:
+        \[
+          a_{n}=\frac{7-\dfrac{4}{n}}{2+\dfrac{9}{n}}
+          \;\longrightarrow\;\frac{7-0}{2+0}=\frac{7}{2} .
+        \]
+
+  \item Divide by $n^{2}$:
+        \[
+          a_{n}=\frac{1+\dfrac{6}{n}}{3-\dfrac{1}{n}+\dfrac{1}{n^{2}}}
+          \;\longrightarrow\;\frac{1+0}{3-0+0}=\frac{1}{3} .
+        \]
+
+  \item Divide numerator and denominator by $n$; under the root this means
+        dividing by $n^{2}$:
+        \[
+          a_{n}=\frac{\sqrt{9+\dfrac{1}{n}}}{1+\dfrac{1}{n}}
+          \;\longrightarrow\;\frac{\sqrt{9}}{1}=3 .
+        \]
+
+  \item Multiply by the conjugate:
+        \[
+          a_{n}=\bigl(\sqrt{n+1}-\sqrt{n}\bigr)
+                \cdot\frac{\sqrt{n+1}+\sqrt{n}}{\sqrt{n+1}+\sqrt{n}}
+               =\frac{(n+1)-n}{\sqrt{n+1}+\sqrt{n}}
+               =\frac{1}{\sqrt{n+1}+\sqrt{n}} .
+        \]
+        The denominator tends to $\infty$, hence $a_{n}\to 0$.
+
+  \item Split the fraction:
+        \[
+          a_{n}=1-\Bigl(\frac{3}{4}\Bigr)^{n}
+          \;\longrightarrow\;1-0=1 ,
+        \]
+        since $|3/4|<1$.
+
+  \item Standard limit with $x=5$:
+        \[
+          \lim_{n\to\infty}\Bigl(1+\frac{5}{n}\Bigr)^{n}=\mathrm{e}^{5} .
+        \]
+
+  \item Write the power as a square of the standard form:
+        \[
+          a_{n}=\Bigl[\Bigl(1-\frac{1}{n}\Bigr)^{n}\Bigr]^{2}
+          \;\longrightarrow\;\bigl(\mathrm{e}^{-1}\bigr)^{2}
+          =\mathrm{e}^{-2}=\frac{1}{\mathrm{e}^{2}} ,
+        \]
+        using $(1-1/n)^{n}\to\mathrm{e}^{-1}$ and the product rule.
+
+  \item \textbf{Monotone:}
+        \[
+          a_{n+1}-a_{n}=\frac{2}{n+1}-\frac{2}{n}
+          =\frac{2n-2(n+1)}{n(n+1)}=\frac{-2}{n(n+1)}<0 ,
+        \]
+        so $(a_{n})$ is strictly decreasing.
+        \textbf{Bounded:} $3<a_{n}\leq a_{1}=5$ for all $n$.
+        \textbf{Convergent:} yes: decreasing and bounded below, so the
+        monotone convergence principle applies; since $2/n\to 0$, the
+        limit is $3$.
+
+  \item First terms:
+        \[
+          p_{2}=0.5\cdot 200+60=100+60=160 ,\qquad
+          p_{3}=0.5\cdot 160+60=80+60=140 .
+        \]
+        \textbf{Fixed point:} $p^{*}=0.5\,p^{*}+60$ gives
+        $0.5\,p^{*}=60$, so $p^{*}=120$. \textbf{Closed formula:} set
+        $d_{n}=p_{n}-120$. Then
+        \[
+          d_{n+1}=p_{n+1}-120=0.5\,p_{n}+60-120=0.5\,(p_{n}-120)
+                 =0.5\,d_{n} ,
+        \]
+        with $d_{1}=200-120=80$, so $d_{n}=80\cdot(0.5)^{n-1}$ and
+        \[
+          p_{n}=120+80\cdot(0.5)^{n-1} .
+        \]
+        Check: $p_{3}=120+80\cdot 0.25=120+20=140$, matches.
+        \textbf{Behaviour:} $(0.5)^{n-1}\to 0$ because $|0.5|<1$, so
+        $p_{n}\to 120$: the price falls monotonically to the equilibrium
+        $120$. Contrast with the savings account of Problem~17 in the main
+        list: a coefficient below $1$ pulls the sequence \emph{towards}
+        the fixed point, a coefficient above $1$ (there $1.02$) pushes it
+        \emph{away}.
+
+  \item (a) Growth hierarchy ($n^{k}\ll 2^{n}$ with $k=1$):
+        $a_{n}\to 0$, \textbf{convergent}. \
+        (b) $q=1.05>1$, so $b_{n}\to\infty$: \textbf{divergent}. \
+        (c) $|c_{n}|=n\to\infty$ with alternating signs: unbounded, hence
+        \textbf{divergent} (no limit, not even $\pm\infty$). \
+        (d) Divide by $n$:
+        $d_{n}=\dfrac{2+3/n}{1+1/n}\to\dfrac{2}{1}=2$:
+        \textbf{convergent} with limit $2$.
+\end{solutions}

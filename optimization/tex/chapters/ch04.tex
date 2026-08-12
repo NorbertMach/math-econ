@@ -1,0 +1,237 @@
+\chapter{Unconstrained Optimization in One Variable}
+
+The simplest optimization problem is finding the maximum or minimum of a
+smooth function of a single variable. In economics this is enough to
+characterise a profit-maximising monopolist with one product, the
+cost-minimising scale of a plant, or the optimal effort level of a worker.
+The recipe has two ingredients: a \emph{first-order condition} (FOC) that
+locates candidate points by setting the derivative to zero, and a
+\emph{second-order condition} (SOC) that classifies them.
+
+\section{Core Rules}
+
+\begin{rulebox}{Critical points (first-order condition)}
+Let $f : \R \to \R$ be differentiable on an open set. A point
+$x^* \in \R$ is a \emph{critical point} of $f$ if
+\[
+f'(x^*) \;=\; 0.
+\]
+This is the \textbf{first-order condition (FOC)} or \emph{necessary
+condition} for an interior extremum.
+\end{rulebox}
+
+\begin{rulebox}{Classification (SOC)}
+If $f$ is $C^2$ near $x^*$ and $f'(x^*) = 0$:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+    \item $f''(x^*) < 0 \;\Rightarrow\;$ strict local \textbf{maximum};
+    \item $f''(x^*) > 0 \;\Rightarrow\;$ strict local \textbf{minimum};
+    \item $f''(x^*) = 0 \;\Rightarrow\;$ test is \textbf{inconclusive}. The
+          point may be a max, a min, or an inflection point. Use the sign of
+          $f'$ on either side, or a higher-order Taylor expansion, to
+          decide.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Global versus local extrema}
+Locating $x^*$ via the FOC gives only local information. To find a
+\emph{global} extremum on a closed interval $[a,b]$, compare $f(x^*)$ at
+all critical points with the endpoint values $f(a)$ and $f(b)$. On an open
+or unbounded domain check limits as well.
+\end{rulebox}
+
+\begin{rulebox}{Concavity and the second derivative}
+If $f''(x) < 0$ for all $x$ in an open interval, $f$ is (strictly) concave
+there; any critical point in that interval is automatically a global
+maximum on it. Symmetrically, $f'' > 0$ gives a strictly convex function
+and any critical point is a global minimum.
+\end{rulebox}
+
+\begin{rulebox}{Economic FOC notation}
+For a profit function $\pi(q) = R(q) - C(q)$, the FOC $\pi'(q^*) = 0$
+rewrites as
+\[
+R'(q^*) \;=\; C'(q^*), \qquad \text{i.e.\ } MR(q^*) \;=\; MC(q^*).
+\]
+The SOC reads $\pi''(q^*) < 0$, equivalently $MC'(q^*) > MR'(q^*)$ at the
+optimum.
+\end{rulebox}
+
+\section{Practice Problems}
+
+For each function below, locate the critical point(s), classify them via
+the second-derivative test, and (where requested) state the optimal value
+$f(x^*)$. Assume the natural domain unless otherwise specified.
+
+\begin{problems}
+    \item $f(x) = x^2 - 6 x + 11$.
+    \item $f(x) = -x^2 + 8 x - 5$.
+    \item $f(x) = x^3 - 3 x$.
+    \item $f(x) = x^3$ (classify).
+    \item $f(x) = x^4$ (classify).
+    \item $f(x) = x^3 - 6 x^2 + 9 x + 2$.
+    \item $\pi(q) = 20 q - q^2 - 36$. Profit-max $q^*$ and $\pi^*$.
+    \item $\pi(q) = (12 - q) q - (q^2 + 2 q + 4)$. Monopolist with linear
+          inverse demand.
+    \item $C(q) = q^2 + 4 q + 25$ over $q > 0$: minimise the \emph{average}
+          cost $AC(q) = C(q)/q$.
+    \item $f(x) = x \, \mathrm{e}^{-x}$ on $x > 0$.
+    \item $f(x) = \ln(x) - x$ on $x > 0$.
+    \item Inverse demand $p(q) = 30 - 2 q$, constant marginal cost $c = 6$.
+          Find the monopolist's $q^*$ and price $p^*$.
+    \item $f(x) = x^4 - 4 x^3 + 6$. Locate and classify all critical
+          points.
+    \item $f(x) = \dfrac{x}{1 + x^2}$ on $\R$.
+    \item $\pi(q) = (50 - q) q - (10 q + 100)$. Profit-max $q^*$, price,
+          profit.
+    \item Inverse demand $p(q) = a - b q$ ($a, b > 0$), constant MC $= c$
+          with $a > c$. Show $q^* = (a - c)/(2 b)$ and $p^* = (a + c)/2$.
+    \item $f(x) = x^3 - 12 x + 1$ on $[-3, 3]$. Find the global max and
+          min.
+    \item $f(x) = \sqrt{x} - x/4$ on $x > 0$.
+    \item $C(q) = 0.1 q^3 - 3 q^2 + 40 q + 50$. Minimise marginal cost
+          $MC(q) = C'(q)$.
+    \item $f(x) = (x - 2)^2 (x + 1)$. Locate and classify all critical
+          points.
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+    \item $f'(x) = 2 x - 6 = 0 \Rightarrow x^* = 3$. $f''(x) = 2 > 0$, so
+          \textbf{min}. $f(3) = 9 - 18 + 11 = 2$.
+    \item $f'(x) = -2 x + 8 = 0 \Rightarrow x^* = 4$. $f''(x) = -2 < 0$, so
+          \textbf{max}. $f(4) = -16 + 32 - 5 = 11$.
+    \item $f'(x) = 3 x^2 - 3 = 0 \Rightarrow x = \pm 1$. $f''(x) = 6 x$:
+          $f''(1) = 6 > 0$ (\textbf{min}, value $-2$); $f''(-1) = -6 < 0$
+          (\textbf{max}, value $2$).
+    \item $f'(x) = 3 x^2 = 0$ at $x = 0$ and $f''(0) = 0$, inconclusive.
+          But $f'(x) \geq 0$ everywhere, so $f$ is monotone non-decreasing;
+          $x = 0$ is an \textbf{inflection point}, not an extremum.
+    \item $f'(x) = 4 x^3 = 0$ at $x = 0$, $f''(0) = 0$, inconclusive via
+          the 2nd-derivative test. Since $f(x) = x^4 \geq 0$ with equality
+          only at $0$, $x = 0$ is a strict global \textbf{minimum}.
+    \item $f'(x) = 3 x^2 - 12 x + 9 = 3(x - 1)(x - 3) = 0 \Rightarrow
+          x = 1, 3$. $f''(x) = 6 x - 12$: $f''(1) = -6 < 0$ (\textbf{max},
+          value $6$); $f''(3) = 6 > 0$ (\textbf{min}, value $2$).
+    \item $\pi'(q) = 20 - 2 q = 0 \Rightarrow q^* = 10$.
+          $\pi''(q) = -2 < 0$, \textbf{max}. $\pi^* = 200 - 100 - 36 = 64$.
+    \item Expand: $\pi(q) = 12 q - q^2 - q^2 - 2 q - 4 = -2 q^2 + 10 q - 4$.
+          $\pi'(q) = -4 q + 10 = 0 \Rightarrow q^* = 5/2$. $\pi'' = -4 < 0$,
+          \textbf{max}. $\pi^* = -2 \cdot 25/4 + 25 - 4 = -12.5 + 21 = 8.5$.
+    \item $AC(q) = q + 4 + 25/q$. $AC'(q) = 1 - 25/q^2 = 0 \Rightarrow
+          q^* = 5$ (positive root). $AC''(q) = 50/q^3 > 0$, \textbf{min}.
+          $AC(5) = 5 + 4 + 5 = 14$.
+    \item $f'(x) = \mathrm{e}^{-x}(1 - x) = 0 \Rightarrow x^* = 1$.
+          $f''(x) = \mathrm{e}^{-x}(x - 2)$, so
+          $f''(1) = -\mathrm{e}^{-1} < 0$, \textbf{max}.
+          $f(1) = 1/\mathrm{e}$.
+    \item $f'(x) = 1/x - 1 = 0 \Rightarrow x^* = 1$. $f''(x) = -1/x^2$,
+          $f''(1) = -1 < 0$, \textbf{max}. $f(1) = -1$.
+    \item $R(q) = (30 - 2 q) q$, $\pi(q) = 30 q - 2 q^2 - 6 q =
+          24 q - 2 q^2$. $\pi'(q) = 24 - 4 q = 0 \Rightarrow q^* = 6$.
+          $\pi'' = -4 < 0$, \textbf{max}. $p^* = 30 - 12 = 18$.
+    \item $f'(x) = 4 x^3 - 12 x^2 = 4 x^2 (x - 3) = 0 \Rightarrow
+          x = 0, 3$. $f''(x) = 12 x^2 - 24 x$. At $x = 3$:
+          $f''(3) = 108 - 72 = 36 > 0$, \textbf{min}, value
+          $81 - 108 + 6 = -21$. At $x = 0$: $f''(0) = 0$, inconclusive. But
+          $f'(x) = 4 x^2(x - 3)$ has the same sign as $x - 3$ for
+          $x \neq 0$; near $x = 0$ we have $f'(x) < 0$ on both sides, so
+          $f$ is decreasing through $0$. Hence $x = 0$ is an
+          \textbf{inflection / non-extremum} (saddle in 1D).
+    \item Quotient rule: $f'(x) = \dfrac{(1 + x^2) - x(2 x)}{(1 + x^2)^2}
+          = \dfrac{1 - x^2}{(1 + x^2)^2} = 0 \Rightarrow x = \pm 1$. Sign
+          analysis: $f' > 0$ on $(-1, 1)$, $f' < 0$ outside. So $x = 1$ is
+          a \textbf{max} (value $1/2$); $x = -1$ is a \textbf{min} (value
+          $-1/2$).
+    \item $\pi(q) = 50 q - q^2 - 10 q - 100 = -q^2 + 40 q - 100$.
+          $\pi'(q) = -2 q + 40 = 0 \Rightarrow q^* = 20$. $\pi'' = -2 < 0$,
+          \textbf{max}. $p^* = 50 - 20 = 30$.
+          $\pi^* = -400 + 800 - 100 = 300$.
+    \item $\pi(q) = (a - b q)q - c q = (a - c)q - b q^2$. FOC:
+          $(a - c) - 2 b q = 0 \Rightarrow q^* = (a - c)/(2 b)$.
+          $\pi'' = -2 b < 0$ confirms max. Then
+          $p^* = a - b q^* = a - (a - c)/2 = (a + c)/2$.
+    \item $f'(x) = 3 x^2 - 12 = 0 \Rightarrow x = \pm 2$. $f''(x) = 6 x$:
+          $f''(2) = 12 > 0$ (local min, value $8 - 24 + 1 = -15$);
+          $f''(-2) = -12 < 0$ (local max, value $-8 + 24 + 1 = 17$).
+          Compare with endpoints: $f(-3) = -27 + 36 + 1 = 10$;
+          $f(3) = 27 - 36 + 1 = -8$. Global \textbf{max}: $f(-2) = 17$.
+          Global \textbf{min}: $f(2) = -15$.
+    \item $f'(x) = \tfrac{1}{2} x^{-1/2} - 1/4 = 0 \Rightarrow
+          x^{-1/2} = 1/2 \Rightarrow \sqrt{x} = 2 \Rightarrow x^* = 4$.
+          $f''(x) = -\tfrac{1}{4} x^{-3/2} < 0$, \textbf{max}.
+          $f(4) = 2 - 1 = 1$.
+    \item $MC(q) = 0.3 q^2 - 6 q + 40$. $MC'(q) = 0.6 q - 6 = 0
+          \Rightarrow q^* = 10$. $MC''(q) = 0.6 > 0$, \textbf{min} of $MC$.
+          $MC(10) = 30 - 60 + 40 = 10$.
+    \item $f'(x) = 2(x - 2)(x + 1) + (x - 2)^2 =
+          (x - 2)\bigl[2(x + 1) + (x - 2)\bigr] = (x - 2)(3 x) =
+          3 x (x - 2)$. Roots $x = 0, 2$. $f''(x) = 6 x - 6$:
+          $f''(0) = -6 < 0$ (\textbf{max}, value $4$); $f''(2) = 6 > 0$
+          (\textbf{min}, value $0$).
+\end{solutions}
+
+\section{Additional Problems}
+
+For each function below, locate the critical point(s), classify them via
+the second-derivative test, and (where requested) state the optimal value
+$f(x^*)$. Assume the natural domain unless otherwise specified.
+
+\begin{problems}
+    \item $f(x) = x^2 + 10 x + 7$.
+    \item $f(x) = 3 - 2 x - x^2$.
+    \item $f(x) = 2 x^3 - 9 x^2 + 12 x - 3$. Locate and classify all
+          critical points.
+    \item $\pi(q) = 60 q - 3 q^2 - 80$. Profit-max $q^*$ and $\pi^*$.
+    \item $C(q) = 2 q^2 + 8 q + 50$, $q > 0$. Minimise average cost
+          $AC(q) = C(q)/q$.
+    \item Inverse demand $p(q) = 40 - q$, marginal cost $MC = 4$. Find
+          monopolist's $q^*$, $p^*$, and $\pi^*$.
+    \item $f(x) = x^2 \mathrm{e}^{-x}$ on $x > 0$.
+    \item $f(x) = 2 \ln(x) - x$ on $x > 0$.
+    \item $f(x) = x^4 - 8 x^2 + 3$. Locate and classify all critical
+          points.
+    \item $f(x) = x^3 - 9 x + 5$ on $[-4, 4]$. Find the global max and
+          min.
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+    \item $f'(x) = 2 x + 10 = 0 \Rightarrow x^* = -5$. $f''(x) = 2 > 0$,
+          \textbf{min}. $f(-5) = 25 - 50 + 7 = -18$.
+    \item $f'(x) = -2 - 2 x = 0 \Rightarrow x^* = -1$. $f''(x) = -2 < 0$,
+          \textbf{max}. $f(-1) = 3 + 2 - 1 = 4$.
+    \item $f'(x) = 6 x^2 - 18 x + 12 = 6(x - 1)(x - 2) = 0 \Rightarrow
+          x = 1, 2$. $f''(x) = 12 x - 18$. At $x = 1$: $f''(1) = -6 < 0$
+          (\textbf{max}, value $2 - 9 + 12 - 3 = 2$). At $x = 2$:
+          $f''(2) = 6 > 0$ (\textbf{min}, value $16 - 36 + 24 - 3 = 1$).
+    \item $\pi'(q) = 60 - 6 q = 0 \Rightarrow q^* = 10$.
+          $\pi''(q) = -6 < 0$, \textbf{max}.
+          $\pi^* = 600 - 300 - 80 = 220$.
+    \item $AC(q) = 2 q + 8 + 50/q$. $AC'(q) = 2 - 50/q^2 = 0 \Rightarrow
+          q^* = 5$ (positive root). $AC''(q) = 100/q^3 > 0$, \textbf{min}.
+          $AC(5) = 10 + 8 + 10 = 28$.
+    \item $\pi(q) = (40 - q) q - 4 q = 36 q - q^2$.
+          $\pi'(q) = 36 - 2 q = 0 \Rightarrow q^* = 18$. $\pi'' = -2 < 0$,
+          \textbf{max}. $p^* = 40 - 18 = 22$. $\pi^* = 648 - 324 = 324$.
+    \item $f'(x) = 2 x \mathrm{e}^{-x} - x^2 \mathrm{e}^{-x} =
+          x \mathrm{e}^{-x}(2 - x) = 0$ on $x > 0 \Rightarrow x^* = 2$.
+          $f''(x) = \mathrm{e}^{-x}(2 - 4 x + x^2)$. At $x = 2$:
+          $f''(2) = \mathrm{e}^{-2}(2 - 8 + 4) = -2 \mathrm{e}^{-2} < 0$,
+          \textbf{max}. $f(2) = 4 \mathrm{e}^{-2}$.
+    \item $f'(x) = 2/x - 1 = 0 \Rightarrow x^* = 2$. $f''(x) = -2/x^2$,
+          $f''(2) = -1/2 < 0$, \textbf{max}. $f(2) = 2 \ln 2 - 2$.
+    \item $f'(x) = 4 x^3 - 16 x = 4 x(x^2 - 4) = 0 \Rightarrow
+          x = 0, \pm 2$. $f''(x) = 12 x^2 - 16$. At $x = 0$:
+          $f''(0) = -16 < 0$ (\textbf{max}, value $3$). At $x = \pm 2$:
+          $f''(\pm 2) = 48 - 16 = 32 > 0$ (\textbf{min}, value
+          $16 - 32 + 3 = -13$).
+    \item $f'(x) = 3 x^2 - 9 = 0 \Rightarrow x = \pm \sqrt{3}$.
+          $f''(x) = 6 x$: $f''(\sqrt{3}) > 0$ (local min,
+          $f(\sqrt{3}) = 3\sqrt{3} - 9\sqrt{3} + 5 = -6\sqrt{3} + 5 \approx
+          -5.39$); $f''(-\sqrt{3}) < 0$ (local max,
+          $f(-\sqrt{3}) = 6\sqrt{3} + 5 \approx 15.39$). Endpoints:
+          $f(-4) = -64 + 36 + 5 = -23$; $f(4) = 64 - 36 + 5 = 33$. Global
+          \textbf{max}: $f(4) = 33$. Global \textbf{min}: $f(-4) = -23$.
+\end{solutions}

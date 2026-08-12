@@ -1,0 +1,194 @@
+\chapter{Quadratic Forms and Definiteness}
+
+A quadratic form is a homogeneous polynomial of degree $2$ in several
+variables. In economics it shows up as the variance of a portfolio,
+$w^{T} \Sigma w$, and as the second-order term in the Taylor expansion of an
+objective function. Whether the quadratic form is positive, negative, or
+mixed in sign decides whether a critical point of a smooth function is a
+(local) minimum, maximum, or saddle.
+
+\section{Core Rules}
+
+\begin{rulebox}{Quadratic form}
+Given a symmetric matrix $A \in \R^{n \times n}$, the associated quadratic
+form is the function
+\[
+Q(x) \;=\; x^{T} A x \;=\; \sum_{i, j} a_{ij} x_{i} x_{j}, \qquad x \in \R^{n}.
+\]
+Without loss of generality one may always take $A$ symmetric: replace any
+$A$ by $\tfrac{1}{2}(A + A^{T})$ without changing $Q$.
+\end{rulebox}
+
+\begin{rulebox}{Definiteness}
+Let $A \in \R^{n \times n}$ be symmetric. We say:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+    \item $A$ is \emph{positive definite} (pd) if $x^{T} A x > 0$ for all $x \neq 0$.
+    \item $A$ is \emph{positive semidefinite} (psd) if $x^{T} A x \ge 0$ for all $x$.
+    \item $A$ is \emph{negative definite} (nd) if $x^{T} A x < 0$ for all $x \neq 0$.
+    \item $A$ is \emph{negative semidefinite} (nsd) if $x^{T} A x \le 0$ for all $x$.
+    \item $A$ is \emph{indefinite} if $x^{T} A x$ takes both positive and negative values.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Eigenvalue criterion}
+For symmetric $A$:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+    \item $A$ pd $\Leftrightarrow$ all eigenvalues $> 0$;
+    \item $A$ nd $\Leftrightarrow$ all eigenvalues $< 0$;
+    \item $A$ psd $\Leftrightarrow$ all eigenvalues $\ge 0$;
+    \item $A$ nsd $\Leftrightarrow$ all eigenvalues $\le 0$;
+    \item $A$ indefinite $\Leftrightarrow$ $A$ has both a positive and a negative eigenvalue.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Principal-minor (Sylvester) criterion}
+Let $D_{k}$ denote the determinant of the leading $k \times k$ principal
+submatrix of $A$ (the top-left $k \times k$ block). Then:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+    \item $A$ pd $\Leftrightarrow$ $D_{1}, D_{2}, \dots, D_{n} > 0$;
+    \item $A$ nd $\Leftrightarrow$ $(-1)^{k} D_{k} > 0$ for $k = 1, \dots, n$
+          (signs alternate: $D_{1} < 0, D_{2} > 0, D_{3} < 0, \dots$).
+\end{itemize}
+For semidefiniteness one must check \emph{all} principal minors, not just
+the leading ones; the simple form above does not extend.
+\end{rulebox}
+
+\begin{rulebox}{The $2 \times 2$ case}
+For $A = \bigl(\begin{smallmatrix} a & b \\ b & c \end{smallmatrix}\bigr)$:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+    \item pd $\Leftrightarrow$ $a > 0$ and $a c - b^{2} > 0$;
+    \item nd $\Leftrightarrow$ $a < 0$ and $a c - b^{2} > 0$;
+    \item indefinite $\Leftrightarrow$ $a c - b^{2} < 0$.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Application: Hessian and second-order conditions}
+For $f : \R^{n} \to \R$ of class $C^{2}$ at an interior critical point
+$x^{*}$ (i.e.\ $\grad f(x^{*}) = 0$):
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+    \item Hessian $H_{f}(x^{*})$ pd $\Rightarrow$ strict local minimum.
+    \item Hessian nd $\Rightarrow$ strict local maximum.
+    \item Hessian indefinite $\Rightarrow$ saddle point.
+    \item Otherwise (semidefinite, not definite) the test is inconclusive.
+\end{itemize}
+\end{rulebox}
+
+\section{Practice Problems}
+
+\begin{problems}
+    \item Classify $A = \bigl(\begin{smallmatrix} 2 & 0 \\ 0 & 3 \end{smallmatrix}\bigr)$.
+    \item Classify $A = \bigl(\begin{smallmatrix} -1 & 0 \\ 0 & -4 \end{smallmatrix}\bigr)$.
+    \item Classify $A = \bigl(\begin{smallmatrix} 1 & 0 \\ 0 & -1 \end{smallmatrix}\bigr)$.
+    \item Classify $A = \bigl(\begin{smallmatrix} 2 & 1 \\ 1 & 2 \end{smallmatrix}\bigr)$.
+    \item Classify $A = \bigl(\begin{smallmatrix} 1 & 2 \\ 2 & 1 \end{smallmatrix}\bigr)$.
+    \item Classify $A = \bigl(\begin{smallmatrix} 4 & 2 \\ 2 & 1 \end{smallmatrix}\bigr)$.
+    \item For which $a$ is $A = \bigl(\begin{smallmatrix} a & 1 \\ 1 & a \end{smallmatrix}\bigr)$ positive definite?
+    \item For which $b$ is $A = \bigl(\begin{smallmatrix} 4 & b \\ b & 9 \end{smallmatrix}\bigr)$ positive definite?
+    \item Write $Q(x, y) = 3 x^{2} + 4 x y + y^{2}$ as $x^{T} A x$ for a symmetric $A$, and classify $A$.
+    \item Write $Q(x, y) = x^{2} - 6 x y + 10 y^{2}$ as $x^{T} A x$ and classify.
+    \item Classify $A = \begin{pmatrix} 2 & 1 & 0 \\ 1 & 2 & 1 \\ 0 & 1 & 2 \end{pmatrix}$ via leading principal minors.
+    \item Classify $A = \begin{pmatrix} -2 & 1 & 0 \\ 1 & -3 & 1 \\ 0 & 1 & -2 \end{pmatrix}$ via leading principal minors.
+    \item Classify $A = \begin{pmatrix} 1 & 1 & 0 \\ 1 & 2 & 1 \\ 0 & 1 & 3 \end{pmatrix}$.
+    \item Classify $A = \begin{pmatrix} 1 & 2 & 0 \\ 2 & 1 & 0 \\ 0 & 0 & 5 \end{pmatrix}$.
+    \item For $f(x, y) = x^{2} + x y + y^{2}$, find the Hessian and classify the critical point at the origin.
+    \item For $f(x, y) = x^{2} - x y + y^{2} - 3 x$, find the critical point and classify it.
+    \item For $f(x, y) = x^{3} - 3 x + y^{2}$, find all critical points and classify them.
+    \item For $f(x, y) = x^{2} + y^{2} - x y - x - y$, find the critical point and classify.
+    \item Show that $A^{T} A$ is psd for any real matrix $A$.
+    \item Show that if $A$ is pd then $A$ is invertible.
+    \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 3 & -1 \\ -1 & 3 \end{smallmatrix}\bigr)$ and classify it.
+    \item A covariance matrix is symmetric and psd. If $\Sigma = \bigl(\begin{smallmatrix} 4 & \rho \\ \rho & 1 \end{smallmatrix}\bigr)$ is a valid covariance matrix, what range of $\rho$ is allowed?
+    \item For the same $\Sigma$ with $\rho = 1$, is $\Sigma$ pd or just psd? Justify.
+    \item Compute $Q(1, 2) = x^{T} A x$ for $A = \bigl(\begin{smallmatrix} 1 & 2 \\ 2 & 3 \end{smallmatrix}\bigr)$.
+    \item For which $\alpha$ is the Hessian of $f(x, y) = \alpha x^{2} - 2 x y + y^{2}$ pd?
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+    \item Eigenvalues $2, 3 > 0$: positive definite.
+    \item Eigenvalues $-1, -4 < 0$: negative definite.
+    \item Eigenvalues $1, -1$: indefinite.
+    \item Eigenvalues $1, 3 > 0$: pd. (Or: $D_{1} = 2 > 0$, $D_{2} = 3 > 0$.)
+    \item $D_{1} = 1 > 0$, $D_{2} = 1 - 4 = -3 < 0$: indefinite. (Eigenvalues $-1, 3$.)
+    \item $D_{2} = 4 - 4 = 0$: not pd. Eigenvalues from $\lambda^{2} - 5 \lambda + 0 = 0$ give $\lambda = 0, 5$. Both $\ge 0$ with one zero: psd but not pd.
+    \item $D_{1} = a > 0$ and $D_{2} = a^{2} - 1 > 0$, i.e.\ $|a| > 1$. Combined: $a > 1$.
+    \item $D_{1} = 4 > 0$, $D_{2} = 36 - b^{2} > 0 \Leftrightarrow |b| < 6$.
+    \item $A = \bigl(\begin{smallmatrix} 3 & 2 \\ 2 & 1 \end{smallmatrix}\bigr)$. $D_{1} = 3 > 0$, $D_{2} = 3 - 4 = -1 < 0$: indefinite.
+    \item $A = \bigl(\begin{smallmatrix} 1 & -3 \\ -3 & 10 \end{smallmatrix}\bigr)$. $D_{1} = 1 > 0$, $D_{2} = 10 - 9 = 1 > 0$: pd.
+    \item $D_{1} = 2$, $D_{2} = 4 - 1 = 3$, $D_{3} = $ expand along row 1: $2(4 - 1) - 1(2 - 0) + 0 = 6 - 2 = 4$. All $> 0$: pd.
+    \item $D_{1} = -2$, $D_{2} = 6 - 1 = 5$, $D_{3} = $ expand: $-2(6 - 1) - 1(-2 - 0) + 0 = -10 + 2 = -8$. Signs $-, +, -$: nd.
+    \item $D_{1} = 1$, $D_{2} = 2 - 1 = 1$, $D_{3}$ by expansion: $1(6 - 1) - 1(3 - 0) + 0 = 5 - 3 = 2$. All $> 0$: pd.
+    \item Block diagonal. Upper $2 \times 2$ has $D_{1} = 1 > 0$, $D_{2} = 1 - 4 = -3 < 0$: indefinite. Thus $A$ has at least one negative and one positive eigenvalue (from the block), so $A$ is indefinite overall.
+    \item $f_{x} = 2 x + y$, $f_{y} = x + 2 y$. Hessian $H = \bigl(\begin{smallmatrix} 2 & 1 \\ 1 & 2 \end{smallmatrix}\bigr)$. $D_{1} = 2 > 0$, $D_{2} = 3 > 0$: pd. Origin is a strict local (and global) min.
+    \item $f_{x} = 2 x - y - 3 = 0$, $f_{y} = -x + 2 y = 0 \Rightarrow x = 2 y$. Substituting: $4 y - y - 3 = 0 \Rightarrow y = 1, x = 2$. Hessian $H = \bigl(\begin{smallmatrix} 2 & -1 \\ -1 & 2 \end{smallmatrix}\bigr)$, $D_{1} = 2 > 0$, $D_{2} = 3 > 0$: pd. Strict local min at $(2, 1)$.
+    \item $f_{x} = 3 x^{2} - 3 = 0 \Rightarrow x = \pm 1$. $f_{y} = 2 y = 0 \Rightarrow y = 0$. Critical points $(1, 0)$ and $(-1, 0)$. $H = \bigl(\begin{smallmatrix} 6 x & 0 \\ 0 & 2 \end{smallmatrix}\bigr)$. At $(1, 0)$: $H = \bigl(\begin{smallmatrix} 6 & 0 \\ 0 & 2 \end{smallmatrix}\bigr)$, pd $\Rightarrow$ local min. At $(-1, 0)$: $H = \bigl(\begin{smallmatrix} -6 & 0 \\ 0 & 2 \end{smallmatrix}\bigr)$, indefinite $\Rightarrow$ saddle.
+    \item $f_{x} = 2 x - y - 1 = 0$, $f_{y} = 2 y - x - 1 = 0$. Solve: from the first, $y = 2 x - 1$; substitute: $2(2 x - 1) - x - 1 = 3 x - 3 = 0$, so $x = 1, y = 1$. $H = \bigl(\begin{smallmatrix} 2 & -1 \\ -1 & 2 \end{smallmatrix}\bigr)$, pd. Local min at $(1, 1)$.
+    \item $x^{T} (A^{T} A) x = (A x)^{T} (A x) = \|A x\|^{2} \ge 0$ for all $x$, so $A^{T} A$ is psd.
+    \item If $A$ is pd then no eigenvalue is $0$ (all $> 0$), so $\det A = \prod \lambda_{i} > 0$, hence $A$ is invertible.
+    \item $p(\lambda) = (3 - \lambda)^{2} - 1 = \lambda^{2} - 6 \lambda + 8 = (\lambda - 2)(\lambda - 4)$. Eigenvalues $2, 4 > 0$: pd.
+    \item $\Sigma$ psd $\Leftrightarrow$ $D_{1} = 4 \ge 0$ (yes) and $D_{2} = 4 - \rho^{2} \ge 0 \Leftrightarrow |\rho| \le 2$. (Note: a valid \emph{correlation} matrix would force $|\rho| \le 1$ since correlations lie in $[-1, 1]$; the question only asks psd-ness for the covariance.)
+    \item With $\rho = 1$: $D_{2} = 4 - 1 = 3 > 0$, so $\Sigma$ is pd (eigenvalues are roots of $\lambda^{2} - 5\lambda + 3 = 0$, both positive).
+    \item $x^{T} A x = (1, 2)\bigl(\begin{smallmatrix} 1 & 2 \\ 2 & 3 \end{smallmatrix}\bigr)\bigl(\begin{smallmatrix} 1 \\ 2 \end{smallmatrix}\bigr) = (1, 2)\bigl(\begin{smallmatrix} 5 \\ 8 \end{smallmatrix}\bigr) = 5 + 16 = 21$.
+    \item Hessian $H = \bigl(\begin{smallmatrix} 2 \alpha & -2 \\ -2 & 2 \end{smallmatrix}\bigr)$. pd $\Leftrightarrow$ $2 \alpha > 0$ and $4 \alpha - 4 > 0$, i.e.\ $\alpha > 1$.
+\end{solutions}
+
+\section{Additional Problems}
+
+\begin{problems}
+    \item Classify $A = \bigl(\begin{smallmatrix} 5 & 0 \\ 0 & 1 \end{smallmatrix}\bigr)$.
+    \item Classify $A = \bigl(\begin{smallmatrix} -3 & 0 \\ 0 & -2 \end{smallmatrix}\bigr)$.
+    \item Classify $A = \bigl(\begin{smallmatrix} 3 & 0 \\ 0 & -1 \end{smallmatrix}\bigr)$.
+    \item Classify $A = \bigl(\begin{smallmatrix} 3 & 1 \\ 1 & 3 \end{smallmatrix}\bigr)$.
+    \item Classify $A = \bigl(\begin{smallmatrix} 2 & 3 \\ 3 & 2 \end{smallmatrix}\bigr)$.
+    \item Classify $A = \bigl(\begin{smallmatrix} 9 & 6 \\ 6 & 4 \end{smallmatrix}\bigr)$.
+    \item For which $b$ is $A = \bigl(\begin{smallmatrix} 3 & b \\ b & 3 \end{smallmatrix}\bigr)$ positive definite?
+    \item For which $c$ is $A = \bigl(\begin{smallmatrix} -2 & 1 \\ 1 & c \end{smallmatrix}\bigr)$ negative definite?
+    \item Write $Q(x, y) = 2 x^{2} + 6 x y + 5 y^{2}$ as $x^{T} A x$ and classify $A$.
+    \item Write $Q(x, y) = -x^{2} + 4 x y - 5 y^{2}$ as $x^{T} A x$ and classify.
+    \item Classify $A = \begin{pmatrix} 3 & 1 & 0 \\ 1 & 3 & 1 \\ 0 & 1 & 3 \end{pmatrix}$ via leading principal minors.
+    \item Classify $A = \begin{pmatrix} -3 & 2 & 0 \\ 2 & -4 & 1 \\ 0 & 1 & -2 \end{pmatrix}$ via leading principal minors.
+    \item Classify $A = \begin{pmatrix} 2 & 1 & 1 \\ 1 & 2 & 1 \\ 1 & 1 & 2 \end{pmatrix}$.
+    \item Classify $A = \begin{pmatrix} 2 & 0 & 0 \\ 0 & -1 & 0 \\ 0 & 0 & 3 \end{pmatrix}$.
+    \item For $f(x, y) = 2 x^{2} - 4 x y + 3 y^{2}$, find the Hessian and classify the origin.
+    \item For $f(x, y) = x^{2} + 4 x y + 2 y^{2} + 6 x$, find the critical point and classify it.
+    \item For $f(x, y) = x^{3} - 12 x + y^{2} - 2 y$, find all critical points and classify them.
+    \item For $f(x, y) = x^{2} + 4 x y + y^{2} - 2 x - 4 y$, find the critical point and classify.
+    \item Show that if $A$ is symmetric and all eigenvalues are positive, then $A$ is invertible and $A^{-1}$ has all positive eigenvalues.
+    \item Show: $A$ is positive definite iff $-A$ is negative definite.
+    \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 4 & 1 \\ 1 & 4 \end{smallmatrix}\bigr)$ and classify it.
+    \item For $\Sigma = \bigl(\begin{smallmatrix} 9 & \rho \\ \rho & 16 \end{smallmatrix}\bigr)$ a valid covariance matrix, what range of $\rho$ is allowed?
+    \item Compute $Q(2, -1) = x^{T} A x$ for $A = \bigl(\begin{smallmatrix} 3 & 1 \\ 1 & 2 \end{smallmatrix}\bigr)$.
+    \item For which $\alpha$ is the Hessian of $f(x, y) = x^{2} + 2 \alpha x y + 4 y^{2}$ pd?
+    \item Determine whether $Q(x, y, z) = x^{2} + y^{2} + z^{2} + 2 x y$ is pd, psd, or indefinite.
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+    \item Eigenvalues $5, 1 > 0$: pd.
+    \item Eigenvalues $-3, -2 < 0$: nd.
+    \item Eigenvalues $3, -1$: indefinite.
+    \item Eigenvalues from $p(\lambda) = (3 - \lambda)^{2} - 1 = (\lambda - 2)(\lambda - 4)$: both positive, pd. Or: $D_{1} = 3 > 0$, $D_{2} = 9 - 1 = 8 > 0$. pd.
+    \item $D_{1} = 2 > 0$, $D_{2} = 4 - 9 = -5 < 0$: indefinite. (Eigenvalues $-1, 5$.)
+    \item $D_{2} = 36 - 36 = 0$: not pd. Eigenvalues from $\lambda^{2} - 13 \lambda + 0 = 0$: $\lambda = 0, 13$. psd, not pd.
+    \item $D_{1} = 3 > 0$, $D_{2} = 9 - b^{2} > 0 \Leftrightarrow |b| < 3$.
+    \item nd requires $D_{1} = -2 < 0$ (OK) and $D_{2} = -2 c - 1 > 0 \Leftrightarrow c < -1/2$.
+    \item $A = \bigl(\begin{smallmatrix} 2 & 3 \\ 3 & 5 \end{smallmatrix}\bigr)$. $D_{1} = 2 > 0$, $D_{2} = 10 - 9 = 1 > 0$: pd.
+    \item $A = \bigl(\begin{smallmatrix} -1 & 2 \\ 2 & -5 \end{smallmatrix}\bigr)$. $D_{1} = -1 < 0$, $D_{2} = 5 - 4 = 1 > 0$: signs $-, +$: nd.
+    \item $D_{1} = 3, D_{2} = 9 - 1 = 8, D_{3} = $ expand along row 1: $3(9 - 1) - 1(3 - 0) + 0 = 24 - 3 = 21$. All $> 0$: pd.
+    \item $D_{1} = -3, D_{2} = 12 - 4 = 8, D_{3} = $ expand: $-3(8 - 1) - 2(-4 - 0) + 0 = -21 + 8 = -13$. Signs $-, +, -$: nd.
+    \item $D_{1} = 2, D_{2} = 4 - 1 = 3, D_{3} = $ expand: $2(4 - 1) - 1(2 - 1) + 1(1 - 2) = 6 - 1 - 1 = 4$. All $> 0$: pd. (Eigenvalues are $1, 1, 4$.)
+    \item Diagonal: eigenvalues $2, -1, 3$ (mixed signs): indefinite.
+    \item $H = \bigl(\begin{smallmatrix} 4 & -4 \\ -4 & 6 \end{smallmatrix}\bigr)$. $D_{1} = 4 > 0$, $D_{2} = 24 - 16 = 8 > 0$: pd. Origin is a strict local min.
+    \item $f_{x} = 2 x + 4 y + 6 = 0$, $f_{y} = 4 x + 4 y = 0 \Rightarrow x = -y$. Substitute: $-2 y + 4 y + 6 = 0 \Rightarrow y = -3, x = 3$. $H = \bigl(\begin{smallmatrix} 2 & 4 \\ 4 & 4 \end{smallmatrix}\bigr)$, $D_{2} = 8 - 16 = -8 < 0$: indefinite. Saddle at $(3, -3)$.
+    \item $f_{x} = 3 x^{2} - 12 = 0 \Rightarrow x = \pm 2$. $f_{y} = 2 y - 2 = 0 \Rightarrow y = 1$. Critical points $(2, 1)$ and $(-2, 1)$. $H = \bigl(\begin{smallmatrix} 6 x & 0 \\ 0 & 2 \end{smallmatrix}\bigr)$. At $(2, 1)$: $\bigl(\begin{smallmatrix} 12 & 0 \\ 0 & 2 \end{smallmatrix}\bigr)$, pd: local min. At $(-2, 1)$: $\bigl(\begin{smallmatrix} -12 & 0 \\ 0 & 2 \end{smallmatrix}\bigr)$, indefinite: saddle.
+    \item $f_{x} = 2 x + 4 y - 2 = 0$, $f_{y} = 4 x + 2 y - 4 = 0$. Solve: $x + 2 y = 1$, $2 x + y = 2$. From first $x = 1 - 2 y$; sub: $2 - 4 y + y = 2 \Rightarrow y = 0, x = 1$. $H = \bigl(\begin{smallmatrix} 2 & 4 \\ 4 & 2 \end{smallmatrix}\bigr)$, $D_{2} = 4 - 16 = -12 < 0$: indefinite. Saddle at $(1, 0)$.
+    \item All eigenvalues $> 0$ implies $\det A = \prod \lambda_{i} > 0$, so $A$ is invertible. The eigenvalues of $A^{-1}$ are $1/\lambda_{i}$, each $> 0$.
+    \item $x^{T}(-A)x = -(x^{T} A x)$. If $x^{T} A x > 0$ for all $x \neq 0$, then $x^{T}(-A)x < 0$ for all $x \neq 0$. Converse identical.
+    \item $p(\lambda) = (4 - \lambda)^{2} - 1 = (\lambda - 3)(\lambda - 5)$. Eigenvalues $3, 5 > 0$: pd.
+    \item Need $D_{1} = 9 \ge 0$ (OK), $D_{2} = 144 - \rho^{2} \ge 0 \Leftrightarrow |\rho| \le 12$.
+    \item $A \bigl(\begin{smallmatrix} 2 \\ -1 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 6 - 1 \\ 2 - 2 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 5 \\ 0 \end{smallmatrix}\bigr)$. $(2, -1) \cdot (5, 0) = 10$. So $Q = 10$.
+    \item $H = \bigl(\begin{smallmatrix} 2 & 2 \alpha \\ 2 \alpha & 8 \end{smallmatrix}\bigr)$. pd iff $2 > 0$ (OK) and $16 - 4 \alpha^{2} > 0 \Leftrightarrow |\alpha| < 2$.
+    \item $A = \begin{pmatrix} 1 & 1 & 0 \\ 1 & 1 & 0 \\ 0 & 0 & 1 \end{pmatrix}$. Eigenvalues: from $2 \times 2$ block $\bigl(\begin{smallmatrix} 1 & 1 \\ 1 & 1 \end{smallmatrix}\bigr)$ we get $0, 2$; from $1 \times 1$ block, $1$. So eigenvalues $\{0, 1, 2\}$. All $\ge 0$, one zero: psd but not pd. Verify: $Q = (x + y)^{2} + z^{2} \ge 0$, with $Q = 0$ at $(1, -1, 0) \neq 0$.
+\end{solutions}

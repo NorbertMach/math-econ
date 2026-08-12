@@ -1,0 +1,1049 @@
+\chapter{Special Cases: Multiple Optima, Degeneracy, Unboundedness,
+  Infeasibility}
+
+For a well-behaved maximisation problem the simplex method of the previous
+chapters marches from corner to corner and stops in a final tableau that
+describes exactly one optimal vertex. This chapter treats the four ways an
+LP can deviate from that script: the objective may be maximised along a
+whole edge instead of a single corner (multiple optima); a corner may be pinned down by more constraints
+than necessary (degeneracy); the feasible region may stretch
+to infinity in a direction along which the objective keeps growing
+(unboundedness); or the constraints may contradict
+one another outright (infeasibility).
+
+Each case leaves an unmistakable fingerprint in \emph{two} places: in the
+graphical picture obtained by corner enumeration, and in the simplex
+tableau. Reading these fingerprints quickly (and not confusing them with
+one another) is an exam skill in its own right.
+
+\section{Core Rules}
+
+\begin{rulebox}{Tableau conventions (recap of Chapters 4--5)}
+Maximisation tableaus are written with one row per basic variable and the
+objective row $z$ at the bottom. The RHS column holds the values of the
+basic variables and, in the $z$-row, the current value of $z$.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Optimality:} the tableau is optimal as soon as every
+        $z$-row entry is $\ge 0$.
+  \item \textbf{Entering variable:} a column with a negative $z$-row entry
+        (most negative first). Increasing that variable by one unit raises
+        $z$ by the absolute value of its entry.
+  \item \textbf{Leaving variable:} ratio test
+        $\min_i \{\text{RHS}_i/a_i : a_i>0\}$ over the \emph{positive}
+        entries $a_i$ of the entering column only.
+  \item We call the $z$-row entry of a \emph{nonbasic} column its
+        \emph{reduced cost}; basic columns always carry the entry $0$.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Multiple optima}
+\textbf{In the tableau:} the tableau is optimal, but some \emph{nonbasic}
+variable has reduced cost $0$. That variable may enter without changing
+$z$: after the usual ratio test and pivot, the new tableau shows a
+\emph{different} optimal vertex with the \emph{same} objective value. If
+$x^{A}$ and $x^{B}$ are the two optimal vertices, the entire connecting
+edge is optimal, and the \emph{general optimal solution} is
+\[
+  x(\lambda)\;=\;\lambda\,x^{A}+(1-\lambda)\,x^{B},
+  \qquad 0\le\lambda\le 1 .
+\]
+\textbf{Graphically:} the level lines of $z$ are parallel to a binding edge
+of the feasible region; corner enumeration returns the maximal value at two
+\emph{adjacent} corners, and every point between them is optimal too.
+(In more than two variables the optimal set can be a whole face: the set
+of all convex combinations of the optimal vertices; in the plane it is
+always a segment.)
+\end{rulebox}
+
+\begin{rulebox}{Degeneracy}
+A basic feasible solution is \emph{degenerate} if at least one \emph{basic}
+variable equals $0$ (a zero in the RHS column above the $z$-row).
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{In the tableau:} degeneracy is created by a \emph{tie in
+        the ratio test}. The leaving row is not unique; whichever row is
+        chosen, the basic variable of the other tying row stays basic at
+        value $0$ in the next tableau.
+  \item \textbf{Geometrically:} at the corresponding vertex \emph{more}
+        constraints are active than the dimension requires, in $\R^{2}$
+        three or more boundary lines pass through one point. The vertex is
+        \emph{overdetermined}, and several different bases describe the same
+        point.
+  \item \textbf{Consequences:} a pivot may have step length $0$ (the basis
+        changes, the point and $z$ do not). In artificial examples the
+        simplex method can even \emph{cycle} forever among the bases of one
+        vertex; anti-cycling rules (e.g.\ Bland's rule: among the eligible
+        candidates always pick the smallest index) exclude this. In hand
+        computations degeneracy is harmless, simply carry on.
+  \item \textbf{Do not confuse:} degeneracy $=$ a \emph{basic} variable at
+        zero; multiple optima $=$ a \emph{nonbasic} reduced cost at zero.
+        Neither implies the other.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Unboundedness}
+\textbf{In the tableau:} an entering column (negative reduced cost)
+contains \emph{no positive entry}, so no ratio can be formed. The entering
+variable can then be increased without limit while feasibility is
+preserved, and $z\to\infty$: the LP is unbounded, it has no finite
+optimum. The improving ray can be read off directly: set the entering
+variable to $t\ge 0$; each basic variable changes by $-\,(\text{column
+entry})\cdot t$.\\[0.4ex]
+\textbf{Graphically:} the feasible region is unbounded \emph{and} $z$
+improves along the escape direction. Beware: an unbounded region alone does
+not make the LP unbounded: the objective must keep growing along it.
+\end{rulebox}
+
+\begin{rulebox}{Infeasibility}
+Detected in \textbf{phase one}: minimise the sum of the artificial
+variables, $w=\sum a_i$ (equivalently, maximise $-w$ with the usual
+maximisation rules; the bottom row then shows $-w$).
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item If $\min w=0$: a feasible basis has been found; drop the
+        artificials and start phase two.
+  \item If $\min w>0$ (some artificial variable is \emph{stuck basic at
+        a positive value} in the optimal phase-one tableau) then no
+        feasible solution exists: the feasible region is empty. The original objective never
+        plays a role.
+\end{itemize}
+\textbf{Graphically:} the constraint half-planes have no common point.
+\end{rulebox}
+
+\begin{rulebox}{Diagnosis at a glance}
+\begin{center}
+\begin{tabular}{p{2.9cm}|p{5.7cm}|p{5.6cm}}
+\hline
+\textbf{Case} & \textbf{In the tableau} & \textbf{In the picture}\\
+\hline
+unique optimum & optimal; all nonbasic reduced costs $>0$ &
+  the $z$-line touches the region in exactly one corner\\
+\hline
+multiple optima & optimal; a \emph{nonbasic} reduced cost equals $0$ &
+  $z$-line parallel to a binding edge; two adjacent corners tie for the
+  maximum\\
+\hline
+degenerate vertex & a \emph{basic} variable equals $0$ (tie in the ratio
+  test one step earlier) & more lines through the corner than needed\\
+\hline
+unbounded LP & entering column without positive entries &
+  region open in a direction along which $z$ grows\\
+\hline
+infeasible LP & phase one ends with $w>0$ (artificial stuck positive) &
+  the constraints have no common point\\
+\hline
+\end{tabular}
+\end{center}
+\end{rulebox}
+
+\section{Practice Problems}
+
+All variables are nonnegative. Tableaus follow the conventions of the recap
+box: objective row at the bottom, and a maximisation tableau is optimal
+when all entries of that row are nonnegative.
+
+\begin{problems}
+  \item Solve graphically by corner enumeration:
+        \[
+          \max\; z=2x_1+2x_2
+          \quad\text{s.t.}\quad
+          x_1+x_2\le 4,\qquad x_1\le 3,\qquad x_2\le 3 .
+        \]
+        List all corners with their objective values, explain why the LP
+        has multiple optima, write down the general optimal solution, and
+        verify that the midpoint of the optimal edge is optimal as well.
+
+  \item Solve by the simplex method:
+        \[
+          \max\; z=2x_1+x_2
+          \quad\text{s.t.}\quad
+          2x_1+x_2\le 8,\qquad x_1+x_2\le 5 .
+        \]
+        Show that the final tableau signals multiple optima, pivot once
+        more to reach a second optimal vertex, and give the set of all
+        optimal solutions.
+
+  \item For the LP
+        $\max\; z=x_1+2x_2$ s.t.\ $x_1+2x_2\le 6$, $x_1+x_2\le 4$,
+        the simplex method has produced the tableau
+        \begin{center}
+        \begin{tabular}{c|rrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $x_2$ & $\tfrac{1}{2}$ & $1$ & $\tfrac{1}{2}$ & $0$ & $3$\\
+        $s_2$ & $\tfrac{1}{2}$ & $0$ & $-\tfrac{1}{2}$ & $1$ & $1$\\
+        \hline
+        $z$ & $0$ & $0$ & $1$ & $0$ & $6$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        Diagnose the tableau, read off the current solution, and determine
+        \emph{all} optimal solutions of the LP.
+
+  \item Solve by the simplex method:
+        \[
+          \max\; z=3x_1+x_2
+          \quad\text{s.t.}\quad
+          2x_1+x_2\le 4,\qquad x_1\le 2,\qquad x_2\le 3 .
+        \]
+        Point out the tie in the ratio test, show that the next tableau is
+        degenerate, interpret the degeneracy geometrically, and decide
+        whether the optimum is unique.
+
+  \item The following tableau arose in a maximisation problem:
+        \begin{center}
+        \begin{tabular}{c|rrrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $s_3$ & RHS\\
+        \hline
+        $x_1$ & $1$ & $0$ & $1$ & $-1$ & $0$ & $2$\\
+        $x_2$ & $0$ & $1$ & $-1$ & $2$ & $0$ & $0$\\
+        $s_3$ & $0$ & $0$ & $2$ & $-1$ & $1$ & $3$\\
+        \hline
+        $z$ & $0$ & $0$ & $1$ & $1$ & $0$ & $8$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        (a) Is the tableau optimal? (b) Is the basic solution degenerate,
+        and if so, which variable shows it? (c) Read off $x_1$, $x_2$ and
+        $z$. (d) Is the optimum unique? (e) What does the degeneracy mean
+        geometrically?
+
+  \item Consider
+        \[
+          \max\; z=2x_1+x_2
+          \quad\text{s.t.}\quad
+          x_1-x_2\le 1,\qquad -x_1+x_2\le 2 .
+        \]
+        (a) Describe the feasible region and argue graphically that the LP
+        is unbounded. (b) Run the simplex method until the unboundedness
+        criterion fires. (c) Give a feasible ray along which $z\to\infty$.
+
+  \item During a simplex computation (maximisation) the following tableau
+        appeared:
+        \begin{center}
+        \begin{tabular}{c|rrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $x_1$ & $1$ & $-2$ & $1$ & $0$ & $3$\\
+        $s_2$ & $0$ & $-1$ & $2$ & $1$ & $4$\\
+        \hline
+        $z$ & $0$ & $-4$ & $3$ & $0$ & $12$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        Diagnose the tableau, exhibit the improving ray, and show that $z$
+        is unbounded along it.
+
+  \item Consider
+        \[
+          \max\; z=3x_1+2x_2
+          \quad\text{s.t.}\quad
+          x_1+x_2\le 2,\qquad x_1+x_2\ge 4 .
+        \]
+        Explain why phase one is needed, carry it out, and state the
+        conclusion. What does the picture of the two constraints show?
+
+  \item Run phase one for
+        \[
+          \max\; z=x_1+x_2
+          \quad\text{s.t.}\quad
+          x_1+x_2\le 2,\qquad x_1+2x_2\ge 6 ,
+        \]
+        interpret the final value of $w$, and explain the result
+        graphically.
+
+  \item For which values of $c\ge 0$ does the LP
+        \[
+          \max\; z=c\,x_1+x_2
+          \quad\text{s.t.}\quad
+          x_1+x_2\le 4,\qquad 2x_1+x_2\le 6
+        \]
+        have multiple optimal solutions? For each such $c$ give the set of
+        all optima.
+
+  \item Let $0\le c\le 5$. For which $c$ does
+        \[
+          \max\; z=4x_1+c\,x_2
+          \quad\text{s.t.}\quad
+          x_1+x_2\le 6,\qquad x_1\le 4
+        \]
+        have more than one optimal solution? Describe the optimal set as a
+        function of $c$ on the whole interval $[0,5]$.
+
+  \item Classify each of the following maximisation tableaus: optimal or
+        not, unique or multiple optima, degenerate or not, or unbounded.
+        Read off the solution where one exists.
+        \begin{enumerate}[label=(\alph*),leftmargin=1.8em,itemsep=0.5ex]
+          \item \begin{tabular}[t]{c|rrrr|r}
+                \hline
+                Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+                \hline
+                $x_1$ & $1$ & $0$ & $2$ & $-1$ & $3$\\
+                $x_2$ & $0$ & $1$ & $-1$ & $1$ & $2$\\
+                \hline
+                $z$ & $0$ & $0$ & $1$ & $2$ & $12$\\
+                \hline
+                \end{tabular}
+          \item \begin{tabular}[t]{c|rrrr|r}
+                \hline
+                Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+                \hline
+                $x_1$ & $1$ & $2$ & $1$ & $0$ & $4$\\
+                $s_2$ & $0$ & $1$ & $-1$ & $1$ & $0$\\
+                \hline
+                $z$ & $0$ & $3$ & $2$ & $0$ & $8$\\
+                \hline
+                \end{tabular}
+          \item \begin{tabular}[t]{c|rrrr|r}
+                \hline
+                Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+                \hline
+                $s_1$ & $-2$ & $0$ & $1$ & $1$ & $3$\\
+                $x_2$ & $-1$ & $1$ & $0$ & $2$ & $4$\\
+                \hline
+                $z$ & $-3$ & $0$ & $0$ & $1$ & $8$\\
+                \hline
+                \end{tabular}
+        \end{enumerate}
+
+  \item Solve completely with the simplex method and determine \emph{all}
+        optimal solutions:
+        \[
+          \max\; z=3x_1+3x_2
+          \quad\text{s.t.}\quad
+          x_1+x_2\le 5,\qquad 2x_1+x_2\le 8,\qquad x_2\le 4 .
+        \]
+        Check the result against a corner enumeration.
+
+  \item Decide without lengthy computation whether each LP is infeasible,
+        unbounded, or has a finite optimum. Justify briefly; for (a) also
+        argue via the phase-one objective.
+        \begin{enumerate}[label=(\alph*),leftmargin=1.8em,itemsep=0.3ex]
+          \item $\max\; x_1+x_2$ \;s.t.\; $x_1-x_2\ge 1$,\; $x_2-x_1\ge 1$
+          \item $\max\; x_1+x_2$ \;s.t.\; $-x_1+x_2\le 1$
+        \end{enumerate}
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item The feasible region has the corners $(0,0)$, $(3,0)$, $(3,1)$,
+        $(1,3)$, $(0,3)$. Corner enumeration:
+        \begin{center}
+        \begin{tabular}{c|ccccc}
+        \hline
+        corner & $(0,0)$ & $(3,0)$ & $(3,1)$ & $(1,3)$ & $(0,3)$\\
+        \hline
+        $z=2x_1+2x_2$ & $0$ & $6$ & $8$ & $8$ & $6$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        The maximum $z^{*}=8$ is attained at \emph{two adjacent} corners,
+        $(3,1)$ and $(1,3)$. Reason: the level lines $2x_1+2x_2=\text{const}$
+        have slope $-1$, exactly the slope of the binding edge
+        $x_1+x_2=4$: objective and edge are parallel. General optimal
+        solution:
+        \[
+          (x_1,x_2)=\lambda\,(3,1)+(1-\lambda)\,(1,3)
+                   =(1+2\lambda,\;3-2\lambda),\qquad \lambda\in[0,1],
+        \]
+        all with $z^{*}=8$. Midpoint ($\lambda=\tfrac{1}{2}$): $(2,2)$ is
+        feasible ($2+2=4\le 4$, $2\le 3$) and $z=2\cdot 2+2\cdot 2=8$.
+        \emph{Optimal.}
+
+  \item Standard form: $2x_1+x_2+s_1=8$, $x_1+x_2+s_2=5$. Start tableau:
+        \begin{center}
+        \begin{tabular}{c|rrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $s_1$ & $2$ & $1$ & $1$ & $0$ & $8$\\
+        $s_2$ & $1$ & $1$ & $0$ & $1$ & $5$\\
+        \hline
+        $z$ & $-2$ & $-1$ & $0$ & $0$ & $0$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        Enter $x_1$ ($-2$); ratios $8/2=4$, $5/1=5$; $s_1$ leaves; pivot
+        on the $2$:
+        \begin{center}
+        \begin{tabular}{c|rrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $x_1$ & $1$ & $\tfrac{1}{2}$ & $\tfrac{1}{2}$ & $0$ & $4$\\
+        $s_2$ & $0$ & $\tfrac{1}{2}$ & $-\tfrac{1}{2}$ & $1$ & $1$\\
+        \hline
+        $z$ & $0$ & $0$ & $1$ & $0$ & $8$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        All $z$-row entries are $\ge 0$: optimal with $x^{A}=(4,0)$,
+        $z^{*}=8$. But the \emph{nonbasic} variable $x_2$ has reduced cost
+        $0$, multiple optima. Enter $x_2$; ratios
+        $4/\tfrac{1}{2}=8$, $1/\tfrac{1}{2}=2$; $s_2$ leaves:
+        \begin{center}
+        \begin{tabular}{c|rrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $x_1$ & $1$ & $0$ & $1$ & $-1$ & $3$\\
+        $x_2$ & $0$ & $1$ & $-1$ & $2$ & $2$\\
+        \hline
+        $z$ & $0$ & $0$ & $1$ & $0$ & $8$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        Second optimal vertex $x^{B}=(3,2)$, again $z^{*}=8$
+        ($2\cdot 3+2=8$). All optimal solutions:
+        \[
+          (x_1,x_2)=\lambda\,(4,0)+(1-\lambda)\,(3,2)
+                   =(3+\lambda,\;2-2\lambda),\qquad \lambda\in[0,1].
+        \]
+
+  \item The tableau is optimal (all $z$-row entries $\ge 0$); it shows
+        $x_2=3$, $s_2=1$, hence the vertex $(x_1,x_2)=(0,3)$ with
+        $z^{*}=6$. The nonbasic variable $x_1$ has reduced cost $0$, so the
+        optimum is \emph{not} unique. Enter $x_1$; ratios
+        $3/\tfrac{1}{2}=6$, $1/\tfrac{1}{2}=2$; $s_2$ leaves; pivot on the
+        $\tfrac{1}{2}$ in the $s_2$-row:
+        \begin{center}
+        \begin{tabular}{c|rrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $x_2$ & $0$ & $1$ & $1$ & $-1$ & $2$\\
+        $x_1$ & $1$ & $0$ & $-1$ & $2$ & $2$\\
+        \hline
+        $z$ & $0$ & $0$ & $1$ & $0$ & $6$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        Second optimal vertex $(2,2)$, $z=2+2\cdot 2=6$. All optima:
+        \[
+          (x_1,x_2)=\lambda\,(0,3)+(1-\lambda)\,(2,2)
+                   =(2-2\lambda,\;2+\lambda),\qquad \lambda\in[0,1],
+        \]
+        with $z^{*}=6$. (Graphically: $z=x_1+2x_2$ is parallel to the
+        binding constraint $x_1+2x_2=6$.)
+
+  \item Start tableau ($s_1,s_2,s_3$ slacks of the three constraints):
+        \begin{center}
+        \begin{tabular}{c|rrrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $s_3$ & RHS\\
+        \hline
+        $s_1$ & $2$ & $1$ & $1$ & $0$ & $0$ & $4$\\
+        $s_2$ & $1$ & $0$ & $0$ & $1$ & $0$ & $2$\\
+        $s_3$ & $0$ & $1$ & $0$ & $0$ & $1$ & $3$\\
+        \hline
+        $z$ & $-3$ & $-1$ & $0$ & $0$ & $0$ & $0$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        Enter $x_1$ ($-3$). Ratios: $4/2=2$, $2/1=2$, no ratio in row
+        $s_3$: a \emph{tie} between rows $s_1$ and $s_2$: the next
+        basic solution will be degenerate. Choose the $s_1$-row (smaller
+        index); pivot on the $2$:
+        \begin{center}
+        \begin{tabular}{c|rrrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $s_3$ & RHS\\
+        \hline
+        $x_1$ & $1$ & $\tfrac{1}{2}$ & $\tfrac{1}{2}$ & $0$ & $0$ & $2$\\
+        $s_2$ & $0$ & $-\tfrac{1}{2}$ & $-\tfrac{1}{2}$ & $1$ & $0$ & $0$\\
+        $s_3$ & $0$ & $1$ & $0$ & $0$ & $1$ & $3$\\
+        \hline
+        $z$ & $0$ & $\tfrac{1}{2}$ & $\tfrac{3}{2}$ & $0$ & $0$ & $6$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        The tableau is optimal: $x^{*}=(2,0)$, $z^{*}=6$. The basic
+        variable $s_2=0$ makes the solution \emph{degenerate}.
+        Geometrically, \emph{three} lines pass through the optimal corner
+        $(2,0)$: $2x_1+x_2=4$, $x_1=2$ and $x_2=0$: in the plane two
+        would suffice, so the vertex is overdetermined. The optimum is
+        \emph{unique}: the nonbasic reduced costs $\tfrac{1}{2}$ (for
+        $x_2$) and $\tfrac{3}{2}$ (for $s_1$) are strictly positive.
+
+        \emph{Remark.} Pivoting instead in the $s_2$-row gives
+        \begin{center}
+        \begin{tabular}{c|rrrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $s_3$ & RHS\\
+        \hline
+        $x_1$ & $1$ & $0$ & $0$ & $1$ & $0$ & $2$\\
+        $s_1$ & $0$ & $1$ & $1$ & $-2$ & $0$ & $0$\\
+        $s_3$ & $0$ & $1$ & $0$ & $0$ & $1$ & $3$\\
+        \hline
+        $z$ & $0$ & $-1$ & $0$ & $3$ & $0$ & $6$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        which is \emph{not yet} optimal: $x_2$ must enter, the ratio test
+        gives $\min\{0/1,\,3/1\}=0$, and the pivot has step length $0$,
+        the basis changes but the point $(2,0)$ and $z=6$ do not. One such
+        zero-step pivot later the optimality test is passed. This is the
+        typical (harmless) cost of degeneracy.
+
+  \item (a) Yes: every $z$-row entry is $\ge 0$.
+        (b) Yes: the \emph{basic} variable $x_2$ has value $0$.
+        (c) $x_1=2$, $x_2=0$, $z=8$ (and $s_3=3$).
+        (d) Unique: the nonbasic variables $s_1$ and $s_2$ have reduced
+        costs $1$ and $1$, both strictly positive; a zero would be needed
+        for multiple optima. Degeneracy (a \emph{basic} zero) is a
+        different phenomenon and does not create alternative optima.
+        (e) At the optimal vertex more constraints are active than the
+        dimension requires (here additionally $x_2=0$); several bases
+        describe this one overdetermined corner.
+
+  \item (a) The constraints say $x_1-1\le x_2\le x_1+2$: the region is the
+        strip between two parallel lines of slope $1$, cut to the first
+        quadrant, with corners $(0,0)$, $(1,0)$, $(0,2)$. It is unbounded
+        in the direction $d=(1,1)$: from any feasible point, moving along
+        $d$ keeps both constraints satisfied while
+        $z=2x_1+x_2$ grows by $3$ per step: no corner is optimal.
+
+        (b) Start tableau:
+        \begin{center}
+        \begin{tabular}{c|rrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $s_1$ & $1$ & $-1$ & $1$ & $0$ & $1$\\
+        $s_2$ & $-1$ & $1$ & $0$ & $1$ & $2$\\
+        \hline
+        $z$ & $-2$ & $-1$ & $0$ & $0$ & $0$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        Enter $x_1$ ($-2$); only row $s_1$ has a positive entry, ratio
+        $1/1=1$; pivot there:
+        \begin{center}
+        \begin{tabular}{c|rrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $x_1$ & $1$ & $-1$ & $1$ & $0$ & $1$\\
+        $s_2$ & $0$ & $0$ & $1$ & $1$ & $3$\\
+        \hline
+        $z$ & $0$ & $-3$ & $2$ & $0$ & $2$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        Now $x_2$ must enter (reduced cost $-3$), but its column contains
+        the entries $-1$ and $0$, \emph{no positive entry}. The
+        unboundedness criterion fires: the LP has no finite optimum.
+
+        (c) Set $x_2=t\ge 0$: the tableau gives $x_1=1+t$, $s_2=3$, so
+        \[
+          \begin{pmatrix}x_1\\ x_2\end{pmatrix}
+          =\begin{pmatrix}1\\ 0\end{pmatrix}
+           +t\begin{pmatrix}1\\ 1\end{pmatrix},
+          \qquad z=2+3t\;\longrightarrow\;\infty .
+        \]
+        (Check: $(1+t)-t=1$, $-(1+t)+t=-1\le 2$, feasible for every
+        $t\ge 0$.)
+
+  \item The tableau is not optimal: $x_2$ has reduced cost $-4$ and must
+        enter. Its column contains $-2$ and $-1$: no positive entry, so
+        the ratio test fails: the LP is \emph{unbounded}. Improving ray:
+        set $x_2=t\ge 0$; then $x_1=3+2t$ and $s_2=4+t$ stay nonnegative
+        for all $t$, and
+        \[
+          z=12+4t\;\longrightarrow\;\infty .
+        \]
+        Geometrically the feasible region has an unbounded edge in the
+        direction $(2,1)$ of the $(x_1,x_2)$-plane, and the objective grows
+        without bound along it.
+
+  \item The origin violates $x_1+x_2\ge 4$, so there is no all-slack
+        starting basis: subtract a surplus variable $s_2$ and add an
+        artificial variable $a$ in the second row, then run phase one,
+        $\min w=a$ (we maximise $-w$; after expressing $a$ through the
+        nonbasic variables, $-w=-4+x_1+x_2-s_2$). Start tableau:
+        \begin{center}
+        \begin{tabular}{c|rrrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $a$ & RHS\\
+        \hline
+        $s_1$ & $1$ & $1$ & $1$ & $0$ & $0$ & $2$\\
+        $a$   & $1$ & $1$ & $0$ & $-1$ & $1$ & $4$\\
+        \hline
+        $-w$ & $-1$ & $-1$ & $0$ & $1$ & $0$ & $-4$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        Enter $x_1$ (smallest index among the tied entries $-1,-1$);
+        ratios $2/1=2$, $4/1=4$; $s_1$ leaves:
+        \begin{center}
+        \begin{tabular}{c|rrrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $a$ & RHS\\
+        \hline
+        $x_1$ & $1$ & $1$ & $1$ & $0$ & $0$ & $2$\\
+        $a$   & $0$ & $0$ & $-1$ & $-1$ & $1$ & $2$\\
+        \hline
+        $-w$ & $0$ & $0$ & $1$ & $1$ & $0$ & $-2$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        All entries of the $-w$-row are $\ge 0$: phase one is finished with
+        $\min w=2>0$. The artificial variable is stuck basic at $a=2$:
+        the LP is \emph{infeasible}, and phase two (with the objective
+        $3x_1+2x_2$) never starts. The picture confirms it: the half-plane
+        below the line $x_1+x_2=2$ and the half-plane above the parallel
+        line $x_1+x_2=4$ have no common point.
+
+  \item Standard form: $x_1+x_2+s_1=2$ and $x_1+2x_2-s_2+a=6$ with
+        artificial $a$; phase one minimises $w=a$, i.e.\
+        $-w=-6+x_1+2x_2-s_2$:
+        \begin{center}
+        \begin{tabular}{c|rrrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $a$ & RHS\\
+        \hline
+        $s_1$ & $1$ & $1$ & $1$ & $0$ & $0$ & $2$\\
+        $a$   & $1$ & $2$ & $0$ & $-1$ & $1$ & $6$\\
+        \hline
+        $-w$ & $-1$ & $-2$ & $0$ & $1$ & $0$ & $-6$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        Enter $x_2$ ($-2$); ratios $2/1=2$, $6/2=3$; $s_1$ leaves:
+        \begin{center}
+        \begin{tabular}{c|rrrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $a$ & RHS\\
+        \hline
+        $x_2$ & $1$ & $1$ & $1$ & $0$ & $0$ & $2$\\
+        $a$   & $-1$ & $0$ & $-2$ & $-1$ & $1$ & $2$\\
+        \hline
+        $-w$ & $1$ & $0$ & $2$ & $1$ & $0$ & $-2$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        Optimal for phase one, with $\min w=2>0$ and $a=2$ still basic:
+        \emph{infeasible}. Interpretation: within $x_1+x_2\le 2$,
+        $x\ge 0$, the largest achievable value of $x_1+2x_2$ is $4$ (at
+        the point $(0,2)$); the requirement $x_1+2x_2\ge 6$ is missed by
+        exactly $w^{*}=2$. Graphically the two constraint sets do not
+        intersect.
+
+  \item Corners of the feasible region: $(0,0)$, $(3,0)$, $(2,2)$ (from
+        $x_1+x_2=4$ and $2x_1+x_2=6$) and $(0,4)$. Values of
+        $z=c\,x_1+x_2$:
+        \begin{center}
+        \begin{tabular}{c|cccc}
+        \hline
+        corner & $(0,0)$ & $(3,0)$ & $(2,2)$ & $(0,4)$\\
+        \hline
+        $z$ & $0$ & $3c$ & $2c+2$ & $4$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        Multiple optima require a tie between two \emph{adjacent} corners
+        that also attains the maximum. The level lines of $z$ have slope
+        $-c$; the edges have slopes $-2$ (on $2x_1+x_2=6$) and $-1$ (on
+        $x_1+x_2=4$).
+        \begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+          \item $c=1$: $2c+2=4$, tie between $(2,2)$ and $(0,4)$ with
+                $z^{*}=4$ (and $(3,0)$ gives only $3$). Optimal set:
+                $(x_1,x_2)=\lambda(2,2)+(1-\lambda)(0,4)
+                =(2\lambda,\,4-2\lambda)$, $\lambda\in[0,1]$.
+          \item $c=2$: $3c=2c+2=6$, tie between $(3,0)$ and $(2,2)$ with
+                $z^{*}=6$ (and $(0,4)$ gives only $4$). Optimal set:
+                $(x_1,x_2)=\lambda(3,0)+(1-\lambda)(2,2)
+                =(2+\lambda,\,2-2\lambda)$, $\lambda\in[0,1]$.
+        \end{itemize}
+        For all other $c\ge 0$ the optimum is unique ($0\le c<1$:
+        $(0,4)$; $1<c<2$: $(2,2)$; $c>2$: $(3,0)$). Answer:
+        $c\in\{1,2\}$.
+
+  \item Corners: $(0,0)$, $(4,0)$, $(4,2)$, $(0,6)$, with
+        \[
+          z(4,0)=16,\qquad z(4,2)=16+2c,\qquad z(0,6)=6c .
+        \]
+        For $0<c<4$ we have $16+2c>16$ and $16+2c>6c$, so $(4,2)$ is the
+        unique optimum. Ties:
+        \begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+          \item $c=0$: $(4,0)$ and $(4,2)$ both give $z^{*}=16$; the
+                optimal set is the vertical edge
+                $\{(4,t):0\le t\le 2\}$ on $x_1=4$.
+          \item $c=4$: $(4,2)$ and $(0,6)$ both give $z^{*}=24$; the
+                optimal set is
+                $(x_1,x_2)=\lambda(4,2)+(1-\lambda)(0,6)
+                =(4\lambda,\,6-4\lambda)$, $\lambda\in[0,1]$, on the edge
+                $x_1+x_2=6$.
+          \item $4<c\le 5$: unique optimum $(0,6)$, $z^{*}=6c$.
+        \end{itemize}
+        Multiple optima occur exactly for $c=0$ and $c=4$.
+
+  \item
+        \begin{enumerate}[label=(\alph*),leftmargin=1.8em,itemsep=0.3ex]
+          \item Optimal (all $z$-entries $\ge 0$), nondegenerate (basic
+                values $3,2>0$), and \emph{unique}: the nonbasic reduced
+                costs $1$ and $2$ are strictly positive. Solution
+                $x=(3,2)$, $z^{*}=12$.
+          \item Optimal and \emph{degenerate}: the basic variable $s_2=0$.
+                Still unique, because the nonbasic reduced costs $3$ (for
+                $x_2$) and $2$ (for $s_1$) are positive. Solution
+                $x=(4,0)$, $z^{*}=8$.
+          \item Not optimal: $x_1$ has reduced cost $-3$. Its column
+                contains $-2$ and $-1$, no positive entry,
+                \emph{unbounded}. Along $x_1=t$: $s_1=3+2t$, $x_2=4+t$,
+                $z=8+3t\to\infty$.
+        \end{enumerate}
+
+  \item Start tableau:
+        \begin{center}
+        \begin{tabular}{c|rrrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $s_3$ & RHS\\
+        \hline
+        $s_1$ & $1$ & $1$ & $1$ & $0$ & $0$ & $5$\\
+        $s_2$ & $2$ & $1$ & $0$ & $1$ & $0$ & $8$\\
+        $s_3$ & $0$ & $1$ & $0$ & $0$ & $1$ & $4$\\
+        \hline
+        $z$ & $-3$ & $-3$ & $0$ & $0$ & $0$ & $0$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        The entries $-3,-3$ tie; take $x_1$ (smallest index). Ratios:
+        $5/1=5$, $8/2=4$, none in row $s_3$; $s_2$ leaves; pivot on the
+        $2$:
+        \begin{center}
+        \begin{tabular}{c|rrrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $s_3$ & RHS\\
+        \hline
+        $s_1$ & $0$ & $\tfrac{1}{2}$ & $1$ & $-\tfrac{1}{2}$ & $0$ & $1$\\
+        $x_1$ & $1$ & $\tfrac{1}{2}$ & $0$ & $\tfrac{1}{2}$ & $0$ & $4$\\
+        $s_3$ & $0$ & $1$ & $0$ & $0$ & $1$ & $4$\\
+        \hline
+        $z$ & $0$ & $-\tfrac{3}{2}$ & $0$ & $\tfrac{3}{2}$ & $0$ & $12$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        Enter $x_2$ ($-\tfrac{3}{2}$). Ratios: $1/\tfrac{1}{2}=2$,
+        $4/\tfrac{1}{2}=8$, $4/1=4$; $s_1$ leaves; pivot on the
+        $\tfrac{1}{2}$:
+        \begin{center}
+        \begin{tabular}{c|rrrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $s_3$ & RHS\\
+        \hline
+        $x_2$ & $0$ & $1$ & $2$ & $-1$ & $0$ & $2$\\
+        $x_1$ & $1$ & $0$ & $-1$ & $1$ & $0$ & $3$\\
+        $s_3$ & $0$ & $0$ & $-2$ & $1$ & $1$ & $2$\\
+        \hline
+        $z$ & $0$ & $0$ & $3$ & $0$ & $0$ & $15$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        Optimal: $x^{A}=(3,2)$, $z^{*}=15$. The nonbasic variable $s_2$
+        has reduced cost $0$, multiple optima. Enter $s_2$; ratios
+        (positive entries only): $3/1=3$ in the $x_1$-row, $2/1=2$ in the
+        $s_3$-row; $s_3$ leaves:
+        \begin{center}
+        \begin{tabular}{c|rrrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $s_3$ & RHS\\
+        \hline
+        $x_2$ & $0$ & $1$ & $0$ & $0$ & $1$ & $4$\\
+        $x_1$ & $1$ & $0$ & $1$ & $0$ & $-1$ & $1$\\
+        $s_2$ & $0$ & $0$ & $-2$ & $1$ & $1$ & $2$\\
+        \hline
+        $z$ & $0$ & $0$ & $3$ & $0$ & $0$ & $15$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        Second optimal vertex $x^{B}=(1,4)$, again $z=3+12=15$. All
+        optimal solutions:
+        \[
+          (x_1,x_2)=\lambda\,(3,2)+(1-\lambda)\,(1,4)
+                   =(1+2\lambda,\;4-2\lambda),\qquad\lambda\in[0,1].
+        \]
+        Corner enumeration confirms this: $(0,0)\mapsto 0$,
+        $(4,0)\mapsto 12$, $(3,2)\mapsto 15$, $(1,4)\mapsto 15$,
+        $(0,4)\mapsto 12$: the maximum sits on the edge
+        $x_1+x_2=5$, to which $z=3x_1+3x_2$ is parallel.
+
+  \item
+        \begin{enumerate}[label=(\alph*),leftmargin=1.8em,itemsep=0.5ex]
+          \item \emph{Infeasible.} Adding the two constraints gives
+                $(x_1-x_2)+(x_2-x_1)=0\ge 2$, a contradiction. Phase-one
+                view: with artificials $a_1,a_2$ in the two rows,
+                $a_1=1-x_1+x_2+s_1$ and $a_2=1+x_1-x_2+s_2$, hence
+                \[
+                  w=a_1+a_2=2+s_1+s_2\;\ge\;2>0
+                \]
+                for \emph{every} choice of the variables: phase one can
+                never drive $w$ to $0$ (indeed its start tableau is
+                already optimal with $w=2$).
+          \item \emph{Unbounded.} The region is nonempty ($(0,0)$ is
+                feasible) and contains the ray $(t,0)$, $t\ge 0$, along
+                which $z=t\to\infty$. In the tableau: entering $x_1$
+                (reduced cost $-1$) finds only the entry $-1$ in its
+                column, no positive entry, unboundedness at the very
+                first step.
+        \end{enumerate}
+\end{solutions}
+
+\section{Additional Problems}
+
+A second pass over all four special cases.
+
+\begin{problems}
+  \item Solve graphically by corner enumeration and give all optimal
+        solutions:
+        \[
+          \max\; z=4x_1+2x_2
+          \quad\text{s.t.}\quad
+          2x_1+x_2\le 6,\qquad x_1+x_2\le 4 .
+        \]
+
+  \item Solve by the simplex method and determine all optimal solutions:
+        \[
+          \max\; z=2x_1+4x_2
+          \quad\text{s.t.}\quad
+          x_1+2x_2\le 8,\qquad x_1+x_2\le 6 .
+        \]
+
+  \item Solve by the simplex method:
+        \[
+          \max\; z=2x_1+3x_2
+          \quad\text{s.t.}\quad
+          x_1+x_2\le 3,\qquad x_2\le 3 .
+        \]
+        Point out the tie in the ratio test, identify the degenerate basic
+        variable in the final tableau, and interpret the situation
+        geometrically. Is the optimum unique?
+
+  \item Show that the following LP is unbounded, both from the tableau and
+        by exhibiting a feasible ray with $z\to\infty$:
+        \[
+          \max\; z=x_1+2x_2
+          \quad\text{s.t.}\quad
+          -2x_1+x_2\le 1,\qquad x_1-x_2\le 2 .
+        \]
+
+  \item Run phase one for
+        \[
+          \max\; z=x_1+x_2
+          \quad\text{s.t.}\quad
+          2x_1+x_2\ge 8,\qquad x_1+x_2\le 3
+        \]
+        and interpret the result, including the meaning of the final value
+        of $w$.
+
+  \item For which values of $c\ge 0$ does
+        \[
+          \max\; z=x_1+c\,x_2
+          \quad\text{s.t.}\quad
+          x_1+2x_2\le 4,\qquad x_1+x_2\le 3
+        \]
+        have multiple optimal solutions? Give the optimal set for each such
+        $c$.
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item Corners and values of $z=4x_1+2x_2$: $(0,0)\mapsto 0$,
+        $(3,0)\mapsto 12$, $(2,2)\mapsto 12$ (intersection of
+        $2x_1+x_2=6$ and $x_1+x_2=4$), $(0,4)\mapsto 8$. The maximum
+        $z^{*}=12$ is attained at the two adjacent corners $(3,0)$ and
+        $(2,2)$: the level lines of $z$ (slope $-2$) are parallel to the
+        binding edge $2x_1+x_2=6$. All optimal solutions:
+        \[
+          (x_1,x_2)=\lambda\,(3,0)+(1-\lambda)\,(2,2)
+                   =(2+\lambda,\;2-2\lambda),\qquad \lambda\in[0,1].
+        \]
+
+  \item Start tableau:
+        \begin{center}
+        \begin{tabular}{c|rrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $s_1$ & $1$ & $2$ & $1$ & $0$ & $8$\\
+        $s_2$ & $1$ & $1$ & $0$ & $1$ & $6$\\
+        \hline
+        $z$ & $-2$ & $-4$ & $0$ & $0$ & $0$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        Enter $x_2$ ($-4$); ratios $8/2=4$, $6/1=6$; $s_1$ leaves; pivot
+        on the $2$:
+        \begin{center}
+        \begin{tabular}{c|rrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $x_2$ & $\tfrac{1}{2}$ & $1$ & $\tfrac{1}{2}$ & $0$ & $4$\\
+        $s_2$ & $\tfrac{1}{2}$ & $0$ & $-\tfrac{1}{2}$ & $1$ & $2$\\
+        \hline
+        $z$ & $0$ & $0$ & $2$ & $0$ & $16$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        Optimal with $x^{A}=(0,4)$, $z^{*}=16$; the nonbasic $x_1$ has
+        reduced cost $0$, so a second optimal vertex exists. Enter $x_1$;
+        ratios $4/\tfrac{1}{2}=8$, $2/\tfrac{1}{2}=4$; $s_2$ leaves:
+        \begin{center}
+        \begin{tabular}{c|rrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $x_2$ & $0$ & $1$ & $1$ & $-1$ & $2$\\
+        $x_1$ & $1$ & $0$ & $-1$ & $2$ & $4$\\
+        \hline
+        $z$ & $0$ & $0$ & $2$ & $0$ & $16$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        Second vertex $x^{B}=(4,2)$, $z=8+8=16$. All optimal solutions:
+        \[
+          (x_1,x_2)=\lambda\,(0,4)+(1-\lambda)\,(4,2)
+                   =(4-4\lambda,\;2+2\lambda),\qquad \lambda\in[0,1].
+        \]
+        (The objective $2x_1+4x_2$ is parallel to the constraint
+        $x_1+2x_2=8$.)
+
+  \item Start tableau:
+        \begin{center}
+        \begin{tabular}{c|rrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $s_1$ & $1$ & $1$ & $1$ & $0$ & $3$\\
+        $s_2$ & $0$ & $1$ & $0$ & $1$ & $3$\\
+        \hline
+        $z$ & $-2$ & $-3$ & $0$ & $0$ & $0$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        Enter $x_2$ ($-3$); ratios $3/1=3$ and $3/1=3$: a tie, so the
+        next tableau will be degenerate. Choose the $s_1$-row:
+        \begin{center}
+        \begin{tabular}{c|rrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $x_2$ & $1$ & $1$ & $1$ & $0$ & $3$\\
+        $s_2$ & $-1$ & $0$ & $-1$ & $1$ & $0$\\
+        \hline
+        $z$ & $1$ & $0$ & $3$ & $0$ & $9$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        Optimal: $x^{*}=(0,3)$, $z^{*}=9$, with the \emph{basic} variable
+        $s_2=0$, a degenerate optimum. Geometrically the three lines
+        $x_1+x_2=3$, $x_2=3$ and $x_1=0$ all pass through $(0,3)$: an
+        overdetermined corner. The optimum is unique, since the nonbasic
+        reduced costs $1$ (for $x_1$) and $3$ (for $s_1$) are strictly
+        positive.
+
+  \item Start tableau:
+        \begin{center}
+        \begin{tabular}{c|rrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $s_1$ & $-2$ & $1$ & $1$ & $0$ & $1$\\
+        $s_2$ & $1$ & $-1$ & $0$ & $1$ & $2$\\
+        \hline
+        $z$ & $-1$ & $-2$ & $0$ & $0$ & $0$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        Enter $x_2$ ($-2$); only row $s_1$ has a positive entry (ratio
+        $1$); pivot there:
+        \begin{center}
+        \begin{tabular}{c|rrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $x_2$ & $-2$ & $1$ & $1$ & $0$ & $1$\\
+        $s_2$ & $-1$ & $0$ & $1$ & $1$ & $3$\\
+        \hline
+        $z$ & $-5$ & $0$ & $2$ & $0$ & $2$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        Now $x_1$ must enter (reduced cost $-5$), but its column holds
+        $-2$ and $-1$: no positive entry, so the LP is \emph{unbounded}.
+        Ray: $x_1=t\ge 0$ gives $x_2=1+2t$, $s_2=3+t$, i.e.
+        \[
+          \begin{pmatrix}x_1\\ x_2\end{pmatrix}
+          =\begin{pmatrix}0\\ 1\end{pmatrix}
+           +t\begin{pmatrix}1\\ 2\end{pmatrix},
+          \qquad z=2+5t\;\longrightarrow\;\infty .
+        \]
+        (Check: $-2t+(1+2t)=1$ and $t-(1+2t)=-1-t\le 2$ for all
+        $t\ge 0$.)
+
+  \item The origin violates $2x_1+x_2\ge 8$: surplus $s_1$ and artificial
+        $a$ in row~1, slack $s_2$ in row~2; phase one minimises $w=a$,
+        i.e.\ $-w=-8+2x_1+x_2-s_1$:
+        \begin{center}
+        \begin{tabular}{c|rrrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $a$ & RHS\\
+        \hline
+        $a$   & $2$ & $1$ & $-1$ & $0$ & $1$ & $8$\\
+        $s_2$ & $1$ & $1$ & $0$ & $1$ & $0$ & $3$\\
+        \hline
+        $-w$ & $-2$ & $-1$ & $1$ & $0$ & $0$ & $-8$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        Enter $x_1$ ($-2$); ratios $8/2=4$, $3/1=3$; $s_2$ leaves:
+        \begin{center}
+        \begin{tabular}{c|rrrrr|r}
+        \hline
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $a$ & RHS\\
+        \hline
+        $a$   & $0$ & $-1$ & $-1$ & $-2$ & $1$ & $2$\\
+        $x_1$ & $1$ & $1$ & $0$ & $1$ & $0$ & $3$\\
+        \hline
+        $-w$ & $0$ & $1$ & $1$ & $2$ & $0$ & $-2$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        All entries $\ge 0$: phase one ends with $\min w=2>0$ and the
+        artificial stuck at $a=2$: the LP is \emph{infeasible}.
+        Interpretation of $w^{*}=2$: the largest value of $2x_1+x_2$
+        compatible with $x_1+x_2\le 3$, $x\ge 0$ is $6$ (at $(3,0)$), so
+        the requirement $2x_1+x_2\ge 8$ is missed by exactly $2$.
+        Graphically the two constraint sets have no common point.
+
+  \item Corners: $(0,0)$, $(3,0)$, $(2,1)$ (from $x_1+2x_2=4$ and
+        $x_1+x_2=3$), $(0,2)$, with values of $z=x_1+c\,x_2$:
+        \begin{center}
+        \begin{tabular}{c|cccc}
+        \hline
+        corner & $(0,0)$ & $(3,0)$ & $(2,1)$ & $(0,2)$\\
+        \hline
+        $z$ & $0$ & $3$ & $2+c$ & $2c$\\
+        \hline
+        \end{tabular}
+        \end{center}
+        \begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+          \item $c=1$: $3=2+c$, tie between $(3,0)$ and $(2,1)$ with
+                $z^{*}=3$ (while $(0,2)$ gives $2$); the objective is
+                parallel to the edge $x_1+x_2=3$. Optimal set:
+                $(x_1,x_2)=\lambda(3,0)+(1-\lambda)(2,1)
+                =(2+\lambda,\,1-\lambda)$, $\lambda\in[0,1]$.
+          \item $c=2$: $2+c=2c=4$, tie between $(2,1)$ and $(0,2)$ with
+                $z^{*}=4$ (while $(3,0)$ gives $3$); parallel to
+                $x_1+2x_2=4$. Optimal set:
+                $(x_1,x_2)=\lambda(2,1)+(1-\lambda)(0,2)
+                =(2\lambda,\,2-\lambda)$, $\lambda\in[0,1]$.
+        \end{itemize}
+        For $0\le c<1$ the unique optimum is $(3,0)$, for $1<c<2$ it is
+        $(2,1)$, for $c>2$ it is $(0,2)$. Multiple optima exactly for
+        $c\in\{1,2\}$.
+\end{solutions}

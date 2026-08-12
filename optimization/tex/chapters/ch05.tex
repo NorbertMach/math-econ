@@ -1,0 +1,163 @@
+\chapter{Unconstrained Optimization in Several Variables}
+
+When a firm produces two goods or hires two factors, profit and cost depend
+on a vector of choice variables. The optimum is no longer characterised by a
+single equation but by a \emph{system}: the gradient must vanish, and the
+Hessian must have the right \emph{definiteness}. Sylvester's criterion
+translates this into easy sign checks on a $2 \times 2$ matrix, and
+convexity (or concavity) of the objective on the entire domain promotes a
+local result to a global one. The drill below runs from pure classification
+exercises to the economic workhorses: profit maximisation with two inputs
+or two products, cost minimisation, and a monopolist pricing two
+interdependent goods.
+
+\section{Core Rules}
+
+\begin{rulebox}{Gradient and the first-order condition}
+Let $f : \R^n \to \R$ be $C^1$. A point $\mathbf{x}^* \in \R^n$ is a
+\emph{critical point} of $f$ if
+\[
+\grad f(\mathbf{x}^*) \;=\; \mathbf{0}, \qquad \text{i.e.\ }
+\pd{f}{x_i}(\mathbf{x}^*) = 0 \text{ for } i = 1, \dots, n.
+\]
+This is the necessary FOC for an interior extremum.
+\end{rulebox}
+
+\begin{rulebox}{Hessian and the second-order condition}
+Assume $f$ is $C^2$ and let $H_f(\mathbf{x}^*)$ denote the Hessian at
+$\mathbf{x}^*$. The SOC reads:
+\begin{itemize}
+    \item $H_f(\mathbf{x}^*)$ \textbf{negative definite (ND)} $\Rightarrow$ strict local \textbf{maximum};
+    \item $H_f(\mathbf{x}^*)$ \textbf{positive definite (PD)} $\Rightarrow$ strict local \textbf{minimum};
+    \item $H_f(\mathbf{x}^*)$ \textbf{indefinite} $\Rightarrow$ \textbf{saddle point};
+    \item $H_f(\mathbf{x}^*)$ singular (det $=0$) $\Rightarrow$ inconclusive.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Sylvester's criterion ($2\times2$)}
+For
+\[
+H \;=\; \begin{pmatrix} a & b \\ b & c \end{pmatrix},
+\qquad D_1 = a, \qquad D_2 = \det H = a c - b^2,
+\]
+the rules are
+\[
+\begin{array}{ll}
+D_1 > 0,\; D_2 > 0 & \Rightarrow H \text{ PD (local min)}, \\
+D_1 < 0,\; D_2 > 0 & \Rightarrow H \text{ ND (local max)}, \\
+D_2 < 0 & \Rightarrow H \text{ indefinite (saddle)}, \\
+D_2 = 0 & \Rightarrow \text{inconclusive}.
+\end{array}
+\]
+Equivalently, the eigenvalues of $H$ have signs $(+,+)$, $(-,-)$, or
+$(+,-)$.
+\end{rulebox}
+
+\begin{rulebox}{Leading principal minors in $n$ variables}
+For $f : \R^n \to \R$ let $D_1, D_2, \dots, D_n$ be the leading principal
+minors of $H_f(\mathbf{x}^*)$. Then $H_f(\mathbf{x}^*)$ is PD iff
+$D_k > 0$ for all $k = 1, \dots, n$, and ND iff the signs alternate
+starting negative: $D_1 < 0$, $D_2 > 0$, $D_3 < 0$, \dots
+\end{rulebox}
+
+\begin{rulebox}{Global optima via concavity and convexity}
+If $H_f$ is ND \emph{everywhere}, $f$ is strictly concave on $\R^n$ and any
+critical point is the unique global maximum. Analogously for PD and minima.
+This is why a local check delivers a global verdict for concave profit and
+convex cost specifications.
+\end{rulebox}
+
+\section{Practice Problems}
+
+For each function, locate all critical points and classify them using the
+Hessian.
+
+\begin{problems}
+    \item $f(x, y) = x^2 + y^2 - 4 x + 6 y + 13$.
+    \item $f(x, y) = -x^2 - 2 y^2 + 6 x + 8 y$.
+    \item $f(x, y) = x y$.
+    \item $f(x, y) = x^2 - y^2$.
+    \item $f(x, y) = x^2 + x y + y^2 - 3 x$.
+    \item $f(x, y) = x^3 - 3 x y + y^3$.
+    \item $f(x, y) = x^2 + y^2 + x y - x - 2 y$.
+    \item A two-product monopolist faces inverse demands $p_1 = 20 - q_1$ and $p_2 = 30 - 2 q_2$, with total cost $C(q_1, q_2) = q_1^2 + q_2^2 + q_1 q_2$. Find profit-maximising $q_1^*, q_2^*$ and verify the SOC.
+    \item Minimise the cost $C(K, L) = 4 K^2 + 3 L^2 - 2 K L - 8 K - 6 L + 20$.
+    \item $f(x, y) = \mathrm{e}^{x^2 + y^2}$ (locate the critical point and classify).
+    \item A firm uses two inputs $x, y$ to produce output $Q = 10 x + 14 y - x^2 - y^2 - x y$. Find the input combination maximising $Q$ (interpret as profit with normalised prices).
+    \item $f(x, y) = x^3 + y^3 - 3 x - 12 y + 7$. Locate and classify all critical points.
+    \item $f(x, y) = x^2 y - x y^2 + x y$. Find one critical point with $x, y > 0$ and classify it.
+    \item A monopolist sells two substitute goods with demands $q_1 = 12 - 2 p_1 + p_2$ and $q_2 = 18 + p_1 - 2 p_2$ (so revenues depend on chosen prices). Marginal cost is zero. Maximise total revenue over $(p_1, p_2)$.
+    \item Minimise $f(x, y) = x^2 + 4 y^2 + 2 x y - 6 x + 4$.
+    \item Show $f(x,y) = x^2 + y^2 + xy$ is strictly convex; find its unique minimum.
+    \item For $f(x,y,z) = x^2 + y^2 + z^2 - 2x - 4y - 6z$, find the global minimum.
+    \item Decide if $f(x,y) = x^4 + y^4$ has a strict local minimum at $(0,0)$ via Hessian, and verify by another argument.
+    \item Prove that $f(x,y) = \mathrm{e}^x + \mathrm{e}^y - x - y$ has a unique global minimum and find it.
+    \item For what values of $a$ is $(0,0)$ a strict local minimum of $f(x,y) = x^2 + axy + y^2$?
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+    \item $f_x = 2 x - 4$, $f_y = 2 y + 6$. FOC: $x = 2$, $y = -3$. $H = \begin{pmatrix} 2 & 0 \\ 0 & 2 \end{pmatrix}$, $D_1 = 2, D_2 = 4$, PD $\Rightarrow$ \textbf{min}. $f(2, -3) = 4 + 9 - 8 - 18 + 13 = 0$.
+    \item $f_x = -2 x + 6 = 0 \Rightarrow x = 3$; $f_y = -4 y + 8 = 0 \Rightarrow y = 2$. $H = \begin{pmatrix} -2 & 0 \\ 0 & -4 \end{pmatrix}$, $D_1 = -2, D_2 = 8$, ND $\Rightarrow$ \textbf{max}. $f(3, 2) = -9 - 8 + 18 + 16 = 17$.
+    \item $f_x = y = 0$, $f_y = x = 0 \Rightarrow (0, 0)$. $H = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$, $D_2 = -1 < 0$, indefinite $\Rightarrow$ \textbf{saddle}.
+    \item $f_x = 2 x = 0$, $f_y = -2 y = 0 \Rightarrow (0, 0)$. $H = \begin{pmatrix} 2 & 0 \\ 0 & -2 \end{pmatrix}$, $D_2 = -4 < 0$, indefinite $\Rightarrow$ \textbf{saddle}. Classical example.
+    \item $f_x = 2 x + y - 3 = 0$, $f_y = x + 2 y = 0$. From the 2nd, $x = -2 y$. Sub: $-4 y + y - 3 = 0 \Rightarrow y = -1$, $x = 2$. $H = \begin{pmatrix} 2 & 1 \\ 1 & 2 \end{pmatrix}$, $D_1 = 2, D_2 = 3$, PD $\Rightarrow$ \textbf{min}.
+    \item $f_x = 3 x^2 - 3 y = 0 \Rightarrow y = x^2$. $f_y = -3 x + 3 y^2 = 0 \Rightarrow x = y^2$. Sub: $x = (x^2)^2 = x^4 \Rightarrow x(x^3 - 1) = 0 \Rightarrow x = 0$ or $x = 1$. Critical points: $(0, 0)$ and $(1, 1)$. $H = \begin{pmatrix} 6 x & -3 \\ -3 & 6 y \end{pmatrix}$. At $(0,0)$: $\det = -9 < 0$, \textbf{saddle}. At $(1, 1)$: $D_1 = 6 > 0$, $D_2 = 36 - 9 = 27 > 0$, PD $\Rightarrow$ \textbf{min}.
+    \item $f_x = 2 x + y - 1 = 0$, $f_y = 2 y + x - 2 = 0$. Solve: from (1), $y = 1 - 2 x$. Sub: $2(1 - 2 x) + x - 2 = -3 x = 0 \Rightarrow x = 0$, $y = 1$. $H = \begin{pmatrix} 2 & 1 \\ 1 & 2 \end{pmatrix}$, $D_2 = 3 > 0$, PD $\Rightarrow$ \textbf{min}.
+    \item Revenue $R = p_1 q_1 + p_2 q_2 = (20 - q_1) q_1 + (30 - 2 q_2) q_2 = 20 q_1 - q_1^2 + 30 q_2 - 2 q_2^2$. Profit
+    \[\pi = 20 q_1 - q_1^2 + 30 q_2 - 2 q_2^2 - q_1^2 - q_2^2 - q_1 q_2 = 20 q_1 + 30 q_2 - 2 q_1^2 - 3 q_2^2 - q_1 q_2.\]
+    FOC: $\pi_{q_1} = 20 - 4 q_1 - q_2 = 0$; $\pi_{q_2} = 30 - 6 q_2 - q_1 = 0$. From the first, $q_2 = 20 - 4 q_1$. Sub: $30 - 6(20 - 4 q_1) - q_1 = 30 - 120 + 24 q_1 - q_1 = -90 + 23 q_1 = 0 \Rightarrow q_1^* = 90/23$, $q_2^* = 20 - 360/23 = (460 - 360)/23 = 100/23$.
+    $H = \begin{pmatrix} -4 & -1 \\ -1 & -6 \end{pmatrix}$, $D_1 = -4 < 0$, $D_2 = 24 - 1 = 23 > 0$, ND $\Rightarrow$ \textbf{max}.
+    \item $C_K = 8 K - 2 L - 8 = 0$, $C_L = 6 L - 2 K - 6 = 0$. From (1): $K = 1 + L/4$. Sub into (2): $6 L - 2(1 + L/4) - 6 = 6 L - 2 - L/2 - 6 = (11/2) L - 8 = 0 \Rightarrow L^* = 16/11$. Then $K^* = 1 + 4/11 = 15/11$. $H = \begin{pmatrix} 8 & -2 \\ -2 & 6 \end{pmatrix}$, $D_1 = 8 > 0$, $D_2 = 48 - 4 = 44 > 0$, PD $\Rightarrow$ \textbf{min}.
+    \item $f_x = 2 x \, \mathrm{e}^{x^2 + y^2}$, $f_y = 2 y \, \mathrm{e}^{x^2 + y^2}$. The exponential is positive, so FOC gives $(x, y) = (0, 0)$. At the origin, $f_{xx} = 2 \mathrm{e}^0 + (2 x)^2 \mathrm{e}^0 = 2$, $f_{yy} = 2$, $f_{xy} = (2 x)(2 y) \mathrm{e}^0 = 0$. $H = 2 I$, PD $\Rightarrow$ \textbf{min}. (Indeed $f \geq 1$ with equality at $(0,0)$.)
+    \item $Q_x = 10 - 2 x - y = 0$, $Q_y = 14 - 2 y - x = 0$. From the first: $y = 10 - 2 x$. Sub: $14 - 2(10 - 2 x) - x = 14 - 20 + 4 x - x = -6 + 3 x = 0 \Rightarrow x^* = 2$, $y^* = 6$. $H = \begin{pmatrix} -2 & -1 \\ -1 & -2 \end{pmatrix}$, $D_1 = -2, D_2 = 4 - 1 = 3 > 0$, ND $\Rightarrow$ \textbf{max}. $Q^* = 20 + 84 - 4 - 36 - 12 = 52$.
+    \item $f_x = 3 x^2 - 3 = 0 \Rightarrow x = \pm 1$; $f_y = 3 y^2 - 12 = 0 \Rightarrow y = \pm 2$. Four critical points. $H = \begin{pmatrix} 6 x & 0 \\ 0 & 6 y \end{pmatrix}$, $D_2 = 36 x y$, $D_1 = 6 x$.
+    \begin{itemize}
+        \item $(1, 2)$: $D_1 = 6, D_2 = 72$, PD $\Rightarrow$ \textbf{min}.
+        \item $(1, -2)$: $D_2 = -72 < 0$, \textbf{saddle}.
+        \item $(-1, 2)$: $D_2 = -72 < 0$, \textbf{saddle}.
+        \item $(-1, -2)$: $D_1 = -6, D_2 = 72$, ND $\Rightarrow$ \textbf{max}.
+    \end{itemize}
+    \item $f_x = 2 x y - y^2 + y = y(2 x - y + 1)$; $f_y = x^2 - 2 x y + x = x(x - 2 y + 1)$. Look for $x, y > 0$: then $2 x - y + 1 = 0$ and $x - 2 y + 1 = 0$. Subtract: $x + y = 0$, impossible for both positive. Reconsider; from system $y = 2 x + 1$, $x = 2 y - 1 = 2(2 x + 1) - 1 = 4 x + 1 \Rightarrow x = -1/3$. So in fact no critical point has $x, y > 0$; the critical points lie on the axes (where $x = 0$ or $y = 0$) plus the interior point $(-1/3, 1/3)$. (Worth flagging: the algebra shows the problem has no positive-interior critical point.) Classify $(-1/3, 1/3)$: $H = \begin{pmatrix} 2 y & 2 x - 2 y + 1 \\ 2 x - 2 y + 1 & -2 x \end{pmatrix}$. At the point: $2 y = 2/3$, $-2 x = 2/3$, $2 x - 2 y + 1 = -2/3 - 2/3 + 1 = -1/3$. $D_1 = 2/3 > 0$; $D_2 = (2/3)(2/3) - (1/3)^2 = 4/9 - 1/9 = 3/9 > 0$, PD $\Rightarrow$ \textbf{min}.
+    \item $R = p_1 q_1 + p_2 q_2 = p_1(12 - 2 p_1 + p_2) + p_2(18 + p_1 - 2 p_2) = 12 p_1 + 18 p_2 - 2 p_1^2 - 2 p_2^2 + 2 p_1 p_2$. FOC: $R_{p_1} = 12 - 4 p_1 + 2 p_2 = 0$, $R_{p_2} = 18 - 4 p_2 + 2 p_1 = 0$. Multiply (1) by 2 and add to (2): $24 + 18 - 8 p_1 + 4 p_2 + 2 p_1 - 4 p_2 = 42 - 6 p_1 = 0 \Rightarrow p_1^* = 7$. Then from (1), $2 p_2 = 4 p_1 - 12 = 16 \Rightarrow p_2^* = 8$. $H = \begin{pmatrix} -4 & 2 \\ 2 & -4 \end{pmatrix}$, $D_1 = -4, D_2 = 16 - 4 = 12 > 0$, ND $\Rightarrow$ \textbf{max}.
+    \item $f_x = 2 x + 2 y - 6 = 0$, $f_y = 8 y + 2 x = 0$. From (2): $x = -4 y$. Sub: $-8 y + 2 y - 6 = -6 y - 6 = 0 \Rightarrow y^* = -1$, $x^* = 4$. $H = \begin{pmatrix} 2 & 2 \\ 2 & 8 \end{pmatrix}$, $D_1 = 2 > 0$, $D_2 = 16 - 4 = 12 > 0$, PD $\Rightarrow$ \textbf{min}. $f^* = 16 + 4 - 8 - 24 + 4 = -8$.
+    \item $H = \begin{pmatrix} 2 & 1 \\ 1 & 2 \end{pmatrix}$, $\det = 3 > 0$, leading $2 > 0$: PD everywhere, strict convex. FOC: $2x + y = 0, x + 2y = 0 \Rightarrow x = y = 0$. Min at origin.
+    \item FOC: $2x - 2 = 0$, $2y - 4 = 0$, $2z - 6 = 0 \Rightarrow (1,2,3)$. $H = 2I$, PD. Global min, value $1+4+9-2-8-18 = -14$.
+    \item Hessian at $(0,0)$ is the zero matrix, test inconclusive. But $f(x,y) \ge 0$ with equality only at origin: strict global min by direct argument.
+    \item $f_x = \mathrm{e}^x - 1 = 0 \Rightarrow x = 0$. Same for $y$. $H = \mathrm{diag}(\mathrm{e}^x, \mathrm{e}^y)$, PD everywhere; $f$ strictly convex, so unique global min at $(0,0)$, value $f(0,0) = 1 + 1 - 0 - 0 = 2$.
+    \item Hessian $\begin{pmatrix} 2 & a \\ a & 2 \end{pmatrix}$. PD iff $4 - a^2 > 0$, i.e., $|a| < 2$.
+\end{solutions}
+
+\section{Additional Problems}
+
+For each function, locate all critical points and classify them using the
+Hessian.
+
+\begin{problems}
+    \item $f(x, y) = x^2 + y^2 + 2 x - 4 y + 7$.
+    \item $f(x, y) = -2 x^2 - 3 y^2 + 4 x + 12 y - 1$.
+    \item $f(x, y) = x^2 - 4 x y + y^2$.
+    \item $f(x, y) = x^3 + y^3 - 3 x y$. Locate and classify all critical points.
+    \item $f(x, y) = x^2 + y^2 - x y - 3 x - 3 y$.
+    \item A two-product monopolist faces inverse demands $p_1 = 24 - 2 q_1$ and $p_2 = 18 - q_2$, with total cost $C(q_1, q_2) = q_1^2 + q_2^2$. Find profit-maximising $q_1^*, q_2^*$ and verify the SOC.
+    \item Minimise $C(K, L) = 2 K^2 + L^2 + 2 K L - 10 K - 4 L + 8$.
+    \item A firm uses two inputs $x, y$ to produce $Q = 12 x + 8 y - 2 x^2 - y^2 - 2 x y$. Maximise.
+    \item $f(x, y) = x^4 + y^4 - 4 x y$. Locate and classify all critical points.
+    \item A monopolist sells two goods with demands $q_1 = 20 - p_1$ and $q_2 = 15 - p_2$ (independent demands). Total cost $C(q_1, q_2) = 2 q_1^2 + q_1 q_2 + q_2^2$. Maximise profit over $(q_1, q_2)$.
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+    \item $f_x = 2 x + 2 = 0 \Rightarrow x = -1$; $f_y = 2 y - 4 = 0 \Rightarrow y = 2$. $H = \begin{pmatrix} 2 & 0 \\ 0 & 2 \end{pmatrix}$, $D_1 = 2, D_2 = 4$, PD $\Rightarrow$ \textbf{min}. $f(-1, 2) = 1 + 4 - 2 - 8 + 7 = 2$.
+    \item $f_x = -4 x + 4 = 0 \Rightarrow x = 1$; $f_y = -6 y + 12 = 0 \Rightarrow y = 2$. $H = \begin{pmatrix} -4 & 0 \\ 0 & -6 \end{pmatrix}$, $D_1 = -4, D_2 = 24$, ND $\Rightarrow$ \textbf{max}. $f(1, 2) = -2 - 12 + 4 + 24 - 1 = 13$.
+    \item $f_x = 2 x - 4 y = 0$, $f_y = -4 x + 2 y = 0$. From (1): $x = 2 y$. Sub into (2): $-8 y + 2 y = -6 y = 0 \Rightarrow y = 0$, $x = 0$. $H = \begin{pmatrix} 2 & -4 \\ -4 & 2 \end{pmatrix}$, $D_2 = 4 - 16 = -12 < 0$, indefinite $\Rightarrow$ \textbf{saddle}.
+    \item $f_x = 3 x^2 - 3 y = 0 \Rightarrow y = x^2$; $f_y = 3 y^2 - 3 x = 0 \Rightarrow x = y^2 = x^4 \Rightarrow x(x^3 - 1) = 0 \Rightarrow x = 0, 1$. Points: $(0, 0)$ and $(1, 1)$. $H = \begin{pmatrix} 6 x & -3 \\ -3 & 6 y \end{pmatrix}$. At $(0, 0)$: $D_2 = -9 < 0$, \textbf{saddle}. At $(1, 1)$: $D_1 = 6, D_2 = 36 - 9 = 27$, PD $\Rightarrow$ \textbf{min}, value $1 + 1 - 3 = -1$.
+    \item $f_x = 2 x - y - 3 = 0$, $f_y = 2 y - x - 3 = 0$. Add: $x + y - 6 = 0 \Rightarrow x + y = 6$. Subtract: $3 x - 3 y = 0 \Rightarrow x = y = 3$. $H = \begin{pmatrix} 2 & -1 \\ -1 & 2 \end{pmatrix}$, $D_1 = 2, D_2 = 3$, PD $\Rightarrow$ \textbf{min}. $f(3, 3) = 9 + 9 - 9 - 9 - 9 = -9$.
+    \item $R = (24 - 2 q_1) q_1 + (18 - q_2) q_2 = 24 q_1 - 2 q_1^2 + 18 q_2 - q_2^2$. $\pi = R - C = 24 q_1 - 3 q_1^2 + 18 q_2 - 2 q_2^2$. FOCs: $\pi_{q_1} = 24 - 6 q_1 = 0 \Rightarrow q_1^* = 4$; $\pi_{q_2} = 18 - 4 q_2 = 0 \Rightarrow q_2^* = 9/2$. $H = \begin{pmatrix} -6 & 0 \\ 0 & -4 \end{pmatrix}$, $D_1 = -6, D_2 = 24$, ND $\Rightarrow$ \textbf{max}.
+    \item $C_K = 4 K + 2 L - 10 = 0$; $C_L = 2 L + 2 K - 4 = 0 \Rightarrow K + L = 2$. From (1): $2 K + L = 5$. Subtract: $K = 3$, $L = -1$. $H = \begin{pmatrix} 4 & 2 \\ 2 & 2 \end{pmatrix}$, $D_1 = 4, D_2 = 8 - 4 = 4$, PD $\Rightarrow$ \textbf{min}. $C(3, -1) = 18 + 1 - 6 - 30 + 4 + 8 = -5$.
+    \item $Q_x = 12 - 4 x - 2 y = 0$; $Q_y = 8 - 2 y - 2 x = 0 \Rightarrow x + y = 4$. From (1): $2 x + y = 6$. Subtract: $x = 2$, $y = 2$. $H = \begin{pmatrix} -4 & -2 \\ -2 & -2 \end{pmatrix}$, $D_1 = -4, D_2 = 8 - 4 = 4$, ND $\Rightarrow$ \textbf{max}. $Q^* = 24 + 16 - 8 - 4 - 8 = 20$.
+    \item $f_x = 4 x^3 - 4 y = 0 \Rightarrow y = x^3$; $f_y = 4 y^3 - 4 x = 0 \Rightarrow x = y^3 = x^9 \Rightarrow x(x^8 - 1) = 0 \Rightarrow x = 0, \pm 1$. Points: $(0, 0), (1, 1), (-1, -1)$. $H = \begin{pmatrix} 12 x^2 & -4 \\ -4 & 12 y^2 \end{pmatrix}$. At $(0, 0)$: $D_2 = 0 - 16 = -16 < 0$, \textbf{saddle}. At $(1, 1)$ and $(-1, -1)$: $D_1 = 12, D_2 = 144 - 16 = 128 > 0$, PD $\Rightarrow$ \textbf{min}, value $1 + 1 - 4 = -2$.
+    \item $p_1 = 20 - q_1$, $p_2 = 15 - q_2$. $R = (20 - q_1) q_1 + (15 - q_2) q_2 = 20 q_1 - q_1^2 + 15 q_2 - q_2^2$. $\pi = R - C = 20 q_1 - 3 q_1^2 + 15 q_2 - 2 q_2^2 - q_1 q_2$. FOCs: $\pi_{q_1} = 20 - 6 q_1 - q_2 = 0$; $\pi_{q_2} = 15 - 4 q_2 - q_1 = 0$. From (1): $q_2 = 20 - 6 q_1$. Sub: $15 - 4(20 - 6 q_1) - q_1 = 15 - 80 + 24 q_1 - q_1 = -65 + 23 q_1 = 0 \Rightarrow q_1^* = 65/23$, $q_2^* = 20 - 390/23 = (460 - 390)/23 = 70/23$. $H = \begin{pmatrix} -6 & -1 \\ -1 & -4 \end{pmatrix}$, $D_1 = -6 < 0$, $D_2 = 24 - 1 = 23 > 0$, ND $\Rightarrow$ \textbf{max}.
+\end{solutions}

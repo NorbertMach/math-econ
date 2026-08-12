@@ -1,0 +1,442 @@
+\chapter{Financial Mathematics}
+
+Everything in this chapter is the geometric series earning its keep. A
+capital under compound interest is a geometric sequence; a stream of equal
+payments, accumulated or discounted, is a geometric sum; and the central
+formula of the previous chapter,
+\[
+  \sum_{k=0}^{n-1}q^{k}=\frac{q^{n}-1}{q-1}\qquad(q\neq 1),
+\]
+turns directly into the end value of a savings plan, the present value of
+an annuity, the payment on a loan and (via the limit $n\to\infty$)
+the value of a perpetuity.
+
+Time is discrete throughout: interest is credited at the end of each
+period, and payments arrive at period ends (or period beginnings, for the
+annuity-due variant). Continuous compounding $K_{0}\mathrm{e}^{rt}$
+appears exactly once, as a limit that bridges to later volumes;
+continuous \emph{discounting} of payment streams by integrals is drilled
+in the volume on integration (Chapter~7 there). All money amounts are in
+euros.
+
+\section{Core Rules}
+
+\begin{rulebox}{Simple vs.\ compound interest}
+Let $K_{0}$ be the initial capital and $i$ the annual interest rate
+(p.a., written as a decimal). Under \emph{simple interest} only $K_{0}$ earns interest:
+\[
+  K_{n}=K_{0}(1+n\,i) .
+\]
+Under \emph{compound interest} credited interest itself
+earns interest. With the accumulation factor $q=1+i$,
+\[
+  K_{n}=K_{0}\,q^{n}=K_{0}(1+i)^{n} .
+\]
+The capitals $K_{0},K_{1},K_{2},\dots$ form a geometric sequence with
+ratio $q$; simple interest grows linearly, compound interest
+exponentially.
+\end{rulebox}
+
+\begin{rulebox}{Sub-annual compounding and the effective annual rate}
+If a nominal rate $j$ p.a.\ is credited in $m$ equal
+instalments of $j/m$ per period ($m=4$: quarterly, $m=12$: monthly), then
+after $t$ years
+\[
+  K=K_{0}\left(1+\frac{j}{m}\right)^{mt},
+\]
+and the \emph{effective annual rate} is the
+annually compounded rate producing the same growth:
+\[
+  i_{\mathrm{eff}}=\left(1+\frac{j}{m}\right)^{m}-1 .
+\]
+For $m>1$ compounding within the year makes
+$i_{\mathrm{eff}}>j$. Competing offers are compared by their effective
+rates, never by their nominal rates.
+\end{rulebox}
+
+\begin{rulebox}{Continuous compounding (bridge)}
+Letting the number of instalments grow without bound and using the limit
+$\left(1+\frac{r}{m}\right)^{m}\to\mathrm{e}^{r}$ from the chapter on
+sequences,
+\[
+  K(t)=\lim_{m\to\infty}K_{0}\left(1+\frac{r}{m}\right)^{mt}
+      =K_{0}\,\mathrm{e}^{rt} .
+\]
+This is the largest end value a nominal rate $r$ can generate, and the
+form in which interest enters most theoretical models. In this chapter it
+serves only as this limit; continuous discounting of entire payment
+streams (an integral, not a sum) is drilled in the volume on integration,
+Chapter~7.
+\end{rulebox}
+
+\begin{rulebox}{Discounting and present value}
+Solving $K_{n}=K_{0}q^{n}$ for $K_{0}$ gives the \emph{present value} of a payment $K_{n}$ due in $n$ years:
+\[
+  K_{0}=\frac{K_{n}}{q^{n}}=K_{n}(1+i)^{-n} .
+\]
+The factor $q^{-1}=\frac{1}{1+i}$ is the discount factor. Payments due at different dates are made
+comparable by discounting all of them to today, this single idea
+underlies annuities, loans and project appraisal below.
+\end{rulebox}
+
+\begin{rulebox}{Annuity: end value and present value}
+An ordinary annuity pays the constant amount
+$R$ at the \emph{end} of each of the years $1,\dots,n$. Immediately after
+the last payment, payment $k$ has earned interest for $n-k$ years, so the
+end value is a geometric sum:
+\[
+  E_{n}=R\sum_{k=1}^{n}q^{\,n-k}=R\sum_{j=0}^{n-1}q^{\,j}
+       =R\,\frac{q^{n}-1}{q-1}=R\,\frac{q^{n}-1}{i} .
+\]
+Discounting $E_{n}$ back $n$ years gives the present value
+\[
+  B_{n}=E_{n}\,q^{-n}=R\,\frac{1-q^{-n}}{i} .
+\]
+For an annuity-due, payments at the
+\emph{beginnings} of the years, every payment earns one extra year of
+interest: multiply $E_{n}$ and $B_{n}$ by $q$.
+\end{rulebox}
+
+\begin{rulebox}{Perpetuity}
+Let $n\to\infty$ in the present value $B_{n}=R\,\frac{1-q^{-n}}{i}$.
+Since $q>1$ we have $q^{-n}\to 0$ (geometric decay, as in the previous
+chapter), so a perpetual annual payment $R$ is worth
+\[
+  B_{\infty}=\frac{R}{i}
+\]
+today. Read in both directions: a capital $C$ sustains the perpetual
+payment $R=C\,i$, and a perpetual payment $R$ bought for the price $P$
+implies the rate $i=R/P$.
+\end{rulebox}
+
+\begin{rulebox}{Loan amortization}
+A debt $S$ at rate $i$ is repaid by $n$ equal annual payments $A$ if the present value of the payments equals
+the debt: $S=A\,\frac{1-q^{-n}}{i}$, hence
+\[
+  A=S\,\frac{i}{1-q^{-n}}=S\,\frac{i\,q^{n}}{q^{n}-1} .
+\]
+Each payment splits into interest, $i$ times the debt still outstanding,
+and principal, which reduces the debt; as the debt falls,
+the interest share shrinks and the principal share grows.
+Example: $S=1000$, $i=10\%$, $n=2$:
+$A=1000\cdot\frac{0.1\cdot 1.21}{0.21}=576.19$, and the schedule closes
+exactly:
+
+\begin{center}
+\begin{tabular}{c r r r r}
+\hline
+Year & Debt at start & Interest & Principal & Debt at end\\
+\hline
+$1$ & $1000.00$ & $100.00$ & $476.19$ & $523.81$\\
+$2$ & $523.81$ & $52.38$ & $523.81$ & $0.00$\\
+\hline
+\end{tabular}
+\end{center}
+\end{rulebox}
+
+\begin{rulebox}{Net present value}
+A project paying the cash flows $C_{0},C_{1},\dots,C_{n}$ at the ends of
+years $0,1,\dots,n$ (typically $C_{0}<0$, today's outlay) has
+\emph{net present value}
+\[
+  \mathrm{NPV}=\sum_{t=0}^{n}\frac{C_{t}}{q^{t}}
+\]
+at the discount rate $i$ (the opportunity cost of capital). Decision
+rule: invest if $\mathrm{NPV}>0$; among mutually exclusive projects
+evaluated at the same rate, choose the largest NPV. Undiscounted totals
+are meaningless: a euro in year~2 is not a euro today.
+\end{rulebox}
+
+\section{Practice Problems}
+
+\begin{problems}
+  \item A capital of $K_{0}=1000$ is invested for $10$ years at $5\%$
+        p.a. Compute the end value under (a) simple interest,
+        (b) annual compound interest.
+  \item Compute the end value of $K_{0}=2500$ after $5$ years at $4\%$
+        p.a.\ compound interest.
+  \item What is the present value of a payment of $10\,000$ due in
+        $8$ years, at $5\%$ p.a.?
+  \item A zero-coupon bond repays $5000$ in $6$ years. At a market rate
+        of $2\%$ p.a., what price (present value) is fair today?
+  \item A bank offers a nominal rate of $8\%$ p.a.\ compounded
+        quarterly. Compute the effective annual rate and decide whether
+        a saver should prefer this account or one paying $8.25\%$ with
+        annual compounding.
+  \item Compute the effective annual rate of a nominal $12\%$ p.a.\
+        compounded monthly.
+  \item How long does it take to double a capital at $5\%$ p.a.\
+        compound interest? (Solve $1.05^{n}=2$ with logarithms.)
+  \item How long does it take to double a capital at $2\%$ p.a.\
+        compound interest?
+  \item $K_{0}=1000$ is invested for $10$ years at $r=5\%$ p.a.\ with
+        \emph{continuous} compounding, $K(t)=K_{0}\mathrm{e}^{rt}$.
+        Compute the end value and compare with annual compounding from
+        Problem~1.
+  \item Savings plan: you save $200$ per month; for clean numbers assume
+        the whole $R=2400$ is deposited at the end of each year. At
+        $5\%$ p.a., what has the plan grown to immediately after the
+        $10$th deposit?
+  \item Repeat Problem~10 with the deposits made at the
+        \emph{beginning} of each year (annuity-due).
+  \item An ordinary annuity pays $R=1000$ at the end of each year for
+        $5$ years; $i=10\%$. Compute its present value.
+  \item Perpetuity: what is the present value of $R=500$ per year
+        forever at $i=4\%$?
+  \item A perpetual bond paying $1500$ per year costs $25\,000$. Which
+        interest rate does this price imply?
+  \item A debt of $S=100\,000$ is to be repaid by equal annual payments
+        over $20$ years at $5\%$ p.a. Compute the annuity payment.
+  \item A loan of $10\,000$ at $10\%$ p.a.\ is repaid by three equal
+        annual payments. Compute the payment and set up the full
+        amortization schedule (interest, principal and remaining debt
+        for each of the three years).
+  \item Two projects each cost $1000$ today. Project~A returns $600$ at
+        the end of each of years $1$ and $2$; project~B returns a single
+        $1250$ at the end of year~$2$. Compare the net present values at
+        $i=10\%$: which project should be chosen?
+  \item A project costs $2000$ today and returns $800$ at the end of
+        each of years $1$--$3$. Compute the NPV at $i=5\%$. Is the
+        project worthwhile?
+  \item Three deposits of $100$, made at the ends of years $1,2,3$, have
+        grown to exactly $331$ immediately after the last deposit. Use
+        the geometric sum to set up an equation for $q=1+i$ and solve
+        for the interest rate $i$.
+  \item $K_{0}=1000$ is invested for $3$ years at $4\%$ p.a.\ and then
+        for $2$ further years at $10\%$ p.a.\ (compound interest
+        throughout). Compute the end value.
+\end{problems}
+
+\section{Solutions}
+
+Money is rounded to two decimal places at the final step (and, in
+amortization schedules, to the cent in every row); growth and discount
+factors are carried at full precision.
+
+\begin{solutions}
+  \item (a) Simple interest: $K_{n}=K_{0}(1+n\,i)
+        =1000\,(1+10\cdot 0.05)=1000\cdot 1.5=1500.00$.\\
+        (b) Compound interest: $K_{n}=K_{0}(1+i)^{n}
+        =1000\cdot 1.05^{10}=1000\cdot 1.6288946=1628.89$.
+        Compounding earns $128.89$ more.
+
+  \item $K_{n}=K_{0}(1+i)^{n}=2500\cdot 1.04^{5}$. Since
+        $1.04^{5}=1.2166529$,
+        $K_{5}=2500\cdot 1.2166529=3041.63$.
+
+  \item $K_{0}=K_{n}(1+i)^{-n}=\dfrac{10\,000}{1.05^{8}}$. Since
+        $1.05^{8}=1.4774554$,
+        $K_{0}=\dfrac{10\,000}{1.4774554}=6768.39$.
+
+  \item $K_{0}=\dfrac{5000}{1.02^{6}}$. Since $1.02^{6}=1.1261624$,
+        $K_{0}=\dfrac{5000}{1.1261624}=4439.86$.
+
+  \item $i_{\mathrm{eff}}=\left(1+\frac{j}{m}\right)^{m}-1
+        =\left(1+\frac{0.08}{4}\right)^{4}-1=1.02^{4}-1$. Since
+        $1.02^{4}=1.08243216$,
+        $i_{\mathrm{eff}}=0.08243216\approx 8.2432\%$. As
+        $8.2432\%<8.25\%$, the account with annual compounding is
+        (slightly) better for the saver.
+
+  \item $i_{\mathrm{eff}}=\left(1+\frac{0.12}{12}\right)^{12}-1
+        =1.01^{12}-1=1.1268250-1=0.1268250\approx 12.6825\%$.
+
+  \item $1.05^{n}=2\Rightarrow n\ln 1.05=\ln 2\Rightarrow
+        n=\dfrac{\ln 2}{\ln 1.05}=\dfrac{0.6931472}{0.0487902}
+        \approx 14.21$ years. Since interest is credited only at year
+        ends, the capital has actually doubled after $15$ full years
+        ($1.05^{14}=1.9799<2<2.0789=1.05^{15}$).
+
+  \item $n=\dfrac{\ln 2}{\ln 1.02}=\dfrac{0.6931472}{0.0198026}
+        \approx 35.00$ years. (Because $n=35.0028>35$, with annual
+        crediting the capital first exceeds the double after $36$ full
+        years: $1.02^{35}\approx 1.9999<2$.)
+
+  \item $K(10)=K_{0}\mathrm{e}^{rt}=1000\,\mathrm{e}^{0.05\cdot 10}
+        =1000\,\mathrm{e}^{0.5}=1000\cdot 1.6487213=1648.72$.
+        Continuous compounding beats the annual value $1628.89$ from
+        Problem~1 by $19.83$.
+
+  \item Monthly saving $200$ means $R=12\cdot 200=2400$ per year. End
+        value of the ordinary annuity:
+        \[
+          E_{10}=R\,\frac{q^{10}-1}{i}
+                =2400\cdot\frac{1.05^{10}-1}{0.05}
+                =2400\cdot\frac{0.6288946}{0.05}
+                =2400\cdot 12.5778925=30\,186.94 .
+        \]
+
+  \item Annuity-due: every deposit earns one extra year, so
+        $E_{10}^{\mathrm{due}}=q\,E_{10}
+        =1.05\cdot 30\,186.94=31\,696.29$.
+
+  \item $B_{n}=R\,\dfrac{1-q^{-n}}{i}
+        =1000\cdot\dfrac{1-1.1^{-5}}{0.1}$. Since $1.1^{5}=1.61051$,
+        $1.1^{-5}=0.6209213$ and
+        \[
+          B_{5}=1000\cdot\frac{1-0.6209213}{0.1}
+               =1000\cdot 3.7907868=3790.79 .
+        \]
+
+  \item $B_{\infty}=\dfrac{R}{i}=\dfrac{500}{0.04}=12\,500.00$.
+
+  \item From $B_{\infty}=R/i$: $i=\dfrac{R}{B_{\infty}}
+        =\dfrac{1500}{25\,000}=0.06=6\%$.
+
+  \item $A=S\,\dfrac{i\,q^{n}}{q^{n}-1}
+        =100\,000\cdot\dfrac{0.05\cdot 1.05^{20}}{1.05^{20}-1}$. Since
+        $1.05^{20}=2.6532977$,
+        \[
+          A=100\,000\cdot\frac{0.05\cdot 2.6532977}{1.6532977}
+           =100\,000\cdot\frac{0.1326649}{1.6532977}
+           =100\,000\cdot 0.0802426=8024.26 .
+        \]
+
+  \item Payment: $A=S\,\dfrac{i\,q^{n}}{q^{n}-1}
+        =10\,000\cdot\dfrac{0.1\cdot 1.331}{0.331}
+        =\dfrac{1331}{0.331}=4021.15$. Schedule (interest $=10\%$ of the
+        debt at start, principal $=A-{}$interest, all rounded to the
+        cent):
+
+        \begin{center}
+        \begin{tabular}{c r r r r}
+        \hline
+        Year & Debt at start & Interest & Principal & Debt at end\\
+        \hline
+        $1$ & $10\,000.00$ & $1000.00$ & $3021.15$ & $6978.85$\\
+        $2$ & $6978.85$ & $697.89$ & $3323.26$ & $3655.59$\\
+        $3$ & $3655.59$ & $365.56$ & $3655.59$ & $0.00$\\
+        \hline
+        \end{tabular}
+        \end{center}
+
+        The interest share falls ($1000.00$, $697.89$, $365.56$) while
+        the principal share grows, and the last payment
+        $365.56+3655.59=4021.15$ closes the loan exactly.
+
+  \item $\mathrm{NPV}=\sum_{t}C_{t}q^{-t}$ with $q=1.1$:
+        \[
+          \mathrm{NPV}_{A}=-1000+\frac{600}{1.1}+\frac{600}{1.1^{2}}
+          =-1000+545.45+495.87=41.32 ,
+        \]
+        \[
+          \mathrm{NPV}_{B}=-1000+\frac{1250}{1.1^{2}}
+          =-1000+\frac{1250}{1.21}=-1000+1033.06=33.06 .
+        \]
+        Both are worthwhile, but $\mathrm{NPV}_{A}>\mathrm{NPV}_{B}$:
+        choose project~A, even though B's undiscounted total
+        ($1250$) exceeds A's ($1200$), A pays earlier.
+
+  \item The three equal returns form an ordinary annuity, so
+        \[
+          \mathrm{NPV}=-2000+800\cdot\frac{1-1.05^{-3}}{0.05}
+          =-2000+800\cdot\frac{1-0.8638376}{0.05}
+          =-2000+800\cdot 2.7232480 ,
+        \]
+        using $1.05^{3}=1.157625$. Hence
+        $\mathrm{NPV}=-2000+2178.60=178.60>0$: the project is
+        worthwhile.
+
+  \item End value of the three deposits (geometric sum):
+        $100\,(q^{2}+q+1)=331$, i.e.\ $q^{2}+q+1=3.31$, so
+        $q^{2}+q-2.31=0$. The quadratic formula gives
+        \[
+          q=\frac{-1+\sqrt{1+4\cdot 2.31}}{2}
+           =\frac{-1+\sqrt{10.24}}{2}=\frac{-1+3.2}{2}=1.1
+        \]
+        (the negative root is meaningless). Hence $i=q-1=0.1=10\%$.
+        Check: $100\,(1.21+1.1+1)=331$.
+
+  \item Growth factors multiply:
+        $K_{5}=K_{0}\cdot 1.04^{3}\cdot 1.1^{2}
+        =1000\cdot 1.124864\cdot 1.21=1361.09$.
+\end{solutions}
+
+\section{Additional Problems}
+
+\begin{problems}
+  \item Compute the end value of $K_{0}=8000$ after $4$ years at $5\%$
+        p.a.\ compound interest.
+  \item $K_{0}=5000$ is invested for $10$ years at $6\%$ p.a. Compute
+        the end value under simple and under compound interest, and the
+        difference.
+  \item What is the present value of $20\,000$ due in $10$ years at
+        $10\%$ p.a.?
+  \item A nominal rate of $4\%$ p.a.\ is compounded quarterly. Compute
+        the effective annual rate and compare with an account paying
+        $4.05\%$ annually: which should a saver choose?
+  \item How long does it take to double a capital (a) at $10\%$ p.a.\
+        with annual compounding, (b) at $r=10\%$ with continuous
+        compounding $K(t)=K_{0}\mathrm{e}^{rt}$?
+  \item A savings plan deposits $R=1000$ at the end of each year for
+        $5$ years at $4\%$ p.a. Compute the end value immediately after
+        the last deposit.
+  \item A pension pays $6000$ at the end of each year for $10$ years;
+        $i=5\%$. Compute its present value.
+  \item An endowment is to fund a prize of $3000$ per year forever at
+        $i=6\%$. How much capital is required today?
+  \item A loan of $50\,000$ at $4\%$ p.a.\ is repaid by five equal
+        annual payments. Compute the payment.
+  \item A project costs $5000$ today and returns $2000$ at the end of
+        each of years $1$--$3$. Compute the NPV at $i=10\%$ and decide.
+        Compare with the undiscounted total of the returns.
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item $K_{n}=K_{0}(1+i)^{n}=8000\cdot 1.05^{4}
+        =8000\cdot 1.21550625=9724.05$.
+
+  \item Simple: $K_{n}=K_{0}(1+n\,i)=5000\,(1+10\cdot 0.06)
+        =5000\cdot 1.6=8000.00$. Compound:
+        $K_{n}=5000\cdot 1.06^{10}=5000\cdot 1.7908477=8954.24$.
+        Compounding earns $8954.24-8000.00=954.24$ more.
+
+  \item $K_{0}=\dfrac{20\,000}{1.1^{10}}=\dfrac{20\,000}{2.5937425}
+        =7710.87$.
+
+  \item $i_{\mathrm{eff}}=\left(1+\frac{0.04}{4}\right)^{4}-1
+        =1.01^{4}-1=1.04060401-1=0.04060401\approx 4.0604\%$. As
+        $4.0604\%>4.05\%$, the quarterly account is (slightly) better
+        for the saver.
+
+  \item (a) $1.1^{n}=2\Rightarrow n=\dfrac{\ln 2}{\ln 1.1}
+        =\dfrac{0.6931472}{0.0953102}\approx 7.27$ years.\\
+        (b) $\mathrm{e}^{0.1t}=2\Rightarrow t=\dfrac{\ln 2}{0.1}
+        =6.93$ years, continuous compounding doubles faster.
+
+  \item $E_{5}=R\,\dfrac{q^{5}-1}{i}
+        =1000\cdot\dfrac{1.04^{5}-1}{0.04}
+        =1000\cdot\dfrac{0.2166529}{0.04}
+        =1000\cdot 5.4163226=5416.32$.
+
+  \item $B_{10}=R\,\dfrac{1-q^{-10}}{i}
+        =6000\cdot\dfrac{1-1.05^{-10}}{0.05}$. Since
+        $1.05^{10}=1.6288946$, $1.05^{-10}=0.6139133$ and
+        \[
+          B_{10}=6000\cdot\frac{1-0.6139133}{0.05}
+                =6000\cdot 7.7217349=46\,330.41 .
+        \]
+
+  \item $B_{\infty}=\dfrac{R}{i}=\dfrac{3000}{0.06}=50\,000.00$.
+
+  \item $A=S\,\dfrac{i}{1-q^{-n}}
+        =50\,000\cdot\dfrac{0.04}{1-1.04^{-5}}$. Since
+        $1.04^{5}=1.2166529$, $1.04^{-5}=0.8219271$ and
+        \[
+          A=50\,000\cdot\frac{0.04}{0.1780729}
+           =50\,000\cdot 0.2246271=11\,231.36 .
+        \]
+
+  \item $\mathrm{NPV}=-5000+2000\cdot\dfrac{1-1.1^{-3}}{0.1}$. Since
+        $1.1^{3}=1.331$, $1.1^{-3}=0.7513148$ and
+        \[
+          \mathrm{NPV}=-5000+2000\cdot\frac{1-0.7513148}{0.1}
+                      =-5000+2000\cdot 2.4868520
+                      =-5000+4973.70=-26.30<0 :
+        \]
+        reject the project. The undiscounted total $3\cdot 2000=6000$
+        exceeds the outlay $5000$, but discounting at $10\%$ turns the
+        surplus into a loss, totals without discounting mislead.
+\end{solutions}

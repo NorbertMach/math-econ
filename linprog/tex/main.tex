@@ -1,0 +1,43 @@
+\documentclass[11pt,a4paper,twoside,openright]{book}
+\input{preamble}
+
+\title{\Huge Linear Programming\\[0.4em]
+  \large A Training Sheet with Exercises and Worked Solutions}
+\author{}
+\date{}
+
+\begin{document}
+\frontmatter
+\maketitle
+
+\chapter*{About this sheet}
+\addcontentsline{toc}{chapter}{About this sheet}
+
+This sheet drills linear programming: formulating linear models, solving
+them graphically, basic solutions and the matrix form of an LP, the simplex
+method and its tableaus, the special cases (multiple optima, degeneracy,
+unboundedness), duality with complementary slackness and the price theorem,
+and the interpretation of sensitivity reports and computer output.
+
+Everything here is computational by design. Every pivot, every tableau and
+every dual is meant to be carried out by hand, with nothing more than a
+basic calculator, until the mechanics are automatic.
+
+The structure is the same in every chapter: \textbf{Core Rules} states the
+rules compactly; \textbf{Practice Problems} drills them; \textbf{Solutions}
+works every problem through in full. Most chapters close with
+\emph{additional problems} for a second pass.
+
+\tableofcontents
+
+\mainmatter
+\include{chapters/ch01}
+\include{chapters/ch02}
+\include{chapters/ch03}
+\include{chapters/ch04}
+\include{chapters/ch05}
+\include{chapters/ch06}
+\include{chapters/ch07}
+\include{chapters/ch08}
+
+\end{document}

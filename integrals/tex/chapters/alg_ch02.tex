@@ -1,0 +1,80 @@
+\chapter{Logarithms and Exponentials: 30 Problems}
+
+Mix of evaluating, expanding, condensing, and solving. Bases of 10 and 2
+appear alongside the natural log.
+
+\section{Practice Problems}
+
+\begin{problems}
+  \item Evaluate: $\ln(1)$
+  \item Evaluate: $\log_{10}(100)$
+  \item Evaluate: $\log_{2}(32)$
+  \item Evaluate: $\ln(\mathrm{e})+\ln(\mathrm{e}^{3})$
+  \item Expand: $\displaystyle\ln\left(\frac{x^{a}}{y^{b}z^{c}}\right)$
+  \item Expand: $\displaystyle\ln\left(\sqrt[5]{\frac{x^{3}}{y^{2}}}\right)$
+  \item Can $\ln(x^{2}+y^{2})$ be expanded? Why?
+  \item Expand: $\ln(C\,\mathrm{e}^{-\delta t})$
+  \item Condense: $4\ln(x)-2\ln(y)+\tfrac12\ln(z)$
+  \item Condense: $\tfrac13\ln(8)+\tfrac12\ln(9)$
+  \item Condense: $\ln(a)+\ln(b)-\ln(c)-\ln(d)$
+  \item Solve for $x$: $\log_{10}(x)=3$
+  \item Solve for $x$ ($x>0$): $\ln(x)=-1$
+  \item Solve for $x$ ($x>2$): $\ln(x)+\ln(x-2)=\ln(3)$
+  \item Half-life: solve $\tfrac12 P_{0}=P_{0}\,\mathrm{e}^{-\lambda t}$ for
+        $t$.
+  \item Solve for $r$: $(1+r)^{10}=2$
+  \item Solve for $\alpha$ ($0<\alpha<1$): $\ln(\alpha)-\ln(1-\alpha)=1$
+  \item Solve for $x$: $\mathrm{e}^{2x}-3\mathrm{e}^{x}+2=0$ (Hint:
+        substitute $u=\mathrm{e}^{x}$.)
+  \item Solve for $T$: $A=P(1+r)^{T}$
+  \item Solve for $x$ ($x>0$): $(\ln x)^{2}=\ln(x^{4})$
+  \item Solve for $t$: $A_{0}\cdot 2^{-t/h}=\dfrac{A_{0}}{8}$
+  \item Expand: $\displaystyle\ln\left(\frac{(1+r)^{T}}{r}\right)$
+  \item Solve: $\log_{3}(x)+\log_{3}(x-2)=1$
+  \item Solve: $\log_{2}(x+1)-\log_{2}(x-1)=1$
+  \item Solve: $\mathrm{e}^{x}=5\,\mathrm{e}^{-x}$
+  \item Solve: $4^{x}=8$
+  \item Given $\ln 2\approx 0.693$ and $\ln 3\approx 1.099$, estimate
+        $\ln 12$.
+  \item Use the change-of-base formula to express $\log_{5}(20)$ as a ratio
+        of natural logs.
+  \item Solve for $K$ in $\ln(Y)=\ln(A)+\alpha\ln(K)+(1-\alpha)\ln(L)$.
+  \item Solve for $g$: $Y_{t}=Y_{0}\,\mathrm{e}^{gt}$
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item $0$
+  \item $2$
+  \item $5$
+  \item $1+3=4$
+  \item $a\ln(x)-b\ln(y)-c\ln(z)$
+  \item $\tfrac15\bigl[3\ln(x)-2\ln(y)\bigr]$
+  \item No: $\ln$ has no product/quotient rule for a sum inside.
+  \item $\ln(C)-\delta t$
+  \item $\displaystyle\ln\left(\frac{x^{4}\sqrt{z}}{y^{2}}\right)$
+  \item $\ln(2)+\ln(3)=\ln(6)$
+  \item $\displaystyle\ln\left(\frac{ab}{cd}\right)$
+  \item $x=1000$
+  \item $x=\dfrac{1}{\mathrm{e}}$
+  \item $x(x-2)=3\Rightarrow x=3$
+  \item $t=\dfrac{\ln 2}{\lambda}$
+  \item $r=2^{1/10}-1$
+  \item $\displaystyle\frac{\alpha}{1-\alpha}=\mathrm{e}\Rightarrow
+        \alpha=\frac{\mathrm{e}}{1+\mathrm{e}}$
+  \item $\mathrm{e}^{x}=1$ or $\mathrm{e}^{x}=2\Rightarrow x=0$ or
+        $x=\ln 2$
+  \item $T=\dfrac{\ln(A/P)}{\ln(1+r)}$
+  \item $\ln x=0$ or $\ln x=4\Rightarrow x=1$ or $x=\mathrm{e}^{4}$
+  \item $2^{-t/h}=2^{-3}\Rightarrow t=3h$
+  \item $T\ln(1+r)-\ln(r)$
+  \item $x(x-2)=3\Rightarrow x=3$
+  \item $\dfrac{x+1}{x-1}=2\Rightarrow x=3$
+  \item $\mathrm{e}^{2x}=5\Rightarrow x=\tfrac12\ln 5$
+  \item $x=\tfrac32$
+  \item $\ln 12=2\ln 2+\ln 3\approx 2.485$
+  \item $\log_{5}(20)=\dfrac{\ln 20}{\ln 5}$
+  \item $K=\displaystyle\left(\frac{Y}{AL^{1-\alpha}}\right)^{1/\alpha}$
+  \item $g=\dfrac{1}{t}\ln\!\left(\dfrac{Y_{t}}{Y_{0}}\right)$
+\end{solutions}

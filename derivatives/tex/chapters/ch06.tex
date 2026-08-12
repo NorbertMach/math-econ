@@ -1,0 +1,517 @@
+\chapter{Applications: Tangent, Linearization, Marginals, Elasticity, Optimization}
+
+The derivative is the bridge between calculus and economics. Geometrically it
+gives the slope of the tangent (and hence of the normal); analytically it
+produces the linearisation that turns nonlinear functions into
+easy-to-evaluate affine ones; in economics it is the marginal quantity
+(cost, revenue, utility) and, after rescaling, the elasticity. The first-
+and second-order conditions $f'=0$, $f''<0$ (or $>0$) drive one-variable
+optimisation.
+
+\section{Core Rules}
+
+\begin{rulebox}{Tangent line}
+At $(a,f(a))$: $y = f(a) + f'(a)(x-a)$.
+\end{rulebox}
+
+\begin{rulebox}{Normal line}
+At $(a,f(a))$: perpendicular to the tangent, slope $-1/f'(a)$ when
+$f'(a)\neq 0$:
+\[
+  y = f(a) - \frac{1}{f'(a)}(x-a).
+\]
+\end{rulebox}
+
+\begin{rulebox}{Linear approximation (linearisation)}
+For $x$ near $a$,
+\[
+  f(x) \approx L(x) := f(a) + f'(a)(x-a), \qquad \Delta f \approx f'(a)\,\Delta x .
+\]
+\end{rulebox}
+
+\begin{rulebox}{Marginal quantities}
+If $C(Q)$, $R(Q)$, $\pi(Q)=R(Q)-C(Q)$ are total cost, revenue and profit,
+and $U(x)$ is utility, then
+\[
+  MC(Q)=C'(Q), \quad MR(Q)=R'(Q), \quad M\pi(Q)=\pi'(Q), \quad MU(x)=U'(x).
+\]
+Profit-maximising output satisfies $MR(Q^*)=MC(Q^*)$ (FOC) and
+$\pi''(Q^*)<0$ (SOC).
+\end{rulebox}
+
+\begin{rulebox}{Elasticity}
+The (point) elasticity of $f$ with respect to $x$ is
+\[
+  \varepsilon = \frac{x}{f(x)}f'(x) = \frac{\mathrm{d}f/f}{\mathrm{d}x/x}
+    = \frac{\mathrm{d}\ln f}{\mathrm{d}\ln x} .
+\]
+For demand $q=q(p)$: $\displaystyle \varepsilon_d = \frac{p}{q}q'(p)$
+(often negative). Demand is \emph{elastic} when $|\varepsilon_d|>1$,
+\emph{inelastic} when $|\varepsilon_d|<1$, \emph{unit elastic} when
+$|\varepsilon_d|=1$.
+\end{rulebox}
+
+\begin{rulebox}{1D unconstrained optimisation}
+\begin{enumerate}[leftmargin=1.6em,itemsep=0.3ex]
+  \item Solve $f'(x)=0$ on the relevant domain to find critical points.
+  \item Classify with the second-derivative test: $f''(x^*)<0 \Rightarrow$
+        local max, $f''(x^*)>0 \Rightarrow$ local min.
+  \item Compare with boundary values and endpoint behaviour to identify
+        global extrema.
+\end{enumerate}
+\end{rulebox}
+
+\section{Practice Problems}
+
+\begin{problems}
+  \item Find the equation of the tangent to $f(x)=x^3-2x+5$ at $x=1$.
+  \item Use the linearisation of $f(x)=\sqrt{x}$ at $a=25$ to estimate
+        $\sqrt{25.4}$.
+  \item For $C(Q)=0.2Q^2+5Q+80$, find $MC(Q)$ and $MC(15)$.
+  \item For demand $q(p)=200-5p$, compute $\varepsilon_d(p)$ and evaluate at
+        $p=10$.
+  \item Maximise profit $\pi(Q)=R(Q)-C(Q)$ where $R(Q)=60Q-Q^2$ and
+        $C(Q)=Q^2+10Q+25$. Verify the SOC.
+  \item Find the tangent to $f(x)=1/x$ at $x=2$.
+  \item Use the linearisation of $f(x)=x^{1/4}$ at $a=16$ to estimate
+        $16.3^{1/4}$.
+  \item Inverse demand $p(Q)=80-0.4Q$. Find $R(Q)$, $MR(Q)$, and $MR(50)$.
+  \item For the Cobb--Douglas production $Y=AK^\alpha L^\beta$ with $L$
+        fixed, compute the output elasticity $\varepsilon_{Y,K}$.
+  \item Minimise the average cost $AC(Q)=C(Q)/Q$ for
+        $C(Q)=2Q^2+8Q+200$, over $Q>0$.
+  \item Find the tangent to $f(x)=e^{2x}$ at $x=0$.
+  \item Estimate $\ln(0.98)$ using the linearisation of $f(x)=\ln(x)$ at
+        $a=1$.
+  \item Using $C$ from problem 3 and $R$ from problem 8, find the
+        profit-maximising output $Q^*$ and verify SOC.
+  \item For demand $q(p)=80e^{-0.05p}$, compute $\varepsilon_d(p)$ and at
+        $p=20$.
+  \item A monopolist faces $p(Q)=150-Q$ and $C(Q)=Q^2+30Q+100$. Find $Q^*$,
+        $p^*$, and $\pi^*$.
+  \item Find the normal line to $f(x)=\sqrt{x}$ at $x=9$.
+  \item Estimate $e^{-0.2}$ using the linearisation of $f(x)=e^x$ at $a=0$.
+  \item A monopolist faces $p(Q)=200-3Q$ and $C(Q)=2Q^2+10Q+50$. Find
+        $Q^*$, $p^*$, and $\pi^*$.
+  \item For $q(p)=200-5p$, find the price at which demand is unit elastic.
+  \item A firm sells at the fixed price $p=24$ per unit; cost is
+        $C(Q)=Q^2+8Q+10$. Find the profit-maximising output and verify SOC.
+  \item Find the normal line to $f(x)=\ln(x)$ at $x=e$.
+  \item A firm's cost is $C(Q)=0.5Q^2+8Q+200$. Use linear approximation at
+        $Q=20$ to estimate $C(21.5)$.
+  \item Marginal cost is $MC(Q)=0.06Q^2-2.4Q+30$. Find the production level
+        that minimises $MC$ and verify the SOC.
+  \item Demand $q(p)=\dfrac{300}{p^2+4}$. Compute $\varepsilon_d(p)$ and
+        evaluate at $p=2$.
+  \item Maximise utility $U(x)=4\ln(x)-0.5x$ for $x>0$.
+  \item Find the tangent to $f(x)=\cos(x)$ at $x=\pi/3$.
+  \item Use linearisation of $f(x)=(1+x)^{10}$ at $a=0$ to estimate
+        $(1.02)^{10}$.
+  \item For $C(Q)=Q^3-9Q^2+30Q+40$, compute $MC(Q)$ and locate the $Q$
+        where $MC$ attains its minimum.
+  \item For demand $q(p)=Ap^{-\alpha}$ with $A,\alpha>0$, show that the
+        (point) elasticity is the constant $-\alpha$.
+  \item A producer faces inverse demand $p(Q)=100-2Q$ and constant
+        marginal cost $MC=20$ (so $C(Q)=20Q+F$ with fixed cost $F$). Find
+        $Q^*$, $p^*$, and verify SOC.
+  \item Find the normal line to $f(x)=x^2$ at $x=1$.
+  \item Use linearisation of $f(x)=\tan(x)$ at $a=0$ to estimate
+        $\tan(0.05)$.
+  \item For the cubic cost $C(Q)=Q^3-6Q^2+15Q+20$, find marginal cost and
+        average cost, and the $Q>0$ where $AC$ is minimised. Verify SOC.
+  \item For demand $q(p)=100-2p^2$ (defined on $0\le p\le\sqrt{50}$),
+        compute $\varepsilon_d(p)$ at $p=4$ and classify.
+  \item Maximise revenue $R(Q)=Q\cdot p(Q)$ when $p(Q)=120-2Q$ and verify
+        SOC.
+  \item Find the tangent and the normal to $f(x)=x^2-3x+2$ at $x=2$.
+  \item For a firm with $C(Q)=4Q^2+20Q+100$, what is the change in cost
+        (approximately) when output increases from 10 to 10.5?
+  \item For $C(Q)=Q^2+10Q+9$ and $R(Q)=30Q$, find the profit-maximising
+        output and the break-even points (where $\pi=0$).
+  \item For demand $q(p)=400-p^2$, find the price at which
+        $|\varepsilon_d|=1$.
+  \item Find positive $x$ that maximises $f(x)=x^2e^{-x}$ on
+        $(0,\infty)$. Verify SOC.
+  \item Find the tangent to $f(x)=\arctan(x)$ at $x=1$.
+  \item Estimate $\sqrt[3]{27.9}$ using the linearisation of
+        $f(x)=x^{1/3}$ at $a=27$.
+  \item For utility $U(x)=\sqrt{x}$ and consumption $x=100$, compute the
+        marginal utility $MU(x)$ and its elasticity $\varepsilon_{U,x}$.
+        Comment briefly on signs.
+  \item A monopolist faces demand $q(p)=120-3p$ and constant unit cost
+        $c=10$. Reformulate via the inverse demand to find $Q^*$, $p^*$,
+        $\pi^*$. Verify SOC.
+  \item Minimise $f(x)=x+\dfrac{16}{x}$ on $(0,\infty)$. Verify SOC.
+  \item Find both the tangent and the normal to $f(x)=\sin(x)$ at
+        $x=\pi/2$.
+  \item For revenue $R(Q)=p(Q)\cdot Q$ with $p(Q)=100-Q$, express $MR$ in
+        terms of $p$ and the (price-)elasticity of demand: verify the
+        identity $MR = p\left(1+\dfrac{1}{\varepsilon_d}\right)$ at
+        $Q=20$.
+  \item Use linearisation of $f(x)=\ln(1+x)$ at $a=0$ to estimate
+        $\ln(1.05)$, and compute the linearisation error.
+  \item A firm has revenue $R(Q)=20Q-Q^2$ and cost
+        $C(Q)=2Q+\frac12Q^2+10$, with the constraint that $Q\in[0,8]$.
+        Find the profit-maximising $Q$ on this closed interval, comparing
+        the interior critical point with the endpoints.
+  \item For demand $q(p)=50/p$, compute $\varepsilon_d$ for all $p>0$ and
+        explain what it implies for total revenue $R(p)=p\cdot q(p)$.
+  \item Maximise $\pi(Q)=12Q-Q^2-\dfrac{Q^3}{3}$ for $Q\ge0$. (Take the
+        unique non-negative critical point and verify SOC.)
+  \item For inverse demand $p(Q)=50-Q$ and cost $C(Q)=10Q+Q^2$, compute
+        $\pi(Q)$, $Q^*$, $p^*$, $\pi^*$ and also $\varepsilon_d$ at $Q^*$.
+  \item A firm produces according to $Y=\sqrt{L}$ (a strictly concave
+        one-input production function). The wage is $w=2$ and the output
+        price is $p=8$. Choose $L\ge0$ to maximise profit
+        $\pi(L)=p\cdot Y(L)-wL$. Verify SOC.
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item $f'(x)=3x^2-2$. $f(1)=4$, $f'(1)=1$. Tangent:
+        $y=4+1\cdot(x-1)=x+3$.
+
+  \item $f(25)=5$, $f'(x)=1/(2\sqrt{x})$, $f'(25)=1/10=0.1$. So
+        $\sqrt{25.4}\approx 5+0.1\cdot0.4=5.04$. (True: $5.0399\ldots$)
+
+  \item $MC(Q)=C'(Q)=0.4Q+5$. $MC(15)=6+5=11$.
+
+  \item $q'(p)=-5$.
+        $\varepsilon_d(p)=\dfrac{p}{200-5p}\cdot(-5)=\dfrac{-5p}{200-5p}
+        =\dfrac{-p}{40-p}$. At $p=10$: $\varepsilon_d=-10/30=-1/3$, so
+        $|\varepsilon_d|<1$, inelastic.
+
+  \item $\pi(Q)=60Q-Q^2-Q^2-10Q-25=50Q-2Q^2-25$. FOC:
+        $\pi'(Q)=50-4Q=0\Rightarrow Q^*=12.5$. SOC: $\pi''(Q)=-4<0$, so a
+        maximum. $\pi(12.5)=625-312.5-25=287.5$.
+
+  \item $f'(x)=-1/x^2$. $f(2)=1/2$, $f'(2)=-1/4$. Tangent:
+        $y=\frac12-\frac14(x-2)=-\frac{x}{4}+1$.
+
+  \item $f'(x)=\frac14x^{-3/4}$. $f(16)=2$,
+        $f'(16)=\frac14\cdot16^{-3/4}=\frac14\cdot\frac18=\frac1{32}$. So
+        $16.3^{1/4}\approx2+\frac{0.3}{32}=2+0.009375=2.009375$.
+
+  \item $R(Q)=p(Q)Q=80Q-0.4Q^2$. $MR(Q)=80-0.8Q$. $MR(50)=80-40=40$.
+
+  \item $\dfrac{\partial Y}{\partial K}=\alpha AK^{\alpha-1}L^\beta$. So
+        \[
+          \varepsilon_{Y,K}=\frac{K}{Y}\cdot\alpha AK^{\alpha-1}L^\beta
+            =\frac{\alpha AK^\alpha L^\beta}{AK^\alpha L^\beta}=\alpha .
+        \]
+        The Cobb--Douglas exponent equals the elasticity.
+
+  \item $AC(Q)=2Q+8+\dfrac{200}{Q}$.
+        $AC'(Q)=2-\dfrac{200}{Q^2}=0\Rightarrow Q^2=100\Rightarrow Q^*=10$
+        (positive root). $AC''(Q)=\dfrac{400}{Q^3}>0$ at $Q=10$, so a
+        minimum. $AC(10)=20+8+20=48$.
+
+  \item $f'(x)=2e^{2x}$. $f(0)=1$, $f'(0)=2$. Tangent: $y=1+2x$.
+
+  \item $f(1)=0$, $f'(1)=1$. $\ln(0.98)\approx0+1\cdot(-0.02)=-0.02$.
+        (True: $-0.02020\ldots$)
+
+  \item Set $MR(Q)=MC(Q)$: $80-0.8Q=0.4Q+5\Rightarrow75=1.2Q\Rightarrow
+        Q^*=62.5$. SOC: $\pi''(Q)=R''(Q)-C''(Q)=-0.8-0.4=-1.2<0$, so this
+        is a maximum.
+
+  \item $q'(p)=80\cdot(-0.05)e^{-0.05p}=-4e^{-0.05p}$. So
+        \[
+          \varepsilon_d(p)=\frac{p}{80e^{-0.05p}}\cdot(-4e^{-0.05p})
+            =-0.05p .
+        \]
+        At $p=20$: $\varepsilon_d=-1$, exactly unit elastic.
+
+  \item $R(Q)=p(Q)Q=150Q-Q^2$.
+        $\pi(Q)=150Q-Q^2-Q^2-30Q-100=120Q-2Q^2-100$. FOC:
+        $\pi'(Q)=120-4Q=0\Rightarrow Q^*=30$. SOC: $\pi''(Q)=-4<0$.
+        $p^*=150-30=120$. $\pi^*=120\cdot30-2\cdot900-100
+        =3600-1800-100=1700$.
+
+  \item $f'(x)=\dfrac{1}{2\sqrt{x}}$. $f(9)=3$, $f'(9)=1/6$. Normal slope
+        $=-1/f'(9)=-6$. Normal: $y=3-6(x-9)=-6x+57$.
+
+  \item $f(0)=1$, $f'(0)=1$. $e^{-0.2}\approx1+1\cdot(-0.2)=0.8$. (True:
+        $0.8187\ldots$)
+
+  \item $R(Q)=p(Q)Q=200Q-3Q^2$.
+        $\pi(Q)=200Q-3Q^2-2Q^2-10Q-50=190Q-5Q^2-50$. FOC:
+        $\pi'(Q)=190-10Q=0\Rightarrow Q^*=19$. SOC: $\pi''(Q)=-10<0$, max.
+        $p^*=200-57=143$. $\pi^*=190\cdot19-5\cdot361-50
+        =3610-1805-50=1755$.
+
+  \item Using problem 4: $|\varepsilon_d|=1 \Leftrightarrow
+        \dfrac{p}{40-p}=1\Rightarrow p=40-p\Rightarrow p=20$. (At $p=20$,
+        demand $q=200-100=100$.)
+
+  \item $\pi(Q)=24Q-Q^2-8Q-10=16Q-Q^2-10$. FOC:
+        $\pi'(Q)=16-2Q=0\Rightarrow Q^*=8$. SOC: $\pi''(Q)=-2<0$.
+        $\pi(8)=128-64-10=54$.
+
+  \item $f'(x)=1/x$. $f(e)=1$, $f'(e)=1/e$. Normal slope $=-e$. Normal:
+        $y=1-e(x-e)=1-ex+e^2$.
+
+  \item $C'(Q)=Q+8$. $C(20)=200+160+200=560$, $C'(20)=28$. So
+        $C(21.5)\approx560+28\cdot1.5=602$. (Exact:
+        $0.5\cdot462.25+172+200=603.125$; error $\approx1.1$.)
+
+  \item $MC'(Q)=0.12Q-2.4=0\Rightarrow Q=20$. $MC''(Q)=0.12>0$, so $Q=20$
+        minimises $MC$. $MC(20)=0.06\cdot400-48+30=24-48+30=6$.
+
+  \item $q(p)=300(p^2+4)^{-1}$,
+        $q'(p)=-\dfrac{600p}{(p^2+4)^2}$. Then
+        \[
+          \varepsilon_d(p)=\frac{p}{q}\cdot q'(p)
+            =\frac{p(p^2+4)}{300}\cdot\left(-\frac{600p}{(p^2+4)^2}\right)
+            =\frac{-2p^2}{p^2+4} .
+        \]
+        At $p=2$: $\varepsilon_d=-8/8=-1$ (unit elastic).
+
+  \item $U'(x)=4/x-0.5=0\Rightarrow x^*=8$. $U''(x)=-4/x^2<0$, max.
+        $U(8)=4\ln(8)-4=12\ln(2)-4\approx4.318$.
+
+  \item $f'(x)=-\sin(x)$. $f(\pi/3)=1/2$, $f'(\pi/3)=-\sqrt3/2$. Tangent:
+        $y=\frac12-\frac{\sqrt3}{2}\left(x-\frac{\pi}{3}\right)$.
+
+  \item $f(0)=1$, $f'(x)=10(1+x)^9$, $f'(0)=10$. So
+        $(1.02)^{10}\approx1+10\cdot0.02=1.2$. (True: $1.21899\ldots$,
+        error $\approx0.019$.)
+
+  \item $MC(Q)=C'(Q)=3Q^2-18Q+30$. $MC'(Q)=6Q-18=0\Rightarrow Q=3$.
+        $MC''(Q)=6>0$, min. $MC(3)=27-54+30=3$.
+
+  \item $q'(p)=A\cdot(-\alpha)p^{-\alpha-1}=-\alpha\dfrac{q}{p}$. Hence
+        $\varepsilon_d=\dfrac{p}{q}q'(p)=\dfrac{p}{q}\cdot
+        \left(-\alpha\dfrac{q}{p}\right)=-\alpha$. Constant elasticity
+        demand has elasticity equal to the negative exponent.
+
+  \item $R(Q)=p(Q)Q=100Q-2Q^2$. $\pi(Q)=100Q-2Q^2-20Q-F=80Q-2Q^2-F$. FOC:
+        $\pi'(Q)=80-4Q=0\Rightarrow Q^*=20$. SOC: $\pi''(Q)=-4<0$, max.
+        $p^*=100-40=60$. Cross-check via $MR=MC$: $100-4Q=20\Rightarrow
+        Q=20$. Consistent. (Profit $\pi^*=80\cdot20-2\cdot400-F
+        =1600-800-F=800-F$.)
+
+  \item $f'(x)=2x$. $f(1)=1$, $f'(1)=2$. Normal slope $=-1/2$. Normal:
+        $y=1-\frac12(x-1)=-\frac{x}{2}+\frac32$.
+
+  \item $f(0)=0$, $f'(x)=\sec^2(x)$, $f'(0)=1$. So
+        $\tan(0.05)\approx0+1\cdot0.05=0.05$. (True: $0.050042\ldots$)
+
+  \item $MC(Q)=C'(Q)=3Q^2-12Q+15$. $AC(Q)=Q^2-6Q+15+20/Q$.
+        $AC'(Q)=2Q-6-20/Q^2$. Set $2Q-6-20/Q^2=0$, multiply by $Q^2$:
+        $2Q^3-6Q^2-20=0\Rightarrow Q^3-3Q^2-10=0$. Try $Q=$ roots: at
+        $Q=3$, $27-27-10=-10$; at $Q=4$, $64-48-10=6$; root between 3 and
+        4. Newton step from $Q_0=3.7$: $Q_0^3-3Q_0^2-10
+        =50.653-41.07-10=-0.417$, derivative $3Q^2-6Q=3\cdot13.69-22.2
+        =18.87$, $Q_1=3.7+0.417/18.87\approx3.722$. So $Q^*\approx3.72$.
+        SOC: $AC''(Q)=2+40/Q^3>0$ for $Q>0$, so it is a minimum. (Note: at
+        the optimum $AC(Q^*)=MC(Q^*)$, a standard identity.)
+
+  \item $q'(p)=-4p$. At $p=4$: $q(4)=100-32=68$, $q'(4)=-16$.
+        $\varepsilon_d(4)=\dfrac{4}{68}\cdot(-16)=-\dfrac{64}{68}
+        =-\dfrac{16}{17}\approx-0.94$. Since $|\varepsilon_d|<1$, demand
+        is \emph{inelastic} at $p=4$.
+
+  \item $R(Q)=120Q-2Q^2$. $R'(Q)=120-4Q=0\Rightarrow Q^*=30$.
+        $R''(Q)=-4<0$, max. $R(30)=3600-1800=1800$.
+
+  \item $f'(x)=2x-3$. $f(2)=4-6+2=0$, $f'(2)=1$. Tangent:
+        $y=0+1\cdot(x-2)=x-2$. Normal slope $=-1$. Normal:
+        $y=-(x-2)=-x+2$.
+
+  \item $C'(Q)=8Q+20$. $\Delta C\approx C'(10)\cdot0.5
+        =(80+20)\cdot0.5=100\cdot0.5=50$.
+
+  \item $\pi(Q)=30Q-Q^2-10Q-9=20Q-Q^2-9$. FOC:
+        $\pi'(Q)=20-2Q=0\Rightarrow Q^*=10$. SOC: $\pi''(Q)=-2<0$, max.
+        $\pi(10)=200-100-9=91$. Break-even: $20Q-Q^2-9=0\Rightarrow
+        Q^2-20Q+9=0\Rightarrow Q=\dfrac{20\pm\sqrt{400-36}}{2}
+        =10\pm\sqrt{91}$. Both positive: $Q\approx10-9.54=0.46$ and
+        $Q\approx19.54$.
+
+  \item $q(p)=400-p^2$, $q'(p)=-2p$.
+        $\varepsilon_d=\dfrac{p}{400-p^2}\cdot(-2p)=\dfrac{-2p^2}{400-p^2}$.
+        Set $\dfrac{2p^2}{400-p^2}=1\Rightarrow2p^2=400-p^2
+        \Rightarrow3p^2=400\Rightarrow p=\dfrac{20}{\sqrt3}\approx11.55$.
+
+  \item $f'(x)=2xe^{-x}-x^2e^{-x}=x(2-x)e^{-x}$. On $(0,\infty)$:
+        $f'>0$ for $0<x<2$, $f'<0$ for $x>2$. Critical point at $x=2$.
+        $f''(x)=(2-2x)e^{-x}-(2x-x^2)e^{-x}=(x^2-4x+2)e^{-x}$. At $x=2$:
+        $f''(2)=(4-8+2)e^{-2}=-2e^{-2}<0$, confirming local (and global on
+        $(0,\infty)$) maximum. $f(2)=4e^{-2}\approx0.541$.
+
+  \item $f'(x)=\dfrac{1}{1+x^2}$. $f(1)=\pi/4$, $f'(1)=1/2$. Tangent:
+        $y=\dfrac{\pi}{4}+\dfrac12(x-1)$.
+
+  \item $f(27)=3$, $f'(x)=\frac13x^{-2/3}$,
+        $f'(27)=\frac13\cdot27^{-2/3}=\frac13\cdot\frac19=\frac1{27}$. So
+        $\sqrt[3]{27.9}\approx3+\frac1{27}\cdot0.9=3+1/30\approx3.0333$.
+        (True: $3.03296\ldots$)
+
+  \item $U'(x)=\dfrac{1}{2\sqrt{x}}>0$ for $x>0$ (monotone preferences);
+        at $x=100$: $MU=\dfrac{1}{20}=0.05>0$. Elasticity:
+        $\varepsilon_{U,x}=\dfrac{x}{U(x)}U'(x)=\dfrac{x}{\sqrt{x}}
+        \cdot\dfrac{1}{2\sqrt{x}}=\dfrac12$. Constant elasticity $1/2$,
+        positive (utility rises with $x$). Marginal utility itself is
+        positive but its elasticity is positive and less than 1.
+
+  \item Invert demand: $q=120-3p\Rightarrow p(Q)=40-Q/3$.
+        $R(Q)=Qp=40Q-Q^2/3$. $\pi(Q)=40Q-Q^2/3-10Q=30Q-Q^2/3$. FOC:
+        $\pi'(Q)=30-2Q/3=0\Rightarrow Q^*=45$. SOC: $\pi''(Q)=-2/3<0$,
+        max. $p^*=40-15=25$, $\pi^*=30\cdot45-45^2/3=1350-675=675$.
+
+  \item $f'(x)=1-16/x^2=0\Rightarrow x^2=16\Rightarrow x=4$ on
+        $(0,\infty)$. $f''(x)=32/x^3>0$ for $x>0$, so $x=4$ is a minimum.
+        $f(4)=4+4=8$.
+
+  \item $f'(x)=\cos(x)$. $f(\pi/2)=1$, $f'(\pi/2)=0$. The tangent is
+        horizontal: $y=1$. The normal is the vertical line $x=\pi/2$
+        (slope $-1/0$ undefined; normal is vertical).
+
+  \item At $Q=20$: $p=80$. $R(Q)=100Q-Q^2$, $MR(Q)=100-2Q$, $MR(20)=60$.
+        From $q=100-p$, $q'(p)=-1$,
+        $\varepsilon_d(p)=\dfrac{p}{q}\cdot(-1)=-\dfrac{p}{100-p}$. At
+        $p=80$: $\varepsilon_d=-80/20=-4$. Then
+        $p\left(1+\dfrac{1}{\varepsilon_d}\right)=80\left(1-\dfrac14\right)
+        =80\cdot\dfrac34=60=MR$. Verified.
+
+  \item $f(0)=0$, $f'(x)=1/(1+x)$, $f'(0)=1$. So
+        $\ln(1.05)\approx0+1\cdot0.05=0.05$. True value:
+        $\ln(1.05)=0.048790\ldots$ Linearisation error
+        $\approx0.05-0.04879=0.00121$.
+
+  \item $\pi(Q)=R(Q)-C(Q)=(20Q-Q^2)-(2Q+\frac12Q^2+10)
+        =18Q-\frac32Q^2-10$. FOC: $\pi'(Q)=18-3Q=0\Rightarrow Q=6$.
+        $Q=6\in[0,8]$. SOC: $\pi''(Q)=-3<0$. $\pi(6)=108-54-10=44$. Check
+        endpoints: $\pi(0)=-10$, $\pi(8)=144-96-10=38$. So $Q^*=6$
+        maximises profit; $\pi^*=44$.
+
+  \item $q(p)=50/p$, $q'(p)=-50/p^2$.
+        $\varepsilon_d=\dfrac{p}{q}q'(p)=\dfrac{p}{50/p}\cdot(-50/p^2)
+        =\dfrac{p^2}{50}\cdot(-50/p^2)=-1$ for all $p>0$. The elasticity
+        is identically $-1$, unit-elastic demand. Total revenue
+        $R(p)=p\cdot50/p=50$, constant, independent of $p$. This is the
+        hallmark of unit-elastic demand.
+
+  \item $\pi'(Q)=12-2Q-Q^2$. Solve $Q^2+2Q-12=0\Rightarrow
+        Q=\dfrac{-2+\sqrt{4+48}}{2}=\dfrac{-2+\sqrt{52}}{2}
+        =-1+\sqrt{13}$. So $Q^*=\sqrt{13}-1\approx2.606$ (the positive
+        root). SOC: $\pi''(Q)=-2-2Q$. At $Q^*$:
+        $\pi''(Q^*)=-2-2(\sqrt{13}-1)=-2\sqrt{13}<0$, confirming maximum.
+
+  \item $R(Q)=(50-Q)Q=50Q-Q^2$. $\pi(Q)=50Q-Q^2-10Q-Q^2=40Q-2Q^2$. FOC:
+        $\pi'(Q)=40-4Q=0\Rightarrow Q^*=10$. SOC: $\pi''(Q)=-4<0$, max.
+        $p^*=50-10=40$, $\pi^*=40\cdot10-2\cdot100=400-200=200$.
+        Elasticity: $q(p)=50-p$, $q'(p)=-1$,
+        $\varepsilon_d(p)=\dfrac{p}{50-p}\cdot(-1)$. At $p^*=40$:
+        $\varepsilon_d=-40/10=-4$ (elastic, as expected at a monopolist's
+        optimum where $|\varepsilon_d|>1$).
+
+  \item $\pi(L)=8\sqrt{L}-2L$.
+        $\pi'(L)=\dfrac{4}{\sqrt{L}}-2=0\Rightarrow\sqrt{L}=2\Rightarrow
+        L^*=4$. SOC: $\pi''(L)=-\dfrac{2}{L^{3/2}}<0$ for $L>0$, so
+        $L^*=4$ maximises profit. $Y(4)=2$,
+        $\pi^*=8\cdot2-2\cdot4=16-8=8$.
+\end{solutions}
+
+\section{Additional Problems}
+
+\begin{problems}
+  \item Find the equation of the tangent to $f(x)=x^2+3x-1$ at $x=2$.
+  \item Use the linearisation of $f(x)=\sqrt[3]{x}$ at $a=8$ to estimate
+        $\sqrt[3]{8.6}$.
+  \item For $C(Q)=0.05Q^2+8Q+150$, find $MC(Q)$ and $MC(20)$.
+  \item For demand $q(p)=300-4p$, compute $\varepsilon_d(p)$ at $p=25$ and
+        classify.
+  \item Maximise profit $\pi(Q)=R(Q)-C(Q)$ where $R(Q)=90Q-1.5Q^2$ and
+        $C(Q)=Q^2+20Q+30$.
+  \item Find the tangent and normal to $f(x)=x^3-4x$ at $x=1$.
+  \item Use the linearisation of $f(x)=\mathrm{e}^{x}$ at $a=0$ to estimate
+        $\mathrm{e}^{0.1}$.
+  \item Inverse demand $p(Q)=100-0.5Q$. Find $R(Q)$, $MR(Q)$, and $MR(40)$.
+  \item For the Cobb--Douglas production $Y=AK^{\alpha}L^{1-\alpha}$ with
+        $K$ fixed, compute the output elasticity $\varepsilon_{Y,L}$.
+  \item Minimise the average cost $AC(Q)=C(Q)/Q$ for
+        $C(Q)=3Q^2+12Q+108$, over $Q>0$.
+  \item A monopolist faces $p(Q)=80-2Q$ and $C(Q)=Q^2+8Q+40$. Find $Q^*$,
+        $p^*$, and $\pi^*$.
+  \item For demand $q(p)=120\mathrm{e}^{-0.04p}$, compute
+        $\varepsilon_d(p)$ and at $p=10$.
+  \item For utility $U(x)=2\sqrt{x}-0.1x$ for $x>0$, find the maximiser
+        and verify SOC.
+  \item Estimate $\ln(1.04)$ using the linearisation of $f(x)=\ln(1+x)$
+        at $a=0$.
+  \item Minimise $f(x)=2x+\dfrac{50}{x}$ on $(0,\infty)$ and verify SOC.
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item $f'(x)=2x+3$. $f(2)=9$, $f'(2)=7$. Tangent: $y=9+7(x-2)=7x-5$.
+
+  \item $f(8)=2$, $f'(x)=\tfrac{1}{3}x^{-2/3}$,
+        $f'(8)=\tfrac{1}{3}\cdot 8^{-2/3}=\tfrac{1}{3}\cdot\tfrac{1}{4}
+        =\tfrac{1}{12}$. So
+        $\sqrt[3]{8.6}\approx 2+\tfrac{0.6}{12}=2+0.05=2.05$. (True:
+        $2.0494\ldots$)
+
+  \item $MC(Q)=C'(Q)=0.1Q+8$. $MC(20)=2+8=10$.
+
+  \item $q'(p)=-4$.
+        $\varepsilon_d(p)=\dfrac{p}{300-4p}\cdot(-4)=\dfrac{-4p}{300-4p}$.
+        At $p=25$: $\varepsilon_d=\dfrac{-100}{200}=-\dfrac{1}{2}$.
+        $|\varepsilon_d|<1$: \emph{inelastic}.
+
+  \item $\pi(Q)=90Q-1.5Q^2-Q^2-20Q-30=70Q-2.5Q^2-30$. FOC:
+        $\pi'(Q)=70-5Q=0\Rightarrow Q^*=14$. SOC: $\pi''(Q)=-5<0$, max.
+        $\pi(14)=980-490-30=460$.
+
+  \item $f'(x)=3x^2-4$. $f(1)=-3$, $f'(1)=-1$. Tangent:
+        $y=-3-(x-1)=-x-2$. Normal slope $=-1/(-1)=1$. Normal:
+        $y=-3+1\cdot(x-1)=x-4$.
+
+  \item $f(0)=1$, $f'(0)=1$. $\mathrm{e}^{0.1}\approx 1+0.1=1.1$. (True:
+        $1.10517\ldots$)
+
+  \item $R(Q)=p(Q)Q=100Q-0.5Q^2$. $MR(Q)=100-Q$. $MR(40)=60$.
+
+  \item $\dfrac{\partial Y}{\partial L}=(1-\alpha)AK^{\alpha}L^{-\alpha}$.
+        So
+        \[
+          \varepsilon_{Y,L}=\frac{L}{Y}\cdot(1-\alpha)AK^{\alpha}L^{-\alpha}
+            =\frac{(1-\alpha)AK^{\alpha}L^{1-\alpha}}{AK^{\alpha}L^{1-\alpha}}
+            =1-\alpha .
+        \]
+        Standard Cobb--Douglas: elasticity equals the exponent.
+
+  \item $AC(Q)=3Q+12+\dfrac{108}{Q}$.
+        $AC'(Q)=3-\dfrac{108}{Q^2}=0\Rightarrow Q^2=36\Rightarrow Q^*=6$.
+        $AC''(Q)=\dfrac{216}{Q^3}>0$ at $Q=6$: minimum.
+        $AC(6)=18+12+18=48$.
+
+  \item $R(Q)=p(Q)Q=80Q-2Q^2$.
+        $\pi(Q)=80Q-2Q^2-Q^2-8Q-40=72Q-3Q^2-40$. FOC:
+        $\pi'(Q)=72-6Q=0\Rightarrow Q^*=12$. SOC: $\pi''(Q)=-6<0$.
+        $p^*=80-24=56$. $\pi^*=72\cdot12-3\cdot144-40=864-432-40=392$.
+
+  \item $q'(p)=120\cdot(-0.04)\mathrm{e}^{-0.04p}
+        =-4.8\mathrm{e}^{-0.04p}$. So
+        \[
+          \varepsilon_d(p)=\frac{p}{120\mathrm{e}^{-0.04p}}
+            \cdot(-4.8\mathrm{e}^{-0.04p})=-0.04p .
+        \]
+        At $p=10$: $\varepsilon_d=-0.4$. $|\varepsilon_d|<1$:
+        \emph{inelastic}.
+
+  \item $U'(x)=\tfrac{1}{\sqrt{x}}-0.1=0\Rightarrow\sqrt{x}=10
+        \Rightarrow x^*=100$. $U''(x)=-\tfrac{1}{2}x^{-3/2}<0$ for $x>0$,
+        max. $U(100)=20-10=10$.
+
+  \item $f(0)=0$, $f'(0)=1$. $\ln(1.04)\approx 0+1\cdot0.04=0.04$.
+        (True: $0.03922\ldots$)
+
+  \item $f'(x)=2-\dfrac{50}{x^2}=0\Rightarrow x^2=25\Rightarrow x=5$ on
+        $(0,\infty)$. $f''(x)=\dfrac{100}{x^3}>0$ for $x>0$, so $x=5$ is
+        a minimum. $f(5)=10+10=20$.
+\end{solutions}

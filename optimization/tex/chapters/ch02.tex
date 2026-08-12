@@ -1,0 +1,512 @@
+\chapter{Convex Sets}
+
+A set is convex if it contains the entire straight line
+segment between any two of its points: no holes, no dents, no detached
+pieces. In economics this single geometric idea describes budget sets,
+production possibility sets, and the feasible regions of linear programs.
+Its payoff for optimization is structural: on a convex feasible set a convex
+problem has no spurious local optima: every local optimum is automatically
+global, and first-order conditions become sufficient rather than merely
+necessary.
+
+This chapter develops the geometry and algebra of convex sets: the
+line-segment criterion, weighted averages (convex combinations), the standard
+convex sets of the plane, the operations that preserve convexity (and the
+one that famously does not) and the contour sets of functions, which build
+the bridge to concavity and quasiconcavity in the chapters that follow.
+
+\section{Core Rules}
+
+\begin{rulebox}{Definition (line-segment criterion)}
+A set $S\subseteq\R^{n}$ is \emph{convex} if for all $x,y\in S$ and all
+$\lambda\in[0,1]$,
+\[
+  \lambda x+(1-\lambda)y \;\in\; S .
+\]
+As $\lambda$ slides from $0$ to $1$, the point $\lambda x+(1-\lambda)y$
+traces the segment from $y$ to $x$; convexity says the whole segment stays
+inside $S$. The empty set, single points, lines, and segments are all convex.
+\end{rulebox}
+
+\begin{rulebox}{Convex combinations and the convex hull}
+A \emph{convex combination} of points
+$x_{1},\dots,x_{k}\in\R^{n}$ is any weighted average
+\[
+  \sum_{i=1}^{k}\lambda_{i}x_{i},
+  \qquad \lambda_{i}\ge 0,\quad \sum_{i=1}^{k}\lambda_{i}=1 .
+\]
+The case $k=2$, $\lambda_{1}=\lambda_{2}=\tfrac12$ is the midpoint. A set is
+convex if and only if it is closed under \emph{all} finite convex
+combinations of its points. The \emph{convex hull}
+$\operatorname{conv}(A)$ of a set $A$ is the set of all finite convex
+combinations of points of $A$, equivalently, the smallest convex set
+containing $A$. The hull of finitely many points is a polygon whose vertices
+are among those points.
+\end{rulebox}
+
+\begin{rulebox}{Standard convex sets in the plane}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Half-planes} $\{(x,y): ax+by\le c\}$ (also with $\ge$, $<$,
+        $>$, or $=$). Linear expressions pass through weighted averages:
+        \[
+          a\bigl(\lambda x_{1}+(1-\lambda)x_{2}\bigr)
+          +b\bigl(\lambda y_{1}+(1-\lambda)y_{2}\bigr)
+          =\lambda(ax_{1}+by_{1})+(1-\lambda)(ax_{2}+by_{2})
+          \le \lambda c+(1-\lambda)c=c .
+        \]
+  \item \textbf{Budget sets}
+        $\{(x_{1},x_{2}): p_{1}x_{1}+p_{2}x_{2}\le m,\ x_{1},x_{2}\ge 0\}$
+        with $p_{1},p_{2},m>0$: the intersection of three half-planes, hence
+        convex, a triangle with corners $(0,0)$, $(m/p_{1},0)$,
+        $(0,m/p_{2})$.
+  \item \textbf{Closed disks} $\{(x,y): (x-x_{0})^{2}+(y-y_{0})^{2}\le
+        r^{2}\}$: convex by the triangle inequality for the norm.
+  \item \textbf{Polyhedra}: intersections of finitely many half-planes
+        (triangles, quadrilaterals, feasible regions of linear programs).
+        Convex because intersections preserve convexity.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Operations that preserve convexity: and one that does not}
+Let $S$, $S_{1}$, $S_{2}$ be convex. Then the following are convex:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Intersections} $\bigcap_{i}S_{i}$, of \emph{any} (even
+        infinite) family of convex sets;
+  \item \textbf{scalar multiples} $\alpha S=\{\alpha x : x\in S\}$ for
+        $\alpha\in\R$;
+  \item \textbf{Minkowski sums} $S_{1}+S_{2}=\{x+y : x\in S_{1},\ y\in
+        S_{2}\}$;
+  \item \textbf{affine images} $\{Ax+b : x\in S\}$.
+\end{itemize}
+\textbf{Warning:} the \emph{union} of convex sets is in general \emph{not}
+convex. Example: $\{x\le -1\}\cup\{x\ge 1\}$ contains $-1$ and $1$ but not
+their midpoint $0$. Complements and set differences of convex sets are
+generally not convex either.
+\end{rulebox}
+
+\begin{rulebox}{Contour sets: the bridge to quasiconcavity}
+For $f:\R^{n}\to\R$ and $c\in\R$ define the \emph{upper contour set}
+$U_{c}=\{x: f(x)\ge c\}$ and the \emph{lower contour set}
+$L_{c}=\{x: f(x)\le c\}$.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item If $f$ is \textbf{convex}, every lower contour set $L_{c}$ is
+        convex.
+  \item If $f$ is \textbf{concave}, every upper contour set $U_{c}$ is
+        convex.
+  \item $f$ is called \textbf{quasiconcave} precisely when \emph{every}
+        upper contour set is convex (quasiconvex: every lower contour set
+        convex). This is \emph{weaker} than concavity: $u(x_{1},x_{2})
+        =x_{1}x_{2}$ on the positive quadrant is quasiconcave but not
+        concave.
+\end{itemize}
+In consumer theory, ``indifference curves convex to the origin'' is exactly
+the statement that the upper contour sets of utility are convex.
+\end{rulebox}
+
+\begin{rulebox}{Verifying convexity algebraically}
+To \emph{prove} that $S=\{x: g(x)\le c\}$ is convex: take arbitrary $x,y\in
+S$ and $\lambda\in[0,1]$, and show $g(\lambda x+(1-\lambda)y)\le c$ using
+only $g(x)\le c$ and $g(y)\le c$. For linear $g$ this is automatic (see the
+half-plane computation above). Two workhorses:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item the \textbf{square inequality}
+        \[
+          \bigl(\lambda a+(1-\lambda)b\bigr)^{2}
+          \;\le\;\lambda a^{2}+(1-\lambda)b^{2},
+        \]
+        valid for all $a,b\in\R$, $\lambda\in[0,1]$, since the difference of
+        the two sides is $\lambda(1-\lambda)(a-b)^{2}\ge 0$;
+  \item the \textbf{graph shortcut}: $\{(x,y): y\ge g(x)\}$ is convex when
+        $g''\ge 0$ ($g$ convex), and $\{(x,y): y\le g(x)\}$ is convex when
+        $g''\le 0$ ($g$ concave).
+\end{itemize}
+To \emph{disprove} convexity: exhibit two points of $S$ whose midpoint
+violates the defining condition, a single counterexample suffices.
+\end{rulebox}
+
+\section{Practice Problems}
+
+\begin{problems}
+  \item Decide whether $S=\{(x,y)\in\R^{2}: x+2y\le 8\}$ is convex. Justify
+        algebraically.
+  \item Is the unit circle $S=\{(x,y): x^{2}+y^{2}=1\}$ (the boundary only,
+        not the disk) convex?
+  \item Show that the closed disk $D=\{(x,y): x^{2}+y^{2}\le 9\}$ is convex.
+  \item Decide the convexity of $\{(x,y): y\ge x^{2}\}$.
+  \item Decide the convexity of $\{(x,y): y\le -x^{2}\}$.
+  \item Is the annulus $A=\{(x,y): 1\le x^{2}+y^{2}\le 4\}$ (a ring) convex?
+  \item Is the union $\{x\in\R: x\le -1\}\cup\{x\in\R: x\ge 1\}$ convex?
+  \item Is the open half-plane $\{(x,y): 3x-2y>5\}$ convex?
+  \item Consider the budget set
+        $B=\{(x_{1},x_{2}): 2x_{1}+3x_{2}\le 12,\ x_{1}\ge 0,\ x_{2}\ge 0\}$.
+        Explain why $B$ is convex and find its three corner points.
+  \item Sketch the polyhedron
+        $P=\{(x,y): x\ge 0,\ y\ge 0,\ x+2y\le 6,\ 3x+y\le 9\}$ and list its
+        vertices.
+  \item Find the convex combination of $(1,0)$ and $(0,1)$ corresponding to
+        $\lambda=0.3$ (with $\lambda$ multiplying the first point).
+  \item Express the midpoint of $(2,5)$ and $(8,1)$ as a convex combination
+        and compute it.
+  \item Compute the convex combination of $(0,0)$, $(4,0)$, $(0,8)$ with
+        weights $\tfrac12,\tfrac14,\tfrac14$, and verify that the resulting
+        point lies in the triangle with these three vertices.
+  \item Determine the convex hull of $\{(0,0),(2,0),(0,2),(1,1)\}$.
+  \item Show that the intersection of any (possibly infinite) collection of
+        convex sets is convex.
+  \item Show by example that the union of two convex sets need not be
+        convex.
+  \item Show that if $S\subseteq\R^{n}$ is convex and $\alpha\in\R$, then
+        $\alpha S=\{\alpha x : x\in S\}$ is convex.
+  \item Show that the Minkowski sum
+        $S_{1}+S_{2}=\{x+y : x\in S_{1},\ y\in S_{2}\}$ of two convex sets
+        is convex.
+  \item Is $\{(x,y): xy\ge 1,\ x>0\}$ convex?
+  \item Is $\{(x,y): xy\le 1,\ x>0,\ y>0\}$ convex?
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item \textbf{Convex.} Take $(x_{1},y_{1}),(x_{2},y_{2})\in S$ and
+        $\lambda\in[0,1]$. By linearity,
+        \[
+          \bigl(\lambda x_{1}+(1-\lambda)x_{2}\bigr)
+          +2\bigl(\lambda y_{1}+(1-\lambda)y_{2}\bigr)
+          =\lambda(x_{1}+2y_{1})+(1-\lambda)(x_{2}+2y_{2})
+          \le 8\lambda+8(1-\lambda)=8 .
+        \]
+        The combination satisfies the defining inequality, so it lies in
+        $S$: a half-plane is convex.
+
+  \item \textbf{Not convex.} The points $(1,0)$ and $(-1,0)$ lie on the
+        circle ($1^{2}+0^{2}=1$), but their midpoint
+        $\tfrac12(1,0)+\tfrac12(-1,0)=(0,0)$ satisfies $0^{2}+0^{2}=0\neq
+        1$, so it is not on the circle. The segment leaves the set
+        immediately.
+
+  \item Write $u=(x_{1},y_{1})$, $v=(x_{2},y_{2})$ with $\|u\|\le 3$,
+        $\|v\|\le 3$ (membership in $D$ means the norm is at most
+        $\sqrt{9}=3$). By the triangle inequality and homogeneity of the
+        norm, for $\lambda\in[0,1]$,
+        \[
+          \|\lambda u+(1-\lambda)v\|
+          \le \lambda\|u\|+(1-\lambda)\|v\|
+          \le 3\lambda+3(1-\lambda)=3 ,
+        \]
+        so the combination has squared norm at most $9$ and lies in $D$.
+        \textbf{Convex.}
+
+  \item \textbf{Convex.} Let $y_{1}\ge x_{1}^{2}$ and $y_{2}\ge x_{2}^{2}$,
+        and take $\lambda\in[0,1]$. Using the square inequality
+        $(\lambda x_{1}+(1-\lambda)x_{2})^{2}\le\lambda
+        x_{1}^{2}+(1-\lambda)x_{2}^{2}$ (the difference is
+        $\lambda(1-\lambda)(x_{1}-x_{2})^{2}\ge 0$):
+        \[
+          \bigl(\lambda x_{1}+(1-\lambda)x_{2}\bigr)^{2}
+          \le \lambda x_{1}^{2}+(1-\lambda)x_{2}^{2}
+          \le \lambda y_{1}+(1-\lambda)y_{2} .
+        \]
+        So the combination again satisfies $y\ge x^{2}$. This is the region
+        on and above the parabola, the graph shortcut with
+        $g(x)=x^{2}$, $g''(x)=2\ge 0$.
+
+  \item \textbf{Convex.} Let $y_{1}\le -x_{1}^{2}$ and $y_{2}\le
+        -x_{2}^{2}$. Then
+        \[
+          \lambda y_{1}+(1-\lambda)y_{2}
+          \le -\bigl(\lambda x_{1}^{2}+(1-\lambda)x_{2}^{2}\bigr)
+          \le -\bigl(\lambda x_{1}+(1-\lambda)x_{2}\bigr)^{2},
+        \]
+        where the last step is the square inequality multiplied by $-1$.
+        The region on and below the concave function $g(x)=-x^{2}$
+        ($g''(x)=-2\le 0$) is convex, the graph shortcut again.
+
+  \item \textbf{Not convex.} The points $(-\tfrac32,0)$ and $(\tfrac32,0)$
+        lie in $A$ since $(\tfrac32)^{2}+0^{2}=\tfrac94$ and $1\le
+        \tfrac94\le 4$. Their midpoint is $(0,0)$ with
+        $0^{2}+0^{2}=0<1$, which violates the inner constraint. The hole in
+        the middle destroys convexity.
+
+  \item \textbf{Not convex.} Both $-1$ and $1$ belong to the union, but
+        their midpoint $\tfrac12(-1)+\tfrac12(1)=0$ satisfies neither
+        $0\le -1$ nor $0\ge 1$. The gap between the two pieces breaks the
+        segment.
+
+  \item \textbf{Convex.} For $\lambda\in(0,1)$ both weights are strictly
+        positive, so from $3x_{1}-2y_{1}>5$ and $3x_{2}-2y_{2}>5$,
+        \[
+          3\bigl(\lambda x_{1}+(1-\lambda)x_{2}\bigr)
+          -2\bigl(\lambda y_{1}+(1-\lambda)y_{2}\bigr)
+          =\lambda(3x_{1}-2y_{1})+(1-\lambda)(3x_{2}-2y_{2})
+          >5\lambda+5(1-\lambda)=5 .
+        \]
+        For $\lambda\in\{0,1\}$ the combination is one of the two original
+        points. Open half-planes are convex just like closed ones.
+
+  \item $B$ is the intersection of the three half-planes
+        $\{2x_{1}+3x_{2}\le 12\}$, $\{x_{1}\ge 0\}$, $\{x_{2}\ge 0\}$. Each
+        is convex, and intersections of convex sets are convex (Problem
+        15), so $B$ is convex. Corner points: the origin $(0,0)$; on the
+        $x_{1}$-axis, $x_{2}=0$ gives $2x_{1}=12$, i.e.\ $(6,0)$; on the
+        $x_{2}$-axis, $x_{1}=0$ gives $3x_{2}=12$, i.e.\ $(0,4)$.
+        Check: $2\cdot 6+3\cdot 0=12$ and $2\cdot 0+3\cdot 4=12$. $B$ is
+        the triangle with vertices $(0,0)$, $(6,0)$, $(0,4)$.
+
+  \item $P$ is the intersection of four half-planes, hence convex.
+        Vertices:
+        \begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+          \item origin: $(0,0)$;
+          \item on the $x$-axis ($y=0$): the binding constraint is
+                $3x+y=9$, so $x=3$, giving $(3,0)$; check $x+2y=3\le 6$;
+                the alternative $x+2y=6$ would give $(6,0)$, but
+                $3\cdot 6+0=18>9$ is infeasible;
+          \item intersection of $x+2y=6$ and $3x+y=9$: from the first,
+                $x=6-2y$; substituting, $3(6-2y)+y=18-5y=9$, so
+                $y=\tfrac95$ and $x=6-\tfrac{18}{5}=\tfrac{12}{5}$, giving
+                $\bigl(\tfrac{12}{5},\tfrac95\bigr)$;
+          \item on the $y$-axis ($x=0$): the binding constraint is
+                $x+2y=6$, so $y=3$, giving $(0,3)$; check $3\cdot 0+3=3\le
+                9$; the alternative $3x+y=9$ would give $(0,9)$, but
+                $0+2\cdot 9=18>6$ is infeasible.
+        \end{itemize}
+        $P$ is the quadrilateral with vertices $(0,0)$, $(3,0)$,
+        $\bigl(\tfrac{12}{5},\tfrac95\bigr)$, $(0,3)$.
+
+  \item $0.3\,(1,0)+0.7\,(0,1)=(0.3,\,0.7)$. The weights $0.3$ and $0.7$
+        are nonnegative and sum to $1$, so this is a valid convex
+        combination, a point three tenths of the way from $(0,1)$ to
+        $(1,0)$.
+
+  \item The midpoint is the convex combination with
+        $\lambda=\tfrac12$:
+        \[
+          \tfrac12(2,5)+\tfrac12(8,1)
+          =\Bigl(\tfrac{2+8}{2},\,\tfrac{5+1}{2}\Bigr)=(5,3) .
+        \]
+
+  \item The combination is
+        \[
+          \tfrac12(0,0)+\tfrac14(4,0)+\tfrac14(0,8)
+          =(0+1+0,\;0+0+2)=(1,2),
+        \]
+        with weights $\tfrac12+\tfrac14+\tfrac14=1$, all nonnegative. The
+        triangle with vertices $(0,0)$, $(4,0)$, $(0,8)$ is described by
+        $x\ge 0$, $y\ge 0$, and $2x+y\le 8$ (the line through $(4,0)$ and
+        $(0,8)$). At $(1,2)$: $1\ge 0$, $2\ge 0$, and $2\cdot 1+2=4\le 8$.
+        The point lies inside the triangle, as every convex combination of
+        the vertices must.
+
+  \item The point $(1,1)$ is itself a convex combination of the others:
+        $(1,1)=\tfrac12(2,0)+\tfrac12(0,2)$, the midpoint of the segment
+        from $(2,0)$ to $(0,2)$. It therefore adds nothing to the hull:
+        \[
+          \operatorname{conv}\{(0,0),(2,0),(0,2),(1,1)\}
+          =\operatorname{conv}\{(0,0),(2,0),(0,2)\},
+        \]
+        the closed triangle with vertices $(0,0)$, $(2,0)$, $(0,2)$
+        (with $(1,1)$ on its hypotenuse).
+
+  \item Let $\{S_{i}\}_{i\in I}$ be any family of convex sets and let
+        $x,y\in\bigcap_{i\in I}S_{i}$, $\lambda\in[0,1]$. For each
+        $i\in I$ we have $x,y\in S_{i}$, so by convexity of $S_{i}$,
+        $\lambda x+(1-\lambda)y\in S_{i}$. Since this holds for every $i$,
+        the combination lies in $\bigcap_{i\in I}S_{i}$. Hence the
+        intersection is convex. (Nothing in the argument requires $I$ to be
+        finite.)
+
+  \item Take $S_{1}=\{x\in\R: x\le 0\}$ and $S_{2}=\{x\in\R: x\ge 1\}$,
+        both convex half-lines. Their union contains $0$ and $1$, but the
+        midpoint $\tfrac12\cdot 0+\tfrac12\cdot 1=\tfrac12$ satisfies
+        neither $\tfrac12\le 0$ nor $\tfrac12\ge 1$, so it is not in the
+        union. The union is not convex.
+
+  \item Two generic elements of $\alpha S$ are $\alpha u$ and $\alpha v$
+        with $u,v\in S$. For $\lambda\in[0,1]$,
+        \[
+          \lambda(\alpha u)+(1-\lambda)(\alpha v)
+          =\alpha\bigl(\lambda u+(1-\lambda)v\bigr),
+        \]
+        and $\lambda u+(1-\lambda)v\in S$ by convexity of $S$, so the
+        combination is $\alpha$ times an element of $S$, i.e.\ an element
+        of $\alpha S$. Hence $\alpha S$ is convex.
+
+  \item Two generic elements of $S_{1}+S_{2}$ are $u_{1}+v_{1}$ and
+        $u_{2}+v_{2}$ with $u_{i}\in S_{1}$, $v_{i}\in S_{2}$. For
+        $\lambda\in[0,1]$, regroup:
+        \[
+          \lambda(u_{1}+v_{1})+(1-\lambda)(u_{2}+v_{2})
+          =\underbrace{\bigl[\lambda u_{1}+(1-\lambda)u_{2}\bigr]}_{\in
+          S_{1}}
+          +\underbrace{\bigl[\lambda v_{1}+(1-\lambda)v_{2}\bigr]}_{\in
+          S_{2}} ,
+        \]
+        using convexity of $S_{1}$ and $S_{2}$. The result is again a sum
+        of an element of $S_{1}$ and an element of $S_{2}$, so
+        $S_{1}+S_{2}$ is convex.
+
+  \item \textbf{Convex.} On $x>0$ the condition $xy\ge 1$ is equivalent to
+        $y\ge \dfrac{1}{x}$, so the set is the region on and above the
+        graph of $g(x)=\dfrac{1}{x}$ on $x>0$. Since
+        $g''(x)=\dfrac{2}{x^{3}}>0$ for $x>0$, $g$ is convex and the graph
+        shortcut applies. Direct verification with $\mu=1-\lambda$: for
+        $(x_{1},y_{1}),(x_{2},y_{2})$ in the set,
+        \[
+          (\lambda x_{1}+\mu x_{2})(\lambda y_{1}+\mu y_{2})
+          =\lambda^{2}x_{1}y_{1}+\mu^{2}x_{2}y_{2}
+          +\lambda\mu\,(x_{1}y_{2}+x_{2}y_{1})
+          \ge \lambda^{2}+\mu^{2}+2\lambda\mu=(\lambda+\mu)^{2}=1 ,
+        \]
+        because $x_{1}y_{1}\ge 1$, $x_{2}y_{2}\ge 1$, and by the
+        AM--GM inequality
+        $x_{1}y_{2}+x_{2}y_{1}\ge
+        2\sqrt{(x_{1}y_{2})(x_{2}y_{1})}
+        =2\sqrt{(x_{1}y_{1})(x_{2}y_{2})}\ge 2$. Also $\lambda
+        x_{1}+\mu x_{2}>0$, so the combination stays in the set.
+
+  \item \textbf{Not convex.} Take $(2,\,0.4)$ and $(0.4,\,2)$: both have
+        product $2\cdot 0.4=0.8\le 1$ with positive coordinates, so both
+        lie in the set. Their midpoint is $(1.2,\,1.2)$ with product
+        $1.2\cdot 1.2=1.44>1$, which violates the constraint. The region
+        under the hyperbola in the positive quadrant is not convex.
+\end{solutions}
+
+\section{Additional Problems}
+
+\begin{problems}
+  \item Decide the convexity of $\{(x,y,z)\in\R^{3}: x+y+z=1\}$ (a plane in
+        $\R^{3}$).
+  \item Show that $\{(x,y): y\ge |x|\}$ is convex.
+  \item Is $\{(x,y): \mathrm{e}^{x}\le y\}$ convex?
+  \item Is $\{(x,y): \ln x\ge y,\ x>0\}$ convex?
+  \item Prove: if $f:\R^{n}\to\R$ is convex, then the lower contour set
+        $\{x: f(x)\le c\}$ is convex for every $c\in\R$.
+  \item Use the previous problem to conclude that
+        $\{(x,y): x^{2}+y^{2}\le 4\}$ is convex.
+  \item Prove: if $f:\R^{n}\to\R$ is concave, then the upper contour set
+        $\{x: f(x)\ge c\}$ is convex for every $c\in\R$. Which weaker
+        property of $f$ is defined by exactly this conclusion?
+  \item Let $u(x_{1},x_{2})=x_{1}x_{2}$ on the positive quadrant
+        $x_{1},x_{2}>0$. Show that every upper contour set
+        $\{u\ge c\}$ with $c>0$ is convex, and conclude that $u$ is
+        quasiconcave. Is $u$ concave?
+  \item Give an example of a non-convex set in $\R^{2}$ whose convex hull
+        is the entire plane.
+  \item Show that the diamond $\{(x,y): |x|+|y|\le 1\}$ is convex by
+        writing it as an intersection of four half-planes.
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item \textbf{Convex.} For two points of the plane and $\lambda\in[0,1]$,
+        \[
+          \bigl(\lambda x_{1}+(1-\lambda)x_{2}\bigr)
+          +\bigl(\lambda y_{1}+(1-\lambda)y_{2}\bigr)
+          +\bigl(\lambda z_{1}+(1-\lambda)z_{2}\bigr)
+          =\lambda(x_{1}+y_{1}+z_{1})+(1-\lambda)(x_{2}+y_{2}+z_{2})
+          =\lambda\cdot 1+(1-\lambda)\cdot 1=1 .
+        \]
+        The combination satisfies the equation, so the plane (an affine
+        subspace) is convex.
+
+  \item Let $y_{1}\ge |x_{1}|$ and $y_{2}\ge |x_{2}|$, and take
+        $\lambda\in[0,1]$. By the triangle inequality for the absolute
+        value,
+        \[
+          \bigl|\lambda x_{1}+(1-\lambda)x_{2}\bigr|
+          \le \lambda|x_{1}|+(1-\lambda)|x_{2}|
+          \le \lambda y_{1}+(1-\lambda)y_{2} ,
+        \]
+        so the combination again satisfies $y\ge|x|$. \textbf{Convex},
+        the region above the V-shaped graph of the convex function $|x|$.
+
+  \item \textbf{Convex.} The set is $\{y\ge \mathrm{e}^{x}\}$, the region
+        on and above the graph of $g(x)=\mathrm{e}^{x}$, which is convex
+        since $g''(x)=\mathrm{e}^{x}>0$. Directly: with $y_{1}\ge
+        \mathrm{e}^{x_{1}}$, $y_{2}\ge \mathrm{e}^{x_{2}}$ and the
+        convexity of the exponential,
+        \[
+          \lambda y_{1}+(1-\lambda)y_{2}
+          \ge \lambda \mathrm{e}^{x_{1}}+(1-\lambda)\mathrm{e}^{x_{2}}
+          \ge \mathrm{e}^{\lambda x_{1}+(1-\lambda)x_{2}} .
+        \]
+
+  \item \textbf{Convex.} The set is $\{y\le \ln x,\ x>0\}$, the region on
+        and below the graph of $g(x)=\ln x$, which is concave since
+        $g''(x)=-\dfrac{1}{x^{2}}<0$. Directly: $x>0$ is preserved by
+        convex combination, and by concavity of $\ln$,
+        \[
+          \lambda y_{1}+(1-\lambda)y_{2}
+          \le \lambda \ln x_{1}+(1-\lambda)\ln x_{2}
+          \le \ln\bigl(\lambda x_{1}+(1-\lambda)x_{2}\bigr) .
+        \]
+
+  \item Let $f(x)\le c$, $f(y)\le c$, and $\lambda\in[0,1]$. By convexity
+        of $f$,
+        \[
+          f\bigl(\lambda x+(1-\lambda)y\bigr)
+          \le \lambda f(x)+(1-\lambda)f(y)
+          \le \lambda c+(1-\lambda)c=c ,
+        \]
+        so the combination lies in $\{x: f(x)\le c\}$, which is therefore
+        convex.
+
+  \item The function $f(x,y)=x^{2}+y^{2}$ is convex as the sum of the
+        convex functions $x^{2}$ and $y^{2}$ (each has second derivative
+        $2>0$ in its own variable, and a sum of convex functions is
+        convex). The set in question is the lower contour set
+        $\{f\le 4\}$, so by the previous problem it is convex, the
+        closed disk of radius $2$.
+
+  \item Let $f(x)\ge c$, $f(y)\ge c$, and $\lambda\in[0,1]$. By concavity
+        of $f$,
+        \[
+          f\bigl(\lambda x+(1-\lambda)y\bigr)
+          \ge \lambda f(x)+(1-\lambda)f(y)
+          \ge \lambda c+(1-\lambda)c=c ,
+        \]
+        so the upper contour set is convex. The property ``every upper
+        contour set of $f$ is convex'' is precisely
+        \textbf{quasiconcavity}; the computation shows that every concave
+        function is quasiconcave (the converse fails, as the next problem
+        shows).
+
+  \item For $c>0$ and $x_{1}>0$, the condition $x_{1}x_{2}\ge c$ is
+        equivalent to $x_{2}\ge \dfrac{c}{x_{1}}$, so
+        \[
+          \{u\ge c\}=\Bigl\{(x_{1},x_{2}): x_{2}\ge
+          \tfrac{c}{x_{1}},\ x_{1}>0\Bigr\},
+        \]
+        the region on and above the graph of
+        $g(x_{1})=\dfrac{c}{x_{1}}$ on $x_{1}>0$. Since
+        $g''(x_{1})=\dfrac{2c}{x_{1}^{3}}>0$ for $c>0$, $g$ is convex and
+        the set is convex (same argument as Practice Problem~19, which is
+        the case $c=1$). For $c\le 0$ the upper contour set is the whole
+        positive quadrant, also convex. Every upper contour set is convex,
+        so $u$ is \textbf{quasiconcave}. But $u$ is \emph{not} concave:
+        along the line $x_{1}=x_{2}=t$ ($t>0$) we get $u=t^{2}$, a strictly
+        convex function of $t$, whereas a concave function must remain
+        concave along every line. Quasiconcavity is strictly weaker than
+        concavity.
+
+  \item Take $S=\R^{2}\setminus\{(0,0)\}$, the plane with the origin
+        removed. It is not convex: $(-1,0)$ and $(1,0)$ lie in $S$, but
+        their midpoint $(0,0)$ does not. Its convex hull contains every
+        point of $S$ and also the origin, since
+        $(0,0)=\tfrac12(-1,0)+\tfrac12(1,0)$ is a convex combination of
+        points of $S$. Hence $\operatorname{conv}(S)=\R^{2}$.
+        (Another example: $\mathbb{Q}^{2}$, the points with rational
+        coordinates, is not convex, yet its convex hull is all of
+        $\R^{2}$.)
+
+  \item Since $|x|=\max(x,-x)$ and $|y|=\max(y,-y)$, the condition
+        $|x|+|y|\le 1$ holds if and only if all four sign combinations
+        satisfy it:
+        \[
+          x+y\le 1,\qquad x-y\le 1,\qquad -x+y\le 1,\qquad -x-y\le 1 .
+        \]
+        Each of these describes a half-plane, which is convex, and the
+        diamond is the intersection of the four. Intersections of convex
+        sets are convex, so the diamond is convex, the square with
+        vertices $(1,0)$, $(0,1)$, $(-1,0)$, $(0,-1)$.
+\end{solutions}

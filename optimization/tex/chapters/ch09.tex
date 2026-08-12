@@ -1,0 +1,752 @@
+\chapter{Multiple Constraints and the Bordered Hessian}
+
+Most realistic models have more than one constraint: an intertemporal consumer faces a budget in every
+period, a firm has separate constraints for several inputs, a tax authority
+must respect a revenue target and an equity constraint. With $m$ equality
+constraints we attach \emph{one multiplier per constraint} and add up the
+contributions in the Lagrangian.
+
+The Lagrangian FOC system identifies \emph{candidate} optima, but is the
+candidate a max, a min, or a saddle on the constraint surface? The
+unconstrained Hessian test does \emph{not} suffice: the relevant Hessian
+must be evaluated only along directions \emph{tangent} to the constraint,
+which the \emph{bordered Hessian}
+encodes.
+
+\section{Core Rules}
+
+\begin{rulebox}{General setup with $m$ equality constraints}
+Consider
+\[
+\max_{\mathbf{x} \in \R^n} \; f(\mathbf{x}) \quad \text{subject to} \quad
+g_i(\mathbf{x}) = c_i, \; i = 1, \dots, m.
+\]
+Assume $m < n$ (otherwise the constraints typically pin down $\mathbf{x}$
+uniquely with no optimisation left).
+\end{rulebox}
+
+\begin{rulebox}{Lagrangian and first-order conditions}
+\[
+\mathcal{L}(\mathbf{x}, \lambda_1, \dots, \lambda_m) \;=\; f(\mathbf{x})
++ \sum_{i = 1}^m \lambda_i \bigl( c_i - g_i(\mathbf{x}) \bigr).
+\]
+There are $n + m$ unknowns ($\mathbf{x}$ and $\boldsymbol{\lambda}$) and
+$n + m$ FOCs:
+\[
+\pd{\mathcal{L}}{x_j} \;=\; f_{x_j} - \sum_{i = 1}^m \lambda_i \,
+(g_i)_{x_j} \;=\; 0 \quad (j = 1, \dots, n),
+\qquad
+\pd{\mathcal{L}}{\lambda_i} \;=\; c_i - g_i(\mathbf{x}) \;=\; 0.
+\]
+Equivalently, $\grad f = \sum_i \lambda_i \grad g_i$ at the optimum.
+\end{rulebox}
+
+\begin{rulebox}{Constraint qualification}
+For the method to be valid we need the constraint gradients
+$\grad g_1(\mathbf{x}^*), \dots, \grad g_m(\mathbf{x}^*)$ to be linearly
+independent (\emph{LICQ}). Otherwise the FOC system can fail to identify
+the true optimum.
+\end{rulebox}
+
+\begin{rulebox}{Shadow prices}
+Each $\lambda_i^*$ is the shadow price of constraint $i$:
+$\partial V/\partial c_i = \lambda_i^*$. Constraints with
+$\lambda_i^* = 0$ are non-binding (or just barely binding); a large
+$\lambda_i^*$ flags a constraint whose relaxation would significantly
+improve the objective.
+\end{rulebox}
+
+\begin{rulebox}{Two-period intertemporal budget}
+A consumer with income $M_1, M_2$ in two periods, prices normalised to
+one, and interest rate $r$ faces the present-value budget
+\[
+c_1 + \frac{c_2}{1 + r} \;=\; M_1 + \frac{M_2}{1 + r}.
+\]
+A simpler form keeps two equations: $c_1 + s = M_1$,
+$c_2 = M_2 + (1 + r) s$, where $s$ is saving. This gives two constraints;
+either form works.
+\end{rulebox}
+
+\begin{rulebox}{Bordered Hessian (one constraint, $n = 2$ variables)}
+For
+\[
+\max f(x, y) \text{ s.t.\ } g(x, y) = c,
+\]
+the bordered Hessian of $\mathcal{L} = f + \lambda(c - g)$ is the
+$3 \times 3$ matrix
+\[
+\overline{H} \;=\; \begin{pmatrix}
+0 & -g_x & -g_y \\
+-g_x & \mathcal{L}_{xx} & \mathcal{L}_{xy} \\
+-g_y & \mathcal{L}_{yx} & \mathcal{L}_{yy}
+\end{pmatrix}
+\;=\;
+\begin{pmatrix}
+0 & g_x & g_y \\
+g_x & \mathcal{L}_{xx} & \mathcal{L}_{xy} \\
+g_y & \mathcal{L}_{yx} & \mathcal{L}_{yy}
+\end{pmatrix} \quad \text{(sign convention varies)}.
+\]
+The sign of $\det \overline{H}$ at the critical point classifies it.
+\end{rulebox}
+
+\begin{rulebox}{SOC test ($n = 2$, $m = 1$)}
+With $\mathcal{L}_{ij} = f_{ij} - \lambda g_{ij}$ and the bordered Hessian
+as above:
+\[
+\det \overline{H} \;>\; 0 \;\Rightarrow\; \mathbf{x}^* \text{ is a
+(constrained) local \textbf{maximum}};
+\]
+\[
+\det \overline{H} \;<\; 0 \;\Rightarrow\; \mathbf{x}^* \text{ is a
+(constrained) local \textbf{minimum}}.
+\]
+(Signs reverse if you adopt the alternative bordering convention; pick one
+and apply it consistently. The rule above uses $\overline{H}$ with
+$g_x, g_y$ in the border, the second matrix above.)
+\end{rulebox}
+
+\begin{rulebox}{General $n$, $m$ constraints}
+The bordered Hessian is $(n + m) \times (n + m)$. Classification uses the
+signs of the last $n - m$ leading principal minors:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item Local \textbf{max}: signs alternate as
+        $(-1)^{m + 1}, (-1)^{m + 2}, \dots, (-1)^n$.
+  \item Local \textbf{min}: signs are all $(-1)^m$.
+\end{itemize}
+For $m = 1, n = 2$ this reduces to a single minor (the determinant) with
+the signs above.
+\end{rulebox}
+
+\begin{rulebox}{Computing $\det \overline{H}$ for the $3 \times 3$ case}
+Expand along the first row:
+\[
+\det \overline{H} \;=\; -g_x \, (g_x \mathcal{L}_{yy} - g_y \mathcal{L}_{xy})
++ g_y \, (g_x \mathcal{L}_{yx} - g_y \mathcal{L}_{xx})
+\;=\; 2 g_x g_y \mathcal{L}_{xy} - g_x^2 \mathcal{L}_{yy}
+- g_y^2 \mathcal{L}_{xx}.
+\]
+\end{rulebox}
+
+\begin{rulebox}{Worked example: utility maximisation}
+For $U = x y$ on $p_x x + p_y y = M$:
+$\mathcal{L}_{xx} = \mathcal{L}_{yy} = 0$, $\mathcal{L}_{xy} = 1$,
+$g_x = p_x, g_y = p_y$. Then
+\[
+\det \overline{H} = 2 p_x p_y \cdot 1 - 0 - 0 = 2 p_x p_y > 0,
+\]
+so the critical point is a constrained \textbf{maximum}, as expected.
+\end{rulebox}
+
+\section{Practice Problems}
+
+Problems 1--14 drill FOC systems with several equality constraints. For
+Problems 15--26, locate the constrained critical point (results from
+earlier chapters can be quoted), build the bordered Hessian, evaluate
+$\det \overline{H}$, and classify.
+
+\begin{problems}
+  \item Minimise $f(x, y, z) = x^2 + y^2 + z^2$ subject to $x + y + z = 9$
+        and $y + z = 6$.
+  \item Maximise $f(x, y, z) = x + y + z$ subject to
+        $x^2 + y^2 + z^2 = 12$ and $x + y + z = 0$. (Hint: the second
+        constraint is degenerate. Reinterpret.) Replace the second
+        constraint with $x = y$.
+  \item A consumer chooses $(c_1, c_2)$ with
+        $U = \ln c_1 + \beta \ln c_2$, subject to $c_1 + s = M_1$ and
+        $c_2 = M_2 + (1 + r) s$. Find $c_1^*, c_2^*, s^*$ and the two
+        multipliers.
+  \item Minimise $f(x, y, z) = x^2 + y^2 + z^2$ subject to $x + y + z = 6$
+        and $x - y = 2$.
+  \item Maximise $f(x, y, z) = x y + z$ subject to $x + y = 6$ and
+        $z = 4$.
+  \item A firm produces with $Q = K^{1/2} L^{1/2}$, faces input cost
+        $r K + w L = TC$, and a labour-availability constraint
+        $L = \bar{L}$. Find $K^*, L^*$ and both multipliers (assuming the
+        constraints are mutually consistent).
+  \item Maximise $f(x, y) = x y$ subject to $x + y = 8$ and $x = 3$. (A
+        degenerate ``forced'' problem to test mechanics.)
+  \item Minimise $f(x, y, z) = x^2 + 2 y^2 + 3 z^2$ subject to
+        $x + y + z = 1$ and $2 x + y - z = 0$.
+  \item Maximise $U = c_1^{1/2} c_2^{1/2}$ subject to $c_1 + s = 100$ and
+        $c_2 = 50 + 2 s$ (so $r = 1$).
+  \item Maximise $f(x, y, z) = \ln x + \ln y + \ln z$ subject to
+        $x + y + z = 30$ and $x + 2 y + 3 z = 60$.
+  \item Maximise $f(x, y, z) = x + y + z$ subject to $x^2 + y^2 = 2$ and
+        $y + z = 4$.
+  \item Minimise $f(x, y, z) = x^2 + y^2 + z^2$ subject to
+        $x + 2 y + 3 z = 14$.
+  \item Maximise $U = \ln c_1 + \ln c_2$ subject to $c_1 + s = 8$ and
+        $c_2 = 4 + (3/2) s$.
+  \item Minimise $f(x, y) = x + y$ subject to $x y = 4$ and $x \geq y$.
+        (Use only the equality constraint and check feasibility at the
+        end.)
+  \item $\max U = x y$ s.t.\ $2 x + 3 y = 12$. (Optimum from the earlier
+        Lagrange drills: $(3, 2)$, $\lambda = 1$.)
+  \item $\max U = x^{1/2} y^{1/2}$ s.t.\ $p_x x + p_y y = M$.
+  \item $\max U = \ln x + \ln y$ s.t.\ $x + y = 10$ (optimum $(5, 5)$).
+  \item $\min f = x^2 + y^2$ s.t.\ $x + y = 4$ (optimum $(2, 2)$,
+        $\lambda = 4$).
+  \item $\max f = 2 x + 3 y$ on $x^2 + y^2 = 13$ (optimum $(2, 3)$,
+        $\lambda = 1/2$).
+  \item $\min C = p_K K + p_L L$ s.t.\ $K^{1/2} L^{1/2} = Q_0$ (cost
+        minimisation; verify it's a true min).
+  \item $\max f = x y^2$ s.t.\ $x + y = 9$ (optimum $(3, 6)$,
+        $\lambda = 36$).
+  \item $\min f = 3 x^2 + 2 y^2$ s.t.\ $x + y = 5$ (optimum $(2, 3)$,
+        $\lambda = 12$).
+  \item $\max U = \ln x + 2 \ln y$ s.t.\ $x + 4 y = 24$ (optimum
+        $(8, 4)$).
+  \item $\min f = x^2 + 4 y^2$ s.t.\ $x + 2 y = 6$ (optimum $(3, 3/2)$).
+  \item $\max f = x y$ on $x^2 + y^2 = 8$ (interior root $(2, 2)$,
+        $\lambda = 1/2$).
+  \item $\max f = 2 x + 3 y$ on $x^2 + y^2 = 13$ already in
+        Problem~19; instead try $\max f = x^2 y$ s.t.\ $x + y = 3$ with
+        $x, y > 0$.
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item $\mathcal{L} = x^2 + y^2 + z^2 + \lambda_1(9 - x - y - z)
+        + \lambda_2(6 - y - z)$. FOCs:
+        \[
+        2 x = \lambda_1, \quad 2 y = \lambda_1 + \lambda_2, \quad
+        2 z = \lambda_1 + \lambda_2, \quad x + y + z = 9, \quad
+        y + z = 6.
+        \]
+        From constraint 1 minus constraint 2: $x = 3$. From the symmetry
+        $2 y = 2 z$: $y = z = 3$. So $(x^*, y^*, z^*) = (3, 3, 3)$.
+        Multipliers: $\lambda_1 = 6$;
+        $\lambda_2 = 2 y - \lambda_1 = 6 - 6 = 0$. (The second constraint
+        is implied by the first when $x = 3$: it is not binding
+        additionally, so its shadow price is zero.) $f^* = 27$.
+  \item Replace second constraint with $x = y$. Then
+        $\mathcal{L} = x + y + z + \lambda_1(12 - x^2 - y^2 - z^2)
+        + \lambda_2(y - x)$. FOCs:
+        \[
+        1 - 2 \lambda_1 x - \lambda_2 = 0, \quad
+        1 - 2 \lambda_1 y + \lambda_2 = 0, \quad
+        1 - 2 \lambda_1 z = 0, \quad x = y, \quad
+        x^2 + y^2 + z^2 = 12.
+        \]
+        Adding the first two:
+        $2 - 2 \lambda_1(x + y) = 0 \Rightarrow \lambda_1 = 1/(x + y)
+        = 1/(2 x)$. Third: $\lambda_1 = 1/(2 z) \Rightarrow z = x$. So
+        $x = y = z$, and $3 x^2 = 12 \Rightarrow x^* = 2$. Hence
+        $(2, 2, 2)$. $\lambda_1 = 1/4$. Subtracting the first two FOCs:
+        $-2 \lambda_1(x - y) - 2 \lambda_2 = 0$, so $\lambda_2 = 0$. Max
+        value $= 6$.
+  \item $\mathcal{L} = \ln c_1 + \beta \ln c_2
+        + \lambda_1(M_1 - c_1 - s)
+        + \lambda_2(M_2 + (1 + r) s - c_2)$. FOCs:
+        \[
+        1/c_1 = \lambda_1, \quad \beta/c_2 = \lambda_2, \quad
+        -\lambda_1 + (1 + r) \lambda_2 = 0 \Rightarrow
+        \lambda_1 = (1 + r) \lambda_2.
+        \]
+        Hence $1/c_1 = (1 + r) \beta / c_2 \Rightarrow
+        c_2 = (1 + r) \beta c_1$. From the period-2 budget:
+        $(1 + r) \beta c_1 = M_2 + (1 + r) s$, so
+        $s = \beta c_1 - M_2/(1 + r)$. Period-1 budget:
+        $c_1 + s = M_1 \Rightarrow c_1(1 + \beta) = M_1 + M_2/(1 + r)$,
+        i.e.
+        \[
+        c_1^* = \frac{M_1 + M_2/(1 + r)}{1 + \beta}, \quad
+        c_2^* = (1 + r) \beta c_1^*, \quad s^* = M_1 - c_1^*.
+        \]
+        Multipliers: $\lambda_1^* = 1/c_1^*$,
+        $\lambda_2^* = \lambda_1^*/(1 + r) = 1/((1 + r) c_1^*)$.
+  \item $\mathcal{L} = x^2 + y^2 + z^2 + \lambda_1(6 - x - y - z)
+        + \lambda_2(2 - x + y)$. (Constraint $x - y = 2$ rewritten as
+        $2 - x + y = 0$.) FOCs: $2 x = \lambda_1 + \lambda_2$,
+        $2 y = \lambda_1 - \lambda_2$, $2 z = \lambda_1$. Add first two:
+        $2(x + y) = 2 \lambda_1 \Rightarrow x + y = \lambda_1$. From
+        third: $z = \lambda_1/2 = (x + y)/2$. Constraint 1:
+        $x + y + z = 6 \Rightarrow (x + y) + (x + y)/2 = 6 \Rightarrow
+        3(x + y)/2 = 6 \Rightarrow x + y = 4$, $z = 2$. Constraint 2:
+        $x - y = 2$, so $x = 3$, $y = 1$. Check: $\lambda_1 = 4$;
+        $\lambda_2 = 2 x - \lambda_1 = 6 - 4 = 2$. \checkmark\
+        $f^* = 9 + 1 + 4 = 14$.
+  \item With $z = 4$ forced, $\mathcal{L} = x y + z
+        + \lambda_1(6 - x - y) + \lambda_2(4 - z)$. FOCs:
+        $y = \lambda_1$, $x = \lambda_1$, $1 = \lambda_2$. So $x = y$,
+        and from $x + y = 6$ we get $x^* = y^* = 3$, $z^* = 4$.
+        $\lambda_1 = 3$, $\lambda_2 = 1$. $f^* = 9 + 4 = 13$.
+  \item $\mathcal{L} = K^{1/2} L^{1/2} + \lambda_1(TC - r K - w L)
+        + \lambda_2(\bar{L} - L)$. FOCs:
+        $\tfrac{1}{2} K^{-1/2} L^{1/2} = \lambda_1 r$;
+        $\tfrac{1}{2} K^{1/2} L^{-1/2} = \lambda_1 w + \lambda_2$;
+        $L = \bar{L}$; $r K + w L = TC$. From the labour constraint
+        $L^* = \bar{L}$, and from the cost equation
+        $K^* = (TC - w \bar{L})/r$ (assume $TC > w \bar{L}$ so
+        $K^* > 0$). Then
+        $\lambda_1 = \dfrac{1}{2 r}\sqrt{\bar{L}/K^*}$ from FOC 1.
+        Solving FOC 2:
+        $\lambda_2 = \tfrac{1}{2} \sqrt{K^*/\bar{L}} - w \lambda_1
+        = \tfrac{1}{2}\sqrt{K^*/\bar{L}}
+        - \tfrac{w}{2 r}\sqrt{\bar{L}/K^*}$.
+  \item With $x = 3$ forced: $\mathcal{L} = x y + \lambda_1(8 - x - y)
+        + \lambda_2(3 - x)$. FOCs: $y = \lambda_1 + \lambda_2$;
+        $x = \lambda_1$. Constraints fix $x^* = 3$, $y^* = 5$. So
+        $\lambda_1 = 3$, $\lambda_2 = y - \lambda_1 = 5 - 3 = 2$.
+        $f^* = 15$.
+  \item $\mathcal{L} = x^2 + 2 y^2 + 3 z^2 + \lambda_1(1 - x - y - z)
+        + \lambda_2(0 - 2 x - y + z)$. (Constraint 2:
+        $2 x + y - z = 0$.) FOCs:
+        \[
+        2 x = \lambda_1 + 2 \lambda_2, \quad
+        4 y = \lambda_1 + \lambda_2, \quad
+        6 z = \lambda_1 - \lambda_2,
+        \]
+        plus the two constraints. From the constraints: $z = 2 x + y$ and
+        $x + y + z = 1 \Rightarrow x + y + 2 x + y = 3 x + 2 y = 1$.
+        Express $y = (1 - 3 x)/2$,
+        $z = 2 x + (1 - 3 x)/2 = (x + 1)/2$. Sub into FOCs to eliminate
+        $\lambda$: from the first two, $\lambda_1 = 2 x - 2 \lambda_2$
+        and $\lambda_1 = 4 y - \lambda_2$, so
+        $2 x - 2 \lambda_2 = 4 y - \lambda_2 \Rightarrow
+        \lambda_2 = 2 x - 4 y$. Then
+        $\lambda_1 = 2 x - 2(2 x - 4 y) = -2 x + 8 y$. Third FOC:
+        $6 z = \lambda_1 - \lambda_2 = (-2 x + 8 y) - (2 x - 4 y)
+        = -4 x + 12 y$, i.e.\ $z = (-2 x + 6 y)/3 = (-2 x + 6 y)/3$.
+        Equate with $z = (x + 1)/2$:
+        $(x + 1)/2 = (-2 x + 6 y)/3 \Rightarrow
+        3(x + 1) = 2(-2 x + 6 y) \Rightarrow
+        3 x + 3 = -4 x + 12 y \Rightarrow 7 x + 3 = 12 y$. Sub
+        $y = (1 - 3 x)/2$: $7 x + 3 = 12(1 - 3 x)/2 = 6 - 18 x
+        \Rightarrow 25 x = 3 \Rightarrow x^* = 3/25$. Then
+        $y^* = (1 - 9/25)/2 = (16/25)/2 = 8/25$,
+        $z^* = (3/25 + 1)/2 = (28/25)/2 = 14/25$. Verify constraints:
+        $3/25 + 8/25 + 14/25 = 25/25 = 1$ \checkmark;
+        $2(3/25) + 8/25 - 14/25 = (6 + 8 - 14)/25 = 0$ \checkmark.
+        Multipliers:
+        $\lambda_2 = 2(3/25) - 4(8/25) = (6 - 32)/25 = -26/25$;
+        $\lambda_1 = -2(3/25) + 8(8/25) = (-6 + 64)/25 = 58/25$.
+        $f^* = 9/625 + 2 \cdot 64/625 + 3 \cdot 196/625
+        = (9 + 128 + 588)/625 = 725/625 = 29/25$.
+  \item Combine the two budgets: $c_1 + s = 100$ and $c_2 = 50 + 2 s$.
+        Substituting $s = 100 - c_1$:
+        $c_2 = 50 + 2(100 - c_1) = 250 - 2 c_1$, i.e.\ a single combined
+        budget $2 c_1 + c_2 = 250$ in present-value terms (the relative
+        price of $c_1$ to $c_2$ is $1 + r = 2$).
+        Now $\max c_1^{1/2} c_2^{1/2}$ s.t.\ $2 c_1 + c_2 = 250$:
+        $\mathcal{L} = c_1^{1/2} c_2^{1/2}
+        + \lambda(250 - 2 c_1 - c_2)$. FOCs:
+        $\tfrac{1}{2} c_1^{-1/2} c_2^{1/2} = 2 \lambda$,
+        $\tfrac{1}{2} c_1^{1/2} c_2^{-1/2} = \lambda$. Divide:
+        $c_2/c_1 = 2 \Rightarrow c_2 = 2 c_1$. Budget:
+        $2 c_1 + 2 c_1 = 250 \Rightarrow c_1^* = 62.5$, $c_2^* = 125$,
+        $s^* = 100 - 62.5 = 37.5$.
+        Multipliers via the two-constraint form: $\lambda_1$ on period 1,
+        $\lambda_2$ on period 2. FOCs:
+        $\tfrac{1}{2 \sqrt{c_1}}\sqrt{c_2} = \lambda_1$,
+        $\tfrac{1}{2 \sqrt{c_2}}\sqrt{c_1} = \lambda_2$, and the savings
+        FOC $-\lambda_1 + 2 \lambda_2 = 0 \Rightarrow
+        \lambda_1 = 2 \lambda_2$. Compute:
+        $\lambda_2 = \tfrac{1}{2}\sqrt{62.5/125} = \tfrac{1}{2 \sqrt{2}}$.
+        So $\lambda_1 = 1/\sqrt{2}$.
+  \item Subtracting the first constraint from the second:
+        $y + 2 z = 30$. Combined with $x + y + z = 30$ we get
+        $x = z + (y + 2 z) - (x + y + z) = \ldots$ More directly:
+        $y = 30 - 2 z$ and $x = 30 - y - z = 30 - (30 - 2 z) - z = z$.
+        So the constraint set is the 1-parameter line
+        $\{(z, 30 - 2 z, z) : 0 < z < 15\}$. On this line,
+        $f(z) = \ln z + \ln(30 - 2 z) + \ln z = 2 \ln z + \ln(30 - 2 z)$.
+        FOC: $f'(z) = 2/z - 2/(30 - 2 z) = 0 \Rightarrow
+        30 - 2 z = z \Rightarrow z^* = 10$. So
+        $x^* = 10, y^* = 10, z^* = 10$, $f^* = 3 \ln 10$.
+        Multipliers: FOCs $1/x = \lambda_1 + \lambda_2$,
+        $1/y = \lambda_1 + 2 \lambda_2$,
+        $1/z = \lambda_1 + 3 \lambda_2$ with $x = y = z = 10$ force
+        $1/10 = \lambda_1 + \lambda_2 = \lambda_1 + 2 \lambda_2
+        \Rightarrow \lambda_2 = 0$ and $\lambda_1 = 1/10$.
+        \emph{(Either constraint alone, combined with $x = y = z$, pins
+        down the same point, so the constraints are not independent in
+        their effect at this point; one shadow price vanishes.)}
+  \item $\mathcal{L} = x + y + z + \lambda_1(2 - x^2 - y^2)
+        + \lambda_2(4 - y - z)$. FOCs: $1 = 2 \lambda_1 x$;
+        $1 = 2 \lambda_1 y + \lambda_2$; $1 = \lambda_2$. So
+        $\lambda_2 = 1$ and $1 = 2 \lambda_1 y + 1 \Rightarrow
+        \lambda_1 y = 0$. Either $\lambda_1 = 0$ (then $1 = 0$ in FOC for
+        $x$, impossible) or $y = 0$. So $y^* = 0$, then
+        $x^2 = 2 \Rightarrow x^* = \sqrt{2}$ (positive for max),
+        $z^* = 4 - y^* = 4$. $\lambda_1 = 1/(2 \sqrt{2})$.
+        $f^* = \sqrt{2} + 4$.
+  \item Single constraint. $\mathcal{L} = x^2 + y^2 + z^2
+        + \lambda(14 - x - 2 y - 3 z)$. FOCs: $2 x = \lambda$,
+        $2 y = 2 \lambda$, $2 z = 3 \lambda$. So
+        $x = \lambda/2, y = \lambda, z = 3 \lambda/2$. Sub into
+        constraint: $\lambda/2 + 2 \lambda + 9 \lambda/2
+        = (\lambda + 4 \lambda + 9 \lambda)/2 = 7 \lambda = 14
+        \Rightarrow \lambda^* = 2$. $(x^*, y^*, z^*) = (1, 2, 3)$.
+        $f^* = 1 + 4 + 9 = 14$.
+  \item Combine: $s = 8 - c_1$ and
+        $c_2 = 4 + (3/2)(8 - c_1) = 16 - (3/2) c_1$, i.e.\
+        $(3/2) c_1 + c_2 = 16$, or $3 c_1 + 2 c_2 = 32$. Max
+        $\ln c_1 + \ln c_2$ on this. FOCs: $1/c_1 = 3 \lambda$,
+        $1/c_2 = 2 \lambda \Rightarrow 2 c_2 = 3 c_1$, so
+        $3 c_1 + 3 c_1 = 32 \Rightarrow c_1^* = 32/6 = 16/3$,
+        $c_2^* = 8$. Then $s^* = 8 - 16/3 = 8/3$. Multipliers in
+        original two-constraint form: $\lambda_1$ on period 1,
+        $\lambda_2$ on period 2, with $\lambda_1 = (3/2) \lambda_2$
+        (savings FOC). $\lambda_2 = 1/c_2 = 1/8$, $\lambda_1 = 3/16$.
+  \item Use $x y = 4 \Rightarrow y = 4/x$. Minimise $x + 4/x$ for
+        $x > 0$. $\dd{}{x}\bigl(x + 4/x\bigr) = 1 - 4/x^2 = 0
+        \Rightarrow x^* = 2, y^* = 2$. Then $x = y$, satisfying
+        $x \geq y$ as equality. Multiplier check:
+        $\mathcal{L} = x + y + \lambda(4 - x y)$. FOCs:
+        $1 = \lambda y$, $1 = \lambda x \Rightarrow x = y$ (consistent),
+        $\lambda = 1/x = 1/2$. $f^* = 4$.
+  \item $\mathcal{L} = x y + \lambda(12 - 2 x - 3 y)$.
+        $\mathcal{L}_{xx} = 0, \mathcal{L}_{yy} = 0,
+        \mathcal{L}_{xy} = 1$. $g_x = 2, g_y = 3$. Border:
+        \[
+        \overline{H} = \begin{pmatrix} 0 & 2 & 3 \\ 2 & 0 & 1 \\
+        3 & 1 & 0 \end{pmatrix}.
+        \]
+        $\det \overline{H} = 0 - 2(0 - 3) + 3(2 - 0) = 6 + 6 = 12 > 0$.
+        \textbf{Max}. \checkmark
+  \item $\mathcal{L} = x^{1/2} y^{1/2} + \lambda(M - p_x x - p_y y)$.
+        $\mathcal{L}_{xx} = -\tfrac{1}{4} x^{-3/2} y^{1/2}$,
+        $\mathcal{L}_{yy} = -\tfrac{1}{4} x^{1/2} y^{-3/2}$,
+        $\mathcal{L}_{xy} = \tfrac{1}{4} x^{-1/2} y^{-1/2}$. Using the
+        formula
+        \[\det \overline{H} = 2 p_x p_y \mathcal{L}_{xy}
+        - p_x^2 \mathcal{L}_{yy} - p_y^2 \mathcal{L}_{xx}.\]
+        All three terms are positive (the two minus signs cancel against
+        the negative $\mathcal{L}_{xx}$ and $\mathcal{L}_{yy}$). So
+        $\det \overline{H} > 0$, confirming a \textbf{maximum}.
+  \item $\mathcal{L} = \ln x + \ln y + \lambda(10 - x - y)$.
+        $\mathcal{L}_{xx} = -1/x^2$, $\mathcal{L}_{yy} = -1/y^2$,
+        $\mathcal{L}_{xy} = 0$. $g_x = g_y = 1$. Border:
+        \[
+        \overline{H} = \begin{pmatrix} 0 & 1 & 1 \\ 1 & -1/x^2 & 0 \\
+        1 & 0 & -1/y^2 \end{pmatrix}.
+        \]
+        $\det = 0 - 1(-1/y^2 - 0) + 1(0 - (-1/x^2))
+        = 1/y^2 + 1/x^2 > 0$. \textbf{Max}. At $(5,5)$: $\det = 2/25$.
+  \item $\mathcal{L} = x^2 + y^2 + \lambda(4 - x - y)$.
+        $\mathcal{L}_{xx} = 2, \mathcal{L}_{yy} = 2,
+        \mathcal{L}_{xy} = 0$. $g_x = g_y = 1$.
+        \[\det \overline{H} = 2 \cdot 1 \cdot 1 \cdot 0 - 1 \cdot 2
+        - 1 \cdot 2 = -4 < 0.\] \textbf{Min}. \checkmark
+  \item $\mathcal{L} = 2 x + 3 y + \lambda(13 - x^2 - y^2)$.
+        $\mathcal{L}_{xx} = -2 \lambda = -1$,
+        $\mathcal{L}_{yy} = -2 \lambda = -1$, $\mathcal{L}_{xy} = 0$.
+        $g_x = 2 x = 4, g_y = 2 y = 6$. Border at $(2, 3)$:
+        \[\det \overline{H} = 2 \cdot 4 \cdot 6 \cdot 0
+        - 4^2 \cdot (-1) - 6^2 \cdot (-1) = 16 + 36 = 52 > 0.\]
+        \textbf{Max}. \checkmark
+  \item $\mathcal{L} = p_K K + p_L L + \lambda(Q_0 - K^{1/2} L^{1/2})$.
+        $\mathcal{L}_{KK} = \tfrac{\lambda}{4} K^{-3/2} L^{1/2}$,
+        $\mathcal{L}_{LL} = \tfrac{\lambda}{4} K^{1/2} L^{-3/2}$,
+        $\mathcal{L}_{KL} = -\tfrac{\lambda}{4} K^{-1/2} L^{-1/2}$.
+        $g_K = \tfrac{1}{2} K^{-1/2} L^{1/2}$,
+        $g_L = \tfrac{1}{2} K^{1/2} L^{-1/2}$. For minimisation we use
+        the \textbf{min} criterion: $\det \overline{H} < 0$.
+        \[\det \overline{H} = 2 g_K g_L \mathcal{L}_{KL}
+        - g_K^2 \mathcal{L}_{LL} - g_L^2 \mathcal{L}_{KK}.\]
+        With $\lambda > 0$ at the optimum (from the earlier Lagrange
+        drills, $\lambda = 2 \sqrt{p_K p_L}$), and
+        $\mathcal{L}_{KL} < 0$ while
+        $\mathcal{L}_{KK}, \mathcal{L}_{LL} > 0$, every term in the sum
+        is negative. So $\det \overline{H} < 0$: \textbf{min}.
+        \checkmark
+  \item $\mathcal{L} = x y^2 + \lambda(9 - x - y)$.
+        $\mathcal{L}_{xx} = 0$, $\mathcal{L}_{yy} = 2 x = 6$,
+        $\mathcal{L}_{xy} = 2 y = 12$. $g_x = g_y = 1$.
+        \[\det \overline{H} = 2 \cdot 1 \cdot 1 \cdot 12 - 1 \cdot 6
+        - 1 \cdot 0 = 24 - 6 = 18 > 0.\] \textbf{Max}. \checkmark
+  \item $\mathcal{L} = 3 x^2 + 2 y^2 + \lambda(5 - x - y)$.
+        $\mathcal{L}_{xx} = 6, \mathcal{L}_{yy} = 4,
+        \mathcal{L}_{xy} = 0$. $g_x = g_y = 1$.
+        \[\det \overline{H} = 0 - 4 - 6 = -10 < 0.\] \textbf{Min}.
+        \checkmark
+  \item $\mathcal{L} = \ln x + 2 \ln y + \lambda(24 - x - 4 y)$.
+        $\mathcal{L}_{xx} = -1/x^2$, $\mathcal{L}_{yy} = -2/y^2$,
+        $\mathcal{L}_{xy} = 0$. $g_x = 1, g_y = 4$. At $(8, 4)$:
+        $\mathcal{L}_{xx} = -1/64$, $\mathcal{L}_{yy} = -1/8$.
+        \[\det \overline{H} = 2 \cdot 1 \cdot 4 \cdot 0
+        - 1^2 \cdot (-1/8) - 4^2 \cdot (-1/64) = 1/8 + 1/4
+        = 3/8 > 0.\] \textbf{Max}. \checkmark
+  \item $\mathcal{L} = x^2 + 4 y^2 + \lambda(6 - x - 2 y)$.
+        $\mathcal{L}_{xx} = 2, \mathcal{L}_{yy} = 8,
+        \mathcal{L}_{xy} = 0$. $g_x = 1, g_y = 2$.
+        \[\det \overline{H} = 0 - 1 \cdot 8 - 4 \cdot 2 = -16 < 0.\]
+        \textbf{Min}. \checkmark
+  \item $\mathcal{L} = x y + \lambda(8 - x^2 - y^2)$.
+        $\mathcal{L}_{xx} = -2 \lambda = -1$, $\mathcal{L}_{yy} = -1$,
+        $\mathcal{L}_{xy} = 1$. $g_x = 2 x = 4$, $g_y = 2 y = 4$ at
+        $(2, 2)$.
+        \[\det \overline{H} = 2 \cdot 4 \cdot 4 \cdot 1
+        - 4^2 \cdot (-1) - 4^2 \cdot (-1) = 32 + 16 + 16 = 64 > 0.\]
+        \textbf{Max}. \checkmark
+  \item $\mathcal{L} = x^2 y + \lambda(3 - x - y)$. FOCs:
+        $2 x y = \lambda$, $x^2 = \lambda$. So
+        $2 x y = x^2 \Rightarrow y = x/2$. Constraint:
+        $x + x/2 = 3 \Rightarrow x^* = 2, y^* = 1$. $\lambda^* = 4$. Now
+        $\mathcal{L}_{xx} = 2 y = 2$, $\mathcal{L}_{yy} = 0$,
+        $\mathcal{L}_{xy} = 2 x = 4$. $g_x = g_y = 1$.
+        \[\det \overline{H} = 2 \cdot 1 \cdot 1 \cdot 4 - 1 \cdot 0
+        - 1 \cdot 2 = 8 - 2 = 6 > 0.\] \textbf{Max}. \checkmark\
+        $f^* = 4$.
+\end{solutions}
+
+\section{Additional Problems}
+
+For Problems 11--20, locate the constrained critical point, build the
+bordered Hessian, evaluate $\det \overline{H}$, and classify.
+
+\begin{problems}
+  \item Minimise $f(x, y, z) = x^2 + y^2 + z^2$ subject to
+        $x + y + z = 12$ and $x - z = 0$.
+  \item Maximise $f(x, y, z) = x y z$ subject to $x + y + z = 9$ and
+        $x = 2 y$.
+  \item A consumer chooses $(c_1, c_2)$ with
+        $U = \ln c_1 + (1/2) \ln c_2$, subject to $c_1 + s = 60$ and
+        $c_2 = 30 + 2 s$. Find $c_1^*, c_2^*, s^*$ and the two
+        multipliers.
+  \item Minimise $f(x, y, z) = 2 x^2 + y^2 + z^2$ subject to
+        $x + y + z = 4$ and $y = 2 z$.
+  \item Maximise $f(x, y, z) = x + 2 y + z$ on $x^2 + y^2 + z^2 = 9$ and
+        $x = z$.
+  \item Minimise $f(x, y, z) = x^2 + y^2 + z^2$ subject to
+        $x + y + z = 6$ and $x + 2 y + 3 z = 14$.
+  \item Maximise $U = c_1^{1/2} c_2^{1/2}$ subject to $c_1 + s = 80$ and
+        $c_2 = 20 + (3/2) s$.
+  \item Maximise $f(x, y, z) = \ln x + \ln y + \ln z$ subject to
+        $x + y + z = 18$ and $x = 2 z$.
+  \item Minimise $f(x, y, z) = x^2 + 2 y^2 + z^2$ subject to $x + y = 3$
+        and $y + z = 4$.
+  \item Maximise $f(x, y, z) = x y + z$ on $x + y + z = 10$ and
+        $x - y = 2$.
+  \item $\max U = 3 x y$ s.t.\ $4 x + 5 y = 40$ (optimum $(5, 4)$,
+        $\lambda = 3$).
+  \item $\max U = x^{2/3} y^{1/3}$ s.t.\ $p_x x + p_y y = M$.
+  \item $\max U = \ln x + 3 \ln y$ s.t.\ $2 x + y = 20$ (optimum
+        $(5/2, 15)$).
+  \item $\min f = x^2 + 2 y^2$ s.t.\ $2 x + y = 10$ (optimum
+        $(40/9, 10/9)$, $\lambda = 40/9$).
+  \item $\max f = 5 x + 2 y$ on $x^2 + 4 y^2 = 20$ (optimum from the
+        earlier Lagrange drills).
+  \item $\max U = x^2 y$ s.t.\ $3 x + 2 y = 24$ (optimum $(16/3, 4)$,
+        $\lambda = 128/9$).
+  \item $\max U = \ln(x + 1) + \ln(y + 1)$ s.t.\ $x + y = 6$ (optimum
+        $(3, 3)$).
+  \item $\min f = (x - 2)^2 + (y - 3)^2$ s.t.\ $x + 2 y = 8$ (optimum
+        $(2, 3)$, $\lambda = 0$).
+  \item $\max U = 2 \sqrt{x} + 3 \sqrt{y}$ s.t.\ $x + y = 13$ (optimum
+        $(4, 9)$).
+  \item $\max Q = K^{2/3} L^{1/3}$ s.t.\ $r K + w L = TC$ (verify a
+        constrained maximum).
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item $\mathcal{L} = x^2 + y^2 + z^2 + \lambda_1(12 - x - y - z)
+        + \lambda_2(0 - x + z)$ (rewrite $x - z = 0$ as
+        $0 - (x - z) = 0$). FOCs: $2 x = \lambda_1 + \lambda_2$;
+        $2 y = \lambda_1$; $2 z = \lambda_1 - \lambda_2$. Add the first
+        and third: $2(x + z) = 2 \lambda_1 \Rightarrow
+        x + z = \lambda_1 = 2 y$. From constraint 2: $x = z$, so
+        $2 x = 2 y \Rightarrow x = y$. Then $x = y = z$, and
+        $3 x = 12 \Rightarrow x^* = y^* = z^* = 4$. $\lambda_1 = 8$;
+        $\lambda_2 = 2 x - \lambda_1 = 8 - 8 = 0$. $f^* = 48$.
+  \item With $x = 2 y$ forced: substitute into constraint
+        $2 y + y + z = 9 \Rightarrow z = 9 - 3 y$.
+        $f = 2 y \cdot y \cdot (9 - 3 y) = 2 y^2(9 - 3 y)
+        = 18 y^2 - 6 y^3$.
+        $f'(y) = 36 y - 18 y^2 = 18 y(2 - y) = 0 \Rightarrow y^* = 2$
+        (positive root). Then $x^* = 4$, $z^* = 3$.
+        $f^* = 4 \cdot 2 \cdot 3 = 24$. SOC: $f''(y) = 36 - 36 y$, at
+        $y = 2$: $-36 < 0$, \textbf{max}. Multipliers via FOC:
+        $\mathcal{L} = x y z + \lambda_1(9 - x - y - z)
+        + \lambda_2(x - 2 y)$. FOCs: $y z = \lambda_1 - \lambda_2$;
+        $x z = \lambda_1 + 2 \lambda_2$; $x y = \lambda_1$. At
+        $(4, 2, 3)$: $\lambda_1 = 8$; from FOC 1:
+        $6 = 8 - \lambda_2 \Rightarrow \lambda_2 = 2$. Check FOC 2:
+        $12 = 8 + 2 \cdot 2 = 12$. \checkmark
+  \item $\mathcal{L} = \ln c_1 + (1/2) \ln c_2
+        + \lambda_1(60 - c_1 - s) + \lambda_2(30 + 2 s - c_2)$. FOCs:
+        $1/c_1 = \lambda_1$; $1/(2 c_2) = \lambda_2$;
+        $-\lambda_1 + 2 \lambda_2 = 0 \Rightarrow
+        \lambda_1 = 2 \lambda_2 \Rightarrow 1/c_1 = 1/c_2 \Rightarrow
+        c_2 = c_1$. From period-2 budget:
+        $c_1 = 30 + 2 s \Rightarrow s = (c_1 - 30)/2$. Period-1:
+        $c_1 + (c_1 - 30)/2 = 60 \Rightarrow (3 c_1 - 30)/2 = 60
+        \Rightarrow c_1 = 50$. Hence $c_1^* = c_2^* = 50$, $s^* = 10$.
+        $\lambda_1^* = 1/50$; $\lambda_2^* = 1/100$.
+  \item With $y = 2 z$ forced: $\mathcal{L} = 2 x^2 + y^2 + z^2
+        + \lambda_1(4 - x - y - z) + \lambda_2(y - 2 z)$. FOCs:
+        $4 x = \lambda_1$; $2 y = \lambda_1 + \lambda_2$;
+        $2 z = \lambda_1 - 2 \lambda_2$. Substitute $y = 2 z$ into
+        constraint 1: $x + 2 z + z = x + 3 z = 4$. From FOCs:
+        $4 x = \lambda_1$; eliminate $\lambda_2$ from FOC 2 and 3:
+        $\lambda_2 = 2 y - \lambda_1 = 4 z - \lambda_1$; also
+        $\lambda_2 = (\lambda_1 - 2 z)/2$. So
+        $4 z - \lambda_1 = (\lambda_1 - 2 z)/2 \Rightarrow
+        8 z - 2 \lambda_1 = \lambda_1 - 2 z \Rightarrow
+        10 z = 3 \lambda_1 \Rightarrow z = 3 \lambda_1/10
+        = 3 \cdot 4 x/10 = 6 x/5$. Then
+        $x + 3 \cdot 6 x/5 = x(1 + 18/5) = 23 x/5 = 4 \Rightarrow
+        x^* = 20/23$, $z^* = 24/23$, $y^* = 48/23$.
+        $\lambda_1 = 80/23$;
+        $\lambda_2 = 4 z^* - \lambda_1 = 96/23 - 80/23 = 16/23$. Check:
+        $f^* = 2(400/529) + 2304/529 + 576/529
+        = (800 + 2304 + 576)/529 = 3680/529$.
+  \item With $x = z$ forced: substitute, $f = x + 2 y + x = 2 x + 2 y$
+        and constraint $2 x^2 + y^2 = 9$. $\mathcal{L} = 2 x + 2 y
+        + \mu(9 - 2 x^2 - y^2)$. FOCs:
+        $2 = 4 \mu x \Rightarrow x = 1/(2 \mu)$;
+        $2 = 2 \mu y \Rightarrow y = 1/\mu$. Constraint:
+        $1/(2 \mu^2) + 1/\mu^2 = 3/(2 \mu^2) = 9 \Rightarrow
+        \mu^2 = 1/6 \Rightarrow \mu = 1/\sqrt{6}$ (positive for max).
+        Hence $x^* = z^* = \sqrt{6}/2$, $y^* = \sqrt{6}$. Verify
+        $x^2 + y^2 + z^2 = 6/4 + 6 + 6/4 = 9$ \checkmark;
+        $f^* = \sqrt{6}/2 + 2\sqrt{6} + \sqrt{6}/2 = 3 \sqrt{6}$.
+  \item $\mathcal{L} = x^2 + y^2 + z^2 + \lambda_1(6 - x - y - z)
+        + \lambda_2(14 - x - 2 y - 3 z)$. FOCs:
+        $2 x = \lambda_1 + \lambda_2$; $2 y = \lambda_1 + 2 \lambda_2$;
+        $2 z = \lambda_1 + 3 \lambda_2$. Differences:
+        $2(y - x) = \lambda_2 \Rightarrow \lambda_2 = 2(y - x)$.
+        $2(z - y) = \lambda_2 \Rightarrow z - y = y - x \Rightarrow
+        x + z = 2 y$. Constraint 1: $x + y + z = 6 \Rightarrow
+        3 y = 6 \Rightarrow y = 2$. So $x + z = 4$. Constraint 2:
+        $x + 2 \cdot 2 + 3 z = 14 \Rightarrow x + 3 z = 10$. Combined
+        with $x + z = 4$: $2 z = 6 \Rightarrow z = 3, x = 1$.
+        $(x^*, y^*, z^*) = (1, 2, 3)$. $\lambda_2 = 2(2 - 1) = 2$;
+        $\lambda_1 = 2 x - \lambda_2 = 2 - 2 = 0$.
+        $f^* = 1 + 4 + 9 = 14$. (Same optimum as Practice Problem~12,
+        with two constraints instead of one; here the first constraint
+        is non-binding additionally.)
+  \item Combine: $s = 80 - c_1$,
+        $c_2 = 20 + (3/2)(80 - c_1) = 140 - (3/2) c_1$, i.e.\
+        $(3/2) c_1 + c_2 = 140$ or $3 c_1 + 2 c_2 = 280$. Max
+        $\sqrt{c_1 c_2}$: equivalent to max $c_1 c_2$ on
+        $3 c_1 + 2 c_2 = 280$. FOCs: $c_2 = 3 \lambda$,
+        $c_1 = 2 \lambda$, so $c_1/c_2 = 2/3 \Rightarrow
+        2 c_2 = 3 c_1$. Constraint: $3 c_1 + 3 c_1 = 6 c_1 = 280
+        \Rightarrow c_1^* = 140/3$; $c_2^* = 70$;
+        $s^* = 80 - 140/3 = 100/3$. Two-multiplier form:
+        $\lambda_2 = (1/2) c_1^{1/2}/c_2^{1/2} \cdot (1/c_2) \cdot ?$
+        Better: FOCs $\tfrac{1}{2}\sqrt{c_2/c_1} = \lambda_1$,
+        $\tfrac{1}{2}\sqrt{c_1/c_2} = \lambda_2$,
+        $\lambda_1 = (3/2) \lambda_2$.
+        $\lambda_2 = (1/2)\sqrt{(140/3)/70} = (1/2)\sqrt{2/3}$.
+        $\lambda_1 = (3/2)(1/2)\sqrt{2/3} = (3/4)\sqrt{2/3}$.
+  \item With $x = 2 z$ forced: $2 z + y + z = 3 z + y = 18$.
+        $f = \ln(2 z) + \ln y + \ln z = \ln 2 + 2 \ln z + \ln y$.
+        Maximise $2 \ln z + \ln y$ on $3 z + y = 18$. FOC:
+        $2/z = 3 \mu$, $1/y = \mu \Rightarrow y = z/(?) $ Carefully:
+        $\mu = 2/(3 z) = 1/y \Rightarrow y = 3 z/2$. Constraint:
+        $3 z + 3 z/2 = 9 z/2 = 18 \Rightarrow z^* = 4$, $y^* = 6$,
+        $x^* = 8$. $f^* = \ln 8 + \ln 6 + \ln 4 = \ln(192)$.
+        Multipliers: $\mathcal{L} = \ln x + \ln y + \ln z
+        + \lambda_1(18 - x - y - z) + \lambda_2(x - 2 z)$. FOCs:
+        $1/x = \lambda_1 - \lambda_2$; $1/y = \lambda_1$;
+        $1/z = \lambda_1 + 2 \lambda_2$. $\lambda_1 = 1/6$;
+        $\lambda_2 = \lambda_1 - 1/x = 1/6 - 1/8 = 1/24$. Check FOC 3:
+        $\lambda_1 + 2 \lambda_2 = 1/6 + 1/12 = 1/4 = 1/z$. \checkmark
+  \item $\mathcal{L} = x^2 + 2 y^2 + z^2 + \lambda_1(3 - x - y)
+        + \lambda_2(4 - y - z)$. FOCs: $2 x = \lambda_1$;
+        $4 y = \lambda_1 + \lambda_2$; $2 z = \lambda_2$. From
+        constraints: $x = 3 - y$, $z = 4 - y$. Sub:
+        $\lambda_1 = 2(3 - y) = 6 - 2 y$;
+        $\lambda_2 = 2(4 - y) = 8 - 2 y$. FOC 2:
+        $4 y = (6 - 2 y) + (8 - 2 y) = 14 - 4 y \Rightarrow
+        8 y = 14 \Rightarrow y^* = 7/4$. Then $x^* = 5/4$, $z^* = 9/4$.
+        $\lambda_1 = 5/2$; $\lambda_2 = 9/2$.
+        $f^* = 25/16 + 2 \cdot 49/16 + 81/16 = (25 + 98 + 81)/16
+        = 204/16 = 51/4$.
+  \item $\mathcal{L} = x y + z + \lambda_1(10 - x - y - z)
+        + \lambda_2(2 - x + y)$ (writing $x - y = 2$ as
+        $2 - (x - y) = 0$). FOCs: $y = \lambda_1 + \lambda_2$;
+        $x = \lambda_1 - \lambda_2$; $1 = \lambda_1$. So
+        $\lambda_1 = 1$, $\lambda_2 = y - 1 = 1 - x$, i.e.\
+        $y + x = 2$. With constraint $x - y = 2$: add gives
+        $2 x = 4 \Rightarrow x^* = 2$, $y^* = 0$. Then
+        $z^* = 10 - 2 = 8$. $\lambda_2 = -1$. (Note: $\lambda_2 < 0$ is
+        fine for equality constraints; the sign convention only fixes
+        signs for inequality constraints.) $f^* = 0 + 8 = 8$. Verify
+        FOCs: $y = 0 = 1 + (-1)$ \checkmark;
+        $x = 2 = 1 - (-1)$ \checkmark.
+  \item $\mathcal{L} = 3 x y + \lambda(40 - 4 x - 5 y)$.
+        $\mathcal{L}_{xx} = 0$, $\mathcal{L}_{yy} = 0$,
+        $\mathcal{L}_{xy} = 3$. $g_x = 4$, $g_y = 5$.
+        \[\det \overline{H} = 2 \cdot 4 \cdot 5 \cdot 3 - 16 \cdot 0
+        - 25 \cdot 0 = 120 > 0.\] \textbf{Max}. \checkmark
+  \item $\mathcal{L} = x^{2/3} y^{1/3} + \lambda(M - p_x x - p_y y)$.
+        $\mathcal{L}_{xx} = -\tfrac{2}{9} x^{-4/3} y^{1/3}$,
+        $\mathcal{L}_{yy} = -\tfrac{2}{9} x^{2/3} y^{-5/3}$,
+        $\mathcal{L}_{xy} = \tfrac{2}{9} x^{-1/3} y^{-2/3}$.
+        $g_x = p_x, g_y = p_y$. Using
+        \[\det \overline{H} = 2 p_x p_y \mathcal{L}_{xy}
+        - p_x^2 \mathcal{L}_{yy} - p_y^2 \mathcal{L}_{xx}.\]
+        All three terms are positive (the two minus signs cancel against
+        negative $\mathcal{L}_{xx}, \mathcal{L}_{yy}$). So
+        $\det \overline{H} > 0$: \textbf{max}. \checkmark
+  \item $\mathcal{L} = \ln x + 3 \ln y + \lambda(20 - 2 x - y)$.
+        $\mathcal{L}_{xx} = -1/x^2$, $\mathcal{L}_{yy} = -3/y^2$,
+        $\mathcal{L}_{xy} = 0$. $g_x = 2, g_y = 1$. At $(5/2, 15)$:
+        $\mathcal{L}_{xx} = -4/25$,
+        $\mathcal{L}_{yy} = -3/225 = -1/75$.
+        \[\det \overline{H} = 0 - 4 \cdot (-1/75) - 1 \cdot (-4/25)
+        = 4/75 + 4/25 = 4/75 + 12/75 = 16/75 > 0.\] \textbf{Max}.
+        \checkmark
+  \item $\mathcal{L} = x^2 + 2 y^2 + \lambda(10 - 2 x - y)$.
+        $\mathcal{L}_{xx} = 2, \mathcal{L}_{yy} = 4,
+        \mathcal{L}_{xy} = 0$. $g_x = 2, g_y = 1$.
+        \[\det \overline{H} = 0 - 4 \cdot 4 - 1 \cdot 2 = -18 < 0.\]
+        \textbf{Min}. \checkmark
+  \item $\mathcal{L} = 5 x + 2 y + \lambda(20 - x^2 - 4 y^2)$.
+        $\mathcal{L}_{xx} = -2 \lambda$, $\mathcal{L}_{yy} = -8 \lambda$,
+        $\mathcal{L}_{xy} = 0$. $g_x = 2 x, g_y = 8 y$. At the optimum
+        $\lambda > 0$ (maximum), so
+        $\mathcal{L}_{xx}, \mathcal{L}_{yy} < 0$.
+        \[\det \overline{H} = 0 - (2 x)^2 \cdot (-8 \lambda)
+        - (8 y)^2 \cdot (-2 \lambda)
+        = 8 \lambda (2 x)^2 + 2 \lambda (8 y)^2 > 0.\] \textbf{Max}.
+        \checkmark
+  \item $\mathcal{L} = x^2 y + \lambda(24 - 3 x - 2 y)$.
+        $\mathcal{L}_{xx} = 2 y$, $\mathcal{L}_{yy} = 0$,
+        $\mathcal{L}_{xy} = 2 x$. $g_x = 3, g_y = 2$. At $(16/3, 4)$:
+        $\mathcal{L}_{xx} = 8$, $\mathcal{L}_{xy} = 32/3$.
+        \[\det \overline{H} = 2 \cdot 3 \cdot 2 \cdot (32/3)
+        - 9 \cdot 0 - 4 \cdot 8 = 128 - 32 = 96 > 0.\] \textbf{Max}.
+        \checkmark
+  \item $\mathcal{L} = \ln(x + 1) + \ln(y + 1) + \lambda(6 - x - y)$.
+        $\mathcal{L}_{xx} = -1/(x + 1)^2$,
+        $\mathcal{L}_{yy} = -1/(y + 1)^2$, $\mathcal{L}_{xy} = 0$.
+        $g_x = g_y = 1$. At $(3, 3)$:
+        $\mathcal{L}_{xx} = \mathcal{L}_{yy} = -1/16$.
+        \[\det \overline{H} = 0 - 1 \cdot (-1/16) - 1 \cdot (-1/16)
+        = 1/8 > 0.\] \textbf{Max}. \checkmark
+  \item $\mathcal{L} = (x - 2)^2 + (y - 3)^2 + \lambda(8 - x - 2 y)$.
+        $\mathcal{L}_{xx} = 2, \mathcal{L}_{yy} = 2,
+        \mathcal{L}_{xy} = 0$. $g_x = 1, g_y = 2$.
+        \[\det \overline{H} = 0 - 1 \cdot 2 - 4 \cdot 2 = -10 < 0.\]
+        \textbf{Min}. \checkmark\ (Note: $\lambda = 0$ here, but the
+        bordered-Hessian test still classifies correctly; the constraint
+        passes through the unconstrained min.)
+  \item $\mathcal{L} = 2 \sqrt{x} + 3 \sqrt{y} + \lambda(13 - x - y)$.
+        $\mathcal{L}_{xx} = -\tfrac{1}{2} x^{-3/2}$,
+        $\mathcal{L}_{yy} = -\tfrac{3}{4} y^{-3/2}$,
+        $\mathcal{L}_{xy} = 0$. $g_x = g_y = 1$. At $(4, 9)$:
+        $\mathcal{L}_{xx} = -1/16$,
+        $\mathcal{L}_{yy} = -3/(4 \cdot 27) = -1/36$.
+        \[\det \overline{H} = 0 - 1 \cdot (-1/36) - 1 \cdot (-1/16)
+        = 1/36 + 1/16 = (16 + 36)/(36 \cdot 16) = 52/576 > 0.\]
+        \textbf{Max}. \checkmark
+  \item $\mathcal{L} = K^{2/3} L^{1/3} + \lambda(TC - r K - w L)$.
+        $\mathcal{L}_{KK} = -\tfrac{2}{9} K^{-4/3} L^{1/3}$,
+        $\mathcal{L}_{LL} = -\tfrac{2}{9} K^{2/3} L^{-5/3}$,
+        $\mathcal{L}_{KL} = \tfrac{2}{9} K^{-1/3} L^{-2/3}$.
+        $g_K = r, g_L = w$.
+        \[\det \overline{H} = 2 r w \mathcal{L}_{KL}
+        - r^2 \mathcal{L}_{LL} - w^2 \mathcal{L}_{KK}.\]
+        The middle term is positive ($\mathcal{L}_{KL} > 0$), and the
+        last two are positive (minus times negative). So
+        $\det \overline{H} > 0$: \textbf{max}. \checkmark
+\end{solutions}

@@ -1,0 +1,706 @@
+\chapter{Directional Derivatives and Vector-Valued Functions}
+
+The partial derivatives $f_{x}$ and $f_{y}$ measure the response of $f$
+when one input moves and the others stand still. Real adjustments are
+rarely so tidy: a firm re-balances capital and labour together, a consumer
+slides along a budget line, a hiker walks north-east rather than due
+north. The \textbf{directional derivative} measures the rate of change of
+$f$ per unit distance travelled in any prescribed direction, and a single
+dot product with the gradient computes it. The gradient thereby earns its
+geometric role: it points where $f$ climbs fastest, its length is that
+fastest rate, and it stands perpendicular to the level curves, to the
+indifference curves and isoquants of the previous chapters.
+
+The second half of the chapter lets the function itself be vector-valued.
+A map $\mathbf{f}:\R^{n}\to\R^{m}$ (a production plan sending inputs to
+(output, cost), a coordinate change, a demand system) is differentiated
+by collecting the partial derivatives of all components into the
+\textbf{Jacobian matrix}, the correct ``derivative as linear
+approximation'' for vector-valued functions. In this language the chain
+rule becomes matrix multiplication. Determinants, invertibility and the
+Implicit Function Theorem built on top of this matrix are the subject of
+the next chapter.
+
+\section{Core Rules}
+
+\begin{rulebox}{Directional Derivative}
+Let $f:\R^{n}\to\R$ be differentiable at $\mathbf{x}_{0}$ and let
+$\mathbf{u}\in\R^{n}$ be a \textbf{unit} vector, $|\mathbf{u}|=1$. The
+directional derivative of $f$ at $\mathbf{x}_{0}$ in the direction
+$\mathbf{u}$ is
+\[
+  D_{\mathbf{u}}f(\mathbf{x}_{0})
+  \;=\; \lim_{h\to 0}\frac{f(\mathbf{x}_{0}+h\mathbf{u})
+        -f(\mathbf{x}_{0})}{h}
+  \;=\; \grad f(\mathbf{x}_{0})\cdot\mathbf{u} .
+\]
+Two variables: $D_{\mathbf{u}}f=f_{x}u_{1}+f_{y}u_{2}$. The partials are
+the special cases $\mathbf{u}=(1,0)$ and $\mathbf{u}=(0,1)$. The unit
+length is what makes $D_{\mathbf{u}}f$ a rate \emph{per unit distance}.
+\end{rulebox}
+
+\begin{rulebox}{Normalising the Direction}
+If a direction is given by a nonzero vector $\mathbf{v}$ that is not of
+unit length, normalise first:
+\[
+  \mathbf{u} \;=\; \frac{\mathbf{v}}{|\mathbf{v}|}
+  \;=\; \frac{\mathbf{v}}{\sqrt{v_{1}^{2}+\cdots+v_{n}^{2}}} .
+\]
+``The direction from $P$ to $Q$'' means $\mathbf{v}=Q-P$, then normalise.
+Forgetting this step is \emph{the} classic error in directional-derivative
+problems.
+\end{rulebox}
+
+\begin{rulebox}{Steepest Ascent and Descent}
+Since $D_{\mathbf{u}}f=\grad f\cdot\mathbf{u}=|\grad f|\cos\theta$, where
+$\theta$ is the angle between $\mathbf{u}$ and $\grad f$, at any point
+with $\grad f(\mathbf{x}_{0})\neq\mathbf{0}$:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item $D_{\mathbf{u}}f$ is \emph{maximal} for
+        $\mathbf{u}=\grad f/|\grad f|$, with maximum value $|\grad f|$
+        (steepest ascent);
+  \item $D_{\mathbf{u}}f$ is \emph{minimal} for
+        $\mathbf{u}=-\grad f/|\grad f|$, with value $-|\grad f|$
+        (steepest descent);
+  \item $D_{\mathbf{u}}f=0$ exactly when $\mathbf{u}\perp\grad f$.
+\end{itemize}
+For output $Q(K,L)$, the gradient $(Q_{K},Q_{L})$ is the input adjustment
+that raises output fastest per unit of adjustment, and $|\grad Q|$ is that
+maximal marginal gain.
+\end{rulebox}
+
+\begin{rulebox}{Gradient and Level Curves}
+Along the level set $f=c$ the function does not change, so every tangent
+direction $\mathbf{u}$ of the level set satisfies
+$D_{\mathbf{u}}f=\grad f\cdot\mathbf{u}=0$:
+\[
+  \grad f \;\perp\; \text{level curve (surface) through the point.}
+\]
+In two variables (with $f_{y}\neq0$) the tangent direction is proportional
+to $(f_{y},-f_{x})$, consistent with the implicit slope
+$\dd{y}{x}=-f_{x}/f_{y}$ of the previous chapters. Economically: the
+marginal-utility vector $(U_{x},U_{y})$ is normal to the indifference
+curve, and $(Q_{K},Q_{L})$ is normal to the isoquant.
+\end{rulebox}
+
+\begin{rulebox}{Second Directional Derivative}
+For a $C^{2}$ function $f$, differentiating once more in the same unit
+direction $\mathbf{u}$ gives
+\[
+  D^{2}_{\mathbf{u}}f
+  \;=\; \mathbf{u}^{T}\Hess_{f}\,\mathbf{u}
+  \;=\; \sum_{i,j} f_{x_{i}x_{j}}\,u_{i}u_{j} ;
+  \qquad\text{two variables:}\quad
+  D^{2}_{\mathbf{u}}f
+  \;=\; f_{xx}u_{1}^{2}+2f_{xy}u_{1}u_{2}+f_{yy}u_{2}^{2} .
+\]
+It is the second derivative at $t=0$ of the profile
+$t\mapsto f(\mathbf{x}_{0}+t\mathbf{u})$: the curvature of $f$ along the
+line through $\mathbf{x}_{0}$ in direction $\mathbf{u}$. Definiteness of
+the Hessian (Chapter 7) is exactly the statement that
+$D^{2}_{\mathbf{u}}f$ has one sign for \emph{every} direction
+$\mathbf{u}$.
+\end{rulebox}
+
+\begin{rulebox}{Vector-Valued Functions and the Jacobian Matrix}
+For $\mathbf{f}:\R^{n}\to\R^{m}$ with components
+$\mathbf{f}=(f_{1},\ldots,f_{m})$, the \textbf{Jacobian matrix} at
+$\mathbf{x}$ is the $m\times n$ matrix
+\[
+  J_{\mathbf{f}}(\mathbf{x}) \;=\;
+  \begin{pmatrix}
+    \partial f_{1}/\partial x_{1} & \cdots & \partial f_{1}/\partial x_{n}\\
+    \vdots & \ddots & \vdots\\
+    \partial f_{m}/\partial x_{1} & \cdots & \partial f_{m}/\partial x_{n}
+  \end{pmatrix}:
+  \quad\text{row $i$ is the gradient of $f_{i}$.}
+\]
+It is the best linear approximation of $\mathbf{f}$ near $\mathbf{x}_{0}$:
+\[
+  \mathbf{f}(\mathbf{x}_{0}+\mathbf{h})
+  \;\approx\; \mathbf{f}(\mathbf{x}_{0})
+  +J_{\mathbf{f}}(\mathbf{x}_{0})\,\mathbf{h} ,
+\]
+the matrix version of $f(x+h)\approx f(x)+f'(x)h$. Special cases: $m=1$
+gives the gradient as a $1\times n$ row; $n=1$ gives the velocity
+(tangent) column vector $\mathbf{r}'(t)$ of a curve.
+\end{rulebox}
+
+\begin{rulebox}{Chain Rule in Matrix Form}
+If $\mathbf{f}:\R^{n}\to\R^{m}$ and $\mathbf{g}:\R^{m}\to\R^{p}$ are
+differentiable, then $\mathbf{h}=\mathbf{g}\circ\mathbf{f}$ is
+differentiable and
+\[
+  J_{\mathbf{h}}(\mathbf{x})
+  \;=\; J_{\mathbf{g}}\bigl(\mathbf{f}(\mathbf{x})\bigr)\,
+        J_{\mathbf{f}}(\mathbf{x}),
+  \qquad
+  (p\times n) \;=\; (p\times m)(m\times n) .
+\]
+Evaluate the \emph{outer} Jacobian at the \emph{inner value}
+$\mathbf{f}(\mathbf{x})$; the order of the factors is fixed by the matrix
+shapes. Every chain rule of Chapter 8 is the case $p=1$: for
+$z=f(\mathbf{r}(t))$,
+\[
+  \dd{z}{t} \;=\; \grad f\bigl(\mathbf{r}(t)\bigr)\cdot\mathbf{r}'(t),
+\]
+a $1\times m$ row times an $m\times 1$ column.
+\end{rulebox}
+
+\section{Practice Problems}
+
+\begin{problems}
+  \item Find $D_{\mathbf{u}}f(1,1)$ for $f(x,y)=x^{2}y$ in the direction
+        $\mathbf{u}=(1/\sqrt{2},\,1/\sqrt{2})$.
+  \item For $f(x,y)=\ln(x^{2}+y^{2})$ at $(1,1)$, find the directional
+        derivative toward $\mathbf{v}=(2,1)$.
+  \item For $f(x,y)=x^{3}-3xy^{2}$ at $(2,1)$, find the directional
+        derivative in the direction of the vector from $(2,1)$ to
+        $(5,5)$.
+  \item For $f(x,y,z)=xyz$ at $(1,2,3)$, find $D_{\mathbf{u}}f$ where
+        $\mathbf{u}=\tfrac{1}{3}(1,2,2)$.
+  \item For $f(x,y)=\mathrm{e}^{x+y}$ at $(0,0)$, find $D_{\mathbf{u}}f$
+        where $\mathbf{u}$ makes a $60^{\circ}$ angle with the positive
+        $x$-axis.
+  \item For $f(x,y)=\sqrt{x^{2}+y^{2}}$ at $(3,4)$, find the directional
+        derivative in the direction $(1,0)$.
+  \item A consumer with utility $U(x,y)=xy$ currently consumes
+        $(x,y)=(2,3)$. Her basket shifts in the direction
+        $\mathbf{v}=(3,-4)$, more $x$, less $y$. Find the rate of
+        change of utility per unit distance moved and interpret the sign.
+  \item For $f(x,y)=x^{2}+xy+y^{2}$ at $(1,2)$, find the direction of
+        steepest ascent and the maximum rate of increase.
+  \item For $f(x,y)=x^{2}+2y^{2}$ at $(1,1)$, find the direction in which
+        $f$ decreases fastest and the corresponding rate.
+  \item Find all unit vectors $\mathbf{u}$ along which
+        $f(x,y)=x^{2}-y^{2}$ has zero rate of change at $(2,1)$.
+  \item For $f(x,y,z)=x^{2}+y^{2}-z^{2}$ at $(1,2,2)$, determine the
+        maximum rate of increase and the direction in which it is
+        attained.
+  \item A hiker stands at $(1,1)$ on the hill $z=4-x^{2}-y^{2}$. In which
+        direction should she walk to descend most quickly, and how steep
+        is that descent?
+  \item Output is $Q(K,L)=K^{1/2}L^{1/2}$ with current input mix
+        $(K,L)=(4,9)$. Find the rate of change of output in the balanced
+        expansion direction $\mathbf{u}=(1,1)/\sqrt{2}$; then find the
+        input direction that raises output fastest and the corresponding
+        maximal rate.
+  \item Show that at every point of a level curve $f(x,y)=c$ the gradient
+        $\grad f$ is orthogonal to the tangent direction of the curve.
+        Conclude that the marginal-utility vector $(U_{x},U_{y})$ is
+        normal to the indifference curve.
+  \item For $f(x,y)=x^{2}y$ at $(1,2)$ with $\mathbf{u}=(3/5,\,4/5)$,
+        compute both $D_{\mathbf{u}}f$ and the second directional
+        derivative
+        $D^{2}_{\mathbf{u}}f=\mathbf{u}^{T}\Hess_{f}\,\mathbf{u}$.
+  \item For $f(x,y)=x^{3}+y^{3}-3xy$: show that $(1,1)$ is a critical
+        point, then compute $D^{2}_{\mathbf{u}}f(1,1)$ for
+        $\mathbf{u}=(1,1)/\sqrt{2}$ and for
+        $\mathbf{v}=(1,-1)/\sqrt{2}$. What do the signs suggest?
+  \item For $f(x,y)=\mathrm{e}^{x}\cos y$ at $(0,0)$, find all unit
+        vectors $\mathbf{u}$ with $D^{2}_{\mathbf{u}}f=0$.
+  \item Compute the Jacobian of $\mathbf{f}(x,y)=(x+y,\;x-y)$ and its
+        determinant. What is special about the Jacobian of a linear map?
+  \item Compute the Jacobian of
+        $\mathbf{f}(x,y)=(x^{2}y,\;x+y^{2},\;xy)$, state its shape, and
+        evaluate it at $(1,2)$.
+  \item Compute the Jacobian of
+        $\mathbf{f}(x,y,z)=(x+y,\;y+z,\;x+z)$ and its determinant.
+  \item For $\mathbf{f}(x,y)=(x^{2}-y,\;xy)$: compute $J_{\mathbf{f}}$,
+        then use the linear approximation
+        $\mathbf{f}(\mathbf{x}_{0}+\mathbf{h})\approx
+        \mathbf{f}(\mathbf{x}_{0})+J_{\mathbf{f}}(\mathbf{x}_{0})\mathbf{h}$
+        at $\mathbf{x}_{0}=(1,1)$ to estimate $\mathbf{f}(1.1,\,0.9)$,
+        and compare with the exact value.
+  \item Demand and supply are $D(p,q)=100-p+0.5q$ and
+        $S(p,q)=-10+2p+q$, and the two equilibrium conditions are
+        $G_{1}=D-S=0$ and $G_{2}=p+q-20=0$. Build the Jacobian matrix
+        $\partial(G_{1},G_{2})/\partial(p,q)$ and compute its
+        determinant.
+  \item Let $\mathbf{g}(x,y)=(x+y,\;x-y)$ and
+        $\mathbf{F}(u,v)=(u^{2},\;uv)$. Compute the Jacobian of
+        $\mathbf{F}\circ\mathbf{g}$ by the matrix chain rule
+        $J_{\mathbf{F}\circ\mathbf{g}}
+        =J_{\mathbf{F}}(\mathbf{g}(x,y))\,J_{\mathbf{g}}(x,y)$, and
+        verify by composing first.
+  \item For $f(x,y)=xy^{2}$ and the curve
+        $\mathbf{r}(t)=(\mathrm{e}^{t},\,t)$, compute $\dd{z}{t}$ for
+        $z=f(\mathbf{r}(t))$ as the matrix product
+        $J_{f}(\mathbf{r}(t))\,J_{\mathbf{r}}(t)$ (a $1\times2$ row
+        times a $2\times1$ column) and verify directly.
+  \item A firm converts inputs into (output, cost) via
+        $\mathbf{g}(K,L)=\bigl(K^{1/2}L^{1/2},\;2K+L\bigr)$ and earns
+        profit $\pi(Q,C)=10Q-C$. Use the matrix chain rule to find the
+        marginal profits $(\pi_{K},\pi_{L})$ at $(K,L)=(1,1)$, and verify
+        by substituting first.
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item $\grad f=(2xy,\,x^{2})$. At $(1,1)$: $\grad f=(2,1)$, and
+        $\mathbf{u}$ is already a unit vector.
+        \[
+          D_{\mathbf{u}}f=(2)\frac{1}{\sqrt{2}}+(1)\frac{1}{\sqrt{2}}
+            =\frac{3}{\sqrt{2}}=\frac{3\sqrt{2}}{2} .
+        \]
+
+  \item $\grad f=\Bigl(\dfrac{2x}{x^{2}+y^{2}},\,
+        \dfrac{2y}{x^{2}+y^{2}}\Bigr)$. At $(1,1)$: $\grad f=(1,1)$.
+        Normalise: $|\mathbf{v}|=\sqrt{4+1}=\sqrt{5}$, so
+        $\mathbf{u}=(2,1)/\sqrt{5}$.
+        \[
+          D_{\mathbf{u}}f=\frac{1\cdot 2+1\cdot 1}{\sqrt{5}}
+            =\frac{3}{\sqrt{5}}=\frac{3\sqrt{5}}{5} .
+        \]
+
+  \item Direction vector $\mathbf{v}=(5,5)-(2,1)=(3,4)$,
+        $|\mathbf{v}|=5$, so $\mathbf{u}=(3/5,\,4/5)$.
+        $\grad f=(3x^{2}-3y^{2},\,-6xy)$; at $(2,1)$:
+        $\grad f=(12-3,\,-12)=(9,-12)$.
+        \[
+          D_{\mathbf{u}}f=9\cdot\frac{3}{5}+(-12)\cdot\frac{4}{5}
+            =\frac{27}{5}-\frac{48}{5}=-\frac{21}{5} .
+        \]
+
+  \item $\grad f=(yz,\,xz,\,xy)$. At $(1,2,3)$: $\grad f=(6,3,2)$. The
+        vector $\mathbf{u}=\tfrac13(1,2,2)$ is unit since
+        $\sqrt{1+4+4}/3=1$.
+        \[
+          D_{\mathbf{u}}f=\frac{6\cdot 1+3\cdot 2+2\cdot 2}{3}
+            =\frac{6+6+4}{3}=\frac{16}{3} .
+        \]
+
+  \item $\mathbf{u}=(\cos 60^{\circ},\,\sin 60^{\circ})
+        =(1/2,\,\sqrt{3}/2)$, a unit vector.
+        $\grad f=(\mathrm{e}^{x+y},\,\mathrm{e}^{x+y})$; at $(0,0)$:
+        $\grad f=(1,1)$.
+        \[
+          D_{\mathbf{u}}f=\frac{1}{2}+\frac{\sqrt{3}}{2}
+            =\frac{1+\sqrt{3}}{2} .
+        \]
+
+  \item $\grad f=\Bigl(\dfrac{x}{\sqrt{x^{2}+y^{2}}},\,
+        \dfrac{y}{\sqrt{x^{2}+y^{2}}}\Bigr)$. At $(3,4)$:
+        $\grad f=(3/5,\,4/5)$. With $\mathbf{u}=(1,0)$ (already unit):
+        \[
+          D_{\mathbf{u}}f=\frac{3}{5} .
+        \]
+
+  \item $\grad U=(y,\,x)$; at $(2,3)$: $\grad U=(3,2)$. Normalise:
+        $|\mathbf{v}|=\sqrt{9+16}=5$, $\mathbf{u}=(3/5,\,-4/5)$.
+        \[
+          D_{\mathbf{u}}U=3\cdot\frac{3}{5}+2\cdot\Bigl(-\frac{4}{5}\Bigr)
+            =\frac{9}{5}-\frac{8}{5}=\frac{1}{5} .
+        \]
+        The rate is positive: the marginal-utility gain from the extra
+        $x$ slightly outweighs the loss from the reduced $y$, so utility
+        rises, at $1/5$ per unit distance moved.
+
+  \item $\grad f=(2x+y,\,x+2y)$. At $(1,2)$: $\grad f=(4,5)$,
+        $|\grad f|=\sqrt{16+25}=\sqrt{41}$.
+        \[
+          \mathbf{u}=\frac{(4,5)}{\sqrt{41}},\qquad
+          \text{maximum rate}=\sqrt{41} .
+        \]
+
+  \item $\grad f=(2x,\,4y)$. At $(1,1)$: $\grad f=(2,4)$,
+        $|\grad f|=\sqrt{4+16}=2\sqrt{5}$. Steepest descent:
+        \[
+          \mathbf{u}=-\frac{(2,4)}{2\sqrt{5}}=-\frac{(1,2)}{\sqrt{5}},
+          \qquad \text{rate}=-2\sqrt{5} .
+        \]
+
+  \item $\grad f=(2x,\,-2y)$. At $(2,1)$: $\grad f=(4,-2)$. We need
+        $\mathbf{u}\perp(4,-2)$: $4u_{1}-2u_{2}=0$, i.e.
+        $u_{2}=2u_{1}$. Normalising $(1,2)$:
+        \[
+          \mathbf{u}=\pm\frac{(1,2)}{\sqrt{5}} .
+        \]
+        \textbf{Check.} $(4,-2)\cdot(1,2)=4-4=0$. \checkmark
+
+  \item $\grad f=(2x,\,2y,\,-2z)$. At $(1,2,2)$: $\grad f=(2,4,-4)$,
+        $|\grad f|=\sqrt{4+16+16}=6$. Maximum rate $6$, attained in the
+        direction
+        \[
+          \mathbf{u}=\frac{(2,4,-4)}{6}=\frac{(1,2,-2)}{3} .
+        \]
+
+  \item $\grad z=(-2x,\,-2y)$; at $(1,1)$: $\grad z=(-2,-2)$,
+        $|\grad z|=2\sqrt{2}$. Steepest descent direction:
+        \[
+          \mathbf{u}=-\frac{(-2,-2)}{2\sqrt{2}}=\frac{(1,1)}{\sqrt{2}} ,
+        \]
+        i.e. north-east, directly away from the summit above the origin.
+        The slope of that descent is $-|\grad z|=-2\sqrt{2}$.
+
+  \item $Q_{K}=\tfrac12K^{-1/2}L^{1/2}$, $Q_{L}=\tfrac12K^{1/2}L^{-1/2}$.
+        At $(4,9)$:
+        \[
+          Q_{K}=\frac{1}{2}\cdot\frac{1}{2}\cdot 3=\frac{3}{4},\qquad
+          Q_{L}=\frac{1}{2}\cdot 2\cdot\frac{1}{3}=\frac{1}{3},
+        \]
+        so $\grad Q=(3/4,\,1/3)$. Balanced direction
+        $\mathbf{u}=(1,1)/\sqrt{2}$:
+        \[
+          D_{\mathbf{u}}Q=\frac{3/4+1/3}{\sqrt{2}}
+            =\frac{13/12}{\sqrt{2}}=\frac{13\sqrt{2}}{24} .
+        \]
+        Fastest increase along $\grad Q/|\grad Q|$ with
+        \[
+          |\grad Q|=\sqrt{\frac{9}{16}+\frac{1}{9}}
+            =\sqrt{\frac{81+16}{144}}=\frac{\sqrt{97}}{12},\qquad
+          \mathbf{u}^{*}=\frac{12}{\sqrt{97}}\Bigl(\frac34,\frac13\Bigr)
+            =\frac{(9,4)}{\sqrt{97}} .
+        \]
+        The maximal rate is $\sqrt{97}/12$ (larger than $13\sqrt{2}/24$,
+        as it must be).
+
+  \item Let $\mathbf{r}(t)=(x(t),y(t))$ be a differentiable curve lying
+        in the level set, $f(\mathbf{r}(t))=c$ for all $t$.
+        Differentiate with the chain rule:
+        \[
+          0=\dd{}{t}\,c=\grad f(\mathbf{r}(t))\cdot\mathbf{r}'(t) .
+        \]
+        Hence the tangent vector $\mathbf{r}'(t)$ is orthogonal to
+        $\grad f$ at every point of the curve. For $U(x,y)=c$ an
+        indifference curve, this says exactly that
+        $(U_{x},U_{y})$ is normal to it.
+
+  \item First order: $\grad f=(2xy,\,x^{2})$; at $(1,2)$:
+        $\grad f=(4,1)$.
+        \[
+          D_{\mathbf{u}}f=4\cdot\frac{3}{5}+1\cdot\frac{4}{5}
+            =\frac{12}{5}+\frac{4}{5}=\frac{16}{5} .
+        \]
+        Second order: $f_{xx}=2y=4$, $f_{xy}=2x=2$, $f_{yy}=0$ at
+        $(1,2)$.
+        \[
+          D^{2}_{\mathbf{u}}f
+            =4\Bigl(\frac{3}{5}\Bigr)^{2}
+             +2\cdot 2\cdot\frac{3}{5}\cdot\frac{4}{5}
+             +0\cdot\Bigl(\frac{4}{5}\Bigr)^{2}
+            =\frac{36}{25}+\frac{48}{25}=\frac{84}{25} .
+        \]
+
+  \item $\grad f=(3x^{2}-3y,\,3y^{2}-3x)$; at $(1,1)$:
+        $\grad f=(0,0)$, so $(1,1)$ is a critical point. Second
+        partials: $f_{xx}=6x=6$, $f_{yy}=6y=6$, $f_{xy}=-3$, so
+        $\Hess_{f}(1,1)=\begin{pmatrix}6&-3\\-3&6\end{pmatrix}$. For
+        $\mathbf{u}=(1,1)/\sqrt{2}$:
+        \[
+          D^{2}_{\mathbf{u}}f=6\cdot\frac12
+            +2(-3)\cdot\frac12+6\cdot\frac12=3-3+3=3 .
+        \]
+        For $\mathbf{v}=(1,-1)/\sqrt{2}$:
+        \[
+          D^{2}_{\mathbf{v}}f=6\cdot\frac12
+            +2(-3)\cdot\Bigl(-\frac12\Bigr)+6\cdot\frac12=3+3+3=9 .
+        \]
+        Both are positive, the surface curves upward in both
+        directions. Indeed $D_{1}=6>0$ and
+        $D_{2}=36-9=27>0$, so the Hessian is positive definite and
+        $(1,1)$ is a strict local minimum (Chapter 7).
+
+  \item $f_{xx}=\mathrm{e}^{x}\cos y$, $f_{xy}=-\mathrm{e}^{x}\sin y$,
+        $f_{yy}=-\mathrm{e}^{x}\cos y$. At $(0,0)$: $f_{xx}=1$,
+        $f_{xy}=0$, $f_{yy}=-1$. Writing
+        $\mathbf{u}=(\cos\theta,\,\sin\theta)$:
+        \[
+          D^{2}_{\mathbf{u}}f=\cos^{2}\theta-\sin^{2}\theta=\cos 2\theta .
+        \]
+        This vanishes for $2\theta=\tfrac{\pi}{2}+k\pi$, i.e.
+        $\theta=\tfrac{\pi}{4}+k\tfrac{\pi}{2}$:
+        \[
+          \mathbf{u}=\pm\frac{(1,1)}{\sqrt{2}}
+          \quad\text{and}\quad
+          \mathbf{u}=\pm\frac{(1,-1)}{\sqrt{2}} .
+        \]
+
+  \item
+        \[
+          J_{\mathbf{f}}=\begin{pmatrix}1&1\\1&-1\end{pmatrix},\qquad
+          \det J_{\mathbf{f}}=1\cdot(-1)-1\cdot 1=-2 .
+        \]
+        The map is linear, $\mathbf{f}(\mathbf{x})=A\mathbf{x}$ with
+        $A=\bigl(\begin{smallmatrix}1&1\\1&-1\end{smallmatrix}\bigr)$,
+        and for a linear map $f_{i}=\sum_{j}A_{ij}x_{j}$ gives
+        $\partial f_{i}/\partial x_{j}=A_{ij}$: the Jacobian is the
+        constant matrix $A$ itself: a linear map is its own linear
+        approximation.
+
+  \item With $f_{1}=x^{2}y$, $f_{2}=x+y^{2}$, $f_{3}=xy$:
+        \[
+          J_{\mathbf{f}}=\begin{pmatrix}2xy&x^{2}\\1&2y\\y&x\end{pmatrix}
+          \;\in\;\R^{3\times 2} .
+        \]
+        A $3\times 2$ matrix: one row per component, one column per
+        variable; being non-square, it has no determinant. At $(1,2)$:
+        \[
+          J_{\mathbf{f}}(1,2)=\begin{pmatrix}4&1\\1&4\\2&1\end{pmatrix} .
+        \]
+
+  \item
+        \[
+          J_{\mathbf{f}}=\begin{pmatrix}1&1&0\\0&1&1\\1&0&1\end{pmatrix} .
+        \]
+        Expanding along the first row:
+        \[
+          \det J_{\mathbf{f}}
+            =1\,(1\cdot 1-1\cdot 0)-1\,(0\cdot 1-1\cdot 1)+0
+            =1+1=2 .
+        \]
+
+  \item $J_{\mathbf{f}}=\begin{pmatrix}2x&-1\\y&x\end{pmatrix}$. At
+        $\mathbf{x}_{0}=(1,1)$:
+        \[
+          \mathbf{f}(1,1)=(0,\,1),\qquad
+          J_{\mathbf{f}}(1,1)=\begin{pmatrix}2&-1\\1&1\end{pmatrix} .
+        \]
+        With $\mathbf{h}=(0.1,\,-0.1)$:
+        \[
+          J_{\mathbf{f}}(1,1)\,\mathbf{h}
+            =\begin{pmatrix}2(0.1)+(-1)(-0.1)\\
+              1(0.1)+1(-0.1)\end{pmatrix}
+            =\begin{pmatrix}0.3\\0\end{pmatrix},
+        \]
+        so $\mathbf{f}(1.1,\,0.9)\approx(0,1)+(0.3,\,0)=(0.3,\,1)$.
+        Exact value:
+        \[
+          \mathbf{f}(1.1,\,0.9)=(1.21-0.9,\;1.1\cdot 0.9)
+            =(0.31,\;0.99) .
+        \]
+        The approximation is off by only $0.01$ in each component.
+
+  \item Excess demand:
+        \[
+          G_{1}=D-S=(100-p+0.5q)-(-10+2p+q)=110-3p-0.5q ,
+        \]
+        and $G_{2}=p+q-20$. Hence
+        \[
+          \frac{\partial(G_{1},G_{2})}{\partial(p,q)}
+            =\begin{pmatrix}-3&-0.5\\1&1\end{pmatrix},\qquad
+          \det=-3\cdot 1-(-0.5)\cdot 1=-2.5 .
+        \]
+        The determinant is nonzero: exactly the condition the next
+        chapter's Implicit Function Theorem needs to solve the system
+        locally for $(p,q)$ when a parameter shifts.
+
+  \item Inner and outer Jacobians:
+        \[
+          J_{\mathbf{g}}=\begin{pmatrix}1&1\\1&-1\end{pmatrix},\qquad
+          J_{\mathbf{F}}(u,v)=\begin{pmatrix}2u&0\\v&u\end{pmatrix} .
+        \]
+        Evaluate the outer at the inner value
+        $(u,v)=\mathbf{g}(x,y)=(x+y,\,x-y)$ and multiply:
+        \[
+          J_{\mathbf{F}\circ\mathbf{g}}
+            =\begin{pmatrix}2(x+y)&0\\x-y&x+y\end{pmatrix}
+             \begin{pmatrix}1&1\\1&-1\end{pmatrix}
+            =\begin{pmatrix}2(x+y)&2(x+y)\\
+              (x-y)+(x+y)&(x-y)-(x+y)\end{pmatrix}
+            =\begin{pmatrix}2(x+y)&2(x+y)\\2x&-2y\end{pmatrix} .
+        \]
+        \textbf{Check.} Composing first:
+        $(\mathbf{F}\circ\mathbf{g})(x,y)
+        =\bigl((x+y)^{2},\,(x+y)(x-y)\bigr)
+        =\bigl((x+y)^{2},\,x^{2}-y^{2}\bigr)$, whose Jacobian is
+        \[
+          \begin{pmatrix}2(x+y)&2(x+y)\\2x&-2y\end{pmatrix} .
+          \quad\checkmark
+        \]
+
+  \item $J_{f}=\bigl(y^{2}\;\;2xy\bigr)$ (a row) and
+        $J_{\mathbf{r}}(t)=\begin{pmatrix}\mathrm{e}^{t}\\1\end{pmatrix}$
+        (a column). At $\mathbf{r}(t)=(\mathrm{e}^{t},\,t)$ the row is
+        $\bigl(t^{2}\;\;2t\mathrm{e}^{t}\bigr)$, so
+        \[
+          \dd{z}{t}
+            =\bigl(t^{2}\;\;2t\mathrm{e}^{t}\bigr)
+             \begin{pmatrix}\mathrm{e}^{t}\\1\end{pmatrix}
+            =t^{2}\mathrm{e}^{t}+2t\mathrm{e}^{t}
+            =\mathrm{e}^{t}(t^{2}+2t) .
+        \]
+        \textbf{Check.} $z=\mathrm{e}^{t}\,t^{2}$, so
+        $\dd{z}{t}=\mathrm{e}^{t}t^{2}+2t\mathrm{e}^{t}$. \checkmark
+
+  \item Inner Jacobian:
+        \[
+          J_{\mathbf{g}}(K,L)=\begin{pmatrix}
+            \tfrac12K^{-1/2}L^{1/2}&\tfrac12K^{1/2}L^{-1/2}\\
+            2&1\end{pmatrix},\qquad
+          J_{\mathbf{g}}(1,1)=\begin{pmatrix}1/2&1/2\\2&1\end{pmatrix} .
+        \]
+        Outer Jacobian (a row, constant since $\pi$ is linear):
+        $J_{\pi}=(10\;\;-1)$. Matrix chain rule:
+        \[
+          (\pi_{K},\,\pi_{L})
+            =(10\;\;-1)\begin{pmatrix}1/2&1/2\\2&1\end{pmatrix}
+            =\bigl(10\cdot\tfrac12-1\cdot 2,\;
+              10\cdot\tfrac12-1\cdot 1\bigr)
+            =(3,\;4) .
+        \]
+        \textbf{Check.} Substituting first,
+        $\pi(K,L)=10K^{1/2}L^{1/2}-2K-L$, so
+        $\pi_{K}=5K^{-1/2}L^{1/2}-2=5-2=3$ and
+        $\pi_{L}=5K^{1/2}L^{-1/2}-1=5-1=4$ at $(1,1)$. \checkmark
+        At the current input mix an extra unit of capital raises profit
+        by about $3$, an extra unit of labour by about $4$.
+\end{solutions}
+
+\section{Additional Problems}
+
+\begin{problems}
+  \item For $f(x,y)=x^{2}-y^{2}+3xy$ at $(1,2)$, find the directional
+        derivative toward $\mathbf{v}=(4,3)$.
+  \item For $f(x,y,z)=x^{2}+2y^{2}+3z^{2}$ at $(1,1,1)$, find the
+        directional derivative toward $\mathbf{v}=(1,-1,1)$.
+  \item For $U(x,y)=\ln x+2\ln y$ at $(1,2)$, find the direction of
+        steepest ascent and the maximum rate of increase.
+  \item Find all unit vectors $\mathbf{u}$ with $D_{\mathbf{u}}f=0$ for
+        $f(x,y)=xy$ at $(2,1)$.
+  \item At a point $P$ the directional derivatives of $f$ toward $(1,0)$
+        and toward $(0,1)$ are $3$ and $-4$. Find $\grad f(P)$, the
+        maximum rate of increase at $P$, and $D_{\mathbf{u}}f$ toward
+        $\mathbf{u}=(3/5,\,4/5)$.
+  \item For $f(x,y)=\ln(x^{2}+y^{2})$ at $(1,0)$ with
+        $\mathbf{u}=(0,1)$, compute $D_{\mathbf{u}}f$ and
+        $D^{2}_{\mathbf{u}}f$, and interpret the two results.
+  \item Compute the Jacobian of
+        $\mathbf{f}(x,y)=(x^{2}-y^{2},\;3xy+y^{2})$ and evaluate it at
+        $(1,1)$.
+  \item For $f(x,y)=xy$ and $\mathbf{r}(t)=(t^{2},\,t^{3})$, compute
+        $\dd{z}{t}$ for $z=f(\mathbf{r}(t))$ by the matrix chain rule
+        and verify directly.
+  \item Let $\mathbf{g}(s,t)=(st,\;s+t)$ and
+        $\mathbf{F}(x,y)=(x+y,\;xy)$. Compute
+        $J_{\mathbf{F}\circ\mathbf{g}}$ by the matrix chain rule and
+        verify by composing first.
+  \item Inputs produce two intermediate goods $x_{1}=2K+L$ and
+        $x_{2}=K+3L$, and final output is $y=x_{1}x_{2}$. Use the matrix
+        chain rule to find $\pd{y}{K}$ and $\pd{y}{L}$ at $(K,L)=(1,1)$,
+        and verify by expanding $y$ as a polynomial in $K$ and $L$.
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item $\grad f=(2x+3y,\,-2y+3x)$; at $(1,2)$:
+        $\grad f=(2+6,\,-4+3)=(8,-1)$. Normalise:
+        $|\mathbf{v}|=\sqrt{16+9}=5$, $\mathbf{u}=(4/5,\,3/5)$.
+        \[
+          D_{\mathbf{u}}f=8\cdot\frac{4}{5}+(-1)\cdot\frac{3}{5}
+            =\frac{32}{5}-\frac{3}{5}=\frac{29}{5} .
+        \]
+
+  \item $\grad f=(2x,\,4y,\,6z)$; at $(1,1,1)$: $\grad f=(2,4,6)$.
+        Normalise: $|\mathbf{v}|=\sqrt{1+1+1}=\sqrt{3}$,
+        $\mathbf{u}=(1,-1,1)/\sqrt{3}$.
+        \[
+          D_{\mathbf{u}}f=\frac{2-4+6}{\sqrt{3}}
+            =\frac{4}{\sqrt{3}}=\frac{4\sqrt{3}}{3} .
+        \]
+
+  \item $\grad U=(1/x,\,2/y)$; at $(1,2)$: $\grad U=(1,1)$,
+        $|\grad U|=\sqrt{2}$. Steepest ascent along
+        \[
+          \mathbf{u}=\frac{(1,1)}{\sqrt{2}},\qquad
+          \text{maximum rate}=\sqrt{2} .
+        \]
+
+  \item $\grad f=(y,\,x)$; at $(2,1)$: $\grad f=(1,2)$. We need
+        $\mathbf{u}\perp(1,2)$: $u_{1}+2u_{2}=0$, so
+        $\mathbf{u}=\pm(2,-1)/\sqrt{5}$.
+        \textbf{Check.} $(1,2)\cdot(2,-1)=2-2=0$. \checkmark
+
+  \item The directional derivatives toward $(1,0)$ and $(0,1)$ are
+        precisely $f_{x}(P)$ and $f_{y}(P)$, so $\grad f(P)=(3,-4)$.
+        Maximum rate: $|\grad f(P)|=\sqrt{9+16}=5$, attained toward
+        $(3,-4)/5$. Toward $\mathbf{u}=(3/5,\,4/5)$:
+        \[
+          D_{\mathbf{u}}f=3\cdot\frac{3}{5}+(-4)\cdot\frac{4}{5}
+            =\frac{9}{5}-\frac{16}{5}=-\frac{7}{5} .
+        \]
+
+  \item $\grad f=\Bigl(\dfrac{2x}{x^{2}+y^{2}},\,
+        \dfrac{2y}{x^{2}+y^{2}}\Bigr)$; at $(1,0)$: $\grad f=(2,0)$, so
+        \[
+          D_{\mathbf{u}}f=(2,0)\cdot(0,1)=0 :
+        \]
+        $\mathbf{u}$ is tangent to the level curve $x^{2}+y^{2}=1$
+        through $(1,0)$. Second partials:
+        \[
+          f_{xx}=\frac{2y^{2}-2x^{2}}{(x^{2}+y^{2})^{2}},\qquad
+          f_{yy}=\frac{2x^{2}-2y^{2}}{(x^{2}+y^{2})^{2}},\qquad
+          f_{xy}=\frac{-4xy}{(x^{2}+y^{2})^{2}} ;
+        \]
+        at $(1,0)$: $f_{xx}=-2$, $f_{yy}=2$, $f_{xy}=0$. Hence with
+        $\mathbf{u}=(0,1)$:
+        \[
+          D^{2}_{\mathbf{u}}f=f_{yy}=2>0 .
+        \]
+        Along $\mathbf{u}$ the function is flat to first order but
+        curves upward: moving off $(1,0)$ vertically raises $f$ at
+        second order. \textbf{Check.}
+        $f(1,t)=\ln(1+t^{2})\approx t^{2}$ for small $t$: derivative
+        $0$, second derivative $2$. \checkmark
+
+  \item
+        \[
+          J_{\mathbf{f}}=\begin{pmatrix}2x&-2y\\3y&3x+2y\end{pmatrix},
+          \qquad
+          J_{\mathbf{f}}(1,1)=\begin{pmatrix}2&-2\\3&5\end{pmatrix} .
+        \]
+
+  \item $J_{f}=\bigl(y\;\;x\bigr)$, evaluated at
+        $\mathbf{r}(t)=(t^{2},\,t^{3})$: $\bigl(t^{3}\;\;t^{2}\bigr)$;
+        $J_{\mathbf{r}}(t)=\begin{pmatrix}2t\\3t^{2}\end{pmatrix}$.
+        \[
+          \dd{z}{t}=\bigl(t^{3}\;\;t^{2}\bigr)
+            \begin{pmatrix}2t\\3t^{2}\end{pmatrix}
+            =2t^{4}+3t^{4}=5t^{4} .
+        \]
+        \textbf{Check.} $z=t^{2}\cdot t^{3}=t^{5}$, so
+        $\dd{z}{t}=5t^{4}$. \checkmark
+
+  \item Inner and outer Jacobians:
+        \[
+          J_{\mathbf{g}}(s,t)=\begin{pmatrix}t&s\\1&1\end{pmatrix},\qquad
+          J_{\mathbf{F}}(x,y)=\begin{pmatrix}1&1\\y&x\end{pmatrix} .
+        \]
+        Evaluate the outer at $(x,y)=\mathbf{g}(s,t)=(st,\,s+t)$ and
+        multiply:
+        \[
+          J_{\mathbf{F}\circ\mathbf{g}}
+            =\begin{pmatrix}1&1\\s+t&st\end{pmatrix}
+             \begin{pmatrix}t&s\\1&1\end{pmatrix}
+            =\begin{pmatrix}t+1&s+1\\
+              (s+t)t+st&(s+t)s+st\end{pmatrix}
+            =\begin{pmatrix}t+1&s+1\\
+              t^{2}+2st&s^{2}+2st\end{pmatrix} .
+        \]
+        \textbf{Check.} Composing first:
+        $(\mathbf{F}\circ\mathbf{g})(s,t)
+        =\bigl(st+s+t,\;s^{2}t+st^{2}\bigr)$, with Jacobian
+        \[
+          \begin{pmatrix}t+1&s+1\\2st+t^{2}&s^{2}+2st\end{pmatrix} .
+          \quad\checkmark
+        \]
+
+  \item Inner map $\mathbf{g}(K,L)=(2K+L,\;K+3L)$ with constant
+        Jacobian
+        $J_{\mathbf{g}}=\begin{pmatrix}2&1\\1&3\end{pmatrix}$; outer
+        function $y=x_{1}x_{2}$ with row Jacobian
+        $\grad y=(x_{2}\;\;x_{1})$. At $(K,L)=(1,1)$:
+        $(x_{1},x_{2})=(3,4)$, so the row is $(4\;\;3)$ and
+        \[
+          \Bigl(\pd{y}{K},\,\pd{y}{L}\Bigr)
+            =(4\;\;3)\begin{pmatrix}2&1\\1&3\end{pmatrix}
+            =\bigl(4\cdot 2+3\cdot 1,\;4\cdot 1+3\cdot 3\bigr)
+            =(11,\;13) .
+        \]
+        \textbf{Check.} Expanding,
+        $y=(2K+L)(K+3L)=2K^{2}+7KL+3L^{2}$, so
+        $\pd{y}{K}=4K+7L=11$ and $\pd{y}{L}=7K+6L=13$ at $(1,1)$.
+        \checkmark
+\end{solutions}

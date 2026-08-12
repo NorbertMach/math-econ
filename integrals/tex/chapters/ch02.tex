@@ -1,0 +1,362 @@
+\chapter{Integration by Substitution}
+
+Substitution is the chain rule
+run backwards. Whenever the integrand contains a composite function
+$f(g(x))$ multiplied (up to a constant) by its inner derivative $g'(x)$,
+the integral collapses dramatically once you rename $u=g(x)$. Spotting
+this pattern is the central skill of this section.
+
+\section{Core Rules}
+
+\begin{rulebox}{The Substitution Formula}
+If $u=g(x)$ is differentiable and $F'=f$, then
+\[
+  \int f\bigl(g(x)\bigr)\,g'(x)\,\mathrm{d}x
+    \;=\; \int f(u)\,\mathrm{d}u \;=\; F(u)+C \;=\; F\bigl(g(x)\bigr)+C .
+\]
+Operationally: write $u=g(x)$, compute $\mathrm{d}u=g'(x)\,\mathrm{d}x$,
+replace, integrate in $u$, and substitute back.
+\end{rulebox}
+
+\begin{rulebox}{Spotting the Pattern}
+Look for an inner function whose derivative (up to a multiplicative
+constant) is already a factor of the integrand. Typical candidates for
+$u$:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item the argument of an exponential: $u=$ exponent (e.g.\ $u=-rt$);
+  \item the argument of a logarithm or power: $u=$ inside (e.g.\
+        $u=x^{2}+1$);
+  \item the base of a power: $u=$ base (e.g.\ $u=\ln x$);
+  \item the radicand of a root: $u=$ inside the root.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Useful Special Cases (worth memorising)}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item $\displaystyle\int g'(x)\bigl(g(x)\bigr)^{n}\,\mathrm{d}x
+        = \frac{\bigl(g(x)\bigr)^{n+1}}{n+1}+C,\quad n\neq -1$.
+  \item $\displaystyle\int \frac{g'(x)}{g(x)}\,\mathrm{d}x
+        = \ln|g(x)|+C$ (logarithmic derivative).
+  \item $\displaystyle\int g'(x)\,\mathrm{e}^{g(x)}\,\mathrm{d}x
+        = \mathrm{e}^{g(x)}+C$.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Definite Integrals}
+When limits are present, either substitute back to $x$ before
+evaluating, or (usually faster) change the limits to $u$-values:
+if $x$ runs from $a$ to $b$ then $u$ runs from $g(a)$ to $g(b)$, and
+\[
+  \int_{a}^{b} f\bigl(g(x)\bigr)\,g'(x)\,\mathrm{d}x
+    \;=\; \int_{g(a)}^{g(b)} f(u)\,\mathrm{d}u .
+\]
+\end{rulebox}
+
+\section{Practice Problems}
+
+Evaluate each integral using a suitable substitution.
+
+\begin{problems}
+  \item $\displaystyle\int 2x\,(x^{2}+1)^{5}\,\mathrm{d}x$
+  \item $\displaystyle\int (3x+1)^{4}\,\mathrm{d}x$
+  \item $\displaystyle\int x\,\mathrm{e}^{x^{2}}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{2x}{x^{2}+1}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{\ln x}{x}\,\mathrm{d}x$
+  \item $\displaystyle\int \sqrt{2x+5}\,\mathrm{d}x$
+  \item $\displaystyle\int x\sqrt{x^{2}+4}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{1}{(2x+1)^{3}}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{x}{(x^{2}+1)^{2}}\,\mathrm{d}x$
+  \item $\displaystyle\int x\,\mathrm{e}^{-x^{2}}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{1}{x\ln x}\,\mathrm{d}x$
+  \item $\displaystyle\int \mathrm{e}^{x}(\mathrm{e}^{x}+1)^{4}\,\mathrm{d}x$
+  \item $\displaystyle\int x^{2}(x^{3}+7)^{6}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{x^{2}}{1+x^{3}}\,\mathrm{d}x$
+  \item $\displaystyle\int (4-3x)^{8}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{1}{\sqrt{1-2x}}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{x+1}{x^{2}+2x+5}\,\mathrm{d}x$
+  \item $\displaystyle\int (\ln x)^{2}\,\frac{1}{x}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{\mathrm{e}^{x}}{\mathrm{e}^{x}+1}\,\mathrm{d}x$
+  \item $\displaystyle\int x(x+1)^{10}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{1}{x(\ln x)^{2}}\,\mathrm{d}x$
+  \item $\displaystyle\int 6x^{2}\mathrm{e}^{x^{3}}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{x^{3}}{x^{4}+9}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{1}{(5x-2)^{2}}\,\mathrm{d}x$
+  \item $\displaystyle\int \mathrm{e}^{\sqrt{x}}\,\frac{1}{\sqrt{x}}\,\mathrm{d}x$
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item Let $u=x^{2}+1$, $\mathrm{d}u=2x\,\mathrm{d}x$. Then
+        \[
+          \int u^{5}\,\mathrm{d}u=\frac{u^{6}}{6}+C=\frac{(x^{2}+1)^{6}}{6}+C .
+        \]
+
+  \item $u=3x+1$, $\mathrm{d}u=3\,\mathrm{d}x$,
+        $\mathrm{d}x=\tfrac13\,\mathrm{d}u$:
+        \[
+          \int u^{4}\cdot\tfrac13\,\mathrm{d}u
+            =\tfrac1{15}u^{5}+C=\frac{(3x+1)^{5}}{15}+C .
+        \]
+
+  \item $u=x^{2}$, $\mathrm{d}u=2x\,\mathrm{d}x$, so
+        $x\,\mathrm{d}x=\tfrac12\,\mathrm{d}u$:
+        \[
+          \int \mathrm{e}^{u}\cdot\tfrac12\,\mathrm{d}u
+            =\tfrac12\mathrm{e}^{u}+C=\tfrac12\mathrm{e}^{x^{2}}+C .
+        \]
+
+  \item Logarithmic derivative form: numerator is the derivative of the
+        denominator.
+        \[
+          \int \frac{2x}{x^{2}+1}\,\mathrm{d}x=\ln(x^{2}+1)+C .
+        \]
+        (No absolute value needed since $x^{2}+1>0$.)
+
+  \item $u=\ln x$, $\mathrm{d}u=\tfrac1x\,\mathrm{d}x$:
+        \[
+          \int u\,\mathrm{d}u=\frac{u^{2}}{2}+C=\frac{(\ln x)^{2}}{2}+C .
+        \]
+
+  \item $u=2x+5$, $\mathrm{d}u=2\,\mathrm{d}x$:
+        \[
+          \int u^{1/2}\cdot\tfrac12\,\mathrm{d}u
+            =\tfrac12\cdot\tfrac23 u^{3/2}+C=\tfrac13(2x+5)^{3/2}+C .
+        \]
+
+  \item $u=x^{2}+4$, $\mathrm{d}u=2x\,\mathrm{d}x$:
+        \[
+          \int u^{1/2}\cdot\tfrac12\,\mathrm{d}u
+            =\tfrac13 u^{3/2}+C=\tfrac13(x^{2}+4)^{3/2}+C .
+        \]
+
+  \item $u=2x+1$, $\mathrm{d}u=2\,\mathrm{d}x$:
+        \[
+          \int u^{-3}\cdot\tfrac12\,\mathrm{d}u
+            =\tfrac12\cdot\frac{u^{-2}}{-2}+C=-\frac{1}{4(2x+1)^{2}}+C .
+        \]
+
+  \item $u=x^{2}+1$, $\mathrm{d}u=2x\,\mathrm{d}x$:
+        \[
+          \int u^{-2}\cdot\tfrac12\,\mathrm{d}u
+            =-\frac{1}{2u}+C=-\frac{1}{2(x^{2}+1)}+C .
+        \]
+
+  \item $u=-x^{2}$, $\mathrm{d}u=-2x\,\mathrm{d}x$, so
+        $x\,\mathrm{d}x=-\tfrac12\,\mathrm{d}u$:
+        \[
+          \int \mathrm{e}^{u}\cdot\bigl(-\tfrac12\bigr)\,\mathrm{d}u
+            =-\tfrac12\mathrm{e}^{u}+C=-\tfrac12\mathrm{e}^{-x^{2}}+C .
+        \]
+
+  \item $u=\ln x$, $\mathrm{d}u=\tfrac1x\,\mathrm{d}x$:
+        \[
+          \int \frac1u\,\mathrm{d}u=\ln|\ln x|+C .
+        \]
+
+  \item $u=\mathrm{e}^{x}+1$, $\mathrm{d}u=\mathrm{e}^{x}\,\mathrm{d}x$:
+        \[
+          \int u^{4}\,\mathrm{d}u
+            =\frac{u^{5}}{5}+C=\frac{(\mathrm{e}^{x}+1)^{5}}{5}+C .
+        \]
+
+  \item $u=x^{3}+7$, $\mathrm{d}u=3x^{2}\,\mathrm{d}x$, so
+        $x^{2}\,\mathrm{d}x=\tfrac13\,\mathrm{d}u$:
+        \[
+          \int u^{6}\cdot\tfrac13\,\mathrm{d}u
+            =\frac{u^{7}}{21}+C=\frac{(x^{3}+7)^{7}}{21}+C .
+        \]
+
+  \item $u=1+x^{3}$, $\mathrm{d}u=3x^{2}\,\mathrm{d}x$:
+        \[
+          \int \frac1u\cdot\tfrac13\,\mathrm{d}u
+            =\tfrac13\ln|1+x^{3}|+C .
+        \]
+
+  \item $u=4-3x$, $\mathrm{d}u=-3\,\mathrm{d}x$:
+        \[
+          \int u^{8}\cdot\bigl(-\tfrac13\bigr)\,\mathrm{d}u
+            =-\frac{u^{9}}{27}+C=-\frac{(4-3x)^{9}}{27}+C .
+        \]
+
+  \item $u=1-2x$, $\mathrm{d}u=-2\,\mathrm{d}x$:
+        \[
+          \int u^{-1/2}\cdot\bigl(-\tfrac12\bigr)\,\mathrm{d}u
+            =-u^{1/2}+C=-\sqrt{1-2x}+C .
+        \]
+
+  \item $u=x^{2}+2x+5$, $\mathrm{d}u=(2x+2)\,\mathrm{d}x=2(x+1)\,\mathrm{d}x$:
+        \[
+          \int \frac1u\cdot\tfrac12\,\mathrm{d}u
+            =\tfrac12\ln(x^{2}+2x+5)+C .
+        \]
+        (The quadratic $x^{2}+2x+5=(x+1)^{2}+4>0$.)
+
+  \item $u=\ln x$, $\mathrm{d}u=\tfrac1x\,\mathrm{d}x$:
+        \[
+          \int u^{2}\,\mathrm{d}u=\frac{u^{3}}{3}+C=\frac{(\ln x)^{3}}{3}+C .
+        \]
+
+  \item Logarithmic derivative: $u=\mathrm{e}^{x}+1$,
+        $\mathrm{d}u=\mathrm{e}^{x}\,\mathrm{d}x$:
+        \[
+          \int \frac1u\,\mathrm{d}u=\ln(\mathrm{e}^{x}+1)+C .
+        \]
+
+  \item $u=x+1$, so $x=u-1$, $\mathrm{d}u=\mathrm{d}x$:
+        \[
+          \int (u-1)u^{10}\,\mathrm{d}u
+            =\int (u^{11}-u^{10})\,\mathrm{d}u
+            =\frac{u^{12}}{12}-\frac{u^{11}}{11}+C
+            =\frac{(x+1)^{12}}{12}-\frac{(x+1)^{11}}{11}+C .
+        \]
+
+  \item $u=\ln x$, $\mathrm{d}u=\tfrac1x\,\mathrm{d}x$:
+        \[
+          \int u^{-2}\,\mathrm{d}u=-\frac1u+C=-\frac{1}{\ln x}+C .
+        \]
+
+  \item $u=x^{3}$, $\mathrm{d}u=3x^{2}\,\mathrm{d}x$:
+        \[
+          \int 6x^{2}\mathrm{e}^{x^{3}}\,\mathrm{d}x
+            =\int 2\mathrm{e}^{u}\,\mathrm{d}u
+            =2\mathrm{e}^{u}+C=2\mathrm{e}^{x^{3}}+C .
+        \]
+
+  \item $u=x^{4}+9$, $\mathrm{d}u=4x^{3}\,\mathrm{d}x$:
+        \[
+          \int \frac1u\cdot\tfrac14\,\mathrm{d}u
+            =\tfrac14\ln(x^{4}+9)+C .
+        \]
+
+  \item $u=5x-2$, $\mathrm{d}u=5\,\mathrm{d}x$:
+        \[
+          \int u^{-2}\cdot\tfrac15\,\mathrm{d}u
+            =\tfrac15\cdot(-u^{-1})+C=-\frac{1}{5(5x-2)}+C .
+        \]
+
+  \item $u=\sqrt{x}=x^{1/2}$, $\mathrm{d}u=\tfrac{1}{2\sqrt{x}}\,\mathrm{d}x$,
+        so $\tfrac{1}{\sqrt{x}}\,\mathrm{d}x=2\,\mathrm{d}u$:
+        \[
+          \int \mathrm{e}^{u}\cdot 2\,\mathrm{d}u
+            =2\mathrm{e}^{u}+C=2\mathrm{e}^{\sqrt{x}}+C .
+        \]
+\end{solutions}
+
+\section{Additional Problems}
+
+Evaluate each integral using a suitable substitution.
+
+\begin{problems}
+  \item $\displaystyle\int 3x^{2}(x^{3}-2)^{4}\,\mathrm{d}x$
+  \item $\displaystyle\int (5x-2)^{6}\,\mathrm{d}x$
+  \item $\displaystyle\int x\,\mathrm{e}^{3x^{2}}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{4x}{x^{2}+7}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{(\ln x)^{4}}{x}\,\mathrm{d}x$
+  \item $\displaystyle\int \sqrt{3x+2}\,\mathrm{d}x$
+  \item $\displaystyle\int x\sqrt{x^{2}-1}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{1}{(3x+4)^{2}}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{2x}{(x^{2}+5)^{3}}\,\mathrm{d}x$
+  \item $\displaystyle\int \mathrm{e}^{x}\,\mathrm{e}^{\mathrm{e}^{x}}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{\ln(\ln x)}{x\ln x}\,\mathrm{d}x$
+  \item $\displaystyle\int \mathrm{e}^{2x}(\mathrm{e}^{2x}+3)^{5}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{x}{\sqrt{4-x^{2}}}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{1}{x(1+\ln x)}\,\mathrm{d}x$
+  \item $\displaystyle\int \frac{\mathrm{e}^{1/x}}{x^{2}}\,\mathrm{d}x$
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item Let $u=x^{3}-2$, $\mathrm{d}u=3x^{2}\,\mathrm{d}x$. Then
+        \[
+          \int u^{4}\,\mathrm{d}u=\frac{u^{5}}{5}+C=\frac{(x^{3}-2)^{5}}{5}+C .
+        \]
+
+  \item $u=5x-2$, $\mathrm{d}u=5\,\mathrm{d}x$:
+        \[
+          \int u^{6}\cdot\tfrac15\,\mathrm{d}u
+            =\frac{u^{7}}{35}+C=\frac{(5x-2)^{7}}{35}+C .
+        \]
+
+  \item $u=3x^{2}$, $\mathrm{d}u=6x\,\mathrm{d}x$, so
+        $x\,\mathrm{d}x=\tfrac16\,\mathrm{d}u$:
+        \[
+          \int \mathrm{e}^{u}\cdot\tfrac16\,\mathrm{d}u
+            =\tfrac16\mathrm{e}^{u}+C=\tfrac16\mathrm{e}^{3x^{2}}+C .
+        \]
+
+  \item Logarithmic derivative form: numerator is twice the derivative of
+        the denominator.
+        \[
+          \int \frac{4x}{x^{2}+7}\,\mathrm{d}x=2\ln(x^{2}+7)+C .
+        \]
+
+  \item $u=\ln x$, $\mathrm{d}u=\tfrac1x\,\mathrm{d}x$:
+        \[
+          \int u^{4}\,\mathrm{d}u=\frac{u^{5}}{5}+C=\frac{(\ln x)^{5}}{5}+C .
+        \]
+
+  \item $u=3x+2$, $\mathrm{d}u=3\,\mathrm{d}x$:
+        \[
+          \int u^{1/2}\cdot\tfrac13\,\mathrm{d}u
+            =\tfrac29 u^{3/2}+C=\tfrac29(3x+2)^{3/2}+C .
+        \]
+
+  \item $u=x^{2}-1$, $\mathrm{d}u=2x\,\mathrm{d}x$:
+        \[
+          \int u^{1/2}\cdot\tfrac12\,\mathrm{d}u
+            =\tfrac13 u^{3/2}+C=\tfrac13(x^{2}-1)^{3/2}+C .
+        \]
+
+  \item $u=3x+4$, $\mathrm{d}u=3\,\mathrm{d}x$:
+        \[
+          \int u^{-2}\cdot\tfrac13\,\mathrm{d}u
+            =\tfrac13\cdot(-u^{-1})+C=-\frac{1}{3(3x+4)}+C .
+        \]
+
+  \item $u=x^{2}+5$, $\mathrm{d}u=2x\,\mathrm{d}x$:
+        \[
+          \int u^{-3}\,\mathrm{d}u
+            =-\tfrac12 u^{-2}+C=-\frac{1}{2(x^{2}+5)^{2}}+C .
+        \]
+
+  \item $u=\mathrm{e}^{x}$, $\mathrm{d}u=\mathrm{e}^{x}\,\mathrm{d}x$:
+        \[
+          \int \mathrm{e}^{u}\,\mathrm{d}u
+            =\mathrm{e}^{u}+C=\mathrm{e}^{\mathrm{e}^{x}}+C .
+        \]
+
+  \item Two-step. Let $w=\ln x$, $\mathrm{d}w=\tfrac1x\,\mathrm{d}x$, so the
+        integral becomes $\int \tfrac{\ln w}{w}\,\mathrm{d}w$. Now let
+        $u=\ln w$, $\mathrm{d}u=\tfrac1w\,\mathrm{d}w$:
+        \[
+          \int u\,\mathrm{d}u
+            =\frac{u^{2}}{2}+C=\frac{(\ln\ln x)^{2}}{2}+C .
+        \]
+
+  \item $u=\mathrm{e}^{2x}+3$, $\mathrm{d}u=2\mathrm{e}^{2x}\,\mathrm{d}x$:
+        \[
+          \int u^{5}\cdot\tfrac12\,\mathrm{d}u
+            =\frac{u^{6}}{12}+C=\frac{(\mathrm{e}^{2x}+3)^{6}}{12}+C .
+        \]
+
+  \item $u=4-x^{2}$, $\mathrm{d}u=-2x\,\mathrm{d}x$, so
+        $x\,\mathrm{d}x=-\tfrac12\,\mathrm{d}u$:
+        \[
+          \int u^{-1/2}\cdot\bigl(-\tfrac12\bigr)\,\mathrm{d}u
+            =-u^{1/2}+C=-\sqrt{4-x^{2}}+C .
+        \]
+
+  \item $u=1+\ln x$, $\mathrm{d}u=\tfrac1x\,\mathrm{d}x$:
+        \[
+          \int \frac1u\,\mathrm{d}u=\ln|1+\ln x|+C .
+        \]
+
+  \item $u=1/x=x^{-1}$, $\mathrm{d}u=-x^{-2}\,\mathrm{d}x$, so
+        $\tfrac{1}{x^{2}}\,\mathrm{d}x=-\mathrm{d}u$:
+        \[
+          \int \mathrm{e}^{u}\cdot(-1)\,\mathrm{d}u
+            =-\mathrm{e}^{u}+C=-\mathrm{e}^{1/x}+C .
+        \]
+\end{solutions}

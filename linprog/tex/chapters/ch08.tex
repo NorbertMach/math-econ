@@ -1,0 +1,604 @@
+\chapter{Sensitivity Analysis and Interpreting Computer Output}
+
+An LP is rarely solved once and filed away. Prices shift, capacities are
+renegotiated, new products are proposed: and the first question is always
+the same: does the old plan survive, and what is the change worth?
+Sensitivity analysis answers such what-if
+questions \emph{from the solved problem alone}, without starting the simplex
+method over. Every serious solver prints the answers in a standard
+\emph{sensitivity report}, and reading that
+report (the interpretation of a computer solution) is a skill tested in its
+own right. This chapter builds the report line by line from the machinery
+of Chapters~4--7: the end tableau supplies the numbers, duality explains
+what they mean.
+
+\section{Core Rules}
+
+\begin{rulebox}{Setting}
+Throughout, the primal is a maximisation in resource form:
+\[
+  \max\; z=c_{1}x_{1}+\dots+c_{n}x_{n}
+  \quad\text{s.t.}\quad
+  \sum_{j=1}^{n}a_{ij}x_{j}\le b_{i}\;(i=1,\dots,m),\qquad x_{j}\ge 0 .
+\]
+It has been solved: the optimal plan is $x^{*}$ with value $z^{*}$, and the
+optimal dual solution (shadow prices) is $y^{*}=(y_{1},\dots,y_{m})$.
+Sensitivity analysis asks how $x^{*}$ and $z^{*}$ react when a single piece
+of data (one $b_{i}$ or one $c_{j}$) is changed.
+\end{rulebox}
+
+\begin{rulebox}{Shadow price and RHS ranging}
+The shadow price $y_{i}$ is the rate of change of the
+optimal value with respect to capacity $i$:
+\[
+  \Delta z^{*} \;=\; y_{i}\,\Delta b_{i},
+\]
+valid as long as the change leaves the \emph{same set of constraints
+binding} (the same optimal basis). The interval of $b_{i}$-values for which
+this holds is the \emph{validity range}, reported as an allowable increase
+and an allowable decrease around the current $b_{i}$. Inside the range the
+\emph{plan} $x^{*}$ moves (the basic variables are recomputed), but the
+list of binding constraints (and hence every shadow price) stays the
+same. Outside the range the basis changes and the report makes no promise.
+For a \emph{nonbinding} constraint: $y_{i}=0$, the allowable decrease
+equals the slack, and the allowable increase is $\infty$.
+\end{rulebox}
+
+\begin{rulebox}{RHS ranging by hand (two variables)}
+If the optimum is the corner where constraints $r$ and $s$ bind, replace
+$b_{r}$ by a parameter and re-solve the $2\times 2$ system of the two
+binding constraints. The corner coordinates become linear functions of
+$b_{r}$. The validity range is the set of $b_{r}$ for which
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item both coordinates stay $\ge 0$, and
+  \item every other constraint is still satisfied.
+\end{itemize}
+On this range $z^{*}(b_{r})$ is linear with slope $y_{r}$.
+\end{rulebox}
+
+\begin{rulebox}{Objective-coefficient ranging}
+Changing a coefficient $c_{j}$ tilts the iso-profit lines but moves no
+constraint: the feasible region is unchanged. The current corner stays
+optimal as long as the iso-profit slope stays between the slopes of the two
+constraints binding there. For a corner of
+$a_{11}x_{1}+a_{12}x_{2}\le b_{1}$ and $a_{21}x_{1}+a_{22}x_{2}\le b_{2}$
+(slopes $m_{1}\le m_{2}$, both negative) the condition is
+\[
+  m_{1}\;\le\;-\frac{c_{1}}{c_{2}}\;\le\;m_{2}.
+\]
+Fixing one coefficient and solving for the other yields its allowable
+increase and decrease. Inside the range the plan $x^{*}$ is unchanged and
+\[
+  \Delta z^{*}\;=\;x_{j}^{*}\,\Delta c_{j}.
+\]
+At an endpoint of the range two corners are optimal simultaneously
+(multiple optima); beyond it the optimum jumps to a neighbouring corner.
+\end{rulebox}
+
+\begin{rulebox}{Reduced cost}
+The reduced cost of a variable $x_{j}$ is
+\[
+  r_{j} \;=\; c_{j}-\sum_{i=1}^{m}a_{ij}\,y_{i}
+  \;=\;\text{own margin}\;-\;\text{opportunity cost of the resources used}.
+\]
+At a maximum every $r_{j}\le 0$; basic (produced) variables have
+$r_{j}=0$; a nonbasic variable has $r_{j}\le 0$, and $|r_{j}|$ is exactly
+how much its objective coefficient must \emph{improve} before producing it
+becomes worthwhile. Equivalently: $c_{j}$ may rise by $|r_{j}|$ before the
+current plan changes, while any decrease of $c_{j}$ leaves an unproduced
+product unproduced. The same formula prices out a \emph{new} product: it
+enters the plan if and only if its margin exceeds
+$\sum_{i}a_{ij}\,y_{i}$, the value of the capacity it would consume.
+\end{rulebox}
+
+\begin{rulebox}{Reading a solver sensitivity report}
+Solvers print two blocks. The \textbf{variable block} has one row per
+decision variable:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \emph{Final value}: the optimal $x_{j}^{*}$;
+  \item \emph{Reduced cost}: $r_{j}$ ($0$ for produced variables);
+  \item \emph{Objective coefficient} with \emph{allowable increase /
+        decrease}: the range of $c_{j}$ over which the plan $x^{*}$ is
+        unchanged.
+\end{itemize}
+The \textbf{constraint block} has one row per constraint:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \emph{Final value}: the left-hand side $\sum_{j}a_{ij}x_{j}^{*}$
+        (equal to $b_{i}$ exactly when the constraint binds);
+  \item \emph{Shadow price}: $y_{i}$;
+  \item \emph{Constraint RHS} with \emph{allowable increase / decrease}:
+        the range of $b_{i}$ over which $y_{i}$ stays valid.
+\end{itemize}
+The entry \texttt{1E+30} is solver notation for $\infty$: no finite limit.
+\end{rulebox}
+
+\begin{rulebox}{What-if questions without re-solving}
+Assume resource costs are already counted in the margins $c_{j}$. Then:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Buy more of resource $i$ at a premium $p$ per unit?}
+        Worth it iff $p<y_{i}$; each unit nets $y_{i}-p$; guaranteed only
+        up to the allowable increase of $b_{i}$.
+  \item \textbf{Sell (rent out) a unit of resource $i$ at price $p$?}
+        Worth it iff $p>y_{i}$; guaranteed up to the allowable decrease.
+  \item \textbf{Launch a new product with margin $m$ using $a_{i}$ units
+        of resource $i$?} It enters the plan iff
+        $m>\sum_{i}a_{i}y_{i}$.
+  \item \textbf{A margin $c_{j}$ changes within its range?} Plan
+        unchanged, $z^{*}$ changes by $x_{j}^{*}\,\Delta c_{j}$.
+  \item \textbf{A capacity $b_{i}$ changes within its range?}
+        $z^{*}$ changes by $y_{i}\,\Delta b_{i}$; the new plan follows
+        from re-solving the binding equations only.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Limits of the report; the 100\%-rule}
+Every range in the report covers \emph{one} change at a time, all other
+data held fixed. For several \emph{simultaneous} changes (all among the
+$c_{j}$, or all among the $b_{i}$) the 100\%-rule gives a quick sufficient check: express each
+change as a fraction of its allowable increase or decrease; if the
+fractions sum to at most $1$ (i.e.\ $100\%$), the report's conclusions
+remain valid. If the sum exceeds $1$ the rule is silent: the basis
+\emph{may} have changed, and only re-solving settles it. The rule is
+sufficient, not necessary.
+\end{rulebox}
+
+\section{Practice Problems}
+
+Three data sets are shared by the problems below.
+
+\medskip
+\noindent\textbf{Workshop LP (Problems 1--6).} A workshop makes two
+products with margins $4$ and $3$ per unit:
+\[
+  \max\; z=4x_{1}+3x_{2}
+  \quad\text{s.t.}\quad
+  \begin{array}{rcl}
+    2x_{1}+x_{2} &\le& 10 \quad\text{(machine hours)}\\
+    x_{1}+x_{2}  &\le& 7  \quad\text{(assembly hours)}\\
+    x_{1},x_{2}  &\ge& 0 .
+  \end{array}
+\]
+
+\medskip
+\noindent\textbf{Three-product LP (Problems 7--9).} For
+\[
+  \max\; z=5x_{1}+4x_{2}+3x_{3}
+  \quad\text{s.t.}\quad
+  \begin{array}{rcl}
+    2x_{1}+3x_{2}+x_{3} &\le& 5\\
+    4x_{1}+x_{2}+2x_{3} &\le& 11\\
+    3x_{1}+4x_{2}+2x_{3} &\le& 8\\
+    x_{1},x_{2},x_{3} &\ge& 0
+  \end{array}
+\]
+with slack variables $s_{1},s_{2},s_{3}$, the simplex method terminates
+with the final dictionary
+\[
+  \begin{array}{rcl}
+    z     &=& 13-3x_{2}-s_{1}-s_{3}\\
+    x_{1} &=& 2-2x_{2}-2s_{1}+s_{3}\\
+    s_{2} &=& 1+5x_{2}+2s_{1}\\
+    x_{3} &=& 1+x_{2}+3s_{1}-2s_{3} .
+  \end{array}
+\]
+
+\medskip
+\noindent\textbf{Solver report (Problems 10--14).} A firm makes products
+A and B with margins $30$ and $20$:
+\[
+  \max\; z=30x_{A}+20x_{B}
+  \quad\text{s.t.}\quad
+  \begin{array}{rcl}
+    2x_{A}+x_{B} &\le& 100 \quad\text{(machine hours)}\\
+    x_{A}+x_{B}  &\le& 80  \quad\text{(labour hours)}\\
+    x_{A}        &\le& 40  \quad\text{(demand for A)}\\
+    x_{A},x_{B}  &\ge& 0 .
+  \end{array}
+\]
+The solver prints the following sensitivity report.
+
+\begin{center}
+\begin{tabular}{|l|r|r|r|r|r|}
+\hline
+Variable & Final & Reduced & Objective & Allowable & Allowable\\
+         & value & cost    & coeff.    & increase  & decrease\\
+\hline
+$x_{A}$ & 20 & 0 & 30 & 10 & 10\\
+$x_{B}$ & 60 & 0 & 20 & 10 & 5\\
+\hline
+\end{tabular}
+
+\medskip
+\begin{tabular}{|l|r|r|r|r|r|}
+\hline
+Constraint & Final & Shadow & RHS & Allowable & Allowable\\
+           & value & price  &     & increase  & decrease\\
+\hline
+Machine  & 100 & 10 & 100 & 20 & 20\\
+Labour   & 80  & 10 & 80  & 20 & 20\\
+Demand A & 20  & 0  & 40  & \texttt{1E+30} & 20\\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{problems}
+  \item Solve the workshop LP by corner enumeration. State the optimal
+        plan, the optimal value, and which constraints are binding.
+  \item Determine both shadow prices of the workshop LP twice: (a) from
+        the dual equations of the binding constraints, (b) by raising each
+        capacity by one unit and re-solving. Interpret the numbers.
+  \item RHS ranging for the workshop LP: for each capacity, express the
+        optimal corner as a function of that capacity, derive the validity
+        range of its shadow price (allowable increase and decrease), and
+        give $z^{*}$ at both ends of each range.
+  \item Objective ranging for the workshop LP: over which intervals may
+        $c_{1}$ (currently $4$) and $c_{2}$ (currently $3$) vary, one at a
+        time, without moving the optimal corner? What happens at the
+        endpoints of the ranges?
+  \item A neighbouring firm offers the workshop extra hours (all input
+        costs are already counted in the margins): machine hours at a
+        premium of $1.5$ per hour, or assembly hours at a premium of
+        $1.5$ per hour. Which offer should the workshop accept, for at
+        most how many hours, and with what total net gain?
+  \item A third product is proposed for the workshop: each unit needs
+        $1$ machine hour and $2$ assembly hours. (a)~Would it enter the
+        plan at a margin of $6$? (b)~At a margin of $4.5$? (c)~At which
+        margin is it exactly break-even?
+  \item From the final dictionary of the three-product LP read off: the
+        optimal plan, the optimal value, the slacks, the three shadow
+        prices, and the reduced cost of every variable.
+  \item Three-product LP: (a)~By how much may the margin of product~2
+        (currently $c_{2}=4$) rise before the plan changes, and what
+        happens beyond that point? (b)~Over which range of $b_{2}$
+        (currently $11$) is the second shadow price valid, and how do
+        plan and value react inside that range?
+  \item Three-product LP: (a)~Derive the validity range of the third
+        shadow price by perturbing $b_{3}=8$ by $\Delta$ in the final
+        dictionary. (b)~For $b_{3}=9$ give the new optimal plan and value
+        without re-solving from scratch, and verify them in the original
+        constraints.
+  \item From the solver report read off: the optimal plan and profit,
+        which constraints are binding, the slack of each nonbinding
+        constraint, and the meaning of the entry \texttt{1E+30}.
+  \item Overtime can be booked at a premium of $8$ per labour hour, up to
+        $30$ hours (wages for regular hours are already counted in the
+        margins). How many hours should the firm book, and what is the
+        resulting net gain? Why not all $30$?
+  \item A new product C with margin $25$ would use $1$ machine hour and
+        $2$ labour hours per unit. Should it be launched? Give its reduced
+        cost and the break-even margin.
+  \item Simultaneous capacity changes: (a)~machine $+10$ hours and labour
+        $+10$ hours; (b)~machine $+15$ hours and labour $-15$ hours. For
+        each case: does the 100\%-rule certify the report's shadow prices,
+        and if so, what is the new optimal profit?
+  \item Margin changes, one at a time: (a)~the margin of B rises from
+        $20$ to $28$ (new plan and profit? (b)~the margin of A falls
+        from $30$ to $18$) what does the report tell you, and what is
+        the new optimum (found by corner enumeration)?
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item The corners of the feasible region and their values:
+        \[
+          \begin{array}{c|c}
+            (x_{1},x_{2}) & z=4x_{1}+3x_{2}\\\hline
+            (0,0) & 0\\
+            (5,0) & 20\\
+            (3,4) & 24\\
+            (0,7) & 21
+          \end{array}
+        \]
+        The corner $(3,4)$ solves $2x_{1}+x_{2}=10$, $x_{1}+x_{2}=7$
+        (subtracting gives $x_{1}=3$, hence $x_{2}=4$). Optimal plan
+        $x^{*}=(3,4)$ with $z^{*}=24$; \emph{both} constraints are
+        binding ($2\cdot 3+4=10$, $3+4=7$).
+
+  \item (a) Both constraints bind and both variables are basic, so the
+        duals solve the pricing-out equations
+        \[
+          2y_{1}+y_{2}=4,\qquad y_{1}+y_{2}=3 .
+        \]
+        Subtracting: $y_{1}=1$, hence $y_{2}=2$.
+
+        (b) Machine $10\to 11$: the corner becomes $x_{1}=11-7=4$,
+        $x_{2}=14-11=3$, $z=16+9=25$, so $\Delta z=1=y_{1}$. Assembly
+        $7\to 8$: $x_{1}=10-8=2$, $x_{2}=16-10=6$, $z=8+18=26$, so
+        $\Delta z=2=y_{2}$.
+
+        Interpretation: one extra machine hour is worth $1$, one extra
+        assembly hour is worth $2$: assembly is the scarcer bottleneck
+        per hour.
+
+  \item Keep both constraints binding and re-solve the $2\times2$ system
+        with a parametric right-hand side.
+
+        \emph{Machine capacity $b_{1}$} (assembly fixed at $7$): from
+        $2x_{1}+x_{2}=b_{1}$, $x_{1}+x_{2}=7$ we get
+        \[
+          x_{1}=b_{1}-7,\qquad x_{2}=14-b_{1}.
+        \]
+        Nonnegativity forces $7\le b_{1}\le 14$: allowable decrease $3$,
+        allowable increase $4$. On this range
+        $z^{*}=4(b_{1}-7)+3(14-b_{1})=b_{1}+14$, slope $y_{1}=1$: at
+        $b_{1}=7$, $x^{*}=(0,7)$ and $z^{*}=21$; at $b_{1}=14$,
+        $x^{*}=(7,0)$ and $z^{*}=28$.
+
+        \emph{Assembly capacity $b_{2}$} (machine fixed at $10$): from
+        $2x_{1}+x_{2}=10$, $x_{1}+x_{2}=b_{2}$ we get
+        \[
+          x_{1}=10-b_{2},\qquad x_{2}=2b_{2}-10 .
+        \]
+        Nonnegativity forces $5\le b_{2}\le 10$: allowable decrease $2$,
+        allowable increase $3$. On this range
+        $z^{*}=4(10-b_{2})+3(2b_{2}-10)=2b_{2}+10$, slope $y_{2}=2$: at
+        $b_{2}=5$, $x^{*}=(5,0)$ and $z^{*}=20$; at $b_{2}=10$,
+        $x^{*}=(0,10)$ and $z^{*}=30$.
+
+  \item The binding constraints have slopes $-2$ (machine) and $-1$
+        (assembly); the corner $(3,4)$ stays optimal while
+        \[
+          -2\;\le\;-\frac{c_{1}}{c_{2}}\;\le\;-1
+          \qquad\Longleftrightarrow\qquad
+          1\;\le\;\frac{c_{1}}{c_{2}}\;\le\;2 .
+        \]
+        With $c_{2}=3$ fixed: $3\le c_{1}\le 6$ (allowable decrease $1$,
+        increase $2$). With $c_{1}=4$ fixed: $2\le c_{2}\le 4$ (allowable
+        decrease $1$, increase $1$). At an endpoint the iso-profit line is
+        parallel to a binding constraint and a whole edge is optimal:
+        e.g.\ $c_{1}=3$ ties $(3,4)$ with $(0,7)$ (both give $z=21$), and
+        $c_{1}=6$ ties $(3,4)$ with $(5,0)$ (both give $z=30$). Beyond an
+        endpoint the optimum jumps to that neighbouring corner.
+
+  \item Compare each premium with the shadow price. Machine hours:
+        premium $1.5>y_{1}=1$: decline; each bought hour would lose
+        $0.5$. Assembly hours: premium $1.5<y_{2}=2$, accept; each
+        hour nets $2-1.5=0.5$. The shadow price is guaranteed only up to
+        the allowable increase of $b_{2}$, which is $3$ (Problem~3), so
+        buy $3$ assembly hours for a net gain of $3\cdot 0.5=1.5$. At
+        $b_{2}=10$ the plan is $(0,10)$ and assembly stops being worth
+        $2$: for $b_{2}>10$ the optimum stays at $(0,10)$, assembly hours
+        go slack and their shadow price drops to $0$, so further hours at
+        a positive premium are a pure loss.
+
+  \item Price out the new product against the duals $y=(1,2)$:
+        opportunity cost of one unit $=1\cdot y_{1}+2\cdot y_{2}
+        =1+4=5$.
+
+        (a) Margin $6>5$: reduced cost $6-5=+1>0$, so the product
+        \emph{would} enter the plan (the current plan is no longer
+        optimal).
+
+        (b) Margin $4.5<5$: reduced cost $-0.5$, the product stays out
+        and the plan $(3,4)$ remains optimal.
+
+        (c) Break-even at margin $=5$: entering neither helps nor hurts
+        (multiple optima).
+
+  \item Setting the nonbasic variables $x_{2}=s_{1}=s_{3}=0$ in the
+        dictionary:
+        \[
+          x^{*}=(2,\,0,\,1),\qquad z^{*}=13,\qquad
+          s^{*}=(0,\,1,\,0).
+        \]
+        Constraints $1$ and $3$ bind, constraint $2$ has slack $1$. The
+        shadow prices are the negatives of the slack coefficients in the
+        $z$-row: $y=(1,\,0,\,1)$. Reduced costs: $r_{1}=r_{3}=0$ (basic),
+        $r_{2}=-3$ (the coefficient of $x_{2}$ in the $z$-row). Check via
+        pricing out: $r_{2}=4-(3\cdot1+1\cdot0+4\cdot1)=4-7=-3$.
+
+  \item (a) The reduced cost of $x_{2}$ is $-3$, so $c_{2}$ may rise by
+        $3$, from $4$ up to $7$, before anything changes. At $c_{2}=7$
+        product~2 is exactly break-even (alternative optima); for
+        $c_{2}>7$ the variable $x_{2}$ enters the basis and the plan
+        changes. Any \emph{decrease} of $c_{2}$ is harmless: $x_{2}$
+        simply stays at $0$.
+
+        (b) Constraint $2$ is nonbinding with slack $s_{2}=1$ and
+        $y_{2}=0$. Its right-hand side may decrease by the slack, $1$
+        (down to $10$), or increase without limit:
+        allowable decrease $1$, allowable increase $\infty$. Inside this
+        range neither the plan $(2,0,1)$ nor the value $13$ moves,
+        only the slack $s_{2}=b_{2}-10$ changes.
+
+  \item (a) Raising $b_{3}$ by $\Delta$ has the same effect on the basic
+        variables as setting $s_{3}=-\Delta$ in the dictionary:
+        \[
+          x_{1}=2-\Delta,\qquad s_{2}=1,\qquad x_{3}=1+2\Delta,\qquad
+          z=13+\Delta .
+        \]
+        Feasibility of the basis requires $x_{1}\ge0$ and $x_{3}\ge0$:
+        \[
+          2-\Delta\ge 0\;\Rightarrow\;\Delta\le 2,\qquad
+          1+2\Delta\ge 0\;\Rightarrow\;\Delta\ge -\tfrac12 .
+        \]
+        So $y_{3}=1$ is valid for $b_{3}\in[7.5,\,10]$: allowable
+        decrease $0.5$, allowable increase $2$.
+
+        (b) $b_{3}=9$ means $\Delta=1$ (inside the range):
+        \[
+          x^{*}=(1,\,0,\,3),\qquad z^{*}=13+1=14 .
+        \]
+        Check in the original constraints: $2\cdot1+3=5$ (binding),
+        $4\cdot1+2\cdot3=10\le 11$ (slack $1$), $3\cdot1+2\cdot3=9$
+        (binding); $z=5\cdot1+3\cdot3=14$. All confirmed.
+
+  \item Optimal plan $x_{A}=20$, $x_{B}=60$, profit
+        $z^{*}=30\cdot20+20\cdot60=1800$. Machine and labour are binding:
+        their final values equal their right-hand sides ($100$ and $80$)
+        and their shadow prices are positive. The demand constraint is
+        nonbinding: final value $20$ against a limit of $40$, slack
+        $20$, shadow price $0$. \texttt{1E+30} is the solver's notation
+        for $\infty$: the demand limit can be raised without any effect
+        on the optimum, so there is no finite allowable increase.
+
+  \item The premium $8$ is below the labour shadow price $10$, so
+        overtime pays: but the shadow price is guaranteed only for the
+        allowable increase of $20$ hours. Book $20$ hours: net gain
+        $(10-8)\cdot 20=40$. Hours beyond the $20$th fall outside the
+        validity range; there the basis changes ($x_{A}$ has been driven
+        to $0$) and extra labour becomes worthless (its shadow price
+        drops to $0$) while still costing the premium. Hence not all
+        $30$.
+
+  \item Opportunity cost of one unit of C at the current shadow prices:
+        \[
+          1\cdot 10+2\cdot 10=30>25=\text{margin}.
+        \]
+        Do not launch: the capacity C would consume is worth more in the
+        current plan than C's margin. Reduced cost $r_{C}=25-30=-5$;
+        break-even margin $30$ (above $30$, C would enter the plan).
+
+  \item (a) Fractions of the allowable changes:
+        $\tfrac{10}{20}+\tfrac{10}{20}=1\le 1$, so the 100\%-rule
+        certifies the shadow prices. New profit:
+        \[
+          z^{*}=1800+10\cdot 10+10\cdot 10=2000 .
+        \]
+        (b) $\tfrac{15}{20}+\tfrac{15}{20}=1.5>1$: the rule is silent and
+        the report alone cannot answer. Indeed the basis breaks: keeping
+        machine and labour binding would give
+        $x_{A}=115-65=50>40$, violating the demand limit. Re-solving
+        with $b=(115,65,40)$ by corner enumeration gives the optimum
+        $x=(40,25)$ with $z=30\cdot40+20\cdot25=1700$, not the naive
+        $1800+10\cdot15-10\cdot15=1800$.
+
+  \item (a) The increase of $8$ (from $20$ to $28$) is within B's
+        allowable increase $10$, so the plan $(20,60)$ is unchanged and
+        \[
+          z^{*}=1800+8\cdot x_{B}^{*}=1800+8\cdot 60=2280 .
+        \]
+        (b) The decrease of $12$ exceeds A's allowable decrease $10$:
+        the report only says the plan changes; it does not say to what.
+        Corner enumeration with $c=(18,20)$:
+        \[
+          \begin{array}{c|c}
+            (x_{A},x_{B}) & z=18x_{A}+20x_{B}\\\hline
+            (0,0) & 0\\
+            (40,0) & 720\\
+            (40,20) & 1120\\
+            (20,60) & 1560\\
+            (0,80) & 1600
+          \end{array}
+        \]
+        New optimum $x=(0,80)$ with $z^{*}=1600$: product A is dropped
+        entirely.
+\end{solutions}
+
+\section{Additional Problems}
+
+Problems 1--5 refer to the LP
+\[
+  \max\; z=2x_{1}+3x_{2}
+  \quad\text{s.t.}\quad
+  \begin{array}{rcl}
+    x_{1}+x_{2}  &\le& 5 \quad\text{(resource 1)}\\
+    x_{1}+2x_{2} &\le& 8 \quad\text{(resource 2)}\\
+    x_{1},x_{2}  &\ge& 0 .
+  \end{array}
+\]
+
+\begin{problems}
+  \item Solve the LP by corner enumeration; state the binding constraints
+        and compute both shadow prices from the dual equations.
+  \item Derive the validity range of each shadow price (allowable
+        increase and decrease of $b_{1}=5$ and of $b_{2}=8$) and give
+        $z^{*}$ at the ends of each range.
+  \item Over which intervals may $c_{1}=2$ and $c_{2}=3$ vary, one at a
+        time, without moving the optimal corner?
+  \item Extra units are offered (input costs already counted in the
+        margins): resource 1 at a premium of $0.8$ per unit, resource 2
+        at a premium of $1.5$ per unit. Which offer to accept, for how
+        many units, and with what total net gain?
+  \item A new product with margin $4$ would use $2$ units of resource 1
+        and $1$ unit of resource 2 per unit. Would it enter the plan?
+        Give its reduced cost and the largest margin at which it stays
+        out.
+  \item For the LP $\max z=6x_{1}+5x_{2}$ subject to $x_{1}+x_{2}\le 5$
+        (constraint $C_{1}$), $3x_{1}+2x_{2}\le 12$ (constraint $C_{2}$),
+        $x_{1},x_{2}\ge0$, the solver reports: final values
+        $x_{1}=2$, $x_{2}=3$, both reduced costs $0$; shadow prices
+        $y_{1}=3$ (RHS $5$, allowable increase $1$, decrease $1$) and
+        $y_{2}=1$ (RHS $12$, allowable increase $3$, decrease $2$).
+        (a)~Is it worth buying one extra unit of $C_{1}$'s resource at a
+        premium of $2$? (b)~Both right-hand sides rise by $1$
+        simultaneously: what does the 100\%-rule say, and what actually
+        happens (check directly)?
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item Corners and values:
+        \[
+          \begin{array}{c|c}
+            (x_{1},x_{2}) & z=2x_{1}+3x_{2}\\\hline
+            (0,0) & 0\\
+            (5,0) & 10\\
+            (2,3) & 13\\
+            (0,4) & 12
+          \end{array}
+        \]
+        The corner $(2,3)$ solves $x_{1}+x_{2}=5$, $x_{1}+2x_{2}=8$
+        (subtracting gives $x_{2}=3$, hence $x_{1}=2$). Optimum
+        $x^{*}=(2,3)$, $z^{*}=13$, both constraints binding. Dual
+        equations (both variables basic):
+        \[
+          y_{1}+y_{2}=2,\qquad y_{1}+2y_{2}=3
+          \quad\Longrightarrow\quad y_{2}=1,\; y_{1}=1 .
+        \]
+
+  \item \emph{Resource 1} ($b_{2}=8$ fixed): from $x_{1}+x_{2}=b_{1}$,
+        $x_{1}+2x_{2}=8$ we get $x_{2}=8-b_{1}$, $x_{1}=2b_{1}-8$.
+        Nonnegativity gives $4\le b_{1}\le 8$: allowable decrease $1$,
+        increase $3$. There $z^{*}=2(2b_{1}-8)+3(8-b_{1})=b_{1}+8$,
+        slope $y_{1}=1$: at $b_{1}=4$, $x^{*}=(0,4)$, $z^{*}=12$; at
+        $b_{1}=8$, $x^{*}=(8,0)$, $z^{*}=16$.
+
+        \emph{Resource 2} ($b_{1}=5$ fixed): from $x_{1}+x_{2}=5$,
+        $x_{1}+2x_{2}=b_{2}$ we get $x_{2}=b_{2}-5$, $x_{1}=10-b_{2}$.
+        Nonnegativity gives $5\le b_{2}\le 10$: allowable decrease $3$,
+        increase $2$. There $z^{*}=2(10-b_{2})+3(b_{2}-5)=b_{2}+5$,
+        slope $y_{2}=1$: at $b_{2}=5$, $x^{*}=(5,0)$, $z^{*}=10$; at
+        $b_{2}=10$, $x^{*}=(0,5)$, $z^{*}=15$.
+
+  \item Binding slopes: $-1$ (resource 1) and $-\tfrac12$ (resource 2);
+        the corner $(2,3)$ stays optimal while
+        \[
+          -1\;\le\;-\frac{c_{1}}{c_{2}}\;\le\;-\frac12
+          \qquad\Longleftrightarrow\qquad
+          \frac12\;\le\;\frac{c_{1}}{c_{2}}\;\le\;1 .
+        \]
+        With $c_{2}=3$ fixed: $1.5\le c_{1}\le 3$ (decrease $0.5$,
+        increase $1$). With $c_{1}=2$ fixed: $2\le c_{2}\le 4$ (decrease
+        $1$, increase $1$). At each endpoint an edge of alternative
+        optima appears.
+
+  \item Resource 1: premium $0.8<y_{1}=1$, accept; each unit nets
+        $0.2$, guaranteed up to the allowable increase $3$ (Additional
+        Problem~2), so buy $3$ units for a net gain of $3\cdot0.2=0.6$.
+        Resource 2: premium $1.5>y_{2}=1$, decline.
+
+  \item Opportunity cost per unit at $y=(1,1)$:
+        $2\cdot1+1\cdot1=3$. Margin $4>3$, so the product \emph{would}
+        enter the plan; its reduced cost is $4-3=+1$. It stays out as
+        long as its margin is at most $3$ (at exactly $3$ it is
+        break-even).
+
+  \item (a) Premium $2<y_{1}=3$: yes; one unit is within the allowable
+        increase $1$ and nets $3-2=1$.
+
+        (b) Fractions of the allowable increases:
+        $\tfrac11+\tfrac13=\tfrac43>1$, so the 100\%-rule is silent.
+        Direct check: with $b=(6,13)$, keeping both constraints binding
+        gives $x_{1}=13-2\cdot6=1$, $x_{2}=3\cdot6-13=5$; both are
+        nonnegative, so the same basis is still optimal and the shadow
+        prices \emph{did} remain valid:
+        \[
+          z^{*}=27+3\cdot1+1\cdot1=31=6\cdot1+5\cdot5 .
+        \]
+        Lesson: the 100\%-rule is sufficient, not necessary: failing
+        it does not prove the basis changes, it only withdraws the
+        guarantee.
+\end{solutions}

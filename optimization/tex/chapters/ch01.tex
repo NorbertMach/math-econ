@@ -1,0 +1,612 @@
+\chapter{Optimization Problems in Economics}
+
+Economics is the science of choice under scarcity, and its mathematical
+core is the optimization problem: an agent
+selects the values of some variables under their control so as to make an
+objective as large (or as small) as possible, while respecting the
+limits imposed by budgets, technology, and time. A consumer maximises
+utility subject to a budget; a firm minimises the cost of producing a
+given output, or maximises profit outright; an investor trades off risk
+against return. Before any calculus is done, every such problem must be
+\emph{formulated}: what is chosen, what is being optimised, and what
+constrains the choice. This chapter drills exactly that skill, together
+with the vocabulary (objective, decision variables, constraints,
+feasible set, local versus global optima) and the question of whether an
+optimum exists at all.
+
+As a warm-up for the chapters that follow, we also practise
+\emph{first-order thinking} in one variable: setting a derivative to zero
+to locate candidates and using the second derivative to classify them.
+Many economic problems with one constraint reduce to this case by
+substituting the constraint into the objective; the full multivariate and
+Lagrangian machinery is developed later in the book.
+
+\section{Core Rules}
+
+\begin{rulebox}{The general optimization problem}
+An optimization problem has the standard form
+\[
+  \max_{x \in S} f(x)
+  \qquad\text{or}\qquad
+  \min_{x \in S} f(x),
+\]
+where
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item $x = (x_1,\dots,x_n)$ are the \textbf{decision variables}: the quantities the agent controls;
+  \item $f : \R^n \to \R$ is the \textbf{objective function}: the quantity being maximised or minimised;
+  \item $S \subseteq \R^n$ is the \textbf{feasible set}: the choices allowed by the
+        \textbf{constraints}, typically written
+        as equalities $g(x)=b$ or inequalities $g(x)\le b$, plus sign
+        restrictions such as $x \ge 0$.
+\end{itemize}
+A point $x \in S$ is called \emph{feasible}; a feasible point that
+optimises $f$ over $S$ is a \emph{solution} or \emph{optimum}, written
+$x^{*}$, with \emph{optimal value} $f(x^{*})$.
+\end{rulebox}
+
+\begin{rulebox}{Maximisation and minimisation are one theory}
+For any $f$ and $S$,
+\[
+  \max_{x \in S} f(x) \;=\; -\min_{x \in S}\bigl(-f(x)\bigr),
+\]
+and both problems have exactly the same solutions $x^{*}$. Every result
+stated for minima therefore has a mirror image for maxima (and vice
+versa): flip the sign of the objective, not the theory.
+\end{rulebox}
+
+\begin{rulebox}{Local versus global optima}
+Let $x^{*} \in S$.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item $x^{*}$ is a \textbf{global maximum} if
+        $f(x^{*}) \ge f(x)$ for \emph{all} $x \in S$;
+  \item $x^{*}$ is a \textbf{local maximum} if
+        $f(x^{*}) \ge f(x)$ for all feasible $x$ in some neighbourhood of
+        $x^{*}$.
+\end{itemize}
+Global minima and local minima are defined with $\le$. Every global
+optimum is a local optimum; the converse is false in general. Calculus
+conditions (derivatives set to zero) detect \emph{local} candidates only;
+promoting a local result to a global one needs an extra argument,
+concavity/convexity of $f$, or a direct comparison of all candidates.
+\end{rulebox}
+
+\begin{rulebox}{Existence: the Weierstrass theorem (informal)}
+If the feasible set $S$ is nonempty, \emph{closed} (contains its boundary
+points) and \emph{bounded} (fits inside some ball) (in short,
+\emph{compact}) and the objective $f$ is
+\emph{continuous} on $S$, then the problem has at least one global
+maximum and at least one global minimum on $S$. Both hypotheses matter:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item $\max x$ over the open interval $(0,1)$ has no solution (the
+        supremum $1$ is never attained ($S$ not closed);
+  \item $\max x$ over $[0,\infty)$ has no solution) the objective is
+        unbounded ($S$ not bounded).
+\end{itemize}
+The theorem is sufficient, not necessary: optima can exist on non-compact
+sets (e.g.\ $x + 1/x$ on $(0,\infty)$ attains its minimum at $x=1$), but
+then existence must be argued separately.
+\end{rulebox}
+
+\begin{rulebox}{Constrained versus unconstrained}
+A problem is \textbf{unconstrained} if the feasible
+set is all of $\R^n$ or an open set: the optimum, if it exists, is an
+interior point where derivatives vanish. It is \textbf{constrained} if constraints limit the choice. Two practical
+remarks:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item A constraint that is \emph{slack} (not binding) at the optimum can
+        be dropped without changing the solution: a problem over $q \ge 0$
+        whose solution satisfies $q^{*} > 0$ is \emph{effectively}
+        unconstrained.
+  \item A single equality constraint can often be \emph{substituted} into
+        the objective, converting a constrained problem into an
+        unconstrained one with fewer variables. This is the workhorse
+        method of this chapter.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{The economic archetypes}
+Four problem families recur throughout economics:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Utility maximisation}: choose a
+        consumption bundle $(x,y)\ge 0$ to
+        \[
+          \max\; U(x,y) \quad\text{subject to}\quad p_x x + p_y y \le M ,
+        \]
+        where $p_x,p_y$ are prices and $M$ is income. If $U$ is strictly
+        increasing, the budget constraint binds at the optimum.
+  \item \textbf{Cost minimisation}: choose
+        inputs $(K,L)\ge 0$ to
+        \[
+          \min\; wL + rK \quad\text{subject to}\quad F(K,L) \ge \bar{Q},
+        \]
+        producing at least the target output $\bar{Q}$ at input prices
+        $w$ (wage) and $r$ (rental rate).
+  \item \textbf{Profit maximisation}: choose
+        output $q \ge 0$ to
+        \[
+          \max\; \pi(q) \;=\; R(q) - C(q),
+        \]
+        revenue minus cost. When the solution is interior ($q^{*}>0$),
+        this is effectively unconstrained.
+  \item \textbf{Expenditure and portfolio problems}: the
+        \emph{expenditure minimisation} problem, $\min\, p_x x + p_y y$ subject to
+        $U(x,y) \ge \bar{u}$, is the mirror image (``dual'') of utility
+        maximisation; the \emph{portfolio problem} minimises the risk
+        (variance) of a wealth allocation subject to the shares summing
+        to one and, in richer versions, a target expected return.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Formulating a problem from an economic story}
+Work through five questions, in order:
+\begin{enumerate}[leftmargin=1.9em,itemsep=0.3ex]
+  \item \textbf{Who chooses what?} Name the decision variables and their
+        units.
+  \item \textbf{What is the goal?} Write the objective function
+        explicitly in the decision variables; state max or min.
+  \item \textbf{What limits the choice?} List every constraint,
+        budgets, technology, time, definitions, nonnegativity.
+  \item \textbf{Feasible set.} Collect the constraints into $S$; note
+        whether $S$ is compact and which constraints will bind.
+  \item \textbf{Classify.} Constrained or (effectively) unconstrained?
+        If one equality constraint appears, plan the substitution.
+\end{enumerate}
+Parameters (prices, income, technology coefficients) are \emph{not}
+decision variables: they are along for the ride.
+\end{rulebox}
+
+\begin{rulebox}{First-order thinking in one variable}
+Let $f$ be differentiable. If $x^{*}$ is a local maximum or minimum in
+the \emph{interior} of the domain, then
+\[
+  f'(x^{*}) \;=\; 0
+\],
+the \textbf{first-order condition} (FOC). Points with $f'(x)=0$ are \emph{critical points}: candidates, necessary but not sufficient
+($f(x)=x^{3}$ has $f'(0)=0$ with no extremum). The
+\textbf{second-order condition} (SOC) classifies:
+$f''(x^{*})<0$ gives a strict local maximum, $f''(x^{*})>0$ a strict
+local minimum, $f''(x^{*})=0$ is inconclusive. On a closed interval
+$[a,b]$ the global optima exist by Weierstrass and lie among the
+\emph{candidates}: interior critical points and the endpoints $a,b$,
+evaluate $f$ at each and compare.
+\end{rulebox}
+
+\section{Practice Problems}
+
+Problems 1--9 drill formulation, classification, and existence; problems
+10--20 add the one-variable first-order condition. In every formulation
+problem, identify the decision variables, the objective function, the
+constraints, and the feasible set, and classify the problem as a
+constrained or unconstrained maximisation or minimisation.
+
+\begin{problems}
+  \item A consumer has income $M=100$ and buys goods $x$ and $y$ at
+        prices $p_x=2$ and $p_y=5$; her utility is $U(x,y)=xy$.
+        Formulate her problem. Will the budget constraint bind at the
+        optimum?
+  \item A price-taking firm sells its output $q$ at the market price
+        $p=20$ and produces at cost $C(q)=10+2q^{2}$. Formulate the
+        profit-maximisation problem. Is it effectively unconstrained?
+  \item A firm must deliver $\bar{Q}=100$ units of output. Its
+        technology is $Q=K^{1/2}L^{1/2}$, the wage is $w=4$ and the
+        rental rate of capital is $r=1$. Formulate the cost-minimisation
+        problem.
+  \item Formulate the expenditure-minimisation problem that is dual to
+        Problem~1: reach the utility level $\bar{u}=250$ at prices
+        $p_x=2$, $p_y=5$ with minimal spending. How do you expect its
+        solution to relate to Problem~1?
+  \item An investor puts the share $x$ of her wealth into asset $A$
+        (return variance $4$) and the remaining share $1-x$ into asset
+        $B$ (return variance $1$); the returns are uncorrelated, so the
+        portfolio variance is $\sigma^{2}(x)=4x^{2}+(1-x)^{2}$.
+        Formulate the minimum-variance problem.
+  \item Classify each problem as a constrained or (effectively)
+        unconstrained maximisation or minimisation:
+        (a) a price taker chooses $q\ge 0$ to maximise $pq-C(q)$,
+        expecting $q^{*}>0$;
+        (b) $\max\, U(x,y)$ subject to $p_x x+p_y y=M$, $x,y\ge 0$;
+        (c) $\min_{x\in\R}\; x^{2}+2x$;
+        (d) $\min\, wL+rK$ subject to $F(K,L)=\bar{Q}$, $K,L\ge 0$.
+  \item Describe the feasible set
+        $B=\{(x,y)\in\R^{2} : 2x+3y\le 12,\; x\ge 0,\; y\ge 0\}$
+        geometrically. Is it compact? What does the Weierstrass theorem
+        then guarantee for a continuous utility function on $B$?
+  \item Which of the following problems possess a solution, and why (or
+        why not)?
+        (a) $\max\, x$ subject to $0<x<1$;
+        (b) $\max\, x$ subject to $0\le x\le 1$;
+        (c) $\min\, 1/x$ subject to $0<x\le 1$;
+        (d) $\max\, 1/x$ subject to $0<x\le 1$.
+  \item A firm's cost of running $q$ machines is $C(q)=q^{2}-6q+10$.
+        Rewrite the minimisation of $C$ as an equivalent maximisation
+        problem, solve both, and confirm that they have the same
+        solution $q^{*}$ and that the optimal values differ only in
+        sign.
+  \item Find and classify all critical points of $f(x)=x^{3}-3x$ on
+        $\R$. Are the local optima global? Why or why not?
+  \item A monopolist faces inverse demand $p(q)=20-q$ and cost
+        $c(q)=q^{2}+4q$. Formulate the profit-maximisation problem,
+        solve the FOC, verify the SOC, and compute the maximal profit.
+  \item A firm faces inverse demand $p(q)=100-q$ and a constant unit
+        cost of $5$. Find the profit-maximising output and the maximal
+        profit.
+  \item A concert promoter faces inverse demand $p(q)=30-0.5q$ for
+        tickets and, the hall being already paid for, wants to maximise
+        \emph{revenue}. Find the revenue-maximising quantity, the
+        ticket price, and the maximal revenue.
+  \item A plant has cost function $C(q)=100+q^{2}$ for $q>0$. Find the
+        output that minimises \emph{average} cost $AC(q)=C(q)/q$,
+        verify the SOC, and confirm that marginal cost equals average
+        cost at the minimum.
+  \item Solve the cost-minimisation problem of Problem~3 by
+        substitution: minimise $4L+K$ subject to $K^{1/2}L^{1/2}=100$.
+  \item A consumer with utility $U(x,y)=xy$ faces the budget
+        $2x+y=8$. Solve her problem by substituting the budget into the
+        objective, and verify the SOC.
+  \item Find the global maximum and global minimum of
+        $f(x)=x^{3}-12x$ on the interval $[-3,5]$. Which optimum lies
+        at a boundary point?
+  \item A retailer sells $D=200$ units per year. Each order placed
+        costs a fixed fee of $25$; holding inventory costs $4$ per unit
+        per year, and average inventory is half the order size $q$.
+        Total annual cost is $C(q)=\dfrac{200}{q}\cdot 25+\dfrac{4q}{2}$
+        for $q>0$. Formulate and solve the cost-minimisation problem.
+  \item A gardener has $40$ metres of fence and builds a rectangular
+        enclosure against an existing wall, so only three sides need
+        fencing. Formulate the area-maximisation problem in one
+        variable and solve it.
+  \item A monopolist faces inverse demand $p(q)=12-q$ and produces at a
+        unit cost of $2$; the government levies a per-unit tax $t=2$.
+        Formulate the profit-maximisation problem and solve it. What
+        price do consumers pay?
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item \textbf{Decision variables:} the quantities $x,y\ge 0$.
+        \textbf{Objective:} maximise $U(x,y)=xy$.
+        \textbf{Constraints:} the budget $2x+5y\le 100$ and $x,y\ge 0$.
+        \textbf{Feasible set:} the budget set
+        $S=\{(x,y): 2x+5y\le 100,\ x\ge 0,\ y\ge 0\}$, a closed and
+        bounded triangle. A \emph{constrained maximisation}. Since $U$
+        is strictly increasing in both goods, no bundle with unspent
+        income can be optimal: the budget binds, $2x+5y=100$.
+        (Preview of the solution by substitution: $y=(100-2x)/5$ gives
+        $u(x)=x(100-2x)/5$, $u'(x)=(100-4x)/5=0$, so $x^{*}=25$,
+        $y^{*}=10$, $U^{*}=250$.)
+
+  \item \textbf{Decision variable:} output $q\ge 0$.
+        \textbf{Objective:} maximise profit
+        $\pi(q)=20q-(10+2q^{2})$.
+        \textbf{Constraint:} $q\ge 0$ only, so the feasible set is
+        $[0,\infty)$. A \emph{maximisation}, and effectively
+        \emph{unconstrained}: the FOC $\pi'(q)=20-4q=0$ gives
+        $q^{*}=5>0$, so the nonnegativity constraint is slack.
+        ($\pi''=-4<0$; $\pi(5)=100-10-50=40$.)
+
+  \item \textbf{Decision variables:} inputs $K,L\ge 0$.
+        \textbf{Objective:} minimise cost $C=wL+rK=4L+K$.
+        \textbf{Constraint:} the output requirement
+        $K^{1/2}L^{1/2}\ge 100$ (binding at the optimum, since cost is
+        increasing in both inputs: $K^{1/2}L^{1/2}=100$), plus
+        $K,L\ge 0$.
+        \textbf{Feasible set:}
+        $S=\{(K,L): K^{1/2}L^{1/2}\ge 100,\ K,L\ge 0\}$, the region on
+        or above the isoquant. A \emph{constrained minimisation}.
+
+  \item \textbf{Decision variables:} $x,y\ge 0$.
+        \textbf{Objective:} minimise expenditure $E=2x+5y$.
+        \textbf{Constraint:} the utility requirement $xy\ge 250$ (and
+        $x,y\ge 0$).
+        A \emph{constrained minimisation}: objective and constraint
+        have swapped roles relative to Problem~1. By duality one
+        expects the same bundle $(25,10)$ with minimal expenditure
+        $100$, the income of Problem~1. Check by substitution:
+        $y=250/x$ gives $E(x)=2x+1250/x$,
+        $E'(x)=2-1250/x^{2}=0 \Rightarrow x^{2}=625 \Rightarrow
+        x^{*}=25$, $y^{*}=10$, $E^{*}=50+50=100$. Confirmed.
+
+  \item \textbf{Decision variable:} the portfolio share $x\in[0,1]$
+        (the share of $B$ is then $1-x$: the adding-up constraint is
+        already substituted in).
+        \textbf{Objective:} minimise
+        $\sigma^{2}(x)=4x^{2}+(1-x)^{2}$.
+        \textbf{Feasible set:} the compact interval $[0,1]$.
+        A \emph{constrained minimisation}; by Weierstrass a solution
+        exists, and if it is interior the FOC applies. (It is solved in
+        Additional Problem~3.)
+
+  \item (a) \emph{Maximisation}; the constraint $q\ge 0$ is slack at
+        $q^{*}>0$, so effectively \emph{unconstrained}.
+        (b) \emph{Constrained maximisation}: an equality (budget)
+        constraint plus sign constraints.
+        (c) \emph{Unconstrained minimisation} over all of $\R$ (FOC:
+        $2x+2=0$, $x^{*}=-1$, value $-1$).
+        (d) \emph{Constrained minimisation}: an equality (technology)
+        constraint plus sign constraints.
+
+  \item $B$ is the triangle with vertices $(0,0)$, $(6,0)$ and
+        $(0,4)$: the intersection of the half-plane below the budget
+        line $2x+3y=12$ with the first quadrant. It is closed (an
+        intersection of closed half-planes, boundary included) and
+        bounded (it fits in a ball of radius~$10$ around the origin),
+        hence \emph{compact}. By Weierstrass, every continuous utility
+        function attains a global maximum (and a global minimum)
+        somewhere on $B$: existence is guaranteed before any
+        calculus is done.
+
+  \item (a) \textbf{No solution.} The supremum is $1$, but no feasible
+        $x$ attains it: the set $(0,1)$ is not closed, so Weierstrass
+        does not apply.
+        (b) \textbf{Solution exists:} $[0,1]$ is compact and $f(x)=x$
+        continuous; the maximum is attained at $x^{*}=1$ with value
+        $1$.
+        (c) \textbf{Solution exists:} $1/x$ is decreasing on $(0,1]$,
+        so its minimum is attained at the included endpoint $x^{*}=1$
+        with value $1$. (Weierstrass does not apply (the set is not
+        closed at $0$) but existence holds anyway: the theorem is
+        sufficient, not necessary.)
+        (d) \textbf{No solution.} As $x\to 0^{+}$, $1/x\to\infty$: the
+        objective is unbounded above on the feasible set.
+
+  \item By the max--min conversion,
+        $\min_{q} C(q) = -\max_{q}\bigl(-C(q)\bigr)$ with the same
+        optimiser. \emph{Minimisation:} $C'(q)=2q-6=0$ gives $q^{*}=3$;
+        $C''=2>0$ (min); $C(3)=9-18+10=1$.
+        \emph{Maximisation:} $-C(q)=-q^{2}+6q-10$ has FOC
+        $-2q+6=0$, again $q^{*}=3$; second derivative $-2<0$ (max);
+        value $-C(3)=-1$. Same solution $q^{*}=3$, and
+        $\min C = 1 = -(-1) = -\max(-C)$, as claimed.
+
+  \item FOC: $f'(x)=3x^{2}-3=0 \Rightarrow x=\pm 1$. SOC:
+        $f''(x)=6x$. At $x=1$: $f''(1)=6>0$, a strict local minimum
+        with $f(1)=1-3=-2$. At $x=-1$: $f''(-1)=-6<0$, a strict local
+        maximum with $f(-1)=-1+3=2$. Neither is global: as
+        $x\to\infty$, $f(x)\to\infty$ (beating the local max) and as
+        $x\to-\infty$, $f(x)\to-\infty$ (beating the local min). The
+        domain $\R$ is not compact, and no existence theorem applies.
+
+  \item \textbf{Formulation:} choose $q\ge 0$ to maximise
+        \[
+          \pi(q)=p(q)\,q-c(q)=(20-q)q-(q^{2}+4q)=16q-2q^{2}.
+        \]
+        FOC: $\pi'(q)=16-4q=0 \Rightarrow q^{*}=4$. SOC:
+        $\pi''(q)=-4<0$, a strict maximum; since $\pi$ is concave, it
+        is global. Profit:
+        $\pi(4)=16\cdot 4-2\cdot 16=64-32=32$. (Interior: $q^{*}=4>0$,
+        so the sign constraint is slack.)
+
+  \item Profit: $\pi(q)=(100-q)q-5q=95q-q^{2}$. FOC:
+        $\pi'(q)=95-2q=0 \Rightarrow q^{*}=47.5$. SOC:
+        $\pi''(q)=-2<0$, global maximum by concavity. Profit:
+        \[
+          \pi(47.5)=95\cdot 47.5-47.5^{2}=4512.5-2256.25=2256.25 .
+        \]
+
+  \item Revenue: $R(q)=(30-0.5q)q=30q-0.5q^{2}$. FOC:
+        $R'(q)=30-q=0 \Rightarrow q^{*}=30$. SOC: $R''(q)=-1<0$,
+        maximum. Price: $p^{*}=30-0.5\cdot 30=15$. Revenue:
+        $R(30)=900-450=450$ (check: $p^{*}q^{*}=15\cdot 30=450$).
+
+  \item $AC(q)=\dfrac{100+q^{2}}{q}=\dfrac{100}{q}+q$. FOC:
+        \[
+          AC'(q)=-\frac{100}{q^{2}}+1=0
+          \;\Rightarrow\; q^{2}=100 \;\Rightarrow\; q^{*}=10
+        \]
+        (taking the positive root). SOC:
+        $AC''(q)=200/q^{3}$, so $AC''(10)=0.2>0$: a minimum.
+        $AC(10)=10+10=20$. Marginal cost: $MC(q)=C'(q)=2q$, so
+        $MC(10)=20=AC(10)$: marginal cost crosses average cost at
+        its minimum, as it must.
+
+  \item The constraint binds: $K^{1/2}L^{1/2}=100$, i.e.\
+        $KL=10000$, so $K=10000/L$. Substituting,
+        \[
+          C(L)=4L+\frac{10000}{L}, \qquad
+          C'(L)=4-\frac{10000}{L^{2}}=0
+          \;\Rightarrow\; L^{2}=2500 \;\Rightarrow\; L^{*}=50 .
+        \]
+        SOC: $C''(L)=20000/L^{3}>0$ for $L>0$: a minimum (and global,
+        since $C$ is convex on $L>0$). Then
+        $K^{*}=10000/50=200$ and the minimal cost is
+        $C=4\cdot 50+200=200+200=400$. Check the constraint:
+        $\sqrt{200\cdot 50}=\sqrt{10000}=100$. Correct.
+
+  \item Budget binds ($U$ increasing): $y=8-2x$. Substituting,
+        \[
+          u(x)=x(8-2x)=8x-2x^{2}, \qquad
+          u'(x)=8-4x=0 \;\Rightarrow\; x^{*}=2 .
+        \]
+        SOC: $u''(x)=-4<0$, a maximum (global by concavity). Then
+        $y^{*}=8-4=4$ and $U^{*}=2\cdot 4=8$. Budget check:
+        $2\cdot 2+4=8$. Correct.
+
+  \item By Weierstrass a global max and min exist on the compact
+        interval $[-3,5]$. Candidates: interior critical points and the
+        endpoints. FOC: $f'(x)=3x^{2}-12=0 \Rightarrow x=\pm 2$, both
+        interior. Evaluate all four candidates:
+        \[
+          f(-3)=-27+36=9, \quad f(-2)=-8+24=16, \quad
+          f(2)=8-24=-16, \quad f(5)=125-60=65 .
+        \]
+        Global maximum at the \emph{boundary} point $x^{*}=5$ with
+        value $65$; global minimum at the interior point $x^{*}=2$ with
+        value $-16$. (The interior critical point $x=-2$ is only a
+        local maximum: $16<65$.)
+
+  \item \textbf{Formulation:} choose the order size $q>0$ to minimise
+        \[
+          C(q)=\frac{5000}{q}+2q
+        \]
+        (ordering cost $200/q$ orders at $25$ each, plus holding cost
+        $4\cdot q/2$). Unconstrained on the open domain $q>0$. FOC:
+        \[
+          C'(q)=-\frac{5000}{q^{2}}+2=0
+          \;\Rightarrow\; q^{2}=2500 \;\Rightarrow\; q^{*}=50 .
+        \]
+        SOC: $C''(q)=10000/q^{3}>0$: minimum, global by convexity on
+        $q>0$. Minimal cost: $C(50)=100+100=200$ per year.
+
+  \item Let $x$ be the length of each of the two sides perpendicular
+        to the wall; the side parallel to the wall then has length
+        $40-2x$. \textbf{Decision variable:} $x\in(0,20)$.
+        \textbf{Objective:} maximise the area
+        $A(x)=x(40-2x)=40x-2x^{2}$: the fence constraint has been
+        substituted in, so the problem is one-variable and effectively
+        unconstrained. FOC: $A'(x)=40-4x=0 \Rightarrow x^{*}=10$. SOC:
+        $A''(x)=-4<0$, maximum. Sides $10$, $10$ and
+        $40-20=20$ metres; area $A=10\cdot 20=200$ square metres.
+        Fence check: $10+10+20=40$. Correct.
+
+  \item \textbf{Decision variable:} $q\ge 0$. \textbf{Objective:}
+        with the tax the effective unit cost is $2+t=4$, so
+        \[
+          \pi(q)=(12-q)q-4q=8q-q^{2} .
+        \]
+        Effectively unconstrained (interior solution). FOC:
+        $\pi'(q)=8-2q=0 \Rightarrow q^{*}=4$. SOC: $\pi''(q)=-2<0$,
+        maximum. Profit: $\pi(4)=32-16=16$. Consumers pay
+        $p^{*}=12-4=8$. (Check: $\pi=8\cdot 4-4\cdot 4=32-16=16$.)
+\end{solutions}
+
+\section{Additional Problems}
+
+\begin{problems}
+  \item A worker has $16$ hours per day to split between leisure
+        $\ell$ and paid work at wage $w=5$; consumption equals labour
+        income, $c=5(16-\ell)$, and utility is $U(c,\ell)=c\,\ell$.
+        Formulate the problem, reduce it to one variable by
+        substitution, and solve it.
+  \item Classify each problem as a constrained or (effectively)
+        unconstrained maximisation or minimisation, and solve (b) and
+        (c): (a) $\min\, x^{2}+y^{2}$ subject to $x+y=1$;
+        (b) $\max_{q\in\R}\, -(q-3)^{2}$;
+        (c) a firm chooses capital $K\ge 0$ to maximise
+        $f(K)=\sqrt{K}-0.1K$, expecting $K^{*}>0$.
+  \item Solve the portfolio problem of Practice Problem~5: minimise
+        $\sigma^{2}(x)=4x^{2}+(1-x)^{2}$ over $x\in[0,1]$.
+  \item A monopolist faces inverse demand $p(q)=50-2q$ and cost
+        $C(q)=2q^{2}+10q$. Find the profit-maximising output and the
+        maximal profit.
+  \item For the cost function $C(q)=48+3q^{2}$, $q>0$, minimise the
+        average cost and confirm that $MC=AC$ at the minimum.
+  \item A consumer with utility $U(x,y)=xy^{2}$ faces the budget
+        $x+y=9$. Solve by substitution and verify the SOC.
+  \item Which of the following problems possess a solution?
+        (a) $\min\, 1/x$ on $[1,2]$; (b) $\min\, 1/x$ on $(0,\infty)$;
+        (c) $\min\, x+1/x$ on $(0,\infty)$. Justify each answer, and
+        solve those that have solutions.
+  \item Find the global maximum and minimum of $f(x)=x^{2}-4x+1$ on
+        $[0,5]$.
+  \item A farmer has $60$ metres of fence for a free-standing
+        rectangular pen (all four sides fenced). Formulate the
+        area-maximisation problem in one variable and solve it.
+  \item A firm faces inverse demand $p(q)=24-2q$ and unit cost $4$.
+        Find the optimal output, price and profit without a tax, and
+        then with a per-unit tax $t=4$. By how much does the consumer
+        price rise?
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item \textbf{Decision variables:} leisure $\ell\in[0,16]$ and
+        consumption $c\ge 0$; \textbf{objective:} maximise
+        $U=c\,\ell$; \textbf{constraint:} $c=5(16-\ell)$ (time and
+        budget combined). A constrained maximisation with one equality
+        constraint. Substituting,
+        \[
+          u(\ell)=5(16-\ell)\,\ell=80\ell-5\ell^{2}, \qquad
+          u'(\ell)=80-10\ell=0 \;\Rightarrow\; \ell^{*}=8 .
+        \]
+        SOC: $u''(\ell)=-10<0$, maximum. Hence the worker works
+        $16-8=8$ hours, consumes $c^{*}=5\cdot 8=40$, and
+        $U^{*}=40\cdot 8=320$.
+
+  \item (a) \emph{Constrained minimisation} (equality constraint).
+        (b) \emph{Unconstrained maximisation}: FOC $-2(q-3)=0$ gives
+        $q^{*}=3$; second derivative $-2<0$; value $0$.
+        (c) \emph{Effectively unconstrained maximisation}: FOC
+        \[
+          f'(K)=\frac{1}{2\sqrt{K}}-0.1=0
+          \;\Rightarrow\; \sqrt{K}=5 \;\Rightarrow\; K^{*}=25>0,
+        \]
+        so $K\ge 0$ is slack. SOC: $f''(K)=-\tfrac14K^{-3/2}<0$,
+        maximum. Value $f(25)=5-2.5=2.5$.
+
+  \item FOC:
+        $\dd{\sigma^{2}}{x}=8x-2(1-x)=10x-2=0
+        \Rightarrow x^{*}=\tfrac15$, which lies in the interior of
+        $[0,1]$. SOC: second derivative $10>0$, minimum (global by
+        convexity). Minimal variance:
+        \[
+          \sigma^{2}\bigl(\tfrac15\bigr)
+          =4\cdot\tfrac{1}{25}+\bigl(\tfrac45\bigr)^{2}
+          =\tfrac{4}{25}+\tfrac{16}{25}=\tfrac{20}{25}=\tfrac45 .
+        \]
+        Diversification pays: $\tfrac45$ is below the variance $1$ of
+        holding asset $B$ alone.
+
+  \item Profit:
+        $\pi(q)=(50-2q)q-2q^{2}-10q=50q-2q^{2}-2q^{2}-10q
+        =40q-4q^{2}$. FOC: $\pi'(q)=40-8q=0 \Rightarrow q^{*}=5$.
+        SOC: $\pi''(q)=-8<0$, global maximum. Profit:
+        $\pi(5)=200-100=100$.
+
+  \item $AC(q)=\dfrac{48}{q}+3q$. FOC:
+        $AC'(q)=-\dfrac{48}{q^{2}}+3=0 \Rightarrow q^{2}=16
+        \Rightarrow q^{*}=4$. SOC: $AC''(q)=96/q^{3}>0$, minimum.
+        $AC(4)=12+12=24$. Marginal cost $MC(q)=6q$ gives
+        $MC(4)=24=AC(4)$. Confirmed.
+
+  \item Budget binds: $x=9-y$. Substituting,
+        \[
+          u(y)=(9-y)y^{2}=9y^{2}-y^{3}, \qquad
+          u'(y)=18y-3y^{2}=3y(6-y)=0
+          \;\Rightarrow\; y=0 \text{ or } y=6 .
+        \]
+        $y=0$ gives $U=0$ (a minimum on the budget line). At
+        $y^{*}=6$: SOC $u''(y)=18-6y$, $u''(6)=-18<0$, maximum. Then
+        $x^{*}=3$ and $U^{*}=3\cdot 36=108$. Budget check: $3+6=9$.
+        Correct.
+
+  \item (a) \textbf{Yes:} $[1,2]$ is compact and $1/x$ continuous
+        there (Weierstrass); since $1/x$ is decreasing, the minimum is
+        at $x^{*}=2$ with value $\tfrac12$.
+        (b) \textbf{No:} as $x\to\infty$, $1/x\to 0$, so the infimum
+        $0$ is never attained, no minimum exists.
+        (c) \textbf{Yes}, despite the non-compact domain: FOC
+        $1-1/x^{2}=0$ gives $x^{*}=1$ (taking $x>0$); SOC
+        $f''(x)=2/x^{3}$, $f''(1)=2>0$, minimum, with value
+        $f(1)=1+1=2$. Since $f(x)\to\infty$ both as $x\to 0^{+}$ and as
+        $x\to\infty$, the interior critical point is the global
+        minimum. Weierstrass is sufficient for existence, not
+        necessary.
+
+  \item Candidates: FOC $f'(x)=2x-4=0$ gives the interior point
+        $x=2$, plus the endpoints $0$ and $5$. Values:
+        \[
+          f(0)=1, \qquad f(2)=4-8+1=-3, \qquad f(5)=25-20+1=6 .
+        \]
+        Global minimum at $x^{*}=2$ with value $-3$; global maximum at
+        the boundary point $x^{*}=5$ with value $6$.
+
+  \item With sides $x$ and $y$ and perimeter $2x+2y=60$, substitute
+        $y=30-x$: maximise $A(x)=x(30-x)=30x-x^{2}$ for
+        $x\in(0,30)$. FOC: $A'(x)=30-2x=0 \Rightarrow x^{*}=15$. SOC:
+        $A''(x)=-2<0$, maximum. Hence $y^{*}=15$ (a square) and
+        $A=15\cdot 15=225$ square metres. Fence check:
+        $2\cdot 15+2\cdot 15=60$. Correct.
+
+  \item \emph{Without tax:} $\pi(q)=(24-2q)q-4q=20q-2q^{2}$. FOC:
+        $20-4q=0 \Rightarrow q^{*}=5$; SOC $-4<0$. Price
+        $p^{*}=24-10=14$; profit $\pi=100-50=50$.
+        \emph{With the tax:} unit cost $4+4=8$, so
+        $\pi(q)=(24-2q)q-8q=16q-2q^{2}$. FOC:
+        $16-4q=0 \Rightarrow q^{*}=4$; SOC $-4<0$. Price
+        $p^{*}=24-8=16$; profit $\pi=64-32=32$. The consumer price
+        rises from $14$ to $16$: by $2$, exactly half of the tax:
+        with linear demand and constant unit cost the burden is split
+        evenly between consumers and the firm.
+\end{solutions}

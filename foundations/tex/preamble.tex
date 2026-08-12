@@ -1,0 +1,53 @@
+% Shared preamble for the Derivatives training sheet.
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,margin=2.4cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{accent}{HTML}{1F4E79}
+\definecolor{soft}{HTML}{F4F7FA}
+
+% --- rule boxes -----------------------------------------------------------
+\newtcolorbox{rulebox}[1]{%
+  breakable, enhanced, colback=soft, colframe=accent,
+  boxrule=0.4pt, left=7pt, right=7pt, top=6pt, bottom=6pt,
+  fonttitle=\bfseries, coltitle=white, colbacktitle=accent,
+  title={#1}}
+
+% --- problem / solution lists --------------------------------------------
+\newlist{problems}{enumerate}{1}
+\setlist[problems]{label=\textbf{\arabic*.}, leftmargin=2.1em,
+  itemsep=0.55ex, parsep=0pt, topsep=0.8ex}
+\newlist{solutions}{enumerate}{1}
+\setlist[solutions]{label=\textbf{\arabic*.}, leftmargin=2.1em,
+  itemsep=1.0ex, parsep=0pt, topsep=0.8ex}
+
+% --- running heads --------------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE]{\small\itshape\nouppercase{\leftmark}}
+\fancyhead[LO]{\small\itshape\nouppercase{\rightmark}}
+\setlength{\headheight}{14pt}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\chaptermark}[1]{\markboth{\chaptername\ \thechapter.\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+
+% --- shorthands used throughout -------------------------------------------
+\newcommand{\dd}[2]{\frac{\mathrm{d}#1}{\mathrm{d}#2}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pdd}[3]{\frac{\partial^{2} #1}{\partial #2\,\partial #3}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\grad}{\nabla}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\Hess}{H}
+
+% German gloss, used on first mention of a technical term
+\newcommand{\de}[1]{\emph{#1}}

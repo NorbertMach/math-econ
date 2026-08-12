@@ -1,0 +1,367 @@
+\chapter{The Lagrange Method: Setup and First-Order Conditions}
+
+Real economic choices come with constraints: budgets, technology, time. The
+technique of \emph{Lagrange multipliers} converts a constrained optimisation
+problem into an unconstrained one in more variables. The first half of
+mastering it is bookkeeping: pick the right sign convention, identify the
+constraint constant, and write the FOCs without making algebra mistakes.
+Once the Lagrangian and its FOCs are written down, the standard moves are:
+divide two FOCs to eliminate $\lambda$, obtain an MRS condition between $x$
+and $y$, substitute into the constraint, and back-solve for $\lambda^*$.
+This chapter drills both halves (the setup and the solving pipeline)
+with the canonical examples: Cobb--Douglas demand, linear constraints, and a
+few non-textbook variants.
+
+\section{Core Rules}
+
+\begin{rulebox}{The standard problem}
+Consider
+\[
+\max_{(x, y)} \; f(x, y) \quad \text{subject to} \quad g(x, y) = c,
+\]
+where $f$ is the objective (utility, output, profit) and $g(x, y) = c$ is a
+single equality constraint (budget, resource).
+\end{rulebox}
+
+\begin{rulebox}{The Lagrangian and its sign convention}
+Define the auxiliary function
+\[
+\mathcal{L}(x, y, \lambda) \;=\; f(x, y) + \lambda \bigl( c - g(x, y) \bigr).
+\]
+\textbf{Sign convention.} Writing it as $c - g$ (constraint constant minus
+left-hand side) makes $\lambda \geq 0$ for natural maximisation problems,
+relaxing the constraint by raising $c$ increases the optimum. Equivalent
+forms appear in textbooks, e.g.\ $\mathcal{L} = f - \lambda(g - c)$ (the
+same thing) or $\mathcal{L} = f + \lambda g$ when $c = 0$. The arithmetic is
+identical; pick a convention and stick with it.
+\end{rulebox}
+
+\begin{rulebox}{First-order conditions}
+Treat $\mathcal{L}$ as a function of three variables and set its partials to
+zero:
+\[
+\frac{\partial \mathcal{L}}{\partial x} \;=\; f_x - \lambda g_x \;=\; 0, \qquad
+\frac{\partial \mathcal{L}}{\partial y} \;=\; f_y - \lambda g_y \;=\; 0, \qquad
+\frac{\partial \mathcal{L}}{\partial \lambda} \;=\; c - g(x, y) \;=\; 0.
+\]
+The first two equations say
+\[
+\grad f \;=\; \lambda \, \grad g \qquad \text{at the optimum.}
+\]
+Geometrically, the level sets of $f$ and $g$ are tangent there. The third
+equation recovers the original constraint.
+\end{rulebox}
+
+\begin{rulebox}{Tangency in ratio form}
+Dividing the first two FOCs (when $g_y \neq 0$ and $f_y \neq 0$) eliminates
+$\lambda$:
+\[
+\frac{f_x}{f_y} \;=\; \frac{g_x}{g_y}.
+\]
+In consumer theory with $f = U(x, y)$ (utility) and $g = p_x x + p_y y$
+(budget),
+\[
+\underbrace{\frac{U_x}{U_y}}_{\text{MRS}} \;=\; \frac{p_x}{p_y},
+\]
+the textbook equality of marginal rate of substitution and price ratio.
+\end{rulebox}
+
+\begin{rulebox}{Identifying the constraint constant}
+A budget $p_x x + p_y y = M$ has constraint constant $c = M$ and
+$g(x,y) = p_x x + p_y y$. A production target $F(K, L) = Q_0$ has $c = Q_0$
+and $g = F$. Always rewrite the constraint in the form $g(x,y) = c$ before
+writing $\mathcal{L}$.
+\end{rulebox}
+
+\begin{rulebox}{When the method applies (constraint qualification)}
+The FOC system presumes that $f$ and $g$ are differentiable and that
+$\grad g \neq 0$ at the optimum, so that the tangency condition
+$\grad f = \lambda \grad g$ is meaningful. When the objective is not
+differentiable (e.g.\ the Leontief utility $\min\{x, y\}$, which has a
+kink along the ray $x = y$) the standard Lagrangian does not apply and
+the optimum must be found directly (see Practice Problem 7).
+\end{rulebox}
+
+\begin{rulebox}{Solving strategy: the four-step pipeline}
+\begin{enumerate}[leftmargin=1.8em,itemsep=0.4ex]
+  \item \textbf{Eliminate $\lambda$.} From $f_x = \lambda g_x$ and
+        $f_y = \lambda g_y$ obtain
+        \[
+        \frac{f_x(x, y)}{f_y(x, y)} \;=\; \frac{g_x(x, y)}{g_y(x, y)}.
+        \]
+        For a linear budget $g = p_x x + p_y y$ this is
+        $\dfrac{f_x}{f_y} = \dfrac{p_x}{p_y}$.
+  \item \textbf{Solve the tangency for $y$ in terms of $x$ (or vice
+        versa).} This produces the \emph{expansion path}, a relation
+        between $x$ and $y$ that holds for any constraint level.
+  \item \textbf{Plug into the constraint $g(x, y) = c$.} Two equations in
+        two unknowns collapse to one in one unknown.
+  \item \textbf{Back out $\lambda^*$.} Once $x^*, y^*$ are known,
+        $\lambda^* = f_x(x^*, y^*)/g_x(x^*, y^*)$.
+\end{enumerate}
+\end{rulebox}
+
+\begin{rulebox}{Worked template: Cobb--Douglas demand}
+For $U = x^\alpha y^{1 - \alpha}$ and budget $p_x x + p_y y = M$:
+\begin{enumerate}[leftmargin=1.8em,itemsep=0.4ex]
+    \item FOCs: $\alpha x^{\alpha - 1} y^{1 - \alpha} = \lambda p_x$,
+          $(1 - \alpha) x^\alpha y^{-\alpha} = \lambda p_y$.
+    \item Divide: $\dfrac{\alpha}{1 - \alpha} \cdot \dfrac{y}{x} =
+          \dfrac{p_x}{p_y}$, hence
+          $y = \dfrac{(1 - \alpha) p_x}{\alpha p_y} x$.
+    \item Budget: $p_x x + p_y \cdot \dfrac{(1 - \alpha) p_x}{\alpha p_y} x
+          = M \Rightarrow p_x x \bigl(1 + \tfrac{1 - \alpha}{\alpha}\bigr)
+          = M \Rightarrow p_x x / \alpha = M$.
+    \item Hence $\boxed{x^* = \dfrac{\alpha M}{p_x}, \quad
+          y^* = \dfrac{(1 - \alpha) M}{p_y}}$. A Cobb--Douglas consumer
+          spends a constant share $\alpha$ on $x$ and $1 - \alpha$ on $y$.
+\end{enumerate}
+\end{rulebox}
+
+\begin{rulebox}{The substitution method (and when to avoid it}
+If the single equality constraint $g(x, y) = c$ can be solved explicitly for
+one variable, say $y = h(x)$, substitute it into the objective and maximise
+$f(x, h(x))$) an \emph{unconstrained} problem in one variable fewer. This
+always works when the solve-out is global and smooth. But beware:
+\begin{itemize}[leftmargin=1.8em,itemsep=0.4ex]
+  \item the constraint may not be solvable in closed form;
+  \item solving for one variable can lose branches (e.g.\
+        $y = \pm\sqrt{c - x^2}$) or hide domain restrictions;
+  \item corner information and the shadow price $\lambda$ are lost, the
+        Lagrangian keeps both;
+  \item with several constraints, substitution quickly becomes impractical.
+\end{itemize}
+Rule of thumb: substitution for quick checks in two variables; Lagrange as
+the systematic method.
+\end{rulebox}
+
+\section{Practice Problems}
+
+For Problems 1--15, write down (a) the Lagrangian and (b) the three FOCs.
+\emph{You do not need to solve these yet}: solving is drilled in
+Problems 16--33. Use the sign convention
+$\mathcal{L} = f + \lambda(c - g)$. For Problems 16--33, solve each
+constrained problem for $(x^*, y^*)$ and $\lambda^*$ (most are
+continuations of Problems 1--15).
+
+\begin{problems}
+  \item Maximise $U(x, y) = x y$ subject to $2 x + 3 y = 12$.
+  \item Maximise $U(x, y) = x^{1/2} y^{1/2}$ subject to $p_x x + p_y y = M$.
+  \item Maximise $U(x, y) = x^\alpha y^{1 - \alpha}$ (Cobb--Douglas, $0 < \alpha < 1$) s.t.\ $p_x x + p_y y = M$.
+  \item Maximise $U(x, y) = \ln(x) + \ln(y)$ subject to $x + y = 10$.
+  \item Maximise $U(x, y) = \ln(x) + 2 \ln(y)$ subject to $x + 4 y = 24$.
+  \item Maximise CES utility $U(x, y) = (x^\rho + y^\rho)^{1/\rho}$ (with $\rho < 1$, $\rho \neq 0$) s.t.\ $p_x x + p_y y = M$.
+  \item Maximise $U(x, y) = \min\{x, y\}$ s.t.\ $p_x x + p_y y = M$: formally not differentiable, so explain why the standard Lagrangian does not apply, then state the corner solution method instead.
+  \item Minimise cost $C = p_K K + p_L L$ subject to production $K^{1/2} L^{1/2} = Q_0$.
+  \item Minimise $f(x, y) = x^2 + y^2$ subject to $x + y = 4$.
+  \item Maximise output $Q = K^{1/3} L^{2/3}$ subject to cost $r K + w L = TC$.
+  \item Maximise $f(x, y) = 2 x + 3 y$ on the circle $x^2 + y^2 = 13$.
+  \item Maximise $U(x, y) = x y^2$ subject to $x + y = 9$.
+  \item Maximise $U(x, y) = \alpha \ln(x) + \beta \ln(y)$ subject to $p_x x + p_y y = M$.
+  \item Minimise $f(x, y) = x^2 + 4 y^2$ on $x + 2 y = 6$.
+  \item Maximise $f(x, y) = x y$ subject to $x^2 + y^2 = 8$.
+  \item Maximise $U = x y$ s.t.\ $2 x + 3 y = 12$.
+  \item Maximise $U = x^{1/2} y^{1/2}$ s.t.\ $p_x x + p_y y = M$. Give general formulas.
+  \item Maximise $U = \ln x + \ln y$ s.t.\ $x + y = 10$.
+  \item Maximise $U = \ln x + 2 \ln y$ s.t.\ $x + 4 y = 24$.
+  \item Maximise $U = x y^2$ s.t.\ $x + y = 9$.
+  \item Maximise $U = \alpha \ln x + \beta \ln y$ s.t.\ $p_x x + p_y y = M$ (give Marshallian demands).
+  \item Maximise $f(x, y) = 2 x + 3 y$ on the circle $x^2 + y^2 = 13$.
+  \item Maximise $f(x, y) = x y$ on $x^2 + y^2 = 8$ (with $x, y > 0$).
+  \item Minimise $f(x, y) = x^2 + y^2$ s.t.\ $x + y = 4$.
+  \item Minimise $f(x, y) = x^2 + 4 y^2$ s.t.\ $x + 2 y = 6$.
+  \item Maximise output $Q = K^{1/2} L^{1/2}$ s.t.\ $r K + w L = TC$.
+  \item Minimise cost $C = p_K K + p_L L$ s.t.\ $K^{1/2} L^{1/2} = Q_0$ (conditional factor demands).
+  \item Maximise $Q = K^{1/3} L^{2/3}$ s.t.\ $r K + w L = TC$.
+  \item Maximise $U = 4 \ln x + 3 \ln y$ on $2 x + y = 35$.
+  \item A consumer with utility $U = x y + 2 x$ faces the budget $x + y = 8$. Find $(x^*, y^*)$.
+  \item Maximise $U = x + 4 \sqrt{y}$ s.t.\ $x + y = 10$ (assume the optimum is interior).
+  \item Minimise $f(x, y) = 3 x^2 + 2 y^2$ s.t.\ $x + y = 5$.
+  \item Maximise $U = \sqrt{x} + \sqrt{y}$ s.t.\ $p_x x + p_y y = M$ (with $p_x, p_y, M > 0$).
+\end{problems}
+
+\section{Solutions}
+
+For Problems 1--15 we record $\mathcal{L}$ and the three FOCs.
+
+\begin{solutions}
+  \item $\mathcal{L} = x y + \lambda(12 - 2 x - 3 y)$.
+  \[
+  \mathcal{L}_x = y - 2 \lambda = 0, \quad \mathcal{L}_y = x - 3 \lambda = 0, \quad \mathcal{L}_\lambda = 12 - 2 x - 3 y = 0.
+  \]
+  \item $\mathcal{L} = x^{1/2} y^{1/2} + \lambda(M - p_x x - p_y y)$.
+  \[
+  \mathcal{L}_x = \tfrac{1}{2} x^{-1/2} y^{1/2} - \lambda p_x = 0, \quad \mathcal{L}_y = \tfrac{1}{2} x^{1/2} y^{-1/2} - \lambda p_y = 0, \quad \mathcal{L}_\lambda = M - p_x x - p_y y = 0.
+  \]
+  \item $\mathcal{L} = x^\alpha y^{1 - \alpha} + \lambda(M - p_x x - p_y y)$.
+  \[
+  \mathcal{L}_x = \alpha x^{\alpha - 1} y^{1 - \alpha} - \lambda p_x = 0, \quad \mathcal{L}_y = (1 - \alpha) x^\alpha y^{-\alpha} - \lambda p_y = 0, \quad \mathcal{L}_\lambda = M - p_x x - p_y y = 0.
+  \]
+  \item $\mathcal{L} = \ln(x) + \ln(y) + \lambda(10 - x - y)$.
+  \[
+  \mathcal{L}_x = \tfrac{1}{x} - \lambda = 0, \quad \mathcal{L}_y = \tfrac{1}{y} - \lambda = 0, \quad \mathcal{L}_\lambda = 10 - x - y = 0.
+  \]
+  \item $\mathcal{L} = \ln(x) + 2 \ln(y) + \lambda(24 - x - 4 y)$.
+  \[
+  \mathcal{L}_x = \tfrac{1}{x} - \lambda = 0, \quad \mathcal{L}_y = \tfrac{2}{y} - 4 \lambda = 0, \quad \mathcal{L}_\lambda = 24 - x - 4 y = 0.
+  \]
+  \item $\mathcal{L} = (x^\rho + y^\rho)^{1/\rho} + \lambda(M - p_x x - p_y y)$. With $U = (x^\rho + y^\rho)^{1/\rho}$, $U_x = U^{1 - \rho} x^{\rho - 1}$ (chain rule: $U_x = \tfrac{1}{\rho}(x^\rho + y^\rho)^{1/\rho - 1} \cdot \rho x^{\rho - 1} = U^{1 - \rho} x^{\rho - 1}$).
+  \[
+  \mathcal{L}_x = U^{1 - \rho} x^{\rho - 1} - \lambda p_x = 0, \quad \mathcal{L}_y = U^{1 - \rho} y^{\rho - 1} - \lambda p_y = 0, \quad \mathcal{L}_\lambda = M - p_x x - p_y y = 0.
+  \]
+  \item The Leontief utility $\min\{x, y\}$ is not differentiable along the ray $x = y$, so $\mathcal{L}_x$ and $\mathcal{L}_y$ do not exist there. The standard FOC method fails. The shortcut: optimal consumption requires $x = y$ (no waste), so substitute into the budget: $p_x x + p_y x = M \Rightarrow x^* = y^* = M/(p_x + p_y)$. (More generally, for $\min\{x/a, y/b\}$ set $x/a = y/b$.)
+  \item $\mathcal{L} = p_K K + p_L L + \lambda(Q_0 - K^{1/2} L^{1/2})$. \emph{(Minimisation; same Lagrangian shape, the multiplier still has the right sign because we wrote constraint as $Q_0 - F$.)}
+  \[
+  \mathcal{L}_K = p_K - \tfrac{\lambda}{2} K^{-1/2} L^{1/2} = 0, \quad \mathcal{L}_L = p_L - \tfrac{\lambda}{2} K^{1/2} L^{-1/2} = 0, \quad \mathcal{L}_\lambda = Q_0 - K^{1/2} L^{1/2} = 0.
+  \]
+  \item $\mathcal{L} = x^2 + y^2 + \lambda(4 - x - y)$.
+  \[
+  \mathcal{L}_x = 2 x - \lambda = 0, \quad \mathcal{L}_y = 2 y - \lambda = 0, \quad \mathcal{L}_\lambda = 4 - x - y = 0.
+  \]
+  \item $\mathcal{L} = K^{1/3} L^{2/3} + \lambda(TC - r K - w L)$.
+  \[
+  \mathcal{L}_K = \tfrac{1}{3} K^{-2/3} L^{2/3} - \lambda r = 0, \quad \mathcal{L}_L = \tfrac{2}{3} K^{1/3} L^{-1/3} - \lambda w = 0, \quad \mathcal{L}_\lambda = TC - r K - w L = 0.
+  \]
+  \item $\mathcal{L} = 2 x + 3 y + \lambda(13 - x^2 - y^2)$.
+  \[
+  \mathcal{L}_x = 2 - 2 \lambda x = 0, \quad \mathcal{L}_y = 3 - 2 \lambda y = 0, \quad \mathcal{L}_\lambda = 13 - x^2 - y^2 = 0.
+  \]
+  \item $\mathcal{L} = x y^2 + \lambda(9 - x - y)$.
+  \[
+  \mathcal{L}_x = y^2 - \lambda = 0, \quad \mathcal{L}_y = 2 x y - \lambda = 0, \quad \mathcal{L}_\lambda = 9 - x - y = 0.
+  \]
+  \item $\mathcal{L} = \alpha \ln(x) + \beta \ln(y) + \lambda(M - p_x x - p_y y)$.
+  \[
+  \mathcal{L}_x = \tfrac{\alpha}{x} - \lambda p_x = 0, \quad \mathcal{L}_y = \tfrac{\beta}{y} - \lambda p_y = 0, \quad \mathcal{L}_\lambda = M - p_x x - p_y y = 0.
+  \]
+  \item $\mathcal{L} = x^2 + 4 y^2 + \lambda(6 - x - 2 y)$.
+  \[
+  \mathcal{L}_x = 2 x - \lambda = 0, \quad \mathcal{L}_y = 8 y - 2 \lambda = 0, \quad \mathcal{L}_\lambda = 6 - x - 2 y = 0.
+  \]
+  \item $\mathcal{L} = x y + \lambda(8 - x^2 - y^2)$.
+  \[
+  \mathcal{L}_x = y - 2 \lambda x = 0, \quad \mathcal{L}_y = x - 2 \lambda y = 0, \quad \mathcal{L}_\lambda = 8 - x^2 - y^2 = 0.
+  \]
+  \item FOCs: $y = 2 \lambda$, $x = 3 \lambda$. Divide: $y/x = 2/3 \Rightarrow x = 3 y / 2$. Sub: $2 (3 y/2) + 3 y = 6 y = 12 \Rightarrow y^* = 2$, $x^* = 3$. $\lambda^* = y/2 = 1$. $U^* = 6$.
+  \item FOCs: $\tfrac{1}{2} x^{-1/2} y^{1/2} = \lambda p_x$, $\tfrac{1}{2} x^{1/2} y^{-1/2} = \lambda p_y$. Divide: $y/x = p_x/p_y$. So $y = (p_x/p_y) x$. Budget: $p_x x + p_y (p_x/p_y) x = 2 p_x x = M \Rightarrow x^* = \dfrac{M}{2 p_x}$, $y^* = \dfrac{M}{2 p_y}$. Equal-share spending (since this is Cobb--Douglas with $\alpha = 1/2$). $\lambda^* = \dfrac{1}{2 p_x} \cdot \dfrac{y^{*1/2}}{x^{*1/2}} = \dfrac{1}{2 p_x} \sqrt{p_x/p_y} = \dfrac{1}{2\sqrt{p_x p_y}}$.
+  \item FOCs: $1/x = \lambda$, $1/y = \lambda \Rightarrow x = y$. Constraint: $2 x = 10 \Rightarrow x^* = y^* = 5$. $\lambda^* = 1/5$.
+  \item FOCs: $1/x = \lambda$ and $2/y = 4 \lambda \Rightarrow y = 2/(4 \lambda) = 1/(2 \lambda) = x/2 \cdot ?$ Let's redo: from $1/x = \lambda$ we have $\lambda = 1/x$. Then $2/y = 4/x \Rightarrow y = x/2$. Sub into $x + 4 y = 24$: $x + 2 x = 3 x = 24 \Rightarrow x^* = 8$, $y^* = 4$. $\lambda^* = 1/8$.
+  \item FOCs: $y^2 = \lambda$, $2 x y = \lambda$. So $y^2 = 2 x y \Rightarrow y = 2 x$ (taking $y > 0$). Sub into $x + y = 9$: $3 x = 9 \Rightarrow x^* = 3$, $y^* = 6$. $\lambda^* = 36$. $U^* = 3 \cdot 36 = 108$.
+  \item FOCs: $\alpha/x = \lambda p_x$, $\beta/y = \lambda p_y$. So $p_x x = \alpha/\lambda$ and $p_y y = \beta/\lambda$. Sum: $p_x x + p_y y = (\alpha + \beta)/\lambda = M \Rightarrow \lambda^* = (\alpha + \beta)/M$. Hence
+  \[ x^* = \frac{\alpha}{\alpha + \beta} \cdot \frac{M}{p_x}, \quad y^* = \frac{\beta}{\alpha + \beta} \cdot \frac{M}{p_y}. \]
+  Constant expenditure shares $\alpha/(\alpha + \beta)$ and $\beta/(\alpha + \beta)$.
+  \item FOCs: $2 = 2 \lambda x$, $3 = 2 \lambda y$, so $x = 1/\lambda$, $y = 3/(2 \lambda)$. Constraint: $1/\lambda^2 + 9/(4 \lambda^2) = 13 \Rightarrow (4 + 9)/(4 \lambda^2) = 13 \Rightarrow \lambda^2 = 1/4 \Rightarrow \lambda^* = 1/2$ (taking positive root for max). Then $x^* = 2$, $y^* = 3$. $f^* = 4 + 9 = 13$.
+  \item FOCs: $y = 2 \lambda x$, $x = 2 \lambda y$. Multiply: $x y = 4 \lambda^2 x y$, so (with $x, y > 0$) $\lambda^2 = 1/4 \Rightarrow \lambda^* = 1/2$. Then $y = x$. Constraint: $2 x^2 = 8 \Rightarrow x^* = 2$, $y^* = 2$. $f^* = 4$.
+  \item FOCs: $2 x = \lambda$, $2 y = \lambda \Rightarrow x = y$. Constraint: $2 x = 4 \Rightarrow x^* = y^* = 2$. $\lambda^* = 4$. $f^* = 8$.
+  \item FOCs: $2 x = \lambda$, $8 y = 2 \lambda \Rightarrow \lambda = 4 y$. Equate: $2 x = 4 y \Rightarrow x = 2 y$. Constraint: $2 y + 2 y = 4 y = 6 \Rightarrow y^* = 3/2$, $x^* = 3$. $\lambda^* = 6$. $f^* = 9 + 9 = 18$.
+  \item FOCs: $\tfrac{1}{2} K^{-1/2} L^{1/2} = \lambda r$, $\tfrac{1}{2} K^{1/2} L^{-1/2} = \lambda w$. Divide: $L/K = r/w \Rightarrow w L = r K$. With $r K + w L = TC$: $2 r K = TC \Rightarrow K^* = \dfrac{TC}{2 r}$, $L^* = \dfrac{TC}{2 w}$. $Q^* = (K^* L^*)^{1/2} = \dfrac{TC}{2 \sqrt{r w}}$.
+  \item Now $C$ is the objective and $K^{1/2} L^{1/2} = Q_0$ is the constraint. $\mathcal{L} = p_K K + p_L L + \lambda(Q_0 - K^{1/2} L^{1/2})$. FOCs: $p_K = \tfrac{\lambda}{2} K^{-1/2} L^{1/2}$, $p_L = \tfrac{\lambda}{2} K^{1/2} L^{-1/2}$. Divide: $p_K/p_L = L/K \Rightarrow L = (p_K/p_L) K$. Constraint: $K^{1/2}(p_K/p_L)^{1/2} K^{1/2} = Q_0 \Rightarrow K \sqrt{p_K/p_L} = Q_0 \Rightarrow K^* = Q_0 \sqrt{p_L/p_K}$, $L^* = Q_0 \sqrt{p_K/p_L}$. Minimum cost: $C^* = p_K K^* + p_L L^* = 2 Q_0 \sqrt{p_K p_L}$.
+  \item FOCs: $\tfrac{1}{3} K^{-2/3} L^{2/3} = \lambda r$, $\tfrac{2}{3} K^{1/3} L^{-1/3} = \lambda w$. Divide: $\dfrac{1/3 \cdot L/K}{2/3} = r/w \Rightarrow \dfrac{L}{2 K} = r/w \Rightarrow w L = 2 r K$. Constraint: $r K + 2 r K = 3 r K = TC \Rightarrow K^* = \dfrac{TC}{3 r}$, $L^* = \dfrac{2 TC}{3 w}$.
+  \item FOCs: $4/x = 2 \lambda$, $3/y = \lambda$. So $\lambda = 2/x$ and $\lambda = 3/y \Rightarrow y = 3 x / 2$. Constraint: $2 x + 3 x/2 = 7 x/2 = 35 \Rightarrow x^* = 10$, $y^* = 15$. $\lambda^* = 1/5$.
+  \item $\mathcal{L} = x y + 2 x + \lambda(8 - x - y)$. FOCs: $y + 2 = \lambda$, $x = \lambda$. So $x = y + 2$. Constraint: $(y + 2) + y = 2 y + 2 = 8 \Rightarrow y^* = 3$, $x^* = 5$. $\lambda^* = 5$. $U^* = 15 + 10 = 25$.
+  \item $\mathcal{L} = x + 4 \sqrt{y} + \lambda(10 - x - y)$. FOCs: $1 = \lambda$, $2/\sqrt{y} = \lambda = 1 \Rightarrow \sqrt{y} = 2 \Rightarrow y^* = 4$. Constraint: $x^* = 6$. $U^* = 6 + 4 \cdot 2 = 14$. $\lambda^* = 1$.
+  \item FOCs: $6 x = \lambda$, $4 y = \lambda \Rightarrow 6 x = 4 y \Rightarrow y = 3 x / 2$. Constraint: $x + 3 x/2 = 5 x/2 = 5 \Rightarrow x^* = 2$, $y^* = 3$. $\lambda^* = 12$. $f^* = 12 + 18 = 30$.
+  \item FOCs: $\tfrac{1}{2 \sqrt{x}} = \lambda p_x$, $\tfrac{1}{2 \sqrt{y}} = \lambda p_y$. Divide: $\sqrt{y/x} = p_x/p_y \Rightarrow y = (p_x/p_y)^2 x$. Sub: $p_x x + p_y (p_x/p_y)^2 x = p_x x + (p_x^2/p_y) x = x \cdot p_x(1 + p_x/p_y) = x \cdot p_x (p_x + p_y)/p_y = M$. Hence
+  \[ x^* = \frac{M p_y}{p_x(p_x + p_y)}, \qquad y^* = \left(\frac{p_x}{p_y}\right)^2 x^* = \frac{M p_x}{p_y(p_x + p_y)}. \]
+\end{solutions}
+
+\section{Additional Problems}
+
+For Problems 1--10, write down (a) the Lagrangian and (b) the three FOCs:
+\emph{you do not need to solve these}; use the sign convention
+$\mathcal{L} = f + \lambda(c - g)$. For Problems 11--20, solve each
+constrained problem for $(x^*, y^*)$ and $\lambda^*$.
+
+\begin{problems}
+  \item Maximise $U(x, y) = 3 x y$ subject to $4 x + 5 y = 40$.
+  \item Maximise $U(x, y) = x^{2/3} y^{1/3}$ subject to $p_x x + p_y y = M$.
+  \item Maximise $U(x, y) = \ln(x) + 3 \ln(y)$ subject to $2 x + y = 20$.
+  \item Minimise cost $C = w_1 x_1 + w_2 x_2$ subject to production $x_1^{1/3} x_2^{2/3} = Q_0$.
+  \item Minimise $f(x, y) = x^2 + 2 y^2$ subject to $2 x + y = 10$.
+  \item Maximise output $Q = K^{2/3} L^{1/3}$ subject to cost $r K + w L = TC$.
+  \item Maximise $f(x, y) = 5 x + 2 y$ on the ellipse $x^2 + 4 y^2 = 20$.
+  \item Maximise $U(x, y) = x^2 y$ subject to $3 x + 2 y = 24$.
+  \item Maximise $U(x, y) = \ln(x + 1) + \ln(y + 1)$ subject to $x + y = 6$.
+  \item Minimise $f(x, y) = (x - 2)^2 + (y - 3)^2$ subject to $x + 2 y = 8$.
+  \item Maximise $U = 3 x y$ s.t.\ $4 x + 5 y = 40$.
+  \item Maximise $U = x^{2/3} y^{1/3}$ s.t.\ $p_x x + p_y y = M$. Give general formulas.
+  \item Maximise $U = \ln x + 3 \ln y$ s.t.\ $2 x + y = 20$.
+  \item Maximise $f(x, y) = 5 x + 2 y$ on $x^2 + 4 y^2 = 20$ (with $x, y > 0$).
+  \item Minimise $f(x, y) = x^2 + 2 y^2$ s.t.\ $2 x + y = 10$.
+  \item Maximise $Q = K^{2/3} L^{1/3}$ s.t.\ $r K + w L = TC$.
+  \item Maximise $U = x^2 y$ s.t.\ $3 x + 2 y = 24$.
+  \item Maximise $U = \ln(x + 1) + \ln(y + 1)$ s.t.\ $x + y = 6$.
+  \item Minimise $f(x, y) = (x - 2)^2 + (y - 3)^2$ s.t.\ $x + 2 y = 8$.
+  \item Maximise $U = 2 \sqrt{x} + 3 \sqrt{y}$ s.t.\ $x + y = 13$.
+  \item Solve $\max\, x y$ s.t.\ $x + y = 10$ twice: (a) by substitution ($y = 10 - x$), (b) by the Lagrange method. Confirm that both give the same optimum.
+  \item Maximise $U = x^{1/2} y^{1/2}$ subject to the budget $2 x + y = 12$, (a) by substitution and (b) by the Lagrange method. From the Lagrange version, read off $\lambda^*$ and interpret it.
+  \item Extremise $f(x, y) = x + y$ on the circle $x^2 + y^2 = 2$. First substitute $y = \sqrt{2 - x^2}$ and find the resulting candidate; then run the Lagrange method and compare. What did the substitution miss, and why?
+  \item For $\min\, x^2 + y^2 + z^2$ s.t.\ $x + 2 y + 3 z = 14$, state which method (substitution or Lagrange) you would use and why. Then solve the problem with that method.
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item $\mathcal{L} = 3 x y + \lambda(40 - 4 x - 5 y)$.
+  \[
+  \mathcal{L}_x = 3 y - 4 \lambda = 0, \quad \mathcal{L}_y = 3 x - 5 \lambda = 0, \quad \mathcal{L}_\lambda = 40 - 4 x - 5 y = 0.
+  \]
+  \item $\mathcal{L} = x^{2/3} y^{1/3} + \lambda(M - p_x x - p_y y)$.
+  \[
+  \mathcal{L}_x = \tfrac{2}{3} x^{-1/3} y^{1/3} - \lambda p_x = 0, \quad \mathcal{L}_y = \tfrac{1}{3} x^{2/3} y^{-2/3} - \lambda p_y = 0, \quad \mathcal{L}_\lambda = M - p_x x - p_y y = 0.
+  \]
+  \item $\mathcal{L} = \ln(x) + 3 \ln(y) + \lambda(20 - 2 x - y)$.
+  \[
+  \mathcal{L}_x = \tfrac{1}{x} - 2 \lambda = 0, \quad \mathcal{L}_y = \tfrac{3}{y} - \lambda = 0, \quad \mathcal{L}_\lambda = 20 - 2 x - y = 0.
+  \]
+  \item $\mathcal{L} = w_1 x_1 + w_2 x_2 + \lambda(Q_0 - x_1^{1/3} x_2^{2/3})$.
+  \[
+  \mathcal{L}_{x_1} = w_1 - \tfrac{\lambda}{3} x_1^{-2/3} x_2^{2/3} = 0, \quad \mathcal{L}_{x_2} = w_2 - \tfrac{2 \lambda}{3} x_1^{1/3} x_2^{-1/3} = 0, \quad \mathcal{L}_\lambda = Q_0 - x_1^{1/3} x_2^{2/3} = 0.
+  \]
+  \item $\mathcal{L} = x^2 + 2 y^2 + \lambda(10 - 2 x - y)$.
+  \[
+  \mathcal{L}_x = 2 x - 2 \lambda = 0, \quad \mathcal{L}_y = 4 y - \lambda = 0, \quad \mathcal{L}_\lambda = 10 - 2 x - y = 0.
+  \]
+  \item $\mathcal{L} = K^{2/3} L^{1/3} + \lambda(TC - r K - w L)$.
+  \[
+  \mathcal{L}_K = \tfrac{2}{3} K^{-1/3} L^{1/3} - \lambda r = 0, \quad \mathcal{L}_L = \tfrac{1}{3} K^{2/3} L^{-2/3} - \lambda w = 0, \quad \mathcal{L}_\lambda = TC - r K - w L = 0.
+  \]
+  \item $\mathcal{L} = 5 x + 2 y + \lambda(20 - x^2 - 4 y^2)$.
+  \[
+  \mathcal{L}_x = 5 - 2 \lambda x = 0, \quad \mathcal{L}_y = 2 - 8 \lambda y = 0, \quad \mathcal{L}_\lambda = 20 - x^2 - 4 y^2 = 0.
+  \]
+  \item $\mathcal{L} = x^2 y + \lambda(24 - 3 x - 2 y)$.
+  \[
+  \mathcal{L}_x = 2 x y - 3 \lambda = 0, \quad \mathcal{L}_y = x^2 - 2 \lambda = 0, \quad \mathcal{L}_\lambda = 24 - 3 x - 2 y = 0.
+  \]
+  \item $\mathcal{L} = \ln(x + 1) + \ln(y + 1) + \lambda(6 - x - y)$.
+  \[
+  \mathcal{L}_x = \tfrac{1}{x + 1} - \lambda = 0, \quad \mathcal{L}_y = \tfrac{1}{y + 1} - \lambda = 0, \quad \mathcal{L}_\lambda = 6 - x - y = 0.
+  \]
+  \item $\mathcal{L} = (x - 2)^2 + (y - 3)^2 + \lambda(8 - x - 2 y)$.
+  \[
+  \mathcal{L}_x = 2(x - 2) - \lambda = 0, \quad \mathcal{L}_y = 2(y - 3) - 2 \lambda = 0, \quad \mathcal{L}_\lambda = 8 - x - 2 y = 0.
+  \]
+  \item FOCs: $3 y = 4 \lambda$, $3 x = 5 \lambda$. Divide: $y/x = 4/5 \Rightarrow x = 5 y/4$. Constraint: $4(5 y/4) + 5 y = 10 y = 40 \Rightarrow y^* = 4$, $x^* = 5$. $\lambda^* = 3 y^*/4 = 3$. $U^* = 60$.
+  \item FOCs: $\tfrac{2}{3} x^{-1/3} y^{1/3} = \lambda p_x$, $\tfrac{1}{3} x^{2/3} y^{-2/3} = \lambda p_y$. Divide: $2 y/x = p_x/p_y \Rightarrow y = p_x x/(2 p_y)$. Budget: $p_x x + p_y \cdot p_x x/(2 p_y) = (3/2) p_x x = M \Rightarrow x^* = \dfrac{2 M}{3 p_x}$, $y^* = \dfrac{M}{3 p_y}$. (Cobb--Douglas with $\alpha = 2/3$; shares $2/3$ and $1/3$.) $\lambda^* = \tfrac{2}{3 p_x}(y^*/x^*)^{1/3} = \tfrac{2}{3 p_x} \cdot \left(\dfrac{p_x}{2 p_y}\right)^{1/3}$.
+  \item FOCs: $1/x = 2 \lambda$, $3/y = \lambda \Rightarrow y = 3/\lambda = 6 x$. Constraint: $2 x + 6 x = 8 x = 20 \Rightarrow x^* = 5/2$, $y^* = 15$. $\lambda^* = 1/(2 x^*) = 1/5$.
+  \item FOCs: $5 = 2 \lambda x$, $2 = 8 \lambda y \Rightarrow x = 5/(2 \lambda)$, $y = 1/(4 \lambda)$. Constraint: $25/(4 \lambda^2) + 4/(16 \lambda^2) = 25/(4 \lambda^2) + 1/(4 \lambda^2) = 26/(4 \lambda^2) = 20 \Rightarrow \lambda^2 = 26/80 = 13/40 \Rightarrow \lambda^* = \sqrt{13/40} = \sqrt{13}/(2\sqrt{10})$. Then $x^* = 5/(2 \lambda^*) = 5 \sqrt{10}/\sqrt{13} \cdot 1 = 5\sqrt{10/13}$; $y^* = 1/(4 \lambda^*) = \sqrt{10/13}/2$. Verify: $x^{*2} + 4 y^{*2} = 25 \cdot 10/13 + 4 \cdot 10/(13 \cdot 4) = 250/13 + 10/13 = 260/13 = 20$. \checkmark
+  \item FOCs: $2 x = 2 \lambda \Rightarrow x = \lambda$; $4 y = \lambda \Rightarrow y = \lambda/4$. Constraint: $2 \lambda + \lambda/4 = 9 \lambda/4 = 10 \Rightarrow \lambda^* = 40/9$. Then $x^* = 40/9$, $y^* = 10/9$. $f^* = (40/9)^2 + 2(10/9)^2 = (1600 + 200)/81 = 1800/81 = 200/9$.
+  \item FOCs: $\tfrac{2}{3} K^{-1/3} L^{1/3} = \lambda r$, $\tfrac{1}{3} K^{2/3} L^{-2/3} = \lambda w$. Divide: $2 L/K = r/w \Rightarrow w L = r K/2$, i.e.\ $r K = 2 w L$. Constraint: $r K + w L = 3 w L = TC$? Let's redo: $r K + w L = TC$ with $r K = 2 w L$ gives $3 w L = TC \Rightarrow L^* = TC/(3 w)$; then $r K = 2 TC/3 \Rightarrow K^* = 2 TC/(3 r)$. (Cobb--Douglas symmetric to Practice Problem 28.) $\lambda^* = \tfrac{2}{3 r}(L^*/K^*)^{1/3} = \tfrac{2}{3 r}\left(\dfrac{r}{2 w}\right)^{1/3}$.
+  \item FOCs: $2 x y = 3 \lambda$, $x^2 = 2 \lambda$. Eliminate: $\lambda = 2 x y/3 = x^2/2 \Rightarrow 4 x y = 3 x^2 \Rightarrow y = 3 x/4$ (for $x > 0$). Constraint: $3 x + 2(3 x/4) = 3 x + 3 x/2 = 9 x/2 = 24 \Rightarrow x^* = 16/3$, $y^* = 4$. $\lambda^* = x^{*2}/2 = 128/9$. $U^* = (16/3)^2 \cdot 4 = 1024/9$.
+  \item FOCs: $1/(x + 1) = \lambda$, $1/(y + 1) = \lambda \Rightarrow x + 1 = y + 1 \Rightarrow x = y$. Constraint: $2 x = 6 \Rightarrow x^* = y^* = 3$. $\lambda^* = 1/4$. $U^* = 2 \ln 4$.
+  \item FOCs: $2(x - 2) = \lambda$, $2(y - 3) = 2 \lambda \Rightarrow y - 3 = \lambda = 2(x - 2) \Rightarrow y = 2 x - 1$. Constraint: $x + 2(2 x - 1) = 5 x - 2 = 8 \Rightarrow x^* = 2$, $y^* = 3$. Check: $2 + 6 = 8$. \checkmark $\lambda^* = 2(2 - 2) = 0$. $f^* = 0$ (the unconstrained min is feasible!).
+  \item FOCs: $1/\sqrt{x} = \lambda$, $3/(2\sqrt{y}) = \lambda \Rightarrow \sqrt{y}/\sqrt{x} = 3/2 \Rightarrow y = 9 x/4$. Constraint: $x + 9 x/4 = 13 x/4 = 13 \Rightarrow x^* = 4$, $y^* = 9$. $\lambda^* = 1/\sqrt{4} = 1/2$. $U^* = 2 \cdot 2 + 3 \cdot 3 = 13$.
+  \item \emph{(a) Substitution:} $y = 10 - x$, so maximise $h(x) = x(10 - x) = 10 x - x^2$. Then $h'(x) = 10 - 2 x = 0 \Rightarrow x^* = 5$, and $h''(x) = -2 < 0$ confirms a maximum. Hence $y^* = 10 - 5 = 5$ and $U^* = 25$.
+  \emph{(b) Lagrange:} $\mathcal{L} = x y + \lambda(10 - x - y)$. FOCs: $y = \lambda$, $x = \lambda$, $10 - x - y = 0$. The first two give $x = y$, so $2 x = 10 \Rightarrow x^* = y^* = 5$, $\lambda^* = 5$, $U^* = 25$. Both methods agree on $(5, 5)$; the Lagrange route additionally delivers the shadow price $\lambda^* = 5$.
+  \item \emph{(a) Substitution:} $y = 12 - 2 x$, so maximise $U(x) = x^{1/2} (12 - 2 x)^{1/2} = \sqrt{12 x - 2 x^2}$. Since $\sqrt{\cdot}$ is increasing, it suffices to maximise $h(x) = 12 x - 2 x^2$: $h'(x) = 12 - 4 x = 0 \Rightarrow x^* = 3$, with $h''(x) = -4 < 0$. Then $y^* = 12 - 6 = 6$ and $U^* = \sqrt{3 \cdot 6} = \sqrt{18} = 3 \sqrt{2}$.
+  \emph{(b) Lagrange:} $\mathcal{L} = x^{1/2} y^{1/2} + \lambda(12 - 2 x - y)$. FOCs: $\tfrac{1}{2} x^{-1/2} y^{1/2} = 2 \lambda$, $\tfrac{1}{2} x^{1/2} y^{-1/2} = \lambda$. Divide: $y/x = 2 \Rightarrow y = 2 x$. Budget: $2 x + 2 x = 4 x = 12 \Rightarrow x^* = 3$, $y^* = 6$, the same point. From the second FOC, $\lambda^* = \tfrac{1}{2} \sqrt{x^*/y^*} = \tfrac{1}{2} \sqrt{3/6} = \tfrac{1}{2 \sqrt{2}} = \tfrac{\sqrt{2}}{4} \approx 0.35$: one extra unit of income raises maximal utility by about $0.35$. (Check: $U^*(M) = M/(2 \sqrt{2})$ for this problem, so $\mathrm{d}U^*/\mathrm{d}M = 1/(2\sqrt{2}) = \lambda^*$.) The substitution route never produces this number.
+  \item \emph{Substitution:} on the upper branch $y = \sqrt{2 - x^2}$ (defined for $-\sqrt{2} \leq x \leq \sqrt{2}$) the objective is $F(x) = x + \sqrt{2 - x^2}$, with
+  \[
+  F'(x) = 1 - \frac{x}{\sqrt{2 - x^2}} = 0 \;\Rightarrow\; \sqrt{2 - x^2} = x,
+  \]
+  which forces $x > 0$ and gives $2 - x^2 = x^2 \Rightarrow x = 1$, $y = 1$, $f = 2$. This is the only interior candidate: the maximum. The constrained \emph{minimum} at $(-1, -1)$, with $f = -2$, lies on the other branch $y = -\sqrt{2 - x^2}$, which the substitution silently discarded.
+  \emph{Lagrange:} $\mathcal{L} = x + y + \lambda(2 - x^2 - y^2)$. FOCs: $1 = 2 \lambda x$, $1 = 2 \lambda y$, so $x = y = 1/(2 \lambda)$; the constraint $2 x^2 = 2$ gives $x = \pm 1$. Both candidates appear: $(1, 1)$ with $f = 2$ (maximum, $\lambda^* = 1/2$) and $(-1, -1)$ with $f = -2$ (minimum, $\lambda^* = -1/2$). Solving for $y$ chose a sign; the Lagrange method never had to.
+  \item Either method works, since the linear constraint can be solved globally for any variable. Lagrange is the better choice here: with three variables the substitution $x = 14 - 2 y - 3 z$ destroys the symmetry of the objective and leads to messier two-variable FOCs, while the Lagrangian keeps the symmetric structure and supplies $\lambda^*$.
+  $\mathcal{L} = x^2 + y^2 + z^2 + \lambda(14 - x - 2 y - 3 z)$. FOCs: $2 x = \lambda$, $2 y = 2 \lambda$, $2 z = 3 \lambda$, so $x = \lambda/2$, $y = \lambda$, $z = 3 \lambda/2$. Constraint: $\lambda/2 + 2 \lambda + 9 \lambda/2 = 7 \lambda = 14 \Rightarrow \lambda^* = 2$, hence $x^* = 1$, $y^* = 2$, $z^* = 3$ and $f^* = 1 + 4 + 9 = 14$. (Geometric check: the squared distance from the origin to the plane $x + 2 y + 3 z = 14$ is $14^2/(1^2 + 2^2 + 3^2) = 196/14 = 14$.) \checkmark
+\end{solutions}

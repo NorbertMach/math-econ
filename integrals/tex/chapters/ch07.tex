@@ -1,0 +1,445 @@
+\chapter{Economic Applications of the Integral}
+
+This section assembles the integration techniques of the preceding
+sections and applies them to standard economic measurements: surplus on
+a market, present value of a continuous cash flow, area between two
+curves, the Gini coefficient of inequality, and the recovery of totals
+from marginals.
+
+\section{Core Rules}
+
+\begin{rulebox}{Marginal $\to$ total}
+If $C'(q)=MC(q)$ is the marginal cost, then total variable cost from
+$q=0$ to $q=Q$ is
+\[
+  TVC(Q) \;=\; \int_{0}^{Q} MC(q)\,\mathrm{d}q,
+\]
+and total cost is $C(Q)=C(0)+TVC(Q)$, where $C(0)$ is fixed cost. The
+same logic gives total revenue from marginal revenue, total utility from
+marginal utility, and total production from a marginal productivity
+flow.
+\end{rulebox}
+
+\begin{rulebox}{Area between two curves}
+If $f(x)\ge g(x)$ on $[a,b]$,
+\[
+  \text{Area} \;=\; \int_{a}^{b} \bigl(f(x)-g(x)\bigr)\,\mathrm{d}x .
+\]
+When the curves cross, split the interval at the intersection(s).
+\end{rulebox}
+
+\begin{rulebox}{Consumer and producer surplus}
+Let inverse demand be $p_D(q)$ and inverse supply be $p_S(q)$. At
+equilibrium quantity $q^{*}$ and price $p^{*}=p_D(q^{*})=p_S(q^{*})$,
+\[
+  CS \;=\; \int_{0}^{q^{*}} \bigl(p_D(q)-p^{*}\bigr)\,\mathrm{d}q,
+\]
+\[
+  PS \;=\; \int_{0}^{q^{*}} \bigl(p^{*}-p_S(q)\bigr)\,\mathrm{d}q,
+\]
+\[
+  \text{Total surplus} \;=\; CS+PS \;=\; \int_{0}^{q^{*}} \bigl(p_D(q)-p_S(q)\bigr)\,\mathrm{d}q .
+\]
+\end{rulebox}
+
+\begin{rulebox}{Present value (continuous discounting)}
+A continuous cash flow $f(t)$ paid from $t=0$ to $t=T$ at continuously
+compounded discount rate $r$ has present value
+\[
+  PV \;=\; \int_{0}^{T} f(t)\,\mathrm{e}^{-rt}\,\mathrm{d}t .
+\]
+Letting $T\to\infty$ gives the present value of a perpetuity.
+\end{rulebox}
+
+\begin{rulebox}{Gini coefficient}
+If the Lorenz curve $L:[0,1]\to[0,1]$ satisfies $L(0)=0$, $L(1)=1$, $L$
+convex, $L(p)\le p$, then the Gini coefficient is
+\[
+  G \;=\; 1-2\int_{0}^{1} L(p)\,\mathrm{d}p .
+\]
+$G=0$ for perfect equality ($L(p)=p$) and $G\to 1$ as inequality grows.
+\end{rulebox}
+
+\section{Practice Problems}
+
+\begin{problems}
+  \item Marginal cost is $MC(q)=4+0.1q$. Find total variable cost
+        between $q=0$ and $q=20$.
+  \item Find the area between $y=x^{2}$ and $y=x$ on $[0,1]$.
+  \item Find the area enclosed by $y=x$ and $y=x^{2}$ (no interval
+        given, use the intersections).
+  \item Find the area enclosed by $y=4-x^{2}$ and the $x$-axis.
+  \item Linear demand $p_D(q)=20-q$ and linear supply $p_S(q)=4+q$.
+        Find $q^{*}$, $p^{*}$, $CS$, $PS$.
+  \item Demand $p_D(q)=100-2q$, supply $p_S(q)=20+q$. Find $CS+PS$ at
+        equilibrium.
+  \item Demand $p_D(q)=50\mathrm{e}^{-0.02q}$, supply $p_S(q)=10+0.5q$.
+        Equilibrium given numerically at $q^{*}=40$ (and you may take
+        $p^{*}=30$). Compute $CS$ exactly.
+  \item Present value of a perpetuity paying \$5,000 per year
+        continuously at $r=0.04$.
+  \item Present value of a 10-year continuous cash flow of \$1,000 per
+        year at $r=0.05$.
+  \item Present value of a continuously growing cash flow
+        $f(t)=\mathrm{e}^{gt}$ for $0\le t<\infty$ at discount rate
+        $r>g>0$.
+  \item Marginal revenue is $MR(q)=30-0.4q$. Find total revenue from
+        $q=0$ to $q=25$.
+  \item Marginal cost $MC(q)=2+3\sqrt{q}$. Find $TVC(36)$.
+  \item Fixed cost \$200, marginal cost $MC(q)=5+0.02q$. Find total cost
+        $C(q)$ and the average cost $AC(q)=C(q)/q$.
+  \item Marginal utility $MU(x)=10/(1+x)$ for income $x$. Find total
+        utility from $x=0$ to $x=9$.
+  \item Lorenz curve $L(p)=p^{2}$. Compute the Gini coefficient.
+  \item Lorenz curve $L(p)=p^{3}$. Compute the Gini coefficient.
+  \item Lorenz curve $L(p)=\frac{1}{2}(p^{2}+p)$. Compute the Gini
+        coefficient.
+  \item Area between $y=\mathrm{e}^{x}$ and $y=\mathrm{e}^{-x}$ on
+        $[0,1]$.
+  \item Area between $y=\sqrt{x}$ and $y=x^{2}$ for $x\ge 0$.
+  \item Demand $p_D(q)=12-q$, current market price $p^{*}=6$. Find the
+        consumer surplus.
+  \item Continuous deposits of $D(t)=1000+100t$ EUR per year are made
+        into an account earning $r=0.05$. Compute the present value
+        over $[0,10]$.
+  \item A firm's variable cost is the integral of $MC(q)=q\,\mathrm{e}^{-0.05q}$
+        from $0$ to $Q$. Compute $TVC(Q)$ as a closed-form expression of
+        $Q$.
+  \item A monopolist faces $MR(q)=50-4q$ and $MC(q)=10+2q$. Find the
+        profit (excluding fixed cost) earned by producing the optimal
+        quantity $q^{*}$.
+  \item Find the area between $y=x^{3}$ and $y=x$ on $[-1,1]$.
+  \item Present value of \emph{any} payment \$$M$ received \emph{once}
+        at time $t=T$ at rate $r$. (Sanity-check: this is not an
+        integral, but compare to the continuous-flow formula.)
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item $\displaystyle TVC(20)=\int_{0}^{20} (4+0.1q)\,\mathrm{d}q
+        =\bigl[4q+0.05q^{2}\bigr]_{0}^{20}=80+20=100$.
+
+  \item On $[0,1]$ we have $x\ge x^{2}$. Area
+        $=\displaystyle\int_{0}^{1} (x-x^{2})\,\mathrm{d}x
+        =\frac{1}{2}-\frac{1}{3}=\frac{1}{6}$.
+
+  \item Curves meet at $x=0$ and $x=1$. Same as problem 2: $1/6$.
+
+  \item Curve meets the $x$-axis at $x=\pm 2$, and on that interval
+        $4-x^{2}\ge 0$.
+        \[
+          \int_{-2}^{2} (4-x^{2})\,\mathrm{d}x
+            =\Bigl[4x-\frac{x^{3}}{3}\Bigr]_{-2}^{2}
+            =\bigl(8-\tfrac{8}{3}\bigr)-\bigl(-8+\tfrac{8}{3}\bigr)=\frac{32}{3} .
+        \]
+
+  \item Set $20-q=4+q$: $q^{*}=8$, $p^{*}=12$.
+        \[
+          CS=\int_{0}^{8} (20-q-12)\,\mathrm{d}q=\int_{0}^{8}(8-q)\,\mathrm{d}q
+            =64-32=32,
+        \]
+        \[
+          PS=\int_{0}^{8} (12-4-q)\,\mathrm{d}q=\int_{0}^{8}(8-q)\,\mathrm{d}q=32 .
+        \]
+        Total surplus $=64$. (Both curves have slopes $\pm 1$, so
+        $CS=PS$ here.)
+
+  \item Equilibrium: $100-2q=20+q \Rightarrow q^{*}=80/3$,
+        $p^{*}=20+80/3=140/3$.
+        \[
+          CS+PS=\int_{0}^{80/3} \bigl((100-2q)-(20+q)\bigr)\,\mathrm{d}q
+            =\int_{0}^{80/3} (80-3q)\,\mathrm{d}q
+            =\Bigl[80q-\frac{3q^{2}}{2}\Bigr]_{0}^{80/3} .
+        \]
+        Compute: $80\cdot(80/3)=6400/3$; $\frac{3}{2}(80/3)^{2}
+        =\frac{3}{2}\cdot 6400/9=3200/3$. So total surplus
+        $=6400/3-3200/3=3200/3\approx 1066.67$.
+
+  \item $CS=\int_{0}^{40} (50\mathrm{e}^{-0.02q}-30)\,\mathrm{d}q$. The
+        antiderivative of $50\mathrm{e}^{-0.02q}$ is
+        $-2500\,\mathrm{e}^{-0.02q}$, so
+        \[
+          \int_{0}^{40} 50\mathrm{e}^{-0.02q}\,\mathrm{d}q
+            =\bigl[-2500\mathrm{e}^{-0.02q}\bigr]_{0}^{40}
+            =-2500\mathrm{e}^{-0.8}+2500=2500(1-\mathrm{e}^{-0.8}) .
+        \]
+        Numerically $1-\mathrm{e}^{-0.8}\approx 1-0.4493=0.5507$, giving
+        $\approx 1376.7$. Subtract the rectangle $30\cdot 40=1200$:
+        $CS\approx 176.7$. Exact: $CS=2500(1-\mathrm{e}^{-0.8})-1200$.
+
+  \item Perpetuity: $PV=D/r=5000/0.04=125{,}000$ EUR.
+
+  \item $\displaystyle PV=\int_{0}^{10} 1000\,\mathrm{e}^{-0.05t}\,\mathrm{d}t
+        =1000\cdot\frac{1-\mathrm{e}^{-0.5}}{0.05}=20000(1-\mathrm{e}^{-0.5})
+        \approx 20000\cdot 0.3935\approx 7869.4$.
+
+  \item $\displaystyle\int_{0}^{\infty} \mathrm{e}^{gt}\mathrm{e}^{-rt}\,\mathrm{d}t
+        =\int_{0}^{\infty} \mathrm{e}^{-(r-g)t}\,\mathrm{d}t=\frac{1}{r-g}$.
+        (Converges precisely because $r>g$. This is the Gordon growth
+        model for continuous time.)
+
+  \item $\displaystyle\int_{0}^{25} (30-0.4q)\,\mathrm{d}q
+        =\bigl[30q-0.2q^{2}\bigr]_{0}^{25}=750-125=625$.
+
+  \item $\displaystyle\int_{0}^{36} (2+3q^{1/2})\,\mathrm{d}q
+        =\bigl[2q+2q^{3/2}\bigr]_{0}^{36}=72+2\cdot 216=72+432=504$.
+
+  \item $\displaystyle C(q)=200+\int_{0}^{q} (5+0.02s)\,\mathrm{d}s
+        =200+5q+0.01q^{2}$. Average cost
+        $AC(q)=200/q+5+0.01q$.
+
+  \item $\displaystyle\int_{0}^{9} \frac{10}{1+x}\,\mathrm{d}x
+        =10\bigl[\ln(1+x)\bigr]_{0}^{9}=10\ln 10\approx 23.03$.
+
+  \item $\displaystyle\int_{0}^{1} p^{2}\,\mathrm{d}p=1/3$. So
+        $G=1-2/3=1/3$.
+
+  \item $\displaystyle\int_{0}^{1} p^{3}\,\mathrm{d}p=1/4$. So
+        $G=1-1/2=1/2$.
+
+  \item $\displaystyle\int_{0}^{1} \frac{1}{2}(p^{2}+p)\,\mathrm{d}p
+        =\frac{1}{2}\bigl(\tfrac13+\tfrac12\bigr)=\frac{1}{2}\cdot\frac{5}{6}
+        =\frac{5}{12}$. So $G=1-2\cdot\frac{5}{12}=1-\frac{5}{6}=\frac{1}{6}$.
+
+  \item For $x\in[0,1]$ we have $\mathrm{e}^{x}\ge\mathrm{e}^{-x}$.
+        \[
+          \int_{0}^{1} (\mathrm{e}^{x}-\mathrm{e}^{-x})\,\mathrm{d}x
+            =\bigl[\mathrm{e}^{x}+\mathrm{e}^{-x}\bigr]_{0}^{1}
+            =(\mathrm{e}+\mathrm{e}^{-1})-2 .
+        \]
+        Numerically $\approx 2.7183+0.3679-2=1.0862$.
+
+  \item Curves meet at $x=0,1$. On $(0,1)$, $\sqrt{x}\ge x^{2}$.
+        \[
+          \int_{0}^{1} (\sqrt{x}-x^{2})\,\mathrm{d}x=\frac{2}{3}-\frac{1}{3}=\frac{1}{3} .
+        \]
+
+  \item At $p^{*}=6$, $q^{*}$ solves $12-q=6$, so $q^{*}=6$.
+        $CS=\int_{0}^{6} (12-q-6)\,\mathrm{d}q=\int_{0}^{6}(6-q)\,\mathrm{d}q
+        =36-18=18$.
+
+  \item $PV=\int_{0}^{10} (1000+100t)\mathrm{e}^{-0.05t}\,\mathrm{d}t$.
+        Split into two integrals.
+        \[
+          \int_{0}^{10} 1000\,\mathrm{e}^{-0.05t}\,\mathrm{d}t
+            =1000\cdot\frac{1-\mathrm{e}^{-0.5}}{0.05}=20000(1-\mathrm{e}^{-0.5}) .
+        \]
+        For the second piece, parts:
+        $\int t\mathrm{e}^{-rt}\,\mathrm{d}t
+          =-\frac{(rt+1)}{r^{2}}\mathrm{e}^{-rt}+C$. With $r=0.05$ that
+        gives antiderivative
+        $-\frac{(0.05t+1)}{0.0025}\mathrm{e}^{-0.05t}
+          =-(20t+400)\mathrm{e}^{-0.05t}$. So
+        \[
+          \int_{0}^{10} 100t\,\mathrm{e}^{-0.05t}\,\mathrm{d}t
+            =100\bigl[-(20t+400)\mathrm{e}^{-0.05t}\bigr]_{0}^{10}
+            =100\bigl(-600\mathrm{e}^{-0.5}+400\bigr)
+            =40000-60000\mathrm{e}^{-0.5} .
+        \]
+        Combine: $PV=20000(1-\mathrm{e}^{-0.5})+40000-60000\mathrm{e}^{-0.5}
+        =60000-80000\mathrm{e}^{-0.5}\approx 60000-48522.9\approx 11477.1$.
+
+  \item By parts with $u=q$, $v'=\mathrm{e}^{-0.05q}$ (or use the
+        formula from Section 3 problem 11 with $r=0.05$): antiderivative
+        is $-\frac{(0.05q+1)}{0.0025}\mathrm{e}^{-0.05q}
+        =-(20q+400)\mathrm{e}^{-0.05q}$. So
+        \[
+          TVC(Q)=\bigl[-(20q+400)\mathrm{e}^{-0.05q}\bigr]_{0}^{Q}
+            =400-(20Q+400)\mathrm{e}^{-0.05Q} .
+        \]
+
+  \item Optimal $q^{*}$ from $MR=MC$: $50-4q=10+2q\Rightarrow
+        q^{*}=40/6=20/3$. Variable profit (excluding fixed cost) is the
+        area between the two curves up to $q^{*}$:
+        \[
+          \int_{0}^{20/3} \bigl((50-4q)-(10+2q)\bigr)\,\mathrm{d}q
+            =\int_{0}^{20/3} (40-6q)\,\mathrm{d}q
+            =\bigl[40q-3q^{2}\bigr]_{0}^{20/3} .
+        \]
+        Compute: $40\cdot 20/3=800/3$; $3(20/3)^{2}=3\cdot 400/9=400/3$.
+        Profit $=800/3-400/3=400/3\approx 133.33$.
+
+  \item On $[0,1]$, $x\ge x^{3}$; on $[-1,0]$, $x^{3}\ge x$ (both
+        negative, $x^{3}$ is larger because $|x|\le 1$). Use symmetry:
+        the area equals $2\int_{0}^{1} (x-x^{3})\,\mathrm{d}x
+        =2\bigl(\tfrac12-\tfrac14\bigr)=\tfrac12$.
+
+  \item Discrete cash flow: $PV=M\mathrm{e}^{-rT}$. The continuous-flow
+        version $\int_{0}^{T} M\mathrm{e}^{-rt}\,\mathrm{d}t
+        =\frac{M(1-\mathrm{e}^{-rT})}{r}$ pays $M$ per unit time over
+        $[0,T]$, quite different. The two coincide only if you
+        carefully reinterpret one as a Dirac flow.
+\end{solutions}
+
+\section{Additional Problems}
+
+\begin{problems}
+  \item Marginal cost is $MC(q)=5+0.2q$. Find total variable cost
+        between $q=0$ and $q=15$.
+  \item Find the area between $y=2x$ and $y=x^{2}$ on $[0,2]$.
+  \item Find the area enclosed by $y=x^{2}$ and $y=2-x^{2}$.
+  \item Linear demand $p_D(q)=30-2q$ and linear supply $p_S(q)=6+q$.
+        Find $q^{*}$, $p^{*}$, $CS$, $PS$.
+  \item Demand $p_D(q)=80-q$, supply $p_S(q)=20+0.5q$. Find total
+        surplus at equilibrium.
+  \item Present value of a perpetuity paying 10,000 EUR per year
+        continuously at $r=0.05$.
+  \item Present value of a 5-year continuous cash flow of 2,000 EUR per
+        year at $r=0.04$.
+  \item Marginal revenue $MR(q)=40-0.5q$. Total revenue from $q=0$ to
+        $q=30$.
+  \item Marginal cost $MC(q)=4+\sqrt{q}$. Find $TVC(25)$.
+  \item Fixed cost 500 EUR, marginal cost $MC(q)=10+0.05q$. Find $C(q)$
+        and average cost $AC(q)$.
+  \item Lorenz curve $L(p)=p^{4}$. Compute the Gini coefficient.
+  \item Lorenz curve $L(p)=\frac{\mathrm{e}^{p}-1}{\mathrm{e}-1}$.
+        Compute the Gini coefficient.
+  \item Area between $y=\mathrm{e}^{-x}$ and $y=\mathrm{e}^{-2x}$ on
+        $[0,1]$.
+  \item Area between $y=x^{2}$ and $y=x^{3}$ for $x\in[0,1]$.
+  \item Demand $p_D(q)=100-q^{2}$, current market price $p^{*}=36$.
+        Find $CS$.
+  \item Continuous deposits $D(t)=2000-50t$ EUR per year over $[0,20]$
+        at $r=0.04$. Compute the present value.
+  \item A firm's $MC(q)=q\,\mathrm{e}^{-0.02q}$. Closed-form expression
+        for $TVC(Q)$.
+  \item A monopolist with $MR(q)=60-2q$ and $MC(q)=12+q$. Find the
+        variable profit at the optimal output.
+  \item Area between $y=4x$ and $y=x^{3}$ on $[0,2]$.
+  \item A 7-year continuous cash flow of 3,000 EUR per year at
+        $r=0.05$. Find the present value.
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item $\displaystyle TVC(15)=\int_{0}^{15} (5+0.2q)\,\mathrm{d}q
+        =\bigl[5q+0.1q^{2}\bigr]_{0}^{15}=75+22.5=97.5$.
+
+  \item On $[0,2]$, $2x\ge x^{2}$. Area
+        $=\displaystyle\int_{0}^{2} (2x-x^{2})\,\mathrm{d}x
+        =\bigl[x^{2}-\tfrac{x^{3}}{3}\bigr]_{0}^{2}=4-\tfrac{8}{3}
+        =\tfrac{4}{3}$.
+
+  \item Intersect: $x^{2}=2-x^{2}\Rightarrow x=\pm 1$. On $[-1,1]$,
+        $2-x^{2}\ge x^{2}$.
+        \[
+          \int_{-1}^{1} (2-2x^{2})\,\mathrm{d}x
+            =2\cdot 2\int_{0}^{1} (1-x^{2})\,\mathrm{d}x
+            =4\cdot\frac{2}{3}=\frac{8}{3} .
+        \]
+
+  \item Set $30-2q=6+q$: $q^{*}=8$, $p^{*}=14$.
+        \[
+          CS=\int_{0}^{8} (30-2q-14)\,\mathrm{d}q
+            =\int_{0}^{8}(16-2q)\,\mathrm{d}q
+            =\bigl[16q-q^{2}\bigr]_{0}^{8}=128-64=64,
+        \]
+        \[
+          PS=\int_{0}^{8} (14-6-q)\,\mathrm{d}q=\int_{0}^{8}(8-q)\,\mathrm{d}q=32 .
+        \]
+
+  \item Equilibrium: $80-q=20+0.5q \Rightarrow q^{*}=40$, $p^{*}=40$.
+        \[
+          CS+PS=\int_{0}^{40} \bigl((80-q)-(20+0.5q)\bigr)\,\mathrm{d}q
+            =\int_{0}^{40} (60-1.5q)\,\mathrm{d}q
+            =\bigl[60q-0.75q^{2}\bigr]_{0}^{40}=2400-1200=1200 .
+        \]
+
+  \item Perpetuity: $PV=D/r=10000/0.05=200{,}000$ EUR.
+
+  \item $\displaystyle PV=\int_{0}^{5} 2000\,\mathrm{e}^{-0.04t}\,\mathrm{d}t
+        =2000\cdot\frac{1-\mathrm{e}^{-0.2}}{0.04}=50000(1-\mathrm{e}^{-0.2})
+        \approx 50000\cdot 0.1813\approx 9063$ EUR.
+
+  \item $\displaystyle\int_{0}^{30} (40-0.5q)\,\mathrm{d}q
+        =\bigl[40q-0.25q^{2}\bigr]_{0}^{30}=1200-225=975$.
+
+  \item $\displaystyle\int_{0}^{25} (4+q^{1/2})\,\mathrm{d}q
+        =\Bigl[4q+\frac{2}{3}q^{3/2}\Bigr]_{0}^{25}=100+\frac{2}{3}\cdot 125
+        =100+\frac{250}{3}=\frac{550}{3}\approx 183.33$.
+
+  \item $\displaystyle C(q)=500+\int_{0}^{q} (10+0.05s)\,\mathrm{d}s
+        =500+10q+0.025q^{2}$. Average cost
+        $AC(q)=500/q+10+0.025q$.
+
+  \item $\displaystyle\int_{0}^{1} p^{4}\,\mathrm{d}p=1/5$. So
+        $G=1-2\cdot 1/5=3/5$.
+
+  \item $\displaystyle\int_{0}^{1} \frac{\mathrm{e}^{p}-1}{\mathrm{e}-1}\,\mathrm{d}p
+        =\frac{1}{\mathrm{e}-1}\bigl[\mathrm{e}^{p}-p\bigr]_{0}^{1}
+        =\frac{(\mathrm{e}-1)-1}{\mathrm{e}-1}=\frac{\mathrm{e}-2}{\mathrm{e}-1}$.
+        Hence
+        \[
+          G=1-2\cdot\frac{\mathrm{e}-2}{\mathrm{e}-1}
+            =\frac{(\mathrm{e}-1)-2(\mathrm{e}-2)}{\mathrm{e}-1}
+            =\frac{3-\mathrm{e}}{\mathrm{e}-1}\approx 0.164 .
+        \]
+
+  \item On $[0,1]$, $\mathrm{e}^{-x}\ge\mathrm{e}^{-2x}$.
+        \[
+          \int_{0}^{1} (\mathrm{e}^{-x}-\mathrm{e}^{-2x})\,\mathrm{d}x
+            =\Bigl[-\mathrm{e}^{-x}+\frac{1}{2}\mathrm{e}^{-2x}\Bigr]_{0}^{1}
+            =\Bigl(-\mathrm{e}^{-1}+\frac{\mathrm{e}^{-2}}{2}\Bigr)
+             -\Bigl(-1+\frac{1}{2}\Bigr)
+            =\frac{1}{2}-\mathrm{e}^{-1}+\frac{\mathrm{e}^{-2}}{2} .
+        \]
+        Numerically $\approx 0.5-0.3679+0.0677\approx 0.1998$.
+
+  \item On $[0,1]$, $x^{2}\ge x^{3}$. Area
+        $=\displaystyle\int_{0}^{1} (x^{2}-x^{3})\,\mathrm{d}x
+        =\frac{1}{3}-\frac{1}{4}=\frac{1}{12}$.
+
+  \item $q^{*}$ solves $100-q^{2}=36$, so $q^{*}=8$.
+        \[
+          CS=\int_{0}^{8} (100-q^{2}-36)\,\mathrm{d}q
+            =\int_{0}^{8}(64-q^{2})\,\mathrm{d}q
+            =\Bigl[64q-\frac{q^{3}}{3}\Bigr]_{0}^{8}=512-\frac{512}{3}
+            =\frac{1024}{3}\approx 341.33 .
+        \]
+
+  \item $PV=\int_{0}^{20} (2000-50t)\mathrm{e}^{-0.04t}\,\mathrm{d}t$.
+        Split:
+        \[
+          \int_{0}^{20} 2000\,\mathrm{e}^{-0.04t}\,\mathrm{d}t
+            =2000\cdot\frac{1-\mathrm{e}^{-0.8}}{0.04}=50000(1-\mathrm{e}^{-0.8}) .
+        \]
+        For $\int t\mathrm{e}^{-rt}\,\mathrm{d}t
+        =-\frac{(rt+1)}{r^{2}}\mathrm{e}^{-rt}$ with $r=0.04$:
+        antiderivative is $-(25t+625)\mathrm{e}^{-0.04t}$, so
+        \[
+          \int_{0}^{20} t\,\mathrm{e}^{-0.04t}\,\mathrm{d}t
+            =\bigl[-(25t+625)\mathrm{e}^{-0.04t}\bigr]_{0}^{20}
+            =-(500+625)\mathrm{e}^{-0.8}+625=625-1125\,\mathrm{e}^{-0.8} .
+        \]
+        Combine: $PV=50000(1-\mathrm{e}^{-0.8})-50(625-1125\,\mathrm{e}^{-0.8})
+        =18750+6250\,\mathrm{e}^{-0.8}\approx 21{,}558.3$ EUR.
+
+  \item By parts with $u=q$, $v'=\mathrm{e}^{-0.02q}$: antiderivative
+        $-\frac{(0.02q+1)}{0.0004}\mathrm{e}^{-0.02q}
+        =-(50q+2500)\mathrm{e}^{-0.02q}$.
+        \[
+          TVC(Q)=\bigl[-(50q+2500)\mathrm{e}^{-0.02q}\bigr]_{0}^{Q}
+            =2500-(50Q+2500)\mathrm{e}^{-0.02Q} .
+        \]
+
+  \item Optimal $q^{*}$ from $MR=MC$: $60-2q=12+q\Rightarrow q^{*}=16$.
+        Variable profit:
+        \[
+          \int_{0}^{16} \bigl((60-2q)-(12+q)\bigr)\,\mathrm{d}q
+            =\int_{0}^{16} (48-3q)\,\mathrm{d}q
+            =\bigl[48q-1.5q^{2}\bigr]_{0}^{16}=768-384=384 .
+        \]
+
+  \item Curves meet at $x=0$ and $x=2$ (from $4x=x^{3}$). On $(0,2)$,
+        $4x\ge x^{3}$.
+        \[
+          \int_{0}^{2} (4x-x^{3})\,\mathrm{d}x
+            =\Bigl[2x^{2}-\frac{x^{4}}{4}\Bigr]_{0}^{2}=8-4=4 .
+        \]
+
+  \item $\displaystyle PV=\int_{0}^{7} 3000\,\mathrm{e}^{-0.05t}\,\mathrm{d}t
+        =3000\cdot\frac{1-\mathrm{e}^{-0.35}}{0.05}=60000(1-\mathrm{e}^{-0.35})
+        \approx 60000\cdot 0.2953\approx 17{,}716.8$ EUR.
+\end{solutions}

@@ -1,0 +1,143 @@
+\chapter{First-Order Conditions: 35 Problems}
+
+This is the boss level. These problems mirror exactly what you encounter
+when solving constrained optimisation problems, maximising utility
+subject to a budget constraint with a Lagrangian, deriving Cobb--Douglas
+demand, or rearranging a Fisher equation. You must seamlessly combine
+exponent rules, fraction manipulation, and systems-solving.
+
+\begin{rulebox}{Core Strategy}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Isolate, then exponentiate.} If the unknown is inside a
+        power $x^a$, isolate $x^a$ first, then raise both sides to the
+        $1/a$ power. \;(If $a < 0$, the inequality direction would flip:
+        but here we are working with equations.)
+  \item \textbf{Take logs to unbundle products of powers.} For
+        Cobb--Douglas $Y = A K^\alpha L^\beta$, taking logs gives
+        $\ln Y = \ln A + \alpha \ln K + \beta \ln L$, a linear equation
+        in the logs.
+  \item \textbf{Inside FOCs, eliminate $\lambda$.} The standard
+        manoeuvre is: solve each FOC for $\lambda$, set the expressions
+        equal, and you obtain the optimal ratio between the choice
+        variables. Substitute into the constraint to get the demand.
+\end{itemize}
+\end{rulebox}
+
+\section{Practice Problems}
+
+Isolate the specified variable or solve the system.
+
+\begin{problems}
+  \item Isolate $K$: \quad $Y = A K^{\alpha} L^{1 - \alpha}$
+  \item Isolate $C$: \quad $U = \dfrac{C^{1 - \gamma}}{1 - \gamma}$
+  \item Solve for $\lambda$: \quad $U_x - \lambda \, p_x = 0$
+  \item Isolate $x$: \quad $\dfrac{\alpha \, x^{\alpha - 1} y^{\beta}}%
+        {\beta \, x^{\alpha} y^{\beta - 1}} = \dfrac{p_x}{p_y}$
+  \item Isolate $r$: \quad $PV = \dfrac{FV}{(1 + r)^{t}}$
+  \item Isolate $w$: \quad $L = \left( \dfrac{w}{A} \right)^{-1/\gamma}$
+  \item Solve for $x$ in terms of $M, p_x, \alpha, \beta$: \\
+        \quad (1) $\dfrac{\alpha y}{\beta x} = \dfrac{p_x}{p_y}$
+        \;and\; (2) $p_x x + p_y y = M$
+  \item Isolate $\pi^e$ (Fisher equation): \quad $i = r + \pi^e$
+  \item Isolate $K$: \quad $r = \alpha A K^{\alpha - 1} L^{\beta}$
+  \item Isolate $L$: \quad $w = (1 - \alpha) A K^{\alpha} L^{-\alpha}$
+  \item Solve for $y$: \quad $\ln(y) = \beta_0 + \beta_1 \ln(x)$
+  \item Isolate $I$: \quad $S = I + NCO$
+  \item Isolate $p$: \quad $MR = p \left(1 + \dfrac{1}{\varepsilon_d}\right)$
+  \item Isolate $Y$ (Keynesian Cross): \quad
+        $Y = C_0 + c (Y - T) + I + G$
+  \item Isolate $x$: \quad $p = a - b x$
+  \item Isolate $Y$ (LM curve): \quad $\dfrac{M}{P} = L(Y, i)$
+        \;with $L(Y, i) = k Y - h i$
+  \item Solve for $K$ and $L$: \;(1) $2 K = L$ and
+        (2) $K^{0.5} L^{0.5} = 10$
+  \item Isolate $t$: \quad $A = P \, \mathrm{e}^{r t}$
+  \item Solve for $\lambda$: \;(1) $y = \lambda \, p_x$,
+        \;(2) $x = \lambda \, p_y$, \;(3) $x y = 100$
+  \item Isolate $w$: \quad $\dfrac{w}{r} = \dfrac{M P_L}{M P_K}$, where
+        $M P_L = \beta \dfrac{Q}{L}$ and $M P_K = \alpha \dfrac{Q}{K}$
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item $K = \left( \dfrac{Y}{A L^{1 - \alpha}} \right)^{1/\alpha}$
+  \item $C = \bigl[ U (1 - \gamma) \bigr]^{1 / (1 - \gamma)}$
+  \item $\lambda = \dfrac{U_x}{p_x}$
+  \item $x = \dfrac{\alpha \, p_y \, y}{\beta \, p_x}$
+  \item $r = \left( \dfrac{FV}{PV} \right)^{1/t} - 1$
+  \item $w = A \, L^{-\gamma}$
+  \item $x = \dfrac{\alpha \, M}{(\alpha + \beta) \, p_x}$
+        \;(classic Cobb--Douglas demand)
+  \item $\pi^e = i - r$
+  \item $K = \left( \dfrac{r}{\alpha A L^{\beta}} \right)^{1 / (\alpha - 1)}$
+  \item $L = \left( \dfrac{w}{(1 - \alpha) A K^{\alpha}} \right)^{-1/\alpha}$
+  \item $y = \mathrm{e}^{\beta_0} \, x^{\beta_1}$
+  \item $I = S - NCO$
+  \item $p = \dfrac{MR}{1 + 1 / \varepsilon_d}$
+  \item $Y = \dfrac{C_0 - c T + I + G}{1 - c}$ \;(Keynesian multiplier)
+  \item $x = \dfrac{a - p}{b}$
+  \item $Y = \dfrac{M / P + h i}{k}$
+  \item $K = \sqrt{50} \approx 7.07$, \;$L = 2 \sqrt{50} \approx 14.14$
+  \item $t = \dfrac{\ln(A / P)}{r}$
+  \item $\lambda = \dfrac{10}{\sqrt{p_x \, p_y}}$
+  \item $w = \dfrac{\beta \, K \, r}{\alpha \, L}$
+\end{solutions}
+
+\section{Additional Problems}
+
+Isolate the specified variable or solve the system.
+
+\begin{problems}
+  \item Isolate $L$: \quad $Y = A K^{\alpha} L^{1 - \alpha}$
+  \item Isolate $t$: \quad $FV = PV (1 + r)^{t}$
+  \item Solve for $\lambda$: \quad $U_y - \lambda \, p_y = 0$
+  \item Isolate $K$: \quad $w = \beta A K^{\alpha} L^{\beta - 1}$
+  \item Solve for $y$ in terms of $M, p_y, \alpha, \beta$ given
+        Cobb--Douglas FOCs: \\
+        \quad (1) $\dfrac{\alpha y}{\beta x} = \dfrac{p_x}{p_y}$
+        \;and\; (2) $p_x x + p_y y = M$
+  \item Isolate $r$: \quad $i = (1 + r)(1 + \pi^e) - 1$
+  \item Solve for $x$: \quad $\ln(x) = a + b \ln(p)$
+  \item Isolate $Y$: \quad $Y = C_0 + c Y + I_0 - d \, i + G$
+  \item Isolate $K$: \quad $Q = (a K^{\rho} + b L^{\rho})^{1/\rho}$
+        \;(CES, isolate $K$ given $Q, L, a, b, \rho$)
+  \item Isolate $\sigma$: \quad $\text{Var}(X) = \sigma^2$
+        \;(express $\sigma$ assuming $\sigma > 0$)
+  \item Solve for $K, L$: \;(1) $\alpha K^{\alpha - 1} L^{\beta} = r$ and
+        (2) $\beta K^{\alpha} L^{\beta - 1} = w$
+        \;(express the ratio $K / L$)
+  \item Isolate $g$: \quad $r = g + \delta$ \;(Ramsey rule, simple form)
+  \item Isolate $P$: \quad $\dfrac{M}{P} = k Y - h i$
+        \;(LM curve, real money)
+  \item Solve for $\lambda$: \;(1) $2 x = \lambda \, p_x$,
+        \;(2) $2 y = \lambda \, p_y$, \;(3) $p_x x + p_y y = M$
+  \item Isolate $T$: \quad
+        $Y = \dfrac{1}{1 - c} \bigl(C_0 - c T + I + G\bigr)$
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item $L = \left( \dfrac{Y}{A K^{\alpha}} \right)^{1 / (1 - \alpha)}$
+  \item $t = \dfrac{\ln(FV / PV)}{\ln(1 + r)}$
+  \item $\lambda = \dfrac{U_y}{p_y}$
+  \item $K = \left( \dfrac{w}{\beta A L^{\beta - 1}} \right)^{1/\alpha}$
+  \item $y = \dfrac{\beta M}{(\alpha + \beta) \, p_y}$
+        \;(classic Cobb--Douglas demand for $y$)
+  \item $r = \dfrac{1 + i}{1 + \pi^e} - 1$
+  \item $x = \mathrm{e}^{a} p^{b}$
+  \item $Y = \dfrac{C_0 + I_0 - d \, i + G}{1 - c}$
+  \item $K = \left( \dfrac{Q^{\rho} - b L^{\rho}}{a} \right)^{1/\rho}$
+  \item $\sigma = \sqrt{\text{Var}(X)}$
+  \item Dividing the two FOCs:
+        $\dfrac{\alpha L}{\beta K} = \dfrac{r}{w}$, hence
+        $\dfrac{K}{L} = \dfrac{\alpha w}{\beta r}$
+  \item $g = r - \delta$
+  \item $P = \dfrac{M}{k Y - h i}$
+  \item From the FOCs, $x = \lambda p_x / 2$ and $y = \lambda p_y / 2$.
+        Substituting into the constraint gives
+        $\lambda (p_x^2 + p_y^2) / 2 = M$, so
+        $\lambda = \dfrac{2 M}{p_x^2 + p_y^2}$.
+  \item $T = \dfrac{1}{c} \bigl(C_0 + I + G - (1 - c) Y\bigr)$
+\end{solutions}
