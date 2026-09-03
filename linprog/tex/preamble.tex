@@ -14,6 +14,39 @@
 \definecolor{accent}{HTML}{1F4E79}
 \definecolor{soft}{HTML}{F4F7FA}
 
+% --- function graphs ------------------------------------------------------
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta}
+
+% One consistent look for every function graph in these books.
+\pgfplotsset{
+  fnaxis/.style={
+    width=5.9cm, height=4.6cm,
+    axis lines=middle,
+    axis line style={-{Stealth[length=4pt]}, gray!65!black, line width=0.3pt},
+    tick style={gray!65!black},
+    tick label style={font=\tiny, gray!50!black},
+    label style={font=\scriptsize},
+    xlabel={$x$}, ylabel={$y$},
+    every axis x label/.style={at={(ticklabel* cs:1.0)}, anchor=west},
+    every axis y label/.style={at={(ticklabel* cs:1.0)}, anchor=south east,
+      xshift=-1pt},
+    every axis plot/.append style={accent, very thick, smooth, samples=201},
+    clip=true, enlargelimits=false,
+    title style={font=\scriptsize, yshift=4pt},
+  },
+  fnaxis/.append style={/pgfplots/legend style={font=\tiny, draw=none,
+    fill=none, at={(0.98,0.03)}, anchor=south east}},
+}
+
+% A row of small graphs, evenly spaced with \hfill between them, plus an
+% optional caption line: \begin{gallery} <pic>\hfill<pic> \gcap{...} \end{gallery}
+\newenvironment{gallery}
+  {\par\medskip\noindent\ignorespaces}
+  {\par\medskip\noindent}
+\newcommand{\gcap}[1]{\par\smallskip{\centering\footnotesize #1\par}}
+
 % --- rule boxes -----------------------------------------------------------
 \newtcolorbox{rulebox}[1]{%
   breakable, enhanced, colback=soft, colframe=accent,
