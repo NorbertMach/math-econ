@@ -15,9 +15,13 @@
 
 This sheet drills vectors and matrix algebra, the linear-algebra toolkit
 that the optimization work later takes for granted: vectors and the inner
-product, matrix operations, determinants, inverses, rank and linear
-independence, eigenvalues and eigenvectors, and quadratic forms with
-definiteness. The last of these is the workhorse of the optimization
+product, matrix operations, determinants, Gaussian elimination and linear
+systems, inverses, rank and linear independence, eigenvalues and
+eigenvectors, and quadratic forms with definiteness. Elimination sits in the
+middle of that list because everything after it uses it: the inverse is
+computed by row-reducing $[A\mid I]$, the rank is the number of pivots, and
+the simplex method of the linear-programming volume is elimination with a
+pivot-selection rule. The last of these is the workhorse of the optimization
 volumes: every second-order condition in several variables is a definiteness
 check on a Hessian.
 
@@ -43,5 +47,6 @@ matrix-capable calculator.
 \include{chapters/ch07}
 \include{chapters/ch08}
 \include{chapters/ch09}
+\include{chapters/ch10}
 
 \end{document}

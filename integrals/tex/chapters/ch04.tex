@@ -55,6 +55,99 @@ present value of an annuity that pays $1/(1+t)$ or that grows
 logistically requires partial fractions on $1/[x(K-x)]$.
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{Compute $\displaystyle\int\frac{3x+5}{(x-1)(x+2)}\mathrm{d}x$ and $\displaystyle\int\frac{\mathrm{d}x}{x(x+1)^{2}}$}
+\wstep{Step 1. Confirm the fraction is proper.}
+Numerator degree $1$, denominator degree $2$: proper, so decomposition may
+start at once. Had it been improper, polynomial division would come first
+--- and the quotient would contribute a polynomial to the antiderivative.
+
+\wstep{Step 2. Write the ansatz and clear denominators.}
+\[
+  \frac{3x+5}{(x-1)(x+2)}=\frac{A}{x-1}+\frac{B}{x+2}
+  \;\Longrightarrow\;
+  3x+5=A(x+2)+B(x-1).
+\]
+
+\wstep{Step 3. Substitute the roots.}
+\[
+  x=1:\quad 8=3A \;\Rightarrow\; A=\tfrac83 ;
+  \qquad
+  x=-2:\quad -1=-3B \;\Rightarrow\; B=\tfrac13 .
+\]
+Check by recombining: $\frac{8(x+2)+(x-1)}{3(x-1)(x+2)}
+=\frac{9x+15}{3(x-1)(x+2)}=\frac{3x+5}{(x-1)(x+2)}$. \checkmark
+
+\wstep{Step 4. Integrate the pieces --- each is a logarithm.}
+\[
+  \int\frac{3x+5}{(x-1)(x+2)}\mathrm{d}x
+  =\tfrac83\int\frac{\mathrm{d}x}{x-1}+\tfrac13\int\frac{\mathrm{d}x}{x+2}
+  =\boxed{\tfrac83\ln|x-1|+\tfrac13\ln|x+2|+C}
+\]
+\wtrap{Absolute values inside every logarithm. The integrand is defined on
+three separate intervals, and on two of them the arguments are negative; an
+answer without the bars is wrong on those intervals.}
+
+\wstep{Step 5. Second integral: a repeated factor changes the ansatz \emph{and} the answer's shape.}
+\[
+  \frac{1}{x(x+1)^{2}}=\frac{A}{x}+\frac{B}{x+1}+\frac{C}{(x+1)^{2}}
+  \;\Longrightarrow\;
+  1=A(x+1)^{2}+Bx(x+1)+Cx .
+\]
+\[
+  x=0:\ 1=A ;
+  \qquad
+  x=-1:\ 1=-C \;\Rightarrow\; C=-1 ;
+  \qquad
+  [x^{2}]:\ 0=A+B \;\Rightarrow\; B=-1 .
+\]
+
+\wstep{Step 6. Integrate --- and notice that not every piece is a log.}
+\[
+  \int\frac{\mathrm{d}x}{x(x+1)^{2}}
+  =\int\frac{\mathrm{d}x}{x}-\int\frac{\mathrm{d}x}{x+1}-\int\frac{\mathrm{d}x}{(x+1)^{2}} .
+\]
+The last one is a power, not a logarithm:
+\[
+  \int(x+1)^{-2}\mathrm{d}x=-\frac{1}{x+1} ,
+  \qquad\text{so}\qquad
+  -\int\frac{\mathrm{d}x}{(x+1)^{2}}=+\frac{1}{x+1} .
+\]
+\[
+  \boxed{\ln|x|-\ln|x+1|+\frac{1}{x+1}+C
+        =\ln\left|\frac{x}{x+1}\right|+\frac{1}{x+1}+C}
+\]
+\wtrap{Only the \emph{first} power of a repeated factor integrates to a
+logarithm; higher powers give $-\frac{1}{(k-1)(x-a)^{k-1}}$. Writing
+$\ln|x+1|$ for the $(x+1)^{-2}$ term is the standard error, and
+differentiating the answer catches it instantly.}
+
+\wstep{Step 7. Check by differentiation.}
+\[
+  \frac{1}{x}-\frac{1}{x+1}-\frac{1}{(x+1)^{2}}
+  =\frac{1}{x(x+1)}-\frac{1}{(x+1)^{2}}
+  =\frac{(x+1)-x}{x(x+1)^{2}}
+  =\frac{1}{x(x+1)^{2}} .
+\]
+\checkmark
+
+\wstep{Step 8. What partial fractions is really for.}
+It converts \emph{any} rational function into a sum of three integrable
+shapes:
+\[
+  \frac{A}{x-a}\to A\ln|x-a|,
+  \qquad
+  \frac{A}{(x-a)^{k}}\to\frac{-A}{(k-1)(x-a)^{k-1}},
+\]
+\[
+  \frac{Bx+C}{x^{2}+px+q}\to\text{a logarithm plus an arctangent} .
+\]
+Nothing else can occur. That is why every rational function has an
+elementary antiderivative --- a guarantee that fails for
+$\mathrm{e}^{-x^{2}}$ and most other integrands, and one worth appreciating.
+\end{worked}
+
 \section{Practice Problems}
 
 Decompose into partial fractions and integrate.

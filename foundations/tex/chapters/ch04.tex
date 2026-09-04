@@ -177,6 +177,97 @@ exist at all. Both hypotheses matter: $f(x)=1/x$ on $(0,1]$ has no
 maximum, and $f(x)=x$ on $[0,\infty)$ has none either.
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{Evaluate $\lim_{x\to0}\dfrac{\sqrt{x+4}-2}{x}$, choose $a$ and $b$ making a piecewise function continuous, and classify the discontinuities of three examples}
+\wstep{Step 1. Substitute first --- and read what the substitution says.}
+At $x=0$ the expression is $\frac{2-2}{0}=\frac00$. That is \textbf{not} an
+answer and \textbf{not} a proof that the limit fails to exist; it is a
+signal that numerator and denominator share a vanishing factor, which
+algebra must expose.
+
+\wstep{Step 2. Rationalise the numerator.}
+A difference of square roots is cleared by multiplying by its conjugate:
+\[
+  \frac{\sqrt{x+4}-2}{x}\cdot\frac{\sqrt{x+4}+2}{\sqrt{x+4}+2}
+  =\frac{(x+4)-4}{x\bigl(\sqrt{x+4}+2\bigr)}
+  =\frac{x}{x\bigl(\sqrt{x+4}+2\bigr)} .
+\]
+The factor $x$ has been made visible --- which was the entire purpose.
+\wtrap{Multiply the \emph{numerator} by its conjugate when the roots are on
+top. The reflex of rationalising the denominator is unhelpful here; the
+goal is not tidiness but exposing the common factor.}
+
+\wstep{Step 3. Cancel, then substitute.}
+For $x\neq0$ --- and $x\neq0$ is exactly the situation a limit concerns ---
+\[
+  \frac{x}{x(\sqrt{x+4}+2)}=\frac{1}{\sqrt{x+4}+2}
+  \xrightarrow[x\to0]{}\frac{1}{2+2}=\boxed{\tfrac14}.
+\]
+Numerical check: at $x=0.01$ the original quotient is $0.2499\ldots$
+\checkmark
+
+\wstep{Step 4. Now make $f$ continuous at $x=0$.}
+Define
+\[
+  f(x)=\begin{cases}\dfrac{\sqrt{x+4}-2}{x}, & x\neq0,\\[1.2ex] a, & x=0.\end{cases}
+\]
+Continuity at a point requires three things: $f(0)$ exists, the limit
+exists, and they are \emph{equal}. The first two hold, so the condition is
+$a=\tfrac14$. This is a \textbf{removable} discontinuity: one value, chosen
+correctly, repairs it.
+
+\wstep{Step 5. A two-sided version, where both a limit and a slope must match.}
+\[
+  g(x)=\begin{cases}x^{2}, & x\le1,\\ ax+b, & x>1.\end{cases}
+\]
+Continuity at $1$ needs the one-sided limits to agree:
+\[
+  \lim_{x\to1^{-}}g=1,\qquad \lim_{x\to1^{+}}g=a+b
+  \quad\Longrightarrow\quad a+b=1 .
+\]
+If differentiability is also demanded, the slopes must match too:
+$2x|_{x=1}=2$ from the left and $a$ from the right, so $a=2$ and hence
+$b=-1$.
+\wtrap{Continuity gives \emph{one} equation, differentiability a second.
+With two unknowns you need both conditions --- and note the order: a
+function can be continuous without being differentiable ($|x|$ at $0$), but
+never differentiable without being continuous.}
+
+\wstep{Step 6. Classify three discontinuities.}
+\begin{center}\footnotesize
+\begin{tabular}{lll}
+  \hline
+  function & at & type\\
+  \hline
+  $\dfrac{x^{2}-1}{x-1}$ & $x=1$ & removable: both one-sided limits are $2$\\[0.8ex]
+  $\dfrac{1}{x-2}$ & $x=2$ & infinite (pole): $\to-\infty$ left, $+\infty$ right\\[0.8ex]
+  $\sgn(x)$ & $x=0$ & jump: limits $-1$ and $+1$, both finite, unequal\\
+  \hline
+\end{tabular}
+\end{center}
+\wtrap{All three have ``a problem at a point'', and they behave completely
+differently. Decide by computing the two one-sided limits: equal and finite
+$\Rightarrow$ removable; finite but different $\Rightarrow$ jump; at least
+one infinite $\Rightarrow$ pole. Only the removable kind can be patched.}
+
+\wstep{Step 7. Continuity earns two theorems --- use them.}
+\emph{Intermediate Value Theorem.} $h(x)=x^{3}+x-1$ is continuous, with
+$h(0)=-1<0$ and $h(1)=1>0$. So $h$ takes the value $0$ somewhere in
+$(0,1)$: the equation has a root, proved without solving it. This is how
+every existence claim about an equilibrium price is made.
+
+\emph{Weierstrass.} A continuous function on a \textbf{closed and bounded}
+interval attains a maximum and a minimum. Both hypotheses are load-bearing:
+$1/x$ on $(0,1]$ is continuous but unbounded, because the interval is not
+closed; $x$ on $[0,\infty)$ has no maximum, because the interval is not
+bounded.
+\wtrap{In Volume~7 the existence half of every optimisation problem is
+Weierstrass, and the usual failure is a feasible set that is open ($x>0$
+instead of $x\ge0$) or unbounded. When an optimisation problem ``has no
+solution'', check those two words before checking the calculus.}
+\end{worked}
+
 \section{Practice Problems}
 
 Evaluate each limit or answer the question posed. Where a limit fails to

@@ -1,706 +1,947 @@
-\chapter{Directional Derivatives and Vector-Valued Functions}
+\chapter{First-Order Partial Derivatives and the Gradient}
 
-The partial derivatives $f_{x}$ and $f_{y}$ measure the response of $f$
-when one input moves and the others stand still. Real adjustments are
-rarely so tidy: a firm re-balances capital and labour together, a consumer
-slides along a budget line, a hiker walks north-east rather than due
-north. The \textbf{directional derivative} measures the rate of change of
-$f$ per unit distance travelled in any prescribed direction, and a single
-dot product with the gradient computes it. The gradient thereby earns its
-geometric role: it points where $f$ climbs fastest, its length is that
-fastest rate, and it stands perpendicular to the level curves, to the
-indifference curves and isoquants of the previous chapters.
+A function of one variable has a graph in the plane and a derivative that is
+the slope of a tangent line. A function of two variables has a graph that is
+a \emph{surface} in space, and there is no single slope any more: standing
+at a point of a hillside, the ground rises steeply in one direction, falls
+in another, and is level in a third. The first task of multivariable
+calculus is to make that observation quantitative.
 
-The second half of the chapter lets the function itself be vector-valued.
-A map $\mathbf{f}:\R^{n}\to\R^{m}$ (a production plan sending inputs to
-(output, cost), a coordinate change, a demand system) is differentiated
-by collecting the partial derivatives of all components into the
-\textbf{Jacobian matrix}, the correct ``derivative as linear
-approximation'' for vector-valued functions. In this language the chain
-rule becomes matrix multiplication. Determinants, invertibility and the
-Implicit Function Theorem built on top of this matrix are the subject of
-the next chapter.
+The device is to look one direction at a time. Freeze $y$ at a value and let
+only $x$ move: the surface is cut by a vertical plane, the cut is an
+ordinary curve, and the slope of \emph{that} curve is the partial derivative
+$\partial f/\partial x$. This is the \emph{ceteris paribus} principle of
+economics, and it is why partial derivatives are the natural language for
+marginal products and marginal utilities.
+
+Collecting the partial derivatives into one vector gives the gradient. It
+turns out to carry all first-order information at once: it points in the
+direction of steepest ascent, its length is the steepest slope available,
+and it stands perpendicular to the level curve through the point. Those
+three facts are proved below rather than asserted --- the third one in
+particular is what the Lagrange method rests on several chapters later.
 
 \section{Core Rules}
 
-\begin{rulebox}{Directional Derivative}
-Let $f:\R^{n}\to\R$ be differentiable at $\mathbf{x}_{0}$ and let
-$\mathbf{u}\in\R^{n}$ be a \textbf{unit} vector, $|\mathbf{u}|=1$. The
-directional derivative of $f$ at $\mathbf{x}_{0}$ in the direction
+\begin{rulebox}{Topological vocabulary of domains}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item The \emph{open ball} (or \emph{neighbourhood}) of radius $r>0$ around $\mathbf{x}_0\in\R^n$ is
+        $B_r(\mathbf{x}_0)=\{\mathbf{x}\in\R^n :
+        \|\mathbf{x}-\mathbf{x}_0\|<r\}$.
+  \item $\mathbf{x}_0\in M$ is an \emph{interior point} of $M$ if some open ball around
+        $\mathbf{x}_0$ lies entirely in $M$.
+  \item $M$ is \emph{open} if \emph{every} point of $M$ is
+        an interior point.
+  \item $\mathbf{x}_0$ is a \emph{boundary point} of
+        $M$ if every ball around $\mathbf{x}_0$ contains points of $M$
+        \emph{and} points of its complement.
+  \item $M$ is \emph{closed} if it contains all
+        its boundary points; equivalently, the complement
+        $\R^n\setminus M$ is open.
+  \item $M$ is \emph{bounded} if
+        $M\subseteq B_r(\mathbf{0})$ for some radius $r$.
+  \item $M\subseteq\R^n$ is \emph{compact} exactly when
+        $M$ is closed \emph{and} bounded.
+\end{itemize}
+Economic examples: the open positive orthant $\{(x,y): x>0,\ y>0\}$
+(the natural Cobb--Douglas domain) is open and unbounded; a budget set
+$\{\mathbf{x}\in\R^n : \mathbf{p}\cdot\mathbf{x}\le m,\
+\mathbf{x}\ge\mathbf{0}\}$ is closed and bounded, hence compact.
+\end{rulebox}
+
+\begin{rulebox}{Why it matters}
+Differentiability (and hence every partial derivative below) is
+defined at \emph{interior} points of the domain, where $f$ can be
+probed in all directions. And by the \emph{Weierstrass theorem}, a
+continuous function on a compact set attains its maximum and minimum:
+this is why budget-constrained optimisation problems are
+guaranteed to have solutions.
+\end{rulebox}
+
+\begin{rulebox}{Definition}
+Let $f:\R^n\to\R$. The partial derivative of $f$ with respect to $x_i$ at
+$\mathbf{x}=(x_1,\ldots,x_n)$ is
+\[
+  \pd{f}{x_i}(\mathbf{x}) \;=\; \lim_{h\to0}
+    \frac{f(x_1,\ldots,x_i+h,\ldots,x_n)-f(x_1,\ldots,x_n)}{h} .
+\]
+Only the $i$-th slot changes; all other coordinates sit still. It is the
+ordinary one-variable derivative of the function
+$t\mapsto f(x_1,\ldots,t,\ldots,x_n)$, evaluated at $t=x_i$.
+\end{rulebox}
+
+\begin{rulebox}{What it measures: a slice of the surface}
+Fix $y=y_{0}$. The vertical plane $y=y_{0}$ cuts the surface $z=f(x,y)$
+along a curve, and along that curve only $x$ varies, so the curve is the
+graph of the one-variable function $g(x)=f(x,y_{0})$. Then
+\[
+  \pd{f}{x}(x_{0},y_{0})=g'(x_{0}),
+\]
+the ordinary slope of the cut curve at $x_{0}$. Symmetrically,
+$\partial f/\partial y$ is the slope of the cut made by the plane
+$x=x_{0}$. A partial derivative is therefore never a slope \emph{of the
+surface}; it is the slope of the surface \emph{along one chosen direction},
+and different directions give different numbers. What the surface does in
+all the remaining directions is the subject of the gradient below and of the
+directional derivative.
+\end{rulebox}
+
+\begin{rulebox}{Practical computation}
+To compute $\partial f/\partial x_i$, differentiate $f$ with respect to
+$x_i$ and treat every other variable as a constant. All single-variable
+rules (power, product, quotient, chain) apply unchanged. Worked example, for
+$f(x,y)=x^{3}y^{2}+\mathrm{e}^{xy}-\ln y$:
+\[
+  \pd{f}{x}=3x^{2}y^{2}+y\,\mathrm{e}^{xy},
+  \qquad
+  \pd{f}{y}=2x^{3}y+x\,\mathrm{e}^{xy}-\frac{1}{y} .
+\]
+In the first computation $y$ is a number: $y^{2}$ is a constant factor, and
+the chain rule on $\mathrm{e}^{xy}$ produces the inner derivative $y$. In
+the second, $x$ is the constant and $\ln y$ finally contributes.
+\end{rulebox}
+
+\begin{rulebox}{Notation}
+The following all refer to the same object:
+\[
+  \pd{f}{x} = f_x = \partial_x f = D_x f .
+\]
+\end{rulebox}
+
+\begin{rulebox}{Gradient}
+The vector of all first-order partial derivatives is
+\[
+  \grad f(\mathbf{x}) \;=\;
+  \begin{pmatrix} f_{x_1}(\mathbf{x}) \\ f_{x_2}(\mathbf{x}) \\ \vdots \\
+    f_{x_n}(\mathbf{x}) \end{pmatrix} .
+\]
+\end{rulebox}
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[surfaxis, title={$f(K,L)=\sqrt{KL}$, sliced at $L=2$},
+      xlabel={$K$}, ylabel={$L$}, zlabel={}, view={135}{26},
+      zmin=0, zmax=3.2, z post scale=1.7]
+    \addplot3[surf, domain=0.15:3, y domain=0.15:3, opacity=0.85]{sqrt(x*y)};
+    \addplot3[samples=80, samples y=0, domain=0.15:3, line width=1.1pt,
+      draw=black]({x},{2},{sqrt(2*x)});
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[contouraxis, xmin=-0.3, xmax=3.4, ymin=-0.3, ymax=3.4,
+      xtick={1,2,3}, ytick={1,2,3},
+      title={isoquants of $\sqrt{KL}$ with $\grad f$},
+      xlabel={$K$}, ylabel={$L$}]
+    \addplot[accent!40, line width=0.5pt, domain=0.22:3.3]{0.64/x};
+    \addplot[accent!40, line width=0.5pt, domain=0.48:3.3]{1.44/x};
+    \addplot[accent!40, line width=0.5pt, domain=0.85:3.3]{2.56/x};
+    \addplot[accent!40, line width=0.5pt, domain=1.34:3.3]{4/x};
+    \draw[-{Stealth[length=6pt,width=4pt]}, accent, line width=1pt]
+      (axis cs:1,1) -- (axis cs:1.62,1.62);
+    \draw[-{Stealth[length=6pt,width=4pt]}, accent, line width=1pt]
+      (axis cs:2,0.5) -- (axis cs:2.16,1.14);
+    \draw[-{Stealth[length=6pt,width=4pt]}, accent, line width=1pt]
+      (axis cs:0.5,2) -- (axis cs:1.14,2.16);
+    \addplot[only marks, mark=*, mark size=1pt, black, forget plot]
+      coordinates {(1,1) (2,0.5) (0.5,2)};
+  \end{axis}
+\end{tikzpicture}
+\gcap{Left: the plane $L=2$ cuts the surface; the slope of the cut curve is
+$\partial f/\partial K$. Right: the gradient at three points, each one
+perpendicular to the isoquant through it.}
+\end{gallery}
+
+\begin{rulebox}{Geometric meaning --- and why}
+All three facts follow from one identity: the rate of change of $f$ in the
+direction of a unit vector $\mathbf{u}$ is $\grad f\cdot\mathbf{u}$ (the
+directional derivative below).
+\begin{itemize}[leftmargin=1.6em,itemsep=0.4ex]
+  \item \textbf{Steepest ascent.} Since
+        $\grad f\cdot\mathbf{u}=\|\grad f\|\,\|\mathbf{u}\|\cos\theta
+        =\|\grad f\|\cos\theta$, the rate is largest when $\cos\theta=1$,
+        i.e. when $\mathbf{u}$ points \emph{along} $\grad f$. So
+        $\grad f(\mathbf{x}_0)$ is the direction of steepest ascent, and
+        $-\grad f$ of steepest descent.
+  \item \textbf{Its length is that steepest rate.} Putting $\theta=0$ above
+        leaves exactly $\|\grad f(\mathbf{x}_0)\|$.
+  \item \textbf{Perpendicular to the level set.} Let $\mathbf{c}(t)$ be any
+        curve running inside the level set through $\mathbf{x}_{0}$, so that
+        $f(\mathbf{c}(t))$ is \emph{constant}. Differentiating with the
+        chain rule gives
+        \[
+          0=\frac{\mathrm{d}}{\mathrm{d}t}f(\mathbf{c}(t))
+           =\grad f(\mathbf{c}(t))\cdot\mathbf{c}'(t) .
+        \]
+        At $t_{0}$ this says $\grad f(\mathbf{x}_{0})$ is orthogonal to
+        $\mathbf{c}'(t_{0})$, the tangent to the level set. Since the curve
+        was arbitrary, the gradient is perpendicular to the whole level set.
+\end{itemize}
+The third fact is the one that matters most later: an optimum on a
+constraint is a point where the level set of the objective and the
+constraint set are \emph{tangent}, which is the same as their gradients
+being parallel --- and that is the Lagrange condition.
+\end{rulebox}
+
+\begin{rulebox}{Economic interpretation}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item For a production function $Q=F(K,L)$: $F_K=\mathrm{MP}_K$
+        (marginal product of capital), $F_L=\mathrm{MP}_L$ (marginal
+        product of labour).
+  \item For a utility function $U(x,y)$: $U_x, U_y$ are the marginal
+        utilities; the marginal rate of substitution is
+        $\mathrm{MRS}_{xy}=U_x/U_y$.
+  \item For production: the marginal rate of technical substitution is
+        $\mathrm{MRTS}_{LK}=F_L/F_K$.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Directional derivative}
+Let $\mathbf{u}\in\R^n$ be a \emph{unit} vector ($\|\mathbf{u}\|=1$). The
+directional derivative of $f$ at $\mathbf{x}_0$ in the direction
 $\mathbf{u}$ is
 \[
-  D_{\mathbf{u}}f(\mathbf{x}_{0})
-  \;=\; \lim_{h\to 0}\frac{f(\mathbf{x}_{0}+h\mathbf{u})
-        -f(\mathbf{x}_{0})}{h}
-  \;=\; \grad f(\mathbf{x}_{0})\cdot\mathbf{u} .
+  D_{\mathbf{u}}f(\mathbf{x}_0) \;=\; \grad f(\mathbf{x}_0)\cdot\mathbf{u} .
 \]
-Two variables: $D_{\mathbf{u}}f=f_{x}u_{1}+f_{y}u_{2}$. The partials are
-the special cases $\mathbf{u}=(1,0)$ and $\mathbf{u}=(0,1)$. The unit
-length is what makes $D_{\mathbf{u}}f$ a rate \emph{per unit distance}.
 \end{rulebox}
 
-\begin{rulebox}{Normalising the Direction}
-If a direction is given by a nonzero vector $\mathbf{v}$ that is not of
-unit length, normalise first:
-\[
-  \mathbf{u} \;=\; \frac{\mathbf{v}}{|\mathbf{v}|}
-  \;=\; \frac{\mathbf{v}}{\sqrt{v_{1}^{2}+\cdots+v_{n}^{2}}} .
-\]
-``The direction from $P$ to $Q$'' means $\mathbf{v}=Q-P$, then normalise.
-Forgetting this step is \emph{the} classic error in directional-derivative
-problems.
+\begin{rulebox}{Caution}
+If you are given a non-unit direction $\mathbf{v}$, you \emph{must}
+normalise first: $\mathbf{u}=\mathbf{v}/\|\mathbf{v}\|$. Forgetting this is
+the single most common error in directional-derivative problems.
 \end{rulebox}
 
-\begin{rulebox}{Steepest Ascent and Descent}
-Since $D_{\mathbf{u}}f=\grad f\cdot\mathbf{u}=|\grad f|\cos\theta$, where
-$\theta$ is the angle between $\mathbf{u}$ and $\grad f$, at any point
-with $\grad f(\mathbf{x}_{0})\neq\mathbf{0}$:
-\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
-  \item $D_{\mathbf{u}}f$ is \emph{maximal} for
-        $\mathbf{u}=\grad f/|\grad f|$, with maximum value $|\grad f|$
-        (steepest ascent);
-  \item $D_{\mathbf{u}}f$ is \emph{minimal} for
-        $\mathbf{u}=-\grad f/|\grad f|$, with value $-|\grad f|$
-        (steepest descent);
-  \item $D_{\mathbf{u}}f=0$ exactly when $\mathbf{u}\perp\grad f$.
-\end{itemize}
-For output $Q(K,L)$, the gradient $(Q_{K},Q_{L})$ is the input adjustment
-that raises output fastest per unit of adjustment, and $|\grad Q|$ is that
-maximal marginal gain.
-\end{rulebox}
+\section{Worked Example}
 
-\begin{rulebox}{Gradient and Level Curves}
-Along the level set $f=c$ the function does not change, so every tangent
-direction $\mathbf{u}$ of the level set satisfies
-$D_{\mathbf{u}}f=\grad f\cdot\mathbf{u}=0$:
+\begin{worked}{For $f(x,y)=x^{3}y^{2}+\mathrm{e}^{2x}\ln y$, compute both partials and the gradient at $(1,1)$; then read the marginal products of $Q=10K^{0.3}L^{0.7}$}
+\wstep{Step 1. Differentiating in $x$ means freezing $y$ --- literally.}
+Treat $y$ as if it were the number $7$. Then $x^{3}y^{2}$ is
+``$y^{2}$ times $x^{3}$'', a constant times a power, and $\ln y$ is a
+constant multiplying $\mathrm{e}^{2x}$:
 \[
-  \grad f \;\perp\; \text{level curve (surface) through the point.}
+  f_{x}=3x^{2}y^{2}+2\mathrm{e}^{2x}\ln y .
 \]
-In two variables (with $f_{y}\neq0$) the tangent direction is proportional
-to $(f_{y},-f_{x})$, consistent with the implicit slope
-$\dd{y}{x}=-f_{x}/f_{y}$ of the previous chapters. Economically: the
-marginal-utility vector $(U_{x},U_{y})$ is normal to the indifference
-curve, and $(Q_{K},Q_{L})$ is normal to the isoquant.
-\end{rulebox}
+\wtrap{Freezing means the frozen variable never produces a derivative
+factor. $\frac{\partial}{\partial x}\bigl[\ln y\bigr]=0$, not $1/y$. The
+symbol $\partial$ instead of $\mathrm{d}$ is the reminder that something is
+being held fixed.}
 
-\begin{rulebox}{Second Directional Derivative}
-For a $C^{2}$ function $f$, differentiating once more in the same unit
-direction $\mathbf{u}$ gives
+\wstep{Step 2. Now freeze $x$ instead.}
+$x^{3}$ is a constant multiplying $y^{2}$, and $\mathrm{e}^{2x}$ is a
+constant multiplying $\ln y$:
 \[
-  D^{2}_{\mathbf{u}}f
-  \;=\; \mathbf{u}^{T}\Hess_{f}\,\mathbf{u}
-  \;=\; \sum_{i,j} f_{x_{i}x_{j}}\,u_{i}u_{j} ;
-  \qquad\text{two variables:}\quad
-  D^{2}_{\mathbf{u}}f
-  \;=\; f_{xx}u_{1}^{2}+2f_{xy}u_{1}u_{2}+f_{yy}u_{2}^{2} .
+  f_{y}=2x^{3}y+\frac{\mathrm{e}^{2x}}{y} .
 \]
-It is the second derivative at $t=0$ of the profile
-$t\mapsto f(\mathbf{x}_{0}+t\mathbf{u})$: the curvature of $f$ along the
-line through $\mathbf{x}_{0}$ in direction $\mathbf{u}$. Definiteness of
-the Hessian (Chapter 7) is exactly the statement that
-$D^{2}_{\mathbf{u}}f$ has one sign for \emph{every} direction
-$\mathbf{u}$.
-\end{rulebox}
 
-\begin{rulebox}{Vector-Valued Functions and the Jacobian Matrix}
-For $\mathbf{f}:\R^{n}\to\R^{m}$ with components
-$\mathbf{f}=(f_{1},\ldots,f_{m})$, the \textbf{Jacobian matrix} at
-$\mathbf{x}$ is the $m\times n$ matrix
+\wstep{Step 3. Evaluate, and assemble the gradient.}
+At $(1,1)$, with $\ln1=0$ and $\mathrm{e}^{2}\approx7.389$:
 \[
-  J_{\mathbf{f}}(\mathbf{x}) \;=\;
-  \begin{pmatrix}
-    \partial f_{1}/\partial x_{1} & \cdots & \partial f_{1}/\partial x_{n}\\
-    \vdots & \ddots & \vdots\\
-    \partial f_{m}/\partial x_{1} & \cdots & \partial f_{m}/\partial x_{n}
-  \end{pmatrix}:
-  \quad\text{row $i$ is the gradient of $f_{i}$.}
-\]
-It is the best linear approximation of $\mathbf{f}$ near $\mathbf{x}_{0}$:
-\[
-  \mathbf{f}(\mathbf{x}_{0}+\mathbf{h})
-  \;\approx\; \mathbf{f}(\mathbf{x}_{0})
-  +J_{\mathbf{f}}(\mathbf{x}_{0})\,\mathbf{h} ,
-\]
-the matrix version of $f(x+h)\approx f(x)+f'(x)h$. Special cases: $m=1$
-gives the gradient as a $1\times n$ row; $n=1$ gives the velocity
-(tangent) column vector $\mathbf{r}'(t)$ of a curve.
-\end{rulebox}
-
-\begin{rulebox}{Chain Rule in Matrix Form}
-If $\mathbf{f}:\R^{n}\to\R^{m}$ and $\mathbf{g}:\R^{m}\to\R^{p}$ are
-differentiable, then $\mathbf{h}=\mathbf{g}\circ\mathbf{f}$ is
-differentiable and
-\[
-  J_{\mathbf{h}}(\mathbf{x})
-  \;=\; J_{\mathbf{g}}\bigl(\mathbf{f}(\mathbf{x})\bigr)\,
-        J_{\mathbf{f}}(\mathbf{x}),
+  f_{x}(1,1)=3\cdot1\cdot1+2\mathrm{e}^{2}\cdot0=3,
   \qquad
-  (p\times n) \;=\; (p\times m)(m\times n) .
+  f_{y}(1,1)=2\cdot1\cdot1+\frac{\mathrm{e}^{2}}{1}=2+\mathrm{e}^{2}\approx9.389 .
 \]
-Evaluate the \emph{outer} Jacobian at the \emph{inner value}
-$\mathbf{f}(\mathbf{x})$; the order of the factors is fixed by the matrix
-shapes. Every chain rule of Chapter 8 is the case $p=1$: for
-$z=f(\mathbf{r}(t))$,
 \[
-  \dd{z}{t} \;=\; \grad f\bigl(\mathbf{r}(t)\bigr)\cdot\mathbf{r}'(t),
+  \grad f(1,1)=\begin{pmatrix}3\\2+\mathrm{e}^{2}\end{pmatrix}\approx\begin{pmatrix}3\\9.389\end{pmatrix}
 \]
-a $1\times m$ row times an $m\times 1$ column.
-\end{rulebox}
+\wtrap{The gradient is a \textbf{vector}, and it is a vector in the
+\emph{input} space --- here a direction in the $xy$-plane, not on the
+surface. Reporting a single number, or a three-component object including
+the height, are the two standard confusions.}
+
+\wstep{Step 4. What each partial measures.}
+$f_{x}$ is the slope of the curve obtained by slicing the surface with the
+plane $y=1$ --- an ordinary one-variable derivative of the function
+$x\mapsto f(x,1)$. Indeed $f(x,1)=x^{3}$, whose derivative at $x=1$ is $3$.
+\checkmark\ Two partials, two slices, two ordinary derivatives.
+
+\wstep{Step 5. What the gradient does that the partials alone do not.}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.2ex]
+  \item It points in the direction of \textbf{steepest ascent}. Here that
+        is roughly $(0.30,\,0.95)$ after normalising: mostly ``north''.
+  \item Its length $\|\grad f\|=\sqrt{9+(2+\mathrm{e}^{2})^{2}}\approx9.86$
+        is the steepest rate of climb available at that point.
+  \item It is \textbf{perpendicular} to the level curve through the point.
+\end{itemize}
+The last is why the gradient governs constrained optimisation: at an
+optimum the objective's gradient must be parallel to the constraint's, which
+is the Lagrange condition.
+
+\wstep{Step 6. Directional derivative: normalise, then take an inner product.}
+In the direction of $\mathbf v=(3,4)$:
+\[
+  \mathbf u=\frac{\mathbf v}{\|\mathbf v\|}=\Bigl(\tfrac35,\tfrac45\Bigr),
+  \qquad
+  D_{\mathbf u}f=\grad f\cdot\mathbf u
+  =\tfrac35\cdot3+\tfrac45(2+\mathrm{e}^{2})\approx9.31 .
+\]
+\wtrap{Normalise first. Using $(3,4)$ unnormalised gives $46.6$, which is
+five times too large and has no meaning --- ``rate of change per unit
+distance'' requires a unit vector. And $9.31<9.86$, as it must be: no
+direction beats the gradient.}
+
+\wstep{Step 7. The economic reading, on a production function.}
+For $Q=10K^{0.3}L^{0.7}$:
+\[
+  MP_{K}=\pd{Q}{K}=3K^{-0.7}L^{0.7}=3\Bigl(\frac{L}{K}\Bigr)^{0.7},
+  \qquad
+  MP_{L}=\pd{Q}{L}=7\Bigl(\frac{K}{L}\Bigr)^{0.3} .
+\]
+At $K=100$, $L=50$: $MP_{K}=3(0.5)^{0.7}\approx1.85$ and
+$MP_{L}=7(2)^{0.3}\approx8.62$. So one more unit of labour adds about $8.6$
+units of output, one more of capital about $1.85$.
+
+Two structural facts fall out. The \textbf{marginal rate of technical
+substitution} is
+\[
+  \mathrm{MRTS}=\frac{MP_{L}}{MP_{K}}=\frac{0.7}{0.3}\cdot\frac{K}{L}\approx4.67 ,
+\]
+and each marginal product depends only on the \emph{ratio} $K/L$ --- the
+signature of constant returns to scale, which is why Cobb--Douglas with
+exponents summing to $1$ behaves the way it does.
+\wtrap{$MP_{K}$ falls as $K$ rises (the exponent $-0.7$ is negative):
+diminishing marginal product. But that is diminishing \emph{marginal},
+not diminishing total --- output still increases. Confusing the two is the
+most common misreading of a partial derivative in economics.}
+\end{worked}
 
 \section{Practice Problems}
 
 \begin{problems}
-  \item Find $D_{\mathbf{u}}f(1,1)$ for $f(x,y)=x^{2}y$ in the direction
-        $\mathbf{u}=(1/\sqrt{2},\,1/\sqrt{2})$.
-  \item For $f(x,y)=\ln(x^{2}+y^{2})$ at $(1,1)$, find the directional
-        derivative toward $\mathbf{v}=(2,1)$.
-  \item For $f(x,y)=x^{3}-3xy^{2}$ at $(2,1)$, find the directional
-        derivative in the direction of the vector from $(2,1)$ to
-        $(5,5)$.
-  \item For $f(x,y,z)=xyz$ at $(1,2,3)$, find $D_{\mathbf{u}}f$ where
-        $\mathbf{u}=\tfrac{1}{3}(1,2,2)$.
-  \item For $f(x,y)=\mathrm{e}^{x+y}$ at $(0,0)$, find $D_{\mathbf{u}}f$
-        where $\mathbf{u}$ makes a $60^{\circ}$ angle with the positive
-        $x$-axis.
-  \item For $f(x,y)=\sqrt{x^{2}+y^{2}}$ at $(3,4)$, find the directional
-        derivative in the direction $(1,0)$.
-  \item A consumer with utility $U(x,y)=xy$ currently consumes
-        $(x,y)=(2,3)$. Her basket shifts in the direction
-        $\mathbf{v}=(3,-4)$, more $x$, less $y$. Find the rate of
-        change of utility per unit distance moved and interpret the sign.
-  \item For $f(x,y)=x^{2}+xy+y^{2}$ at $(1,2)$, find the direction of
-        steepest ascent and the maximum rate of increase.
-  \item For $f(x,y)=x^{2}+2y^{2}$ at $(1,1)$, find the direction in which
-        $f$ decreases fastest and the corresponding rate.
-  \item Find all unit vectors $\mathbf{u}$ along which
-        $f(x,y)=x^{2}-y^{2}$ has zero rate of change at $(2,1)$.
-  \item For $f(x,y,z)=x^{2}+y^{2}-z^{2}$ at $(1,2,2)$, determine the
-        maximum rate of increase and the direction in which it is
-        attained.
-  \item A hiker stands at $(1,1)$ on the hill $z=4-x^{2}-y^{2}$. In which
-        direction should she walk to descend most quickly, and how steep
-        is that descent?
-  \item Output is $Q(K,L)=K^{1/2}L^{1/2}$ with current input mix
-        $(K,L)=(4,9)$. Find the rate of change of output in the balanced
-        expansion direction $\mathbf{u}=(1,1)/\sqrt{2}$; then find the
-        input direction that raises output fastest and the corresponding
-        maximal rate.
-  \item Show that at every point of a level curve $f(x,y)=c$ the gradient
-        $\grad f$ is orthogonal to the tangent direction of the curve.
-        Conclude that the marginal-utility vector $(U_{x},U_{y})$ is
-        normal to the indifference curve.
-  \item For $f(x,y)=x^{2}y$ at $(1,2)$ with $\mathbf{u}=(3/5,\,4/5)$,
-        compute both $D_{\mathbf{u}}f$ and the second directional
-        derivative
-        $D^{2}_{\mathbf{u}}f=\mathbf{u}^{T}\Hess_{f}\,\mathbf{u}$.
-  \item For $f(x,y)=x^{3}+y^{3}-3xy$: show that $(1,1)$ is a critical
-        point, then compute $D^{2}_{\mathbf{u}}f(1,1)$ for
-        $\mathbf{u}=(1,1)/\sqrt{2}$ and for
-        $\mathbf{v}=(1,-1)/\sqrt{2}$. What do the signs suggest?
-  \item For $f(x,y)=\mathrm{e}^{x}\cos y$ at $(0,0)$, find all unit
-        vectors $\mathbf{u}$ with $D^{2}_{\mathbf{u}}f=0$.
-  \item Compute the Jacobian of $\mathbf{f}(x,y)=(x+y,\;x-y)$ and its
-        determinant. What is special about the Jacobian of a linear map?
-  \item Compute the Jacobian of
-        $\mathbf{f}(x,y)=(x^{2}y,\;x+y^{2},\;xy)$, state its shape, and
-        evaluate it at $(1,2)$.
-  \item Compute the Jacobian of
-        $\mathbf{f}(x,y,z)=(x+y,\;y+z,\;x+z)$ and its determinant.
-  \item For $\mathbf{f}(x,y)=(x^{2}-y,\;xy)$: compute $J_{\mathbf{f}}$,
-        then use the linear approximation
-        $\mathbf{f}(\mathbf{x}_{0}+\mathbf{h})\approx
-        \mathbf{f}(\mathbf{x}_{0})+J_{\mathbf{f}}(\mathbf{x}_{0})\mathbf{h}$
-        at $\mathbf{x}_{0}=(1,1)$ to estimate $\mathbf{f}(1.1,\,0.9)$,
-        and compare with the exact value.
-  \item Demand and supply are $D(p,q)=100-p+0.5q$ and
-        $S(p,q)=-10+2p+q$, and the two equilibrium conditions are
-        $G_{1}=D-S=0$ and $G_{2}=p+q-20=0$. Build the Jacobian matrix
-        $\partial(G_{1},G_{2})/\partial(p,q)$ and compute its
-        determinant.
-  \item Let $\mathbf{g}(x,y)=(x+y,\;x-y)$ and
-        $\mathbf{F}(u,v)=(u^{2},\;uv)$. Compute the Jacobian of
-        $\mathbf{F}\circ\mathbf{g}$ by the matrix chain rule
-        $J_{\mathbf{F}\circ\mathbf{g}}
-        =J_{\mathbf{F}}(\mathbf{g}(x,y))\,J_{\mathbf{g}}(x,y)$, and
-        verify by composing first.
-  \item For $f(x,y)=xy^{2}$ and the curve
-        $\mathbf{r}(t)=(\mathrm{e}^{t},\,t)$, compute $\dd{z}{t}$ for
-        $z=f(\mathbf{r}(t))$ as the matrix product
-        $J_{f}(\mathbf{r}(t))\,J_{\mathbf{r}}(t)$ (a $1\times2$ row
-        times a $2\times1$ column) and verify directly.
-  \item A firm converts inputs into (output, cost) via
-        $\mathbf{g}(K,L)=\bigl(K^{1/2}L^{1/2},\;2K+L\bigr)$ and earns
-        profit $\pi(Q,C)=10Q-C$. Use the matrix chain rule to find the
-        marginal profits $(\pi_{K},\pi_{L})$ at $(K,L)=(1,1)$, and verify
-        by substituting first.
+  \item Compute $f_x$ and $f_y$ for $f(x,y)=5x^4-2x^2y^3+y^5$.
+  \item For $F(K,L)=12\,K^{1/4}L^{3/4}$, find $F_K$ and $F_L$ at
+        $(K,L)=(16,81)$.
+  \item Compute $f_x$ and $f_y$ for $f(x,y)=x^2e^{3y}$.
+  \item Compute $\nabla f$ for $f(x,y)=4x^3y-xy^4+7$.
+  \item Compute the directional derivative of $f(x,y)=x^2-4xy+y^3$ at
+        $(2,1)$ in the direction $\mathbf{v}=(5,-12)$.
+  \item For $F(K,L)=6K^{2/3}L^{1/3}$, compute $\mathrm{MP}_K$ and
+        $\mathrm{MP}_L$ at $(K,L)=(27,8)$.
+  \item Compute $f_x$ and $f_y$ for $f(x,y)=(3x-2y)^4$.
+  \item Compute $f_x$ and $f_y$ for $f(x,y)=e^{xy^2}$.
+  \item For $F(K,L)=25K^{0.6}L^{0.5}$, find $F_K$ and $F_L$.
+  \item Compute $\nabla f$ for $f(x,y,z)=x^2+3yz-z^2e^x$.
+  \item Compute the directional derivative of $f(x,y)=e^x\ln(1+y)$ at
+        $(0,0)$ in the direction $\mathbf{v}=(1,2)$.
+  \item For $U(x,y)=2\ln(x)+5\ln(y)$, derive $\mathrm{MRS}_{xy}=U_x/U_y$ as
+        a function of $(x,y)$ and evaluate at $(3,5)$.
+  \item Simplify and compute $f_x, f_y$ for
+        $f(x,y)=\dfrac{x^2-y^2}{x+y}$.
+  \item Compute $f_x$ and $f_y$ for $f(x,y)=\ln(x^2y+1)$.
+  \item For $U(x_1,x_2,x_3)=x_1^{1/2}x_2^{1/3}x_3^{1/6}$, compute the
+        three partials.
+  \item Compute the directional derivative of $f(x,y,z)=xy-2yz+z^2$ at
+        $(1,2,3)$ in the direction $\mathbf{v}=(1,2,2)$.
+  \item For $F(K,L)=K^{0.25}L^{0.75}$, derive $\mathrm{MRTS}_{LK}=F_L/F_K$
+        and evaluate at $(K,L)=(16,4)$.
+  \item Expand and then compute $f_x, f_y$ for
+        $f(x,y)=(x^2+y)(x-3y^2)$.
+  \item Compute $f_x$ and $f_y$ for $f(x,y)=xe^{-y/x}$ with $x\neq0$.
+  \item For $F(K,L)=(3K^{1/2}+2L^{1/2})^2$, find $F_K$ and $F_L$.
+  \item Compute $\nabla f$ for $f(x,y)=\arctan(y/x)$ with $x>0$.
+  \item For $f(x,y)=x^{1/2}y^{1/2}$ at $(K,L)=(4,9)$, find the unit
+        direction of steepest ascent and the maximum rate of increase.
+  \item For the CES function $F(K,L)=(K^{1/2}+L^{1/2})^2$, verify Euler's
+        theorem $KF_K+LF_L=rF$ for the appropriate degree of homogeneity
+        $r$.
+  \item Compute $f_x$ and $f_y$ for $f(x,y)=\dfrac{2x+3y}{x^2+y^2}$.
+  \item Compute $f_x$ and $f_y$ for $f(x,y)=\dfrac{e^x}{1+e^y}$.
+  \item For $F(K,L)=A(\alpha K^\rho+(1-\alpha)L^\rho)^{\nu/\rho}$ (CES),
+        find $F_L$.
+  \item Compute the directional derivative of $f(x,y)=\ln(x^2+y^2)$ at
+        $(3,4)$ in the direction $\mathbf{v}=(-1,1)$.
+  \item Compute $f_x, f_y, f_z$ for $f(x,y,z)=x^2yz^3-4xy^2z+5z$.
+  \item Compute $f_x$ and $f_y$ for $f(x,y)=\sqrt{4x^2+9y^2}$.
+  \item For $F(K,L)=(K^{1/2}+L^{1/2})^4$, compute $F_K$ at
+        $(K,L)=(4,9)$.
+  \item Compute $\nabla f$ for $f(x,y,z)=\ln(x^2+y^2+z^2)$.
+  \item Compute $f_x$ and $f_y$ for
+        $f(x,y)=\ln\left(\sqrt{x^2+y^2}\right)$.
+  \item Cost minimisation. A firm uses inputs $(x,y)$ with cost
+        $C(x,y)=4x+9y$ and output $Q(x,y)=x^{1/2}y^{1/2}$. Compute
+        $\nabla C$ and $\nabla Q$, and verify that at the cost-minimising
+        input mix $\nabla C=\lambda\nabla Q$ for some $\lambda$.
+  \item Compute $f_x$ and $f_y$ for $f(x,y)=(1+xy)^5$.
+  \item Compute the directional derivative of $f(x,y)=x^3-2xy+y^2$ at
+        $(1,2)$ in the direction $\mathbf{v}=(3,4)$.
+  \item For $F(K,L)=10K^{0.3}L^{0.7}$ (Cobb--Douglas), compute $F_K$ and
+        $F_L$ at $(K,L)=(100,100)$ and verify $KF_K+LF_L=F$.
+  \item Compute $f_x$ and $f_y$ for $f(x,y)=\sin(xy)+\cos(x-y)$.
+  \item Compute $\nabla f$ for $f(x,y)=x^2y-xy^2+3x-2y$ at the point
+        $(1,-1)$.
+  \item For $U(x,y)=x^\alpha y^{1-\alpha}$ (Cobb--Douglas,
+        $0<\alpha<1$), derive $\mathrm{MRS}_{xy}=U_x/U_y$ and show it
+        equals $\dfrac{\alpha}{1-\alpha}\cdot\dfrac{y}{x}$.
+  \item Compute the directional derivative of $f(x,y)=e^{xy}$ at $(1,0)$
+        in the direction $\mathbf{v}=(-3,4)$.
+  \item Compute $f_x$ and $f_y$ for $f(x,y)=x^y$ (with $x>0$).
+        \emph{Hint:} write $x^y=e^{y\ln x}$.
+  \item For $F(K,L)=\min\{2K,3L\}$ (Leontief, fixed-proportions, on the
+        smooth region away from the kink), compute $F_K$ and $F_L$ in
+        each of the two regions $\{2K<3L\}$ and $\{2K>3L\}$.
+  \item Compute $\nabla f$ for $f(x,y,z)=xyz+x^2-z^2$ at the point
+        $(2,-1,3)$.
+  \item Compute the unit vector of steepest \emph{descent} for
+        $f(x,y)=x^2+4y^2$ at $(3,1)$, and the corresponding rate of
+        decrease.
+  \item For $f(x,y)=xe^y-ye^x$, compute $f_x, f_y$.
+  \item Compute $f_x$ and $f_y$ for $f(x,y)=\dfrac{x}{x^2+y^2}$.
+  \item For $U(x,y)=x+2\sqrt{y}$ (quasi-linear), derive
+        $\mathrm{MRS}_{xy}$.
+  \item Compute the directional derivative of $f(x,y,z)=x^2+y^2-z^2$ at
+        $(2,-1,2)$ in the direction $\mathbf{v}=(2,2,1)$.
+  \item Compute $f_x$ and $f_y$ for $f(x,y)=\tan(x+y)+\tan(x-y)$.
+  \item For $F(K,L)=(\alpha K+\beta L)^r$ (linear-aggregate,
+        $\alpha,\beta,r>0$), compute $F_K, F_L$, and verify
+        $KF_K+LF_L=rF$.
+  \item Compute $\nabla f$ for $f(x,y)=e^{-x}\sin(y)+e^x\cos(y)$.
+  \item Compute the directional derivative of $f(x,y)=\sqrt{x^2+y^2}$ at
+        $(3,4)$ in the direction $\mathbf{v}=(1,0)$.
+  \item For $U(x,y)=\min\{2x,3y\}$, compute the marginal utilities on
+        each smooth region $\{2x<3y\}$ and $\{2x>3y\}$.
+  \item Compute $f_x, f_y$ for $f(x,y)=\dfrac{\ln(x+y)}{x-y}$ (assume
+        $x>y>0$).
+  \item For $F(K,L)=AK^\alpha L^\beta$ general Cobb--Douglas, derive
+        $\mathrm{MRTS}_{LK}$ and show it depends only on the ratio $K/L$
+        (not on scale).
+  \item Compute the unit direction of steepest ascent for
+        $f(x,y)=x^2-y^2$ at $(2,-1)$, and the maximum rate.
+  \item Compute $f_x$ and $f_y$ for $f(x,y)=\cosh(x+y)+\sinh(x-y)$.
+  \item For $f(x,y,z)=e^{x+y+z}$, compute $\nabla f$ at $(0,0,0)$ and the
+        directional derivative in $\mathbf{v}=(1,1,1)$.
+  \item Compute $f_x$ and $f_y$ for $f(x,y)=(\ln x)(\ln y)$ with
+        $x,y>1$.
+  \item For $F(K,L)=K+2K^{1/2}L^{1/2}+L$ (which equals
+        $(K^{1/2}+L^{1/2})^2$), compute $F_K, F_L$ directly and confirm
+        agreement with the CES form.
+  \item Compute the directional derivative of $f(x,y)=x^2y+y^3$ at
+        $(-1,2)$ in the direction $\mathbf{v}=(4,-3)$.
+  \item For $U(x,y)=\alpha\ln x+\beta\ln y$ (log-Cobb--Douglas), derive
+        $\mathrm{MRS}_{xy}$ and evaluate at $(x,y)=(\alpha,\beta)$.
+  \item Compute $\nabla f$ for $f(x,y)=(x^2+y^2)^{-1/2}$ (Newtonian
+        potential in 2D).
+  \item Compute $f_x$ and $f_y$ for $f(x,y)=\arctan(xy)$.
+  \item For $F(K,L)=(K^\rho+L^\rho)^{1/\rho}$ with $\rho<1$, $\rho\neq0$
+        (CES with constant returns), compute $F_K$ and show
+        $F_K=(K/F)^{\rho-1}$.
+  \item Compute the directional derivative of $f(x,y,z)=xyz$ at
+        $(2,3,-1)$ in the direction $\mathbf{v}=(2,-1,2)$.
 \end{problems}
 
 \section{Solutions}
 
 \begin{solutions}
-  \item $\grad f=(2xy,\,x^{2})$. At $(1,1)$: $\grad f=(2,1)$, and
-        $\mathbf{u}$ is already a unit vector.
+  \item $f_x=20x^3-4xy^3$, $f_y=-6x^2y^2+5y^4$.
+
+  \item $F_K=12\cdot\frac14K^{-3/4}L^{3/4}=3(L/K)^{3/4}$;
+        $F_L=12\cdot\frac34K^{1/4}L^{-1/4}=9(K/L)^{1/4}$. At $(16,81)$:
+        $(L/K)^{3/4}=(81/16)^{3/4}=27/8$ so $F_K=81/8$;
+        $(K/L)^{1/4}=(16/81)^{1/4}=2/3$ so $F_L=6$.
+
+  \item $f_x=2xe^{3y}$, $f_y=3x^2e^{3y}$.
+
+  \item $\nabla f=(12x^2y-y^4,\ 4x^3-4xy^3)^T$.
+
+  \item $f_x=2x-4y$, $f_y=-4x+3y^2$. At $(2,1)$: $\nabla f=(0,-5)^T$.
+        Normalise: $\|\mathbf{v}\|=\sqrt{25+144}=13$,
+        $\mathbf{u}=(5/13,-12/13)^T$. Then
         \[
-          D_{\mathbf{u}}f=(2)\frac{1}{\sqrt{2}}+(1)\frac{1}{\sqrt{2}}
-            =\frac{3}{\sqrt{2}}=\frac{3\sqrt{2}}{2} .
+          D_{\mathbf{u}}f=0\cdot\frac{5}{13}+(-5)\cdot
+            \left(-\frac{12}{13}\right)=\frac{60}{13} .
         \]
 
-  \item $\grad f=\Bigl(\dfrac{2x}{x^{2}+y^{2}},\,
-        \dfrac{2y}{x^{2}+y^{2}}\Bigr)$. At $(1,1)$: $\grad f=(1,1)$.
-        Normalise: $|\mathbf{v}|=\sqrt{4+1}=\sqrt{5}$, so
-        $\mathbf{u}=(2,1)/\sqrt{5}$.
+  \item $F_K=6\cdot\frac23K^{-1/3}L^{1/3}=4(L/K)^{1/3}$,
+        $F_L=2(K/L)^{2/3}$. At $(27,8)$: $(L/K)^{1/3}=2/3$ so
+        $\mathrm{MP}_K=8/3$; $(K/L)^{2/3}=(27/8)^{2/3}=9/4$ so
+        $\mathrm{MP}_L=9/2$.
+
+  \item Chain rule with $u=3x-2y$: $f_x=4(3x-2y)^3\cdot3=12(3x-2y)^3$,
+        $f_y=-8(3x-2y)^3$.
+
+  \item $f_x=y^2e^{xy^2}$, $f_y=2xye^{xy^2}$.
+
+  \item $F_K=15K^{-0.4}L^{0.5}$, $F_L=12.5K^{0.6}L^{-0.5}$.
+
+  \item $f_x=2x-z^2e^x$, $f_y=3z$, $f_z=3y-2ze^x$. So
+        $\nabla f=(2x-z^2e^x,\ 3z,\ 3y-2ze^x)^T$.
+
+  \item $f_x=e^x\ln(1+y)$, $f_y=e^x/(1+y)$. At $(0,0)$:
+        $\nabla f=(0,1)^T$. Normalise: $\|\mathbf{v}\|=\sqrt5$,
+        $\mathbf{u}=(1/\sqrt5,2/\sqrt5)^T$. So
         \[
-          D_{\mathbf{u}}f=\frac{1\cdot 2+1\cdot 1}{\sqrt{5}}
-            =\frac{3}{\sqrt{5}}=\frac{3\sqrt{5}}{5} .
+          D_{\mathbf{u}}f=0\cdot\frac{1}{\sqrt5}+1\cdot\frac{2}{\sqrt5}
+            =\frac{2\sqrt5}{5} .
         \]
 
-  \item Direction vector $\mathbf{v}=(5,5)-(2,1)=(3,4)$,
-        $|\mathbf{v}|=5$, so $\mathbf{u}=(3/5,\,4/5)$.
-        $\grad f=(3x^{2}-3y^{2},\,-6xy)$; at $(2,1)$:
-        $\grad f=(12-3,\,-12)=(9,-12)$.
+  \item $U_x=2/x$, $U_y=5/y$. $\mathrm{MRS}_{xy}=U_x/U_y
+        =(2/x)/(5/y)=2y/(5x)$. At $(3,5)$: $\mathrm{MRS}=10/15=2/3$.
+
+  \item For $x+y\neq0$: $f(x,y)=x-y$, so $f_x=1$, $f_y=-1$.
+
+  \item With $u=x^2y+1$: $f_x=2xy/(x^2y+1)$, $f_y=x^2/(x^2y+1)$.
+
+  \item $U_{x_1}=\frac12x_1^{-1/2}x_2^{1/3}x_3^{1/6}$,
+        $U_{x_2}=\frac13x_1^{1/2}x_2^{-2/3}x_3^{1/6}$,
+        $U_{x_3}=\frac16x_1^{1/2}x_2^{1/3}x_3^{-5/6}$. Equivalently
+        $U_{x_i}=(\alpha_i/x_i)U$ with $\alpha=(1/2,1/3,1/6)$.
+
+  \item $f_x=y$, $f_y=x-2z$, $f_z=-2y+2z$. At $(1,2,3)$:
+        $\nabla f=(2,-5,2)^T$. Normalise: $\|\mathbf{v}\|=\sqrt{1+4+4}=3$,
+        $\mathbf{u}=(1/3,2/3,2/3)^T$. Then
+        $D_{\mathbf{u}}f=(2-10+4)/3=-4/3$.
+
+  \item $F_K=0.25K^{-0.75}L^{0.75}$, $F_L=0.75K^{0.25}L^{-0.25}$. So
+        $\mathrm{MRTS}_{LK}=F_L/F_K=3K/L$. At $(16,4)$:
+        $\mathrm{MRTS}=48/4=12$.
+
+  \item Expand: $f=x^3-3x^2y^2+xy-3y^3$. Hence $f_x=3x^2-6xy^2+y$,
+        $f_y=-6x^2y+x-9y^2$.
+
+  \item With $u=-y/x$: $\partial u/\partial x=y/x^2$,
+        $\partial u/\partial y=-1/x$. Product rule:
         \[
-          D_{\mathbf{u}}f=9\cdot\frac{3}{5}+(-12)\cdot\frac{4}{5}
-            =\frac{27}{5}-\frac{48}{5}=-\frac{21}{5} .
+          f_x=e^{-y/x}+x\cdot e^{-y/x}\cdot\frac{y}{x^2}
+            =e^{-y/x}\left(1+\frac{y}{x}\right), \qquad
+          f_y=x\cdot e^{-y/x}\cdot\left(-\frac1x\right)=-e^{-y/x} .
         \]
 
-  \item $\grad f=(yz,\,xz,\,xy)$. At $(1,2,3)$: $\grad f=(6,3,2)$. The
-        vector $\mathbf{u}=\tfrac13(1,2,2)$ is unit since
-        $\sqrt{1+4+4}/3=1$.
+  \item Let $g=3K^{1/2}+2L^{1/2}$, so $F=g^2$. Then
         \[
-          D_{\mathbf{u}}f=\frac{6\cdot 1+3\cdot 2+2\cdot 2}{3}
-            =\frac{6+6+4}{3}=\frac{16}{3} .
+          F_K=2g\cdot\frac32K^{-1/2}=\frac{3g}{K^{1/2}}
+            =\frac{3(3K^{1/2}+2L^{1/2})}{K^{1/2}}, \qquad
+          F_L=2g\cdot L^{-1/2}=\frac{2(3K^{1/2}+2L^{1/2})}{L^{1/2}} .
         \]
 
-  \item $\mathbf{u}=(\cos 60^{\circ},\,\sin 60^{\circ})
-        =(1/2,\,\sqrt{3}/2)$, a unit vector.
-        $\grad f=(\mathrm{e}^{x+y},\,\mathrm{e}^{x+y})$; at $(0,0)$:
-        $\grad f=(1,1)$.
+  \item With $u=y/x$, $f=\arctan u$, $f'=1/(1+u^2)$:
         \[
-          D_{\mathbf{u}}f=\frac{1}{2}+\frac{\sqrt{3}}{2}
-            =\frac{1+\sqrt{3}}{2} .
+          f_x=\frac{1}{1+y^2/x^2}\cdot\left(-\frac{y}{x^2}\right)
+            =\frac{-y}{x^2+y^2}, \qquad
+          f_y=\frac{x}{x^2+y^2} .
+        \]
+        So $\nabla f=(-y/(x^2+y^2),\ x/(x^2+y^2))^T$.
+
+  \item $f_K=\frac12K^{-1/2}L^{1/2}$, $f_L=\frac12K^{1/2}L^{-1/2}$. At
+        $(4,9)$: $\nabla f=(\frac12\cdot\frac32,\ \frac12\cdot\frac23)^T
+        =(3/4,1/3)^T$. Then $\|\nabla f\|^2=9/16+1/9=97/144$, so the
+        maximum rate is $\sqrt{97}/12\approx0.821$ in direction
+        $\mathbf{u}^*=(9,4)^T/\sqrt{97}$.
+
+  \item $F=(K^{1/2}+L^{1/2})^2$. Replacing $(K,L)\to(\lambda K,\lambda L)$
+        gives $\lambda F$, so $r=1$. With $g=K^{1/2}+L^{1/2}$:
+        $F_K=2g\cdot\frac12K^{-1/2}=g/K^{1/2}$, $F_L=g/L^{1/2}$. Hence
+        \[
+          KF_K+LF_L=K^{1/2}g+L^{1/2}g=g(K^{1/2}+L^{1/2})=g^2=F. \checkmark
         \]
 
-  \item $\grad f=\Bigl(\dfrac{x}{\sqrt{x^{2}+y^{2}}},\,
-        \dfrac{y}{\sqrt{x^{2}+y^{2}}}\Bigr)$. At $(3,4)$:
-        $\grad f=(3/5,\,4/5)$. With $\mathbf{u}=(1,0)$ (already unit):
+  \item Quotient rule, $D=x^2+y^2$:
         \[
-          D_{\mathbf{u}}f=\frac{3}{5} .
+          f_x=\frac{2D-(2x+3y)(2x)}{D^2}=\frac{-2x^2-6xy+2y^2}{(x^2+y^2)^2},
+          \qquad f_y=\frac{3x^2-4xy-3y^2}{(x^2+y^2)^2} .
         \]
 
-  \item $\grad U=(y,\,x)$; at $(2,3)$: $\grad U=(3,2)$. Normalise:
-        $|\mathbf{v}|=\sqrt{9+16}=5$, $\mathbf{u}=(3/5,\,-4/5)$.
+  \item Treat denominator as constant for $f_x$: $f_x=e^x/(1+e^y)$. For
+        $f_y$:
         \[
-          D_{\mathbf{u}}U=3\cdot\frac{3}{5}+2\cdot\Bigl(-\frac{4}{5}\Bigr)
-            =\frac{9}{5}-\frac{8}{5}=\frac{1}{5} .
-        \]
-        The rate is positive: the marginal-utility gain from the extra
-        $x$ slightly outweighs the loss from the reduced $y$, so utility
-        rises, at $1/5$ per unit distance moved.
-
-  \item $\grad f=(2x+y,\,x+2y)$. At $(1,2)$: $\grad f=(4,5)$,
-        $|\grad f|=\sqrt{16+25}=\sqrt{41}$.
-        \[
-          \mathbf{u}=\frac{(4,5)}{\sqrt{41}},\qquad
-          \text{maximum rate}=\sqrt{41} .
+          f_y=e^x\cdot\frac{-e^y}{(1+e^y)^2}=-\frac{e^{x+y}}{(1+e^y)^2} .
         \]
 
-  \item $\grad f=(2x,\,4y)$. At $(1,1)$: $\grad f=(2,4)$,
-        $|\grad f|=\sqrt{4+16}=2\sqrt{5}$. Steepest descent:
+  \item Let $S=\alpha K^\rho+(1-\alpha)L^\rho$, $F=AS^{\nu/\rho}$.
+        Treating $K$ constant, $\partial S/\partial L=\rho(1-\alpha)L^{\rho-1}$:
         \[
-          \mathbf{u}=-\frac{(2,4)}{2\sqrt{5}}=-\frac{(1,2)}{\sqrt{5}},
-          \qquad \text{rate}=-2\sqrt{5} .
+          F_L=A\cdot\frac{\nu}{\rho}S^{\nu/\rho-1}\cdot\rho(1-\alpha)L^{\rho-1}
+            =\nu(1-\alpha)AL^{\rho-1}S^{\nu/\rho-1} .
         \]
 
-  \item $\grad f=(2x,\,-2y)$. At $(2,1)$: $\grad f=(4,-2)$. We need
-        $\mathbf{u}\perp(4,-2)$: $4u_{1}-2u_{2}=0$, i.e.
-        $u_{2}=2u_{1}$. Normalising $(1,2)$:
+  \item $f=\ln(x^2+y^2)$, $f_x=2x/(x^2+y^2)$, $f_y=2y/(x^2+y^2)$. At
+        $(3,4)$: $x^2+y^2=25$, $\nabla f=(6/25,8/25)^T$. Normalise:
+        $\|\mathbf{v}\|=\sqrt2$, $\mathbf{u}=(-1/\sqrt2,1/\sqrt2)^T$. Then
         \[
-          \mathbf{u}=\pm\frac{(1,2)}{\sqrt{5}} .
-        \]
-        \textbf{Check.} $(4,-2)\cdot(1,2)=4-4=0$. \checkmark
-
-  \item $\grad f=(2x,\,2y,\,-2z)$. At $(1,2,2)$: $\grad f=(2,4,-4)$,
-        $|\grad f|=\sqrt{4+16+16}=6$. Maximum rate $6$, attained in the
-        direction
-        \[
-          \mathbf{u}=\frac{(2,4,-4)}{6}=\frac{(1,2,-2)}{3} .
+          D_{\mathbf{u}}f=\frac{6}{25}\cdot\left(-\frac{1}{\sqrt2}\right)
+            +\frac{8}{25}\cdot\frac{1}{\sqrt2}=\frac{2}{25\sqrt2}
+            =\frac{\sqrt2}{25} .
         \]
 
-  \item $\grad z=(-2x,\,-2y)$; at $(1,1)$: $\grad z=(-2,-2)$,
-        $|\grad z|=2\sqrt{2}$. Steepest descent direction:
-        \[
-          \mathbf{u}=-\frac{(-2,-2)}{2\sqrt{2}}=\frac{(1,1)}{\sqrt{2}} ,
-        \]
-        i.e. north-east, directly away from the summit above the origin.
-        The slope of that descent is $-|\grad z|=-2\sqrt{2}$.
+  \item $f_x=2xyz^3-4y^2z$, $f_y=x^2z^3-8xyz$,
+        $f_z=3x^2yz^2-4xy^2+5$.
 
-  \item $Q_{K}=\tfrac12K^{-1/2}L^{1/2}$, $Q_{L}=\tfrac12K^{1/2}L^{-1/2}$.
-        At $(4,9)$:
+  \item Chain rule, $u=4x^2+9y^2$:
         \[
-          Q_{K}=\frac{1}{2}\cdot\frac{1}{2}\cdot 3=\frac{3}{4},\qquad
-          Q_{L}=\frac{1}{2}\cdot 2\cdot\frac{1}{3}=\frac{1}{3},
-        \]
-        so $\grad Q=(3/4,\,1/3)$. Balanced direction
-        $\mathbf{u}=(1,1)/\sqrt{2}$:
-        \[
-          D_{\mathbf{u}}Q=\frac{3/4+1/3}{\sqrt{2}}
-            =\frac{13/12}{\sqrt{2}}=\frac{13\sqrt{2}}{24} .
-        \]
-        Fastest increase along $\grad Q/|\grad Q|$ with
-        \[
-          |\grad Q|=\sqrt{\frac{9}{16}+\frac{1}{9}}
-            =\sqrt{\frac{81+16}{144}}=\frac{\sqrt{97}}{12},\qquad
-          \mathbf{u}^{*}=\frac{12}{\sqrt{97}}\Bigl(\frac34,\frac13\Bigr)
-            =\frac{(9,4)}{\sqrt{97}} .
-        \]
-        The maximal rate is $\sqrt{97}/12$ (larger than $13\sqrt{2}/24$,
-        as it must be).
-
-  \item Let $\mathbf{r}(t)=(x(t),y(t))$ be a differentiable curve lying
-        in the level set, $f(\mathbf{r}(t))=c$ for all $t$.
-        Differentiate with the chain rule:
-        \[
-          0=\dd{}{t}\,c=\grad f(\mathbf{r}(t))\cdot\mathbf{r}'(t) .
-        \]
-        Hence the tangent vector $\mathbf{r}'(t)$ is orthogonal to
-        $\grad f$ at every point of the curve. For $U(x,y)=c$ an
-        indifference curve, this says exactly that
-        $(U_{x},U_{y})$ is normal to it.
-
-  \item First order: $\grad f=(2xy,\,x^{2})$; at $(1,2)$:
-        $\grad f=(4,1)$.
-        \[
-          D_{\mathbf{u}}f=4\cdot\frac{3}{5}+1\cdot\frac{4}{5}
-            =\frac{12}{5}+\frac{4}{5}=\frac{16}{5} .
-        \]
-        Second order: $f_{xx}=2y=4$, $f_{xy}=2x=2$, $f_{yy}=0$ at
-        $(1,2)$.
-        \[
-          D^{2}_{\mathbf{u}}f
-            =4\Bigl(\frac{3}{5}\Bigr)^{2}
-             +2\cdot 2\cdot\frac{3}{5}\cdot\frac{4}{5}
-             +0\cdot\Bigl(\frac{4}{5}\Bigr)^{2}
-            =\frac{36}{25}+\frac{48}{25}=\frac{84}{25} .
+          f_x=\frac{8x}{2\sqrt u}=\frac{4x}{\sqrt{4x^2+9y^2}}, \qquad
+          f_y=\frac{9y}{\sqrt{4x^2+9y^2}} .
         \]
 
-  \item $\grad f=(3x^{2}-3y,\,3y^{2}-3x)$; at $(1,1)$:
-        $\grad f=(0,0)$, so $(1,1)$ is a critical point. Second
-        partials: $f_{xx}=6x=6$, $f_{yy}=6y=6$, $f_{xy}=-3$, so
-        $\Hess_{f}(1,1)=\begin{pmatrix}6&-3\\-3&6\end{pmatrix}$. For
-        $\mathbf{u}=(1,1)/\sqrt{2}$:
-        \[
-          D^{2}_{\mathbf{u}}f=6\cdot\frac12
-            +2(-3)\cdot\frac12+6\cdot\frac12=3-3+3=3 .
-        \]
-        For $\mathbf{v}=(1,-1)/\sqrt{2}$:
-        \[
-          D^{2}_{\mathbf{v}}f=6\cdot\frac12
-            +2(-3)\cdot\Bigl(-\frac12\Bigr)+6\cdot\frac12=3+3+3=9 .
-        \]
-        Both are positive, the surface curves upward in both
-        directions. Indeed $D_{1}=6>0$ and
-        $D_{2}=36-9=27>0$, so the Hessian is positive definite and
-        $(1,1)$ is a strict local minimum (Chapter 7).
+  \item With $g=K^{1/2}+L^{1/2}$, $F=g^4$,
+        $F_K=4g^3\cdot\frac12K^{-1/2}=2g^3/K^{1/2}$. At $(4,9)$: $g=5$,
+        $K^{1/2}=2$, so $F_K=2\cdot125/2=125$.
 
-  \item $f_{xx}=\mathrm{e}^{x}\cos y$, $f_{xy}=-\mathrm{e}^{x}\sin y$,
-        $f_{yy}=-\mathrm{e}^{x}\cos y$. At $(0,0)$: $f_{xx}=1$,
-        $f_{xy}=0$, $f_{yy}=-1$. Writing
-        $\mathbf{u}=(\cos\theta,\,\sin\theta)$:
+  \item Let $r^2=x^2+y^2+z^2$. Then $f=\ln(r^2)$ and $f_{x_i}=2x_i/r^2$.
+        So $\nabla f=(2/(x^2+y^2+z^2))(x,y,z)^T$.
+
+  \item Use $\ln\sqrt{u}=\frac12\ln u$: $f=\frac12\ln(x^2+y^2)$. So
+        $f_x=x/(x^2+y^2)$, $f_y=y/(x^2+y^2)$.
+
+  \item $\nabla C=(4,9)^T$. With $Q=x^{1/2}y^{1/2}$: $Q_x=\frac12(y/x)^{1/2}$
+        and $Q_y=\frac12(x/y)^{1/2}$, so
         \[
-          D^{2}_{\mathbf{u}}f=\cos^{2}\theta-\sin^{2}\theta=\cos 2\theta .
+          \nabla Q=\tfrac12\left((y/x)^{1/2},\,(x/y)^{1/2}\right)^{T} .
         \]
-        This vanishes for $2\theta=\tfrac{\pi}{2}+k\pi$, i.e.
-        $\theta=\tfrac{\pi}{4}+k\tfrac{\pi}{2}$:
+        The condition $\nabla C=\lambda\nabla Q$ requires
+        $4/9=Q_x/Q_y=y/x$, i.e.\ $y=4x/9$. Along this locus
+        $\nabla Q\propto(2/3,3/2)^T\propto(4,9)^T=\nabla C$. \checkmark
+
+  \item Chain rule: $f_x=5(1+xy)^4\cdot y=5y(1+xy)^4$,
+        $f_y=5x(1+xy)^4$.
+
+  \item $f_x=3x^2-2y$, $f_y=-2x+2y$. At $(1,2)$:
+        $\nabla f=(3-4,-2+4)^T=(-1,2)^T$. Normalise: $\|\mathbf{v}\|=5$,
+        $\mathbf{u}=(3/5,4/5)^T$. Then
         \[
-          \mathbf{u}=\pm\frac{(1,1)}{\sqrt{2}}
-          \quad\text{and}\quad
-          \mathbf{u}=\pm\frac{(1,-1)}{\sqrt{2}} .
+          D_{\mathbf{u}}f=-1\cdot\frac35+2\cdot\frac45
+            =\frac{-3+8}{5}=1 .
         \]
 
-  \item
-        \[
-          J_{\mathbf{f}}=\begin{pmatrix}1&1\\1&-1\end{pmatrix},\qquad
-          \det J_{\mathbf{f}}=1\cdot(-1)-1\cdot 1=-2 .
-        \]
-        The map is linear, $\mathbf{f}(\mathbf{x})=A\mathbf{x}$ with
-        $A=\bigl(\begin{smallmatrix}1&1\\1&-1\end{smallmatrix}\bigr)$,
-        and for a linear map $f_{i}=\sum_{j}A_{ij}x_{j}$ gives
-        $\partial f_{i}/\partial x_{j}=A_{ij}$: the Jacobian is the
-        constant matrix $A$ itself: a linear map is its own linear
-        approximation.
+  \item $F_K=10\cdot0.3K^{-0.7}L^{0.7}=3(L/K)^{0.7}$;
+        $F_L=7(K/L)^{0.3}$. At $K=L=100$: $F_K=3$, $F_L=7$. And
+        $F=10\cdot100^{0.3}\cdot100^{0.7}=10\cdot100=1000$. Then
+        $KF_K+LF_L=100\cdot3+100\cdot7=1000=F$. \checkmark (homogeneity
+        degree $r=0.3+0.7=1$).
 
-  \item With $f_{1}=x^{2}y$, $f_{2}=x+y^{2}$, $f_{3}=xy$:
+  \item $f_x=y\cos(xy)-\sin(x-y)$, $f_y=x\cos(xy)+\sin(x-y)$.
+
+  \item $f_x=2xy-y^2+3$, $f_y=x^2-2xy-2$. At $(1,-1)$: $f_x=-2-1+3=0$,
+        $f_y=1+2-2=1$. So $\nabla f(1,-1)=(0,1)^T$.
+
+  \item $U_x=\alpha x^{\alpha-1}y^{1-\alpha}$,
+        $U_y=(1-\alpha)x^\alpha y^{-\alpha}$. So
         \[
-          J_{\mathbf{f}}=\begin{pmatrix}2xy&x^{2}\\1&2y\\y&x\end{pmatrix}
-          \;\in\;\R^{3\times 2} .
-        \]
-        A $3\times 2$ matrix: one row per component, one column per
-        variable; being non-square, it has no determinant. At $(1,2)$:
-        \[
-          J_{\mathbf{f}}(1,2)=\begin{pmatrix}4&1\\1&4\\2&1\end{pmatrix} .
+          \mathrm{MRS}_{xy}=\frac{U_x}{U_y}
+            =\frac{\alpha x^{\alpha-1}y^{1-\alpha}}{(1-\alpha)x^\alpha y^{-\alpha}}
+            =\frac{\alpha}{1-\alpha}\cdot\frac{y}{x} . \checkmark
         \]
 
-  \item
+  \item $f_x=ye^{xy}$, $f_y=xe^{xy}$. At $(1,0)$: $\nabla f=(0,1)^T$.
+        Normalise: $\|\mathbf{v}\|=5$, $\mathbf{u}=(-3/5,4/5)^T$. Then
+        $D_{\mathbf{u}}f=0\cdot(-3/5)+1\cdot(4/5)=4/5$.
+
+  \item Write $f=e^{y\ln x}$. Then $f_x=e^{y\ln x}\cdot y/x=yx^{y-1}$ and
+        $f_y=e^{y\ln x}\cdot\ln x=x^y\ln x$.
+
+  \item On $\{2K<3L\}$ the binding factor is capital: $F=2K$, so
+        $F_K=2$, $F_L=0$. On $\{2K>3L\}$ labour binds: $F=3L$, so
+        $F_K=0$, $F_L=3$. (Non-differentiable on $\{2K=3L\}$.)
+
+  \item $f_x=yz+2x$, $f_y=xz$, $f_z=xy-2z$. At $(2,-1,3)$:
+        $f_x=-3+4=1$, $f_y=6$, $f_z=-2-6=-8$. So
+        $\nabla f=(1,6,-8)^T$.
+
+  \item $\nabla f=(2x,8y)^T$. At $(3,1)$: $\nabla f=(6,8)^T$. Steepest
+        descent is $-\nabla f/\|\nabla f\|$. $\|\nabla f\|=10$, so unit
+        descent direction is $(-3/5,-4/5)^T$, with rate of decrease
+        $-\|\nabla f\|=-10$ (i.e.\ $f$ decreases at rate 10).
+
+  \item $f_x=e^y-ye^x$, $f_y=xe^y-e^x$.
+
+  \item Quotient rule with $D=x^2+y^2$:
         \[
-          J_{\mathbf{f}}=\begin{pmatrix}1&1&0\\0&1&1\\1&0&1\end{pmatrix} .
-        \]
-        Expanding along the first row:
-        \[
-          \det J_{\mathbf{f}}
-            =1\,(1\cdot 1-1\cdot 0)-1\,(0\cdot 1-1\cdot 1)+0
-            =1+1=2 .
+          f_x=\frac{D-x\cdot2x}{D^2}=\frac{y^2-x^2}{(x^2+y^2)^2}, \qquad
+          f_y=\frac{-x\cdot2y}{D^2}=\frac{-2xy}{(x^2+y^2)^2} .
         \]
 
-  \item $J_{\mathbf{f}}=\begin{pmatrix}2x&-1\\y&x\end{pmatrix}$. At
-        $\mathbf{x}_{0}=(1,1)$:
-        \[
-          \mathbf{f}(1,1)=(0,\,1),\qquad
-          J_{\mathbf{f}}(1,1)=\begin{pmatrix}2&-1\\1&1\end{pmatrix} .
-        \]
-        With $\mathbf{h}=(0.1,\,-0.1)$:
-        \[
-          J_{\mathbf{f}}(1,1)\,\mathbf{h}
-            =\begin{pmatrix}2(0.1)+(-1)(-0.1)\\
-              1(0.1)+1(-0.1)\end{pmatrix}
-            =\begin{pmatrix}0.3\\0\end{pmatrix},
-        \]
-        so $\mathbf{f}(1.1,\,0.9)\approx(0,1)+(0.3,\,0)=(0.3,\,1)$.
-        Exact value:
-        \[
-          \mathbf{f}(1.1,\,0.9)=(1.21-0.9,\;1.1\cdot 0.9)
-            =(0.31,\;0.99) .
-        \]
-        The approximation is off by only $0.01$ in each component.
+  \item $U_x=1$, $U_y=1/\sqrt{y}$. So $\mathrm{MRS}_{xy}=U_x/U_y
+        =\sqrt{y}$ (depends only on $y$, quasi-linear utility).
 
-  \item Excess demand:
+  \item $f_x=2x$, $f_y=2y$, $f_z=-2z$. At $(2,-1,2)$:
+        $\nabla f=(4,-2,-4)^T$. Normalise: $\|\mathbf{v}\|=\sqrt{4+4+1}=3$,
+        $\mathbf{u}=(2/3,2/3,1/3)^T$. Then
         \[
-          G_{1}=D-S=(100-p+0.5q)-(-10+2p+q)=110-3p-0.5q ,
+          D_{\mathbf{u}}f=4\cdot\frac23+(-2)\cdot\frac23+(-4)\cdot\frac13
+            =\frac{8-4-4}{3}=0 .
         \]
-        and $G_{2}=p+q-20$. Hence
-        \[
-          \frac{\partial(G_{1},G_{2})}{\partial(p,q)}
-            =\begin{pmatrix}-3&-0.5\\1&1\end{pmatrix},\qquad
-          \det=-3\cdot 1-(-0.5)\cdot 1=-2.5 .
-        \]
-        The determinant is nonzero: exactly the condition the next
-        chapter's Implicit Function Theorem needs to solve the system
-        locally for $(p,q)$ when a parameter shifts.
+        (We are moving tangent to the level surface.)
 
-  \item Inner and outer Jacobians:
+  \item $f_x=\sec^2(x+y)+\sec^2(x-y)$, $f_y=\sec^2(x+y)-\sec^2(x-y)$.
+
+  \item Let $S=\alpha K+\beta L$, $F=S^r$. Then $F_K=rS^{r-1}\alpha$,
+        $F_L=rS^{r-1}\beta$. Hence
         \[
-          J_{\mathbf{g}}=\begin{pmatrix}1&1\\1&-1\end{pmatrix},\qquad
-          J_{\mathbf{F}}(u,v)=\begin{pmatrix}2u&0\\v&u\end{pmatrix} .
-        \]
-        Evaluate the outer at the inner value
-        $(u,v)=\mathbf{g}(x,y)=(x+y,\,x-y)$ and multiply:
-        \[
-          J_{\mathbf{F}\circ\mathbf{g}}
-            =\begin{pmatrix}2(x+y)&0\\x-y&x+y\end{pmatrix}
-             \begin{pmatrix}1&1\\1&-1\end{pmatrix}
-            =\begin{pmatrix}2(x+y)&2(x+y)\\
-              (x-y)+(x+y)&(x-y)-(x+y)\end{pmatrix}
-            =\begin{pmatrix}2(x+y)&2(x+y)\\2x&-2y\end{pmatrix} .
-        \]
-        \textbf{Check.} Composing first:
-        $(\mathbf{F}\circ\mathbf{g})(x,y)
-        =\bigl((x+y)^{2},\,(x+y)(x-y)\bigr)
-        =\bigl((x+y)^{2},\,x^{2}-y^{2}\bigr)$, whose Jacobian is
-        \[
-          \begin{pmatrix}2(x+y)&2(x+y)\\2x&-2y\end{pmatrix} .
-          \quad\checkmark
+          KF_K+LF_L=rS^{r-1}(\alpha K+\beta L)=rS^{r-1}\cdot S=rS^r=rF.
+            \checkmark
         \]
 
-  \item $J_{f}=\bigl(y^{2}\;\;2xy\bigr)$ (a row) and
-        $J_{\mathbf{r}}(t)=\begin{pmatrix}\mathrm{e}^{t}\\1\end{pmatrix}$
-        (a column). At $\mathbf{r}(t)=(\mathrm{e}^{t},\,t)$ the row is
-        $\bigl(t^{2}\;\;2t\mathrm{e}^{t}\bigr)$, so
-        \[
-          \dd{z}{t}
-            =\bigl(t^{2}\;\;2t\mathrm{e}^{t}\bigr)
-             \begin{pmatrix}\mathrm{e}^{t}\\1\end{pmatrix}
-            =t^{2}\mathrm{e}^{t}+2t\mathrm{e}^{t}
-            =\mathrm{e}^{t}(t^{2}+2t) .
-        \]
-        \textbf{Check.} $z=\mathrm{e}^{t}\,t^{2}$, so
-        $\dd{z}{t}=\mathrm{e}^{t}t^{2}+2t\mathrm{e}^{t}$. \checkmark
+  \item $\nabla f=(-e^{-x}\sin y+e^x\cos y,\ e^{-x}\cos y-e^x\sin y)^T$.
 
-  \item Inner Jacobian:
+  \item $f_x=x/\sqrt{x^2+y^2}$, $f_y=y/\sqrt{x^2+y^2}$. At $(3,4)$:
+        $\sqrt{x^2+y^2}=5$, $\nabla f=(3/5,4/5)^T$. The direction
+        $\mathbf{v}=(1,0)$ is already unit. So
+        $D_{\mathbf{u}}f=3/5\cdot1+4/5\cdot0=3/5$.
+
+  \item On $\{2x<3y\}$: $U=2x$, so $U_x=2$, $U_y=0$. On $\{2x>3y\}$:
+        $U=3y$, so $U_x=0$, $U_y=3$. (Non-differentiable on the ray
+        $2x=3y$.)
+
+  \item Let $L=\ln(x+y)$, $D=x-y$. By the quotient rule:
         \[
-          J_{\mathbf{g}}(K,L)=\begin{pmatrix}
-            \tfrac12K^{-1/2}L^{1/2}&\tfrac12K^{1/2}L^{-1/2}\\
-            2&1\end{pmatrix},\qquad
-          J_{\mathbf{g}}(1,1)=\begin{pmatrix}1/2&1/2\\2&1\end{pmatrix} .
+          f_x=\frac{(1/(x+y))(x-y)-\ln(x+y)\cdot1}{(x-y)^2}
+            =\frac{1/(x+y)\cdot(x-y)-\ln(x+y)}{(x-y)^2} .
         \]
-        Outer Jacobian (a row, constant since $\pi$ is linear):
-        $J_{\pi}=(10\;\;-1)$. Matrix chain rule:
+        Simplifying
+        $f_x=\dfrac{(x-y)/(x+y)-\ln(x+y)}{(x-y)^2}$. Similarly,
         \[
-          (\pi_{K},\,\pi_{L})
-            =(10\;\;-1)\begin{pmatrix}1/2&1/2\\2&1\end{pmatrix}
-            =\bigl(10\cdot\tfrac12-1\cdot 2,\;
-              10\cdot\tfrac12-1\cdot 1\bigr)
-            =(3,\;4) .
+          f_y=\frac{(1/(x+y))(x-y)-\ln(x+y)\cdot(-1)}{(x-y)^2}
+            =\frac{(x-y)/(x+y)+\ln(x+y)}{(x-y)^2} .
         \]
-        \textbf{Check.} Substituting first,
-        $\pi(K,L)=10K^{1/2}L^{1/2}-2K-L$, so
-        $\pi_{K}=5K^{-1/2}L^{1/2}-2=5-2=3$ and
-        $\pi_{L}=5K^{1/2}L^{-1/2}-1=5-1=4$ at $(1,1)$. \checkmark
-        At the current input mix an extra unit of capital raises profit
-        by about $3$, an extra unit of labour by about $4$.
+
+  \item $F_K=A\alpha K^{\alpha-1}L^\beta$, $F_L=A\beta K^\alpha L^{\beta-1}$.
+        So
+        \[
+          \mathrm{MRTS}_{LK}=\frac{F_L}{F_K}=\frac{\beta}{\alpha}\cdot
+            \frac{K}{L} .
+        \]
+        This depends only on the ratio $K/L$ and the exponent ratio
+        $\beta/\alpha$: it is scale-invariant.
+
+  \item $\nabla f=(2x,-2y)^T$. At $(2,-1)$: $\nabla f=(4,2)^T$. Direction
+        of steepest ascent: $\mathbf{u}^*=(4,2)/\sqrt{20}=(2,1)/\sqrt5$.
+        Maximum rate $=\|\nabla f\|=\sqrt{20}=2\sqrt5$.
+
+  \item $f_x=\sinh(x+y)+\cosh(x-y)$, $f_y=\sinh(x+y)-\cosh(x-y)$.
+
+  \item $\nabla f=(e^{x+y+z},e^{x+y+z},e^{x+y+z})^T$. At $(0,0,0)$:
+        $\nabla f=(1,1,1)^T$. Normalise $\mathbf{v}=(1,1,1)$:
+        $\|\mathbf{v}\|=\sqrt3$, $\mathbf{u}=(1,1,1)/\sqrt3$. Then
+        $D_{\mathbf{u}}f=(1+1+1)/\sqrt3=\sqrt3$.
+
+  \item $f_x=(\ln y)/x$, $f_y=(\ln x)/y$.
+
+  \item $F_K=1+L^{1/2}/K^{1/2}$, $F_L=1+K^{1/2}/L^{1/2}$. From
+        $F=(K^{1/2}+L^{1/2})^2$ with $g=K^{1/2}+L^{1/2}$:
+        $F_K=g/K^{1/2}=(K^{1/2}+L^{1/2})/K^{1/2}=1+L^{1/2}/K^{1/2}$.
+        \checkmark Same for $F_L$.
+
+  \item $f_x=2xy$, $f_y=x^2+3y^2$. At $(-1,2)$: $\nabla f=(-4,1+12)^T
+        =(-4,13)^T$. Normalise: $\|\mathbf{v}\|=5$,
+        $\mathbf{u}=(4/5,-3/5)^T$. Then
+        \[
+          D_{\mathbf{u}}f=-4\cdot\frac45+13\cdot\left(-\frac35\right)
+            =-\frac{16+39}{5}=-11 .
+        \]
+
+  \item $U_x=\alpha/x$, $U_y=\beta/y$.
+        $\mathrm{MRS}_{xy}=\dfrac{\alpha/x}{\beta/y}=\dfrac{\alpha y}{\beta x}$.
+        At $(\alpha,\beta)$: $\mathrm{MRS}=(\alpha\cdot\beta)/(\beta\cdot\alpha)=1$.
+
+  \item $f=(x^2+y^2)^{-1/2}$. Chain rule:
+        \[
+          f_x=-\frac12(x^2+y^2)^{-3/2}\cdot2x=\frac{-x}{(x^2+y^2)^{3/2}},
+          \qquad f_y=\frac{-y}{(x^2+y^2)^{3/2}} .
+        \]
+        So $\nabla f=-(x,y)^T/(x^2+y^2)^{3/2}$.
+
+  \item Chain rule with $u=xy$:
+        \[
+          f_x=\frac{y}{1+x^2y^2}, \qquad f_y=\frac{x}{1+x^2y^2} .
+        \]
+
+  \item Let $S=K^\rho+L^\rho$, $F=S^{1/\rho}$. Then
+        $F_K=\frac1\rho S^{1/\rho-1}\cdot\rho K^{\rho-1}
+        =K^{\rho-1}S^{1/\rho-1}$. Since $S^{1/\rho}=F$, we have $S=F^\rho$
+        and so $S^{1/\rho-1}=F^{1-\rho}\cdot F^{-1}\cdot F=F^{1-\rho}$.
+        Thus $F_K=K^{\rho-1}F^{1-\rho}=(F/K)^{1-\rho}=(K/F)^{\rho-1}$.
+        \checkmark
+
+  \item $f_x=yz$, $f_y=xz$, $f_z=xy$. At $(2,3,-1)$:
+        $\nabla f=(3\cdot(-1),2\cdot(-1),2\cdot3)^T=(-3,-2,6)^T$.
+        Normalise $\mathbf{v}=(2,-1,2)$: $\|\mathbf{v}\|=3$,
+        $\mathbf{u}=(2/3,-1/3,2/3)^T$. Then
+        \[
+          D_{\mathbf{u}}f=-3\cdot\frac23+(-2)\cdot\left(-\frac13\right)
+            +6\cdot\frac23=-2+\frac23+4=2+\frac23=\frac83 .
+        \]
 \end{solutions}
 
 \section{Additional Problems}
 
 \begin{problems}
-  \item For $f(x,y)=x^{2}-y^{2}+3xy$ at $(1,2)$, find the directional
-        derivative toward $\mathbf{v}=(4,3)$.
-  \item For $f(x,y,z)=x^{2}+2y^{2}+3z^{2}$ at $(1,1,1)$, find the
-        directional derivative toward $\mathbf{v}=(1,-1,1)$.
-  \item For $U(x,y)=\ln x+2\ln y$ at $(1,2)$, find the direction of
-        steepest ascent and the maximum rate of increase.
-  \item Find all unit vectors $\mathbf{u}$ with $D_{\mathbf{u}}f=0$ for
-        $f(x,y)=xy$ at $(2,1)$.
-  \item At a point $P$ the directional derivatives of $f$ toward $(1,0)$
-        and toward $(0,1)$ are $3$ and $-4$. Find $\grad f(P)$, the
-        maximum rate of increase at $P$, and $D_{\mathbf{u}}f$ toward
-        $\mathbf{u}=(3/5,\,4/5)$.
-  \item For $f(x,y)=\ln(x^{2}+y^{2})$ at $(1,0)$ with
-        $\mathbf{u}=(0,1)$, compute $D_{\mathbf{u}}f$ and
-        $D^{2}_{\mathbf{u}}f$, and interpret the two results.
-  \item Compute the Jacobian of
-        $\mathbf{f}(x,y)=(x^{2}-y^{2},\;3xy+y^{2})$ and evaluate it at
-        $(1,1)$.
-  \item For $f(x,y)=xy$ and $\mathbf{r}(t)=(t^{2},\,t^{3})$, compute
-        $\dd{z}{t}$ for $z=f(\mathbf{r}(t))$ by the matrix chain rule
-        and verify directly.
-  \item Let $\mathbf{g}(s,t)=(st,\;s+t)$ and
-        $\mathbf{F}(x,y)=(x+y,\;xy)$. Compute
-        $J_{\mathbf{F}\circ\mathbf{g}}$ by the matrix chain rule and
-        verify by composing first.
-  \item Inputs produce two intermediate goods $x_{1}=2K+L$ and
-        $x_{2}=K+3L$, and final output is $y=x_{1}x_{2}$. Use the matrix
-        chain rule to find $\pd{y}{K}$ and $\pd{y}{L}$ at $(K,L)=(1,1)$,
-        and verify by expanding $y$ as a polynomial in $K$ and $L$.
+  \item Compute $f_x$ and $f_y$ for $f(x,y)=3x^5-2x^3y^2+4y^4$.
+  \item For $F(K,L)=20\,K^{1/3}L^{2/3}$, find $F_K$ and $F_L$ at
+        $(K,L)=(8,27)$.
+  \item Compute $f_x$ and $f_y$ for $f(x,y)=e^{xy}$.
+  \item Compute $\nabla f$ for $f(x,y)=2x^2y-3xy^3+5$.
+  \item Compute the directional derivative of $f(x,y)=x^2+2xy-y^2$ at
+        $(1,2)$ in the direction $\mathbf{v}=(3,4)$.
+  \item For $F(K,L)=8K^{3/4}L^{1/4}$, compute $\mathrm{MP}_K$ and
+        $\mathrm{MP}_L$ at $(K,L)=(16,16)$.
+  \item Compute $f_x$ and $f_y$ for $f(x,y)=\ln(2x+3y)$.
+  \item For $U(x,y)=3\ln(x)+4\ln(y)$, derive $\mathrm{MRS}_{xy}$ and
+        evaluate at $(2,3)$.
+  \item Compute $f_x$ and $f_y$ for $f(x,y)=(x+y^2)^4$.
+  \item Compute $\nabla f$ for $f(x,y,z)=xy+yz+zx$.
+  \item For a CES production $F(K,L)=5(K^{1/3}+L^{1/3})^3$, find $F_K$.
+  \item Compute the directional derivative of $f(x,y)=x^2y$ at $(2,1)$
+        in the direction $\mathbf{v}=(1,-1)$.
+  \item For $U(x,y)=x^\alpha y^\beta$ (general Cobb--Douglas,
+        $\alpha,\beta>0$), derive $\mathrm{MRS}_{xy}$ and show it depends
+        only on the ratio $y/x$.
+  \item Compute $f_x$ and $f_y$ for $f(x,y)=\dfrac{x-y}{x+y}$.
+  \item For $f(K,L)=K^{1/2}L^{1/2}$ at $(K,L)=(16,9)$, find the unit
+        direction of steepest ascent and the maximum rate of increase.
+  \item Classify the open positive orthant
+        $Q=\{(x,y)\in\R^2 : x>0,\ y>0\}$: is it open, closed, or
+        neither? Is it bounded? Is it compact?
+  \item Classify the budget set
+        $B=\{(x,y)\in\R^2 : 2x+3y\le12,\ x\ge0,\ y\ge0\}$: open,
+        closed, or neither? Bounded? Compact?
+  \item Classify $M=\{(x,y)\in\R^2 : xy\ge1,\ x>0\}$: open, closed, or
+        neither? Bounded? Compact? \emph{Hint:} check whether a
+        sequence in $M$ can converge to a point with $x=0$.
+  \item Classify the open disc
+        $D=\{(x,y)\in\R^2 : x^2+y^2<4\}$: open, closed, or neither?
+        Bounded? Compact?
+  \item Classify (a) the half-open strip
+        $S=\{(x,y)\in\R^2 : 0\le x<1\}$ and (b) the finite set
+        $E=\{(0,0),\ (1,2),\ (3,1)\}$: open, closed, or neither?
+        Bounded? Compact?
+  \item Does the Weierstrass theorem guarantee a maximiser for the
+        continuous function $u(x,y)=x^{1/2}y^{1/2}$ (a) on the budget
+        set $B=\{(x,y): 2x+3y\le12,\ x\ge0,\ y\ge0\}$, (b) on the open
+        positive orthant $Q=\{(x,y): x>0,\ y>0\}$? Justify each
+        answer.
 \end{problems}
 
 \section{Additional Solutions}
 
 \begin{solutions}
-  \item $\grad f=(2x+3y,\,-2y+3x)$; at $(1,2)$:
-        $\grad f=(2+6,\,-4+3)=(8,-1)$. Normalise:
-        $|\mathbf{v}|=\sqrt{16+9}=5$, $\mathbf{u}=(4/5,\,3/5)$.
+  \item $f_x=15x^4-6x^2y^2$, $f_y=-4x^3y+16y^3$.
+
+  \item $F_K=20\cdot\frac13K^{-2/3}L^{2/3}=\frac{20}{3}(L/K)^{2/3}$;
+        $F_L=20\cdot\frac23K^{1/3}L^{-1/3}=\frac{40}{3}(K/L)^{1/3}$. At
+        $(8,27)$: $(L/K)^{2/3}=(27/8)^{2/3}=9/4$, so $F_K=15$;
+        $(K/L)^{1/3}=(8/27)^{1/3}=2/3$, so
+        $F_L=\frac{40}{3}\cdot\frac23=\frac{80}{9}$.
+
+  \item $f_x=ye^{xy}$, $f_y=xe^{xy}$.
+
+  \item $\nabla f=(4xy-3y^3,\ 2x^2-9xy^2)^T$.
+
+  \item $f_x=2x+2y$, $f_y=2x-2y$. At $(1,2)$: $\nabla f=(6,-2)^T$.
+        Normalise: $\|\mathbf{v}\|=5$, $\mathbf{u}=(3/5,4/5)^T$. Then
         \[
-          D_{\mathbf{u}}f=8\cdot\frac{4}{5}+(-1)\cdot\frac{3}{5}
-            =\frac{32}{5}-\frac{3}{5}=\frac{29}{5} .
+          D_{\mathbf{u}}f=6\cdot\frac35+(-2)\cdot\frac45
+            =\frac{18-8}{5}=2 .
         \]
 
-  \item $\grad f=(2x,\,4y,\,6z)$; at $(1,1,1)$: $\grad f=(2,4,6)$.
-        Normalise: $|\mathbf{v}|=\sqrt{1+1+1}=\sqrt{3}$,
-        $\mathbf{u}=(1,-1,1)/\sqrt{3}$.
+  \item $F_K=8\cdot\frac34K^{-1/4}L^{1/4}=6(L/K)^{1/4}$,
+        $F_L=2(K/L)^{3/4}$. At $(16,16)$: $\mathrm{MP}_K=6$,
+        $\mathrm{MP}_L=2$.
+
+  \item $f_x=\dfrac{2}{2x+3y}$, $f_y=\dfrac{3}{2x+3y}$.
+
+  \item $U_x=3/x$, $U_y=4/y$.
+        $\mathrm{MRS}_{xy}=U_x/U_y=\dfrac{3y}{4x}$. At $(2,3)$:
+        $\mathrm{MRS}=\dfrac98$.
+
+  \item Chain: $f_x=4(x+y^2)^3$,
+        $f_y=4(x+y^2)^3\cdot2y=8y(x+y^2)^3$.
+
+  \item $f_x=y+z$, $f_y=x+z$, $f_z=x+y$. So
+        $\nabla f=(y+z,\ x+z,\ x+y)^T$.
+
+  \item Let $g=K^{1/3}+L^{1/3}$, so $F=5g^3$. Then
+        $F_K=5\cdot3g^2\cdot\frac13K^{-2/3}=5g^2K^{-2/3}
+        =\dfrac{5(K^{1/3}+L^{1/3})^2}{K^{2/3}}$.
+
+  \item $f_x=2xy$, $f_y=x^2$. At $(2,1)$: $\nabla f=(4,4)^T$. Normalise:
+        $\|\mathbf{v}\|=\sqrt2$, $\mathbf{u}=(1/\sqrt2,-1/\sqrt2)^T$.
+        Then
         \[
-          D_{\mathbf{u}}f=\frac{2-4+6}{\sqrt{3}}
-            =\frac{4}{\sqrt{3}}=\frac{4\sqrt{3}}{3} .
+          D_{\mathbf{u}}f=4\cdot\frac{1}{\sqrt2}
+            +4\cdot\left(-\frac{1}{\sqrt2}\right)=0 .
+        \]
+        (Tangent to the level curve.)
+
+  \item $U_x=\alpha x^{\alpha-1}y^\beta$,
+        $U_y=\beta x^\alpha y^{\beta-1}$. So
+        \[
+          \mathrm{MRS}_{xy}=\frac{U_x}{U_y}
+            =\frac{\alpha}{\beta}\cdot\frac{y}{x} .
+        \]
+        Depends only on $y/x$ (and the exponent ratio), not on the
+        scale. \checkmark
+
+  \item Quotient rule with $D=x+y$:
+        \[
+          f_x=\frac{D-(x-y)}{D^2}=\frac{2y}{(x+y)^2}, \qquad
+          f_y=\frac{-D-(x-y)}{D^2}=\frac{-2x}{(x+y)^2} .
         \]
 
-  \item $\grad U=(1/x,\,2/y)$; at $(1,2)$: $\grad U=(1,1)$,
-        $|\grad U|=\sqrt{2}$. Steepest ascent along
-        \[
-          \mathbf{u}=\frac{(1,1)}{\sqrt{2}},\qquad
-          \text{maximum rate}=\sqrt{2} .
-        \]
+  \item $f_K=\frac12K^{-1/2}L^{1/2}$, $f_L=\frac12K^{1/2}L^{-1/2}$. At
+        $(16,9)$: $f_K=\frac12\cdot\frac34=3/8$;
+        $f_L=\frac12\cdot\frac43=2/3$. So $\nabla f=(3/8,2/3)^T$.
+        Magnitude:
+        $\|\nabla f\|=\sqrt{9/64+4/9}=\sqrt{81/576+256/576}
+        =\sqrt{337/576}=\sqrt{337}/24\approx0.765$. Unit direction of
+        steepest ascent:
+        $\mathbf{u}^*=(3/8,2/3)^T/(\sqrt{337}/24)=(9,16)^T/\sqrt{337}$.
 
-  \item $\grad f=(y,\,x)$; at $(2,1)$: $\grad f=(1,2)$. We need
-        $\mathbf{u}\perp(1,2)$: $u_{1}+2u_{2}=0$, so
-        $\mathbf{u}=\pm(2,-1)/\sqrt{5}$.
-        \textbf{Check.} $(1,2)\cdot(2,-1)=2-2=0$. \checkmark
+  \item \textbf{Open.} For any $(x,y)\in Q$ the ball of radius
+        $r=\min\{x,y\}>0$ around $(x,y)$ stays inside $Q$, so every
+        point is interior. \textbf{Not closed:} the boundary points
+        $(x,0)$ and $(0,y)$ with $x,y\ge0$ (the coordinate half-axes,
+        including the origin) do not belong to $Q$. \textbf{Not
+        bounded:} $Q$ contains $(t,t)$ for every $t>0$, and
+        $\|(t,t)\|=t\sqrt2\to\infty$. Hence $Q$ is open, unbounded and
+        \textbf{not compact}.
 
-  \item The directional derivatives toward $(1,0)$ and $(0,1)$ are
-        precisely $f_{x}(P)$ and $f_{y}(P)$, so $\grad f(P)=(3,-4)$.
-        Maximum rate: $|\grad f(P)|=\sqrt{9+16}=5$, attained toward
-        $(3,-4)/5$. Toward $\mathbf{u}=(3/5,\,4/5)$:
-        \[
-          D_{\mathbf{u}}f=3\cdot\frac{3}{5}+(-4)\cdot\frac{4}{5}
-            =\frac{9}{5}-\frac{16}{5}=-\frac{7}{5} .
-        \]
+  \item \textbf{Closed.} $B$ is the intersection of the three sets
+        $\{2x+3y\le12\}$, $\{x\ge0\}$ and $\{y\ge0\}$, each defined by
+        a non-strict inequality on a continuous function; each is
+        closed, and an intersection of closed sets is closed (every
+        boundary point of $B$ satisfies all three inequalities, so it
+        lies in $B$). \textbf{Not open:} $(0,0)\in B$, but every ball
+        around the origin contains points with negative coordinates,
+        which are outside $B$; so $(0,0)$ is not interior.
+        \textbf{Bounded:} from the constraints, $0\le x\le6$ and
+        $0\le y\le4$, so $B\subseteq B_8(\mathbf{0})$. Closed and
+        bounded in $\R^2$: $B$ is \textbf{compact}.
 
-  \item $\grad f=\Bigl(\dfrac{2x}{x^{2}+y^{2}},\,
-        \dfrac{2y}{x^{2}+y^{2}}\Bigr)$; at $(1,0)$: $\grad f=(2,0)$, so
-        \[
-          D_{\mathbf{u}}f=(2,0)\cdot(0,1)=0 :
-        \]
-        $\mathbf{u}$ is tangent to the level curve $x^{2}+y^{2}=1$
-        through $(1,0)$. Second partials:
-        \[
-          f_{xx}=\frac{2y^{2}-2x^{2}}{(x^{2}+y^{2})^{2}},\qquad
-          f_{yy}=\frac{2x^{2}-2y^{2}}{(x^{2}+y^{2})^{2}},\qquad
-          f_{xy}=\frac{-4xy}{(x^{2}+y^{2})^{2}} ;
-        \]
-        at $(1,0)$: $f_{xx}=-2$, $f_{yy}=2$, $f_{xy}=0$. Hence with
-        $\mathbf{u}=(0,1)$:
-        \[
-          D^{2}_{\mathbf{u}}f=f_{yy}=2>0 .
-        \]
-        Along $\mathbf{u}$ the function is flat to first order but
-        curves upward: moving off $(1,0)$ vertically raises $f$ at
-        second order. \textbf{Check.}
-        $f(1,t)=\ln(1+t^{2})\approx t^{2}$ for small $t$: derivative
-        $0$, second derivative $2$. \checkmark
+  \item First note the constraint $x>0$ together with $xy\ge1$ forces
+        $y\ge1/x>0$. \textbf{Closed:} suppose
+        $(x_n,y_n)\in M$ with $(x_n,y_n)\to(a,b)$. If $a=0$, then
+        $y_n\to b$ finite would give $x_ny_n\to0<1$, contradicting
+        $x_ny_n\ge1$; so $a>0$, and passing to the limit in
+        $x_ny_n\ge1$ gives $ab\ge1$, hence $(a,b)\in M$. $M$ contains
+        all its limit (boundary) points, so it is closed: even
+        though it is written with a strict inequality, that inequality
+        is never active. \textbf{Not open:} $(1,1)\in M$ lies on the
+        hyperbola $xy=1$, and every ball around it contains points
+        with $xy<1$. \textbf{Not bounded:} $(t,t)\in M$ for all
+        $t\ge1$. Hence $M$ is closed, unbounded and \textbf{not
+        compact}.
 
-  \item
-        \[
-          J_{\mathbf{f}}=\begin{pmatrix}2x&-2y\\3y&3x+2y\end{pmatrix},
-          \qquad
-          J_{\mathbf{f}}(1,1)=\begin{pmatrix}2&-2\\3&5\end{pmatrix} .
-        \]
+  \item \textbf{Open.} For $(x,y)\in D$ put
+        $r=2-\sqrt{x^2+y^2}>0$; the ball $B_r(x,y)$ lies in $D$ by the
+        triangle inequality. \textbf{Not closed:} the boundary circle
+        $\{x^2+y^2=4\}$ is not contained in $D$ (e.g.\ $(2,0)\notin
+        D$). \textbf{Bounded:} $D\subseteq B_3(\mathbf{0})$. Bounded
+        but not closed: $D$ is \textbf{not compact}.
 
-  \item $J_{f}=\bigl(y\;\;x\bigr)$, evaluated at
-        $\mathbf{r}(t)=(t^{2},\,t^{3})$: $\bigl(t^{3}\;\;t^{2}\bigr)$;
-        $J_{\mathbf{r}}(t)=\begin{pmatrix}2t\\3t^{2}\end{pmatrix}$.
-        \[
-          \dd{z}{t}=\bigl(t^{3}\;\;t^{2}\bigr)
-            \begin{pmatrix}2t\\3t^{2}\end{pmatrix}
-            =2t^{4}+3t^{4}=5t^{4} .
-        \]
-        \textbf{Check.} $z=t^{2}\cdot t^{3}=t^{5}$, so
-        $\dd{z}{t}=5t^{4}$. \checkmark
+  \item (a) \textbf{Neither open nor closed.} The points $(0,y)$
+        belong to $S$ but are boundary points (every ball around them
+        contains points with $x<0$), so $S$ is not open; the boundary
+        points $(1,y)$ do not belong to $S$, so $S$ is not closed.
+        \textbf{Unbounded:} $(0,t)\in S$ for all $t$. Hence
+        \textbf{not compact}. (b) \textbf{Closed:} around any point
+        not in $E$ there is a ball avoiding all three points (a
+        finite set always contains all its boundary points:
+        indeed $E$ is its own boundary). \textbf{Not open:} no ball
+        around $(0,0)$ lies inside $E$. \textbf{Bounded:}
+        $E\subseteq B_4(\mathbf{0})$. Closed and bounded: $E$ is
+        \textbf{compact}.
 
-  \item Inner and outer Jacobians:
-        \[
-          J_{\mathbf{g}}(s,t)=\begin{pmatrix}t&s\\1&1\end{pmatrix},\qquad
-          J_{\mathbf{F}}(x,y)=\begin{pmatrix}1&1\\y&x\end{pmatrix} .
-        \]
-        Evaluate the outer at $(x,y)=\mathbf{g}(s,t)=(st,\,s+t)$ and
-        multiply:
-        \[
-          J_{\mathbf{F}\circ\mathbf{g}}
-            =\begin{pmatrix}1&1\\s+t&st\end{pmatrix}
-             \begin{pmatrix}t&s\\1&1\end{pmatrix}
-            =\begin{pmatrix}t+1&s+1\\
-              (s+t)t+st&(s+t)s+st\end{pmatrix}
-            =\begin{pmatrix}t+1&s+1\\
-              t^{2}+2st&s^{2}+2st\end{pmatrix} .
-        \]
-        \textbf{Check.} Composing first:
-        $(\mathbf{F}\circ\mathbf{g})(s,t)
-        =\bigl(st+s+t,\;s^{2}t+st^{2}\bigr)$, with Jacobian
-        \[
-          \begin{pmatrix}t+1&s+1\\2st+t^{2}&s^{2}+2st\end{pmatrix} .
-          \quad\checkmark
-        \]
-
-  \item Inner map $\mathbf{g}(K,L)=(2K+L,\;K+3L)$ with constant
-        Jacobian
-        $J_{\mathbf{g}}=\begin{pmatrix}2&1\\1&3\end{pmatrix}$; outer
-        function $y=x_{1}x_{2}$ with row Jacobian
-        $\grad y=(x_{2}\;\;x_{1})$. At $(K,L)=(1,1)$:
-        $(x_{1},x_{2})=(3,4)$, so the row is $(4\;\;3)$ and
-        \[
-          \Bigl(\pd{y}{K},\,\pd{y}{L}\Bigr)
-            =(4\;\;3)\begin{pmatrix}2&1\\1&3\end{pmatrix}
-            =\bigl(4\cdot 2+3\cdot 1,\;4\cdot 1+3\cdot 3\bigr)
-            =(11,\;13) .
-        \]
-        \textbf{Check.} Expanding,
-        $y=(2K+L)(K+3L)=2K^{2}+7KL+3L^{2}$, so
-        $\pd{y}{K}=4K+7L=11$ and $\pd{y}{L}=7K+6L=13$ at $(1,1)$.
-        \checkmark
+  \item (a) \textbf{Yes.} $B$ is compact (closed and bounded, see the
+        budget-set problem above) and $u$ is continuous on $B$, so by
+        the Weierstrass theorem $u$ attains both a maximum and a
+        minimum on $B$; a maximiser exists. (b) \textbf{No.} $Q$ is
+        not compact (it is neither closed nor bounded), so Weierstrass
+        does not apply: and indeed no maximiser exists:
+        $u(t,t)=t\to\infty$ as $t\to\infty$, so $u$ is unbounded above
+        on $Q$.
 \end{solutions}

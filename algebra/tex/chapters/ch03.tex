@@ -2,6 +2,125 @@
 
 Simplify completely; combine into a single fraction where applicable.
 
+\section{Core Rules}
+
+\begin{rulebox}{Factor first, then cancel --- and cancel only factors}
+A fraction may be reduced only by a factor common to the \emph{whole}
+numerator and the \emph{whole} denominator:
+\[
+  \frac{x^{3}+x^{2}}{x^{2}+x}=\frac{x^{2}(x+1)}{x(x+1)}=x .
+\]
+What is never allowed is striking out a term of a sum:
+\[
+  \frac{x+3}{x}\neq 3,\qquad
+  \frac{a+b}{a+c}\neq\frac{b}{c} .
+\]
+If the numerator or denominator is a sum, factor it before cancelling
+anything. If it will not factor, nothing cancels.
+\end{rulebox}
+
+\begin{rulebox}{Adding: one denominator, built from the factorisations}
+The least common denominator is the product of all distinct factors, each
+taken to its highest occurring power. Factor both denominators first:
+\[
+  \frac{4}{x^{2}-2x}+\frac{2}{x}
+  =\frac{4}{x(x-2)}+\frac{2}{x}
+  =\frac{4+2(x-2)}{x(x-2)}
+  =\frac{2x}{x(x-2)}
+  =\frac{2}{x-2}.
+\]
+Multiplying denominators blindly gives a common denominator too, just a
+needlessly large one.
+\end{rulebox}
+
+\begin{rulebox}{Dividing and complex fractions}
+Division is multiplication by the reciprocal,
+$\dfrac{A}{B}\div\dfrac{C}{D}=\dfrac{A}{B}\cdot\dfrac{D}{C}$. For a fraction
+whose parts are themselves fractions, either simplify the top and the bottom
+to a single fraction each and then divide, or multiply top and bottom by the
+overall common denominator. Both work; pick one and use it consistently.
+\end{rulebox}
+
+\begin{rulebox}{Restrictions travel with the expression}
+$\dfrac{x^{2}-1}{x-1}=x+1$ holds \textbf{for $x\neq1$}. Cancelling a factor
+silently deletes a point from the domain, and the deleted point is often
+exactly the one the question is about --- a difference quotient at $h=0$, a
+demand function at a choke price, a limit at a removable discontinuity.
+State the excluded values.
+\end{rulebox}
+
+\section{Worked Examples}
+
+\begin{worked}{(a) Simplify the complex fraction $\dfrac{\dfrac{1}{x-1}-\dfrac{1}{x+1}}{\dfrac{1}{x-1}+\dfrac{1}{x+1}}$}
+\wstep{Step 1. Note the restrictions before simplifying.}
+The inner fractions need $x\neq1$ and $x\neq-1$; the outer division needs a
+non-zero denominator, which will turn out to exclude $x=0$ as well. Carry
+these along.
+
+\wstep{Step 2. Combine the numerator over the common denominator.}
+\[
+  \frac{1}{x-1}-\frac{1}{x+1}
+  =\frac{(x+1)-(x-1)}{(x-1)(x+1)}
+  =\frac{2}{x^{2}-1}.
+\]
+\wtrap{$(x+1)-(x-1)=2$, not $2x$. When subtracting, bracket the second
+numerator before distributing the minus sign; a dropped bracket here is the
+single most common error in the chapter.}
+
+\wstep{Step 3. Combine the denominator the same way.}
+\[
+  \frac{1}{x-1}+\frac{1}{x+1}
+  =\frac{(x+1)+(x-1)}{(x-1)(x+1)}
+  =\frac{2x}{x^{2}-1}.
+\]
+
+\wstep{Step 4. Divide --- and watch the common denominator cancel.}
+\[
+  \frac{2/(x^{2}-1)}{2x/(x^{2}-1)}
+  =\frac{2}{x^{2}-1}\cdot\frac{x^{2}-1}{2x}
+  =\frac{2}{2x}
+  =\boxed{\dfrac{1}{x}},\qquad x\neq0,\pm1 .
+\]
+The whole point of Steps~2 and~3 was to reach a single fraction over a
+single fraction, where the shared denominator $x^{2}-1$ disappears in one
+stroke.
+\end{worked}
+
+\begin{worked}{(b) The difference quotient of $f(x)=\dfrac1x$}
+\wstep{Step 1. Write out $f(x+h)$ correctly.}
+$f(x+h)=\dfrac{1}{x+h}$ --- substitute $x+h$ wherever $x$ appeared. It is
+\emph{not} $\dfrac1x+h$.
+
+\wstep{Step 2. Assemble the quotient.}
+\[
+  \frac{f(x+h)-f(x)}{h}=\frac{\dfrac{1}{x+h}-\dfrac1x}{h}.
+\]
+Setting $h=0$ now gives $\tfrac00$, which says nothing. The algebra exists
+precisely to remove that.
+
+\wstep{Step 3. Combine the top over the common denominator $x(x+h)$.}
+\[
+  \frac{1}{x+h}-\frac1x=\frac{x-(x+h)}{x(x+h)}=\frac{-h}{x(x+h)} .
+\]
+The numerator now carries an explicit factor $h$ --- which is the entire
+purpose of the manipulation.
+
+\wstep{Step 4. Divide by $h$, that is, multiply by $1/h$.}
+\[
+  \frac{-h}{x(x+h)}\cdot\frac1h=\frac{-1}{x(x+h)} .
+\]
+The cancellation is legal for every $h\neq0$, and $h\neq0$ is exactly the
+case the difference quotient concerns.
+
+\wstep{Step 5. Read off the limit.}
+Letting $h\to0$ gives $-1/x^{2}$, the derivative of $1/x$. No limit rule was
+needed; the algebra did all the work, and this is why the chapter comes
+before the differentiation volume.
+\wtrap{Do not cancel $h$ before the numerator has been written as a single
+fraction. In $\bigl(\tfrac{1}{x+h}-\tfrac1x\bigr)/h$ there is no factor $h$
+to cancel yet --- it only appears after Step~3.}
+\end{worked}
+
 \section{Practice Problems}
 
 \begin{problems}

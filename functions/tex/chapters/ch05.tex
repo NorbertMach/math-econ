@@ -1,0 +1,525 @@
+\chapter{Trigonometric Functions}
+
+Trigonometry plays a small part in economics and a large part in the
+prerequisites, for two reasons. The graphs of $\sin$, $\cos$ and $\tan$
+belong to the catalogue of shapes one is expected to recognise, and they are
+the standard test functions of calculus: half the derivative and limit
+exercises in any course use them precisely because they oscillate and so
+punish careless reasoning. Seasonality and business cycles supply the
+occasional genuine application.
+
+The chapter therefore covers what is actually needed and stops. The unit
+circle and the handful of exact values; the three graphs with their periods,
+amplitudes and asymptotes; the transformation form
+$a\sin\bigl(b(x-c)\bigr)+d$, which is the machinery of Chapter~3 applied to a
+periodic function; the four identities that carry all the simplification
+work; and how to write down \emph{every} solution of a trigonometric
+equation rather than just the one a calculator returns.
+
+\section{Core Rules}
+
+\begin{rulebox}{Radians, and why}
+An angle in \textbf{radians} is the arc length it cuts on the unit circle,
+so a full turn is $2\pi$:
+\[
+  180^{\circ}=\pi,\qquad
+  x_{\text{rad}}=x_{\deg}\cdot\frac{\pi}{180},\qquad
+  x_{\deg}=x_{\text{rad}}\cdot\frac{180}{\pi} .
+\]
+Calculus uses radians exclusively, and for one reason: only in radians is
+$\dfrac{\mathrm{d}}{\mathrm{d}x}\sin x=\cos x$. In degrees an unwanted
+factor $\pi/180$ appears in every derivative.
+\end{rulebox}
+
+\begin{rulebox}{The unit circle definition}
+For the point on the unit circle reached by turning through the angle $x$
+from the positive $x$-axis, $\cos x$ is its first coordinate and $\sin x$
+its second. Hence, immediately:
+\[
+  \sin^{2}x+\cos^{2}x=1,\qquad
+  -1\le\sin x\le1,\qquad -1\le\cos x\le1,
+\]
+the first being Pythagoras. Also $\tan x=\dfrac{\sin x}{\cos x}$, the slope
+of the ray, undefined where $\cos x=0$.
+
+Signs by quadrant --- $\sin$ is the height, $\cos$ the width:
+\[
+  \begin{array}{c|cccc}
+     & \text{I} & \text{II} & \text{III} & \text{IV}\\\hline
+    \sin & + & + & - & -\\
+    \cos & + & - & - & +\\
+    \tan & + & - & + & -
+  \end{array}
+\]
+\end{rulebox}
+
+\begin{rulebox}{The values to know by heart}
+\[
+  \begin{array}{c|ccccc}
+    x & 0 & \pi/6 & \pi/4 & \pi/3 & \pi/2\\\hline
+    \sin x & 0 & \tfrac12 & \tfrac{\sqrt2}{2} & \tfrac{\sqrt3}{2} & 1\\[0.3ex]
+    \cos x & 1 & \tfrac{\sqrt3}{2} & \tfrac{\sqrt2}{2} & \tfrac12 & 0\\[0.3ex]
+    \tan x & 0 & \tfrac{1}{\sqrt3} & 1 & \sqrt3 & \text{---}
+  \end{array}
+\]
+Everything else follows from three facts: $\sin$ is \textbf{odd}
+($\sin(-x)=-\sin x$), $\cos$ is \textbf{even} ($\cos(-x)=\cos x$), and both
+have period $2\pi$ while $\tan$ has period $\pi$. So
+$\sin\tfrac{5\pi}{6}=\sin\tfrac{\pi}{6}=\tfrac12$ (second quadrant, $\sin$
+positive) and $\cos\tfrac{4\pi}{3}=-\cos\tfrac{\pi}{3}=-\tfrac12$ (third
+quadrant, $\cos$ negative).
+\end{rulebox}
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[fnaxis, xmin=-0.6, xmax=7.0, ymin=-1.6, ymax=1.6,
+      xtick={3.1416, 6.2832}, xticklabels={$\pi$, $2\pi$},
+      ytick={-1,1}, title={$y=\sin x$}]
+    \addplot[domain=-0.4:6.9, samples=201]{sin(deg(x))};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[fnaxis, xmin=-0.6, xmax=7.0, ymin=-1.6, ymax=1.6,
+      xtick={3.1416, 6.2832}, xticklabels={$\pi$, $2\pi$},
+      ytick={-1,1}, title={$y=\cos x$}]
+    \addplot[domain=-0.4:6.9, samples=201]{cos(deg(x))};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[fnaxis, xmin=-3.4, xmax=3.4, ymin=-3.4, ymax=3.4,
+      xtick={-1.5708, 1.5708}, xticklabels={$-\frac{\pi}{2}$,$\frac{\pi}{2}$},
+      ytick={-2,2}, title={$y=\tan x$}]
+    \addplot[domain=-1.32:1.32, samples=101]{tan(deg(x))};
+    \addplot[domain=1.82:3.3, samples=101]{tan(deg(x))};
+    \addplot[domain=-3.3:-1.82, samples=101]{tan(deg(x))};
+    \addplot[gray!55, dashed, thin, samples=2, forget plot]
+      coordinates {(1.5708,-3.3)(1.5708,3.3)};
+    \addplot[gray!55, dashed, thin, samples=2, forget plot]
+      coordinates {(-1.5708,-3.3)(-1.5708,3.3)};
+  \end{axis}
+\end{tikzpicture}
+\gcap{$\sin$ and $\cos$ are the same wave shifted by $\pi/2$, with period
+$2\pi$ and range $[-1,1]$. $\tan$ has period $\pi$, range $\R$, and a
+vertical asymptote at every odd multiple of $\pi/2$.}
+\end{gallery}
+
+\begin{rulebox}{Reading $a\sin\bigl(b(x-c)\bigr)+d$}
+The four constants are exactly the four moves of Chapter~3, and each has a
+name here:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item $|a|$ is the \textbf{amplitude}: the wave runs from $d-|a|$ to
+        $d+|a|$, so the range is $[d-|a|,\,d+|a|]$. Negative $a$ flips it.
+  \item $b$ sets the \textbf{period}, $T=\dfrac{2\pi}{|b|}$ --- larger $b$
+        means faster oscillation. (For $\tan$, $T=\pi/|b|$.)
+  \item $c$ is the \textbf{phase shift}: the whole wave moves $c$ to the
+        right. Factor before reading: $\sin(2x-\pi)=\sin\bigl(2(x-\pi/2)\bigr)$
+        is a shift of $\pi/2$, not of $\pi$.
+  \item $d$ is the \textbf{midline}, the horizontal line the wave
+        oscillates about.
+\end{itemize}
+So $y=3\sin\bigl(2(x-\tfrac{\pi}{4})\bigr)+1$ has amplitude $3$, period
+$\pi$, midline $y=1$, range $[-2,4]$, shifted $\pi/4$ right.
+\end{rulebox}
+
+\begin{rulebox}{The identities that do the work}
+\[
+  \sin^{2}x+\cos^{2}x=1,\qquad
+  \tan x=\frac{\sin x}{\cos x},\qquad
+  1+\tan^{2}x=\frac{1}{\cos^{2}x} .
+\]
+\[
+  \sin(x\pm y)=\sin x\cos y\pm\cos x\sin y,\qquad
+  \cos(x\pm y)=\cos x\cos y\mp\sin x\sin y .
+\]
+Setting $y=x$ in the addition formulas gives the \textbf{double-angle}
+forms, which are the ones that appear in practice:
+\[
+  \sin 2x=2\sin x\cos x,\qquad
+  \cos 2x=\cos^{2}x-\sin^{2}x=1-2\sin^{2}x=2\cos^{2}x-1 .
+\]
+Almost every simplification is one of: replace $1-\cos^{2}x$ by
+$\sin^{2}x$, split a $\tan$ into $\sin/\cos$, or collapse a double angle.
+\end{rulebox}
+
+\begin{rulebox}{Solving trigonometric equations: give \emph{all} solutions}
+A calculator returns one angle; periodicity supplies infinitely many.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.35ex]
+  \item $\sin x=s$ with $|s|\le1$: two families,
+        $x=x_{0}+2k\pi$ and $x=\pi-x_{0}+2k\pi$, where
+        $x_{0}=\arcsin s$ and $k\in\mathbb{Z}$.
+  \item $\cos x=s$: $x=\pm x_{0}+2k\pi$ with $x_{0}=\arccos s$.
+  \item $\tan x=s$: one family, $x=\arctan s+k\pi$, since the period is
+        $\pi$.
+  \item If the argument is $bx$ rather than $x$, solve for $bx$ first and
+        divide \emph{everything}, the $2k\pi$ included: $\sin 2x=1$ gives
+        $2x=\tfrac{\pi}{2}+2k\pi$, hence
+        $x=\tfrac{\pi}{4}+k\pi$.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Inverse trigonometric functions}
+None of the three is injective, so each is inverted only on a restricted
+domain:
+\[
+  \arcsin:[-1,1]\to\Bigl[-\tfrac{\pi}{2},\tfrac{\pi}{2}\Bigr],\qquad
+  \arccos:[-1,1]\to[0,\pi],\qquad
+  \arctan:\R\to\Bigl(-\tfrac{\pi}{2},\tfrac{\pi}{2}\Bigr).
+\]
+So $\arcsin(\sin x)=x$ only for $x$ in that range: $\arcsin(\sin\pi)=0$,
+not $\pi$. And $\arctan$ is bounded, with horizontal asymptotes
+$y=\pm\pi/2$ --- the reason it appears as a saturating S-shaped curve.
+\end{rulebox}
+
+\section{Worked Example}
+
+\begin{worked}{Solve $2\sin^{2}x-\sin x=0$ on $[0,2\pi]$ and in general, and read off the shape of $y=3\sin\!\bigl(2(x-\tfrac{\pi}{4})\bigr)+1$}
+\wstep{Step 1. Factor. Do not divide.}
+\[
+  2\sin^{2}x-\sin x=0
+  \quad\Longrightarrow\quad
+  \sin x\,(2\sin x-1)=0 .
+\]
+\wtrap{Dividing both sides by $\sin x$ gives $2\sin x-1=0$ and loses every
+solution with $\sin x=0$ --- three of the five on $[0,2\pi]$. You may divide
+by a quantity only when you know it is non-zero, and $\sin x$ is exactly the
+quantity in question. Factor and use the zero-product property instead.}
+
+\wstep{Step 2. Solve each factor on the given interval.}
+\emph{First factor:} $\sin x=0$ on $[0,2\pi]$ gives $x=0,\ \pi,\ 2\pi$.
+
+\emph{Second factor:} $\sin x=\tfrac12$. The reference angle is
+$\pi/6$, and the sine is positive in the first and second quadrants, so
+\[
+  x=\frac{\pi}{6}\qquad\text{and}\qquad x=\pi-\frac{\pi}{6}=\frac{5\pi}{6}.
+\]
+\wtrap{$\arcsin(\tfrac12)=\pi/6$ is one solution, not the solution. The
+inverse sine returns a single value from $[-\pi/2,\pi/2]$; the second
+solution in each period must be supplied by hand from the symmetry
+$\sin(\pi-x)=\sin x$. For cosine the partner is $-x$ (or $2\pi-x$), for
+tangent it is $x+\pi$.}
+
+\wstep{Step 3. Collect the five solutions.}
+\[
+  \boxed{\;x\in\Bigl\{0,\ \tfrac{\pi}{6},\ \tfrac{5\pi}{6},\ \pi,\ 2\pi\Bigr\}\;}
+\]
+Check the smallest and one middle value: at $x=0$, $0-0=0$ \checkmark; at
+$x=\pi/6$, $2\cdot\tfrac14-\tfrac12=0$ \checkmark.
+
+\wstep{Step 4. Give the general solution, since ``all solutions'' usually means all of $\R$.}
+\[
+  x=k\pi,
+  \qquad
+  x=\frac{\pi}{6}+2k\pi,
+  \qquad
+  x=\frac{5\pi}{6}+2k\pi,
+  \qquad k\in\mathbb{Z} .
+\]
+Note the two different periods: the zeros of $\sin$ repeat every $\pi$
+(because $\sin(x+\pi)=-\sin x$, which is also zero), while the solutions of
+$\sin x=\tfrac12$ repeat only every $2\pi$.
+\wtrap{Adding $2k\pi$ to everything is safe but incomplete for the first
+family; writing $k\pi$ for the second family is simply wrong. Work out the
+period of each family separately from the equation it solves.}
+
+\wstep{Step 5. Now the sinusoid: read the four parameters off $a\sin\bigl(b(x-c)\bigr)+d$.}
+For $y=3\sin\bigl(2(x-\tfrac{\pi}{4})\bigr)+1$:
+\begin{center}\footnotesize
+\begin{tabular}{llll}
+  \hline
+  parameter & value & name & effect\\
+  \hline
+  $a$ & $3$ & amplitude & oscillates $3$ above and below the midline\\
+  $b$ & $2$ & angular frequency & period $=2\pi/b=\pi$\\
+  $c$ & $\pi/4$ & phase shift & shifted \emph{right} by $\pi/4$\\
+  $d$ & $1$ & midline & centred on $y=1$, so range $[-2,4]$\\
+  \hline
+\end{tabular}
+\end{center}
+
+\wstep{Step 6. Sketch it from those four numbers.}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[fnaxis, width=8.2cm, height=4.4cm,
+             domain=-0.4:3.6, samples=201,
+             xmin=-0.5, xmax=3.7, ymin=-2.8, ymax=4.8,
+             xtick={0.7854, 1.5708, 2.3562, 3.1416},
+             xticklabels={$\frac{\pi}{4}$,$\frac{\pi}{2}$,$\frac{3\pi}{4}$,$\pi$},
+             ytick={-2,1,4}]
+  \addplot[accent!35, thick, dashed, samples=2, forget plot] {1};
+  \addplot {3*sin(deg(2*(x-pi/4)))+1};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+The curve crosses its midline $y=1$ going upward at $x=\pi/4$ --- that is
+what the phase shift means --- peaks at $4$ a quarter-period later
+($x=\pi/4+\pi/4=\pi/2$), and repeats after one full period $\pi$.
+\wtrap{The period is $2\pi/b$, not $2\pi b$: a \emph{larger} $b$ gives a
+\emph{shorter} period. And the phase shift is only readable once the inside
+is factored as $b(x-c)$; from $\sin(2x-\tfrac{\pi}{2})$ the shift is
+$\pi/4$, not $\pi/2$ --- the same trap as in Chapter~3 on transformations.}
+\end{worked}
+
+\section{Practice Problems}
+
+Convert in problems 1--6.
+
+\begin{problems}
+  \item $60^{\circ}$ into radians.
+  \item $270^{\circ}$ into radians.
+  \item $\tfrac{3\pi}{4}$ into degrees.
+  \item $\tfrac{5\pi}{3}$ into degrees.
+  \item $1$ radian into degrees, to one decimal.
+  \item Why does calculus insist on radians?
+\end{problems}
+
+Give the exact value in problems 7--16.
+
+\begin{problems}[resume]
+  \item $\sin\tfrac{\pi}{6}$
+  \item $\cos\tfrac{\pi}{4}$
+  \item $\tan\tfrac{\pi}{3}$
+  \item $\sin\tfrac{5\pi}{6}$
+  \item $\cos\tfrac{2\pi}{3}$
+  \item $\tan\pi$
+  \item $\sin\bigl(-\tfrac{\pi}{3}\bigr)$
+  \item $\cos\tfrac{7\pi}{2}$
+  \item $\sin\tfrac{9\pi}{4}$
+  \item $\tan\tfrac{3\pi}{4}$
+\end{problems}
+
+In problems 17--24 give period, amplitude (where defined), range and any
+asymptotes.
+
+\begin{problems}[resume]
+  \item $y=\sin x$
+  \item $y=\cos x$
+  \item $y=\tan x$
+  \item $y=3\sin x$
+  \item $y=\sin 2x$
+  \item $y=\cos\tfrac{x}{2}$
+  \item $y=2\sin x+1$
+  \item $y=\tan 3x$
+\end{problems}
+
+\begin{problems}[resume]
+  \item Describe $y=\sin\bigl(x-\tfrac{\pi}{2}\bigr)$ as a shift, and name
+        the simpler function it equals.
+  \item Give amplitude, period, midline and range of
+        $y=3\sin\bigl(2(x-\tfrac{\pi}{4})\bigr)+1$.
+  \item Give amplitude, period and phase shift of
+        $y=\sin(2x-\pi)$ --- factor first.
+  \item Give amplitude, period and range of $y=-2\cos 3x$.
+  \item Write a sine function with amplitude $4$, period $\pi$ and midline
+        $y=-1$.
+  \item Write a cosine function with amplitude $2$, period $6\pi$ and no
+        vertical shift.
+  \item Monthly sales oscillate about $500$ units with a swing of $\pm80$
+        and a twelve-month cycle, peaking in month $3$. Write $S(t)$.
+  \item Why can no function of the form $a\sin(bx)+d$ ever be injective on
+        $\R$?
+\end{problems}
+
+Simplify or verify in problems 33--38.
+
+\begin{problems}[resume]
+  \item $\dfrac{1-\cos^{2}x}{\sin x}$
+  \item $\tan x\cdot\cos x$
+  \item $\sin^{2}x-1$
+  \item $\dfrac{\sin 2x}{2\cos x}$
+  \item Verify $1+\tan^{2}x=\dfrac{1}{\cos^{2}x}$.
+  \item Verify $\cos 2x=1-2\sin^{2}x$ from the addition formula.
+\end{problems}
+
+Give \emph{all} real solutions in problems 39--45.
+
+\begin{problems}[resume]
+  \item $\sin x=\tfrac12$
+  \item $\cos x=0$
+  \item $\tan x=1$
+  \item $2\cos x+1=0$
+  \item $\sin 2x=1$
+  \item $\cos^{2}x=\tfrac14$
+  \item $\sin x=\cos x$
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item $60\cdot\tfrac{\pi}{180}=\tfrac{\pi}{3}$.
+  \item $270\cdot\tfrac{\pi}{180}=\tfrac{3\pi}{2}$.
+  \item $\tfrac{3\pi}{4}\cdot\tfrac{180}{\pi}=135^{\circ}$.
+  \item $\tfrac{5\pi}{3}\cdot\tfrac{180}{\pi}=300^{\circ}$.
+  \item $\tfrac{180}{\pi}\approx57.3^{\circ}$.
+  \item Because $\tfrac{\mathrm{d}}{\mathrm{d}x}\sin x=\cos x$ holds only
+        in radians. In degrees the limit
+        $\lim_{h\to0}\tfrac{\sin h}{h}$ equals $\tfrac{\pi}{180}$ instead
+        of $1$, and that factor would infect every derivative and integral
+        of a trigonometric function.
+  \item $\tfrac12$.
+  \item $\tfrac{\sqrt2}{2}$.
+  \item $\sqrt3$.
+  \item Second quadrant, $\sin$ positive:
+        $\sin\tfrac{5\pi}{6}=\sin\tfrac{\pi}{6}=\tfrac12$.
+  \item Second quadrant, $\cos$ negative:
+        $-\cos\tfrac{\pi}{3}=-\tfrac12$.
+  \item $\tan\pi=\tfrac{\sin\pi}{\cos\pi}=\tfrac{0}{-1}=0$.
+  \item $\sin$ is odd: $-\sin\tfrac{\pi}{3}=-\tfrac{\sqrt3}{2}$.
+  \item $\tfrac{7\pi}{2}=\tfrac{3\pi}{2}+2\pi$, so
+        $\cos\tfrac{7\pi}{2}=\cos\tfrac{3\pi}{2}=0$.
+  \item $\tfrac{9\pi}{4}=\tfrac{\pi}{4}+2\pi$, so the value is
+        $\sin\tfrac{\pi}{4}=\tfrac{\sqrt2}{2}$.
+  \item Second quadrant, $\tan$ negative:
+        $-\tan\tfrac{\pi}{4}=-1$.
+  \item Period $2\pi$, amplitude $1$, range $[-1,1]$, no asymptotes.
+  \item Period $2\pi$, amplitude $1$, range $[-1,1]$, no asymptotes.
+  \item Period $\pi$, amplitude undefined (unbounded), range $\R$,
+        vertical asymptotes at $x=\tfrac{\pi}{2}+k\pi$.
+  \item Period $2\pi$, amplitude $3$, range $[-3,3]$.
+  \item Period $\tfrac{2\pi}{2}=\pi$, amplitude $1$, range $[-1,1]$.
+  \item Period $\tfrac{2\pi}{1/2}=4\pi$, amplitude $1$, range $[-1,1]$.
+  \item Period $2\pi$, amplitude $2$, midline $y=1$, range $[-1,3]$.
+  \item Period $\tfrac{\pi}{3}$, unbounded range $\R$, asymptotes where
+        $3x=\tfrac{\pi}{2}+k\pi$, i.e. $x=\tfrac{\pi}{6}+\tfrac{k\pi}{3}$.
+  \item A shift of $\tfrac{\pi}{2}$ to the right. It equals $-\cos x$,
+        since $\sin\bigl(x-\tfrac{\pi}{2}\bigr)
+        =\sin x\cos\tfrac{\pi}{2}-\cos x\sin\tfrac{\pi}{2}=-\cos x$.
+  \item Amplitude $3$, period $\tfrac{2\pi}{2}=\pi$, midline $y=1$, range
+        $[-2,4]$, shifted $\tfrac{\pi}{4}$ to the right.
+  \item $\sin(2x-\pi)=\sin\bigl(2(x-\tfrac{\pi}{2})\bigr)$: amplitude $1$,
+        period $\pi$, phase shift $\tfrac{\pi}{2}$ right. Reading the
+        shift as $\pi$ from the unfactored form is the standard error.
+  \item Amplitude $2$ (the minus sign reflects rather than changing the
+        amplitude), period $\tfrac{2\pi}{3}$, range $[-2,2]$.
+  \item Period $\pi$ needs $b=2$: $y=4\sin(2x)-1$.
+  \item Period $6\pi$ needs $b=\tfrac13$:
+        $y=2\cos\bigl(\tfrac{x}{3}\bigr)$.
+  \item Midline $500$, amplitude $80$, period $12$ so
+        $b=\tfrac{2\pi}{12}=\tfrac{\pi}{6}$, and a sine peaks a quarter
+        period after its shift, so peaking at $t=3$ means $c=0$:
+        \[
+          S(t)=500+80\sin\!\left(\frac{\pi t}{6}\right).
+        \]
+        (Check: at $t=3$ the sine is $\sin\tfrac{\pi}{2}=1$, giving the
+        peak $580$.)
+  \item Because it is periodic: $f(x+T)=f(x)$ for $T=2\pi/|b|\neq0$, so two
+        different inputs share a value. Injectivity fails everywhere, which
+        is why the inverse functions need restricted domains.
+  \item $\dfrac{\sin^{2}x}{\sin x}=\sin x$ (for $\sin x\neq0$).
+  \item $\dfrac{\sin x}{\cos x}\cdot\cos x=\sin x$ (for
+        $\cos x\neq0$).
+  \item $-(1-\sin^{2}x)=-\cos^{2}x$.
+  \item $\dfrac{2\sin x\cos x}{2\cos x}=\sin x$ (for $\cos x\neq0$).
+  \item Divide $\sin^{2}x+\cos^{2}x=1$ by $\cos^{2}x$:
+        $\tan^{2}x+1=\dfrac{1}{\cos^{2}x}$.
+  \item $\cos2x=\cos^{2}x-\sin^{2}x$, and substituting
+        $\cos^{2}x=1-\sin^{2}x$ gives $1-\sin^{2}x-\sin^{2}x
+        =1-2\sin^{2}x$.
+  \item $x=\tfrac{\pi}{6}+2k\pi$ or $x=\tfrac{5\pi}{6}+2k\pi$,
+        $k\in\mathbb{Z}$.
+  \item $x=\tfrac{\pi}{2}+k\pi$.
+  \item $x=\tfrac{\pi}{4}+k\pi$.
+  \item $\cos x=-\tfrac12$, so
+        $x=\pm\tfrac{2\pi}{3}+2k\pi$.
+  \item $2x=\tfrac{\pi}{2}+2k\pi$, hence
+        $x=\tfrac{\pi}{4}+k\pi$.
+  \item $\cos x=\pm\tfrac12$, giving
+        $x=\pm\tfrac{\pi}{3}+2k\pi$ and $x=\pm\tfrac{2\pi}{3}+2k\pi$ ---
+        more compactly $x=\tfrac{\pi}{3}+\tfrac{k\pi}{1}$ fails, so keep
+        the four families, or write
+        $x=\pm\tfrac{\pi}{3}+k\pi$.
+  \item Dividing by $\cos x$ (legitimate, since $\cos x=0$ would force
+        $\sin x=0$ too, impossible): $\tan x=1$, so
+        $x=\tfrac{\pi}{4}+k\pi$.
+\end{solutions}
+
+\section{Additional Problems}
+
+\begin{problems}
+  \item $45^{\circ}$ and $150^{\circ}$ into radians.
+  \item $\tfrac{7\pi}{6}$ and $\tfrac{11\pi}{6}$ into degrees.
+  \item $\cos\tfrac{5\pi}{4}$
+  \item $\sin\tfrac{4\pi}{3}$
+  \item $\tan\tfrac{5\pi}{6}$
+  \item $\sin\tfrac{11\pi}{6}$
+  \item $\cos(-\tfrac{\pi}{6})$
+  \item $\tan\tfrac{7\pi}{4}$
+  \item Period, amplitude and range of $y=\tfrac12\cos 4x-2$.
+  \item Period and asymptotes of $y=\tan\bigl(x-\tfrac{\pi}{4}\bigr)$.
+  \item Amplitude, period, midline of
+        $y=5\cos\bigl(\tfrac{\pi}{3}(x-2)\bigr)+3$.
+  \item Write a cosine with maximum $7$, minimum $1$ and period $4$.
+  \item Simplify $\dfrac{\cos^{2}x-1}{\cos x-1}$.
+  \item Simplify $\sin x\cos x\cdot\dfrac{2}{\sin 2x}$.
+  \item Simplify $\dfrac{1}{\cos^{2}x}-\tan^{2}x$.
+  \item Verify $\sin(x+\pi)=-\sin x$.
+  \item Verify $\cos\bigl(\tfrac{\pi}{2}-x\bigr)=\sin x$.
+  \item Solve $\sin x=-\tfrac{\sqrt3}{2}$.
+  \item Solve $\tan 2x=\sqrt3$.
+  \item Solve $2\sin^{2}x-\sin x=0$.
+  \item Solve $\cos 2x=\tfrac12$.
+  \item Solve $\sin x=2$ and explain the answer.
+  \item Give $\arcsin\tfrac12$, $\arccos(-1)$ and $\arctan(-1)$.
+  \item Evaluate $\arcsin\bigl(\sin\tfrac{3\pi}{4}\bigr)$ and explain why
+        the answer is not $\tfrac{3\pi}{4}$.
+  \item Quarterly demand is $D(t)=200-40\cos\bigl(\tfrac{\pi t}{2}\bigr)$
+        with $t$ in quarters. Give the period, the maximum and minimum
+        demand, and the quarters in which each occurs.
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item $\tfrac{\pi}{4}$ and $\tfrac{5\pi}{6}$.
+  \item $210^{\circ}$ and $330^{\circ}$.
+  \item Third quadrant, $\cos$ negative:
+        $-\tfrac{\sqrt2}{2}$.
+  \item Third quadrant, $\sin$ negative:
+        $-\tfrac{\sqrt3}{2}$.
+  \item Second quadrant, $\tan$ negative:
+        $-\tfrac{1}{\sqrt3}$.
+  \item Fourth quadrant, $\sin$ negative:
+        $-\tfrac12$.
+  \item $\cos$ is even: $\cos\tfrac{\pi}{6}=\tfrac{\sqrt3}{2}$.
+  \item Fourth quadrant, $\tan$ negative: $-1$.
+  \item Period $\tfrac{2\pi}{4}=\tfrac{\pi}{2}$, amplitude $\tfrac12$,
+        midline $y=-2$, range $[-2.5,-1.5]$.
+  \item Period $\pi$; asymptotes where
+        $x-\tfrac{\pi}{4}=\tfrac{\pi}{2}+k\pi$, i.e.
+        $x=\tfrac{3\pi}{4}+k\pi$.
+  \item Amplitude $5$, period $\tfrac{2\pi}{\pi/3}=6$, midline $y=3$,
+        shifted $2$ to the right; range $[-2,8]$.
+  \item Midline $\tfrac{7+1}{2}=4$, amplitude $\tfrac{7-1}{2}=3$, period
+        $4$ so $b=\tfrac{2\pi}{4}=\tfrac{\pi}{2}$:
+        $y=3\cos\bigl(\tfrac{\pi x}{2}\bigr)+4$.
+  \item $\dfrac{(\cos x-1)(\cos x+1)}{\cos x-1}=\cos x+1$ (for
+        $\cos x\neq1$).
+  \item $\dfrac{2\sin x\cos x}{\sin 2x}=\dfrac{\sin 2x}{\sin 2x}=1$.
+  \item $\dfrac{1}{\cos^{2}x}-\tan^{2}x=1$ by the identity
+        $1+\tan^{2}x=1/\cos^{2}x$.
+  \item $\sin(x+\pi)=\sin x\cos\pi+\cos x\sin\pi=-\sin x$.
+  \item $\cos\bigl(\tfrac{\pi}{2}-x\bigr)
+        =\cos\tfrac{\pi}{2}\cos x+\sin\tfrac{\pi}{2}\sin x=\sin x$.
+  \item $x=-\tfrac{\pi}{3}+2k\pi$ or
+        $x=\pi+\tfrac{\pi}{3}+2k\pi=\tfrac{4\pi}{3}+2k\pi$.
+  \item $2x=\tfrac{\pi}{3}+k\pi$, so
+        $x=\tfrac{\pi}{6}+\tfrac{k\pi}{2}$.
+  \item Factor: $\sin x\,(2\sin x-1)=0$, so $\sin x=0$ giving $x=k\pi$, or
+        $\sin x=\tfrac12$ giving $x=\tfrac{\pi}{6}+2k\pi$ and
+        $x=\tfrac{5\pi}{6}+2k\pi$.
+  \item $2x=\pm\tfrac{\pi}{3}+2k\pi$, so
+        $x=\pm\tfrac{\pi}{6}+k\pi$.
+  \item No solution: $\sin$ never exceeds $1$, since it is a coordinate of
+        a point on the unit circle. An equation can be perfectly
+        well-formed and still have an empty solution set.
+  \item $\tfrac{\pi}{6}$, \;$\pi$, \;$-\tfrac{\pi}{4}$.
+  \item $\sin\tfrac{3\pi}{4}=\tfrac{\sqrt2}{2}$, and
+        $\arcsin\tfrac{\sqrt2}{2}=\tfrac{\pi}{4}$. The answer is
+        $\tfrac{\pi}{4}$, not $\tfrac{3\pi}{4}$, because $\arcsin$ returns
+        values in $[-\tfrac{\pi}{2},\tfrac{\pi}{2}]$ only:
+        $\arcsin(\sin x)=x$ holds just on that interval.
+  \item Period $\tfrac{2\pi}{\pi/2}=4$ quarters, i.e. one year. Maximum
+        $240$ where $\cos\bigl(\tfrac{\pi t}{2}\bigr)=-1$, i.e.
+        $\tfrac{\pi t}{2}=\pi+2k\pi$ so $t=2,6,10,\dots$; minimum $160$
+        where the cosine is $1$, i.e. $t=0,4,8,\dots$. Demand peaks in the
+        third quarter of each year and troughs in the first.
+\end{solutions}

@@ -138,6 +138,118 @@ $g_x = p_x, g_y = p_y$. Then
 so the critical point is a constrained \textbf{maximum}, as expected.
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{Maximise $f(x,y)=xy$ subject to $x+y=10$: solve it, certify it with the bordered Hessian, and see the same test reject the minimisation reading}
+\wstep{Step 1. Solve with the Lagrangian.}
+\[
+  \mathcal L=xy+\lambda(10-x-y),
+  \qquad
+  \mathcal L_{x}=y-\lambda=0,
+  \quad
+  \mathcal L_{y}=x-\lambda=0,
+  \quad
+  x+y=10 .
+\]
+The first two give $x=y=\lambda$, and the constraint then gives
+\[
+  \boxed{x^{*}=y^{*}=5,\qquad f^{*}=25,\qquad \lambda^{*}=5 .}
+\]
+
+\wstep{Step 2. Why the ordinary Hessian is the wrong test.}
+\[
+  \Hess f=\begin{pmatrix}0&1\\1&0\end{pmatrix},
+  \qquad
+  \det=-1<0 ,
+\]
+which would say ``saddle''. And unconstrained, $xy$ \emph{is} a saddle at
+every point. But we are not free to move anywhere --- only \emph{along the
+line} $x+y=10$. The unconstrained test asks the wrong question.
+\wtrap{Never classify a constrained optimum with the plain Hessian. It tests
+all directions; the constraint permits only some. The bordered Hessian is
+exactly the device that restricts attention to the feasible directions.}
+
+\wstep{Step 3. Build the bordered Hessian.}
+With one constraint $g(x,y)=x+y$ and two variables, border the Hessian of
+$\mathcal L$ with the constraint gradient:
+\[
+  \overline H=
+  \begin{pmatrix}
+    0 & g_{x} & g_{y}\\
+    g_{x} & \mathcal L_{xx} & \mathcal L_{xy}\\
+    g_{y} & \mathcal L_{yx} & \mathcal L_{yy}
+  \end{pmatrix}
+  =\begin{pmatrix}0&1&1\\1&0&1\\1&1&0\end{pmatrix}.
+\]
+\wtrap{The inner block is the Hessian of $\mathcal L$, not of $f$ --- they
+differ whenever the constraint is non-linear. Here $g$ is linear so
+$\mathcal L_{xx}=f_{xx}$ and no harm is done, but on a constraint such as
+$x^{2}+y^{2}=25$ the $\lambda$ terms contribute and omitting them changes
+the verdict.}
+
+\wstep{Step 4. Apply the sign rule.}
+For $n=2$ variables and $m=1$ constraint, only the full determinant matters:
+\[
+  \det\overline H>0\ \Rightarrow\ \text{local \textbf{maximum}};
+  \qquad
+  \det\overline H<0\ \Rightarrow\ \text{local \textbf{minimum}}.
+\]
+Expanding along the first row:
+\[
+  \det\overline H=0\cdot(0-1)-1\cdot(0-1)+1\cdot(1-0)=0+1+1=2>0 .
+\]
+So $(5,5)$ is a constrained \textbf{maximum}. \checkmark
+\wtrap{The sign convention is $(-1)^{m}$-dependent and reverses between
+maximum and minimum --- and it is \emph{opposite} to the unbordered case,
+where a positive determinant suggested a minimum. Memorise the rule for the
+case you need ($n=2$, $m=1$: positive means maximum) rather than trying to
+re-derive it under time pressure.}
+
+\wstep{Step 5. Confirm by substitution, which is available here.}
+The constraint gives $y=10-x$, so
+\[
+  h(x)=x(10-x)=10x-x^{2},
+  \qquad
+  h'=10-2x=0\Rightarrow x=5,
+  \qquad
+  h''=-2<0 .
+\]
+A maximum, value $25$. \checkmark\ When substitution is possible it is the
+faster route and the better check; the Lagrangian earns its keep when the
+constraint cannot be solved for a variable.
+
+\wstep{Step 6. Note what is \emph{not} true.}
+There is no constrained minimum: along the line, $f=10x-x^{2}\to-\infty$ in
+both directions. The bordered Hessian correctly reports only the maximum,
+because a minimum does not exist. Existence is a separate question from
+classification --- the feasible set here is a line, unbounded, so
+Weierstrass does not apply.
+
+\wstep{Step 7. The general rule, for reference.}
+With $n$ variables and $m$ constraints, examine the last $n-m$ leading
+principal minors of $\overline H$ (an $(n+m)\times(n+m)$ matrix):
+\begin{center}\footnotesize
+\begin{tabular}{ll}
+  \hline
+  maximum & signs alternate, starting with that of $(-1)^{m+1}$\\
+  minimum & all have the sign of $(-1)^{m}$\\
+  \hline
+\end{tabular}
+\end{center}
+For $n=2$, $m=1$ this is the single condition of Step~4; for $n=3$, $m=1$
+there are two minors to check. Note $n-m$ is the number of genuine degrees
+of freedom left after the constraints --- which is why that is how many
+minors there are.
+
+\wstep{Step 8. Two constraints, briefly.}
+Maximising over $\R^{3}$ subject to two independent constraints leaves
+$3-2=1$ degree of freedom: the feasible set is a curve, and one minor
+decides. Each constraint brings its own multiplier and its own border row
+and column, and the constraint qualification becomes the requirement that
+the constraint gradients be \emph{linearly independent} at the candidate
+point --- a rank condition, checked with the tools of Volume~3.
+\end{worked}
+
 \section{Practice Problems}
 
 Problems 1--14 drill FOC systems with several equality constraints. For

@@ -174,6 +174,144 @@ In a convex programme the first candidate that passes all checks is the
 global maximum; otherwise compare $f$ across all surviving candidates.
 \end{rulebox}
 
+\begin{gallery}
+\hspace*{\fill}%
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, width=7.6cm, height=7.6cm,
+      xmin=-2.6, xmax=4.6, ymin=-2.6, ymax=4.6,
+      xtick={-2,1,3}, ytick={-2,1,4}]
+    % feasible set: inside circle (x-1)^2+(y-1)^2<=9, x<=3, x+y>=1
+    \addplot[draw=none, name path=upA, domain=-1.5616:2.5616, samples=201]
+      {1+sqrt(9-(x-1)^2)};
+    \addplot[draw=none, name path=linA, domain=-1.5616:2.5616, samples=2]{1-x};
+    \region{upA}{linA}{}
+    \addplot[draw=none, name path=upB, domain=2.5616:3, samples=101]
+      {1+sqrt(9-(x-1)^2)};
+    \addplot[draw=none, name path=loB, domain=2.5616:3, samples=101]
+      {1-sqrt(9-(x-1)^2)};
+    \region{upB}{loB}{}
+    % boundaries
+    \addplot[domain=0:360, samples=181]({1+3*cos(x)},{1+3*sin(x)});
+    \addplot[domain=-2.4:4.4, samples=2]{1-x};
+    \addplot[samples=2] coordinates {(3,-2.5)(3,4.5)};
+    \addplot[only marks, mark=*, mark size=1.3pt, black, forget plot]
+      coordinates {(3,1) (0,1) (1,4) (4,1)};
+    \node[font=\tiny, anchor=south west] at (axis cs:3.05,1.08) {$P_{1}$};
+    \node[font=\tiny, anchor=south east] at (axis cs:-0.06,1.08) {$P_{2}$};
+    \node[font=\tiny, anchor=south west] at (axis cs:1.08,4.02) {$P_{3}$};
+    \node[font=\tiny, anchor=south west] at (axis cs:4.06,1.08) {$P_{4}$};
+  \end{axis}
+\end{tikzpicture}%
+\hspace*{\fill}
+\gcap{The feasible set $C=\{(x-1)^{2}+(y-1)^{2}\le9,\ x\le3,\ x+y\ge1\}$,
+with four test points.}
+\end{gallery}
+
+\section{Worked Example}
+
+\begin{worked}{Maximise $f(x,y)=xy$ subject to $x+y\le10$, $x\le4$, $x\ge0$, $y\ge0$}
+\wstep{Step 1. Write the Lagrangian with one multiplier per inequality.}
+\[
+  \mathcal L=xy+\lambda(10-x-y)+\mu(4-x) .
+\]
+The Kuhn--Tucker conditions for a maximum with $\le$ constraints are
+\[
+  \mathcal L_{x}=y-\lambda-\mu\le0,
+  \qquad
+  \mathcal L_{y}=x-\lambda\le0,
+\]
+with equality wherever the corresponding variable is positive, together with
+\[
+  \lambda\ge0,\quad \mu\ge0,
+  \qquad
+  \lambda(10-x-y)=0,
+  \qquad
+  \mu(4-x)=0 .
+\]
+The last two are \textbf{complementary slackness}: a constraint that is not
+binding has a zero multiplier, and a positive multiplier forces its
+constraint to bind.
+\wtrap{Signs are everything here. For a maximum with $g(\mathbf x)\le b$ the
+multipliers are $\ge0$; flip to $\ge$ constraints or to minimisation and
+they flip too. Fix one convention --- ``maximise, all constraints written as
+$\le$, multipliers $\ge0$'' --- and convert every problem into it rather
+than memorising four sign tables.}
+
+\wstep{Step 2. Enumerate the cases systematically.}
+With two inequality constraints there are four combinations of
+binding/slack. Work through them in order; do not guess.
+
+\wstep{Step 3. Case A --- both slack ($\lambda=\mu=0$).}
+Then $\mathcal L_{y}=x=0$ and $\mathcal L_{x}=y=0$, giving $(0,0)$ with
+$f=0$. Feasible, and a legitimate KKT point --- but it is the \emph{minimum}
+of $f$ on this set, so keep it as a candidate and continue.
+
+\wstep{Step 4. Case B --- only the budget binds ($\mu=0$, $\lambda>0$).}
+Then $x=\lambda$ and $y=\lambda$, so $x=y$; with $x+y=10$ this gives
+$x=y=5$. But $x=5$ violates $x\le4$: \textbf{infeasible}. Discard.
+\wtrap{A case that produces an infeasible point is discarded, not
+``adjusted''. The temptation to push $x$ back to $4$ and keep $y=5$ is
+exactly the error --- that point does not satisfy the equations of this
+case, and it belongs to a different case.}
+
+\wstep{Step 5. Case C --- only $x\le4$ binds ($\lambda=0$, $\mu>0$).}
+Then $\mathcal L_{y}=x-0=0$ forces $x=0$, contradicting $x=4$. Discard.
+
+\wstep{Step 6. Case D --- both bind.}
+$x=4$ and $x+y=10$ give $y=6$. Now solve for the multipliers:
+\[
+  \mathcal L_{y}=x-\lambda=0\Rightarrow\lambda=4 ;
+  \qquad
+  \mathcal L_{x}=y-\lambda-\mu=0\Rightarrow 6-4-\mu=0\Rightarrow\mu=2 .
+\]
+Both multipliers are $\ge0$ as required. \checkmark\ Feasible, all
+conditions satisfied:
+\[
+  \boxed{(x^{*},y^{*})=(4,6),\qquad f^{*}=24 .}
+\]
+
+\wstep{Step 7. Check the multipliers' signs --- this is the test, not a formality.}
+Had $\mu$ come out negative, Case~D would be rejected: a negative multiplier
+on a $\le$ constraint in a maximisation problem means the constraint is
+pushing the wrong way, i.e.\ removing it would \emph{lower} the objective,
+which is impossible. The sign check is what eliminates spurious cases.
+
+\wstep{Step 8. Confirm it is the global maximum.}
+Compare the surviving candidates: $(0,0)$ with $f=0$ and $(4,6)$ with
+$f=24$. The feasible set is closed and bounded (a quadrilateral with
+vertices $(0,0),(4,0),(4,6),(0,10)$), so by Weierstrass a maximum exists and
+must be among the KKT points. Hence $(4,6)$ is global.
+\wtrap{KKT conditions are \emph{necessary} under a constraint qualification,
+and sufficient only for a concave objective over a convex set. Here $xy$ is
+\emph{not} concave --- its Hessian is indefinite --- so sufficiency does not
+apply and the comparison in this step is doing real work. Skipping it would
+leave $(0,0)$ and $(4,6)$ equally certified.}
+
+\wstep{Step 9. Read the multipliers.}
+$\lambda^{*}=4$: relaxing the budget from $10$ to $11$ raises $f$ by about
+$4$. $\mu^{*}=2$: relaxing $x\le4$ to $x\le5$ raises $f$ by about $2$.
+Check the first directly --- with $x+y\le11$ and $x\le4$ the optimum is
+$(4,7)$ with $f=28$, exactly $4$ more. \checkmark\ Shadow prices work in the
+inequality-constrained world exactly as they did in Chapter~8.
+
+\wstep{Step 10. The recipe.}
+\begin{center}\footnotesize
+\begin{tabular}{ll}
+  \hline
+  1 & write $\mathcal L$; state the sign convention\\
+  2 & list stationarity, feasibility, sign, complementary slackness\\
+  3 & enumerate all $2^{k}$ binding/slack cases for $k$ constraints\\
+  4 & in each: solve, then test feasibility \emph{and} multiplier signs\\
+  5 & compare the survivors; invoke concavity or Weierstrass to conclude\\
+  \hline
+\end{tabular}
+\end{center}
+With three or four constraints the enumeration grows, but economic reasoning
+usually rules out most cases at a glance --- a budget constraint with
+monotone preferences always binds, and a non-negativity constraint on a good
+with infinite marginal utility at zero never does.
+\end{worked}
+
 \section{Practice Problems}
 
 Problems 1--15 drill the KKT system and the case analysis of binding and
@@ -593,6 +731,19 @@ saddle-point condition.
         $x, y \geq 0$.
   \item Maximise $f(x, y) = 4 x + y$ on $x^2 + 4 y^2 \leq 8$,
         $y \leq 1$.
+
+  \item Using the figure of the Core Rules: for each of
+        $P_{1}=(3,1)$, $P_{2}=(0,1)$, $P_{3}=(1,4)$ and $P_{4}=(4,1)$,
+        decide whether the point lies in the feasible set $C$, and for
+        those that do, state which constraints are binding and which are
+        slack.
+  \item Still from the figure: at a point where only the constraint
+        $x\le3$ binds, which Kuhn--Tucker multipliers must be zero, and
+        what does the remaining stationarity condition say?
+  \item Sketch the gradient of the objective $f(x,y)=x+y$ on the same
+        figure and read off, without computing, at which corner of $C$ it
+        is maximised. Then confirm the answer with the Kuhn--Tucker
+        conditions.
 \end{problems}
 
 \section{Additional Solutions}
@@ -718,4 +869,30 @@ saddle-point condition.
               = \sqrt{65 \cdot 2} = \sqrt{130} \approx 11.4 .
         \]
         $\lambda_2 = 0$ in this case.
+
+  \item $P_{1}=(3,1)$: $(3-1)^{2}+0=4\le9$ (slack), $x=3$
+        \textbf{binding}, $x+y=4\ge1$ (slack). Feasible, one binding
+        constraint. \;$P_{2}=(0,1)$: $1\le9$ slack, $x=0<3$ slack,
+        $x+y=1$ \textbf{binding}. Feasible. \;$P_{3}=(1,4)$:
+        $0+9=9$ so the circle \textbf{binds}, $x=1<3$ slack, $x+y=5$
+        slack. Feasible. \;$P_{4}=(4,1)$: $x=4>3$ violates the second
+        constraint --- \textbf{not feasible} (the circle constraint alone
+        would have allowed it, since $9+0=9$).
+  \item Complementary slackness forces the multipliers of the two slack
+        constraints to vanish: the circle's multiplier and the
+        multiplier on $x+y\ge1$ are both $0$. Stationarity then reduces to
+        $\grad f=\mu\,\grad(x)= \mu\,(1,0)^{T}$, i.e. $f_{y}=0$ and
+        $f_{x}=\mu\ge0$: the objective must be flat in $y$ and
+        non-decreasing in $x$ at that point, which is what makes pushing
+        against the wall $x=3$ optimal.
+  \item $\grad f=(1,1)^{T}$, a constant arrow pointing up-right, so the
+        level lines $x+y=\text{const}$ are the anti-diagonals and the
+        optimum is the feasible point furthest up-right. That is the corner
+        where $x=3$ meets the circle: $x=3$ and
+        $(3-1)^{2}+(y-1)^{2}=9$ give $(y-1)^{2}=5$, so
+        $y=1+\sqrt5\approx3.236$ and $f=4+\sqrt5\approx6.236$. Both
+        constraints bind there, so two multipliers may be positive while
+        the multiplier on $x+y\ge1$ is zero; solving the stationarity
+        conditions confirms non-negative multipliers, so the Kuhn--Tucker
+        conditions hold.
 \end{solutions}

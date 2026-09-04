@@ -1,202 +1,404 @@
-\chapter{Eigenvalues and Eigenvectors}
+\chapter{Rank and Linear (In)Dependence}
 
-An eigenvector of $A \in \R^{n \times n}$ is a direction that the linear map
-$x \mapsto A x$ leaves invariant (up to scaling). The corresponding scale
-factor is the eigenvalue. Eigenvalues encode long-run behaviour of dynamical
-systems, drive the spectral characterisation of definiteness used for
-second-order conditions, and provide the means to compute powers $A^{n}$
-efficiently via diagonalisation.
+The rank of a matrix is the dimension of the space spanned by its columns
+(equivalently, by its rows). It answers the structural questions that
+determinants only partially address, especially for non-square matrices: How
+many of the columns of $X$ are genuinely independent regressors? Does
+$A x = b$ have any solution at all? If so, how many?
 
 \section{Core Rules}
 
-\begin{rulebox}{Definition}
-A scalar $\lambda \in \R$ (or $\mathbb{C}$) is an \emph{eigenvalue} of
-$A \in \R^{n \times n}$ if there exists a nonzero vector $v$ with
+\begin{rulebox}{Linear (in)dependence}
+Vectors $v_{1}, \dots, v_{k} \in \R^{n}$ are \emph{linearly dependent} if
+there exist scalars $c_{1}, \dots, c_{k}$, not all zero, with
+$c_{1} v_{1} + \dots + c_{k} v_{k} = 0$. Otherwise they are \emph{linearly
+independent}: the only such combination is the trivial one.
+\end{rulebox}
+
+\begin{rulebox}{Rank}
+The rank of $A \in \R^{m \times n}$, $\mathrm{rk}(A)$, is the dimension of
+the column space $\mathrm{col}(A) = \{A x : x \in \R^{n}\} \subseteq \R^{m}$.
+Equivalently, the maximal number of linearly independent columns (or rows,
+row rank $=$ column rank).
+\end{rulebox}
+
+\begin{rulebox}{Computation}
+Row-reduce $A$ to row-echelon form. The rank equals the number of nonzero
+rows (equivalently, the number of pivot positions).
+\end{rulebox}
+
+\begin{rulebox}{Bounds}
+For $A \in \R^{m \times n}$, $0 \le \mathrm{rk}(A) \le \min(m, n)$. We say
+$A$ has \emph{full row rank} if $\mathrm{rk}(A) = m$, \emph{full column
+rank} if $\mathrm{rk}(A) = n$.
+\end{rulebox}
+
+\begin{rulebox}{Null space}
+$\ker(A) = \{x \in \R^{n} : A x = 0\}$. Its dimension is the
+\emph{nullity}, $\mathrm{null}(A)$.
+\end{rulebox}
+
+\begin{rulebox}{Rank-nullity theorem}
+For $A \in \R^{m \times n}$,
 \[
-A v \;=\; \lambda v.
+\mathrm{rk}(A) + \mathrm{null}(A) \;=\; n.
 \]
-Such a $v$ is an \emph{eigenvector} for $\lambda$.
 \end{rulebox}
 
-\begin{rulebox}{Characteristic polynomial}
-$\lambda$ is an eigenvalue iff $A - \lambda I$ is singular, i.e.\
+\begin{rulebox}{Solvability of $A x = b$}
+Let $[A \mid b]$ be the augmented matrix.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+    \item \textbf{Existence:} $A x = b$ is consistent iff
+          $\mathrm{rk}(A) = \mathrm{rk}([A \mid b])$ (Rouch{\'e}-Capelli).
+    \item \textbf{Uniqueness:} when consistent, the solution is unique iff
+          $\mathrm{rk}(A) = n$ (i.e.\ full column rank).
+    \item Otherwise the solution set is an affine subspace of dimension
+          $n - \mathrm{rk}(A)$.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Column space basis}
+The columns of $A$ that correspond to pivot columns of its row-echelon form
+give a basis for $\mathrm{col}(A)$.
+\end{rulebox}
+
+\begin{rulebox}{Basis and dimension}
+A \emph{basis} of a subspace $V \subseteq \R^{n}$ is a
+linearly independent set of vectors that spans $V$. Every basis of $V$ has
+the same number of elements; this number is the \emph{dimension}, $\dim V$. The \emph{standard basis}
+of $\R^{n}$ consists of $e_{1} = (1, 0, \dots, 0)^{T}, \dots,
+e_{n} = (0, \dots, 0, 1)^{T}$, so $\dim \R^{n} = n$. For given vectors,
 \[
-p_{A}(\lambda) \;:=\; \det(A - \lambda I) \;=\; 0.
+\dim \mathrm{span}(v_{1}, \dots, v_{k}) \;=\; \mathrm{rk}(A),
+\qquad A = \bigl(\, v_{1} \;\cdots\; v_{k} \,\bigr),
 \]
-$p_{A}$ is a polynomial of degree $n$ in $\lambda$.
+the rank of the matrix whose columns are the vectors.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+    \item \textbf{Reducing to a basis:} place the spanning vectors as
+          columns, row-reduce, keep the vectors in pivot columns.
+    \item \textbf{Extending to a basis:} append the standard basis vectors
+          to the independent set, row-reduce, keep the pivot columns (the
+          original vectors always survive as leading pivots).
+\end{itemize}
 \end{rulebox}
 
-\begin{rulebox}{Eigenspace}
-For an eigenvalue $\lambda$, the corresponding eigenspace is
-$E_{\lambda} = \ker(A - \lambda I) = \{v : A v = \lambda v\}$.
+\begin{rulebox}{Linear mappings and matrices}
+A map $f \colon \R^{n} \to \R^{m}$ is \emph{linear} if it respects sums and scalar multiples:
+$f(x + y) = f(x) + f(y)$ and $f(\lambda x) = \lambda f(x)$. For every
+$A \in \R^{m \times n}$ the map $f(x) = A x$ is linear, and \emph{every}
+linear map $\R^{n} \to \R^{m}$ arises this way: the $j$-th column of $A$
+is the image $f(e_{j})$ of the $j$-th standard basis vector. Composition
+corresponds to the matrix product: if $f(x) = A x$ and $g(y) = B y$, then
+$(g \circ f)(x) = B(A x) = (B A) x$.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+    \item \textbf{Rotation} by $90^{\circ}$ (counterclockwise) in
+          $\R^{2}$: $A = \bigl(\begin{smallmatrix} 0 & -1 \\ 1 & 0 \end{smallmatrix}\bigr)$,
+          since $e_{1} \mapsto e_{2}$ and $e_{2} \mapsto -e_{1}$.
+    \item \textbf{Projection} onto the $x$-axis:
+          $A = \bigl(\begin{smallmatrix} 1 & 0 \\ 0 & 0 \end{smallmatrix}\bigr)$.
+    \item \textbf{Input--output:} if producing one unit of good $j$
+          requires $a_{ij}$ units of resource $i$, the activity levels
+          $x \in \R^{n}$ determine the resource use $r = A x \in \R^{m}$,
+          a linear map from production plans to resource requirements.
+\end{itemize}
 \end{rulebox}
 
-\begin{rulebox}{Trace and determinant identities}
-For any $A \in \R^{n \times n}$ with eigenvalues
-$\lambda_{1}, \dots, \lambda_{n}$ (with multiplicity):
+\section{Worked Example}
+
+\begin{worked}{For $A=\begin{pmatrix}1&2&-1&3\\2&4&1&0\\1&2&2&-3\end{pmatrix}$ find the rank, a basis of the null space, verify rank--nullity, and decide solvability of $A\mathbf x=\mathbf b$ for $\mathbf b=(3,0,-3)^{\!\top}$ and $\mathbf b=(1,0,0)^{\!\top}$}
+\wstep{Step 1. Row-reduce once. Everything else is read off the result.}
+$R_{2}\to R_{2}-2R_{1}$, $R_{3}\to R_{3}-R_{1}$:
 \[
-\mathrm{tr}(A) \;=\; \sum_{i} \lambda_{i}, \qquad
-\det(A) \;=\; \prod_{i} \lambda_{i}.
+  \begin{pmatrix}1&2&-1&3\\0&0&3&-6\\0&0&3&-6\end{pmatrix}
+  \xrightarrow{\;R_{3}\to R_{3}-R_{2}\;}
+  \begin{pmatrix}1&2&-1&3\\0&0&3&-6\\0&0&0&0\end{pmatrix}
 \]
-\end{rulebox}
 
-\begin{rulebox}{Diagonalisation}
-$A$ is \emph{diagonalisable} if it has $n$ linearly independent eigenvectors
-$v_{1}, \dots, v_{n}$. Put them as columns of $P$ and the eigenvalues on the
-diagonal of $D$; then
+\wstep{Step 2. Count the pivots.}
+Two non-zero rows, with pivots in columns $1$ and $3$:
 \[
-A \;=\; P D P^{-1}, \qquad A^{k} \;=\; P D^{k} P^{-1}.
+  \operatorname{rank}A=2 .
 \]
-Sufficient condition: $n$ distinct eigenvalues $\Rightarrow$ diagonalisable.
-A symmetric real matrix is always diagonalisable (and via an orthogonal $P$,
-with real eigenvalues, spectral theorem).
-\end{rulebox}
+Columns $2$ and $4$ have no pivot, so $x_{2}$ and $x_{4}$ are the
+\textbf{free} variables.
+\wtrap{Rank is the number of non-zero \emph{rows} after reduction, which is
+also the number of pivot \emph{columns} --- these always agree, and that is
+the theorem ``row rank $=$ column rank''. It is not the number of rows of
+$A$, and it is not the number of columns.}
 
-\begin{rulebox}{Triangular shortcut}
-For triangular $A$, the eigenvalues are exactly the diagonal entries.
-\end{rulebox}
+\wstep{Step 3. Read off which columns are dependent, and why.}
+Column $2$ is exactly $2\times$ column $1$; in the reduced form that is
+visible at a glance. So the four columns of $A$ span only a
+\textbf{two-dimensional} subspace of $\R^{3}$: the column space has
+dimension $2=\operatorname{rank}A$.
+
+\wstep{Step 4. Solve $A\mathbf x=\mathbf 0$ by setting each free variable to $1$ in turn.}
+From row $2$: $3x_{3}-6x_{4}=0$, so $x_{3}=2x_{4}$.
+From row $1$: $x_{1}+2x_{2}-x_{3}+3x_{4}=0$, so
+$x_{1}=-2x_{2}+x_{3}-3x_{4}=-2x_{2}-x_{4}$.
+\[
+  x_{2}=1,\ x_{4}=0:\quad \mathbf v_{1}=(-2,1,0,0)^{\!\top};
+  \qquad
+  x_{2}=0,\ x_{4}=1:\quad \mathbf v_{2}=(-1,0,2,1)^{\!\top}.
+\]
+Check $\mathbf v_{2}$ against the original $A$: row~1 gives
+$-1+0-2+3=0$ \checkmark, row~2 gives $-2+0+2+0=0$ \checkmark, row~3 gives
+$-1+0+4-3=0$ \checkmark.
+\[
+  \operatorname{null}(A)=\operatorname{span}\{\mathbf v_{1},\mathbf v_{2}\},
+  \qquad \text{nullity}=2 .
+\]
+\wtrap{Verify null-space vectors against the \emph{original} matrix. A
+mistake made during row reduction reproduces itself if you check against the
+reduced form, and this check costs three dot products.}
+
+\wstep{Step 5. Rank--nullity, as an arithmetic check on the whole computation.}
+\[
+  \operatorname{rank}A+\text{nullity}=2+2=4=\text{number of columns.} \checkmark
+\]
+The theorem counts \emph{columns}, not rows. If your two numbers do not add
+to the number of columns, something above is wrong --- go back rather than
+proceed.
+
+\wstep{Step 6. Solvability, first $\mathbf b=(3,0,-3)^{\!\top}$.}
+Reduce the augmented matrix with the same operations:
+\[
+  \left(\begin{array}{cccc|c}
+    1&2&-1&3&3\\ 2&4&1&0&0\\ 1&2&2&-3&-3
+  \end{array}\right)
+  \longrightarrow
+  \left(\begin{array}{cccc|c}
+    1&2&-1&3&3\\ 0&0&3&-6&-6\\ 0&0&0&0&0
+  \end{array}\right)
+\]
+$\operatorname{rank}[A\mid\mathbf b]=2=\operatorname{rank}A$:
+\textbf{consistent}. And since there are two free variables, the solution
+set is a two-parameter family --- a particular solution plus the null space
+found in Step~4.
+
+\wstep{Step 7. Now $\mathbf b=(1,0,0)^{\!\top}$.}
+The same operations give right-hand sides $1$, $0-2=-2$, $0-1=-1$, and then
+$R_{3}-R_{2}$ turns the last row into
+\[
+  (0\ 0\ 0\ 0\mid 1) ,
+\]
+the equation $0=1$. So $\operatorname{rank}[A\mid\mathbf b]=3>2
+=\operatorname{rank}A$: \textbf{inconsistent}, no solution.
+
+\wstep{Step 8. The rule the two cases illustrate.}
+\[
+  A\mathbf x=\mathbf b \text{ is solvable}
+  \iff \operatorname{rank}[A\mid\mathbf b]=\operatorname{rank}A
+  \iff \mathbf b\in\text{column space of }A .
+\]
+And when it is solvable, the solution is unique exactly when the nullity is
+$0$. Here the nullity is $2$, so a solvable system never has a unique
+solution --- which is why the first $\mathbf b$ gave a whole plane of
+answers.
+\wtrap{Rank alone does not decide solvability; it is the \emph{comparison}
+of $\operatorname{rank}A$ with $\operatorname{rank}[A\mid\mathbf b]$ that
+does. A system can have full row rank and still be dull, or deficient rank
+and be perfectly solvable --- it depends entirely on $\mathbf b$.}
+\end{worked}
 
 \section{Practice Problems}
 
 \begin{problems}
-  \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 2 & 0 \\ 0 & 3 \end{smallmatrix}\bigr)$.
-  \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 4 & 1 \\ 0 & 3 \end{smallmatrix}\bigr)$.
-  \item Find the eigenvalues and eigenvectors of $A = \bigl(\begin{smallmatrix} 2 & 1 \\ 1 & 2 \end{smallmatrix}\bigr)$.
-  \item Find the eigenvalues and eigenvectors of $A = \bigl(\begin{smallmatrix} 3 & 1 \\ 0 & 3 \end{smallmatrix}\bigr)$. Is $A$ diagonalisable?
-  \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 0 & 1 \\ 1 & 0 \end{smallmatrix}\bigr)$ and the corresponding eigenvectors.
-  \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 0 & -1 \\ 1 & 0 \end{smallmatrix}\bigr)$ (real rotation). Real eigenvalues?
-  \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 5 & 2 \\ 2 & 5 \end{smallmatrix}\bigr)$ and eigenvectors.
-  \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 1 & 4 \\ 2 & 3 \end{smallmatrix}\bigr)$ and eigenvectors.
-  \item Find the eigenvalues of $A = \begin{pmatrix} 2 & 0 & 0 \\ 1 & 2 & 0 \\ 3 & 1 & 4 \end{pmatrix}$.
-  \item Find the eigenvalues of $A = \begin{pmatrix} 1 & 1 & 0 \\ 0 & 2 & 1 \\ 0 & 0 & 3 \end{pmatrix}$.
-  \item Find the eigenvalues and eigenvectors of $A = \begin{pmatrix} 2 & 0 & 0 \\ 0 & 3 & 4 \\ 0 & 4 & 9 \end{pmatrix}$.
-  \item Verify $\mathrm{tr}(A) = $ sum of eigenvalues and $\det A = $ product, for $A = \bigl(\begin{smallmatrix} 2 & 1 \\ 1 & 2 \end{smallmatrix}\bigr)$.
-  \item Compute $A^{5}$ for $A = \bigl(\begin{smallmatrix} 2 & 0 \\ 0 & 3 \end{smallmatrix}\bigr)$.
-  \item Diagonalise $A = \bigl(\begin{smallmatrix} 2 & 1 \\ 1 & 2 \end{smallmatrix}\bigr)$: find $P, D$ with $A = P D P^{-1}$.
-  \item Using the diagonalisation, compute $A^{4}$ for $A = \bigl(\begin{smallmatrix} 2 & 1 \\ 1 & 2 \end{smallmatrix}\bigr)$.
-  \item Show that if $v$ is an eigenvector of $A$ with eigenvalue $\lambda$, then $v$ is also an eigenvector of $A^{2}$ with eigenvalue $\lambda^{2}$.
-  \item If $A$ is invertible and $\lambda$ is an eigenvalue of $A$, what is the corresponding eigenvalue of $A^{-1}$?
-  \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 6 & -2 \\ 2 & 2 \end{smallmatrix}\bigr)$.
-  \item Find the eigenvalues of $A = \begin{pmatrix} 1 & 0 & 1 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix}$ and an eigenvector for the largest one.
-  \item For $A = \bigl(\begin{smallmatrix} 0.8 & 0.3 \\ 0.2 & 0.7 \end{smallmatrix}\bigr)$ (a stochastic matrix), find the eigenvalues.
-  \item For the same $A$, find the eigenvector for $\lambda = 1$ (the stationary distribution).
-  \item Show that $\lambda = 0$ is an eigenvalue of $A$ iff $A$ is singular.
-  \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 7 & 4 \\ -6 & -3 \end{smallmatrix}\bigr)$.
-  \item Compute the characteristic polynomial of $A = \begin{pmatrix} 1 & 2 & 0 \\ 0 & 3 & 0 \\ 4 & 0 & 5 \end{pmatrix}$ and find its eigenvalues.
-  \item For a $2 \times 2$ symmetric matrix $A$ with $\mathrm{tr}(A) = 5$ and $\det A = 6$, find its eigenvalues without computing $A$ explicitly.
+    \item Are $v_{1} = (1, 2)^{T}$, $v_{2} = (3, 6)^{T}$ linearly independent?
+    \item Are $v_{1} = (1, 0)^{T}$, $v_{2} = (1, 1)^{T}$ linearly independent?
+    \item Are $v_{1} = (1, 2, 3)^{T}$, $v_{2} = (4, 5, 6)^{T}$, $v_{3} = (7, 8, 9)^{T}$ linearly independent?
+    \item Are $v_{1} = (1, 0, 0)^{T}$, $v_{2} = (1, 1, 0)^{T}$, $v_{3} = (1, 1, 1)^{T}$ linearly independent?
+    \item Find $\mathrm{rk}(A)$ for $A = \bigl(\begin{smallmatrix} 1 & 2 \\ 3 & 6 \end{smallmatrix}\bigr)$.
+    \item Find $\mathrm{rk}(A)$ for $A = \bigl(\begin{smallmatrix} 1 & 2 \\ 3 & 4 \end{smallmatrix}\bigr)$.
+    \item Find $\mathrm{rk}(A)$ for $A = \begin{pmatrix} 1 & 2 & 1 \\ 2 & 4 & 2 \\ 3 & 6 & 3 \end{pmatrix}$.
+    \item Find $\mathrm{rk}(A)$ for $A = \begin{pmatrix} 1 & 0 & 2 \\ 0 & 1 & 3 \\ 1 & 1 & 5 \end{pmatrix}$.
+    \item Find $\mathrm{rk}(A)$ for $A = \begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & 9 \end{pmatrix}$.
+    \item Find $\mathrm{rk}(A)$ for $A = \begin{pmatrix} 1 & 1 & 2 & 3 \\ 2 & 2 & 4 & 6 \\ 1 & 0 & 1 & 1 \end{pmatrix}$.
+    \item For $A = \begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{pmatrix}$, compute $\mathrm{rk}(A)$ and $\mathrm{null}(A)$. Find a basis of $\ker A$.
+    \item For $A = \bigl(\begin{smallmatrix} 1 & 2 & 3 \\ 2 & 4 & 6 \end{smallmatrix}\bigr)$, compute $\mathrm{rk}(A)$, $\mathrm{null}(A)$, and a basis of $\ker A$.
+    \item For which $a$ does the system $\,x + 2 y = 1,\, 3 x + a y = 4\,$ have a unique solution? No solution? Infinitely many?
+    \item Use Rouché-Capelli on $\,x + y + z = 1,\, x + 2 y + 3 z = 4,\, 2 x + 3 y + 4 z = 5\,$. Determine consistency and the number of solutions.
+    \item Use Rouché-Capelli on $\,x + y + z = 1,\, x + 2 y + 3 z = 4,\, 2 x + 3 y + 4 z = 6$. Consistency?
+    \item Find a basis for the column space of $A = \begin{pmatrix} 1 & 2 & 1 \\ 0 & 1 & 1 \\ 1 & 3 & 2 \end{pmatrix}$.
+    \item Determine whether $b = (1, 2, 3)^{T}$ is in $\mathrm{col}(A)$ for $A = \bigl(\begin{smallmatrix} 1 & 0 \\ 0 & 1 \\ 1 & 1 \end{smallmatrix}\bigr)$.
+    \item Determine whether $b = (1, 1, 0)^{T}$ is in $\mathrm{col}(A)$ for the same $A$.
+    \item Let $A \in \R^{4 \times 6}$ have rank $3$. What is $\mathrm{null}(A)$? Can $A x = b$ have a solution for every $b \in \R^{4}$? If so, is it unique?
+    \item Let $A \in \R^{3 \times 5}$ have rank $3$. Does $A x = b$ have a solution for every $b$? Unique?
+    \item For $A = \begin{pmatrix} 1 & a & 1 \\ 1 & 1 & a \\ a & 1 & 1 \end{pmatrix}$, find all $a$ for which $\mathrm{rk}(A) < 3$.
+    \item Are the rows of $\begin{pmatrix} 1 & 0 & 0 \\ 2 & 1 & 0 \\ 3 & 4 & 1 \end{pmatrix}$ linearly independent?
+    \item Find a basis of $\ker A$ for $A = \begin{pmatrix} 1 & 1 & 1 \\ 2 & 2 & 2 \end{pmatrix}$.
+    \item For $A \in \R^{n \times n}$, prove: $A$ is invertible iff $\mathrm{rk}(A) = n$.
+    \item Find $\mathrm{rk}\!\begin{pmatrix} 1 & 2 & 0 & 1 \\ 2 & 4 & 1 & 3 \\ 3 & 6 & 1 & 4 \end{pmatrix}$.
 \end{problems}
 
 \section{Solutions}
 
 \begin{solutions}
-  \item Diagonal: $\lambda = 2, 3$.
-  \item Upper-triangular: $\lambda = 4, 3$.
-  \item $p_{A}(\lambda) = (2 - \lambda)^{2} - 1 = \lambda^{2} - 4 \lambda + 3 = (\lambda - 1)(\lambda - 3)$. Eigenvalues $\lambda = 1, 3$.
-  For $\lambda = 1$: $A - I = \bigl(\begin{smallmatrix} 1 & 1 \\ 1 & 1 \end{smallmatrix}\bigr)$, eigenvector $(1, -1)^{T}$.
-  For $\lambda = 3$: $A - 3 I = \bigl(\begin{smallmatrix} -1 & 1 \\ 1 & -1 \end{smallmatrix}\bigr)$, eigenvector $(1, 1)^{T}$.
-  \item Upper-triangular: $\lambda = 3$ (double). $A - 3 I = \bigl(\begin{smallmatrix} 0 & 1 \\ 0 & 0 \end{smallmatrix}\bigr)$, rank $1$, eigenspace $1$-dimensional spanned by $(1, 0)^{T}$. Geometric multiplicity $1 <$ algebraic multiplicity $2$, so $A$ is \emph{not} diagonalisable.
-  \item $p_{A}(\lambda) = \lambda^{2} - 1$, so $\lambda = \pm 1$. For $\lambda = 1$: eigenvector $(1, 1)^{T}$. For $\lambda = -1$: eigenvector $(1, -1)^{T}$.
-  \item $p_{A}(\lambda) = \lambda^{2} + 1$, roots $\pm i$. No real eigenvalues.
-  \item $p_{A}(\lambda) = (5 - \lambda)^{2} - 4 = \lambda^{2} - 10 \lambda + 21 = (\lambda - 3)(\lambda - 7)$. Eigenvalues $3, 7$. For $\lambda = 3$: $A - 3 I = \bigl(\begin{smallmatrix} 2 & 2 \\ 2 & 2 \end{smallmatrix}\bigr)$, eigenvector $(1, -1)^{T}$. For $\lambda = 7$: $(1, 1)^{T}$.
-  \item $p_{A}(\lambda) = (1 - \lambda)(3 - \lambda) - 8 = \lambda^{2} - 4 \lambda - 5 = (\lambda - 5)(\lambda + 1)$. Eigenvalues $5, -1$.
-  For $\lambda = 5$: $A - 5 I = \bigl(\begin{smallmatrix} -4 & 4 \\ 2 & -2 \end{smallmatrix}\bigr)$, eigenvector $(1, 1)^{T}$.
-  For $\lambda = -1$: $A + I = \bigl(\begin{smallmatrix} 2 & 4 \\ 2 & 4 \end{smallmatrix}\bigr)$, eigenvector $(2, -1)^{T}$.
-  \item Lower-triangular: $\lambda = 2, 2, 4$.
-  \item Upper-triangular: $\lambda = 1, 2, 3$.
-  \item Block diagonal: $\lambda = 2$ (from upper $1 \times 1$ block), and from the $2 \times 2$ block $\bigl(\begin{smallmatrix} 3 & 4 \\ 4 & 9 \end{smallmatrix}\bigr)$, $p(\lambda) = (3 - \lambda)(9 - \lambda) - 16 = \lambda^{2} - 12 \lambda + 11 = (\lambda - 1)(\lambda - 11)$. Eigenvalues $\lambda = 1, 2, 11$.
-  Eigenvectors: for $\lambda = 2$: $e_{1} = (1, 0, 0)^{T}$. For $\lambda = 1$ (from $2 \times 2$ block $\bigl(\begin{smallmatrix} 2 & 4 \\ 4 & 8 \end{smallmatrix}\bigr)$): $(2, -1)^{T}$ in the lower block, so $(0, 2, -1)^{T}$. For $\lambda = 11$: $(3 - 11)v_{2} + 4 v_{3} = 0 \Rightarrow v_{3} = 2 v_{2}$, so $(0, 1, 2)^{T}$.
-  \item Eigenvalues $\{1, 3\}$. Sum $= 4 = \mathrm{tr}(A) = 2 + 2$. Product $= 3 = \det A = 4 - 1$. Check.
-  \item $A^{5} = \mathrm{diag}(2^{5}, 3^{5}) = \mathrm{diag}(32, 243)$.
-  \item Eigenvalues $1, 3$ with eigenvectors $(1, -1)^{T}, (1, 1)^{T}$. So $P = \bigl(\begin{smallmatrix} 1 & 1 \\ -1 & 1 \end{smallmatrix}\bigr)$, $D = \mathrm{diag}(1, 3)$. $\det P = 2$, $P^{-1} = \tfrac{1}{2}\bigl(\begin{smallmatrix} 1 & -1 \\ 1 & 1 \end{smallmatrix}\bigr)$.
-  \item $A^{4} = P D^{4} P^{-1} = P \mathrm{diag}(1, 81) P^{-1}$.
-  \[
-  P D^{4} = \begin{pmatrix} 1 & 81 \\ -1 & 81 \end{pmatrix}, \quad P D^{4} P^{-1} = \tfrac{1}{2}\begin{pmatrix} 1 & 81 \\ -1 & 81 \end{pmatrix} \begin{pmatrix} 1 & -1 \\ 1 & 1 \end{pmatrix} = \tfrac{1}{2}\begin{pmatrix} 82 & 80 \\ 80 & 82 \end{pmatrix} = \begin{pmatrix} 41 & 40 \\ 40 & 41 \end{pmatrix}.
-  \]
-  Sanity check via direct: $A^{2} = \bigl(\begin{smallmatrix} 5 & 4 \\ 4 & 5 \end{smallmatrix}\bigr)$, $A^{4} = (A^{2})^{2} = \bigl(\begin{smallmatrix} 25 + 16 & 20 + 20 \\ 20 + 20 & 16 + 25 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 41 & 40 \\ 40 & 41 \end{smallmatrix}\bigr)$. Good.
-  \item $A^{2} v = A(A v) = A(\lambda v) = \lambda A v = \lambda^{2} v$.
-  \item $A v = \lambda v \Rightarrow v = A^{-1} \lambda v \Rightarrow A^{-1} v = \tfrac{1}{\lambda} v$. So eigenvalue is $1/\lambda$ (and $\lambda \neq 0$ since $A$ is invertible).
-  \item $p_{A}(\lambda) = (6 - \lambda)(2 - \lambda) + 4 = \lambda^{2} - 8 \lambda + 16 = (\lambda - 4)^{2}$. Double eigenvalue $\lambda = 4$.
-  \item Row $1 = $ Row $3$, so $\det A = 0$ and $\lambda = 0$ is an eigenvalue. The middle block gives $\lambda = 1$. For the remaining eigenvalue, $\mathrm{tr}(A) = 1 + 1 + 1 = 3$, so $\lambda_{1} + \lambda_{2} + \lambda_{3} = 0 + 1 + \lambda_{3} = 3 \Rightarrow \lambda_{3} = 2$.
-  For $\lambda = 2$: $(A - 2 I)v = 0$ with $A - 2 I = \begin{pmatrix} -1 & 0 & 1 \\ 0 & -1 & 0 \\ 1 & 0 & -1 \end{pmatrix}$. Rows: $-v_{1} + v_{3} = 0$, $-v_{2} = 0$. So $v = (1, 0, 1)^{T}$.
-  \item $p_{A}(\lambda) = (0.8 - \lambda)(0.7 - \lambda) - 0.06 = \lambda^{2} - 1.5 \lambda + 0.56 - 0.06 = \lambda^{2} - 1.5 \lambda + 0.5 = (\lambda - 1)(\lambda - 0.5)$. So $\lambda = 1, 0.5$.
-  \item $A - I = \bigl(\begin{smallmatrix} -0.2 & 0.3 \\ 0.2 & -0.3 \end{smallmatrix}\bigr)$. Set $-0.2 v_{1} + 0.3 v_{2} = 0 \Rightarrow v_{1} = 1.5 v_{2}$. Choose $v_{2} = 2$: $v = (3, 2)^{T}$. Normalised to a probability vector: $(3/5, 2/5)^{T} = (0.6, 0.4)^{T}$.
-  \item $\lambda = 0$ is an eigenvalue $\Leftrightarrow$ there exists $v \neq 0$ with $A v = 0$ $\Leftrightarrow$ $\ker A \neq \{0\}$ $\Leftrightarrow$ $A$ is singular.
-  \item $p_{A}(\lambda) = (7 - \lambda)(-3 - \lambda) + 24 = \lambda^{2} - 4 \lambda + 3 = (\lambda - 1)(\lambda - 3)$. Eigenvalues $1, 3$.
-  \item Expand $\det(A - \lambda I)$ along column 2: only the $(2, 2)$-entry is nonzero in that column (entries are $2, 3 - \lambda, 0$). Actually let's just expand directly.
-  \[
-  \det\!\begin{pmatrix} 1 - \lambda & 2 & 0 \\ 0 & 3 - \lambda & 0 \\ 4 & 0 & 5 - \lambda \end{pmatrix} = (3 - \lambda) \det \begin{pmatrix} 1 - \lambda & 0 \\ 4 & 5 - \lambda \end{pmatrix} = (3 - \lambda)(1 - \lambda)(5 - \lambda).
-  \]
-  (Cofactor along row 2 picks out only the $(2, 2)$ minor.) Eigenvalues $\lambda = 1, 3, 5$.
-  \item $\lambda_{1} + \lambda_{2} = 5$, $\lambda_{1} \lambda_{2} = 6$. So $\lambda_{1}, \lambda_{2}$ are roots of $t^{2} - 5 t + 6 = (t - 2)(t - 3) = 0$. Eigenvalues $2, 3$.
+    \item Dependent: $v_{2} = 3 v_{1}$.
+
+    \item Independent: $c_{1} v_{1} + c_{2} v_{2} = (c_{1} + c_{2}, c_{2})^{T} = 0$ forces $c_{2} = 0$ and then $c_{1} = 0$.
+
+    \item Dependent: $v_{1} - 2 v_{2} + v_{3} = 0$. (And $\det\bigl(\begin{smallmatrix} 1 & 4 & 7 \\ 2 & 5 & 8 \\ 3 & 6 & 9 \end{smallmatrix}\bigr) = 0$.)
+
+    \item Independent: the matrix $\bigl(\begin{smallmatrix} 1 & 1 & 1 \\ 0 & 1 & 1 \\ 0 & 0 & 1 \end{smallmatrix}\bigr)$ is upper-triangular with nonzero diagonal, $\det = 1 \neq 0$.
+
+    \item Rows are proportional, $\mathrm{rk}(A) = 1$.
+
+    \item $\det A = -2 \neq 0$, so $\mathrm{rk}(A) = 2$.
+
+    \item All three rows are multiples of $(1, 2, 1)$. $\mathrm{rk}(A) = 1$.
+
+    \item Row-reduce: $R_{3} \to R_{3} - R_{1} - R_{2}$ gives $(0, 0, 0)$. So $\mathrm{rk} = 2$.
+
+    \item As in problem 3, columns dependent: $\mathrm{rk}(A) = 2$.
+
+    \item $R_{2} \to R_{2} - 2 R_{1}$ gives $(0, 0, 0, 0)$. $R_{3} \to R_{3} - R_{1}$ gives $(0, -1, -1, -2)$. Two nonzero rows: $\mathrm{rk} = 2$.
+
+    \item $\mathrm{rk} = 2$ (rows independent: not proportional), so $\mathrm{null} = 3 - 2 = 1$. Solve $A x = 0$: $R_{2} \to R_{2} - 4 R_{1}$ gives $(0, -3, -6)$, so $-3 y - 6 z = 0 \Rightarrow y = -2 z$ and $x + 2 y + 3 z = 0 \Rightarrow x = -2 y - 3 z = 4 z - 3 z = z$. Basis: $(1, -2, 1)^{T}$.
+
+    \item $\mathrm{rk} = 1$, $\mathrm{null} = 2$. Kernel: $x + 2 y + 3 z = 0$. Free parameters $y = s, z = t$, $x = -2 s - 3 t$. Basis: $(-2, 1, 0)^{T}, (-3, 0, 1)^{T}$.
+
+    \item $\det \bigl(\begin{smallmatrix} 1 & 2 \\ 3 & a \end{smallmatrix}\bigr) = a - 6$. Unique iff $a \neq 6$. If $a = 6$: rows of $A$ are proportional but $b = (1, 4)^{T}$ is not on $3 \cdot$(first equation) $= (3, 6 \mid 3)$, so $b_{2} = 4 \neq 3$, hence no solution. Never infinitely many (for these specific RHS values).
+
+    \item Augmented: $R_{2} \to R_{2} - R_{1}$: $(0, 1, 2 \mid 3)$. $R_{3} \to R_{3} - 2 R_{1}$: $(0, 1, 2 \mid 3)$. $R_{3} \to R_{3} - R_{2}$: $(0, 0, 0 \mid 0)$. So $\mathrm{rk}(A) = 2 = \mathrm{rk}([A \mid b])$, and $n - r = 3 - 2 = 1$-parameter family of solutions. Free $z = t$: $y = 3 - 2 t$, $x = 1 - y - z = 1 - (3 - 2 t) - t = -2 + t$. Solutions: $(-2, 3, 0)^{T} + t (1, -2, 1)^{T}$.
+
+    \item Same row reduction on the LHS; RHS changes. $R_{2} - R_{1} = (0, 1, 2 \mid 3)$. $R_{3} - 2 R_{1} = (0, 1, 2 \mid 4)$. $R_{3} - R_{2} = (0, 0, 0 \mid 1)$. Last row says $0 = 1$: inconsistent. $\mathrm{rk}(A) = 2 < \mathrm{rk}([A \mid b]) = 3$.
+
+    \item Row-reduce. $R_{3} \to R_{3} - R_{1}$: $(0, 1, 1)$. $R_{3} \to R_{3} - R_{2}$: $(0, 0, 0)$. Echelon: pivots in columns $1$ and $2$. Basis of $\mathrm{col}(A)$: columns $1$ and $2$ of $A$, namely $(1, 0, 1)^{T}$ and $(2, 1, 3)^{T}$.
+
+    \item Need $c_{1}(1, 0, 1)^{T} + c_{2}(0, 1, 1)^{T} = (1, 2, 3)^{T}$, i.e.\ $c_{1} = 1, c_{2} = 2$, $c_{1} + c_{2} = 3$. Yes, $b \in \mathrm{col}(A)$.
+
+    \item Need $c_{1} = 1, c_{2} = 1$, $c_{1} + c_{2} = 0$. But $1 + 1 = 2 \neq 0$. No, $b \notin \mathrm{col}(A)$.
+
+    \item $\mathrm{null}(A) = 6 - 3 = 3$. The map is not surjective onto $\R^{4}$ since $\mathrm{rk}(A) = 3 < 4$, so $A x = b$ has solutions only for $b$ in a $3$-dimensional subspace of $\R^{4}$, and when consistent, solutions form a $3$-parameter family (not unique).
+
+    \item $\mathrm{rk}(A) = 3 = $ number of rows: full row rank, so $A x = b$ has a solution for every $b \in \R^{3}$. But $\mathrm{null}(A) = 5 - 3 = 2 > 0$, so the solution is not unique.
+
+    \item Cofactor expansion along row 1:
+    \begin{align*}
+    \det A &= 1 \cdot (1 - a) - a \cdot (1 - a^{2}) + 1 \cdot (1 - a) \\
+           &= 2(1 - a) - a(1 - a)(1 + a) \\
+           &= (1 - a)\bigl[2 - a(1 + a)\bigr] = (1 - a)(2 - a - a^{2}).
+    \end{align*}
+    Factor $2 - a - a^{2} = -(a + 2)(a - 1)$, so $\det A = (1 - a)^{2}(a + 2)$. Hence $\mathrm{rk}(A) < 3$ iff $a = 1$ or $a = -2$.
+
+    \item Lower-triangular with nonzero diagonal: $\det = 1 \neq 0$, so rows are independent.
+
+    \item $A$ has rank $1$, nullity $2$. Solve $x + y + z = 0$: $(- 1, 1, 0)^{T}, (-1, 0, 1)^{T}$ form a basis.
+
+    \item Equivalent statements: $A$ is invertible $\Leftrightarrow$ $\det A \neq 0$ $\Leftrightarrow$ columns of $A$ are linearly independent $\Leftrightarrow$ $\mathrm{rk}(A) = n$. Sketch: $A$ invertible $\Rightarrow$ $A x = 0$ has only the trivial solution, so columns independent, $\mathrm{rk} = n$. Conversely, if $\mathrm{rk}(A) = n$, then columns span $\R^{n}$ and are independent, so $A x = b$ has a unique solution for every $b$, hence $A$ is invertible.
+
+    \item $R_{2} \to R_{2} - 2 R_{1}$: $(0, 0, 1, 1)$. $R_{3} \to R_{3} - 3 R_{1}$: $(0, 0, 1, 1)$. $R_{3} \to R_{3} - R_{2}$: $(0, 0, 0, 0)$. Pivots in cols $1, 3$. $\mathrm{rk} = 2$.
 \end{solutions}
 
 \section{Additional Problems}
 
 \begin{problems}
-  \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 5 & 0 \\ 0 & -2 \end{smallmatrix}\bigr)$.
-  \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 2 & 5 \\ 0 & -1 \end{smallmatrix}\bigr)$.
-  \item Find the eigenvalues and eigenvectors of $A = \bigl(\begin{smallmatrix} 3 & 1 \\ 1 & 3 \end{smallmatrix}\bigr)$.
-  \item Find the eigenvalues and eigenvectors of $A = \bigl(\begin{smallmatrix} 4 & 2 \\ 0 & 4 \end{smallmatrix}\bigr)$. Is $A$ diagonalisable?
-  \item Find the eigenvalues and eigenvectors of $A = \bigl(\begin{smallmatrix} 1 & 2 \\ 3 & 2 \end{smallmatrix}\bigr)$.
-  \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 0 & 2 \\ -2 & 0 \end{smallmatrix}\bigr)$.
-  \item Find the eigenvalues and eigenvectors of $A = \bigl(\begin{smallmatrix} 6 & -2 \\ -2 & 3 \end{smallmatrix}\bigr)$.
-  \item Find the eigenvalues and eigenvectors of $A = \bigl(\begin{smallmatrix} 2 & 3 \\ 1 & 4 \end{smallmatrix}\bigr)$.
-  \item Find the eigenvalues of $A = \begin{pmatrix} 3 & 0 & 0 \\ 2 & 1 & 0 \\ -1 & 4 & 5 \end{pmatrix}$.
-  \item Find the eigenvalues of $A = \begin{pmatrix} 2 & 1 & 1 \\ 0 & 3 & 4 \\ 0 & 0 & -1 \end{pmatrix}$.
-  \item Find the eigenvalues and eigenvectors of $A = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 2 & 1 \\ 0 & 1 & 2 \end{pmatrix}$.
-  \item For $A = \bigl(\begin{smallmatrix} 3 & 1 \\ 1 & 3 \end{smallmatrix}\bigr)$, verify $\mathrm{tr}(A) = $ sum of eigenvalues and $\det A = $ product.
-  \item Compute $A^{4}$ for $A = \bigl(\begin{smallmatrix} -1 & 0 \\ 0 & 2 \end{smallmatrix}\bigr)$.
-  \item Diagonalise $A = \bigl(\begin{smallmatrix} 3 & 1 \\ 1 & 3 \end{smallmatrix}\bigr)$.
-  \item Using the diagonalisation, compute $A^{3}$ for $A = \bigl(\begin{smallmatrix} 3 & 1 \\ 1 & 3 \end{smallmatrix}\bigr)$.
-  \item Show that if $\lambda$ is an eigenvalue of $A$, then $\lambda + c$ is an eigenvalue of $A + c I$ (for any scalar $c$).
-  \item If $A$ has eigenvalues $\{2, 5\}$ with eigenvectors $v_{1}, v_{2}$, what are the eigenvalues of $A^{2} - 3 A$? With which eigenvectors?
-  \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 4 & -3 \\ 3 & -2 \end{smallmatrix}\bigr)$.
-  \item Find the eigenvalues of $A = \begin{pmatrix} 2 & 1 & 0 \\ 0 & 2 & 0 \\ 0 & 0 & 3 \end{pmatrix}$ and an eigenvector for $\lambda = 2$. Is $A$ diagonalisable?
-  \item For $A = \bigl(\begin{smallmatrix} 0.6 & 0.5 \\ 0.4 & 0.5 \end{smallmatrix}\bigr)$ (column-stochastic), find the eigenvalues.
-  \item For the same $A$, find the stationary distribution (eigenvector for $\lambda = 1$ summing to $1$).
-  \item Show: if $A$ is real and symmetric with eigenvalues $\lambda_{1}, \dots, \lambda_{n}$, then $A^{T} A$ has eigenvalues $\lambda_{1}^{2}, \dots, \lambda_{n}^{2}$.
-  \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 5 & 4 \\ -2 & -1 \end{smallmatrix}\bigr)$.
-  \item Compute the characteristic polynomial of $A = \begin{pmatrix} 2 & 1 & 0 \\ 1 & 2 & 0 \\ 0 & 0 & 5 \end{pmatrix}$ and its eigenvalues.
-  \item For a $2 \times 2$ matrix $A$ with $\mathrm{tr}(A) = 3$ and $\det A = -10$, find the eigenvalues without computing $A$.
+    \item Are $v_{1} = (2, 4)^{T}$, $v_{2} = (3, 6)^{T}$ linearly independent?
+    \item Are $v_{1} = (1, 1, 0)^{T}$, $v_{2} = (0, 1, 1)^{T}$, $v_{3} = (1, 0, -1)^{T}$ linearly independent?
+    \item Are $v_{1} = (1, 2, 0)^{T}$, $v_{2} = (0, 1, 3)^{T}$, $v_{3} = (1, 1, 2)^{T}$ linearly independent?
+    \item Find $\mathrm{rk}(A)$ for $A = \bigl(\begin{smallmatrix} 4 & -2 \\ -2 & 1 \end{smallmatrix}\bigr)$.
+    \item Find $\mathrm{rk}(A)$ for $A = \bigl(\begin{smallmatrix} 1 & 3 \\ 2 & 5 \end{smallmatrix}\bigr)$.
+    \item Find $\mathrm{rk}(A)$ for $A = \begin{pmatrix} 1 & 2 & 3 \\ 2 & 4 & 6 \\ 3 & 6 & 9 \end{pmatrix}$.
+    \item Find $\mathrm{rk}(A)$ for $A = \begin{pmatrix} 1 & 0 & 1 \\ 0 & 1 & 2 \\ 1 & 1 & 4 \end{pmatrix}$.
+    \item Find $\mathrm{rk}(A)$ for $A = \begin{pmatrix} 2 & 1 & 0 \\ 4 & 2 & 1 \\ 0 & 0 & 1 \end{pmatrix}$.
+    \item Find $\mathrm{rk}(A)$ for $A = \begin{pmatrix} 1 & 2 & 1 & 0 \\ 2 & 4 & 0 & 1 \\ 0 & 0 & 2 & -1 \end{pmatrix}$.
+    \item For $A = \bigl(\begin{smallmatrix} 1 & -1 & 2 \\ 2 & -2 & 4 \end{smallmatrix}\bigr)$, find $\mathrm{rk}(A)$, $\mathrm{null}(A)$, and a basis of $\ker A$.
+    \item For $A = \begin{pmatrix} 1 & 2 & 3 \\ 0 & 1 & 2 \end{pmatrix}$, find $\mathrm{rk}(A)$, $\mathrm{null}(A)$, and a basis of $\ker A$.
+    \item For which $a$ does $\,x + y + z = 1, \, x + 2 y + a z = 2,\, 2 x + 3 y + (a + 1) z = 3\,$ have a unique solution?
+    \item Use Rouché-Capelli on $\,x + 2 y - z = 1,\, 2 x + 3 y + z = 3,\, x + y + 2 z = 2$. Consistency? Number of solutions?
+    \item Use Rouché-Capelli on $\,x + 2 y - z = 1,\, 2 x + 4 y - 2 z = 3$. Consistency?
+    \item Find a basis for the column space of $A = \begin{pmatrix} 1 & 1 & 2 \\ 1 & 2 & 3 \\ 2 & 1 & 3 \end{pmatrix}$.
+    \item Determine whether $b = (3, 5, 8)^{T}$ is in $\mathrm{col}(A)$ for $A = \begin{pmatrix} 1 & 1 \\ 2 & 1 \\ 3 & 2 \end{pmatrix}$.
+    \item Let $A \in \R^{5 \times 3}$ have rank $3$. Find $\mathrm{null}(A)$. Is $A x = b$ always solvable? When uniquely?
+    \item Let $A \in \R^{3 \times 4}$ have rank $3$. Find $\mathrm{null}(A)$. Is $A x = b$ always solvable? Uniquely?
+    \item For $A = \begin{pmatrix} 1 & a & a^{2} \\ 1 & 1 & 1 \\ 1 & 2 & 4 \end{pmatrix}$, find all $a$ for which $\mathrm{rk}(A) < 3$.
+    \item Are the columns of $\begin{pmatrix} 1 & 2 & 1 \\ 0 & 1 & -1 \\ 1 & 3 & 0 \end{pmatrix}$ linearly independent?
+    \item Find a basis of $\ker A$ for $A = \begin{pmatrix} 1 & 2 & 3 \\ 1 & 2 & 3 \\ 1 & 2 & 3 \end{pmatrix}$.
+    \item Find $\mathrm{rk}\begin{pmatrix} 1 & 2 & 1 & 4 \\ 2 & 4 & 3 & 9 \\ 0 & 0 & 1 & 1 \end{pmatrix}$.
+    \item Show: if $A \in \R^{m \times n}$ with $m < n$, then $\ker A \neq \{0\}$.
+    \item Find a basis of $\ker A$ for $A = \begin{pmatrix} 1 & 0 & 1 \\ 0 & 1 & 1 \end{pmatrix}$.
+    \item For which $\alpha$ are $v_{1} = (1, \alpha)^{T}$, $v_{2} = (\alpha, 4)^{T}$ linearly dependent?
+    \item Do $v_{1} = (1, 2)^{T}$, $v_{2} = (2, 3)^{T}$ form a basis of $\R^{2}$? Do $w_{1} = (1, 0, 1)^{T}$, $w_{2} = (0, 1, 1)^{T}$, $w_{3} = (1, 1, 2)^{T}$ form a basis of $\R^{3}$?
+    \item Find $\dim \mathrm{span}(v_{1}, v_{2}, v_{3})$ for $v_{1} = (1, 2, 1)^{T}$, $v_{2} = (2, 4, 3)^{T}$, $v_{3} = (3, 6, 4)^{T}$.
+    \item The vectors $v_{1} = (1, 0, 1)^{T}$, $v_{2} = (2, 1, 3)^{T}$, $v_{3} = (0, 1, 1)^{T}$, $v_{4} = (1, 1, 1)^{T}$ span $\R^{3}$. Reduce this spanning set to a basis.
+    \item A linear map $f \colon \R^{3} \to \R^{2}$ satisfies $f(e_{1}) = (1, 2)^{T}$, $f(e_{2}) = (0, 1)^{T}$, $f(e_{3}) = (3, -1)^{T}$. Write down the matrix $A$ with $f(x) = A x$.
+    \item Verify linearity or exhibit its failure: $f(x, y) = (2 x - y, \, x + 3 y)$ and $g(x, y) = (x + 1, \, y)$.
+    \item Let $f$ be the counterclockwise rotation by $90^{\circ}$ in $\R^{2}$ and $g$ the projection onto the $x$-axis. Find the matrix of $g \circ f$ and check the result on $x = (1, 2)^{T}$.
 \end{problems}
 
 \section{Additional Solutions}
 
 \begin{solutions}
-  \item Diagonal: $\lambda = 5, -2$.
-  \item Upper-triangular: $\lambda = 2, -1$.
-  \item $p(\lambda) = (3 - \lambda)^{2} - 1 = \lambda^{2} - 6 \lambda + 8 = (\lambda - 2)(\lambda - 4)$. Eigenvalues $2, 4$. For $\lambda = 2$: $A - 2 I = \bigl(\begin{smallmatrix} 1 & 1 \\ 1 & 1 \end{smallmatrix}\bigr)$, eigenvector $(1, -1)^{T}$. For $\lambda = 4$: $A - 4 I = \bigl(\begin{smallmatrix} -1 & 1 \\ 1 & -1 \end{smallmatrix}\bigr)$, eigenvector $(1, 1)^{T}$. Verify $\lambda = 4$: $A(1, 1)^{T} = (4, 4)^{T} = 4 (1, 1)^{T}$. Good.
-  \item Upper-triangular: $\lambda = 4$ (double). $A - 4 I = \bigl(\begin{smallmatrix} 0 & 2 \\ 0 & 0 \end{smallmatrix}\bigr)$, rank $1$, eigenspace spanned by $(1, 0)^{T}$. Geometric multiplicity $1 <$ algebraic multiplicity $2$: \emph{not} diagonalisable.
-  \item $p(\lambda) = (1 - \lambda)(2 - \lambda) - 6 = \lambda^{2} - 3 \lambda - 4 = (\lambda - 4)(\lambda + 1)$. Eigenvalues $4, -1$.
-  For $\lambda = 4$: $A - 4 I = \bigl(\begin{smallmatrix} -3 & 2 \\ 3 & -2 \end{smallmatrix}\bigr)$. From row 1, $-3 v_{1} + 2 v_{2} = 0 \Rightarrow v = (2, 3)^{T}$. Verify: $A(2, 3)^{T} = (2 + 6, 6 + 6)^{T} = (8, 12)^{T} = 4(2, 3)^{T}$. Good.
-  For $\lambda = -1$: $A + I = \bigl(\begin{smallmatrix} 2 & 2 \\ 3 & 3 \end{smallmatrix}\bigr)$, eigenvector $(1, -1)^{T}$.
-  \item $p(\lambda) = \lambda^{2} + 4$, roots $\pm 2 i$. No real eigenvalues.
-  \item $p(\lambda) = (6 - \lambda)(3 - \lambda) - 4 = \lambda^{2} - 9 \lambda + 14 = (\lambda - 2)(\lambda - 7)$. Eigenvalues $2, 7$.
-  For $\lambda = 2$: $A - 2 I = \bigl(\begin{smallmatrix} 4 & -2 \\ -2 & 1 \end{smallmatrix}\bigr)$, eigenvector $(1, 2)^{T}$. Verify $A(1, 2)^{T} = (6 - 4, -2 + 6)^{T} = (2, 4)^{T} = 2(1, 2)^{T}$. Good.
-  For $\lambda = 7$: $A - 7 I = \bigl(\begin{smallmatrix} -1 & -2 \\ -2 & -4 \end{smallmatrix}\bigr)$, eigenvector $(2, -1)^{T}$. Verify $A(2, -1)^{T} = (12 + 2, -4 - 3)^{T} = (14, -7)^{T} = 7(2, -1)^{T}$. Good.
-  \item $p(\lambda) = (2 - \lambda)(4 - \lambda) - 3 = \lambda^{2} - 6 \lambda + 5 = (\lambda - 1)(\lambda - 5)$. Eigenvalues $1, 5$.
-  For $\lambda = 1$: $A - I = \bigl(\begin{smallmatrix} 1 & 3 \\ 1 & 3 \end{smallmatrix}\bigr)$, eigenvector $(3, -1)^{T}$.
-  For $\lambda = 5$: $A - 5 I = \bigl(\begin{smallmatrix} -3 & 3 \\ 1 & -1 \end{smallmatrix}\bigr)$, eigenvector $(1, 1)^{T}$.
-  \item Lower-triangular: $\lambda = 3, 1, 5$.
-  \item Upper-triangular: $\lambda = 2, 3, -1$.
-  \item Block diagonal: $\lambda = 1$ (from upper $1 \times 1$ block), then from the $2 \times 2$ block $\bigl(\begin{smallmatrix} 2 & 1 \\ 1 & 2 \end{smallmatrix}\bigr)$: $p(\lambda) = (2 - \lambda)^{2} - 1 = (\lambda - 1)(\lambda - 3)$. So $\lambda = 1, 3$ from the block, giving overall eigenvalues $1, 1, 3$.
-  Eigenvectors: for $\lambda = 3$ (block): $(1, 1)^{T}$ in the lower block, full vector $(0, 1, 1)^{T}$. Verify $A(0, 1, 1)^{T} = (0, 2 + 1, 1 + 2)^{T} = (0, 3, 3)^{T}$. Good. For $\lambda = 1$: from $1 \times 1$ block, $(1, 0, 0)^{T}$. From $2 \times 2$ block with $\lambda = 1$: $\bigl(\begin{smallmatrix} 1 & 1 \\ 1 & 1 \end{smallmatrix}\bigr) v = 0 \Rightarrow (1, -1)^{T}$ in block, full vector $(0, 1, -1)^{T}$.
-  \item Eigenvalues $\{2, 4\}$. Sum $= 6 = \mathrm{tr}(A) = 3 + 3$. Product $= 8 = \det A = 9 - 1$. Check.
-  \item $A^{4} = \mathrm{diag}((-1)^{4}, 2^{4}) = \mathrm{diag}(1, 16)$.
-  \item Eigenvalues $2, 4$ with eigenvectors $(1, -1)^{T}, (1, 1)^{T}$. So $P = \bigl(\begin{smallmatrix} 1 & 1 \\ -1 & 1 \end{smallmatrix}\bigr)$, $D = \mathrm{diag}(2, 4)$. $\det P = 2$, $P^{-1} = \tfrac{1}{2}\bigl(\begin{smallmatrix} 1 & -1 \\ 1 & 1 \end{smallmatrix}\bigr)$.
-  \item $A^{3} = P D^{3} P^{-1} = P \mathrm{diag}(8, 64) P^{-1}$.
-  \[
-  P D^{3} = \begin{pmatrix} 8 & 64 \\ -8 & 64 \end{pmatrix}, \quad P D^{3} P^{-1} = \tfrac{1}{2}\begin{pmatrix} 8 & 64 \\ -8 & 64 \end{pmatrix}\begin{pmatrix} 1 & -1 \\ 1 & 1 \end{pmatrix} = \tfrac{1}{2}\begin{pmatrix} 72 & 56 \\ 56 & 72 \end{pmatrix} = \begin{pmatrix} 36 & 28 \\ 28 & 36 \end{pmatrix}.
-  \]
-  Sanity check: $A^{2} = \bigl(\begin{smallmatrix} 9 + 1 & 3 + 3 \\ 3 + 3 & 1 + 9 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 10 & 6 \\ 6 & 10 \end{smallmatrix}\bigr)$. $A^{3} = A^{2} \cdot A = \bigl(\begin{smallmatrix} 30 + 6 & 10 + 18 \\ 18 + 10 & 6 + 30 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 36 & 28 \\ 28 & 36 \end{smallmatrix}\bigr)$. Good.
-  \item If $A v = \lambda v$, then $(A + c I) v = A v + c v = (\lambda + c) v$. So $\lambda + c$ is an eigenvalue with the same eigenvector $v$.
-  \item For an eigenvector $v_{i}$ with $A v_{i} = \lambda_{i} v_{i}$: $(A^{2} - 3 A) v_{i} = (\lambda_{i}^{2} - 3 \lambda_{i}) v_{i}$. So eigenvalues are $4 - 6 = -2$ and $25 - 15 = 10$, with the same eigenvectors $v_{1}, v_{2}$.
-  \item $p(\lambda) = (4 - \lambda)(-2 - \lambda) + 9 = \lambda^{2} - 2 \lambda + 1 = (\lambda - 1)^{2}$. Double eigenvalue $\lambda = 1$.
-  \item Upper-triangular: $\lambda = 2, 2, 3$. For $\lambda = 2$: $A - 2 I = \begin{pmatrix} 0 & 1 & 0 \\ 0 & 0 & 0 \\ 0 & 0 & 1 \end{pmatrix}$, rank $2$, nullity $1$: eigenspace 1-dim, $(1, 0, 0)^{T}$. Geometric multiplicity $1 <$ algebraic multiplicity $2$: \emph{not} diagonalisable.
-  \item $p(\lambda) = (0.6 - \lambda)(0.5 - \lambda) - 0.2 = \lambda^{2} - 1.1 \lambda + 0.3 - 0.2 = \lambda^{2} - 1.1 \lambda + 0.1 = (\lambda - 1)(\lambda - 0.1)$. So $\lambda = 1, 0.1$.
-  \item $(A - I) = \bigl(\begin{smallmatrix} -0.4 & 0.5 \\ 0.4 & -0.5 \end{smallmatrix}\bigr)$, $-0.4 v_{1} + 0.5 v_{2} = 0 \Rightarrow v_{2} = 0.8 v_{1}$. Choose $v_{1} = 5, v_{2} = 4$: $v = (5, 4)^{T}$. Normalised: $\pi = (5/9, 4/9)^{T}$. Verify: $A \pi = (0.6 \cdot 5/9 + 0.5 \cdot 4/9, 0.4 \cdot 5/9 + 0.5 \cdot 4/9)^{T} = (3/9 + 2/9, 2/9 + 2/9)^{T} = (5/9, 4/9)^{T} = \pi$. Good.
-  \item If $A$ is symmetric and $A v = \lambda v$, then $(A^{T} A) v = A^{2} v = \lambda^{2} v$. So $v$ is an eigenvector of $A^{T} A$ with eigenvalue $\lambda^{2}$. Hence $A^{T} A$ has eigenvalues $\lambda_{1}^{2}, \dots, \lambda_{n}^{2}$.
-  \item $p(\lambda) = (5 - \lambda)(-1 - \lambda) + 8 = \lambda^{2} - 4 \lambda + 3 = (\lambda - 1)(\lambda - 3)$. Eigenvalues $1, 3$.
-  \item Block diagonal. From upper $2 \times 2$ block $\bigl(\begin{smallmatrix} 2 & 1 \\ 1 & 2 \end{smallmatrix}\bigr)$: $p(\lambda) = (2 - \lambda)^{2} - 1 = (\lambda - 1)(\lambda - 3)$. From lower $1 \times 1$ block: $\lambda = 5$. Full char poly: $(\lambda - 1)(\lambda - 3)(\lambda - 5)$. Eigenvalues $1, 3, 5$.
-  \item $\lambda_{1} + \lambda_{2} = 3$, $\lambda_{1} \lambda_{2} = -10$. Roots of $t^{2} - 3 t - 10 = (t - 5)(t + 2) = 0$. Eigenvalues $5, -2$.
+    \item Both proportional to $(1, 2)^{T}$: dependent ($v_{1}/2 = (1, 2)^{T}, v_{2}/3 = (1, 2)^{T}$, so $3 v_{1} - 2 v_{2} = 0$).
+
+    \item $\det\begin{pmatrix} 1 & 0 & 1 \\ 1 & 1 & 0 \\ 0 & 1 & -1 \end{pmatrix} = 1(-1 - 0) - 0 + 1(1 - 0) = -1 + 1 = 0$. Dependent. Indeed $v_{1} - v_{2} - v_{3} = (1, 1, 0) - (0, 1, 1) - (1, 0, -1) = (0, 0, 0)$.
+
+    \item $\det\begin{pmatrix} 1 & 0 & 1 \\ 2 & 1 & 1 \\ 0 & 3 & 2 \end{pmatrix} = 1(2 - 3) - 0 + 1(6 - 0) = -1 + 6 = 5 \neq 0$. Independent.
+
+    \item Rows proportional ($R_{2} = -\tfrac{1}{2} R_{1}$): $\mathrm{rk} = 1$.
+
+    \item $\det = 5 - 6 = -1 \neq 0$: $\mathrm{rk} = 2$.
+
+    \item All rows proportional: $\mathrm{rk} = 1$.
+
+    \item $R_{3} \to R_{3} - R_{1} - R_{2}$: $(0, 0, 1)$. So rows reduce to $\bigl(\begin{smallmatrix} 1 & 0 & 1 \\ 0 & 1 & 2 \\ 0 & 0 & 1 \end{smallmatrix}\bigr)$. $\mathrm{rk} = 3$.
+
+    \item $R_{2} \to R_{2} - 2 R_{1}$: $(0, 0, 1)$. Now rows: $(2, 1, 0), (0, 0, 1), (0, 0, 1)$. $R_{3} \to R_{3} - R_{2}$: $(0, 0, 0)$. $\mathrm{rk} = 2$.
+
+    \item $R_{2} \to R_{2} - 2 R_{1}$: $(0, 0, -2, 1)$. Rows: $(1, 2, 1, 0), (0, 0, -2, 1), (0, 0, 2, -1)$. $R_{3} \to R_{3} + R_{2}$: $(0, 0, 0, 0)$. Two pivots: $\mathrm{rk} = 2$.
+
+    \item $R_{2} \to R_{2} - 2 R_{1}$: $(0, 0, 0)$. $\mathrm{rk} = 1$. $\mathrm{null} = 3 - 1 = 2$. Kernel: $x - y + 2 z = 0 \Rightarrow x = y - 2 z$. Set $y = s, z = t$: $(s - 2 t, s, t)^{T}$. Basis: $(1, 1, 0)^{T}, (-2, 0, 1)^{T}$.
+
+    \item Already echelon, two pivots: $\mathrm{rk} = 2$, $\mathrm{null} = 3 - 2 = 1$. Kernel: $y + 2 z = 0 \Rightarrow y = -2 z$ and $x + 2 y + 3 z = 0 \Rightarrow x = -2(-2 z) - 3 z = z$. Basis: $(1, -2, 1)^{T}$.
+
+    \item Augmented coefficient matrix. Row-reduce $\bigl(\begin{smallmatrix} 1 & 1 & 1 \\ 1 & 2 & a \\ 2 & 3 & a + 1 \end{smallmatrix}\bigr)$. $R_{2} \to R_{2} - R_{1}$: $(0, 1, a - 1)$. $R_{3} \to R_{3} - 2 R_{1}$: $(0, 1, a - 1)$. $R_{3} \to R_{3} - R_{2}$: $(0, 0, 0)$. Rank $= 2 < 3$ regardless of $a$. So no value of $a$ gives a unique solution; the system is either inconsistent or has a $1$-parameter family of solutions.
+
+    \item Augmented: $R_{2} \to R_{2} - 2 R_{1}$: $(0, -1, 3 \mid 1)$. $R_{3} \to R_{3} - R_{1}$: $(0, -1, 3 \mid 1)$. $R_{3} \to R_{3} - R_{2}$: $(0, 0, 0 \mid 0)$. So $\mathrm{rk}(A) = \mathrm{rk}([A \mid b]) = 2 < 3$. Consistent with $1$-parameter family. Free $z = t$: from row 2, $-y + 3 t = 1 \Rightarrow y = 3 t - 1$. From row 1, $x + 2(3 t - 1) - t = 1 \Rightarrow x = 1 + 2 - 6 t + t = 3 - 5 t$. Solutions: $(3, -1, 0)^{T} + t(-5, 3, 1)^{T}$.
+
+    \item $R_{2} \to R_{2} - 2 R_{1}$: $(0, 0, 0 \mid 1)$. Inconsistent: $\mathrm{rk}(A) = 1 < 2 = \mathrm{rk}([A \mid b])$.
+
+    \item $R_{2} \to R_{2} - R_{1}$: $(0, 1, 1)$. $R_{3} \to R_{3} - 2 R_{1}$: $(0, -1, -1)$. $R_{3} \to R_{3} + R_{2}$: $(0, 0, 0)$. Pivots in cols 1 and 2. Basis: cols 1 and 2 of $A$: $(1, 1, 2)^{T}, (1, 2, 1)^{T}$.
+
+    \item Need $c_{1}(1, 2, 3)^{T} + c_{2}(1, 1, 2)^{T} = (3, 5, 8)^{T}$. From row 1: $c_{1} + c_{2} = 3$. From row 2: $2 c_{1} + c_{2} = 5 \Rightarrow c_{1} = 2, c_{2} = 1$. Check row 3: $3 \cdot 2 + 2 \cdot 1 = 8$. Yes, $b \in \mathrm{col}(A)$.
+
+    \item $\mathrm{null}(A) = 3 - 3 = 0$. Not surjective onto $\R^{5}$ (rank $3 < 5$), so $A x = b$ is solvable only for $b$ in a $3$-dim subspace; when solvable, unique (since null is $0$).
+
+    \item $\mathrm{null}(A) = 4 - 3 = 1$. $\mathrm{rk}(A) = 3 = $ rows, so $A$ is surjective: $A x = b$ has solutions for every $b \in \R^{3}$. Not unique: $1$-parameter family.
+
+    \item Subtract row 2 from row 1: $(0, a - 1, a^{2} - 1)$. Subtract row 2 from row 3: $(0, 1, 3)$. So get $\begin{pmatrix} 1 & 1 & 1 \\ 0 & a - 1 & a^{2} - 1 \\ 0 & 1 & 3 \end{pmatrix}$. $\det = 1 \cdot ((a-1) \cdot 3 - (a^{2} - 1) \cdot 1) = 3(a - 1) - (a - 1)(a + 1) = (a - 1)(3 - a - 1) = (a - 1)(2 - a)$. So $\mathrm{rk}(A) < 3 \Leftrightarrow a = 1$ or $a = 2$.
+
+    \item $\det \begin{pmatrix} 1 & 2 & 1 \\ 0 & 1 & -1 \\ 1 & 3 & 0 \end{pmatrix}$. Expand along col 1: $1 \cdot (0 - (-3)) - 0 + 1 \cdot (-2 - 1) = 3 - 3 = 0$. So columns are dependent. Explicit relation: $3 \mathrm{col}_{1} - \mathrm{col}_{2} - \mathrm{col}_{3} = (3 - 2 - 1, 0 - 1 - (-1), 3 - 3 - 0)^{T} = (0, 0, 0)^{T}$.
+
+    \item All three rows equal, $\mathrm{rk} = 1$, $\mathrm{null} = 2$. Kernel: $x + 2 y + 3 z = 0$. Basis: $(-2, 1, 0)^{T}, (-3, 0, 1)^{T}$.
+
+    \item $R_{2} \to R_{2} - 2 R_{1}$: $(0, 0, 1, 1)$. Rows: $(1, 2, 1, 4), (0, 0, 1, 1), (0, 0, 1, 1)$. $R_{3} \to R_{3} - R_{2}$: $(0, 0, 0, 0)$. $\mathrm{rk} = 2$.
+
+    \item $A$ has $n > m$ columns, so the columns lie in $\R^{m}$ and cannot all be linearly independent (at most $m$ can be). Hence $A x = 0$ has nontrivial solutions, i.e.\ $\ker A \neq \{0\}$. Equivalently $\mathrm{null}(A) = n - \mathrm{rk}(A) \ge n - m > 0$.
+
+    \item Already echelon. $\mathrm{rk} = 2$, $\mathrm{null} = 1$. Kernel: $x + z = 0, y + z = 0 \Rightarrow x = -z, y = -z$. Basis: $(-1, -1, 1)^{T}$.
+
+    \item Dependent iff $\det\bigl(\begin{smallmatrix} 1 & \alpha \\ \alpha & 4 \end{smallmatrix}\bigr) = 4 - \alpha^{2} = 0 \Leftrightarrow \alpha = \pm 2$.
+
+    \item In $\R^{2}$: the matrix with columns $v_{1}, v_{2}$ has $\det\bigl(\begin{smallmatrix} 1 & 2 \\ 2 & 3 \end{smallmatrix}\bigr) = 3 - 4 = -1 \neq 0$, so $v_{1}, v_{2}$ are independent, and two independent vectors in $\R^{2}$ form a basis. Yes. In $\R^{3}$: $\det\begin{pmatrix} 1 & 0 & 1 \\ 0 & 1 & 1 \\ 1 & 1 & 2 \end{pmatrix} = 1(2 - 1) - 0 + 1(0 - 1) = 1 - 1 = 0$, so $w_{1}, w_{2}, w_{3}$ are dependent (indeed $w_{3} = w_{1} + w_{2}$): no basis.
+
+    \item Put the vectors as columns: $A = \begin{pmatrix} 1 & 2 & 3 \\ 2 & 4 & 6 \\ 1 & 3 & 4 \end{pmatrix}$. $R_{2} \to R_{2} - 2 R_{1}$: $(0, 0, 0)$. $R_{3} \to R_{3} - R_{1}$: $(0, 1, 1)$. Two nonzero rows: $\mathrm{rk}(A) = 2$, so $\dim \mathrm{span}(v_{1}, v_{2}, v_{3}) = 2$. Indeed $v_{3} = v_{1} + v_{2}$.
+
+    \item Columns: $A = \begin{pmatrix} 1 & 2 & 0 & 1 \\ 0 & 1 & 1 & 1 \\ 1 & 3 & 1 & 1 \end{pmatrix}$. $R_{3} \to R_{3} - R_{1}$: $(0, 1, 1, 0)$. $R_{3} \to R_{3} - R_{2}$: $(0, 0, 0, -1)$. Pivots in columns $1, 2, 4$, so $\{v_{1}, v_{2}, v_{4}\}$ is a basis of the span (which is all of $\R^{3}$, since $\mathrm{rk} = 3$). The discarded vector is redundant: $v_{3} = -2 v_{1} + v_{2}$.
+
+    \item The columns of $A$ are the images of the standard basis vectors:
+    \[
+    A = \begin{pmatrix} 1 & 0 & 3 \\ 2 & 1 & -1 \end{pmatrix}.
+    \]
+    Check: $f((1, 1, 1)^{T}) = f(e_{1}) + f(e_{2}) + f(e_{3}) = (1 + 0 + 3, \, 2 + 1 - 1)^{T} = (4, 2)^{T}$, and indeed $A (1, 1, 1)^{T} = (4, 2)^{T}$.
+
+    \item $f$ is linear: $f(x, y) = A (x, y)^{T}$ with $A = \bigl(\begin{smallmatrix} 2 & -1 \\ 1 & 3 \end{smallmatrix}\bigr)$. Directly: $f\bigl((x_{1}, y_{1}) + (x_{2}, y_{2})\bigr) = \bigl(2(x_{1} + x_{2}) - (y_{1} + y_{2}), \, (x_{1} + x_{2}) + 3(y_{1} + y_{2})\bigr) = f(x_{1}, y_{1}) + f(x_{2}, y_{2})$, and $f(\lambda x, \lambda y) = (2 \lambda x - \lambda y, \, \lambda x + 3 \lambda y) = \lambda f(x, y)$. $g$ is not linear: every linear map sends $0$ to $0$, but $g(0, 0) = (1, 0) \neq (0, 0)$. (Also homogeneity fails: $g(2, 0) = (3, 0) \neq 2\, g(1, 0) = (4, 0)$. $g$ is affine, the identity followed by a shift by $(1, 0)^{T}$.)
+
+    \item Rotation: $A = \bigl(\begin{smallmatrix} 0 & -1 \\ 1 & 0 \end{smallmatrix}\bigr)$; projection: $B = \bigl(\begin{smallmatrix} 1 & 0 \\ 0 & 0 \end{smallmatrix}\bigr)$. Since $g \circ f$ applies $f$ first, its matrix is
+    \[
+    B A = \begin{pmatrix} 1 & 0 \\ 0 & 0 \end{pmatrix}
+          \begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}
+        = \begin{pmatrix} 0 & -1 \\ 0 & 0 \end{pmatrix}.
+    \]
+    Check on $x = (1, 2)^{T}$: rotating gives $f(x) = (0 \cdot 1 - 1 \cdot 2, \, 1 \cdot 1 + 0 \cdot 2)^{T} = (-2, 1)^{T}$; projecting keeps the first coordinate, $g(f(x)) = (-2, 0)^{T}$. Directly, $(B A) x = (0 \cdot 1 - 1 \cdot 2, \, 0)^{T} = (-2, 0)^{T}$. Both agree.
 \end{solutions}

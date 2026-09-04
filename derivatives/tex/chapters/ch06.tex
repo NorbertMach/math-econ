@@ -61,6 +61,100 @@ $|\varepsilon_d|=1$.
 \end{enumerate}
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{Demand is $q=100-2p$. Find the price elasticity at $p=20$ and at the revenue-maximising price, and approximate $\sqrt{101}$ by linearisation}
+\wstep{Step 1. Elasticity is a derivative times a ratio --- not a derivative.}
+\[
+  \varepsilon=\frac{\mathrm{d}q}{\mathrm{d}p}\cdot\frac{p}{q}
+   =\frac{\%\ \text{change in }q}{\%\ \text{change in }p} .
+\]
+Here $\mathrm{d}q/\mathrm{d}p=-2$ everywhere, but the elasticity is not
+constant, because $p/q$ moves along the curve.
+\wtrap{$\varepsilon\neq\mathrm{d}q/\mathrm{d}p$. The slope has units
+(quantity per euro) and changes if you re-denominate the price; the
+elasticity is a pure number and does not. That invariance is the entire
+reason economists use it.}
+
+\wstep{Step 2. Evaluate at $p=20$.}
+$q=100-40=60$, so
+\[
+  \varepsilon=-2\cdot\frac{20}{60}=-\tfrac23\approx-0.67 .
+\]
+$|\varepsilon|<1$: demand is \textbf{inelastic} here. A $1\%$ price rise
+costs only $0.67\%$ of quantity, so revenue \emph{rises} --- the firm is
+pricing below the revenue maximum.
+\wtrap{The sign is negative for any downward-sloping demand, and dropping it
+is a real error even though the classification uses $|\varepsilon|$. Report
+$-0.67$ and then say ``inelastic''; do not report $0.67$.}
+
+\wstep{Step 3. Maximise revenue directly.}
+\[
+  R(p)=pq=p(100-2p)=100p-2p^{2},
+  \qquad
+  R'(p)=100-4p=0
+  \quad\Longrightarrow\quad
+  p^{*}=25 .
+\]
+$R''=-4<0$, so this is a maximum. Then $q^{*}=50$ and $R^{*}=1250$.
+
+\wstep{Step 4. Check the elasticity there --- and find the general rule.}
+\[
+  \varepsilon(25)=-2\cdot\frac{25}{50}=-1 .
+\]
+Unit elastic, exactly at the revenue peak. That is no coincidence:
+\[
+  R=pq
+  \;\Longrightarrow\;
+  \frac{\mathrm{d}R}{\mathrm{d}p}=q+p\frac{\mathrm{d}q}{\mathrm{d}p}
+  =q\Bigl(1+\varepsilon\Bigr),
+\]
+which vanishes exactly when $\varepsilon=-1$. Revenue rises where demand is
+inelastic, falls where it is elastic, and peaks in between.
+
+\wstep{Step 5. Marginal revenue, and the same fact in quantity terms.}
+Inverting demand, $p=50-q/2$, so $R(q)=50q-q^{2}/2$ and
+\[
+  MR(q)=50-q .
+\]
+$MR=0$ at $q=50$ --- the same point. Note $MR$ falls twice as fast as the
+demand curve $p=50-q/2$: the standard ``$MR$ has twice the slope'' result,
+here visible as $-1$ against $-\tfrac12$.
+\wtrap{Marginal revenue is $\mathrm{d}R/\mathrm{d}q$, not $R/q$ (that is
+\emph{average} revenue, which equals the price). Confusing marginal with
+average is the most consequential error in applied differentiation, and it
+recurs for cost: $MC=C'(q)$, while $AC=C(q)/q$.}
+
+\wstep{Step 6. Linearisation: the tangent line as a calculator.}
+For $f(x)=\sqrt{x}$ near $a=100$, where the value is known exactly:
+\[
+  f(x)\approx f(a)+f'(a)(x-a),
+  \qquad
+  f'(x)=\frac{1}{2\sqrt x},\quad f'(100)=\frac{1}{20} .
+\]
+\[
+  \sqrt{101}\approx10+\frac{1}{20}(1)=10.05 .
+\]
+The true value is $10.0499$, so the error is $10^{-4}$.
+\wtrap{Expand about the nearest point whose value you actually know. Using
+$a=101$ makes the formula exact and useless; using $a=64$ would be legal but
+far away, and the error grows with $(x-a)^{2}$. Choose $a$ first, and choose
+it well.}
+
+\wstep{Step 7. The same tangent, three names.}
+\[
+  \underbrace{y=f(a)+f'(a)(x-a)}_{\text{tangent line}}
+  \;=\;
+  \underbrace{f(a)+f'(a)\,\Delta x}_{\text{linearisation}}
+  \;=\;
+  \underbrace{f(a)+\text{marginal}\times\text{one more unit}}_{\text{economics}} .
+\]
+``Marginal cost is the cost of one more unit'' is a linear approximation:
+strictly $C'(q)$ is a rate, and $C(q+1)-C(q)\approx C'(q)$ with an error of
+order $C''/2$. The approximation is good precisely when the curvature is
+small.
+\end{worked}
+
 \section{Practice Problems}
 
 \begin{problems}

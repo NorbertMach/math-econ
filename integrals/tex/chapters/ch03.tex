@@ -58,6 +58,122 @@ and parts gives
 \]
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{Compute $\displaystyle\int x^{2}\mathrm{e}^{-x}\,\mathrm{d}x$ and $\displaystyle\int\ln x\,\mathrm{d}x$}
+\wstep{Step 1. Choose $u$ by LIATE, and be clear what the choice buys.}
+\[
+  \int u\,\mathrm{d}v=uv-\int v\,\mathrm{d}u .
+\]
+The point of the formula is that $\int v\,\mathrm{d}u$ should be
+\emph{easier} than what you started with. LIATE --- Logarithmic, Inverse
+trig, Algebraic, Trigonometric, Exponential --- ranks the candidates for
+$u$: pick whichever comes first in that list, because differentiating it
+simplifies things.
+
+Here the factors are $x^{2}$ (Algebraic) and $\mathrm{e}^{-x}$
+(Exponential), so $u=x^{2}$:
+\[
+  u=x^{2},\quad \mathrm{d}u=2x\,\mathrm{d}x;
+  \qquad
+  \mathrm{d}v=\mathrm{e}^{-x}\mathrm{d}x,\quad v=-\mathrm{e}^{-x} .
+\]
+\wtrap{$v=-\mathrm{e}^{-x}$, not $\mathrm{e}^{-x}$. Every sign error in this
+chapter comes from integrating $\mathrm{e}^{-x}$ carelessly, and there are
+four opportunities to make it below. Write $v$ out and differentiate it
+mentally to confirm before going on.}
+
+\wstep{Step 2. First application.}
+\[
+  \int x^{2}\mathrm{e}^{-x}\mathrm{d}x
+  =-x^{2}\mathrm{e}^{-x}-\int(-\mathrm{e}^{-x})2x\,\mathrm{d}x
+  =-x^{2}\mathrm{e}^{-x}+2\int x\mathrm{e}^{-x}\mathrm{d}x .
+\]
+The power has dropped from $2$ to $1$. That is progress, and it is the
+signal that the choice of $u$ was right.
+
+\wstep{Step 3. Second application, on the smaller integral.}
+With $u=x$, $\mathrm{d}v=\mathrm{e}^{-x}\mathrm{d}x$:
+\[
+  \int x\mathrm{e}^{-x}\mathrm{d}x
+  =-x\mathrm{e}^{-x}+\int\mathrm{e}^{-x}\mathrm{d}x
+  =-x\mathrm{e}^{-x}-\mathrm{e}^{-x}+C .
+\]
+\wtrap{Keep the same choice of $u$-type at every application. Switching to
+$u=\mathrm{e}^{-x}$ on the second round undoes the first and returns you to
+the original integral --- a genuine circle, and a common way to lose ten
+minutes.}
+
+\wstep{Step 4. Substitute back and factor.}
+\[
+  \int x^{2}\mathrm{e}^{-x}\mathrm{d}x
+  =-x^{2}\mathrm{e}^{-x}+2\bigl(-x\mathrm{e}^{-x}-\mathrm{e}^{-x}\bigr)+C
+  =\boxed{-\mathrm{e}^{-x}\bigl(x^{2}+2x+2\bigr)+C}
+\]
+
+\wstep{Step 5. Check by differentiating --- with the product rule.}
+\[
+  \frac{\mathrm{d}}{\mathrm{d}x}\Bigl[-\mathrm{e}^{-x}(x^{2}+2x+2)\Bigr]
+  =\mathrm{e}^{-x}(x^{2}+2x+2)-\mathrm{e}^{-x}(2x+2)
+  =x^{2}\mathrm{e}^{-x} . \checkmark
+\]
+The two middle groups cancel exactly, which is the structural reason the
+answer had to look like that.
+
+\wstep{Step 6. The tabular shortcut, for the same problem.}
+When one factor differentiates down to zero, tabulate: derivatives of $u$ in
+one column, repeated antiderivatives of $\mathrm{d}v$ in the other, and
+alternate the signs along the diagonals.
+\begin{center}\footnotesize
+\begin{tabular}{clll}
+  \hline
+  sign & $u$ and its derivatives & $\mathrm{d}v$ and its integrals\\
+  \hline
+  $+$ & $x^{2}$ & $-\mathrm{e}^{-x}$\\
+  $-$ & $2x$ & $\mathrm{e}^{-x}$\\
+  $+$ & $2$ & $-\mathrm{e}^{-x}$\\
+   & $0$ & \\
+  \hline
+\end{tabular}
+\end{center}
+Reading the diagonals: $-x^{2}\mathrm{e}^{-x}-2x\mathrm{e}^{-x}
+-2\mathrm{e}^{-x}$, the same answer, in a third of the time.
+
+\wstep{Step 7. The other use of the formula: when there is only one factor.}
+$\int\ln x\,\mathrm{d}x$ looks impossible --- there is nothing to split. Split
+it anyway, taking the invisible factor $1$ as $\mathrm{d}v$:
+\[
+  u=\ln x,\quad \mathrm{d}u=\frac{\mathrm{d}x}{x};
+  \qquad
+  \mathrm{d}v=\mathrm{d}x,\quad v=x .
+\]
+\[
+  \int\ln x\,\mathrm{d}x=x\ln x-\int x\cdot\frac1x\,\mathrm{d}x
+  =x\ln x-\int1\,\mathrm{d}x
+  =\boxed{x\ln x-x+C}
+\]
+Check: $\ln x+x\cdot\frac1x-1=\ln x$. \checkmark
+\wtrap{This trick --- $\mathrm{d}v=\mathrm{d}x$ --- is the only way to
+integrate $\ln x$, $\arctan x$ and their relatives. It is worth memorising
+as a move rather than rediscovering: whenever the integrand is a single
+awkward function with no obvious antiderivative, try parts against $1$.}
+
+\wstep{Step 8. Which technique, when.}
+\begin{center}\footnotesize
+\begin{tabular}{ll}
+  \hline
+  integrand looks like & technique\\
+  \hline
+  $f(g(x))g'(x)$ & substitution (Chapter~2)\\
+  a \emph{product} of unrelated types & parts (this chapter)\\
+  a rational function & partial fractions (Chapter~4)\\
+  \hline
+\end{tabular}
+\end{center}
+Try substitution first --- it is cheaper. Reach for parts when the two
+factors are of different kinds and neither is the other's derivative.
+\end{worked}
+
 \section{Practice Problems}
 
 Compute each integral using parts (possibly more than once).

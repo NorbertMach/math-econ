@@ -15,3 +15,9 @@ scans/
 
 # Course-page text copied from a university website (third-party, kept local)
 requirements/
+
+# Local task list, kept out of the published repo
+TODO.md
+
+# Third-party course material saved for reference; never published
+temp/

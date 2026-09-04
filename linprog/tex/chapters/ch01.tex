@@ -124,7 +124,7 @@ A linear model is only an honest description of the economics if:
 \end{rulebox}
 
 \begin{rulebox}{Classic model families}
-\begin{center}
+\begin{center}\small
 \begin{tabular}{|l|l|l|}
 \hline
 \textbf{Family} & \textbf{Decision variables} & \textbf{Typical shape}\\
@@ -144,6 +144,107 @@ Portfolio & money in each asset & max return; budget, risk,
 Recognising the family tells you immediately which direction the
 inequalities point and whether to maximise or minimise.
 \end{rulebox}
+
+\section{Worked Example}
+
+\begin{worked}{From story to model --- the running example of this volume}
+\emph{A workshop makes two products. Each unit of product~1 earns
+$40$ euros and each unit of product~2 earns $30$. Product~1 needs $2$ hours
+of machine time and $1$ hour of labour; product~2 needs $1$ hour of each.
+There are $100$ machine hours and $80$ labour hours available this week.
+What should the workshop produce?}
+
+\wstep{Step 1. Name the decision variables, with units.}
+\[
+  x_{1}=\text{units of product 1 produced this week},
+  \qquad
+  x_{2}=\text{units of product 2}.
+\]
+\wtrap{Variables must be quantities the decision-maker actually
+\emph{chooses}. ``Machine hours used'' is a consequence, not a decision, and
+making it a variable produces a model with redundant equations. Write the
+unit --- ``units per week'' --- because it settles the units of every
+coefficient that follows.}
+
+\wstep{Step 2. Build the objective from the per-unit contributions.}
+\[
+  \max\ z=40x_{1}+30x_{2} .
+\]
+\wtrap{Maximise \emph{contribution}, not revenue, and never mix the two.
+Fixed costs may be omitted --- they shift $z$ by a constant and cannot
+change the optimal $x$ --- but if they are included they must be included
+consistently.}
+
+\wstep{Step 3. One constraint per scarce resource, read down the columns.}
+Machine time: product~1 uses $2$ hours per unit, product~2 uses $1$:
+\[
+  2x_{1}+x_{2}\le100 .
+\]
+Labour: one hour each:
+\[
+  x_{1}+x_{2}\le80 .
+\]
+\wtrap{Coefficients run \emph{down} a column, one per product, and each
+constraint must be dimensionally consistent: hours per unit, times units,
+gives hours, compared against hours available. Transposing the technology
+table is the standard modelling error --- and the units check catches it
+immediately, since ``units per hour'' times ``units'' is meaningless.}
+
+\wstep{Step 4. Do not forget the sign restrictions.}
+\[
+  x_{1}\ge0,\qquad x_{2}\ge0 .
+\]
+These are constraints, not conventions: without them the model happily
+``produces'' negative quantities of the less profitable good to free up
+resources, and reports an unbounded profit.
+
+\wstep{Step 5. The complete model.}
+\[
+  \begin{array}{lrcrcl}
+    \max & 40x_{1} & + & 30x_{2} & & \\
+    \text{s.t.} & 2x_{1} & + & x_{2} & \le & 100 \quad(\text{machine})\\
+                & x_{1} & + & x_{2} & \le & 80 \quad(\text{labour})\\
+                & \multicolumn{5}{l}{x_{1},x_{2}\ge0}
+  \end{array}
+\]
+\emph{This model is used in every chapter of this volume.} Chapter~2 solves
+it graphically, Chapter~3 puts it in standard form, Chapters~4--5 run the
+simplex method on it, Chapter~6 breaks it in four different ways,
+Chapter~7 dualises it, and Chapter~8 asks what happens when the numbers
+change. Learning it once pays back six times.
+
+\wstep{Step 6. Sanity-check the model before solving it.}
+Three quick tests, all worth doing:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.2ex]
+  \item \textbf{Is anything feasible?} $(0,0)$ satisfies everything, so yes.
+  \item \textbf{Is it bounded?} Both constraints cap the total, and both
+        objective coefficients are positive, so $z$ cannot run away.
+  \item \textbf{Does an obvious answer suggest itself?} Product~1 earns
+        more per unit but uses twice the machine time --- per machine hour
+        it yields $20$ against product~2's $30$. So the answer will not be
+        ``all product~1''.
+\end{itemize}
+That last observation predicts the solution's character before any
+computation, and it is the habit that catches modelling errors.
+
+\wstep{Step 7. The four assumptions being made, and when they fail.}
+\begin{center}\footnotesize
+\begin{tabular}{ll}
+  \hline
+  assumption & fails when\\
+  \hline
+  proportionality & there are set-up costs or quantity discounts\\
+  additivity & products interact (shared tooling, joint products)\\
+  divisibility & you cannot make $17.14$ aircraft\\
+  certainty & demand or yields are random\\
+  \hline
+\end{tabular}
+\end{center}
+Each failure has its own remedy --- integer programming, non-linear
+programming, stochastic programming --- and each is a different subject.
+Knowing which assumption a real problem violates is the practical skill this
+chapter teaches.
+\end{worked}
 
 \section{Practice Problems}
 

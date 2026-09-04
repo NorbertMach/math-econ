@@ -1,0 +1,147 @@
+% Shared preamble for the Mixed Problems training sheet.
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,margin=2.4cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{accent}{HTML}{1F4E79}
+\definecolor{soft}{HTML}{F4F7FA}
+
+% --- function graphs ------------------------------------------------------
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta}
+
+% One consistent look for every function graph in these books.
+\pgfplotsset{
+  fnaxis/.style={
+    width=5.9cm, height=4.6cm,
+    axis lines=middle,
+    axis line style={-{Stealth[length=4pt]}, gray!65!black, line width=0.3pt},
+    tick style={gray!65!black},
+    tick label style={font=\tiny, gray!50!black},
+    label style={font=\scriptsize},
+    xlabel={$x$}, ylabel={$y$},
+    every axis x label/.style={at={(ticklabel* cs:1.0)}, anchor=west},
+    every axis y label/.style={at={(ticklabel* cs:1.0)}, anchor=south east,
+      xshift=-1pt},
+    every axis plot/.append style={accent, very thick, smooth, samples=201},
+    clip=true, enlargelimits=false,
+    title style={font=\scriptsize, yshift=4pt},
+  },
+  fnaxis/.append style={/pgfplots/legend style={font=\tiny, draw=none,
+    fill=none, at={(0.98,0.03)}, anchor=south east}},
+}
+
+% A row of small graphs, evenly spaced with \hfill between them, plus an
+% optional caption line: \begin{gallery} <pic>\hfill<pic> \gcap{...} \end{gallery}
+\newenvironment{gallery}
+  {\par\medskip\noindent\ignorespaces}
+  {\par\medskip\noindent}
+\newcommand{\gcap}[1]{\par\smallskip{\centering\footnotesize #1\par}}
+
+% --- plane regions, implicit curves, surfaces -----------------------------
+\usepgfplotslibrary{fillbetween}
+\definecolor{regionfill}{HTML}{9DB4D8}
+\pgfplotsset{colormap={house}{color=(soft) color=(accent!45) color=(accent)}}
+
+\pgfplotsset{
+  % Squared, gridded axis for plane regions and implicitly given curves.
+  geoaxis/.style={
+    fnaxis,
+    width=5.9cm, height=5.9cm,
+    grid=both,
+    grid style={gray!22, line width=0.2pt},
+    minor tick num=1,
+  },
+  % Level-curve maps: many thin curves, no single curve emphasised.
+  contouraxis/.style={
+    geoaxis,
+    every axis plot/.append style={accent!75, line width=0.5pt, smooth,
+      samples=201},
+  },
+  % Surfaces: \addplot3[surf, domain=..., y domain=...] {expr};
+  surfaxis/.style={
+    width=6.0cm, height=5.0cm,
+    view={130}{22},
+    colormap name=house,
+    ticks=none,
+    xlabel={$x$}, ylabel={$y$}, zlabel={$f$},
+    label style={font=\tiny, gray!50!black},
+    title style={font=\scriptsize},
+    every axis plot/.append style={samples=25, shader=faceted interp,
+      draw=accent!35, line width=0.1pt},
+  },
+}
+
+% Shorthand for a shaded region between two named paths.
+% \region{<path A>}{<path B>}{<soft clip options>}
+\newcommand{\region}[3]{%
+  \addplot[regionfill, opacity=0.55, forget plot, sharp plot]
+    fill between[of=#1 and #2, #3];}
+
+% --- rule boxes -----------------------------------------------------------
+\newtcolorbox{rulebox}[1]{%
+  breakable, enhanced, colback=soft, colframe=accent,
+  boxrule=0.4pt, left=7pt, right=7pt, top=6pt, bottom=6pt,
+  fonttitle=\bfseries, coltitle=white, colbacktitle=accent,
+  title={#1}}
+
+% --- worked examples ------------------------------------------------------
+% One fully narrated solution per chapter, carrying the chapter's central
+% technique and the mistakes that technique invites:
+%   \begin{worked}{Task} ... \wstep{Step 1.} ... \wtrap{...} ... \end{worked}
+\newtcolorbox{worked}[1]{%
+  breakable, enhanced, colback=white, colframe=accent!65,
+  boxrule=0.4pt, left=7pt, right=7pt, top=6pt, bottom=6pt,
+  fonttitle=\bfseries, coltitle=accent, colbacktitle=soft,
+  title={#1}}
+
+% Run-in step heading inside a worked example.
+\newcommand{\wstep}[1]{\par\smallskip\noindent\textbf{#1}\enspace\ignorespaces}
+
+% A pitfall, set off from the running solution so it can be found again.
+\newcommand{\wtrap}[1]{%
+  \par\smallskip
+  {\leftskip=1.3em\noindent
+   \llap{\textcolor{accent}{\rule[0.22ex]{0.9em}{0.6pt}}\hspace{0.4em}}%
+   \textbf{Trap.}\enspace\itshape #1\par}%
+  \smallskip}
+
+% --- problem / solution lists --------------------------------------------
+\newlist{problems}{enumerate}{1}
+\setlist[problems]{label=\textbf{\arabic*.}, leftmargin=2.1em,
+  itemsep=0.55ex, parsep=0pt, topsep=0.8ex}
+\newlist{solutions}{enumerate}{1}
+\setlist[solutions]{label=\textbf{\arabic*.}, leftmargin=2.1em,
+  itemsep=1.0ex, parsep=0pt, topsep=0.8ex}
+
+% --- running heads --------------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE]{\small\itshape\nouppercase{\leftmark}}
+\fancyhead[LO]{\small\itshape\nouppercase{\rightmark}}
+\setlength{\headheight}{14pt}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\chaptermark}[1]{\markboth{\chaptername\ \thechapter.\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+
+% --- shorthands used throughout -------------------------------------------
+\newcommand{\dd}[2]{\frac{\mathrm{d}#1}{\mathrm{d}#2}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pdd}[3]{\frac{\partial^{2} #1}{\partial #2\,\partial #3}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\grad}{\nabla}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\Hess}{H}
+
+% German gloss, used on first mention of a technical term
+\newcommand{\de}[1]{\emph{#1}}

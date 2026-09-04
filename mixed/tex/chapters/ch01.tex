@@ -1,0 +1,255 @@
+\chapter{Mixed Set A}
+
+Twenty problems, no order, no announced methods. Target time: 75 minutes.
+
+\section{Worked Example}
+
+The problems below announce no method. That is the point: on an
+examination, choosing the technique is most of the work, and it is the one
+step no drill chapter can train, because a drill chapter has already told
+you the answer in its title.
+
+The example here is \emph{not} one of the twenty. It is a specimen of the
+species --- a single function attacked from five directions --- shown so
+that you can watch the recognition step happen before you have to do it
+yourself.
+
+\begin{worked}{A five-part question on $f(x)=\dfrac{\ln x}{x}$: domain, both edges, extremum, inflection, and $\int_{1}^{\infty}f$}
+\wstep{Step 1. Read the parts and name the tools before computing anything.}
+\begin{center}\footnotesize
+\begin{tabular}{lll}
+  \hline
+  part & tool & volume\\
+  \hline
+  domain & obstruction list & 2\\
+  edges & limits, growth hierarchy, L'H\^opital & 4, 5\\
+  extremum & $f'=0$, then $f''$ & 5\\
+  inflection & sign change of $f''$ & 5\\
+  convergence & improper integral, substitution & 6\\
+  \hline
+\end{tabular}
+\end{center}
+Sixty seconds spent on this table is the difference between a solution and
+a scramble.
+
+\wstep{Step 2. Domain.}
+$\ln x$ needs $x>0$, and the denominator needs $x\neq0$. The first
+condition subsumes the second:
+\[
+  D_{f}=(0,\infty).
+\]
+
+\wstep{Step 3. The left edge --- and it is \emph{not} indeterminate.}
+As $x\to0^{+}$: $\ln x\to-\infty$ and $1/x\to+\infty$. The form is
+$(-\infty)\cdot(+\infty)$, which is determinate:
+\[
+  \lim_{x\to0^{+}}\frac{\ln x}{x}=-\infty .
+\]
+\wtrap{Reaching for L'H\^opital here is the standard reflex and it is wrong
+--- the rule needs $0/0$ or $\infty/\infty$, and this is neither. Always
+name the form before choosing a tool. Here both factors push the same way,
+so there is nothing to resolve.}
+
+\wstep{Step 4. The right edge --- and here it \emph{is} indeterminate.}
+As $x\to\infty$ the form is $\infty/\infty$, so either L'H\^opital or the
+growth hierarchy applies:
+\[
+  \lim_{x\to\infty}\frac{\ln x}{x}
+  \overset{\infty/\infty}{=}\lim_{x\to\infty}\frac{1/x}{1}=0 ,
+\]
+consistent with $\ln x\ll x$. So $y=0$ is a horizontal asymptote.
+
+\wstep{Step 5. The extremum.}
+\[
+  f'(x)=\frac{\tfrac1x\cdot x-\ln x}{x^{2}}=\frac{1-\ln x}{x^{2}} .
+\]
+$f'=0$ when $\ln x=1$, i.e.\ $x=\mathrm{e}$, and
+$f(\mathrm{e})=1/\mathrm{e}\approx0.368$.
+
+The denominator $x^{2}$ is positive throughout the domain, so the sign of
+$f'$ is the sign of $1-\ln x$: positive for $x<\mathrm{e}$, negative
+after. A \textbf{maximum}, and since it is the only critical point and the
+function rises to it from $-\infty$ and falls to $0$, it is the
+\emph{global} maximum.
+\wtrap{With a single critical point, the sign of $f'$ on either side settles
+the classification faster than computing $f''$ --- and it settles the global
+question too, which $f''$ never does.}
+
+\wstep{Step 6. The inflection.}
+\[
+  f''(x)=\frac{2\ln x-3}{x^{3}} .
+\]
+This vanishes at $\ln x=\tfrac32$, i.e.\ $x=\mathrm{e}^{3/2}\approx4.482$,
+and changes sign there (the denominator is positive), so it is a genuine
+inflection at
+\[
+  \Bigl(\mathrm{e}^{3/2},\ \tfrac{3}{2}\mathrm{e}^{-3/2}\Bigr)\approx(4.48,\ 0.335).
+\]
+Check the ordering: $\mathrm{e}\approx2.72<4.48$, so the curve peaks and
+\emph{then} changes curvature --- which is what a graph tending to zero from
+above must do.
+
+\wstep{Step 7. The integral --- and the surprise.}
+Substituting $u=\ln x$, $\mathrm{d}u=\mathrm{d}x/x$:
+\[
+  \int_{1}^{b}\frac{\ln x}{x}\,\mathrm{d}x
+  =\int_{0}^{\ln b}u\,\mathrm{d}u
+  =\frac{(\ln b)^{2}}{2}\xrightarrow[b\to\infty]{}\infty .
+\]
+\[
+  \boxed{\int_{1}^{\infty}\frac{\ln x}{x}\,\mathrm{d}x\ \text{diverges.}}
+\]
+\wtrap{The integrand tends to $0$ --- Step~4 proved it --- and the integral
+still diverges. ``The function goes to zero'' is never sufficient for
+convergence, exactly as ``the terms go to zero'' was never sufficient for a
+series. Here $f$ behaves like $1/x$ up to a logarithm, and $\int_{1}^{\infty}
+\mathrm{d}x/x$ diverges.}
+
+\wstep{Step 8. Assemble the picture, and check it against every part.}
+Rising from $-\infty$ at the origin, crossing zero at $x=1$, peaking at
+$(\mathrm{e},1/\mathrm{e})$, inflecting at $x\approx4.48$, and decaying to
+$0$ --- with a tail thick enough to have infinite area. Every part of the
+answer must be visible in that description, and if one is not, something is
+wrong.
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[fnaxis, width=8.0cm, height=4.4cm, domain=0.13:12,
+             samples=201, xmin=-0.6, xmax=12.6, ymin=-2.2, ymax=0.9,
+             xtick={1,2.718,4.482,8}, xticklabels={$1$,$\mathrm{e}$,$\mathrm{e}^{3/2}$,$8$},
+             ytick={0.368}, yticklabels={$1/\mathrm{e}$}]
+  \addplot {ln(x)/x};
+  \addplot[only marks, mark=*, mark size=1.2pt, accent!70, forget plot]
+    coordinates {(2.71828,0.36788) (4.48169,0.33470)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{worked}
+
+\section{Problems}
+
+\begin{problems}
+  \item Give the maximal domain of
+        $f(x)=\dfrac{\sqrt{x^{2}-9}}{\ln(x-2)}$.
+  \item Solve $3^{2x}-4\cdot3^{x}+3=0$.
+  \item Find the inverse of $f(x)=\dfrac{2x-1}{x+3}$ and state its domain.
+  \item Describe the set $\{(x,y): x^{2}+y^{2}\le25,\ y\ge x\}$ and decide
+        whether it is convex.
+  \item Give the level curves of $f(x,y)=x^{2}-4y$ at $c=0$ and $c=4$, and
+        name the family.
+  \item Evaluate $\displaystyle\lim_{x\to0}
+        \frac{\mathrm{e}^{3x}-1-3x}{x^{2}}$.
+  \item Evaluate $\displaystyle\lim_{x\to\infty}\frac{(\ln x)^{3}}{x}$.
+  \item For $f(x)=\dfrac{x}{x^{2}-1}$: give the domain, the symmetry, all
+        asymptotes, and the intervals of monotonicity.
+  \item Solve $x+2y-z=3$, \;$2x-y+z=5$, \;$3x+y+2z=14$.
+  \item Give the rank of
+        $A=\begin{pmatrix}1&2&3\\2&4&6\\1&0&1\end{pmatrix}$ and say whether
+        $A$ is invertible.
+  \item Find the eigenvalues of
+        $\begin{pmatrix}2&1\\1&2\end{pmatrix}$.
+  \item Determine the definiteness of the Hessian of
+        $f(x,y)=x^{2}+4xy+y^{2}$ and what it implies about the critical
+        point at the origin.
+  \item Find and classify all critical points of
+        $f(x,y)=x^{3}-3xy+y^{3}$.
+  \item Maximise $U=xy$ subject to $3x+4y=24$, and give the multiplier.
+  \item Using the previous answer only, estimate the change in maximal
+        utility when the income $24$ rises to $25$, then compute the exact
+        change.
+  \item Maximise $f(x,y)=x+y$ subject to $x^{2}+y^{2}\le2$, $x,y\ge0$.
+  \item Maximise $3x+2y$ subject to $x+y\le4$, $x\le3$, $x,y\ge0$.
+  \item Evaluate $\displaystyle\int x\,\mathrm{e}^{x}\,\mathrm{d}x$.
+  \item Compute the price elasticity of demand for $q(p)=100/p^{2}$.
+  \item At a continuously compounded rate of $5\%$, how long does a
+        capital take to double?
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item \textbf{Maximal domain.} Three conditions: $x^{2}-9\ge0$ gives
+        $|x|\ge3$; $\ln(x-2)$ needs $x>2$; and the denominator must not
+        vanish, so $x-2\neq1$, i.e. $x\neq3$. Intersecting,
+        $x\ge3$ and $x>2$ and $x\neq3$: \;$D=(3,\infty)$.
+  \item \textbf{Substitution in an exponential equation.} With
+        $u=3^{x}>0$: $u^{2}-4u+3=0$, so $u=1$ or $u=3$, giving
+        $x=0$ and $x=1$.
+  \item \textbf{Inverse function.} $y(x+3)=2x-1\Rightarrow x(y-2)=-1-3y$,
+        so $x=\dfrac{3y+1}{2-y}$ and
+        $f^{-1}(x)=\dfrac{3x+1}{2-x}$ with
+        $D(f^{-1})=\R\setminus\{2\}$ --- which is exactly the range of
+        $f$, as it must be.
+  \item \textbf{Region in the plane.} The half of the disc of radius $5$
+        lying on or above the line $y=x$. It is the intersection of two
+        convex sets (a disc and a half-plane), hence \textbf{convex}.
+  \item \textbf{Level curves.} $x^{2}-4y=c\Rightarrow y=\dfrac{x^{2}-c}{4}$:
+        for $c=0$, $y=x^{2}/4$; for $c=4$, $y=\dfrac{x^{2}-4}{4}$. All
+        level curves are vertical translates of the same parabola.
+  \item \textbf{L'H\^opital, twice.} $\dfrac{3\mathrm{e}^{3x}-3}{2x}$ is
+        still $0/0$, then
+        $\dfrac{9\mathrm{e}^{3x}}{2}\to\dfrac92$.
+  \item \textbf{Growth hierarchy.} $(\ln x)^{3}\ll x$, so the limit is
+        $0$. (Or three applications of L'H\^opital, each reducing the power
+        of the logarithm by one.)
+  \item \textbf{Curve discussion.} Domain $\R\setminus\{-1,1\}$; the
+        function is \emph{odd}; single root $x=0$; poles at $x=\pm1$;
+        horizontal asymptote $y=0$. And
+        $f'=\dfrac{(x^{2}-1)-x\cdot2x}{(x^{2}-1)^{2}}
+        =\dfrac{-(x^{2}+1)}{(x^{2}-1)^{2}}<0$ everywhere, so $f$ is
+        strictly decreasing on each of the three branches, with \emph{no}
+        extrema.
+  \item \textbf{Elimination.} Adding the first two equations gives
+        $3x+y=8$; substituting into the third, $8+2z=14$ so $z=3$. Then
+        $x+2y=6$ and $y=8-3x$ give $x=2$, $y=2$. Solution $(2,2,3)$.
+        (Check the second: $4-2+3=5$ \checkmark.)
+  \item \textbf{Rank by row reduction.} $R_{2}=2R_{1}$, so that row
+        vanishes; $R_{3}-R_{1}=(0,-2,-2)$ survives.
+        $\mathrm{rk}(A)=2<3$, so $A$ is \textbf{singular} --- equivalently
+        $\det A=0$.
+  \item \textbf{Characteristic polynomial.}
+        $(2-\lambda)^{2}-1=0\Rightarrow\lambda-2=\pm1$, so
+        $\lambda_{1}=3$ and $\lambda_{2}=1$. Both positive, so the matrix
+        is positive definite.
+  \item \textbf{Definiteness.}
+        $\Hess f=\begin{pmatrix}2&4\\4&2\end{pmatrix}$ with
+        $\det=4-16=-12<0$: \textbf{indefinite}. So the origin is a
+        \textbf{saddle point}, not an extremum.
+  \item \textbf{Critical points in two variables.}
+        $f_{x}=3x^{2}-3y=0$ gives $y=x^{2}$; $f_{y}=-3x+3y^{2}=0$ gives
+        $x=y^{2}$. Hence $x=x^{4}$, so $x(x^{3}-1)=0$ and $x=0$ or $x=1$:
+        the points $(0,0)$ and $(1,1)$. With $f_{xx}=6x$, $f_{yy}=6y$,
+        $f_{xy}=-3$: at $(0,0)$ the determinant is $0-9=-9<0$, a
+        \textbf{saddle}; at $(1,1)$ it is $36-9=27>0$ with $f_{xx}=6>0$, a
+        \textbf{local minimum} with $f=-1$.
+  \item \textbf{Lagrange.} $\mathcal{L}=xy+\lambda(24-3x-4y)$ gives
+        $y=3\lambda$ and $x=4\lambda$, so $4y=3x$. With the constraint,
+        $3x+3x=24$, hence $x^{*}=4$, $y^{*}=3$, $U^{*}=12$ and
+        $\lambda^{*}=1$.
+  \item \textbf{Envelope theorem.} $\mathrm{d}U^{*}/\mathrm{d}M
+        =\lambda^{*}=1$, so the estimate is $+1$. Exactly:
+        $U^{*}(M)=M^{2}/48$, so
+        $U^{*}(25)-U^{*}(24)=\dfrac{625-576}{48}=\dfrac{49}{48}
+        \approx1.021$. The multiplier is the first-order term.
+  \item \textbf{Kuhn--Tucker (or symmetry).} The objective increases in
+        both variables, so the circle constraint binds; by symmetry
+        $x=y$, and $2x^{2}=2$ gives $x=y=1$. The non-negativity
+        constraints are slack, and $f^{*}=2$. (Formally
+        $\grad f=(1,1)^{T}=\lambda(2x,2y)^{T}$ forces $x=y$ with
+        $\lambda=\tfrac12>0$.)
+  \item \textbf{Linear programming, graphically.} The feasible vertices
+        are $(0,0)$, $(3,0)$, $(3,1)$ and $(0,4)$, where the objective
+        takes the values $0$, $9$, $11$ and $8$. The maximum is
+        $\mathbf{11}$ at $(3,1)$, where both $x\le3$ and $x+y\le4$ bind.
+  \item \textbf{Integration by parts.} With $u=x$,
+        $v'=\mathrm{e}^{x}$:
+        $\int x\mathrm{e}^{x}\mathrm{d}x
+        =x\mathrm{e}^{x}-\int\mathrm{e}^{x}\mathrm{d}x
+        =(x-1)\mathrm{e}^{x}+C$.
+  \item \textbf{Elasticity.}
+        $\varepsilon=\dfrac{q'(p)\,p}{q(p)}
+        =\dfrac{-200p^{-3}\cdot p}{100p^{-2}}=-2$: constant, independent of
+        the price --- the signature of a power demand function.
+  \item \textbf{Continuous compounding.}
+        $\mathrm{e}^{0.05t}=2\Rightarrow t=\dfrac{\ln2}{0.05}
+        \approx13.86$ years. (The ``rule of $70$'': $70/5=14$.)
+\end{solutions}

@@ -1,707 +1,709 @@
-\chapter{Higher-Order Partials, Young's Theorem, the Hessian, and Definiteness}
+\chapter{Curve Sketching: The Complete Discussion}
 
-First-order partials describe slopes; second-order partials describe
-\emph{curvature}. In one variable we used $f''$ to distinguish maxima from
-minima. In several variables we need a whole \emph{matrix} of second
-derivatives (the Hessian) and curvature is captured by its
-definiteness, which we test with the leading principal minors (Sylvester's
-criterion).
+Everything needed to draw a curve has now been assembled in pieces:
+domains and asymptotes in the functions volume, limits in the analysis
+volume, the first derivative for monotonicity, the second for curvature.
+What is missing is the habit of running all of it in one fixed order and
+finishing with a picture. That is the \de{Kurvendiskussion}, and it is worth
+drilling as a single routine for two reasons.
+
+First, examinations ask for it directly. Second, and more usefully, the
+routine is a self-checking mechanism. A sign table that says the function
+falls on $(0,2)$ and a computed local maximum at $x=2$ cannot both be right;
+the contradiction surfaces before the picture is drawn. A curve sketch is
+the cheapest way there is to catch an algebra slip.
+
+The chapter runs the protocol on rational, exponential, logarithmic and root
+functions, and closes with the discussion an economist actually performs:
+locating the inflection of a total cost curve, the minimum of average cost,
+and the output that maximises profit --- all of them the same routine
+applied to a curve with a name.
 
 \section{Core Rules}
 
-\begin{rulebox}{Direct second-order partials}
-For $f(x,y)$,
-\[
-  f_{xx} \;=\; \pd{}{x}\!\left(\pd{f}{x}\right) \;=\; \frac{\partial^{2} f}{\partial x^{2}},
-  \qquad
-  f_{yy} \;=\; \frac{\partial^{2} f}{\partial y^{2}} .
-\]
+\begin{rulebox}{The protocol}
+Always in this order, because each step feeds the next:
+\begin{enumerate}[leftmargin=1.8em,itemsep=0.35ex]
+  \item \textbf{Domain.} Denominators, even roots, logarithms. Note which
+        points are excluded --- they are the candidates for poles.
+  \item \textbf{Symmetry.} $f(-x)=f(x)$ even, $f(-x)=-f(x)$ odd. Either one
+        halves the work.
+  \item \textbf{Intercepts and roots.} $f(0)$, and the solutions of
+        $f(x)=0$ with their multiplicities.
+  \item \textbf{Behaviour at the edges.} Limits at $\pm\infty$ and at every
+        excluded point, one side at a time. This produces the
+        \textbf{asymptotes}: vertical at poles, horizontal or oblique at
+        infinity.
+  \item \textbf{First derivative.} Solve $f'(x)=0$ for the critical points,
+        build a \textbf{sign table} for $f'$, and read off intervals of
+        increase and decrease and the type of each extremum.
+  \item \textbf{Second derivative.} Solve $f''(x)=0$, build a sign table
+        for $f''$, and read off convex and concave intervals and the
+        \textbf{inflection points}.
+  \item \textbf{Value table} for any remaining doubt, then \textbf{draw}:
+        asymptotes first as dashed guides, then the special points, then
+        join them respecting monotonicity and curvature.
+\end{enumerate}
 \end{rulebox}
 
-\begin{rulebox}{Cross (mixed) partials}
+\begin{rulebox}{Sign tables}
+A sign table is the bookkeeping device that prevents guesswork. List every
+point where the expression can change sign --- its roots and its poles ---
+in increasing order; they cut the domain into intervals. On each interval
+the sign is constant, so \emph{one} test value settles it. For
+$f'(x)=3x(x-2)$:
 \[
-  f_{xy} \;=\; \pd{}{y}\!\left(\pd{f}{x}\right) \;=\; \frac{\partial^{2} f}{\partial y\,\partial x},
-  \qquad
-  f_{yx} \;=\; \pd{}{x}\!\left(\pd{f}{y}\right) .
+  \begin{array}{c|ccccc}
+    x & (-\infty,0) & 0 & (0,2) & 2 & (2,\infty)\\\hline
+    f' & + & 0 & - & 0 & +\\
+    f & \nearrow & \text{max} & \searrow & \text{min} & \nearrow
+  \end{array}
 \]
+A sign change $+\to-$ is a local maximum, $-\to+$ a local minimum, and
+\emph{no} change means no extremum, however much the derivative vanishes
+(as at $x=0$ for $f=x^{3}$).
 \end{rulebox}
 
-\begin{rulebox}{Young's Theorem (Schwarz / Clairaut)}
-If $f$ is $C^{2}$ on an open set (i.e.\ all second partials exist and
-are continuous) then the order of differentiation is irrelevant:
-\[
-  f_{xy} \;=\; f_{yx} .
-\]
-This is the symmetry of the Hessian. All standard polynomial, exponential,
-logarithmic, Cobb--Douglas, and CES forms are $C^{2}$ on their natural
-domains.
-\end{rulebox}
-
-\begin{rulebox}{Hessian matrix}
-For $f:\R^{n}\to\R$,
-\[
-  \Hess_f(\mathbf{x}) \;=\; \bigl[f_{x_ix_j}(\mathbf{x})\bigr]_{i,j=1}^{n}
-  \;=\;
-  \begin{pmatrix}
-    f_{x_1x_1} & f_{x_1x_2} & \cdots & f_{x_1x_n} \\
-    f_{x_2x_1} & f_{x_2x_2} & \cdots & f_{x_2x_n} \\
-    \vdots     & \vdots     & \ddots & \vdots     \\
-    f_{x_nx_1} & f_{x_nx_2} & \cdots & f_{x_nx_n}
-  \end{pmatrix} .
-\]
-For $C^{2}$ functions $\Hess_f$ is symmetric.
-\end{rulebox}
-
-\begin{rulebox}{Definiteness}
-A symmetric matrix $H$ is
+\begin{rulebox}{First- and second-derivative tests}
+Let $f'(x_{0})=0$.
 \begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
-  \item \emph{positive definite (PD)} if $\mathbf{v}^{T}H\mathbf{v}>0$ for
-        every $\mathbf{v}\neq\mathbf{0}$ (curvature ``up'' in every
-        direction $\Rightarrow$ local minimum;
-  \item \emph{negative definite (ND)} if $\mathbf{v}^{T}H\mathbf{v}<0$ for
-        every $\mathbf{v}\neq\mathbf{0}$) curvature ``down'' in every
-        direction $\Rightarrow$ local maximum;
-  \item \emph{indefinite} if $\mathbf{v}^{T}H\mathbf{v}$ takes both
-        positive and negative values $\Rightarrow$ saddle point.
+  \item \textbf{First-derivative test:} the sign change of $f'$ across
+        $x_{0}$ decides the type. Always applicable, and the only reliable
+        test when $f''(x_{0})=0$.
+  \item \textbf{Second-derivative test:} $f''(x_{0})>0$ gives a local
+        minimum, $f''(x_{0})<0$ a local maximum. If $f''(x_{0})=0$ the test
+        is \textbf{silent} --- fall back on the sign table. Compare
+        $x^{4}$ (minimum), $-x^{4}$ (maximum) and $x^{3}$ (neither), all
+        three with $f'=f''=0$ at the origin.
+  \item \textbf{Inflection} at $x_{0}$ requires $f''$ to \emph{change
+        sign} there. $f''(x_{0})=0$ alone is not enough: $f=x^{4}$ has
+        $f''(0)=0$ and no inflection.
 \end{itemize}
 \end{rulebox}
 
-\begin{rulebox}{Sylvester's criterion ($2\times2$ case)}
-Let $H=\begin{pmatrix}a&b\\b&c\end{pmatrix}$ with leading principal minors
-$D_1=a$ and $D_2=\det H=ac-b^{2}$. Then
+\begin{rulebox}{Asymptotes, recalled}
+For $f=p/q$ with $p,q$ polynomials, after cancelling common factors:
+vertical asymptote at each zero of $q$; horizontal $y=0$ if
+$\deg p<\deg q$; horizontal $y=$ ratio of leading coefficients if
+$\deg p=\deg q$; and if $\deg p=\deg q+1$, polynomial division gives
 \[
-  \begin{aligned}
-    D_1>0 \text{ and } D_2>0 &\;\Rightarrow\; H \text{ is PD}, \\
-    D_1<0 \text{ and } D_2>0 &\;\Rightarrow\; H \text{ is ND}, \\
-    D_2<0 &\;\Rightarrow\; H \text{ is indefinite (saddle)}, \\
-    D_2=0 &\;\Rightarrow\; \text{test is inconclusive (semi-definite case)}.
-  \end{aligned}
+  f(x)=\underbrace{mx+c}_{\text{oblique asymptote}}+\frac{\text{remainder}}{q(x)} .
 \]
-Note: ND requires $D_1<0$ \emph{and} $D_2>0$; the alternating-sign
-condition is what one generalises to higher $n$ (signs $-,+,-,+,\dots$ for
-ND).
+For non-rational functions the same information comes from limits directly:
+$\lim_{x\to\pm\infty}f(x)$, and for a possible oblique asymptote
+$m=\lim_{x\to\infty}f(x)/x$ followed by $c=\lim_{x\to\infty}(f(x)-mx)$.
 \end{rulebox}
 
-\begin{rulebox}{Classification of critical points}
-A point $\mathbf{x}_0$ is a \emph{critical point} of $f$ if
-$\grad f(\mathbf{x}_0)=\mathbf{0}$. Then evaluate $\Hess_f(\mathbf{x}_0)$:
-\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
-  \item $H$ PD at $\mathbf{x}_0$ $\Rightarrow$ strict local minimum;
-  \item $H$ ND at $\mathbf{x}_0$ $\Rightarrow$ strict local maximum;
-  \item $H$ indefinite at $\mathbf{x}_0$ $\Rightarrow$ saddle point;
-  \item $D_2=0$ $\Rightarrow$ inconclusive, higher-order analysis
-        required.
+\begin{gallery}
+\hspace*{\fill}%
+\begin{tikzpicture}
+  \begin{axis}[fnaxis, width=8.4cm, height=7.4cm,
+      xmin=-4.4, xmax=5.4, ymin=-6.4, ymax=10.4,
+      xtick={-4,-2,2,4}, ytick={-4,4,8}]
+    \addplot[gray!55, dashed, thin, samples=2, forget plot]
+      coordinates {(1,-6.2)(1,10.2)};
+    \addplot[gray!55, dashed, thin, samples=2, domain=-4.2:5.2, forget plot]{x+1};
+    \addplot[domain=-4.2:0.86, samples=201]{x^2/(x-1)};
+    \addplot[domain=1.14:5.2, samples=201]{x^2/(x-1)};
+    \addplot[only marks, mark=*, mark size=1.3pt, black, forget plot]
+      coordinates {(0,0) (2,4)};
+    \node[font=\tiny, anchor=north east] at (axis cs:-0.1,-0.15) {$(0,0)$};
+    \node[font=\tiny, anchor=west] at (axis cs:2.15,4) {$(2,4)$};
+  \end{axis}
+\end{tikzpicture}%
+\hspace*{\fill}
+\gcap{The finished discussion of $f(x)=x^{2}/(x-1)$: pole $x=1$, oblique
+asymptote $y=x+1$, local maximum $(0,0)$ below the local minimum $(2,4)$.}
+\end{gallery}
+
+\begin{rulebox}{The economist's curve discussion}
+Three facts fall straight out of the protocol applied to a total cost
+function $C(q)$, and they are worth knowing as results:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.4ex]
+  \item Marginal cost is $MC=C'$. The \textbf{inflection point of $C$} is
+        exactly where $MC$ is smallest, since $MC'=C''$ changes sign there.
+        The S-shaped cost curve turns from concave to convex at its most
+        efficient scale.
+  \item Average cost is $AC=C(q)/q$. Differentiating,
+        \[
+          AC'=\frac{C'(q)q-C(q)}{q^{2}}=\frac{MC-AC}{q},
+        \]
+        so $AC'=0$ exactly when $MC=AC$: \textbf{marginal cost cuts average
+        cost at the minimum of average cost}. That is a theorem, not a
+        coincidence of a particular example.
+  \item Profit at price $p$ is $\pi=pq-C(q)$, so $\pi'=p-MC$ and the
+        optimum has $p=MC$, confirmed as a maximum by $\pi''=-C''<0$,
+        i.e.\ by cost being convex there.
 \end{itemize}
 \end{rulebox}
+
+\section{Worked Example}
+
+\begin{worked}{The complete discussion of $f(x)=\dfrac{x^{2}}{x-1}$}
+\wstep{Step 1. Domain, and the reason to find it first.}
+The denominator vanishes at $x=1$, so
+$D_{f}=\R\setminus\{1\}$. Every later step --- sign tables, monotonicity,
+convexity --- must be stated \emph{per interval}, and $x=1$ is the wall
+between them.
+
+\wstep{Step 2. Symmetry and roots.}
+$f(-x)=\frac{x^{2}}{-x-1}$, which is neither $f(x)$ nor $-f(x)$: no
+symmetry. The numerator vanishes at $x=0$ with multiplicity two, so the
+curve \textbf{touches} the axis at the origin rather than crossing it, and
+$f(0)=0$.
+
+\wstep{Step 3. Behaviour at the pole, from both sides.}
+Near $x=1$ the numerator is close to $1>0$, so the sign of $f$ is the sign
+of $x-1$:
+\[
+  x\to1^{-}:\ \frac{1^{+}}{0^{-}}\to-\infty,
+  \qquad
+  x\to1^{+}:\ \frac{1^{+}}{0^{+}}\to+\infty .
+\]
+\wtrap{Take one-sided limits at every pole. Writing ``$f\to\infty$ at
+$x=1$'' loses the sign information and makes the sketch impossible to draw
+correctly.}
+
+\wstep{Step 4. Behaviour at infinity: divide, do not guess.}
+Numerator degree $2$ exceeds denominator degree $1$ by exactly one, so there
+is an \textbf{oblique} asymptote. Polynomial division gives it:
+\[
+  f(x)=x+1+\frac{1}{x-1} .
+\]
+So $y=x+1$ is the asymptote, and the remainder $\frac{1}{x-1}$ says how the
+curve sits relative to it: \emph{above} for $x>1$, \emph{below} for $x<1$.
+\wtrap{Horizontal asymptote when the degrees are equal or the numerator's is
+smaller; oblique when the numerator's degree is exactly one larger; neither
+when it is larger by two or more. And the division is the whole method ---
+guessing $y=x$ from the leading behaviour misses the $+1$.}
+
+\wstep{Step 5. First derivative and critical points.}
+Differentiating the divided form is easiest:
+\[
+  f'(x)=1-\frac{1}{(x-1)^{2}}=\frac{(x-1)^{2}-1}{(x-1)^{2}}=\frac{x(x-2)}{(x-1)^{2}} .
+\]
+Zeros at $x=0$ and $x=2$; the denominator is positive wherever it is
+defined, so the sign of $f'$ is the sign of $x(x-2)$.
+\begin{center}\footnotesize
+\begin{tabular}{lcccc}
+  \hline
+  interval & $x<0$ & $0<x<1$ & $1<x<2$ & $x>2$\\
+  \hline
+  $f'$ & $+$ & $-$ & $-$ & $+$\\
+  $f$ & rising & falling & falling & rising\\
+  \hline
+\end{tabular}
+\end{center}
+
+\wstep{Step 6. Classify, and notice something strange.}
+$f''(x)=\dfrac{2}{(x-1)^{3}}$, so $f''(0)=-2<0$ and $f''(2)=2>0$:
+\[
+  \text{local maximum at }(0,0),
+  \qquad
+  \text{local minimum at }(2,4).
+\]
+The local maximum lies \textbf{below} the local minimum. That is impossible
+for a continuous function --- and possible here only because the pole at
+$x=1$ separates them. The two branches never see each other.
+\wtrap{Local extrema are local. A local maximum of $0$ coexisting with a
+local minimum of $4$ is not an arithmetic error, and neither point is a
+global extremum: $f$ is unbounded in both directions.}
+
+\wstep{Step 7. Convexity, and the absent inflection.}
+$f''=\frac{2}{(x-1)^{3}}$ is never zero, so there is \textbf{no inflection
+point}. It is negative for $x<1$ and positive for $x>1$:
+concave on $(-\infty,1)$, convex on $(1,\infty)$. The change of curvature
+happens at the pole, where the function does not exist --- so it is not an
+inflection.
+\wtrap{A change of convexity across a point of the domain is an inflection;
+across a gap in the domain it is nothing at all. Check that the candidate
+point is in the domain before naming it.}
+
+\wstep{Step 8. Draw it.}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[fnaxis, width=8.4cm, height=6.0cm,
+             xmin=-4.2, xmax=6.2, ymin=-9, ymax=13,
+             xtick={-3,-1,1,2,4}, ytick={4,8},
+             restrict y to domain=-40:40]
+  \addplot[domain=-4:0.88, samples=200] {x^2/(x-1)};
+  \addplot[domain=1.12:6, samples=200] {x^2/(x-1)};
+  \addplot[accent!40, thick, dashed, samples=2, domain=-4:6, forget plot]
+    {x+1};
+  \addplot[gray!55, thin, dashed, samples=2, forget plot]
+    coordinates {(1,-9) (1,13)};
+  \addplot[only marks, mark=*, mark size=1.2pt, accent!70, forget plot]
+    coordinates {(0,0) (2,4)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+Everything checks against the figure: the touch at the origin, the two
+branches, the pole at $x=1$, the asymptote $y=x+1$ approached from below on
+the left and from above on the right, and the maximum sitting lower than the
+minimum.
+
+\wstep{Step 9. The protocol, in the order that saves work.}
+\begin{center}\footnotesize
+\begin{tabular}{ll}
+  \hline
+  1. domain & 6. sign table for $f'$\\
+  2. symmetry & 7. extrema, classified by $f''$\\
+  3. roots and intercepts & 8. $f''$, convexity, inflections\\
+  4. poles, one-sided limits & 9. sketch\\
+  5. asymptotes (divide!) & 10. check the sketch against 1--8\\
+  \hline
+\end{tabular}
+\end{center}
+Step~10 is not optional. A sketch that contradicts the sign table means one
+of them is wrong, and finding out which takes a minute --- far less than
+losing the marks.
+\end{worked}
 
 \section{Practice Problems}
 
+In problems 1--8 give the intervals of increase and decrease and all local
+extrema, using a sign table.
+
 \begin{problems}
-  \item Compute all second partials of $f(x,y) = 4x^{3} - 5x^{2}y + 7y^{4}$
-        and verify Young's theorem.
-  \item Construct the Hessian of
-        $f(x,y) = 5x^{2} + 6xy + 2y^{2} - 3x + 4y$.
-  \item Classify the definiteness of
-        $\Hess = \begin{pmatrix}6&2\\2&3\end{pmatrix}$ using Sylvester's
-        criterion.
-  \item Find and classify the critical points of
-        $f(x,y) = x^{2} + 4y^{2} - 6x + 8y + 11$.
-  \item Compute all second partials of $f(x,y) = (x+2y)^{3}$ and verify
-        $f_{xy} = f_{yx}$.
-  \item Construct the Hessian of $f(x,y) = x^{3} + 2xy^{2} - 4y$.
-  \item Classify $\Hess = \begin{pmatrix}-4&2\\2&-5\end{pmatrix}$.
-  \item Find and classify the critical points of
-        $f(x,y) = -x^{2} - 3y^{2} + 8x - 6y + 5$.
-  \item Compute all second partials of $f(x,y) = x^{2}\ln(y)$ ($y>0$) and
-        verify Young's theorem.
-  \item Construct the Hessian of $f(x,y) = \mathrm{e}^{2x-y}$.
-  \item Classify $\Hess = \begin{pmatrix}2&4\\4&2\end{pmatrix}$.
-  \item Find and classify the critical points of
-        $f(x,y) = x^{2} - y^{2} + 6x - 4y$.
-  \item Compute all second partials of $f(x,y) = \mathrm{e}^{x^{2}+y}$ and
-        verify Young's theorem.
-  \item Construct the Hessian of the Cobb--Douglas function
-        $f(K,L) = K^{1/3}L^{2/3}$, $K,L>0$.
-  \item Classify $\Hess = \begin{pmatrix}7&-3\\-3&1\end{pmatrix}$.
-  \item Find and classify the critical points of
-        $f(x,y) = x^{3} + y^{3} - 12x - 27y$.
-  \item Compute all second partials of $f(x,y) = 1/(x+y)$ and verify
-        Young's theorem.
-  \item Construct the Hessian of
-        $f(x,y,z) = x^{2} + 2y^{2} + 3z^{2} - xy + 2yz$.
-  \item Classify $\Hess = \begin{pmatrix}-3&1\\1&-3\end{pmatrix}$.
-  \item Find and classify the critical points of
-        $f(x,y) = x^{2} + 4xy + y^{2} + 2y$.
-  \item Compute all second partials of $f(x,y) = x^{1/2}y^{1/2}$
-        ($x,y>0$) and verify $f_{xy} = f_{yx}$.
-  \item Construct the Hessian of $f(x,y) = \ln(x^{2}+y^{2})$ at a generic
-        point $(x,y)\neq(0,0)$.
-  \item Find and classify the critical points of
-        $f(x,y) = x^{4} + y^{4} - 4xy$.
-  \item Compute all second partials of $f(x,y) = x\mathrm{e}^{y} + y\mathrm{e}^{x}$
-        and verify Young's theorem.
-  \item Construct the Hessian of $f(x,y) = x^{3} - 3xy^{2}$ (a harmonic
-        function).
-  \item Classify $\Hess = \begin{pmatrix}5&0\\0&-2\end{pmatrix}$ and state
-        what this implies if $H$ is the Hessian at a critical point.
-  \item Find and classify the critical points of
-        $f(x,y) = xy - x^{2} - y^{2} + 6x + 3y$.
-  \item Compute all second partials of $f(x,y) = \ln(xy)$ ($x,y>0$).
-  \item Construct the Hessian of $f(x,y) = (x^{2}+y^{2})^{2}$ at a generic
-        point.
-  \item Classify $\Hess = \begin{pmatrix}-1&2\\2&-1\end{pmatrix}$.
-  \item Find and classify the critical points of
-        $f(x,y) = x^{3} - 3xy + y^{3}$.
-  \item Compute all second partials of $f(x,y) = \sin(x)\cos(y)$ and
-        verify Young's theorem.
-  \item Construct the Hessian of $f(x,y,z) = \mathrm{e}^{xyz}$ at the point
-        $(1,1,1)$ (evaluate numerically).
-  \item Classify $\Hess = \begin{pmatrix}4&-2\\-2&4\end{pmatrix}$.
-  \item Find and classify the critical points of the profit function
-        $\pi(L,K) = 10L^{1/2}K^{1/2} - 2L - 3K$ (assume $L,K>0$).
-  \item Compute all second partials of $f(x,y) = x^{2}y^{3}$ and verify
-        Young's theorem.
-  \item Construct the Hessian of
-        $f(x,y) = \mathrm{e}^{x}\sin(y) - \mathrm{e}^{x}\cos(y)$.
-  \item Classify $\Hess = \begin{pmatrix}9&6\\6&4\end{pmatrix}$. (Note the
-        boundary case.)
-  \item Find and classify the critical points of
-        $f(x,y) = x^{2} + xy + y^{2} - 3x$.
-  \item Compute all second partials of $f(x,y) = \arctan(y/x)$ ($x>0$) and
-        verify Young's theorem.
-  \item Construct the Hessian of the CES function
-        $f(K,L) = (K^{1/2}+L^{1/2})^{2}$ at a generic point.
-  \item Find and classify the critical points of
-        $f(x,y) = -x^{4} - y^{4} + 8xy$.
-  \item Compute all second partials of $f(x,y) = x^{2}\mathrm{e}^{-y}$ and
-        verify Young's theorem.
-  \item Construct the Hessian of $f(x,y) = \cos(xy)$ at the origin
-        $(0,0)$.
-  \item Classify $\Hess = \begin{pmatrix}0&3\\3&0\end{pmatrix}$.
-  \item Find and classify the critical points of
-        $f(x,y) = x^{3} + 3xy^{2} - 15x - 12y$.
-  \item Construct the Hessian of $f(x,y) = \ln(1+x^{2}+y^{2})$ at the
-        origin.
-  \item Find and classify the critical points of
-        $f(x,y) = \mathrm{e}^{-(x^{2}+y^{2})}$.
+  \item $f(x)=x^{3}-12x$
+  \item $f(x)=x^{4}-8x^{2}$
+  \item $f(x)=x\mathrm{e}^{-x}$
+  \item $f(x)=\dfrac{x}{x^{2}+1}$
+  \item $f(x)=x-\ln x$ on $x>0$
+  \item $f(x)=x^{3}$ --- and explain why $f'(0)=0$ yields no extremum.
+  \item $f(x)=\dfrac{x^{2}}{x-1}$
+  \item $f(x)=\sqrt{x}-x$ on $x\ge0$
+\end{problems}
+
+In problems 9--14 give the convex and concave intervals and all inflection
+points.
+
+\begin{problems}[resume]
+  \item $f(x)=x^{3}-3x^{2}$
+  \item $f(x)=x^{4}-4x^{2}$
+  \item $f(x)=\mathrm{e}^{-x^{2}}$
+  \item $f(x)=x^{4}$ --- and explain why $f''(0)=0$ gives no inflection.
+  \item $f(x)=\dfrac{\ln x}{x}$ on $x>0$
+  \item $f(x)=x^{2}\mathrm{e}^{-x}$
+\end{problems}
+
+In problems 15--20 give every asymptote.
+
+\begin{problems}[resume]
+  \item $f(x)=\dfrac{x-1}{x+2}$
+  \item $f(x)=\dfrac{1}{x^{2}-4}$
+  \item $f(x)=\dfrac{x^{2}}{x-1}$
+  \item $f(x)=\dfrac{x^{3}}{x^{2}+1}$
+  \item $f(x)=\dfrac{\ln x}{x}$
+  \item $f(x)=x+\mathrm{e}^{-x}$
+\end{problems}
+
+Problems 21--32 ask for a \emph{complete} discussion: domain, symmetry,
+intercepts, asymptotes and edge behaviour, monotonicity and extrema,
+curvature and inflections, and a sketch.
+
+\begin{problems}[resume]
+  \item $f(x)=x^{3}-3x^{2}$
+  \item $f(x)=x^{4}-4x^{2}$
+  \item $f(x)=\dfrac{x}{x^{2}+1}$
+  \item $f(x)=\dfrac{x^{2}}{x-1}$
+  \item $f(x)=\mathrm{e}^{-x^{2}}$
+  \item $f(x)=x\mathrm{e}^{-x}$
+  \item $f(x)=\dfrac{\ln x}{x}$
+  \item $f(x)=\dfrac{x-1}{x+2}$
+  \item $f(x)=x^{2}\mathrm{e}^{-x}$
+  \item $f(x)=\dfrac{1}{x^{2}-4}$
+  \item $f(x)=\sqrt{x}-x$
+  \item $f(x)=x^{3}-3x+2$
+\end{problems}
+
+\begin{problems}[resume]
+  \item A function satisfies $f'>0$ and $f''<0$ throughout an interval.
+        Describe the shape of its graph there in one sentence.
+  \item The graph of $f'$ is a parabola opening upwards with roots at
+        $x=-1$ and $x=3$. What does $f$ do, and where are its extrema?
+  \item The graph of $f'$ is a straight line through the origin with
+        positive slope. What is $f$, up to a constant, and what is its
+        shape?
+  \item $f$ is differentiable with $f(1)=2$, $f'(1)=0$ and $f''(1)=-3$.
+        Classify $x=1$ and give the tangent line there.
+  \item Sketch a single curve with all of: domain $\R\setminus\{2\}$, a
+        pole at $x=2$, horizontal asymptote $y=1$, a local minimum at
+        $(0,0)$, and convex on $(2,\infty)$.
+  \item Why can a function with a vertical asymptote at $x=a$ have a local
+        maximum lying below a local minimum? Illustrate with problem 24.
+\end{problems}
+
+\begin{problems}[resume]
+  \item For $C(q)=q^{3}-6q^{2}+15q$ on $q\ge0$: show $C$ is increasing
+        throughout, find its inflection point, and show that marginal cost
+        is minimal exactly there.
+  \item For the same $C$: find the output minimising average cost and
+        verify that $MC=AC$ at that output.
+  \item With the same $C$ and price $p=15$, find the profit-maximising
+        output and the maximal profit.
+  \item For $R(q)=q(200-4q)$: discuss the curve on its economic domain and
+        find the revenue-maximising quantity.
+  \item For $C(q)=0.5q^{2}+2q+8$: find the minimum of $AC$ and confirm
+        $MC=AC$ there.
+  \item The adoption path is $y(t)=\dfrac{100}{1+\mathrm{e}^{-0.5t}}$.
+        Find its asymptotes, show it is increasing, and locate its
+        inflection point.
+  \item Explain, using $AC'=(MC-AC)/q$, why average cost must be falling
+        wherever marginal cost lies below it.
 \end{problems}
 
 \section{Solutions}
 
 \begin{solutions}
-  \item $f_x = 12x^{2} - 10xy$, $f_y = -5x^{2} + 28y^{3}$. Then
-        $f_{xx} = 24x - 10y$, $f_{yy} = 84y^{2}$, and
-        \[
-          f_{xy} = \pd{}{y}\bigl(12x^{2}-10xy\bigr) = -10x, \qquad
-          f_{yx} = \pd{}{x}\bigl(-5x^{2}+28y^{3}\bigr) = -10x . \; \checkmark
-        \]
-
-  \item $f_x = 10x + 6y - 3$, $f_y = 6x + 4y + 4$. Hessian
-        \[
-          \Hess = \begin{pmatrix}10&6\\6&4\end{pmatrix} .
-        \]
-
-  \item $D_1 = 6 > 0$, $D_2 = 18 - 4 = 14 > 0$. \textbf{PD.}
-
-  \item $\grad f = (2x-6,\,8y+8) = (0,0) \Rightarrow x=3,\,y=-1$. Hessian
-        $\Hess = \begin{pmatrix}2&0\\0&8\end{pmatrix}$: $D_1=2>0$,
-        $D_2=16>0$, \textbf{PD}, so $(3,-1)$ is a strict \textbf{local
-        minimum} with $f(3,-1) = 9+4-18-8+11 = -2$.
-
-  \item Chain rule: $f_x = 3(x+2y)^{2}$, $f_y = 6(x+2y)^{2}$. So
-        $f_{xx} = 6(x+2y)$, $f_{yy} = 24(x+2y)$, and
-        \[
-          f_{xy} = 12(x+2y) = f_{yx} . \; \checkmark
-        \]
-
-  \item $f_x = 3x^{2} + 2y^{2}$, $f_y = 4xy - 4$. Hessian
-        \[
-          \Hess = \begin{pmatrix}6x&4y\\4y&4x\end{pmatrix} .
-        \]
-
-  \item $D_1 = -4 < 0$, $D_2 = 20 - 4 = 16 > 0$. \textbf{ND.}
-
-  \item $\grad f = (-2x+8,\,-6y-6) = (0,0) \Rightarrow x=4,\,y=-1$. Hessian
-        $\Hess = \begin{pmatrix}-2&0\\0&-6\end{pmatrix}$: $D_1=-2<0$,
-        $D_2=12>0$, \textbf{ND}, so $(4,-1)$ is a strict \textbf{local
-        maximum} with $f(4,-1) = -16-3+32+6+5 = 24$.
-
-  \item $f_x = 2x\ln(y)$, $f_y = x^{2}/y$. So $f_{xx} = 2\ln(y)$,
-        $f_{yy} = -x^{2}/y^{2}$, and
-        \[
-          f_{xy} = 2x/y = f_{yx} . \; \checkmark
-        \]
-
-  \item $f_x = 2\mathrm{e}^{2x-y}$, $f_y = -\mathrm{e}^{2x-y}$. So
-        $f_{xx} = 4\mathrm{e}^{2x-y}$, $f_{yy} = \mathrm{e}^{2x-y}$,
-        $f_{xy} = -2\mathrm{e}^{2x-y}$. Hessian
-        \[
-          \Hess = \mathrm{e}^{2x-y}\begin{pmatrix}4&-2\\-2&1\end{pmatrix} .
-        \]
-
-  \item $D_1 = 2 > 0$, $D_2 = 4 - 16 = -12 < 0$. \textbf{Indefinite
-        (saddle).}
-
-  \item $\grad f = (2x+6,\,-2y-4) = (0,0) \Rightarrow x=-3,\,y=-2$. Hessian
-        $\Hess = \begin{pmatrix}2&0\\0&-2\end{pmatrix}$: $D_2 = -4 < 0$,
-        \textbf{indefinite}, so $(-3,-2)$ is a \textbf{saddle point}.
-
-  \item Let $E = \mathrm{e}^{x^{2}+y}$. Then $f_x = 2xE$, $f_y = E$. So
-        $f_{xx} = 2E + 4x^{2}E = (2+4x^{2})E$, $f_{yy} = E$, and
-        \[
-          f_{xy} = \pd{}{y}(2xE) = 2xE, \qquad
-          f_{yx} = \pd{}{x}(E) = 2xE . \; \checkmark
-        \]
-
-  \item $f_K = \tfrac13K^{-2/3}L^{2/3}$, $f_L = \tfrac23K^{1/3}L^{-1/3}$.
-        So
-        \[
-          f_{KK} = -\tfrac29K^{-5/3}L^{2/3}, \quad
-          f_{LL} = -\tfrac29K^{1/3}L^{-4/3}, \quad
-          f_{KL} = \tfrac29K^{-2/3}L^{-1/3} = f_{LK} . \; \checkmark
-        \]
-        Hessian
-        \[
-          \Hess = \tfrac29
-          \begin{pmatrix}
-            -K^{-5/3}L^{2/3} & K^{-2/3}L^{-1/3} \\
-            K^{-2/3}L^{-1/3} & -K^{1/3}L^{-4/3}
-          \end{pmatrix} .
-        \]
-
-  \item $D_1 = 7 > 0$, $D_2 = 7 - 9 = -2 < 0$. \textbf{Indefinite.}
-
-  \item $\grad f = (3x^{2}-12,\,3y^{2}-27) = (0,0) \Rightarrow x^{2}=4,\,
-        y^{2}=9$, giving $(\pm2,\pm3)$. Hessian
-        $\Hess = \begin{pmatrix}6x&0\\0&6y\end{pmatrix}$, so $D_1=6x$,
-        $D_2=36xy$.
-        \begin{itemize}
-          \item $(2,3)$: $D_1=12>0$, $D_2=216>0$, \textbf{PD}: local
-                minimum, $f = 8+27-24-81 = -70$.
-          \item $(2,-3)$: $D_2=-216<0$, \textbf{saddle}.
-          \item $(-2,3)$: $D_2=-216<0$, \textbf{saddle}.
-          \item $(-2,-3)$: $D_1=-12<0$, $D_2=216>0$, \textbf{ND}: local
-                maximum, $f = -8-27+24+81 = 70$.
-        \end{itemize}
-
-  \item Let $S=x+y$, $f=S^{-1}$, $f_x = -S^{-2} = f_y$. So
-        $f_{xx} = 2S^{-3} = f_{yy}$, and
-        \[
-          f_{xy} = 2S^{-3} = f_{yx} = \frac{2}{(x+y)^{3}} . \; \checkmark
-        \]
-
-  \item $f_x = 2x-y$, $f_y = 4y-x+2z$, $f_z = 6z+2y$. Hessian
-        \[
-          \Hess = \begin{pmatrix}2&-1&0\\-1&4&2\\0&2&6\end{pmatrix} .
-        \]
-
-  \item $D_1 = -3 < 0$, $D_2 = 9 - 1 = 8 > 0$. \textbf{ND.}
-
-  \item $\grad f = (2x+4y,\,4x+2y+2) = (0,0)$. From the first, $x=-2y$;
-        substituting, $-8y+2y+2=0 \Rightarrow y=1/3$, $x=-2/3$. Hessian
-        $\Hess = \begin{pmatrix}2&4\\4&2\end{pmatrix}$: $D_1=2>0$,
-        $D_2=4-16=-12<0$, \textbf{indefinite: saddle point} at
-        $(-2/3,1/3)$.
-
-  \item $f_x = \tfrac12x^{-1/2}y^{1/2}$, $f_y = \tfrac12x^{1/2}y^{-1/2}$.
-        So
-        \[
-          f_{xx} = -\tfrac14x^{-3/2}y^{1/2}, \quad
-          f_{yy} = -\tfrac14x^{1/2}y^{-3/2}, \quad
-          f_{xy} = \tfrac14x^{-1/2}y^{-1/2} = f_{yx} . \; \checkmark
-        \]
-
-  \item Let $S=x^{2}+y^{2}$, $f=\ln S$, $f_x = 2x/S$, $f_y = 2y/S$. By the
-        quotient rule:
-        \[
-          f_{xx} = \frac{2S-2x\cdot2x}{S^{2}} = \frac{2(y^{2}-x^{2})}{(x^{2}+y^{2})^{2}}, \quad
-          f_{yy} = \frac{2(x^{2}-y^{2})}{(x^{2}+y^{2})^{2}}, \quad
-          f_{xy} = \frac{-4xy}{(x^{2}+y^{2})^{2}} .
-        \]
-        Hessian
-        \[
-          \Hess = \frac{2}{(x^{2}+y^{2})^{2}}
-          \begin{pmatrix}y^{2}-x^{2} & -2xy \\ -2xy & x^{2}-y^{2}\end{pmatrix} .
-        \]
-        Note $f_{xx}+f_{yy}=0$: $\ln(x^{2}+y^{2})$ is harmonic.
-
-  \item $\grad f = (4x^{3}-4y,\,4y^{3}-4x) = (0,0) \Rightarrow y=x^{3}$
-        and $x=y^{3}=x^{9}$. So $x(x^{8}-1)=0$, giving $x\in\{-1,0,1\}$.
-        Critical points: $(0,0),(1,1),(-1,-1)$. Hessian
-        $\Hess = \begin{pmatrix}12x^{2}&-4\\-4&12y^{2}\end{pmatrix}$.
-        \begin{itemize}
-          \item $(0,0)$: $\Hess = \begin{pmatrix}0&-4\\-4&0\end{pmatrix}$,
-                $D_2=-16<0$, \textbf{saddle}.
-          \item $(1,1)$: $\Hess = \begin{pmatrix}12&-4\\-4&12\end{pmatrix}$,
-                $D_1=12>0$, $D_2=144-16=128>0$, \textbf{PD}: local
-                minimum, $f=1+1-4=-2$.
-          \item $(-1,-1)$: same $H$, \textbf{PD}: local minimum, $f=-2$.
-        \end{itemize}
-
-  \item $f_x = \mathrm{e}^{y}+y\mathrm{e}^{x}$, $f_y = x\mathrm{e}^{y}+\mathrm{e}^{x}$. So
-        $f_{xx} = y\mathrm{e}^{x}$, $f_{yy} = x\mathrm{e}^{y}$, and
-        \[
-          f_{xy} = \mathrm{e}^{y}+\mathrm{e}^{x} = f_{yx} . \; \checkmark
-        \]
-
-  \item $f_x = 3x^{2}-3y^{2}$, $f_y = -6xy$. So $f_{xx}=6x$,
-        $f_{yy}=-6x$, $f_{xy}=-6y=f_{yx}$. Hessian
-        \[
-          \Hess = \begin{pmatrix}6x&-6y\\-6y&-6x\end{pmatrix} .
-        \]
-        Note $f_{xx}+f_{yy}=0$: $f$ is harmonic.
-
-  \item $D_1 = 5 > 0$, $D_2 = -10 < 0$. \textbf{Indefinite.} At a critical
-        point this would mean a \textbf{saddle}.
-
-  \item $\grad f = (y-2x+6,\,x-2y+3) = (0,0)$. So $2x-y=6$ and
-        $x-2y=-3$. From the first, $y=2x-6$; substituting:
-        $x-2(2x-6)=-3 \Rightarrow -3x+12=-3 \Rightarrow x=5$, $y=4$.
-        Hessian $\Hess = \begin{pmatrix}-2&1\\1&-2\end{pmatrix}$:
-        $D_1=-2<0$, $D_2=4-1=3>0$, \textbf{ND}, so $(5,4)$ is a
-        \textbf{local maximum} with $f(5,4) = 20-25-16+30+12 = 21$.
-
-  \item $\ln(xy) = \ln x + \ln y$. So $f_x = 1/x$, $f_y = 1/y$,
-        $f_{xx} = -1/x^{2}$, $f_{yy} = -1/y^{2}$, $f_{xy} = 0 = f_{yx}$.
-        \; $\checkmark$
-
-  \item $f_x = 2(x^{2}+y^{2})\cdot2x = 4x(x^{2}+y^{2})$,
-        $f_y = 4y(x^{2}+y^{2})$. Then
-        \[
-          f_{xx} = 4(x^{2}+y^{2})+4x\cdot2x = 4(3x^{2}+y^{2}), \quad
-          f_{yy} = 4(x^{2}+3y^{2}), \quad
-          f_{xy} = 4x\cdot2y = 8xy = f_{yx} .
-        \]
-        Hessian
-        \[
-          \Hess = 4\begin{pmatrix}3x^{2}+y^{2}&2xy\\2xy&x^{2}+3y^{2}\end{pmatrix} .
-        \]
-
-  \item $D_1 = -1 < 0$, $D_2 = 1 - 4 = -3 < 0$. Since $D_2<0$,
-        \textbf{indefinite.}
-
-  \item $\grad f = (3x^{2}-3y,\,-3x+3y^{2}) = (0,0) \Rightarrow y=x^{2}$
-        and $x=y^{2}=x^{4}$, so $x(x^{3}-1)=0$, giving $x\in\{0,1\}$.
-        Critical points: $(0,0)$ and $(1,1)$. Hessian
-        $\Hess = \begin{pmatrix}6x&-3\\-3&6y\end{pmatrix}$.
-        \begin{itemize}
-          \item $(0,0)$: $\Hess = \begin{pmatrix}0&-3\\-3&0\end{pmatrix}$,
-                $D_2=-9<0$, \textbf{saddle}.
-          \item $(1,1)$: $\Hess = \begin{pmatrix}6&-3\\-3&6\end{pmatrix}$,
-                $D_1=6>0$, $D_2=36-9=27>0$, \textbf{PD}: local minimum,
-                $f=1-3+1=-1$.
-        \end{itemize}
-
-  \item $f_x = \cos(x)\cos(y)$, $f_y = -\sin(x)\sin(y)$. So
-        $f_{xx} = -\sin(x)\cos(y)$, $f_{yy} = -\sin(x)\cos(y)$, and
-        \[
-          f_{xy} = -\cos(x)\sin(y) = f_{yx} . \; \checkmark
-        \]
-
-  \item Let $u=xyz$, $f=\mathrm{e}^{u}$. Then $f_x = yz\mathrm{e}^{u}$,
-        $f_y = xz\mathrm{e}^{u}$, $f_z = xy\mathrm{e}^{u}$. Direct
-        partials: $f_{xx} = (yz)^{2}\mathrm{e}^{u}$,
-        $f_{yy} = (xz)^{2}\mathrm{e}^{u}$, $f_{zz} = (xy)^{2}\mathrm{e}^{u}$.
-        Cross-partials (using the product rule on
-        $f_x = yz\,\mathrm{e}^{xyz}$):
-        \[
-          f_{xy} = z\mathrm{e}^{xyz} + yz\cdot xz\mathrm{e}^{xyz}
-                 = z\mathrm{e}^{xyz}(1+xyz) .
-        \]
-        Similarly $f_{xz} = y\mathrm{e}^{xyz}(1+xyz)$ and
-        $f_{yz} = x\mathrm{e}^{xyz}(1+xyz)$. (Symmetry $f_{xy}=f_{yx}$
-        etc.\ confirms Young's theorem.) At $(1,1,1)$: $u=1$,
-        $\mathrm{e}^{u}=\mathrm{e}$, $1+xyz=2$, and $yz=xz=xy=1$, so
-        \[
-          \Hess(1,1,1) = \mathrm{e}\begin{pmatrix}1&2&2\\2&1&2\\2&2&1\end{pmatrix} .
-        \]
-
-  \item $D_1 = 4 > 0$, $D_2 = 16 - 4 = 12 > 0$. \textbf{PD.}
-
-  \item $\pi_L = 5L^{-1/2}K^{1/2}-2$, $\pi_K = 5L^{1/2}K^{-1/2}-3$.
-        Setting both to zero gives $5K^{1/2}/L^{1/2}=2$ and
-        $5L^{1/2}/K^{1/2}=3$. Multiplying these two equations: $25=6$,
-        which is a contradiction. So $\pi$ has \textbf{no interior
-        critical point}. Why? The production function
-        $Q=10L^{1/2}K^{1/2}$ is homogeneous of degree 1 (constant returns
-        to scale), so along any ray $(\lambda L,\lambda K)$ revenue and
-        cost both scale linearly: $\pi(\lambda L,\lambda K)=\lambda\pi(L,K)$.
-        Hence profit is either identically zero, or unbounded above
-        (depending on sign of $\pi$ along some direction). With
-        $\max_{L/K}(10\sqrt{LK}-2L-3K)/K$: setting $t=L/K$ gives
-        $\pi/K = 10\sqrt{t}-2t-3$, maximised at $t=25/4$ giving
-        $\pi/K = 25-25/2-3 = 19/2 > 0$. So $\pi\to+\infty$ along the ray
-        $L=(25/4)K$. The Hessian test does not apply because there is no
-        critical point to classify. (Lesson: an inconsistent
-        first-order system is itself a meaningful answer about the
-        geometry of the problem.)
-
-  \item $f_x = 2xy^{3}$, $f_y = 3x^{2}y^{2}$. So $f_{xx} = 2y^{3}$,
-        $f_{yy} = 6x^{2}y$, and
-        \[
-          f_{xy} = 6xy^{2} = f_{yx} . \; \checkmark
-        \]
-
-  \item Let $g=\sin y-\cos y$, so $f=\mathrm{e}^{x}g$. Then
-        $f_x = \mathrm{e}^{x}g$, $f_y = \mathrm{e}^{x}(\cos y+\sin y)$. So
-        $f_{xx} = \mathrm{e}^{x}g = \mathrm{e}^{x}(\sin y-\cos y)$,
-        $f_{yy} = \mathrm{e}^{x}(-\sin y+\cos y) = -\mathrm{e}^{x}g$, and
-        \[
-          f_{xy} = \mathrm{e}^{x}(\cos y+\sin y) = f_{yx} . \; \checkmark
-        \]
-        Hessian
-        \[
-          \Hess = \mathrm{e}^{x}
-          \begin{pmatrix}
-            \sin y-\cos y & \cos y+\sin y \\
-            \cos y+\sin y & \cos y-\sin y
-          \end{pmatrix} .
-        \]
-
-  \item $D_1 = 9 > 0$, $D_2 = 36 - 36 = 0$. \textbf{Inconclusive
-        (positive semi-definite boundary case)}: Sylvester gives no
-        verdict; we cannot rule out PSD with a zero eigenvalue. (In fact
-        $H = (3,2)^{T}(3,2)$, so it is PSD with one zero eigenvalue.)
-
-  \item $\grad f = (2x+y-3,\,x+2y) = (0,0)$. From the second: $x=-2y$;
-        substituting: $-4y+y-3=0 \Rightarrow y=-1$, $x=2$. Critical point
-        $(2,-1)$. Hessian $\Hess = \begin{pmatrix}2&1\\1&2\end{pmatrix}$:
-        $D_1=2>0$, $D_2=4-1=3>0$, \textbf{PD}, so $(2,-1)$ is a strict
-        \textbf{local minimum} with $f(2,-1) = 4-2+1-6 = -3$.
-
-  \item With $u=y/x$, $f=\arctan u$: $f_x = -y/(x^{2}+y^{2})$,
-        $f_y = x/(x^{2}+y^{2})$. Let $S=x^{2}+y^{2}$. Then
-        \[
-          f_{xx} = \frac{2xy}{S^{2}}, \qquad
-          f_{yy} = \frac{-2xy}{S^{2}}, \qquad
-          f_{xy} = \frac{-S+2y^{2}}{S^{2}} = \frac{y^{2}-x^{2}}{(x^{2}+y^{2})^{2}}
-                  = f_{yx} . \; \checkmark
-        \]
-        (And $f_{xx}+f_{yy}=0$: $\arctan(y/x)$ is harmonic.)
-
-  \item Let $g=K^{1/2}+L^{1/2}$. From sec06 sol.\ 23, $f_K = g/K^{1/2}$,
-        $f_L = g/L^{1/2}$. Then
-        \[
-          f_{KK} = \frac{\tfrac12K^{-1/2}\cdot K^{1/2}-g\cdot\tfrac12K^{-1/2}}{K}
-                  = \frac{\tfrac12-g/(2K^{1/2})}{K}
-                  = \frac{1}{2K}-\frac{g}{2K^{3/2}} .
-        \]
-        More cleanly: $f_K = 1+(L/K)^{1/2}$, so
-        $f_{KK} = -\tfrac12L^{1/2}K^{-3/2}$, and by symmetry
-        $f_{LL} = -\tfrac12K^{1/2}L^{-3/2}$. Cross-partial:
-        $f_{KL} = \tfrac12K^{-1/2}L^{-1/2} = f_{LK}$. \; $\checkmark$
-        Hessian
-        \[
-          \Hess = \tfrac12
-          \begin{pmatrix}
-            -L^{1/2}K^{-3/2} & K^{-1/2}L^{-1/2} \\
-            K^{-1/2}L^{-1/2} & -K^{1/2}L^{-3/2}
-          \end{pmatrix} .
-        \]
-
-  \item $\grad f = (-4x^{3}+8y,\,-4y^{3}+8x) = (0,0) \Rightarrow x^{3}=2y$
-        and $y^{3}=2x$. Substituting: $y=x^{3}/2$, then
-        $(x^{3}/2)^{3}=2x \Rightarrow x^{9}/8=2x \Rightarrow x(x^{8}-16)=0$,
-        so $x\in\{0,\pm16^{1/8}\}=\{0,\pm\sqrt2\}$. Points: $(0,0)$,
-        $(\sqrt2,\sqrt2)$ (since $y=x^{3}/2=2\sqrt2/2=\sqrt2$), and
-        $(-\sqrt2,-\sqrt2)$. Hessian
-        $\Hess = \begin{pmatrix}-12x^{2}&8\\8&-12y^{2}\end{pmatrix}$.
-        \begin{itemize}
-          \item $(0,0)$: $\Hess = \begin{pmatrix}0&8\\8&0\end{pmatrix}$,
-                $D_2=-64<0$, \textbf{saddle}.
-          \item $(\sqrt2,\sqrt2)$: $x^{2}=y^{2}=2$,
-                $\Hess = \begin{pmatrix}-24&8\\8&-24\end{pmatrix}$,
-                $D_1=-24<0$, $D_2=576-64=512>0$, \textbf{ND}: local
-                maximum, $f=-4-4+16=8$.
-          \item $(-\sqrt2,-\sqrt2)$: same $H$, $f=-4-4+16=8$. \textbf{Local
-                maximum.}
-        \end{itemize}
-
-  \item $f_x = 2x\mathrm{e}^{-y}$, $f_y = -x^{2}\mathrm{e}^{-y}$. So
-        $f_{xx} = 2\mathrm{e}^{-y}$, $f_{yy} = x^{2}\mathrm{e}^{-y}$, and
-        \[
-          f_{xy} = -2x\mathrm{e}^{-y} = f_{yx} . \; \checkmark
-        \]
-
-  \item $f_x = -y\sin(xy)$, $f_y = -x\sin(xy)$. Then
-        $f_{xx} = -y^{2}\cos(xy)$, $f_{yy} = -x^{2}\cos(xy)$, and
-        (product rule)
-        \[
-          f_{xy} = -\sin(xy) - y\cdot x\cos(xy) = -\sin(xy) - xy\cos(xy) .
-        \]
-        At $(0,0)$: $\sin 0=0$, $\cos 0=1$. So $f_{xx}(0,0)=0$,
-        $f_{yy}(0,0)=0$, $f_{xy}(0,0)=0$. Hessian
-        \[
-          \Hess(0,0) = \begin{pmatrix}0&0\\0&0\end{pmatrix} .
-        \]
-
-  \item $D_1 = 0$. Sylvester's stated criterion is inconclusive because
-        $D_1$ is not strictly positive or negative. Directly:
-        $D_2 = 0-9 = -9 < 0$, which by the third clause of Sylvester
-        (sufficient on its own) gives \textbf{indefinite.}
-
-  \item $\grad f = (3x^{2}+3y^{2}-15,\,6xy-12) = (0,0)$. From the second:
-        $xy=2$. From the first: $x^{2}+y^{2}=5$. Combined with $xy=2$:
-        $(x+y)^{2}=5+4=9$ so $x+y=\pm3$; $(x-y)^{2}=5-4=1$ so
-        $x-y=\pm1$. Solutions $(x,y)\in\{(2,1),(1,2),(-2,-1),(-1,-2)\}$.
-        Hessian $\Hess = \begin{pmatrix}6x&6y\\6y&6x\end{pmatrix}$, so
-        $D_1=6x$, $D_2=36(x^{2}-y^{2})$.
-        \begin{itemize}
-          \item $(2,1)$: $D_1=12>0$, $D_2=36(4-1)=108>0$, \textbf{PD}:
-                local minimum, $f=8+6-30-12=-28$.
-          \item $(1,2)$: $D_1=6>0$, $D_2=36(1-4)=-108<0$, \textbf{saddle}.
-          \item $(-2,-1)$: $D_1=-12<0$, $D_2=108>0$, \textbf{ND}: local
-                maximum, $f=-8-6+30+12=28$.
-          \item $(-1,-2)$: $D_1=-6<0$, $D_2=-108<0$, $D_2<0$ gives
-                \textbf{saddle}.
-        \end{itemize}
-
-  \item Let $S=1+x^{2}+y^{2}$, $f=\ln S$, $f_x = 2x/S$, $f_y = 2y/S$.
-        Then (using quotient rule):
-        \[
-          f_{xx} = \frac{2S-2x\cdot2x}{S^{2}} = \frac{2(1+y^{2}-x^{2})}{S^{2}}, \quad
-          f_{yy} = \frac{2(1+x^{2}-y^{2})}{S^{2}}, \quad
-          f_{xy} = \frac{-4xy}{S^{2}} = f_{yx} . \; \checkmark
-        \]
-        At the origin $(0,0)$: $S=1$, so
-        \[
-          \Hess(0,0) = \begin{pmatrix}2&0\\0&2\end{pmatrix} .
-        \]
-
-  \item $\grad f = \mathrm{e}^{-(x^{2}+y^{2})}(-2x,-2y) = (0,0)
-        \Rightarrow x=y=0$, since $\mathrm{e}^{-r^{2}}>0$. Critical point
-        $(0,0)$. Compute the Hessian: $f_x = -2x\mathrm{e}^{-(x^{2}+y^{2})}$,
-        and at $(0,0)$, $f_{xx} = -2\mathrm{e}^{0}+(-2x)(-2x)\mathrm{e}^{0}\big|_{0,0}=-2$.
-        Similarly $f_{yy}(0,0)=-2$, and
-        $f_{xy}(0,0) = (-2x)(-2y)\mathrm{e}^{0}\big|_{0,0}=0$. Hessian
-        $\Hess(0,0) = \begin{pmatrix}-2&0\\0&-2\end{pmatrix}$: $D_1=-2<0$,
-        $D_2=4>0$, \textbf{ND: strict local maximum} at $(0,0)$ with
-        $f(0,0)=1$. (Indeed, this is the global maximum, since $f\to0$
-        at infinity and $f>0$ everywhere.)
+  \item $f'=3x^{2}-12=3(x-2)(x+2)$: $+$ on $(-\infty,-2)$, $-$ on
+        $(-2,2)$, $+$ on $(2,\infty)$. Local maximum $(-2,16)$, local
+        minimum $(2,-16)$.
+  \item $f'=4x^{3}-16x=4x(x-2)(x+2)$: $-$, $+$, $-$, $+$ on the four
+        intervals cut by $-2,0,2$. Local minima $(\pm2,-16)$, local maximum
+        $(0,0)$.
+  \item $f'=(1-x)\mathrm{e}^{-x}$: positive for $x<1$, negative for $x>1$.
+        Single local (and global) maximum $(1,1/\mathrm{e})$.
+  \item $f'=\dfrac{1-x^{2}}{(x^{2}+1)^{2}}$: negative, positive, negative
+        on $(-\infty,-1)$, $(-1,1)$, $(1,\infty)$. Local minimum
+        $(-1,-\tfrac12)$, local maximum $(1,\tfrac12)$.
+  \item $f'=1-\dfrac1x=\dfrac{x-1}{x}$: negative on $(0,1)$, positive on
+        $(1,\infty)$. Local (global) minimum $(1,1)$.
+  \item $f'=3x^{2}\ge0$ with equality only at $0$: the sign of $f'$ never
+        changes, so $f$ increases throughout and $x=0$ is a
+        \emph{saddle-like} stationary point, not an extremum. A vanishing
+        derivative is necessary, never sufficient.
+  \item $f'=\dfrac{x(x-2)}{(x-1)^{2}}$. The denominator is always positive,
+        so the sign is that of $x(x-2)$: $+$, $-$, $-$, $+$ across
+        $0,1,2$ (with $x=1$ excluded). Local maximum $(0,0)$, local minimum
+        $(2,4)$; the function decreases on $(0,1)$ and on $(1,2)$.
+  \item $f'=\dfrac{1}{2\sqrt{x}}-1$, zero when $\sqrt{x}=\tfrac12$, i.e.
+        $x=\tfrac14$: positive before, negative after. Global maximum
+        $\bigl(\tfrac14,\tfrac14\bigr)$.
+  \item $f''=6x-6$: negative for $x<1$ (concave), positive for $x>1$
+        (convex). Inflection $(1,-2)$.
+  \item $f''=12x^{2}-8$: zero at $x=\pm\sqrt{2/3}$; convex outside,
+        concave between. Inflections at
+        $\bigl(\pm\sqrt{2/3},-\tfrac{20}{9}\bigr)$.
+  \item $f'=-2x\mathrm{e}^{-x^{2}}$ and
+        $f''=(4x^{2}-2)\mathrm{e}^{-x^{2}}$: zero at
+        $x=\pm1/\sqrt2$, convex outside, concave between. Inflections at
+        $\bigl(\pm1/\sqrt2,\mathrm{e}^{-1/2}\bigr)$.
+  \item $f''=12x^{2}\ge0$, vanishing only at $x=0$ but \emph{not changing
+        sign} there: the curve is convex on both sides, so there is no
+        inflection. $f''=0$ is necessary, not sufficient.
+  \item $f'=\dfrac{1-\ln x}{x^{2}}$, $f''=\dfrac{2\ln x-3}{x^{3}}$: zero at
+        $\ln x=\tfrac32$, i.e. $x=\mathrm{e}^{3/2}$; concave before, convex
+        after. Inflection at
+        $\bigl(\mathrm{e}^{3/2},\tfrac32\mathrm{e}^{-3/2}\bigr)$.
+  \item $f'=(2x-x^{2})\mathrm{e}^{-x}$,
+        $f''=(x^{2}-4x+2)\mathrm{e}^{-x}$: zero at $x=2\pm\sqrt2$, convex
+        outside those, concave between.
+  \item Pole $x=-2$; equal degrees, so horizontal asymptote $y=1$.
+  \item Poles $x=\pm2$; numerator degree smaller, so $y=0$.
+  \item Pole $x=1$; degrees differ by one, and
+        $f=x+1+\dfrac{1}{x-1}$, so the oblique asymptote is $y=x+1$.
+  \item No real pole ($x^{2}+1>0$); degrees differ by one, and
+        $x^{3}=x(x^{2}+1)-x$, so $f=x-\dfrac{x}{x^{2}+1}$ and the oblique
+        asymptote is $y=x$.
+  \item Vertical asymptote $x=0$ (as $x\to0^{+}$, $f\to-\infty$) and
+        horizontal $y=0$ as $x\to\infty$, since $\ln x\ll x$.
+  \item As $x\to+\infty$, $\mathrm{e}^{-x}\to0$, so $y=x$ is an oblique
+        asymptote. As $x\to-\infty$ the exponential dominates and
+        $f\to+\infty$ with no asymptote.
+  \item Domain $\R$; no symmetry; $f=x^{2}(x-3)$ so roots $0$ (double,
+        touching) and $3$; $f(0)=0$; ends $-\infty$ and $+\infty$. From
+        problem 9's table: increasing on $(-\infty,0)$, decreasing on
+        $(0,2)$, increasing on $(2,\infty)$, local maximum $(0,0)$, local
+        minimum $(2,-4)$; concave then convex with inflection $(1,-2)$. See
+        the figure.
+  \item Domain $\R$; \emph{even}; $f=x^{2}(x^{2}-4)$ so roots $0$ (double)
+        and $\pm2$; both ends $+\infty$; local maximum $(0,0)$, local
+        minima $(\pm\sqrt2,-4)$; inflections
+        $\bigl(\pm\sqrt{2/3},-\tfrac{20}{9}\bigr)$. A symmetric W.
+  \item Domain $\R$; \emph{odd}; single root $0$; horizontal asymptote
+        $y=0$ at both ends; local minimum $(-1,-\tfrac12)$, local maximum
+        $(1,\tfrac12)$;
+        $f''=\dfrac{2x(x^{2}-3)}{(x^{2}+1)^{3}}$ gives inflections at
+        $(0,0)$ and $\bigl(\pm\sqrt3,\pm\tfrac{\sqrt3}{4}\bigr)$. See the
+        figure.
+  \item The worked example of the Core Rules: domain $\R\setminus\{1\}$,
+        double root at $0$, pole $x=1$, oblique asymptote $y=x+1$, local
+        maximum $(0,0)$, local minimum $(2,4)$, no inflection, concave left
+        of the pole and convex right of it.
+  \item Domain $\R$; \emph{even}; no roots ($f>0$ always); horizontal
+        asymptote $y=0$ at both ends; global maximum $(0,1)$; inflections
+        at $\bigl(\pm1/\sqrt2,\mathrm{e}^{-1/2}\bigr)$; convex outside
+        them, concave between. The bell curve.
+  \item Domain $\R$; no symmetry; single root $0$; as $x\to+\infty$,
+        $f\to0^{+}$ (asymptote $y=0$), as $x\to-\infty$, $f\to-\infty$;
+        global maximum $(1,1/\mathrm{e})$; inflection
+        $(2,2/\mathrm{e}^{2})$, concave before, convex after. See the
+        figure.
+  \item Domain $(0,\infty)$; root $x=1$; vertical asymptote $x=0$ with
+        $f\to-\infty$, horizontal asymptote $y=0$ as $x\to\infty$; global
+        maximum $(\mathrm{e},1/\mathrm{e})$; inflection at
+        $x=\mathrm{e}^{3/2}$. See the figure.
+  \item Domain $\R\setminus\{-2\}$; root $x=1$; $f(0)=-\tfrac12$; pole
+        $x=-2$ ($-\infty$ from the left, $+\infty$ from the right);
+        horizontal asymptote $y=1$; $f'=\dfrac{3}{(x+2)^{2}}>0$ so strictly
+        increasing on each branch with \emph{no} extrema;
+        $f''=\dfrac{-6}{(x+2)^{3}}$, convex left of the pole, concave right
+        of it.
+  \item Domain $\R$; no symmetry; double root $0$; as $x\to+\infty$,
+        $f\to0^{+}$; as $x\to-\infty$, $f\to+\infty$; local minimum
+        $(0,0)$, local maximum $(2,4/\mathrm{e}^{2})$; inflections at
+        $x=2\pm\sqrt2$.
+  \item Domain $\R\setminus\{\pm2\}$; \emph{even}; no roots; poles
+        $x=\pm2$; horizontal asymptote $y=0$;
+        $f'=\dfrac{-2x}{(x^{2}-4)^{2}}$, so increasing for $x<0$ and
+        decreasing for $x>0$, giving a local maximum
+        $\bigl(0,-\tfrac14\bigr)$ --- a maximum with a negative value,
+        since the middle branch lies entirely below the axis.
+  \item Domain $[0,\infty)$; roots $0$ and $1$; $f\to-\infty$ as
+        $x\to\infty$; global maximum $\bigl(\tfrac14,\tfrac14\bigr)$;
+        $f''=-\tfrac14x^{-3/2}<0$, so concave throughout with no
+        inflection; the tangent at $0$ is vertical.
+  \item Domain $\R$; $f=(x-1)^{2}(x+2)$, so a double root at $1$ (touching)
+        and a simple root at $-2$; $f(0)=2$; ends $\mp\infty$; local
+        maximum $(-1,4)$, local minimum $(1,0)$; inflection $(0,2)$.
+  \item It rises, but ever more slowly: increasing and concave, bending
+        away from its own tangent downwards --- the shape of a production
+        function with diminishing returns.
+  \item $f'<0$ between the roots and $>0$ outside them, so $f$ increases on
+        $(-\infty,-1)$, decreases on $(-1,3)$, increases on $(3,\infty)$: a
+        local maximum at $x=-1$ and a local minimum at $x=3$.
+  \item $f'(x)=kx$ with $k>0$ gives $f(x)=\tfrac{k}{2}x^{2}+c$: an upward
+        parabola with vertex at $x=0$, convex everywhere.
+  \item $f'(1)=0$ with $f''(1)<0$: a local \textbf{maximum} at $(1,2)$ by
+        the second-derivative test. The tangent is horizontal, $y=2$.
+  \item One valid answer: $f(x)=1-\dfrac{4}{(x-2)^{2}}$ has the pole and the
+        asymptote $y=1$ but a maximum, not a minimum, so adjust ---
+        $f(x)=\dfrac{x^{2}}{(x-2)^{2}}$ works: $f(0)=0$ is a local minimum,
+        the pole is at $x=2$, and $f\to1$ at both ends. Any sketch with a
+        left branch dipping to $(0,0)$ and rising to $+\infty$ at $x=2^{-}$,
+        and a right branch descending convexly from $+\infty$ towards
+        $y=1$, is correct.
+  \item Because a local extremum is only a statement about a
+        \emph{neighbourhood}. The pole cuts the domain into two intervals
+        with no path between them, so the values on one side need not
+        compare with those on the other. In problem 24 the maximum $(0,0)$
+        lies on the left branch, the minimum $(2,4)$ on the right, and
+        between them the function runs off to $\mp\infty$.
+  \item $C'=3q^{2}-12q+15=3(q^{2}-4q+5)=3\bigl((q-2)^{2}+1\bigr)\ge3>0$, so
+        $C$ increases for every $q$. $C''=6q-12$ vanishes at $q=2$ and
+        changes sign there: inflection at $(2,14)$. Since $MC=C'$ and
+        $MC'=C''$, marginal cost has its minimum exactly at $q=2$, where
+        $MC=3$.
+  \item $AC=q^{2}-6q+15=(q-3)^{2}+6$, minimal at $q=3$ with $AC=6$. There
+        $MC=3\cdot9-12\cdot3+15=6=AC$, as the identity
+        $AC'=(MC-AC)/q$ requires.
+  \item $\pi=15q-(q^{3}-6q^{2}+15q)=-q^{3}+6q^{2}$. Then
+        $\pi'=-3q^{2}+12q=-3q(q-4)$, zero at $q=4$ (and $q=0$), and
+        $\pi''=-6q+12=-12<0$ at $q=4$: a maximum, with
+        $\pi(4)=-64+96=32$.
+  \item $R=200q-4q^{2}=-4(q-25)^{2}+2500$ on the economic domain
+        $[0,50]$ (where the price $200-4q$ stays non-negative): a downward
+        parabola, increasing on $[0,25)$, decreasing on $(25,50]$, concave
+        throughout, with maximum revenue $2500$ at $q=25$ and zeros at both
+        ends.
+  \item $AC=0.5q+2+\dfrac{8}{q}$, so $AC'=0.5-\dfrac{8}{q^{2}}=0$ gives
+        $q^{2}=16$, $q=4$, with $AC(4)=2+2+2=6$. And $MC=q+2=6$ at $q=4$:
+        equal, as required.
+  \item As $t\to\infty$, $y\to100$; as $t\to-\infty$, $y\to0$: two
+        horizontal asymptotes. $y'=\dfrac{50\mathrm{e}^{-0.5t}}
+        {(1+\mathrm{e}^{-0.5t})^{2}}>0$ always, so $y$ increases
+        throughout. The inflection is where the numerator's growth turns,
+        at $\mathrm{e}^{-0.5t}=1$, i.e. $t=0$, with $y=50$ --- exactly half
+        the ceiling, which is the signature of the logistic curve.
+  \item $q>0$, so the sign of $AC'$ is the sign of $MC-AC$. If
+        $MC<AC$ then $AC'<0$ and average cost falls: producing one more
+        unit costs less than the current average, which pulls the average
+        down. Once $MC$ rises above $AC$ the average is pulled up, and the
+        crossing point is therefore the minimum.
 \end{solutions}
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[fnaxis, xmin=-1.6, xmax=3.9, ymin=-5.4, ymax=4.4,
+      xtick={-1,1,2,3}, ytick={-4,-2,2}, title={$x^{3}-3x^{2}$}]
+    \addplot[domain=-1.2:3.6, samples=201]{x^3-3*x^2};
+    \addplot[only marks, mark=*, mark size=1.2pt, black, forget plot]
+      coordinates {(0,0) (2,-4) (1,-2)};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[fnaxis, xmin=-5.4, xmax=5.4, ymin=-0.75, ymax=0.75,
+      xtick={-4,-2,2,4}, ytick={-0.5,0.5}, title={$x/(x^{2}+1)$}]
+    \addplot[domain=-5.2:5.2, samples=201]{x/(x^2+1)};
+    \addplot[only marks, mark=*, mark size=1.2pt, black, forget plot]
+      coordinates {(1,0.5) (-1,-0.5) (0,0)};
+  \end{axis}
+\end{tikzpicture}
+\end{gallery}
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[fnaxis, xmin=-1.4, xmax=5.4, ymin=-1.4, ymax=0.75,
+      xtick={-1,1,2,4}, ytick={-1,0.5}, title={$x\mathrm{e}^{-x}$}]
+    \addplot[domain=-1.2:5.2, samples=201]{x*exp(-x)};
+    \addplot[only marks, mark=*, mark size=1.2pt, black, forget plot]
+      coordinates {(1,0.3679) (2,0.2707)};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[fnaxis, xmin=-0.5, xmax=9.4, ymin=-1.9, ymax=0.75,
+      xtick={2,4,6,8}, ytick={-1,0.5}, title={$\ln x/x$}]
+    \addplot[domain=0.14:9.2, samples=241]{ln(x)/x};
+    \addplot[only marks, mark=*, mark size=1.2pt, black, forget plot]
+      coordinates {(2.7183,0.3679) (4.4817,0.3347)};
+  \end{axis}
+\end{tikzpicture}
+\gcap{Four of the completed discussions: problems 21, 23, 26 and 27, with
+their extrema and inflection points marked.}
+\end{gallery}
 
 \section{Additional Problems}
 
 \begin{problems}
-  \item Compute all second partials of $f(x,y) = 3x^{3} - 4x^{2}y + 5y^{3}$
-        and verify Young's theorem.
-  \item Construct the Hessian of
-        $f(x,y) = 3x^{2} - 4xy + 2y^{2} + x - 5y$.
-  \item Classify the definiteness of
-        $\Hess = \begin{pmatrix}5&-1\\-1&4\end{pmatrix}$ using Sylvester's
-        criterion.
-  \item Find and classify the critical points of
-        $f(x,y) = 2x^{2} + 3y^{2} - 4x + 6y + 1$.
-  \item Compute all second partials of $f(x,y) = (2x+y)^{4}$ and verify
-        $f_{xy} = f_{yx}$.
-  \item Construct the Hessian of $f(x,y) = \mathrm{e}^{x+2y}$.
-  \item Classify $\Hess = \begin{pmatrix}-3&1\\1&-2\end{pmatrix}$.
-  \item Find and classify the critical points of
-        $f(x,y) = -2x^{2} - 4y^{2} + 8x + 8y - 3$.
-  \item Compute all second partials of $f(x,y) = xy\ln y$ ($y>0$) and
-        verify Young's theorem.
-  \item Construct the Hessian of $f(x,y) = x^{3}y + xy^{3}$.
-  \item Classify $\Hess = \begin{pmatrix}2&3\\3&4\end{pmatrix}$.
-  \item Find and classify the critical points of
-        $f(x,y) = x^{2} - 2xy + 3y^{2} + 2x - 6y$.
-  \item Compute all second partials of the Cobb--Douglas
-        $f(K,L) = K^{1/2}L^{1/2}$ ($K,L>0$) and verify Young's theorem.
-  \item Find and classify the critical points of
-        $f(x,y) = x^{3} + y^{3} - 3x - 3y$.
-  \item Classify $\Hess = \begin{pmatrix}-5&0\\0&-3\end{pmatrix}$ and state
-        what it implies if $H$ is the Hessian at a critical point.
+  \item Monotonicity and extrema of $f(x)=2x^{3}-9x^{2}+12x$.
+  \item Monotonicity and extrema of $f(x)=\dfrac{x^{2}}{x^{2}+3}$.
+  \item Monotonicity and extrema of $f(x)=x\ln x$ on $x>0$.
+  \item Convexity and inflections of $f(x)=x^{3}-6x^{2}+9x$.
+  \item Convexity and inflections of $f(x)=\dfrac{1}{1+x^{2}}$.
+  \item Convexity of $f(x)=\mathrm{e}^{x}+\mathrm{e}^{-x}$, and its
+        minimum.
+  \item All asymptotes of $f(x)=\dfrac{2x^{2}-3}{x+1}$.
+  \item All asymptotes of $f(x)=\dfrac{x^{2}-1}{x^{2}+1}$.
+  \item All asymptotes of $f(x)=x\mathrm{e}^{1/x}$.
+  \item Complete discussion of $f(x)=x^{3}-6x^{2}+9x$.
+  \item Complete discussion of $f(x)=\dfrac{x^{2}-4}{x^{2}}$.
+  \item Complete discussion of $f(x)=(x-2)\mathrm{e}^{-x}$.
+  \item Complete discussion of $f(x)=x^{2}\ln x$ on $x>0$.
+  \item Complete discussion of $f(x)=\dfrac{4x}{x^{2}+4}$.
+  \item Complete discussion of $f(x)=\sqrt{4-x^{2}}$.
+  \item A cubic has a local maximum at $(0,4)$ and a local minimum at
+        $(2,0)$. Determine it.
+  \item A function has $f'(x)>0$ everywhere and $f''(x)<0$ everywhere, with
+        horizontal asymptote $y=5$. Sketch it and give an example formula.
+  \item Where does $f(x)=x^{4}-4x^{3}$ have inflections, and why does the
+        second-derivative test fail at one of its critical points?
+  \item Show that $f(x)=x+1/x$ has a local minimum at $x=1$ and a local
+        maximum at $x=-1$, with the maximum value below the minimum value,
+        and explain.
+  \item For which $a$ does $f(x)=x^{3}+ax$ have two local extrema?
+  \item For $C(q)=q^{3}-9q^{2}+30q$: find the inflection, the minimum of
+        average cost, and verify $MC=AC$ there.
+  \item For $C(q)=2q^{2}+50$ and price $p=40$: find the profit-maximising
+        output, the profit, and the break-even outputs.
+  \item A monopolist faces $p(q)=100-2q$ with $C(q)=q^{2}+20q$. Discuss the
+        profit curve and find the optimum.
+  \item Show that if $AC$ has a minimum at $q^{*}$ then the $AC$ curve is
+        tangent to no ray from the origin except the one through
+        $(q^{*},AC(q^{*}))$, and relate this to $MC=AC$.
+  \item The production function $Q(L)=12L^{2}-L^{3}$ describes output from
+        labour $L\in[0,12]$. Find where average product is maximal and show
+        that marginal product equals average product there.
 \end{problems}
 
 \section{Additional Solutions}
 
 \begin{solutions}
-  \item $f_x = 9x^{2} - 8xy$, $f_y = -4x^{2} + 15y^{2}$. Then
-        $f_{xx} = 18x - 8y$, $f_{yy} = 30y$, and
-        \[
-          f_{xy} = -8x = f_{yx} . \; \checkmark
-        \]
-
-  \item $f_x = 6x - 4y + 1$, $f_y = -4x + 4y - 5$. Hessian
-        \[
-          \Hess = \begin{pmatrix}6&-4\\-4&4\end{pmatrix} .
-        \]
-
-  \item $D_1 = 5 > 0$, $D_2 = 20 - 1 = 19 > 0$. \textbf{PD.}
-
-  \item $\grad f = (4x-4,\,6y+6) = (0,0) \Rightarrow x=1,\,y=-1$. Hessian
-        $\Hess = \begin{pmatrix}4&0\\0&6\end{pmatrix}$: $D_1=4>0$,
-        $D_2=24>0$, \textbf{PD}, so $(1,-1)$ is a strict \textbf{local
-        minimum} with $f(1,-1) = 2+3-4-6+1 = -4$.
-
-  \item Chain rule: $f_x = 4(2x+y)^{3}\cdot2 = 8(2x+y)^{3}$,
-        $f_y = 4(2x+y)^{3}$. So $f_{xx} = 48(2x+y)^{2}$,
-        $f_{yy} = 12(2x+y)^{2}$, and
-        \[
-          f_{xy} = 24(2x+y)^{2} = f_{yx} . \; \checkmark
-        \]
-
-  \item $f_x = \mathrm{e}^{x+2y}$, $f_y = 2\mathrm{e}^{x+2y}$. So
-        $f_{xx} = \mathrm{e}^{x+2y}$, $f_{yy} = 4\mathrm{e}^{x+2y}$,
-        $f_{xy} = 2\mathrm{e}^{x+2y}$. Hessian
-        \[
-          \Hess = \mathrm{e}^{x+2y}\begin{pmatrix}1&2\\2&4\end{pmatrix} .
-        \]
-        (Note $\det\Hess = 0$: this is rank-1 PSD, consistent with $f$
-        being a function of the single combination $x+2y$.)
-
-  \item $D_1 = -3 < 0$, $D_2 = 6 - 1 = 5 > 0$. \textbf{ND.}
-
-  \item $\grad f = (-4x+8,\,-8y+8) = (0,0) \Rightarrow x=2,\,y=1$. Hessian
-        $\Hess = \begin{pmatrix}-4&0\\0&-8\end{pmatrix}$: $D_1=-4<0$,
-        $D_2=32>0$, \textbf{ND}, so $(2,1)$ is a strict \textbf{local
-        maximum} with $f(2,1) = -8-4+16+8-3 = 9$.
-
-  \item $f_x = y\ln y$, $f_y = x\ln y + x = x(\ln y + 1)$. So
-        $f_{xx} = 0$, $f_{yy} = x/y$, and
-        \[
-          f_{xy} = \ln y + 1 = f_{yx} . \; \checkmark
-        \]
-
-  \item $f_x = 3x^{2}y + y^{3}$, $f_y = x^{3} + 3xy^{2}$. So
-        $f_{xx} = 6xy$, $f_{yy} = 6xy$,
-        $f_{xy} = 3x^{2} + 3y^{2} = f_{yx}$. Hessian
-        \[
-          \Hess = \begin{pmatrix}
-            6xy & 3x^{2}+3y^{2} \\
-            3x^{2}+3y^{2} & 6xy
-          \end{pmatrix} .
-        \]
-
-  \item $D_1 = 2 > 0$, $D_2 = 8 - 9 = -1 < 0$. \textbf{Indefinite
-        (saddle).}
-
-  \item $\grad f = (2x-2y+2,\,-2x+6y-6) = (0,0)$. From the first:
-        $x = y-1$. Substitute: $-2(y-1)+6y-6 = 4y-4 = 0 \Rightarrow y=1$,
-        $x=0$. Hessian $\Hess = \begin{pmatrix}2&-2\\-2&6\end{pmatrix}$:
-        $D_1=2>0$, $D_2=12-4=8>0$, \textbf{PD}, so $(0,1)$ is a strict
-        \textbf{local minimum} with $f(0,1) = 0-0+3+0-6 = -3$.
-
-  \item $f_K = \tfrac12K^{-1/2}L^{1/2}$, $f_L = \tfrac12K^{1/2}L^{-1/2}$.
-        So
-        \[
-          f_{KK} = -\tfrac14K^{-3/2}L^{1/2}, \quad
-          f_{LL} = -\tfrac14K^{1/2}L^{-3/2}, \quad
-          f_{KL} = \tfrac14K^{-1/2}L^{-1/2} = f_{LK} . \; \checkmark
-        \]
-
-  \item $\grad f = (3x^{2}-3,\,3y^{2}-3) = (0,0) \Rightarrow x^{2}=1,\,
-        y^{2}=1$, giving $(\pm1,\pm1)$. Hessian
-        $\Hess = \begin{pmatrix}6x&0\\0&6y\end{pmatrix}$, so $D_1=6x$,
-        $D_2=36xy$.
-        \begin{itemize}
-          \item $(1,1)$: $D_1=6>0$, $D_2=36>0$, \textbf{PD}: local
-                minimum, $f = 1+1-3-3 = -4$.
-          \item $(1,-1)$: $D_2=-36<0$, \textbf{saddle}.
-          \item $(-1,1)$: $D_2=-36<0$, \textbf{saddle}.
-          \item $(-1,-1)$: $D_1=-6<0$, $D_2=36>0$, \textbf{ND}: local
-                maximum, $f = -1-1+3+3 = 4$.
-        \end{itemize}
-
-  \item $D_1 = -5 < 0$, $D_2 = 15 > 0$. \textbf{ND}: at a critical point
-        this would mean a \textbf{strict local maximum.}
+  \item $f'=6x^{2}-18x+12=6(x-1)(x-2)$: $+,-,+$. Local maximum $(1,5)$,
+        local minimum $(2,4)$.
+  \item $f'=\dfrac{6x}{(x^{2}+3)^{2}}$: negative for $x<0$, positive for
+        $x>0$. Global minimum $(0,0)$; $f\to1$ at both ends, so no
+        maximum.
+  \item $f'=\ln x+1$, zero at $x=\mathrm{e}^{-1}$: negative before,
+        positive after. Global minimum
+        $\bigl(\mathrm{e}^{-1},-\mathrm{e}^{-1}\bigr)$.
+  \item $f''=6x-12$: concave for $x<2$, convex for $x>2$; inflection
+        $(2,2)$.
+  \item $f'=\dfrac{-2x}{(1+x^{2})^{2}}$,
+        $f''=\dfrac{6x^{2}-2}{(1+x^{2})^{3}}$: zero at
+        $x=\pm1/\sqrt3$, convex outside, concave between. Inflections at
+        $\bigl(\pm1/\sqrt3,\tfrac34\bigr)$.
+  \item $f''=\mathrm{e}^{x}+\mathrm{e}^{-x}>0$ everywhere: convex, no
+        inflection. $f'=\mathrm{e}^{x}-\mathrm{e}^{-x}=0$ at $x=0$, giving
+        the global minimum $(0,2)$.
+  \item Pole $x=-1$; degrees differ by one, and
+        $2x^{2}-3=(x+1)(2x-2)-1$, so $f=2x-2-\dfrac{1}{x+1}$: oblique
+        asymptote $y=2x-2$.
+  \item No poles; equal degrees, so horizontal asymptote $y=1$ at both
+        ends.
+  \item As $x\to\pm\infty$, $\mathrm{e}^{1/x}\to1$ and more precisely
+        $x\mathrm{e}^{1/x}=x+1+\tfrac{1}{2x}+\cdots$, so $y=x+1$ is an
+        oblique asymptote. As $x\to0^{+}$, $f\to+\infty$ (vertical
+        asymptote $x=0$); as $x\to0^{-}$, $f\to0$.
+  \item $f=x(x-3)^{2}$: roots $0$ and $3$ (double); ends $\mp\infty$;
+        $f'=3x^{2}-12x+9=3(x-1)(x-3)$ gives local maximum $(1,4)$ and local
+        minimum $(3,0)$; $f''=6x-12$ gives inflection $(2,2)$; no
+        symmetry, no asymptotes.
+  \item $f=1-\dfrac{4}{x^{2}}$: domain $\R\setminus\{0\}$, \emph{even},
+        roots $\pm2$, pole $x=0$ with $f\to-\infty$ from both sides,
+        horizontal asymptote $y=1$; $f'=\dfrac{8}{x^{3}}$, so decreasing
+        for $x<0$ and increasing for $x>0$ with no extrema;
+        $f''=-\dfrac{24}{x^{4}}<0$: concave on both branches.
+  \item Domain $\R$; root $x=2$; $f\to0^{+}$ as $x\to+\infty$
+        (asymptote $y=0$) and $f\to-\infty$ as $x\to-\infty$;
+        $f'=(3-x)\mathrm{e}^{-x}$ gives a maximum
+        $(3,\mathrm{e}^{-3})$; $f''=(x-4)\mathrm{e}^{-x}$ gives an
+        inflection $(4,2\mathrm{e}^{-4})$.
+  \item Domain $(0,\infty)$; root $x=1$; $f\to0$ as $x\to0^{+}$ and
+        $f\to\infty$ as $x\to\infty$; $f'=2x\ln x+x=x(2\ln x+1)$, zero at
+        $x=\mathrm{e}^{-1/2}$, a minimum with value
+        $-\tfrac{1}{2\mathrm{e}}$; $f''=2\ln x+3$, zero at
+        $x=\mathrm{e}^{-3/2}$, an inflection.
+  \item Domain $\R$; \emph{odd}; root $0$; horizontal asymptote $y=0$;
+        $f'=\dfrac{4(4-x^{2})}{(x^{2}+4)^{2}}$ gives local minimum
+        $(-2,-1)$ and local maximum $(2,1)$; inflections at $0$ and
+        $\pm2\sqrt3$.
+  \item Domain $[-2,2]$; \emph{even}; roots $\pm2$; range $[0,2]$; it is
+        the upper semicircle of radius $2$, so concave throughout, maximum
+        $(0,2)$, and the tangents at $x=\pm2$ are vertical. No asymptotes.
+  \item Write $f=ax^{3}+bx^{2}+cx+d$. From the maximum at $(0,4)$:
+        $d=4$ and $f'(0)=c=0$. From $f'(2)=12a+4b=0$ and $f(2)=8a+4b+4=0$:
+        $b=-3a$ and $8a-12a+4=0$, so $a=1$, $b=-3$. Hence
+        $f(x)=x^{3}-3x^{2}+4$.
+  \item Increasing and concave with a ceiling: it rises steeply at first
+        and flattens onto $y=5$ without reaching it. Example:
+        $f(x)=5-\mathrm{e}^{-x}$.
+  \item $f'=4x^{3}-12x^{2}=4x^{2}(x-3)$, critical at $x=0$ and $x=3$;
+        $f''=12x^{2}-24x=12x(x-2)$, zero at $x=0$ and $x=2$ and changing
+        sign at both, so inflections at $(0,0)$ and $(2,-16)$. At $x=0$ the
+        second-derivative test fails because $f''(0)=0$; the sign table for
+        $f'$ shows $4x^{2}(x-3)<0$ on both sides of $0$, so $x=0$ is no
+        extremum --- it is the inflection.
+  \item $f'=1-\dfrac{1}{x^{2}}$, zero at $x=\pm1$;
+        $f''=\dfrac{2}{x^{3}}$, positive at $x=1$ (minimum, value $2$) and
+        negative at $x=-1$ (maximum, value $-2$). The maximum value $-2$
+        lies below the minimum value $2$ because the pole at $x=0$
+        separates the two branches, so neither extremum is global.
+  \item $f'=3x^{2}+a$ has two real roots exactly when $a<0$; then
+        $x=\pm\sqrt{-a/3}$ and the sign of $f'$ changes at both, giving a
+        maximum and a minimum. For $a\ge0$ the function is monotone
+        increasing.
+  \item $C''=6q-18=0$ at $q=3$: inflection, and $MC=3q^{2}-18q+30$ is
+        minimal there with $MC=3$. $AC=q^{2}-9q+30=(q-4.5)^{2}+9.75$,
+        minimal at $q=4.5$ with $AC=9.75$; and
+        $MC(4.5)=60.75-81+30=9.75=AC$.
+  \item $\pi=40q-2q^{2}-50$, so $\pi'=40-4q=0$ at $q=10$ with
+        $\pi''=-4<0$: maximum profit $\pi(10)=400-200-50=150$. Break-even
+        needs $\pi=0$: $2q^{2}-40q+50=0$, i.e. $q^{2}-20q+25=0$, so
+        $q=10\pm\sqrt{75}$, about $1.34$ and $18.66$.
+  \item $\pi=(100-2q)q-(q^{2}+20q)=80q-3q^{2}$, a downward parabola with
+        zeros at $q=0$ and $q=80/3$, concave throughout. $\pi'=80-6q=0$ at
+        $q=\tfrac{40}{3}\approx13.33$, with
+        $\pi=\tfrac{1600}{3}\approx533.3$ and price
+        $p=100-\tfrac{80}{3}\approx73.3$.
+  \item The slope of the ray from the origin through $(q,C(q))$ is exactly
+        $C(q)/q=AC(q)$. Minimising $AC$ therefore means finding the
+        \emph{flattest} such ray, and the flattest ray that still meets the
+        cost curve must touch it --- be tangent to it. At a tangency the
+        ray's slope equals the curve's slope, i.e. $AC=MC$. That is the
+        geometric content of $AC'=(MC-AC)/q$.
+  \item $AP=Q/L=12L-L^{2}$, maximal where $12-2L=0$, i.e. $L=6$, with
+        $AP=36$. And $MP=Q'=24L-3L^{2}$, so $MP(6)=144-108=36=AP$. The
+        same tangency argument as for average cost applies, with the ray
+        from the origin now touching the production curve.
 \end{solutions}

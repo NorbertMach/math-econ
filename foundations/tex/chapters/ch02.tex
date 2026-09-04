@@ -131,6 +131,99 @@ Splitting a series into pieces is only legitimate when \emph{each} piece
 converges on its own.
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{Sum $\sum_{k=0}^{\infty}3(0.4)^{k}$ and $\sum_{k=1}^{\infty}\dfrac{1}{k(k+1)}$; then explain why $\sum\dfrac1k$ diverges although its terms vanish}
+\wstep{Step 1. Identify the geometric series and check the ratio.}
+Consecutive terms of $\sum 3(0.4)^{k}$ have the constant ratio
+$r=0.4$, and $|r|<1$, so the series converges. The formula is
+\[
+  \sum_{k=0}^{\infty}c\,r^{k}=\frac{c}{1-r}
+  \qquad\text{(first term over one minus ratio).}
+\]
+\[
+  \sum_{k=0}^{\infty}3(0.4)^{k}=\frac{3}{1-0.4}=\frac{3}{0.6}=\boxed{5}.
+\]
+\wtrap{The numerator is the \textbf{first term actually present}, not the
+coefficient $c$ blindly. Starting at $k=1$ the sum is
+$\frac{3(0.4)}{1-0.4}=2$, not $5$; starting at $k=2$ it is
+$\frac{3(0.16)}{0.6}=0.8$. Write out the first term before dividing.}
+
+\wstep{Step 2. Sanity-check by partial sums.}
+$S_{0}=3$, $S_{1}=4.2$, $S_{2}=4.68$, $S_{3}=4.872$, $S_{4}=4.949$ --- 
+climbing towards $5$ and never passing it. The finite formula
+$S_{n}=c\frac{1-r^{n+1}}{1-r}$ gives $S_{4}=3\frac{1-0.4^{5}}{0.6}
+=5(1-0.01024)=4.9488$. \checkmark
+
+\wstep{Step 3. The second series is not geometric --- look for a telescope.}
+The ratio of consecutive terms is not constant, so no geometric formula
+applies. But the general term splits by partial fractions:
+\[
+  \frac{1}{k(k+1)}=\frac{1}{k}-\frac{1}{k+1} .
+\]
+(Cover-up: at $k=0$ the first constant is $1$; at $k=-1$ the second is
+$-1$.)
+
+\wstep{Step 4. Write out the partial sum and watch it collapse.}
+\[
+  S_{n}=\Bigl(1-\tfrac12\Bigr)+\Bigl(\tfrac12-\tfrac13\Bigr)
+       +\cdots+\Bigl(\tfrac1n-\tfrac{1}{n+1}\Bigr)
+       =1-\frac{1}{n+1} .
+\]
+Every interior term appears twice with opposite signs. Hence
+\[
+  \sum_{k=1}^{\infty}\frac{1}{k(k+1)}=\lim_{n\to\infty}\Bigl(1-\frac{1}{n+1}\Bigr)=\boxed{1}.
+\]
+\wtrap{A series is defined as the limit of its \emph{partial sums}. Always
+write $S_{n}$ down explicitly for a telescoping sum --- guessing which terms
+cancel is where the off-by-one errors come from, and the surviving pieces
+are always the first few and the last few.}
+
+\wstep{Step 5. The harmonic series: terms vanish, and it still diverges.}
+$\frac1k\to0$, so the \emph{necessary} condition for convergence is met.
+Group the terms in blocks of doubling length:
+\[
+  \underbrace{\tfrac12}_{\ge1/2}
+  +\underbrace{\tfrac13+\tfrac14}_{\ge\,2\cdot\frac14=\frac12}
+  +\underbrace{\tfrac15+\cdots+\tfrac18}_{\ge\,4\cdot\frac18=\frac12}
+  +\underbrace{\tfrac19+\cdots+\tfrac{1}{16}}_{\ge\,8\cdot\frac{1}{16}=\frac12}+\cdots
+\]
+Each block contributes at least $\tfrac12$, and there are infinitely many
+blocks, so the partial sums exceed any bound:
+\[
+  \sum_{k=1}^{\infty}\frac1k=\infty .
+\]
+\wtrap{This is the chapter's most important negative result.
+$a_{k}\to0$ is \textbf{necessary but not sufficient}. The test is only ever
+useful in its contrapositive form: if the terms do \emph{not} tend to zero,
+the series definitely diverges. If they do, you have learned nothing and
+must apply a real test.}
+
+\wstep{Step 6. Compare the three, and read the moral.}
+\begin{center}\footnotesize
+\begin{tabular}{lll}
+  \hline
+  series & terms & verdict\\
+  \hline
+  $\sum 3(0.4)^{k}$ & shrink geometrically & converges to $5$\\
+  $\sum\frac{1}{k(k+1)}\sim\frac{1}{k^{2}}$ & shrink like $k^{-2}$ & converges to $1$\\
+  $\sum\frac1k$ & shrink like $k^{-1}$ & diverges\\
+  \hline
+\end{tabular}
+\end{center}
+The dividing line sits between $k^{-1}$ and $k^{-2}$: $\sum k^{-p}$
+converges exactly for $p>1$. Terms tending to zero is not enough; they must
+tend to zero \emph{fast enough}.
+
+\wstep{Step 7. Where this is used.}
+A perpetuity paying $C$ for ever, discounted at rate $r$, is the geometric
+series $\sum_{k=1}^{\infty}C(1+r)^{-k}=C/r$ --- convergent precisely because
+$(1+r)^{-1}<1$. A growing perpetuity with growth $g$ has ratio
+$(1+g)/(1+r)$, and its value $C/(r-g)$ makes sense only when $g<r$. That
+condition is not a modelling convenience; it is the convergence criterion of
+this chapter.
+\end{worked}
+
 \section{Practice Problems}
 
 Evaluate the sums in Problems 1--14. In Problems 15--19 decide convergence

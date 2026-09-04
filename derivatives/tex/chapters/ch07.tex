@@ -1,756 +1,623 @@
-\chapter{First-Order Partial Derivatives and the Gradient}
+\chapter{Indeterminate Forms and L'H\^opital's Rule}
 
-When a function depends on more than one input, we measure how it responds
-to a change in \emph{one} variable at a time, holding the others fixed,
-the ceteris paribus principle. This is exactly what a partial derivative
-computes. From these one-variable slopes we assemble the gradient, which
-packages all first-order information into a single vector and unlocks the
-geometry of multivariate optimisation.
+The limit chapter of the analysis volume resolved $0/0$ by algebra alone:
+factor and cancel, or multiply by a conjugate. That was deliberate, since
+differentiation was not yet available. It is available now, and it turns the
+hardest limits into routine ones.
+
+The tool is \textbf{L'H\^opital's rule}: if a quotient tends to $0/0$ or to
+$\infty/\infty$, the limit is unchanged when numerator and denominator are
+\emph{each} differentiated. Two words in that sentence do all the damage in
+practice. \emph{Each}: the rule is not the quotient rule, and the derivative
+of the quotient never appears. And the form must genuinely be
+indeterminate: applied to a quotient that is not, the rule quietly returns
+the wrong number.
+
+Five further indeterminate forms --- $0\cdot\infty$, $\infty-\infty$,
+$0^{0}$, $1^{\infty}$, $\infty^{0}$ --- are not quotients at all, and the
+chapter's second skill is converting them into one. The last two rows of
+the toolkit are then worth the price of admission on their own: the
+hierarchy of growth rates that decides which of two economic magnitudes
+eventually dominates, and the limit that turns a CES production function
+into a Cobb--Douglas one.
 
 \section{Core Rules}
 
-\begin{rulebox}{Topological vocabulary of domains}
+\begin{rulebox}{The seven indeterminate forms}
+A limit is \textbf{indeterminate} when the limiting behaviour of the parts
+does not determine the answer:
+\[
+  \frac{0}{0},\qquad \frac{\infty}{\infty},\qquad 0\cdot\infty,\qquad
+  \infty-\infty,\qquad 0^{0},\qquad 1^{\infty},\qquad \infty^{0} .
+\]
+Everything else is determined and must simply be evaluated. In particular
+$\dfrac{5}{0^{+}}=+\infty$, $\dfrac{0}{5}=0$, $0^{\infty}=0$ and
+$\infty^{\infty}=\infty$ are \emph{not} indeterminate --- and applying
+L'H\^opital to them is an error, not a shortcut.
+\end{rulebox}
+
+\begin{rulebox}{L'H\^opital's rule}
+Let $f$ and $g$ be differentiable near $a$ with $g'(x)\neq0$ there. If
+\[
+  \lim_{x\to a}f(x)=\lim_{x\to a}g(x)=0
+  \qquad\text{or}\qquad
+  \lim_{x\to a}|f(x)|=\lim_{x\to a}|g(x)|=\infty ,
+\]
+and if $\displaystyle\lim_{x\to a}\frac{f'(x)}{g'(x)}$ exists (finite or
+$\pm\infty$), then
+\[
+  \lim_{x\to a}\frac{f(x)}{g(x)}=\lim_{x\to a}\frac{f'(x)}{g'(x)} .
+\]
+The same holds for one-sided limits and for $a=\pm\infty$. Three notes:
 \begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
-  \item The \emph{open ball} (or \emph{neighbourhood}) of radius $r>0$ around $\mathbf{x}_0\in\R^n$ is
-        $B_r(\mathbf{x}_0)=\{\mathbf{x}\in\R^n :
-        \|\mathbf{x}-\mathbf{x}_0\|<r\}$.
-  \item $\mathbf{x}_0\in M$ is an \emph{interior point} of $M$ if some open ball around
-        $\mathbf{x}_0$ lies entirely in $M$.
-  \item $M$ is \emph{open} if \emph{every} point of $M$ is
-        an interior point.
-  \item $\mathbf{x}_0$ is a \emph{boundary point} of
-        $M$ if every ball around $\mathbf{x}_0$ contains points of $M$
-        \emph{and} points of its complement.
-  \item $M$ is \emph{closed} if it contains all
-        its boundary points; equivalently, the complement
-        $\R^n\setminus M$ is open.
-  \item $M$ is \emph{bounded} if
-        $M\subseteq B_r(\mathbf{0})$ for some radius $r$.
-  \item $M\subseteq\R^n$ is \emph{compact} exactly when
-        $M$ is closed \emph{and} bounded.
-\end{itemize}
-Economic examples: the open positive orthant $\{(x,y): x>0,\ y>0\}$
-(the natural Cobb--Douglas domain) is open and unbounded; a budget set
-$\{\mathbf{x}\in\R^n : \mathbf{p}\cdot\mathbf{x}\le m,\
-\mathbf{x}\ge\mathbf{0}\}$ is closed and bounded, hence compact.
-\end{rulebox}
-
-\begin{rulebox}{Why it matters}
-Differentiability (and hence every partial derivative below) is
-defined at \emph{interior} points of the domain, where $f$ can be
-probed in all directions. And by the \emph{Weierstrass theorem}, a
-continuous function on a compact set attains its maximum and minimum:
-this is why budget-constrained optimisation problems are
-guaranteed to have solutions.
-\end{rulebox}
-
-\begin{rulebox}{Definition}
-Let $f:\R^n\to\R$. The partial derivative of $f$ with respect to $x_i$ at
-$\mathbf{x}=(x_1,\ldots,x_n)$ is
-\[
-  \pd{f}{x_i}(\mathbf{x}) \;=\; \lim_{h\to0}
-    \frac{f(x_1,\ldots,x_i+h,\ldots,x_n)-f(x_1,\ldots,x_n)}{h} .
-\]
-\end{rulebox}
-
-\begin{rulebox}{Practical computation}
-To compute $\partial f/\partial x_i$, differentiate $f$ with respect to
-$x_i$ and treat every other variable as a constant. All single-variable
-rules (power, product, quotient, chain) apply unchanged.
-\end{rulebox}
-
-\begin{rulebox}{Notation}
-The following all refer to the same object:
-\[
-  \pd{f}{x} = f_x = \partial_x f = D_x f .
-\]
-\end{rulebox}
-
-\begin{rulebox}{Gradient}
-The vector of all first-order partial derivatives is
-\[
-  \grad f(\mathbf{x}) \;=\;
-  \begin{pmatrix} f_{x_1}(\mathbf{x}) \\ f_{x_2}(\mathbf{x}) \\ \vdots \\
-    f_{x_n}(\mathbf{x}) \end{pmatrix} .
-\]
-\end{rulebox}
-
-\begin{rulebox}{Geometric meaning}
-\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
-  \item $\grad f(\mathbf{x}_0)$ points in the direction of \emph{steepest
-        ascent} at $\mathbf{x}_0$.
-  \item $\|\grad f(\mathbf{x}_0)\|$ is the maximal rate of increase at that
-        point.
-  \item $\grad f(\mathbf{x}_0)$ is \emph{perpendicular} to the level set
-        $\{\mathbf{x} : f(\mathbf{x})=f(\mathbf{x}_0)\}$ at $\mathbf{x}_0$.
+  \item \textbf{Differentiate separately.} $\bigl(f/g\bigr)'$ never
+        appears. Writing the quotient rule here is the single most common
+        mistake.
+  \item \textbf{Check the form first, every time.} After one application
+        the new quotient may be determinate --- then just evaluate it. If
+        it is still $0/0$, apply the rule again.
+  \item \textbf{The converse fails.} If $\lim f'/g'$ does not exist, that
+        says nothing about $\lim f/g$; the rule simply does not apply.
 \end{itemize}
 \end{rulebox}
 
-\begin{rulebox}{Economic interpretation}
-\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
-  \item For a production function $Q=F(K,L)$: $F_K=\mathrm{MP}_K$
-        (marginal product of capital), $F_L=\mathrm{MP}_L$ (marginal
-        product of labour).
-  \item For a utility function $U(x,y)$: $U_x, U_y$ are the marginal
-        utilities; the marginal rate of substitution is
-        $\mathrm{MRS}_{xy}=U_x/U_y$.
-  \item For production: the marginal rate of technical substitution is
-        $\mathrm{MRTS}_{LK}=F_L/F_K$.
+\begin{rulebox}{Applying the rule twice --- and where it does not apply}
+\[
+  \lim_{x\to0}\frac{\mathrm{e}^{2x}-1-2x}{x^{2}}
+  \;\overset{0/0}{=}\;\lim_{x\to0}\frac{2\mathrm{e}^{2x}-2}{2x}
+  \;\overset{0/0}{=}\;\lim_{x\to0}\frac{4\mathrm{e}^{2x}}{2}=2 .
+\]
+Two applications, each licensed by re-checking the form. Contrast
+\[
+  \lim_{x\to0}\frac{x+1}{x+2}=\frac{1}{2},
+\]
+which is not indeterminate at all. Differentiating top and bottom here
+would give $1/1=1$: the wrong answer, produced by a correct rule applied to
+a case it does not cover.
+\end{rulebox}
+
+\begin{rulebox}{Converting the other five forms}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.4ex]
+  \item $\mathbf{0\cdot\infty}$: turn one factor over.
+        $f\cdot g=\dfrac{f}{1/g}$ gives $0/0$, or
+        $\dfrac{g}{1/f}$ gives $\infty/\infty$; pick whichever
+        differentiates more pleasantly. So
+        $x\ln x=\dfrac{\ln x}{1/x}$, and L'H\^opital gives
+        $\dfrac{1/x}{-1/x^{2}}=-x\to0$.
+  \item $\mathbf{\infty-\infty}$: put over a common denominator, or
+        factor out the dominant term, to produce a quotient.
+  \item $\mathbf{0^{0}},\ \mathbf{1^{\infty}},\ \mathbf{\infty^{0}}$:
+        \textbf{take logarithms}. Set $y=f(x)^{g(x)}$, so
+        $\ln y=g(x)\ln f(x)$, a $0\cdot\infty$ form. Find
+        $L=\lim\ln y$ and then the answer is $\mathrm{e}^{L}$ ---
+        exponentiating at the end is not optional.
 \end{itemize}
 \end{rulebox}
 
-\begin{rulebox}{Directional derivative}
-Let $\mathbf{u}\in\R^n$ be a \emph{unit} vector ($\|\mathbf{u}\|=1$). The
-directional derivative of $f$ at $\mathbf{x}_0$ in the direction
-$\mathbf{u}$ is
+\begin{rulebox}{The hierarchy of growth rates}
+For every $a>0$ and every $b>0$, as $x\to\infty$,
 \[
-  D_{\mathbf{u}}f(\mathbf{x}_0) \;=\; \grad f(\mathbf{x}_0)\cdot\mathbf{u} .
+  \ln x \;\ll\; x^{a} \;\ll\; \mathrm{e}^{bx},
 \]
+where $u\ll v$ means $u/v\to0$. Each comparison is one or more
+applications of L'H\^opital:
+$\dfrac{\ln x}{x^{a}}\to\dfrac{1/x}{ax^{a-1}}=\dfrac{1}{ax^{a}}\to0$, and
+$\dfrac{x^{n}}{\mathrm{e}^{x}}$ needs $n$ applications, each lowering the
+power by one, until the numerator is constant. Consequences worth
+remembering: no polynomial ever outgrows an exponential, no logarithm ever
+catches a positive power, and a factor $\ln x$ never changes which side of
+the hierarchy a term sits on.
 \end{rulebox}
 
-\begin{rulebox}{Caution}
-If you are given a non-unit direction $\mathbf{v}$, you \emph{must}
-normalise first: $\mathbf{u}=\mathbf{v}/\|\mathbf{v}\|$. Forgetting this is
-the single most common error in directional-derivative problems.
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[fnaxis, xmin=-0.4, xmax=6.4, ymin=-0.6, ymax=12.4,
+      xtick={2,4,6}, ytick={5,10}, title={$x^{2}$ against $\mathrm{e}^{x}$}]
+    \addplot[domain=0:3.4]{x^2};
+    \addplot[accent!45, domain=0:2.5]{exp(x)};
+    \node[font=\tiny, anchor=west] at (axis cs:3.1,10.6) {$x^{2}$};
+    \node[font=\tiny, anchor=west] at (axis cs:2.35,11.8) {$\mathrm{e}^{x}$};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[fnaxis, xmin=-0.4, xmax=16.4, ymin=-0.8, ymax=4.4,
+      xtick={5,10,15}, ytick={2,4},
+      title={$\ln x$ against $\sqrt{x}$}]
+    \addplot[domain=0.1:16]{ln(x)};
+    \addplot[accent!45, domain=0:16]{sqrt(x)};
+    \node[font=\tiny, anchor=west] at (axis cs:14.5,2.75) {$\ln x$};
+    \node[font=\tiny, anchor=west] at (axis cs:14.2,3.95) {$\sqrt{x}$};
+  \end{axis}
+\end{tikzpicture}
+\gcap{$\mathrm{e}^{x}$ overtakes $x^{2}$ for good, and $\sqrt{x}$ overtakes
+$\ln x$ for good --- however slow the start looks.}
+\end{gallery}
+
+\begin{rulebox}{Two limits every economist needs}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.4ex]
+  \item \textbf{Continuous compounding.} $\left(1+\dfrac{r}{n}\right)^{n}$
+        is a $1^{\infty}$ form. Taking logs,
+        $n\ln\!\left(1+\frac{r}{n}\right)
+        =\dfrac{\ln(1+r/n)}{1/n}\to r$ by L'H\^opital, so the limit is
+        $\mathrm{e}^{r}$: the bridge from discrete to continuous interest.
+  \item \textbf{CES collapses to Cobb--Douglas.} For
+        $Q_{\rho}=\bigl(\alpha K^{\rho}+(1-\alpha)L^{\rho}\bigr)^{1/\rho}$,
+        \[
+          \ln Q_{\rho}
+          =\frac{\ln\bigl(\alpha K^{\rho}+(1-\alpha)L^{\rho}\bigr)}{\rho}
+          \;\overset{0/0}{\longrightarrow}\;
+          \alpha\ln K+(1-\alpha)\ln L \quad (\rho\to0),
+        \]
+        so $Q_{\rho}\to K^{\alpha}L^{1-\alpha}$. The Cobb--Douglas function
+        is the $\rho\to0$ member of the CES family, which is why the two
+        appear side by side in every textbook.
+\end{itemize}
 \end{rulebox}
+
+\section{Worked Example}
+
+\begin{worked}{Evaluate $\lim_{x\to0}(\cos x)^{1/x^{2}}$; then show why L'H\^opital fails on $\lim_{x\to\infty}\dfrac{x+\sin x}{x}$}
+\wstep{Step 1. Name the form before doing anything.}
+As $x\to0$: $\cos x\to1$ and $1/x^{2}\to+\infty$, so the expression has the
+form $1^{\infty}$. That is \textbf{indeterminate} --- it can be anything.
+Compare $1^{n}\to1$, but $(1+\tfrac1n)^{n}\to\mathrm{e}$ and
+$(1+\tfrac2n)^{n}\to\mathrm{e}^{2}$: the base creeps towards $1$ while the
+exponent races to infinity, and who wins depends on the rates.
+\wtrap{$1^{\infty}$, $0^{0}$ and $\infty^{0}$ are indeterminate;
+$0^{\infty}=0$ and $\infty^{\infty}=\infty$ are not. Deciding which case you
+are in is the first and most error-prone step, and answering ``$1$'' to
+$1^{\infty}$ is wrong roughly as often as it is right.}
+
+\wstep{Step 2. Take logarithms, which converts a power into a product.}
+Set $y=(\cos x)^{1/x^{2}}$, so
+\[
+  \ln y=\frac{\ln(\cos x)}{x^{2}} .
+\]
+L'H\^opital applies only to $0/0$ and $\infty/\infty$; the logarithm is what
+brings an exponential form into one of them. Here $\ln(\cos 0)=\ln1=0$ and
+$x^{2}\to0$: the form is $0/0$. \checkmark
+
+\wstep{Step 3. Differentiate top and bottom --- separately, not as a quotient.}
+\[
+  \lim_{x\to0}\frac{\ln(\cos x)}{x^{2}}
+  \overset{0/0}{=}
+  \lim_{x\to0}\frac{\dfrac{-\sin x}{\cos x}}{2x}
+  =\lim_{x\to0}\frac{-\tan x}{2x} .
+\]
+\wtrap{L'H\^opital says $\lim\frac{f}{g}=\lim\frac{f'}{g'}$ --- the
+derivative of the numerator over the derivative of the denominator. It is
+\textbf{not} the quotient rule. Writing
+$\frac{f'g-fg'}{g^{2}}$ here is a different (and wrong) calculation, and it
+is the most common misapplication of the rule.}
+
+\wstep{Step 4. Re-check the form, then apply the rule again.}
+$-\tan0=0$ and $2\cdot0=0$: still $0/0$, so a second application is
+licensed.
+\[
+  \lim_{x\to0}\frac{-\tan x}{2x}
+  \overset{0/0}{=}
+  \lim_{x\to0}\frac{-1/\cos^{2}x}{2}=\frac{-1}{2} .
+\]
+\wtrap{Verify the indeterminate form \emph{before every single
+application}. Applying the rule once more to $\frac{-1/\cos^{2}x}{2}$ --- 
+which is $-\tfrac12$, perfectly determinate --- would give
+$\frac{-2\sin x/\cos^{3}x}{0}$ and nonsense. Each use needs its own
+licence.}
+
+\wstep{Step 5. Undo the logarithm.}
+$\ln y\to-\tfrac12$, and the exponential is continuous, so
+\[
+  y\to\mathrm{e}^{-1/2}\approx0.6065 .
+\]
+\[
+  \boxed{\lim_{x\to0}(\cos x)^{1/x^{2}}=\mathrm{e}^{-1/2}}
+\]
+\wtrap{The limit of $\ln y$ is not the answer. Exponentiating is a step, not
+a formality, and stopping at $-\tfrac12$ is the way this problem is most
+often half-solved. Numerical check: at $x=0.1$ the expression is
+$0.60649$. \checkmark}
+
+\wstep{Step 6. Now a limit that L'H\^opital cannot touch.}
+\[
+  \lim_{x\to\infty}\frac{x+\sin x}{x} .
+\]
+The form is $\infty/\infty$, so the rule seems to apply. Differentiating:
+\[
+  \lim_{x\to\infty}\frac{1+\cos x}{1} ,
+\]
+which \textbf{does not exist} --- $\cos x$ oscillates between $-1$ and $1$
+for ever.
+
+\wstep{Step 7. Read the rule's fine print, then solve it another way.}
+L'H\^opital states: \emph{if} $\lim f'/g'$ exists, \emph{then} it equals
+$\lim f/g$. It says nothing when $\lim f'/g'$ fails to exist. So the
+computation above establishes nothing at all --- it does not show that the
+original limit fails.
+
+Elementary algebra settles it in one line:
+\[
+  \frac{x+\sin x}{x}=1+\frac{\sin x}{x}
+  \xrightarrow[x\to\infty]{}1+0=1 ,
+\]
+since $|\sin x|\le1$ and $x\to\infty$.
+\wtrap{A failed L'H\^opital attempt is not evidence. And before reaching for
+the rule at all, try dividing through, factoring, or the sandwich rule ---
+they are faster and they never have side conditions. L'H\^opital is a
+last resort, not a first move.}
+
+\wstep{Step 8. The two limits every economist needs, both of this type.}
+\[
+  \lim_{n\to\infty}\Bigl(1+\frac{r}{n}\Bigr)^{n}=\mathrm{e}^{r}
+  \qquad(\text{continuous compounding}),
+\]
+\[
+  \lim_{\rho\to0}\bigl(\alpha K^{\rho}+(1-\alpha)L^{\rho}\bigr)^{1/\rho}
+  =K^{\alpha}L^{1-\alpha}
+  \qquad(\text{CES}\to\text{Cobb--Douglas}).
+\]
+Both are $1^{\infty}$, and both are done exactly as in Steps~2--5: take
+logs, apply the rule, exponentiate. The second is the reason Cobb--Douglas
+is regarded as a special case of CES rather than a separate assumption.
+\end{worked}
 
 \section{Practice Problems}
 
+Evaluate the limits in problems 1--10 (all of type $0/0$).
+
 \begin{problems}
-  \item Compute $f_x$ and $f_y$ for $f(x,y)=5x^4-2x^2y^3+y^5$.
-  \item For $F(K,L)=12\,K^{1/4}L^{3/4}$, find $F_K$ and $F_L$ at
-        $(K,L)=(16,81)$.
-  \item Compute $f_x$ and $f_y$ for $f(x,y)=x^2e^{3y}$.
-  \item Compute $\nabla f$ for $f(x,y)=4x^3y-xy^4+7$.
-  \item Compute the directional derivative of $f(x,y)=x^2-4xy+y^3$ at
-        $(2,1)$ in the direction $\mathbf{v}=(5,-12)$.
-  \item For $F(K,L)=6K^{2/3}L^{1/3}$, compute $\mathrm{MP}_K$ and
-        $\mathrm{MP}_L$ at $(K,L)=(27,8)$.
-  \item Compute $f_x$ and $f_y$ for $f(x,y)=(3x-2y)^4$.
-  \item Compute $f_x$ and $f_y$ for $f(x,y)=e^{xy^2}$.
-  \item For $F(K,L)=25K^{0.6}L^{0.5}$, find $F_K$ and $F_L$.
-  \item Compute $\nabla f$ for $f(x,y,z)=x^2+3yz-z^2e^x$.
-  \item Compute the directional derivative of $f(x,y)=e^x\ln(1+y)$ at
-        $(0,0)$ in the direction $\mathbf{v}=(1,2)$.
-  \item For $U(x,y)=2\ln(x)+5\ln(y)$, derive $\mathrm{MRS}_{xy}=U_x/U_y$ as
-        a function of $(x,y)$ and evaluate at $(3,5)$.
-  \item Simplify and compute $f_x, f_y$ for
-        $f(x,y)=\dfrac{x^2-y^2}{x+y}$.
-  \item Compute $f_x$ and $f_y$ for $f(x,y)=\ln(x^2y+1)$.
-  \item For $U(x_1,x_2,x_3)=x_1^{1/2}x_2^{1/3}x_3^{1/6}$, compute the
-        three partials.
-  \item Compute the directional derivative of $f(x,y,z)=xy-2yz+z^2$ at
-        $(1,2,3)$ in the direction $\mathbf{v}=(1,2,2)$.
-  \item For $F(K,L)=K^{0.25}L^{0.75}$, derive $\mathrm{MRTS}_{LK}=F_L/F_K$
-        and evaluate at $(K,L)=(16,4)$.
-  \item Expand and then compute $f_x, f_y$ for
-        $f(x,y)=(x^2+y)(x-3y^2)$.
-  \item Compute $f_x$ and $f_y$ for $f(x,y)=xe^{-y/x}$ with $x\neq0$.
-  \item For $F(K,L)=(3K^{1/2}+2L^{1/2})^2$, find $F_K$ and $F_L$.
-  \item Compute $\nabla f$ for $f(x,y)=\arctan(y/x)$ with $x>0$.
-  \item For $f(x,y)=x^{1/2}y^{1/2}$ at $(K,L)=(4,9)$, find the unit
-        direction of steepest ascent and the maximum rate of increase.
-  \item For the CES function $F(K,L)=(K^{1/2}+L^{1/2})^2$, verify Euler's
-        theorem $KF_K+LF_L=rF$ for the appropriate degree of homogeneity
-        $r$.
-  \item Compute $f_x$ and $f_y$ for $f(x,y)=\dfrac{2x+3y}{x^2+y^2}$.
-  \item Compute $f_x$ and $f_y$ for $f(x,y)=\dfrac{e^x}{1+e^y}$.
-  \item For $F(K,L)=A(\alpha K^\rho+(1-\alpha)L^\rho)^{\nu/\rho}$ (CES),
-        find $F_L$.
-  \item Compute the directional derivative of $f(x,y)=\ln(x^2+y^2)$ at
-        $(3,4)$ in the direction $\mathbf{v}=(-1,1)$.
-  \item Compute $f_x, f_y, f_z$ for $f(x,y,z)=x^2yz^3-4xy^2z+5z$.
-  \item Compute $f_x$ and $f_y$ for $f(x,y)=\sqrt{4x^2+9y^2}$.
-  \item For $F(K,L)=(K^{1/2}+L^{1/2})^4$, compute $F_K$ at
-        $(K,L)=(4,9)$.
-  \item Compute $\nabla f$ for $f(x,y,z)=\ln(x^2+y^2+z^2)$.
-  \item Compute $f_x$ and $f_y$ for
-        $f(x,y)=\ln\left(\sqrt{x^2+y^2}\right)$.
-  \item Cost minimisation. A firm uses inputs $(x,y)$ with cost
-        $C(x,y)=4x+9y$ and output $Q(x,y)=x^{1/2}y^{1/2}$. Compute
-        $\nabla C$ and $\nabla Q$, and verify that at the cost-minimising
-        input mix $\nabla C=\lambda\nabla Q$ for some $\lambda$.
-  \item Compute $f_x$ and $f_y$ for $f(x,y)=(1+xy)^5$.
-  \item Compute the directional derivative of $f(x,y)=x^3-2xy+y^2$ at
-        $(1,2)$ in the direction $\mathbf{v}=(3,4)$.
-  \item For $F(K,L)=10K^{0.3}L^{0.7}$ (Cobb--Douglas), compute $F_K$ and
-        $F_L$ at $(K,L)=(100,100)$ and verify $KF_K+LF_L=F$.
-  \item Compute $f_x$ and $f_y$ for $f(x,y)=\sin(xy)+\cos(x-y)$.
-  \item Compute $\nabla f$ for $f(x,y)=x^2y-xy^2+3x-2y$ at the point
-        $(1,-1)$.
-  \item For $U(x,y)=x^\alpha y^{1-\alpha}$ (Cobb--Douglas,
-        $0<\alpha<1$), derive $\mathrm{MRS}_{xy}=U_x/U_y$ and show it
-        equals $\dfrac{\alpha}{1-\alpha}\cdot\dfrac{y}{x}$.
-  \item Compute the directional derivative of $f(x,y)=e^{xy}$ at $(1,0)$
-        in the direction $\mathbf{v}=(-3,4)$.
-  \item Compute $f_x$ and $f_y$ for $f(x,y)=x^y$ (with $x>0$).
-        \emph{Hint:} write $x^y=e^{y\ln x}$.
-  \item For $F(K,L)=\min\{2K,3L\}$ (Leontief, fixed-proportions, on the
-        smooth region away from the kink), compute $F_K$ and $F_L$ in
-        each of the two regions $\{2K<3L\}$ and $\{2K>3L\}$.
-  \item Compute $\nabla f$ for $f(x,y,z)=xyz+x^2-z^2$ at the point
-        $(2,-1,3)$.
-  \item Compute the unit vector of steepest \emph{descent} for
-        $f(x,y)=x^2+4y^2$ at $(3,1)$, and the corresponding rate of
-        decrease.
-  \item For $f(x,y)=xe^y-ye^x$, compute $f_x, f_y$.
-  \item Compute $f_x$ and $f_y$ for $f(x,y)=\dfrac{x}{x^2+y^2}$.
-  \item For $U(x,y)=x+2\sqrt{y}$ (quasi-linear), derive
-        $\mathrm{MRS}_{xy}$.
-  \item Compute the directional derivative of $f(x,y,z)=x^2+y^2-z^2$ at
-        $(2,-1,2)$ in the direction $\mathbf{v}=(2,2,1)$.
-  \item Compute $f_x$ and $f_y$ for $f(x,y)=\tan(x+y)+\tan(x-y)$.
-  \item For $F(K,L)=(\alpha K+\beta L)^r$ (linear-aggregate,
-        $\alpha,\beta,r>0$), compute $F_K, F_L$, and verify
-        $KF_K+LF_L=rF$.
-  \item Compute $\nabla f$ for $f(x,y)=e^{-x}\sin(y)+e^x\cos(y)$.
-  \item Compute the directional derivative of $f(x,y)=\sqrt{x^2+y^2}$ at
-        $(3,4)$ in the direction $\mathbf{v}=(1,0)$.
-  \item For $U(x,y)=\min\{2x,3y\}$, compute the marginal utilities on
-        each smooth region $\{2x<3y\}$ and $\{2x>3y\}$.
-  \item Compute $f_x, f_y$ for $f(x,y)=\dfrac{\ln(x+y)}{x-y}$ (assume
-        $x>y>0$).
-  \item For $F(K,L)=AK^\alpha L^\beta$ general Cobb--Douglas, derive
-        $\mathrm{MRTS}_{LK}$ and show it depends only on the ratio $K/L$
-        (not on scale).
-  \item Compute the unit direction of steepest ascent for
-        $f(x,y)=x^2-y^2$ at $(2,-1)$, and the maximum rate.
-  \item Compute $f_x$ and $f_y$ for $f(x,y)=\cosh(x+y)+\sinh(x-y)$.
-  \item For $f(x,y,z)=e^{x+y+z}$, compute $\nabla f$ at $(0,0,0)$ and the
-        directional derivative in $\mathbf{v}=(1,1,1)$.
-  \item Compute $f_x$ and $f_y$ for $f(x,y)=(\ln x)(\ln y)$ with
-        $x,y>1$.
-  \item For $F(K,L)=K+2K^{1/2}L^{1/2}+L$ (which equals
-        $(K^{1/2}+L^{1/2})^2$), compute $F_K, F_L$ directly and confirm
-        agreement with the CES form.
-  \item Compute the directional derivative of $f(x,y)=x^2y+y^3$ at
-        $(-1,2)$ in the direction $\mathbf{v}=(4,-3)$.
-  \item For $U(x,y)=\alpha\ln x+\beta\ln y$ (log-Cobb--Douglas), derive
-        $\mathrm{MRS}_{xy}$ and evaluate at $(x,y)=(\alpha,\beta)$.
-  \item Compute $\nabla f$ for $f(x,y)=(x^2+y^2)^{-1/2}$ (Newtonian
-        potential in 2D).
-  \item Compute $f_x$ and $f_y$ for $f(x,y)=\arctan(xy)$.
-  \item For $F(K,L)=(K^\rho+L^\rho)^{1/\rho}$ with $\rho<1$, $\rho\neq0$
-        (CES with constant returns), compute $F_K$ and show
-        $F_K=(K/F)^{\rho-1}$.
-  \item Compute the directional derivative of $f(x,y,z)=xyz$ at
-        $(2,3,-1)$ in the direction $\mathbf{v}=(2,-1,2)$.
+  \item $\displaystyle\lim_{x\to0}\frac{\sin x}{x}$
+  \item $\displaystyle\lim_{x\to0}\frac{\mathrm{e}^{x}-1}{x}$
+  \item $\displaystyle\lim_{x\to1}\frac{\ln x}{x-1}$
+  \item $\displaystyle\lim_{x\to0}\frac{1-\cos x}{x^{2}}$
+  \item $\displaystyle\lim_{x\to2}\frac{x^{2}-4}{x^{2}-3x+2}$
+  \item $\displaystyle\lim_{x\to0}\frac{\tan x-x}{x^{3}}$
+  \item $\displaystyle\lim_{x\to0}\frac{x}{\mathrm{e}^{x}-1}$
+  \item $\displaystyle\lim_{x\to0}\frac{\sqrt{1+x}-1}{x}$
+  \item $\displaystyle\lim_{x\to\pi}\frac{\sin x}{x-\pi}$
+  \item $\displaystyle\lim_{x\to0}
+        \frac{\mathrm{e}^{x}-1-x-\tfrac12x^{2}}{x^{3}}$
+\end{problems}
+
+Problems 11--18 are of type $\infty/\infty$.
+
+\begin{problems}[resume]
+  \item $\displaystyle\lim_{x\to\infty}\frac{\ln x}{x}$
+  \item $\displaystyle\lim_{x\to\infty}\frac{x}{\mathrm{e}^{x}}$
+  \item $\displaystyle\lim_{x\to\infty}\frac{x^{2}}{\mathrm{e}^{x}}$
+  \item $\displaystyle\lim_{x\to\infty}\frac{\ln x}{\sqrt{x}}$
+  \item $\displaystyle\lim_{x\to\infty}\frac{3x^{2}+2x}{x^{2}-1}$
+  \item $\displaystyle\lim_{x\to0^{+}}\frac{\ln x}{1/x}$
+  \item $\displaystyle\lim_{x\to\infty}\frac{\mathrm{e}^{x}}{x^{10}}$
+  \item $\displaystyle\lim_{x\to\infty}\frac{\ln(x^{2}+1)}{\ln x}$
+\end{problems}
+
+Problems 19--26 are of type $0\cdot\infty$ or $\infty-\infty$.
+
+\begin{problems}[resume]
+  \item $\displaystyle\lim_{x\to0^{+}}x\ln x$
+  \item $\displaystyle\lim_{x\to0^{+}}x^{a}\ln x$ \;for a constant $a>0$
+  \item $\displaystyle\lim_{x\to\infty}x\bigl(\mathrm{e}^{1/x}-1\bigr)$
+  \item $\displaystyle\lim_{x\to\infty}x\ln\!\left(1+\frac{3}{x}\right)$
+  \item $\displaystyle\lim_{x\to\infty}\bigl(\sqrt{x^{2}+x}-x\bigr)$
+  \item $\displaystyle\lim_{x\to0}\left(\frac{1}{x}-\frac{1}{\sin x}\right)$
+  \item $\displaystyle\lim_{x\to1}
+        \left(\frac{1}{\ln x}-\frac{1}{x-1}\right)$
+  \item $\displaystyle\lim_{x\to\infty}
+        x\left(\frac{\pi}{2}-\arctan x\right)$
+\end{problems}
+
+Problems 27--34 are exponential forms: take logarithms first.
+
+\begin{problems}[resume]
+  \item $\displaystyle\lim_{x\to0^{+}}x^{x}$
+  \item $\displaystyle\lim_{x\to\infty}\left(1+\frac{1}{x}\right)^{x}$
+  \item $\displaystyle\lim_{x\to\infty}\left(1+\frac{r}{x}\right)^{x}$
+        \;for a constant $r$
+  \item $\displaystyle\lim_{x\to0}(1+x)^{1/x}$
+  \item $\displaystyle\lim_{x\to0^{+}}(\sin x)^{x}$
+  \item $\displaystyle\lim_{x\to\infty}x^{1/x}$
+  \item $\displaystyle\lim_{x\to0}(\cos x)^{1/x^{2}}$
+  \item $\displaystyle\lim_{x\to\infty}\left(1-\frac{1}{x}\right)^{x}$
+\end{problems}
+
+Problems 35--40 are about the conditions of the rule.
+
+\begin{problems}[resume]
+  \item Explain why L'H\^opital's rule may not be applied to
+        $\displaystyle\lim_{x\to0}\frac{x+1}{x+2}$, and what wrong answer
+        it would produce.
+  \item For $\displaystyle\lim_{x\to\infty}\frac{x+\sin x}{x}$: apply the
+        rule, observe what happens, and then find the limit correctly.
+  \item For $\displaystyle\lim_{x\to\infty}
+        \frac{\mathrm{e}^{x}-\mathrm{e}^{-x}}{\mathrm{e}^{x}+\mathrm{e}^{-x}}$:
+        apply the rule twice, notice the cycle, and find the limit by
+        another route.
+  \item A student computes $\displaystyle\lim_{x\to0}\frac{\sin x}{x}$ as
+        $\dfrac{x\cos x-\sin x}{x^{2}}$ and gets $0$. Name the error.
+  \item How many applications of the rule does
+        $\displaystyle\lim_{x\to0}
+        \frac{\mathrm{e}^{x}-1-x-\tfrac12 x^{2}}{x^{3}}$ need, and what is
+        the value?
+  \item Investigate $\displaystyle\lim_{x\to0}\frac{\sin x}{x^{2}}$ from
+        both sides. Does the two-sided limit exist?
+\end{problems}
+
+\begin{problems}[resume]
+  \item Show that $\displaystyle\lim_{n\to\infty}
+        P\left(1+\frac{r}{n}\right)^{n}=P\mathrm{e}^{r}$, and explain what
+        the two sides mean financially.
+  \item Show that the CES function
+        $\bigl(\alpha K^{\rho}+(1-\alpha)L^{\rho}\bigr)^{1/\rho}$ tends to
+        $K^{\alpha}L^{1-\alpha}$ as $\rho\to0$.
+  \item A firm's output grows like $x^{3}$ and its costs like
+        $\mathrm{e}^{0.1x}$, both in the scale variable $x$. Which
+        eventually dominates, and at roughly what $x$ does the crossing
+        happen? (A rough numerical answer suffices.)
+  \item The present value of an $n$-year annuity of $1$ at rate $r>0$ is
+        $\dfrac{1-(1+r)^{-n}}{r}$. Find its limit as $n\to\infty$ and name
+        the resulting instrument.
+  \item Total cost is $C(q)=q^{2}+4$, so average cost is
+        $AC(q)=q+4/q$. Determine $\displaystyle\lim_{q\to0^{+}}AC(q)$ and
+        $\displaystyle\lim_{q\to\infty}\frac{AC(q)}{q}$, and interpret
+        both.
 \end{problems}
 
 \section{Solutions}
 
 \begin{solutions}
-  \item $f_x=20x^3-4xy^3$, $f_y=-6x^2y^2+5y^4$.
-
-  \item $F_K=12\cdot\frac14K^{-3/4}L^{3/4}=3(L/K)^{3/4}$;
-        $F_L=12\cdot\frac34K^{1/4}L^{-1/4}=9(K/L)^{1/4}$. At $(16,81)$:
-        $(L/K)^{3/4}=(81/16)^{3/4}=27/8$ so $F_K=81/8$;
-        $(K/L)^{1/4}=(16/81)^{1/4}=2/3$ so $F_L=6$.
-
-  \item $f_x=2xe^{3y}$, $f_y=3x^2e^{3y}$.
-
-  \item $\nabla f=(12x^2y-y^4,\ 4x^3-4xy^3)^T$.
-
-  \item $f_x=2x-4y$, $f_y=-4x+3y^2$. At $(2,1)$: $\nabla f=(0,-5)^T$.
-        Normalise: $\|\mathbf{v}\|=\sqrt{25+144}=13$,
-        $\mathbf{u}=(5/13,-12/13)^T$. Then
+  \item $0/0$; rule gives $\dfrac{\cos x}{1}\to1$.
+  \item $0/0$; $\dfrac{\mathrm{e}^{x}}{1}\to1$.
+  \item $0/0$; $\dfrac{1/x}{1}\to1$.
+  \item $0/0$; $\dfrac{\sin x}{2x}$, still $0/0$;
+        $\dfrac{\cos x}{2}\to\dfrac12$.
+  \item $0/0$; $\dfrac{2x}{2x-3}\to\dfrac{4}{1}=4$. (Factoring gives the
+        same: $\frac{(x-2)(x+2)}{(x-2)(x-1)}\to\frac{4}{1}$.)
+  \item $0/0$; $\dfrac{\sec^{2}x-1}{3x^{2}}=\dfrac{\tan^{2}x}{3x^{2}}$,
+        and since $\tan x/x\to1$ the limit is $\dfrac13$.
+  \item $0/0$; $\dfrac{1}{\mathrm{e}^{x}}\to1$.
+  \item $0/0$;
+        $\dfrac{1/\bigl(2\sqrt{1+x}\bigr)}{1}\to\dfrac12$.
+  \item $0/0$; $\dfrac{\cos x}{1}\to\cos\pi=-1$.
+  \item $0/0$ three times over:
+        $\dfrac{\mathrm{e}^{x}-1-x}{3x^{2}}\to
+        \dfrac{\mathrm{e}^{x}-1}{6x}\to
+        \dfrac{\mathrm{e}^{x}}{6}=\dfrac16$.
+  \item $\infty/\infty$; $\dfrac{1/x}{1}=\dfrac1x\to0$.
+  \item $\infty/\infty$; $\dfrac{1}{\mathrm{e}^{x}}\to0$.
+  \item Twice: $\dfrac{2x}{\mathrm{e}^{x}}\to
+        \dfrac{2}{\mathrm{e}^{x}}\to0$.
+  \item $\dfrac{1/x}{1/(2\sqrt{x})}=\dfrac{2}{\sqrt{x}}\to0$.
+  \item $\dfrac{6x+2}{2x}\to3$; or divide through by $x^{2}$ and read off
+        the ratio of leading coefficients.
+  \item Rewrite as $\dfrac{\ln x}{1/x}$, an $\infty/\infty$ form:
+        $\dfrac{1/x}{-1/x^{2}}=-x\to0$.
+  \item Ten applications reduce the denominator to the constant $10!$,
+        leaving $\dfrac{\mathrm{e}^{x}}{10!}\to\infty$. The exponential
+        wins.
+  \item $\dfrac{2x/(x^{2}+1)}{1/x}=\dfrac{2x^{2}}{x^{2}+1}\to2$.
+  \item $0\cdot\infty$; as $\dfrac{\ln x}{1/x}$ it becomes
+        $\dfrac{1/x}{-1/x^{2}}=-x\to0$.
+  \item Same manoeuvre: $\dfrac{\ln x}{x^{-a}}$ gives
+        $\dfrac{1/x}{-ax^{-a-1}}=-\dfrac{x^{a}}{a}\to0$. Any positive
+        power beats the logarithm.
+  \item Substitute $t=1/x\to0^{+}$:
+        $\dfrac{\mathrm{e}^{t}-1}{t}\to1$.
+  \item With $t=1/x$: $\dfrac{\ln(1+3t)}{t}\to
+        \dfrac{3/(1+3t)}{1}=3$.
+  \item $\infty-\infty$. Multiply by the conjugate:
+        $\dfrac{x}{\sqrt{x^{2}+x}+x}=
+        \dfrac{1}{\sqrt{1+1/x}+1}\to\dfrac12$.
+  \item Common denominator:
+        $\dfrac{\sin x-x}{x\sin x}\to\dfrac{\cos x-1}{\sin x+x\cos x}
+        \to\dfrac{-\sin x}{2\cos x-x\sin x}=\dfrac{0}{2}=0$.
+  \item $\dfrac{(x-1)-\ln x}{(x-1)\ln x}$, which is $0/0$. One
+        application gives $\dfrac{x-1}{x\ln x+x-1}$, still $0/0$; a second
+        gives $\dfrac{1}{\ln x+2}\to\dfrac12$.
+  \item With $t=1/x\to0^{+}$:
+        $\dfrac{\pi/2-\arctan(1/t)}{t}$, and
+        $\dfrac{\mathrm{d}}{\mathrm{d}t}\arctan(1/t)=-\dfrac{1}{1+t^{2}}$,
+        so the quotient is $\dfrac{1/(1+t^{2})}{1}\to1$.
+  \item $\ln y=x\ln x\to0$ by problem 19, so $y\to\mathrm{e}^{0}=1$.
+  \item $1^{\infty}$: $\ln y=\dfrac{\ln(1+1/x)}{1/x}$; with $t=1/x$,
+        $\dfrac{\ln(1+t)}{t}\to1$, so the limit is $\mathrm{e}$.
+  \item The same with $r$ in place of $1$:
+        $\ln y=\dfrac{\ln(1+rt)}{t}\to r$, so the limit is
+        $\mathrm{e}^{r}$.
+  \item $\ln y=\dfrac{\ln(1+x)}{x}\to1$, so the limit is $\mathrm{e}$.
+        (This is the previous limit read with $x=1/t$.)
+  \item $\ln y=x\ln\sin x=\dfrac{\ln\sin x}{1/x}$, an
+        $\infty/\infty$ form:
+        $\dfrac{\cot x}{-1/x^{2}}=-x^{2}\cot x\to0$ since
+        $x\cot x\to1$. Hence the limit is $1$.
+  \item $\ln y=\dfrac{\ln x}{x}\to0$, so the limit is $1$.
+  \item $\ln y=\dfrac{\ln\cos x}{x^{2}}\to
+        \dfrac{-\tan x}{2x}\to-\dfrac12$, so the limit is
+        $\mathrm{e}^{-1/2}=1/\sqrt{\mathrm{e}}$.
+  \item $\ln y=\dfrac{\ln(1-1/x)}{1/x}\to-1$, so the limit is
+        $\mathrm{e}^{-1}$.
+  \item At $x=0$ the quotient is $\tfrac12$, a determinate value: neither
+        numerator nor denominator tends to $0$ or $\infty$. Differentiating
+        both would give $1/1=1$, which is simply wrong. The rule is a
+        statement about indeterminate forms only.
+  \item The rule gives $\dfrac{1+\cos x}{1}$, which oscillates between $0$
+        and $2$ and has no limit --- so the rule is inapplicable
+        (its hypothesis that $\lim f'/g'$ exists fails). Correctly:
+        $\dfrac{x+\sin x}{x}=1+\dfrac{\sin x}{x}\to1+0=1$.
+  \item Applying the rule swaps numerator and denominator and returns to
+        the original quotient after two steps --- an endless cycle. Instead
+        divide through by $\mathrm{e}^{x}$:
+        $\dfrac{1-\mathrm{e}^{-2x}}{1+\mathrm{e}^{-2x}}\to
+        \dfrac{1-0}{1+0}=1$.
+  \item The student differentiated the \emph{quotient} instead of
+        differentiating numerator and denominator separately. L'H\^opital
+        requires $\dfrac{f'}{g'}=\dfrac{\cos x}{1}$, giving $1$.
+  \item Three applications, ending at
+        $\dfrac{\mathrm{e}^{x}}{6}$: the value is $\dfrac16$. (Each step
+        must be licensed by re-checking that the form is still $0/0$, which
+        it is: $1-1-0=0$ and so on.)
+  \item $0/0$, so the rule gives $\dfrac{\cos x}{2x}$. As
+        $x\to0^{+}$ this tends to $+\infty$; as $x\to0^{-}$ to
+        $-\infty$. The one-sided limits differ, so the two-sided limit does
+        \textbf{not} exist.
+  \item $\ln\!\left[\left(1+\frac{r}{n}\right)^{n}\right]
+        =\dfrac{\ln(1+r/n)}{1/n}\to r$ by problem 29, so the expression
+        tends to $P\mathrm{e}^{r}$. On the left is interest compounded $n$
+        times a year; on the right the same nominal rate compounded
+        \emph{continuously}. The gap between them is what the limit
+        measures.
+  \item Take logs: $\ln Q_{\rho}
+        =\dfrac{\ln(\alpha K^{\rho}+(1-\alpha)L^{\rho})}{\rho}$. At
+        $\rho=0$ the numerator is $\ln1=0$, so the form is $0/0$.
+        Differentiating with respect to $\rho$,
         \[
-          D_{\mathbf{u}}f=0\cdot\frac{5}{13}+(-5)\cdot
-            \left(-\frac{12}{13}\right)=\frac{60}{13} .
+          \frac{\alpha K^{\rho}\ln K+(1-\alpha)L^{\rho}\ln L}
+               {\alpha K^{\rho}+(1-\alpha)L^{\rho}}
+          \;\xrightarrow[\rho\to0]{}\;
+          \alpha\ln K+(1-\alpha)\ln L ,
         \]
-
-  \item $F_K=6\cdot\frac23K^{-1/3}L^{1/3}=4(L/K)^{1/3}$,
-        $F_L=2(K/L)^{2/3}$. At $(27,8)$: $(L/K)^{1/3}=2/3$ so
-        $\mathrm{MP}_K=8/3$; $(K/L)^{2/3}=(27/8)^{2/3}=9/4$ so
-        $\mathrm{MP}_L=9/2$.
-
-  \item Chain rule with $u=3x-2y$: $f_x=4(3x-2y)^3\cdot3=12(3x-2y)^3$,
-        $f_y=-8(3x-2y)^3$.
-
-  \item $f_x=y^2e^{xy^2}$, $f_y=2xye^{xy^2}$.
-
-  \item $F_K=15K^{-0.4}L^{0.5}$, $F_L=12.5K^{0.6}L^{-0.5}$.
-
-  \item $f_x=2x-z^2e^x$, $f_y=3z$, $f_z=3y-2ze^x$. So
-        $\nabla f=(2x-z^2e^x,\ 3z,\ 3y-2ze^x)^T$.
-
-  \item $f_x=e^x\ln(1+y)$, $f_y=e^x/(1+y)$. At $(0,0)$:
-        $\nabla f=(0,1)^T$. Normalise: $\|\mathbf{v}\|=\sqrt5$,
-        $\mathbf{u}=(1/\sqrt5,2/\sqrt5)^T$. So
-        \[
-          D_{\mathbf{u}}f=0\cdot\frac{1}{\sqrt5}+1\cdot\frac{2}{\sqrt5}
-            =\frac{2\sqrt5}{5} .
-        \]
-
-  \item $U_x=2/x$, $U_y=5/y$. $\mathrm{MRS}_{xy}=U_x/U_y
-        =(2/x)/(5/y)=2y/(5x)$. At $(3,5)$: $\mathrm{MRS}=10/15=2/3$.
-
-  \item For $x+y\neq0$: $f(x,y)=x-y$, so $f_x=1$, $f_y=-1$.
-
-  \item With $u=x^2y+1$: $f_x=2xy/(x^2y+1)$, $f_y=x^2/(x^2y+1)$.
-
-  \item $U_{x_1}=\frac12x_1^{-1/2}x_2^{1/3}x_3^{1/6}$,
-        $U_{x_2}=\frac13x_1^{1/2}x_2^{-2/3}x_3^{1/6}$,
-        $U_{x_3}=\frac16x_1^{1/2}x_2^{1/3}x_3^{-5/6}$. Equivalently
-        $U_{x_i}=(\alpha_i/x_i)U$ with $\alpha=(1/2,1/3,1/6)$.
-
-  \item $f_x=y$, $f_y=x-2z$, $f_z=-2y+2z$. At $(1,2,3)$:
-        $\nabla f=(2,-5,2)^T$. Normalise: $\|\mathbf{v}\|=\sqrt{1+4+4}=3$,
-        $\mathbf{u}=(1/3,2/3,2/3)^T$. Then
-        $D_{\mathbf{u}}f=(2-10+4)/3=-4/3$.
-
-  \item $F_K=0.25K^{-0.75}L^{0.75}$, $F_L=0.75K^{0.25}L^{-0.25}$. So
-        $\mathrm{MRTS}_{LK}=F_L/F_K=3K/L$. At $(16,4)$:
-        $\mathrm{MRTS}=48/4=12$.
-
-  \item Expand: $f=x^3-3x^2y^2+xy-3y^3$. Hence $f_x=3x^2-6xy^2+y$,
-        $f_y=-6x^2y+x-9y^2$.
-
-  \item With $u=-y/x$: $\partial u/\partial x=y/x^2$,
-        $\partial u/\partial y=-1/x$. Product rule:
-        \[
-          f_x=e^{-y/x}+x\cdot e^{-y/x}\cdot\frac{y}{x^2}
-            =e^{-y/x}\left(1+\frac{y}{x}\right), \qquad
-          f_y=x\cdot e^{-y/x}\cdot\left(-\frac1x\right)=-e^{-y/x} .
-        \]
-
-  \item Let $g=3K^{1/2}+2L^{1/2}$, so $F=g^2$. Then
-        \[
-          F_K=2g\cdot\frac32K^{-1/2}=\frac{3g}{K^{1/2}}
-            =\frac{3(3K^{1/2}+2L^{1/2})}{K^{1/2}}, \qquad
-          F_L=2g\cdot L^{-1/2}=\frac{2(3K^{1/2}+2L^{1/2})}{L^{1/2}} .
-        \]
-
-  \item With $u=y/x$, $f=\arctan u$, $f'=1/(1+u^2)$:
-        \[
-          f_x=\frac{1}{1+y^2/x^2}\cdot\left(-\frac{y}{x^2}\right)
-            =\frac{-y}{x^2+y^2}, \qquad
-          f_y=\frac{x}{x^2+y^2} .
-        \]
-        So $\nabla f=(-y/(x^2+y^2),\ x/(x^2+y^2))^T$.
-
-  \item $f_K=\frac12K^{-1/2}L^{1/2}$, $f_L=\frac12K^{1/2}L^{-1/2}$. At
-        $(4,9)$: $\nabla f=(\frac12\cdot\frac32,\ \frac12\cdot\frac23)^T
-        =(3/4,1/3)^T$. Then $\|\nabla f\|^2=9/16+1/9=97/144$, so the
-        maximum rate is $\sqrt{97}/12\approx0.821$ in direction
-        $\mathbf{u}^*=(9,4)^T/\sqrt{97}$.
-
-  \item $F=(K^{1/2}+L^{1/2})^2$. Replacing $(K,L)\to(\lambda K,\lambda L)$
-        gives $\lambda F$, so $r=1$. With $g=K^{1/2}+L^{1/2}$:
-        $F_K=2g\cdot\frac12K^{-1/2}=g/K^{1/2}$, $F_L=g/L^{1/2}$. Hence
-        \[
-          KF_K+LF_L=K^{1/2}g+L^{1/2}g=g(K^{1/2}+L^{1/2})=g^2=F. \checkmark
-        \]
-
-  \item Quotient rule, $D=x^2+y^2$:
-        \[
-          f_x=\frac{2D-(2x+3y)(2x)}{D^2}=\frac{-2x^2-6xy+2y^2}{(x^2+y^2)^2},
-          \qquad f_y=\frac{3x^2-4xy-3y^2}{(x^2+y^2)^2} .
-        \]
-
-  \item Treat denominator as constant for $f_x$: $f_x=e^x/(1+e^y)$. For
-        $f_y$:
-        \[
-          f_y=e^x\cdot\frac{-e^y}{(1+e^y)^2}=-\frac{e^{x+y}}{(1+e^y)^2} .
-        \]
-
-  \item Let $S=\alpha K^\rho+(1-\alpha)L^\rho$, $F=AS^{\nu/\rho}$.
-        Treating $K$ constant, $\partial S/\partial L=\rho(1-\alpha)L^{\rho-1}$:
-        \[
-          F_L=A\cdot\frac{\nu}{\rho}S^{\nu/\rho-1}\cdot\rho(1-\alpha)L^{\rho-1}
-            =\nu(1-\alpha)AL^{\rho-1}S^{\nu/\rho-1} .
-        \]
-
-  \item $f=\ln(x^2+y^2)$, $f_x=2x/(x^2+y^2)$, $f_y=2y/(x^2+y^2)$. At
-        $(3,4)$: $x^2+y^2=25$, $\nabla f=(6/25,8/25)^T$. Normalise:
-        $\|\mathbf{v}\|=\sqrt2$, $\mathbf{u}=(-1/\sqrt2,1/\sqrt2)^T$. Then
-        \[
-          D_{\mathbf{u}}f=\frac{6}{25}\cdot\left(-\frac{1}{\sqrt2}\right)
-            +\frac{8}{25}\cdot\frac{1}{\sqrt2}=\frac{2}{25\sqrt2}
-            =\frac{\sqrt2}{25} .
-        \]
-
-  \item $f_x=2xyz^3-4y^2z$, $f_y=x^2z^3-8xyz$,
-        $f_z=3x^2yz^2-4xy^2+5$.
-
-  \item Chain rule, $u=4x^2+9y^2$:
-        \[
-          f_x=\frac{8x}{2\sqrt u}=\frac{4x}{\sqrt{4x^2+9y^2}}, \qquad
-          f_y=\frac{9y}{\sqrt{4x^2+9y^2}} .
-        \]
-
-  \item With $g=K^{1/2}+L^{1/2}$, $F=g^4$,
-        $F_K=4g^3\cdot\frac12K^{-1/2}=2g^3/K^{1/2}$. At $(4,9)$: $g=5$,
-        $K^{1/2}=2$, so $F_K=2\cdot125/2=125$.
-
-  \item Let $r^2=x^2+y^2+z^2$. Then $f=\ln(r^2)$ and $f_{x_i}=2x_i/r^2$.
-        So $\nabla f=(2/(x^2+y^2+z^2))(x,y,z)^T$.
-
-  \item Use $\ln\sqrt{u}=\frac12\ln u$: $f=\frac12\ln(x^2+y^2)$. So
-        $f_x=x/(x^2+y^2)$, $f_y=y/(x^2+y^2)$.
-
-  \item $\nabla C=(4,9)^T$. With $Q=x^{1/2}y^{1/2}$: $Q_x=\frac12(y/x)^{1/2}$,
-        $Q_y=\frac12(x/y)^{1/2}$, so
-        $\nabla Q=\frac12\left((y/x)^{1/2},(x/y)^{1/2}\right)^T$. The
-        condition $\nabla C=\lambda\nabla Q$ requires
-        $4/9=Q_x/Q_y=y/x$, i.e.\ $y=4x/9$. Along this locus
-        $\nabla Q\propto(2/3,3/2)^T\propto(4,9)^T=\nabla C$. \checkmark
-
-  \item Chain rule: $f_x=5(1+xy)^4\cdot y=5y(1+xy)^4$,
-        $f_y=5x(1+xy)^4$.
-
-  \item $f_x=3x^2-2y$, $f_y=-2x+2y$. At $(1,2)$:
-        $\nabla f=(3-4,-2+4)^T=(-1,2)^T$. Normalise: $\|\mathbf{v}\|=5$,
-        $\mathbf{u}=(3/5,4/5)^T$. Then
-        \[
-          D_{\mathbf{u}}f=-1\cdot\frac35+2\cdot\frac45
-            =\frac{-3+8}{5}=1 .
-        \]
-
-  \item $F_K=10\cdot0.3K^{-0.7}L^{0.7}=3(L/K)^{0.7}$;
-        $F_L=7(K/L)^{0.3}$. At $K=L=100$: $F_K=3$, $F_L=7$. And
-        $F=10\cdot100^{0.3}\cdot100^{0.7}=10\cdot100=1000$. Then
-        $KF_K+LF_L=100\cdot3+100\cdot7=1000=F$. \checkmark (homogeneity
-        degree $r=0.3+0.7=1$).
-
-  \item $f_x=y\cos(xy)-\sin(x-y)$, $f_y=x\cos(xy)+\sin(x-y)$.
-
-  \item $f_x=2xy-y^2+3$, $f_y=x^2-2xy-2$. At $(1,-1)$: $f_x=-2-1+3=0$,
-        $f_y=1+2-2=1$. So $\nabla f(1,-1)=(0,1)^T$.
-
-  \item $U_x=\alpha x^{\alpha-1}y^{1-\alpha}$,
-        $U_y=(1-\alpha)x^\alpha y^{-\alpha}$. So
-        \[
-          \mathrm{MRS}_{xy}=\frac{U_x}{U_y}
-            =\frac{\alpha x^{\alpha-1}y^{1-\alpha}}{(1-\alpha)x^\alpha y^{-\alpha}}
-            =\frac{\alpha}{1-\alpha}\cdot\frac{y}{x} . \checkmark
-        \]
-
-  \item $f_x=ye^{xy}$, $f_y=xe^{xy}$. At $(1,0)$: $\nabla f=(0,1)^T$.
-        Normalise: $\|\mathbf{v}\|=5$, $\mathbf{u}=(-3/5,4/5)^T$. Then
-        $D_{\mathbf{u}}f=0\cdot(-3/5)+1\cdot(4/5)=4/5$.
-
-  \item Write $f=e^{y\ln x}$. Then $f_x=e^{y\ln x}\cdot y/x=yx^{y-1}$ and
-        $f_y=e^{y\ln x}\cdot\ln x=x^y\ln x$.
-
-  \item On $\{2K<3L\}$ the binding factor is capital: $F=2K$, so
-        $F_K=2$, $F_L=0$. On $\{2K>3L\}$ labour binds: $F=3L$, so
-        $F_K=0$, $F_L=3$. (Non-differentiable on $\{2K=3L\}$.)
-
-  \item $f_x=yz+2x$, $f_y=xz$, $f_z=xy-2z$. At $(2,-1,3)$:
-        $f_x=-3+4=1$, $f_y=6$, $f_z=-2-6=-8$. So
-        $\nabla f=(1,6,-8)^T$.
-
-  \item $\nabla f=(2x,8y)^T$. At $(3,1)$: $\nabla f=(6,8)^T$. Steepest
-        descent is $-\nabla f/\|\nabla f\|$. $\|\nabla f\|=10$, so unit
-        descent direction is $(-3/5,-4/5)^T$, with rate of decrease
-        $-\|\nabla f\|=-10$ (i.e.\ $f$ decreases at rate 10).
-
-  \item $f_x=e^y-ye^x$, $f_y=xe^y-e^x$.
-
-  \item Quotient rule with $D=x^2+y^2$:
-        \[
-          f_x=\frac{D-x\cdot2x}{D^2}=\frac{y^2-x^2}{(x^2+y^2)^2}, \qquad
-          f_y=\frac{-x\cdot2y}{D^2}=\frac{-2xy}{(x^2+y^2)^2} .
-        \]
-
-  \item $U_x=1$, $U_y=1/\sqrt{y}$. So $\mathrm{MRS}_{xy}=U_x/U_y
-        =\sqrt{y}$ (depends only on $y$, quasi-linear utility).
-
-  \item $f_x=2x$, $f_y=2y$, $f_z=-2z$. At $(2,-1,2)$:
-        $\nabla f=(4,-2,-4)^T$. Normalise: $\|\mathbf{v}\|=\sqrt{4+4+1}=3$,
-        $\mathbf{u}=(2/3,2/3,1/3)^T$. Then
-        \[
-          D_{\mathbf{u}}f=4\cdot\frac23+(-2)\cdot\frac23+(-4)\cdot\frac13
-            =\frac{8-4-4}{3}=0 .
-        \]
-        (We are moving tangent to the level surface.)
-
-  \item $f_x=\sec^2(x+y)+\sec^2(x-y)$, $f_y=\sec^2(x+y)-\sec^2(x-y)$.
-
-  \item Let $S=\alpha K+\beta L$, $F=S^r$. Then $F_K=rS^{r-1}\alpha$,
-        $F_L=rS^{r-1}\beta$. Hence
-        \[
-          KF_K+LF_L=rS^{r-1}(\alpha K+\beta L)=rS^{r-1}\cdot S=rS^r=rF.
-            \checkmark
-        \]
-
-  \item $\nabla f=(-e^{-x}\sin y+e^x\cos y,\ e^{-x}\cos y-e^x\sin y)^T$.
-
-  \item $f_x=x/\sqrt{x^2+y^2}$, $f_y=y/\sqrt{x^2+y^2}$. At $(3,4)$:
-        $\sqrt{x^2+y^2}=5$, $\nabla f=(3/5,4/5)^T$. The direction
-        $\mathbf{v}=(1,0)$ is already unit. So
-        $D_{\mathbf{u}}f=3/5\cdot1+4/5\cdot0=3/5$.
-
-  \item On $\{2x<3y\}$: $U=2x$, so $U_x=2$, $U_y=0$. On $\{2x>3y\}$:
-        $U=3y$, so $U_x=0$, $U_y=3$. (Non-differentiable on the ray
-        $2x=3y$.)
-
-  \item Let $L=\ln(x+y)$, $D=x-y$. By the quotient rule:
-        \[
-          f_x=\frac{(1/(x+y))(x-y)-\ln(x+y)\cdot1}{(x-y)^2}
-            =\frac{1/(x+y)\cdot(x-y)-\ln(x+y)}{(x-y)^2} .
-        \]
-        Simplifying
-        $f_x=\dfrac{(x-y)/(x+y)-\ln(x+y)}{(x-y)^2}$. Similarly,
-        \[
-          f_y=\frac{(1/(x+y))(x-y)-\ln(x+y)\cdot(-1)}{(x-y)^2}
-            =\frac{(x-y)/(x+y)+\ln(x+y)}{(x-y)^2} .
-        \]
-
-  \item $F_K=A\alpha K^{\alpha-1}L^\beta$, $F_L=A\beta K^\alpha L^{\beta-1}$.
-        So
-        \[
-          \mathrm{MRTS}_{LK}=\frac{F_L}{F_K}=\frac{\beta}{\alpha}\cdot
-            \frac{K}{L} .
-        \]
-        This depends only on the ratio $K/L$ and the exponent ratio
-        $\beta/\alpha$: it is scale-invariant.
-
-  \item $\nabla f=(2x,-2y)^T$. At $(2,-1)$: $\nabla f=(4,2)^T$. Direction
-        of steepest ascent: $\mathbf{u}^*=(4,2)/\sqrt{20}=(2,1)/\sqrt5$.
-        Maximum rate $=\|\nabla f\|=\sqrt{20}=2\sqrt5$.
-
-  \item $f_x=\sinh(x+y)+\cosh(x-y)$, $f_y=\sinh(x+y)-\cosh(x-y)$.
-
-  \item $\nabla f=(e^{x+y+z},e^{x+y+z},e^{x+y+z})^T$. At $(0,0,0)$:
-        $\nabla f=(1,1,1)^T$. Normalise $\mathbf{v}=(1,1,1)$:
-        $\|\mathbf{v}\|=\sqrt3$, $\mathbf{u}=(1,1,1)/\sqrt3$. Then
-        $D_{\mathbf{u}}f=(1+1+1)/\sqrt3=\sqrt3$.
-
-  \item $f_x=(\ln y)/x$, $f_y=(\ln x)/y$.
-
-  \item $F_K=1+L^{1/2}/K^{1/2}$, $F_L=1+K^{1/2}/L^{1/2}$. From
-        $F=(K^{1/2}+L^{1/2})^2$ with $g=K^{1/2}+L^{1/2}$:
-        $F_K=g/K^{1/2}=(K^{1/2}+L^{1/2})/K^{1/2}=1+L^{1/2}/K^{1/2}$.
-        \checkmark Same for $F_L$.
-
-  \item $f_x=2xy$, $f_y=x^2+3y^2$. At $(-1,2)$: $\nabla f=(-4,1+12)^T
-        =(-4,13)^T$. Normalise: $\|\mathbf{v}\|=5$,
-        $\mathbf{u}=(4/5,-3/5)^T$. Then
-        \[
-          D_{\mathbf{u}}f=-4\cdot\frac45+13\cdot\left(-\frac35\right)
-            =-\frac{16+39}{5}=-11 .
-        \]
-
-  \item $U_x=\alpha/x$, $U_y=\beta/y$.
-        $\mathrm{MRS}_{xy}=\dfrac{\alpha/x}{\beta/y}=\dfrac{\alpha y}{\beta x}$.
-        At $(\alpha,\beta)$: $\mathrm{MRS}=(\alpha\cdot\beta)/(\beta\cdot\alpha)=1$.
-
-  \item $f=(x^2+y^2)^{-1/2}$. Chain rule:
-        \[
-          f_x=-\frac12(x^2+y^2)^{-3/2}\cdot2x=\frac{-x}{(x^2+y^2)^{3/2}},
-          \qquad f_y=\frac{-y}{(x^2+y^2)^{3/2}} .
-        \]
-        So $\nabla f=-(x,y)^T/(x^2+y^2)^{3/2}$.
-
-  \item Chain rule with $u=xy$:
-        \[
-          f_x=\frac{y}{1+x^2y^2}, \qquad f_y=\frac{x}{1+x^2y^2} .
-        \]
-
-  \item Let $S=K^\rho+L^\rho$, $F=S^{1/\rho}$. Then
-        $F_K=\frac1\rho S^{1/\rho-1}\cdot\rho K^{\rho-1}
-        =K^{\rho-1}S^{1/\rho-1}$. Since $S^{1/\rho}=F$, we have $S=F^\rho$
-        and so $S^{1/\rho-1}=F^{1-\rho}\cdot F^{-1}\cdot F=F^{1-\rho}$.
-        Thus $F_K=K^{\rho-1}F^{1-\rho}=(F/K)^{1-\rho}=(K/F)^{\rho-1}$.
-        \checkmark
-
-  \item $f_x=yz$, $f_y=xz$, $f_z=xy$. At $(2,3,-1)$:
-        $\nabla f=(3\cdot(-1),2\cdot(-1),2\cdot3)^T=(-3,-2,6)^T$.
-        Normalise $\mathbf{v}=(2,-1,2)$: $\|\mathbf{v}\|=3$,
-        $\mathbf{u}=(2/3,-1/3,2/3)^T$. Then
-        \[
-          D_{\mathbf{u}}f=-3\cdot\frac23+(-2)\cdot\left(-\frac13\right)
-            +6\cdot\frac23=-2+\frac23+4=2+\frac23=\frac83 .
-        \]
+        since $K^{0}=L^{0}=1$. Exponentiating,
+        $Q_{\rho}\to K^{\alpha}L^{1-\alpha}$.
+  \item The exponential dominates: $x^{3}/\mathrm{e}^{0.1x}\to0$ by three
+        applications of the rule. The crossing solves
+        $x^{3}=\mathrm{e}^{0.1x}$, i.e. $3\ln x=0.1x$; trying values,
+        $x=100$ gives $13.8$ against $10$, and $x=120$ gives $14.4$
+        against $12$, while $x=200$ gives $15.9$ against $20$. So the
+        crossing lies between $x\approx150$ and $x\approx200$ --- late, but
+        inevitable.
+  \item Since $r>0$, $(1+r)^{-n}\to0$, so the present value tends to
+        $\dfrac{1}{r}$. No indeterminate form arises. The limit is the
+        \textbf{perpetuity}: a payment of $1$ for ever is worth $1/r$
+        today.
+  \item $\displaystyle\lim_{q\to0^{+}}\left(q+\frac4q\right)=+\infty$: as
+        output shrinks, the fixed cost $4$ is spread over almost nothing,
+        so average cost explodes. And
+        $\dfrac{AC(q)}{q}=1+\dfrac{4}{q^{2}}\to1$, so for large $q$ average
+        cost grows essentially like $q$ itself: the fixed cost becomes
+        irrelevant and $AC\approx q$.
 \end{solutions}
 
 \section{Additional Problems}
 
 \begin{problems}
-  \item Compute $f_x$ and $f_y$ for $f(x,y)=3x^5-2x^3y^2+4y^4$.
-  \item For $F(K,L)=20\,K^{1/3}L^{2/3}$, find $F_K$ and $F_L$ at
-        $(K,L)=(8,27)$.
-  \item Compute $f_x$ and $f_y$ for $f(x,y)=e^{xy}$.
-  \item Compute $\nabla f$ for $f(x,y)=2x^2y-3xy^3+5$.
-  \item Compute the directional derivative of $f(x,y)=x^2+2xy-y^2$ at
-        $(1,2)$ in the direction $\mathbf{v}=(3,4)$.
-  \item For $F(K,L)=8K^{3/4}L^{1/4}$, compute $\mathrm{MP}_K$ and
-        $\mathrm{MP}_L$ at $(K,L)=(16,16)$.
-  \item Compute $f_x$ and $f_y$ for $f(x,y)=\ln(2x+3y)$.
-  \item For $U(x,y)=3\ln(x)+4\ln(y)$, derive $\mathrm{MRS}_{xy}$ and
-        evaluate at $(2,3)$.
-  \item Compute $f_x$ and $f_y$ for $f(x,y)=(x+y^2)^4$.
-  \item Compute $\nabla f$ for $f(x,y,z)=xy+yz+zx$.
-  \item For a CES production $F(K,L)=5(K^{1/3}+L^{1/3})^3$, find $F_K$.
-  \item Compute the directional derivative of $f(x,y)=x^2y$ at $(2,1)$
-        in the direction $\mathbf{v}=(1,-1)$.
-  \item For $U(x,y)=x^\alpha y^\beta$ (general Cobb--Douglas,
-        $\alpha,\beta>0$), derive $\mathrm{MRS}_{xy}$ and show it depends
-        only on the ratio $y/x$.
-  \item Compute $f_x$ and $f_y$ for $f(x,y)=\dfrac{x-y}{x+y}$.
-  \item For $f(K,L)=K^{1/2}L^{1/2}$ at $(K,L)=(16,9)$, find the unit
-        direction of steepest ascent and the maximum rate of increase.
-  \item Classify the open positive orthant
-        $Q=\{(x,y)\in\R^2 : x>0,\ y>0\}$: is it open, closed, or
-        neither? Is it bounded? Is it compact?
-  \item Classify the budget set
-        $B=\{(x,y)\in\R^2 : 2x+3y\le12,\ x\ge0,\ y\ge0\}$: open,
-        closed, or neither? Bounded? Compact?
-  \item Classify $M=\{(x,y)\in\R^2 : xy\ge1,\ x>0\}$: open, closed, or
-        neither? Bounded? Compact? \emph{Hint:} check whether a
-        sequence in $M$ can converge to a point with $x=0$.
-  \item Classify the open disc
-        $D=\{(x,y)\in\R^2 : x^2+y^2<4\}$: open, closed, or neither?
-        Bounded? Compact?
-  \item Classify (a) the half-open strip
-        $S=\{(x,y)\in\R^2 : 0\le x<1\}$ and (b) the finite set
-        $E=\{(0,0),\ (1,2),\ (3,1)\}$: open, closed, or neither?
-        Bounded? Compact?
-  \item Does the Weierstrass theorem guarantee a maximiser for the
-        continuous function $u(x,y)=x^{1/2}y^{1/2}$ (a) on the budget
-        set $B=\{(x,y): 2x+3y\le12,\ x\ge0,\ y\ge0\}$, (b) on the open
-        positive orthant $Q=\{(x,y): x>0,\ y>0\}$? Justify each
-        answer.
+  \item $\displaystyle\lim_{x\to0}\frac{\sin 3x}{x}$
+  \item $\displaystyle\lim_{x\to0}\frac{\sin 3x}{\sin 5x}$
+  \item $\displaystyle\lim_{x\to0}\frac{\mathrm{e}^{3x}-1}{\mathrm{e}^{2x}-1}$
+  \item $\displaystyle\lim_{x\to1}\frac{x^{5}-1}{x^{3}-1}$
+  \item $\displaystyle\lim_{x\to0}\frac{\ln(1+x)}{x}$
+  \item $\displaystyle\lim_{x\to0}\frac{x-\sin x}{x^{3}}$
+  \item $\displaystyle\lim_{x\to0}\frac{\cos x-1+\tfrac12x^{2}}{x^{4}}$
+  \item $\displaystyle\lim_{x\to\infty}\frac{(\ln x)^{2}}{x}$
+  \item $\displaystyle\lim_{x\to\infty}\frac{x^{3}}{\mathrm{e}^{2x}}$
+  \item $\displaystyle\lim_{x\to\infty}
+        \frac{\ln(1+\mathrm{e}^{x})}{x}$
+  \item $\displaystyle\lim_{x\to0^{+}}\sqrt{x}\,\ln x$
+  \item $\displaystyle\lim_{x\to0^{+}}x\,\mathrm{e}^{1/x}$
+  \item $\displaystyle\lim_{x\to\infty}
+        \bigl(\sqrt{x^{2}+3x}-\sqrt{x^{2}-x}\bigr)$
+  \item $\displaystyle\lim_{x\to0}
+        \left(\frac{1}{x^{2}}-\frac{1}{x^{2}\cos x}\right)$
+  \item $\displaystyle\lim_{x\to0^{+}}\left(\frac{1}{x}\right)^{x}$
+  \item $\displaystyle\lim_{x\to0^{+}}(1+2x)^{1/x}$
+  \item $\displaystyle\lim_{x\to\infty}
+        \left(\frac{x+2}{x-1}\right)^{x}$
+  \item $\displaystyle\lim_{x\to\infty}(\ln x)^{1/x}$
+  \item $\displaystyle\lim_{x\to0^{+}}x^{1/\ln x}$
+  \item Decide without computing which of $x^{100}$ and
+        $\mathrm{e}^{x/100}$ is eventually larger, and justify with the
+        hierarchy.
+  \item Show that $\dfrac{x^{n}}{\mathrm{e}^{x}}\to0$ for every positive
+        integer $n$, and say how many applications of the rule are needed.
+  \item Is $\displaystyle\lim_{x\to\infty}
+        \frac{x-\cos x}{x+\cos x}$ accessible by L'H\^opital? Find it.
+  \item The elasticity of demand for $q(p)=A p^{-\varepsilon}$ is constant.
+        Verify this by computing
+        \[
+          \lim_{h\to0}\frac{\bigl(q(p+h)-q(p)\bigr)/q(p)}{h/p} .
+        \]
+  \item Under continuous discounting a payment $F$ at time $t$ is worth
+        $F\mathrm{e}^{-rt}$. Show that
+        \[
+          \lim_{r\to0^{+}}\frac{F-F\mathrm{e}^{-rt}}{r}=Ft ,
+        \]
+        and interpret the result.
+  \item A logistic adoption path is
+        $y(t)=\dfrac{K}{1+\mathrm{e}^{-kt}}$. Find
+        $\displaystyle\lim_{t\to\infty}y(t)$ and
+        $\displaystyle\lim_{k\to0^{+}}y(t)$, and say what each means.
 \end{problems}
 
 \section{Additional Solutions}
 
 \begin{solutions}
-  \item $f_x=15x^4-6x^2y^2$, $f_y=-4x^3y+16y^3$.
-
-  \item $F_K=20\cdot\frac13K^{-2/3}L^{2/3}=\frac{20}{3}(L/K)^{2/3}$;
-        $F_L=20\cdot\frac23K^{1/3}L^{-1/3}=\frac{40}{3}(K/L)^{1/3}$. At
-        $(8,27)$: $(L/K)^{2/3}=(27/8)^{2/3}=9/4$, so $F_K=15$;
-        $(K/L)^{1/3}=(8/27)^{1/3}=2/3$, so
-        $F_L=\frac{40}{3}\cdot\frac23=\frac{80}{9}$.
-
-  \item $f_x=ye^{xy}$, $f_y=xe^{xy}$.
-
-  \item $\nabla f=(4xy-3y^3,\ 2x^2-9xy^2)^T$.
-
-  \item $f_x=2x+2y$, $f_y=2x-2y$. At $(1,2)$: $\nabla f=(6,-2)^T$.
-        Normalise: $\|\mathbf{v}\|=5$, $\mathbf{u}=(3/5,4/5)^T$. Then
-        \[
-          D_{\mathbf{u}}f=6\cdot\frac35+(-2)\cdot\frac45
-            =\frac{18-8}{5}=2 .
-        \]
-
-  \item $F_K=8\cdot\frac34K^{-1/4}L^{1/4}=6(L/K)^{1/4}$,
-        $F_L=2(K/L)^{3/4}$. At $(16,16)$: $\mathrm{MP}_K=6$,
-        $\mathrm{MP}_L=2$.
-
-  \item $f_x=\dfrac{2}{2x+3y}$, $f_y=\dfrac{3}{2x+3y}$.
-
-  \item $U_x=3/x$, $U_y=4/y$.
-        $\mathrm{MRS}_{xy}=U_x/U_y=\dfrac{3y}{4x}$. At $(2,3)$:
-        $\mathrm{MRS}=\dfrac98$.
-
-  \item Chain: $f_x=4(x+y^2)^3$,
-        $f_y=4(x+y^2)^3\cdot2y=8y(x+y^2)^3$.
-
-  \item $f_x=y+z$, $f_y=x+z$, $f_z=x+y$. So
-        $\nabla f=(y+z,\ x+z,\ x+y)^T$.
-
-  \item Let $g=K^{1/3}+L^{1/3}$, so $F=5g^3$. Then
-        $F_K=5\cdot3g^2\cdot\frac13K^{-2/3}=5g^2K^{-2/3}
-        =\dfrac{5(K^{1/3}+L^{1/3})^2}{K^{2/3}}$.
-
-  \item $f_x=2xy$, $f_y=x^2$. At $(2,1)$: $\nabla f=(4,4)^T$. Normalise:
-        $\|\mathbf{v}\|=\sqrt2$, $\mathbf{u}=(1/\sqrt2,-1/\sqrt2)^T$.
-        Then
-        \[
-          D_{\mathbf{u}}f=4\cdot\frac{1}{\sqrt2}
-            +4\cdot\left(-\frac{1}{\sqrt2}\right)=0 .
-        \]
-        (Tangent to the level curve.)
-
-  \item $U_x=\alpha x^{\alpha-1}y^\beta$,
-        $U_y=\beta x^\alpha y^{\beta-1}$. So
-        \[
-          \mathrm{MRS}_{xy}=\frac{U_x}{U_y}
-            =\frac{\alpha}{\beta}\cdot\frac{y}{x} .
-        \]
-        Depends only on $y/x$ (and the exponent ratio), not on the
-        scale. \checkmark
-
-  \item Quotient rule with $D=x+y$:
-        \[
-          f_x=\frac{D-(x-y)}{D^2}=\frac{2y}{(x+y)^2}, \qquad
-          f_y=\frac{-D-(x-y)}{D^2}=\frac{-2x}{(x+y)^2} .
-        \]
-
-  \item $f_K=\frac12K^{-1/2}L^{1/2}$, $f_L=\frac12K^{1/2}L^{-1/2}$. At
-        $(16,9)$: $f_K=\frac12\cdot\frac34=3/8$;
-        $f_L=\frac12\cdot\frac43=2/3$. So $\nabla f=(3/8,2/3)^T$.
-        Magnitude:
-        $\|\nabla f\|=\sqrt{9/64+4/9}=\sqrt{81/576+256/576}
-        =\sqrt{337/576}=\sqrt{337}/24\approx0.765$. Unit direction of
-        steepest ascent:
-        $\mathbf{u}^*=(3/8,2/3)^T/(\sqrt{337}/24)=(9,16)^T/\sqrt{337}$.
-
-  \item \textbf{Open.} For any $(x,y)\in Q$ the ball of radius
-        $r=\min\{x,y\}>0$ around $(x,y)$ stays inside $Q$, so every
-        point is interior. \textbf{Not closed:} the boundary points
-        $(x,0)$ and $(0,y)$ with $x,y\ge0$ (the coordinate half-axes,
-        including the origin) do not belong to $Q$. \textbf{Not
-        bounded:} $Q$ contains $(t,t)$ for every $t>0$, and
-        $\|(t,t)\|=t\sqrt2\to\infty$. Hence $Q$ is open, unbounded and
-        \textbf{not compact}.
-
-  \item \textbf{Closed.} $B$ is the intersection of the three sets
-        $\{2x+3y\le12\}$, $\{x\ge0\}$ and $\{y\ge0\}$, each defined by
-        a non-strict inequality on a continuous function; each is
-        closed, and an intersection of closed sets is closed (every
-        boundary point of $B$ satisfies all three inequalities, so it
-        lies in $B$). \textbf{Not open:} $(0,0)\in B$, but every ball
-        around the origin contains points with negative coordinates,
-        which are outside $B$; so $(0,0)$ is not interior.
-        \textbf{Bounded:} from the constraints, $0\le x\le6$ and
-        $0\le y\le4$, so $B\subseteq B_8(\mathbf{0})$. Closed and
-        bounded in $\R^2$: $B$ is \textbf{compact}.
-
-  \item First note the constraint $x>0$ together with $xy\ge1$ forces
-        $y\ge1/x>0$. \textbf{Closed:} suppose
-        $(x_n,y_n)\in M$ with $(x_n,y_n)\to(a,b)$. If $a=0$, then
-        $y_n\to b$ finite would give $x_ny_n\to0<1$, contradicting
-        $x_ny_n\ge1$; so $a>0$, and passing to the limit in
-        $x_ny_n\ge1$ gives $ab\ge1$, hence $(a,b)\in M$. $M$ contains
-        all its limit (boundary) points, so it is closed: even
-        though it is written with a strict inequality, that inequality
-        is never active. \textbf{Not open:} $(1,1)\in M$ lies on the
-        hyperbola $xy=1$, and every ball around it contains points
-        with $xy<1$. \textbf{Not bounded:} $(t,t)\in M$ for all
-        $t\ge1$. Hence $M$ is closed, unbounded and \textbf{not
-        compact}.
-
-  \item \textbf{Open.} For $(x,y)\in D$ put
-        $r=2-\sqrt{x^2+y^2}>0$; the ball $B_r(x,y)$ lies in $D$ by the
-        triangle inequality. \textbf{Not closed:} the boundary circle
-        $\{x^2+y^2=4\}$ is not contained in $D$ (e.g.\ $(2,0)\notin
-        D$). \textbf{Bounded:} $D\subseteq B_3(\mathbf{0})$. Bounded
-        but not closed: $D$ is \textbf{not compact}.
-
-  \item (a) \textbf{Neither open nor closed.} The points $(0,y)$
-        belong to $S$ but are boundary points (every ball around them
-        contains points with $x<0$), so $S$ is not open; the boundary
-        points $(1,y)$ do not belong to $S$, so $S$ is not closed.
-        \textbf{Unbounded:} $(0,t)\in S$ for all $t$. Hence
-        \textbf{not compact}. (b) \textbf{Closed:} around any point
-        not in $E$ there is a ball avoiding all three points (a
-        finite set always contains all its boundary points:
-        indeed $E$ is its own boundary). \textbf{Not open:} no ball
-        around $(0,0)$ lies inside $E$. \textbf{Bounded:}
-        $E\subseteq B_4(\mathbf{0})$. Closed and bounded: $E$ is
-        \textbf{compact}.
-
-  \item (a) \textbf{Yes.} $B$ is compact (closed and bounded, see the
-        budget-set problem above) and $u$ is continuous on $B$, so by
-        the Weierstrass theorem $u$ attains both a maximum and a
-        minimum on $B$; a maximiser exists. (b) \textbf{No.} $Q$ is
-        not compact (it is neither closed nor bounded), so Weierstrass
-        does not apply: and indeed no maximiser exists:
-        $u(t,t)=t\to\infty$ as $t\to\infty$, so $u$ is unbounded above
-        on $Q$.
+  \item $\dfrac{3\cos3x}{1}\to3$.
+  \item $\dfrac{3\cos3x}{5\cos5x}\to\dfrac35$.
+  \item $\dfrac{3\mathrm{e}^{3x}}{2\mathrm{e}^{2x}}\to\dfrac32$.
+  \item $\dfrac{5x^{4}}{3x^{2}}\to\dfrac53$.
+  \item $\dfrac{1/(1+x)}{1}\to1$.
+  \item Three times:
+        $\dfrac{1-\cos x}{3x^{2}}\to\dfrac{\sin x}{6x}\to
+        \dfrac{\cos x}{6}=\dfrac16$.
+  \item Four times, or twice with a known limit:
+        $\dfrac{-\sin x+x}{4x^{3}}$, and by the previous problem
+        $\dfrac{x-\sin x}{x^{3}}\to\dfrac16$, so the limit is
+        $\dfrac{1}{4}\cdot\dfrac16=\dfrac{1}{24}$.
+  \item $\dfrac{2\ln x\cdot(1/x)}{1}=\dfrac{2\ln x}{x}\to0$ (one more
+        application, or the hierarchy).
+  \item Three times:
+        $\dfrac{3x^{2}}{2\mathrm{e}^{2x}}\to\dfrac{6x}{4\mathrm{e}^{2x}}
+        \to\dfrac{6}{8\mathrm{e}^{2x}}\to0$.
+  \item $\dfrac{\mathrm{e}^{x}/(1+\mathrm{e}^{x})}{1}\to1$: for large $x$,
+        $\ln(1+\mathrm{e}^{x})\approx x$.
+  \item $\dfrac{\ln x}{x^{-1/2}}\to\dfrac{1/x}{-\tfrac12x^{-3/2}}
+        =-2\sqrt{x}\to0$.
+  \item Not indeterminate as written from the right: $x\to0^{+}$ gives
+        $0\cdot\infty$, so rewrite with $t=1/x\to\infty$ as
+        $\dfrac{\mathrm{e}^{t}}{t}\to\infty$. The limit is $+\infty$ ---
+        the exponential blow-up beats the vanishing factor.
+  \item Multiply by the conjugate:
+        $\dfrac{4x}{\sqrt{x^{2}+3x}+\sqrt{x^{2}-x}}
+        =\dfrac{4}{\sqrt{1+3/x}+\sqrt{1-1/x}}\to\dfrac{4}{2}=2$.
+  \item Combine: $\dfrac{\cos x-1}{x^{2}\cos x}$, and since
+        $\dfrac{\cos x-1}{x^{2}}\to-\dfrac12$ while $\cos x\to1$, the limit
+        is $-\dfrac12$.
+  \item $\ln y=-x\ln x\to0$, so the limit is $1$.
+  \item $\ln y=\dfrac{\ln(1+2x)}{x}\to2$, so the limit is
+        $\mathrm{e}^{2}$.
+  \item $\ln y=x\ln\!\dfrac{x+2}{x-1}
+        =\dfrac{\ln(1+2/x)-\ln(1-1/x)}{1/x}\to2-(-1)=3$, so the limit is
+        $\mathrm{e}^{3}$.
+  \item $\ln y=\dfrac{\ln\ln x}{x}\to0$ (the numerator grows slower than
+        any power), so the limit is $1$.
+  \item $\ln y=\dfrac{\ln x}{\ln x}=1$ for every $x$ in the domain, so the
+        limit is $\mathrm{e}$ --- no rule needed, just simplification.
+  \item $\mathrm{e}^{x/100}$ eventually wins. The hierarchy
+        $x^{a}\ll\mathrm{e}^{bx}$ holds for \emph{every} $a>0$ and
+        \emph{every} $b>0$; the constants only postpone the crossing, they
+        never prevent it.
+  \item Each application lowers the power by one and leaves
+        $\mathrm{e}^{x}$ in the denominator:
+        $\dfrac{x^{n}}{\mathrm{e}^{x}}\to\dfrac{nx^{n-1}}{\mathrm{e}^{x}}
+        \to\cdots\to\dfrac{n!}{\mathrm{e}^{x}}\to0$. Exactly $n$
+        applications.
+  \item No: the rule would give $\dfrac{1+\sin x}{1-\sin x}$, which has no
+        limit (and whose denominator vanishes repeatedly). Divide by $x$
+        instead: $\dfrac{1-\cos x/x}{1+\cos x/x}\to\dfrac{1-0}{1+0}=1$.
+  \item Write the ratio as
+        $\dfrac{p}{q(p)}\cdot\dfrac{q(p+h)-q(p)}{h}$. The second factor
+        tends to $q'(p)=-\varepsilon Ap^{-\varepsilon-1}$, so the limit is
+        $\dfrac{p}{Ap^{-\varepsilon}}\cdot
+        \bigl(-\varepsilon Ap^{-\varepsilon-1}\bigr)=-\varepsilon$:
+        constant, independent of $p$. That is what ``constant elasticity''
+        means.
+  \item $0/0$ as $r\to0^{+}$; differentiating with respect to $r$ gives
+        $\dfrac{Ft\mathrm{e}^{-rt}}{1}\to Ft$. Interpretation: at a
+        vanishing interest rate, discounting does nothing, and the total
+        interest forgone over the period is just $Ft$ --- the linear,
+        ``simple interest'' approximation.
+  \item $\displaystyle\lim_{t\to\infty}y(t)=\dfrac{K}{1+0}=K$: adoption
+        saturates at the ceiling $K$. And
+        $\displaystyle\lim_{k\to0^{+}}y(t)=\dfrac{K}{1+1}=\dfrac{K}{2}$ for
+        every fixed $t$: with no diffusion speed the path flattens into the
+        constant half-way level, never moving away from its starting
+        point.
 \end{solutions}

@@ -71,6 +71,106 @@ Before integrating, rewrite the integrand:
 \end{itemize}
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{Find $\displaystyle\int\Bigl(3x^{4}-\frac{2}{x}+4\sqrt{x}-\frac{5}{x^{3}}\Bigr)\mathrm{d}x$, and say why $\int\frac{1}{x}\mathrm{d}x$ is the odd one out}
+\wstep{Step 1. Rewrite every term as a power of $x$ before integrating.}
+This is the whole preparation, and skipping it is what makes the roots and
+reciprocals go wrong:
+\[
+  \frac{2}{x}=2x^{-1},
+  \qquad
+  4\sqrt{x}=4x^{1/2},
+  \qquad
+  \frac{5}{x^{3}}=5x^{-3} .
+\]
+The integrand becomes $3x^{4}-2x^{-1}+4x^{1/2}-5x^{-3}$, and now a single
+rule handles almost all of it.
+
+\wstep{Step 2. Apply the reverse power rule term by term.}
+\[
+  \int x^{n}\,\mathrm{d}x=\frac{x^{n+1}}{n+1}+C
+  \qquad\textbf{for }n\neq-1 .
+\]
+Raise the exponent by one, divide by the new exponent:
+\[
+  \int 3x^{4}\,\mathrm{d}x=\frac{3x^{5}}{5},
+  \qquad
+  \int 4x^{1/2}\,\mathrm{d}x=4\cdot\frac{x^{3/2}}{3/2}=\frac{8}{3}x^{3/2},
+\]
+\[
+  \int -5x^{-3}\,\mathrm{d}x=-5\cdot\frac{x^{-2}}{-2}=\frac{5}{2x^{2}} .
+\]
+\wtrap{Two sign traps in the last one. $-3+1=-2$, and dividing by $-2$
+turns the leading minus into a plus. Negative exponents are where this rule
+is most often mishandled --- do the two operations in writing, not in your
+head.}
+
+\wstep{Step 3. The excluded case.}
+$n=-1$ would require dividing by $n+1=0$. The power rule simply has nothing
+to say, and a different antiderivative takes over:
+\[
+  \int\frac{1}{x}\,\mathrm{d}x=\ln|x|+C .
+\]
+\wtrap{The absolute value is not decoration. $\ln x$ is undefined for
+$x<0$, yet $1/x$ has a perfectly good antiderivative there --- namely
+$\ln(-x)$. Writing $|x|$ covers both branches at once. An answer of
+``$\ln x$'' is incomplete, and on a negative interval it is wrong.}
+
+\wstep{Step 4. Assemble, with one constant for the whole thing.}
+\[
+  \boxed{\;\frac{3x^{5}}{5}-2\ln|x|+\frac{8}{3}x^{3/2}+\frac{5}{2x^{2}}+C\;}
+\]
+\wtrap{One $+C$, at the end. Four terms do not need four constants (their
+sum is again a single arbitrary constant), and omitting it altogether names
+one antiderivative when the question asked for all of them --- which matters
+the moment an initial condition has to be imposed.}
+
+\wstep{Step 5. Check by differentiating. This check is always available.}
+\[
+  \frac{\mathrm{d}}{\mathrm{d}x}\Bigl[\frac{3x^{5}}{5}\Bigr]=3x^{4},
+  \qquad
+  \frac{\mathrm{d}}{\mathrm{d}x}\bigl[-2\ln|x|\bigr]=-\frac{2}{x},
+\]
+\[
+  \frac{\mathrm{d}}{\mathrm{d}x}\Bigl[\frac83x^{3/2}\Bigr]=\frac83\cdot\frac32x^{1/2}=4\sqrt x,
+  \qquad
+  \frac{\mathrm{d}}{\mathrm{d}x}\Bigl[\frac{5}{2}x^{-2}\Bigr]=-5x^{-3}=-\frac{5}{x^{3}} .
+\]
+All four terms reproduce the integrand. \checkmark\ Integration is the one
+operation in this book whose answer can be verified completely, in seconds,
+with no extra theory. There is no excuse for an unchecked antiderivative.
+
+\wstep{Step 6. What linearity does and does not permit.}
+\[
+  \int\bigl(af+bg\bigr)=a\int f+b\int g
+  \qquad\text{always;}
+\]
+\[
+  \int fg\neq\Bigl(\int f\Bigr)\Bigl(\int g\Bigr),
+  \qquad
+  \int\frac fg\neq\frac{\int f}{\int g}
+  \qquad\text{ever.}
+\]
+Sums and constant multiples split; products and quotients do not. That
+single asymmetry is why Chapters~2 to~4 exist: substitution, parts and
+partial fractions are the three ways of getting at a product or a quotient.
+
+\wstep{Step 7. The short list worth memorising now.}
+\[
+  \int\mathrm{e}^{x}\mathrm{d}x=\mathrm{e}^{x},
+  \quad
+  \int\mathrm{e}^{ax}\mathrm{d}x=\frac{\mathrm{e}^{ax}}{a},
+  \quad
+  \int a^{x}\mathrm{d}x=\frac{a^{x}}{\ln a},
+  \quad
+  \int\frac{1}{x}\mathrm{d}x=\ln|x| ,
+\]
+each plus $C$. The factor $1/a$ in the second is the compensation for the
+chain rule --- differentiating $\mathrm{e}^{ax}$ produces an $a$, so
+integrating must divide by one.
+\end{worked}
+
 \section{Practice Problems}
 
 Compute each indefinite integral; include the constant of integration $C$.

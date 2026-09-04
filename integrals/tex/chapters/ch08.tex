@@ -58,6 +58,113 @@ $\iint_{\R^{2}} f=1$, then
 \]
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{Compute $\iint_{R}xy\,\mathrm{d}A$ over the rectangle $R=[0,2]\times[1,3]$, then $\iint_{D}(x+y)\,\mathrm{d}A$ over the region between $y=x^{2}$ and $y=2x$ --- in both orders}
+\wstep{Step 1. A rectangle with a separable integrand factors completely.}
+When the limits are constants \emph{and} the integrand is a product
+$f(x)g(y)$, the double integral splits into a product of single ones:
+\[
+  \iint_{R}xy\,\mathrm{d}A
+  =\Bigl(\int_{0}^{2}x\,\mathrm{d}x\Bigr)\Bigl(\int_{1}^{3}y\,\mathrm{d}y\Bigr)
+  =\Bigl[\tfrac{x^{2}}{2}\Bigr]_{0}^{2}\Bigl[\tfrac{y^{2}}{2}\Bigr]_{1}^{3}
+  =2\cdot4=\boxed{8}.
+\]
+\wtrap{Both conditions are required. Over a non-rectangular region, or for
+an integrand like $x+y$ that is not a product, the split is invalid. It is
+worth the two seconds to confirm both before using it.}
+
+\wstep{Step 2. For the second region, sketch first --- always.}
+$y=x^{2}$ and $y=2x$ meet where $x^{2}=2x$, i.e.\ $x=0$ and $x=2$. Between
+them $2x>x^{2}$ (test $x=1$: $2>1$), so the line is the \emph{upper}
+boundary and the parabola the lower.
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[geoaxis, width=5.8cm, height=5.8cm,
+             xmin=-0.6, xmax=2.8, ymin=-0.6, ymax=4.8,
+             xtick={1,2}, ytick={2,4}]
+  \addplot[name path=P, domain=0:2.4, samples=120] {x^2};
+  \addplot[name path=L, domain=0:2.4, samples=2] {2*x};
+  \region{P}{L}{soft clip={domain=0:2}}
+  \node[font=\scriptsize] at (axis cs:1.1,1.7) {$D$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\wstep{Step 3. As a Type I region: $x$ outside, $y$ inside.}
+\[
+  D=\bigl\{(x,y):0\le x\le2,\ x^{2}\le y\le 2x\bigr\},
+  \qquad
+  \iint_{D}(x+y)\,\mathrm{d}A=\int_{0}^{2}\!\!\int_{x^{2}}^{2x}(x+y)\,\mathrm{d}y\,\mathrm{d}x .
+\]
+\wtrap{The \emph{inner} limits may depend on the outer variable; the
+\emph{outer} limits must be constants. An $x$ surviving in the outer limits
+means the two integrals were set up in the wrong order, and the final answer
+will still contain a variable --- which is the tell.}
+
+\wstep{Step 4. Inner integral: $x$ is a constant here.}
+\[
+  \int_{x^{2}}^{2x}(x+y)\,\mathrm{d}y
+  =\Bigl[xy+\tfrac{y^{2}}{2}\Bigr]_{x^{2}}^{2x}
+  =\bigl(2x^{2}+2x^{2}\bigr)-\Bigl(x^{3}+\tfrac{x^{4}}{2}\Bigr)
+  =4x^{2}-x^{3}-\tfrac{x^{4}}{2} .
+\]
+
+\wstep{Step 5. Outer integral.}
+\[
+  \int_{0}^{2}\Bigl(4x^{2}-x^{3}-\tfrac{x^{4}}{2}\Bigr)\mathrm{d}x
+  =\Bigl[\tfrac{4x^{3}}{3}-\tfrac{x^{4}}{4}-\tfrac{x^{5}}{10}\Bigr]_{0}^{2}
+  =\tfrac{32}{3}-4-\tfrac{16}{5} .
+\]
+\[
+  =\frac{160-60-48}{15}=\boxed{\frac{52}{15}\approx3.467}
+\]
+
+\wstep{Step 6. Now reverse the order --- and re-derive the limits from the picture.}
+As a Type II region, $y$ runs from $0$ to $4$, and for a fixed $y$ the
+horizontal slice runs from the line to the parabola. Solve each boundary for
+$x$: $y=2x$ gives $x=y/2$ (the left edge), and $y=x^{2}$ gives $x=\sqrt y$
+(the right edge).
+\[
+  \iint_{D}(x+y)\,\mathrm{d}A=\int_{0}^{4}\!\!\int_{y/2}^{\sqrt y}(x+y)\,\mathrm{d}x\,\mathrm{d}y .
+\]
+\[
+  \int_{y/2}^{\sqrt y}(x+y)\mathrm{d}x
+  =\Bigl[\tfrac{x^{2}}{2}+xy\Bigr]_{y/2}^{\sqrt y}
+  =\Bigl(\tfrac y2+y^{3/2}\Bigr)-\Bigl(\tfrac{y^{2}}{8}+\tfrac{y^{2}}{2}\Bigr) .
+\]
+\[
+  \int_{0}^{4}\Bigl(\tfrac y2+y^{3/2}-\tfrac{5y^{2}}{8}\Bigr)\mathrm{d}y
+  =\Bigl[\tfrac{y^{2}}{4}+\tfrac{2y^{5/2}}{5}-\tfrac{5y^{3}}{24}\Bigr]_{0}^{4}
+  =4+\tfrac{64}{5}-\tfrac{40}{3}=\frac{52}{15}. \checkmark
+\]
+\wtrap{Do not simply swap the limits and the differentials. The new limits
+must be read off the region again --- here $[y/2,\sqrt y]$ for $x$ and
+$[0,4]$ for $y$, which look nothing like the old ones. Reversing an
+iterated integral mechanically is wrong essentially always, and the sketch
+is what prevents it.}
+
+\wstep{Step 7. Why anyone would bother reversing.}
+Because one order may be impossible. $\int_{0}^{1}\int_{x}^{1}
+\mathrm{e}^{-y^{2}}\mathrm{d}y\,\mathrm{d}x$ cannot be started, since
+$\mathrm{e}^{-y^{2}}$ has no elementary antiderivative. Reversed, the same
+region gives
+\[
+  \int_{0}^{1}\!\!\int_{0}^{y}\mathrm{e}^{-y^{2}}\mathrm{d}x\,\mathrm{d}y
+  =\int_{0}^{1}y\,\mathrm{e}^{-y^{2}}\mathrm{d}y
+  =\tfrac12\bigl(1-\mathrm{e}^{-1}\bigr),
+\]
+a one-line substitution. Reversing the order is a technique, not a
+formality.
+
+\wstep{Step 8. Where double integrals appear in economics.}
+A joint density $f(x,y)$ over a region gives a probability
+$\iint f\,\mathrm{d}A$; the marginal density of $x$ is $\int f\,\mathrm{d}y$
+--- integrating the other variable away. Expected values, covariances and
+the total output of a two-input process are all this same accumulation over
+a region.
+\end{worked}
+
 \section{Practice Problems}
 
 \begin{problems}

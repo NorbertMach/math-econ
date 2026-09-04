@@ -47,12 +47,73 @@
   {\par\medskip\noindent}
 \newcommand{\gcap}[1]{\par\smallskip{\centering\footnotesize #1\par}}
 
+% --- plane regions, implicit curves, surfaces -----------------------------
+\usepgfplotslibrary{fillbetween}
+\definecolor{regionfill}{HTML}{9DB4D8}
+\pgfplotsset{colormap={house}{color=(soft) color=(accent!45) color=(accent)}}
+
+\pgfplotsset{
+  % Squared, gridded axis for plane regions and implicitly given curves.
+  geoaxis/.style={
+    fnaxis,
+    width=5.9cm, height=5.9cm,
+    grid=both,
+    grid style={gray!22, line width=0.2pt},
+    minor tick num=1,
+  },
+  % Level-curve maps: many thin curves, no single curve emphasised.
+  contouraxis/.style={
+    geoaxis,
+    every axis plot/.append style={accent!75, line width=0.5pt, smooth,
+      samples=201},
+  },
+  % Surfaces: \addplot3[surf, domain=..., y domain=...] {expr};
+  surfaxis/.style={
+    width=6.0cm, height=5.0cm,
+    view={130}{22},
+    colormap name=house,
+    ticks=none,
+    xlabel={$x$}, ylabel={$y$}, zlabel={$f$},
+    label style={font=\tiny, gray!50!black},
+    title style={font=\scriptsize},
+    every axis plot/.append style={samples=25, shader=faceted interp,
+      draw=accent!35, line width=0.1pt},
+  },
+}
+
+% Shorthand for a shaded region between two named paths.
+% \region{<path A>}{<path B>}{<soft clip options>}
+\newcommand{\region}[3]{%
+  \addplot[regionfill, opacity=0.55, forget plot, sharp plot]
+    fill between[of=#1 and #2, #3];}
+
 % --- rule boxes -----------------------------------------------------------
 \newtcolorbox{rulebox}[1]{%
   breakable, enhanced, colback=soft, colframe=accent,
   boxrule=0.4pt, left=7pt, right=7pt, top=6pt, bottom=6pt,
   fonttitle=\bfseries, coltitle=white, colbacktitle=accent,
   title={#1}}
+
+% --- worked examples ------------------------------------------------------
+% One fully narrated solution per chapter, carrying the chapter's central
+% technique and the mistakes that technique invites:
+%   \begin{worked}{Task} ... \wstep{Step 1.} ... \wtrap{...} ... \end{worked}
+\newtcolorbox{worked}[1]{%
+  breakable, enhanced, colback=white, colframe=accent!65,
+  boxrule=0.4pt, left=7pt, right=7pt, top=6pt, bottom=6pt,
+  fonttitle=\bfseries, coltitle=accent, colbacktitle=soft,
+  title={#1}}
+
+% Run-in step heading inside a worked example.
+\newcommand{\wstep}[1]{\par\smallskip\noindent\textbf{#1}\enspace\ignorespaces}
+
+% A pitfall, set off from the running solution so it can be found again.
+\newcommand{\wtrap}[1]{%
+  \par\smallskip
+  {\leftskip=1.3em\noindent
+   \llap{\textcolor{accent}{\rule[0.22ex]{0.9em}{0.6pt}}\hspace{0.4em}}%
+   \textbf{Trap.}\enspace\itshape #1\par}%
+  \smallskip}
 
 % --- problem / solution lists --------------------------------------------
 \newlist{problems}{enumerate}{1}

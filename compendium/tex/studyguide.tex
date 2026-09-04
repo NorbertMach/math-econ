@@ -1,0 +1,363 @@
+\chapter*{How to Work This Book}
+\addcontentsline{toc}{chapter}{How to Work This Book}
+\markboth{How to Work This Book}{How to Work This Book}
+
+This book is organised by \emph{subject}: algebra, then functions, then
+matrices, and so on, because that is the order in which the mathematics
+builds on itself. A course is organised by \emph{examination topic}, and the
+two orders are not the same. The second mathematics course of a business
+administration or economics degree typically opens with multivariable
+differentiation and expects everything in Parts~I to~IV to be already in
+place; it then works through convexity, unconstrained optimization, implicit
+functions, Lagrange, Kuhn--Tucker and linear programming, and closes with a
+set of deliberately mixed exercises.
+
+This chapter reconciles the two. It sets out ten stages in the order the
+course actually needs them, says which chapters serve each stage, how much
+work each is, and --- the part that matters most --- how to tell when a
+stage is finished. Working the book front to back is perfectly reasonable if
+you have the time. If you do not, the stages below are the efficient path.
+
+\section*{First: find out where to start}
+
+A course states its prerequisites but cannot enforce them, so the single
+most common way to waste a semester is to begin at your syllabus's first
+topic while missing something two volumes earlier. The following twelve
+questions take about half an hour. Each one you cannot answer confidently,
+\emph{in writing, without looking anything up}, sends you to a chapter.
+
+\begin{enumerate}[leftmargin=2.0em,itemsep=0.35ex]
+  \item Give the maximal domain of $\dfrac{\sqrt{x-1}}{\ln(x-2)}$.
+        \hfill (Ch.~10)
+  \item Sketch $y=2-\mathrm{e}^{-x}$ and give its asymptote.
+        \hfill (Ch.~11, 12)
+  \item Shade $\{(x,y): x^{2}+y^{2}\le 9,\ y\ge x\}$.
+        \hfill (Ch.~13)
+  \item Solve $x+2y-z=3$, $2x-y+z=5$, $3x+y+2z=14$ by elimination.
+        \hfill (Ch.~19)
+  \item Give the eigenvalues of
+        $\left(\begin{smallmatrix}2&1\\1&2\end{smallmatrix}\right)$ and say
+        whether it is positive definite. \hfill (Ch.~22, 23)
+  \item Differentiate $x^{2}\mathrm{e}^{-x}$ and $\dfrac{\ln x}{x}$.
+        \hfill (Ch.~29, 30)
+  \item Evaluate $\displaystyle\lim_{x\to0}\frac{1-\cos x}{x^{2}}$.
+        \hfill (Ch.~28, 35)
+  \item Locate the extrema and the inflection of $x^{3}-3x^{2}$ and sketch
+        it. \hfill (Ch.~36)
+  \item Give $\dd{y}{x}$ on $x^{2}+xy+y^{2}=7$ at $(1,2)$.
+        \hfill (Ch.~33)
+  \item Sketch the level curves of $f(x,y)=x^{2}-y^{2}$ at
+        $c=-1,0,1$. \hfill (Ch.~37)
+  \item Give $\grad f$ for $f=x^{2}y^{3}$ at $(1,2)$ and
+        $D_{\mathbf{u}}f$ towards $(3,4)$. \hfill (Ch.~38)
+  \item Maximise $xy$ subject to $3x+4y=24$ and interpret the multiplier.
+        \hfill (Ch.~57, 58)
+\end{enumerate}
+
+Questions 1--5 test the prerequisites, 6--9 the one-variable calculus,
+10--12 the course proper. If you stumble in the first block, start at
+Stage~1 and do not skip it; the later material will not stick on top of a
+gap there.
+
+\section*{How long this takes}
+
+Worked honestly, a drill problem with a full solution takes four to six
+minutes: read it, attempt it, check it, and note what went wrong. The ten
+stages together are about $2\,770$ problems, which is \textbf{185 to 275
+hours} --- a serious semester, and more than most people have.
+
+So the stages below each carry a \textbf{core} and a \textbf{defer} list.
+The core is what the syllabus actually leans on; taking only those chapters
+brings the total to about $2\,040$ problems, or \textbf{135 to 200 hours}.
+Two workable shapes:
+
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{A full semester}, 12 to 15 hours a week for fourteen weeks:
+        Stages~1--4 in weeks 1--5, Stages~5--7 in weeks 6--8, Stages~8--9 in
+        weeks 9--10, Stage~10 in weeks 11--13, and the mixed sets in
+        week~14. This covers the core comfortably and most of the rest.
+  \item \textbf{Four weeks left}, 20 to 30 hours a week: core chapters only,
+        and within each chapter the \emph{Practice Problems} block only,
+        skipping the Additional blocks entirely. Do every mastery test, and
+        keep the three mixed sets for the last four days --- they are the
+        only honest rehearsal.
+\end{itemize}
+
+One structural point that saves a lot of time: \textbf{Stage~3 can be
+postponed}. Nothing in Stages~4 to~7 needs a matrix. Definiteness is first
+required in Stage~8 and elimination in Stage~10, so if the calculus is the
+urgent part, run Stages~1, 4, 5, 6, 7 first and fetch the matrices when
+Stage~8 demands them.
+
+\section*{The ten stages}
+
+Each stage names the course topic it serves, the chapters that serve it, and
+a \emph{mastery test} --- a specific thing you should be able to do before
+moving on. The problem counts are the full drill; on a second pass, the
+\emph{Additional Problems} block of each chapter alone is usually enough.
+
+\subsection*{Stage 1 --- Functions, before anything else \;(Ch.~10--14, 350 problems)}
+
+Syllabuses list this under prerequisites in a single sentence: you should
+know what the graphs of the usual functions look like and be able to sketch
+curves given by equations in two variables. That sentence hides a great deal.
+Domain and range, the standard shapes with their poles and asymptotes,
+shifting and stretching, inverses, and the regions that inequalities cut out
+of the plane are used on nearly every page that follows.
+
+\textbf{Mastery test.} Given $f(x)=\dfrac{x^{2}}{x-1}$, state the domain,
+both asymptotes and the two extrema without differentiating anything you
+have not already differentiated; and shade
+$\{x^{2}+y^{2}\le16,\ y\ge0,\ x\le2\}$ and write the three inequalities back
+out from your own picture.
+
+\emph{Core:} Ch.~10--13. \emph{Defer:} Ch.~14 (trigonometry) --- the
+prerequisites list it, but a business or economics examination almost never
+uses it.
+Do it only if the graphs of $\sin$, $\cos$ and $\tan$ are genuinely
+unfamiliar.
+
+\subsection*{Stage 2 --- The algebra underneath \;(Ch.~1--9, 275 problems)}
+
+Only if Stage~1 was uncomfortable. This is manipulation: exponents,
+logarithms, factoring, inequalities, systems, and the first-order-condition
+algebra that every optimization problem eventually demands. Chapter~9 is the
+one to do even if you skip the rest.
+
+\textbf{Mastery test.} Isolate $K$ in $Y=AK^{\alpha}L^{1-\alpha}$, and solve
+$\alpha y/(\beta x)=p_{x}/p_{y}$ together with $p_{x}x+p_{y}y=M$ without
+hesitating.
+
+\emph{Core:} Ch.~9, and whichever of Ch.~1--5 the diagnostic exposed.
+\emph{Defer:} Ch.~7 (summation) and Ch.~8 (partial fractions) --- the first
+matters for series, the second only for integration.
+
+\subsection*{Stage 3 --- Matrices and linear systems \;(Ch.~15--24, 512 problems)}
+
+Syllabuses name determinants, eigenvalues, definiteness, rank and linear
+systems as review material. Two of these do real work later: definiteness is
+the second-order condition of every multivariable optimum, and elimination
+is how every linear system in the book is actually solved.
+
+\textbf{Mastery test.} Row-reduce a $3\times3$ system to echelon form and
+state which of the three outcomes it has; and classify
+$\left(\begin{smallmatrix}2&-1\\-1&2\end{smallmatrix}\right)$ by both
+eigenvalues and leading principal minors, getting the same answer twice.
+
+\emph{Core:} Ch.~18, 19, 21, 22, 23 --- exactly the list a syllabus names:
+determinants, elimination, rank, eigenvalues and definiteness.
+\emph{Defer:} Ch.~15--17 unless matrix arithmetic is rusty, and Ch.~24
+(applications), which is enrichment.
+
+\subsection*{Stage 4 --- One-variable calculus, finished properly \;(Ch.~25--28 and 29--36, 684 problems)}
+
+Sequences, series and limits first, then the differentiation rules,
+L'H\^opital, and the complete curve discussion. The last of these,
+\de{Kurvendiskussion}, is named explicitly in the prerequisites and is the
+best single rehearsal of everything before it: domain, asymptotes,
+monotonicity, curvature and a drawing, in one fixed order.
+
+\textbf{Mastery test.} Run a full discussion of $f(x)=\dfrac{\ln x}{x}$ ---
+domain, asymptotes, the maximum, the inflection --- and draw it; then
+evaluate $\lim_{x\to0}(\cos x)^{1/x^{2}}$.
+
+\emph{Core:} Ch.~28--31, 33, 35, 36. \emph{Defer:} Ch.~25--27 (sequences,
+series, financial mathematics) unless your course examines them, Ch.~32
+(Taylor) until Stage~8 needs the second-order intuition, and Ch.~34, which
+overlaps with Stage~8.
+
+\subsection*{Stage 5 --- The plane in two variables \;(Ch.~37, 70 problems)}
+
+Syllabus topic: domain, level curves and range for functions of two
+variables (\de{Definitionsmenge, Niveaulinien, Wertemenge}). Surfaces,
+contour maps, sub- and superlevel sets. This is short and is where most of the geometry of the rest of the
+course is decided; do not treat it as scenery.
+
+\textbf{Mastery test.} Match a contour map to its surface and justify it by
+the \emph{spacing} of the contours; and read the critical points of
+$x^{3}-3x+y^{2}$ off its contour map, classifying each, before computing
+anything.
+
+\subsection*{Stage 6 --- Multivariable differentiation \;(Ch.~38--41, 244 problems)}
+
+Syllabus topics: multivariable differentiation and the chain rule
+(\de{Differentialrechnung in mehreren Variablen}, \de{Kettenregel}).
+Partial derivatives, the gradient,
+directional derivatives, the total differential, the multivariable chain
+rule, second-order partials and the Hessian.
+
+\textbf{Mastery test.} State why $\grad f$ is perpendicular to a level
+curve, in two sentences, without looking it up --- everything in Stages~8
+and~9 leans on it.
+
+\emph{Core:} all four. This is the centre of the course and nothing here is
+optional.
+
+\subsection*{Stage 7 --- Convexity \;(Ch.~52--53, 68 problems)}
+
+Syllabus topic: convexity (\de{Konvexit\"at}). Convex sets, convex and
+concave functions, and quasiconcavity. Short, and it pays for itself twice, since
+convexity is what makes a first-order condition sufficient later.
+
+\textbf{Mastery test.} Decide convexity of a function from its Hessian and
+of a set from the line-segment test, and explain why $xy$ is quasiconcave on
+the positive quadrant but not concave.
+
+\subsection*{Stage 8 --- Unconstrained optimization and the envelope \;(Ch.~54--56, 90 problems)}
+
+Syllabus topic: unconstrained optimization in several variables
+(\de{Optimierung ohne Nebenbedingungen}). Critical points, the Hessian
+test, comparative statics and the envelope theorem.
+
+\textbf{Mastery test.} Find and classify every critical point of
+$x^{3}-3xy+y^{3}$; then estimate the change in an optimal value when a
+parameter shifts, \emph{without} re-solving the problem.
+
+\emph{Core:} all three. Ch.~56 (comparative statics and the envelope) is the
+one students skip and then meet again, unrecognised, inside Stage~10.
+
+\subsection*{Stage 9 --- Implicit and inverse functions \;(Ch.~33 and 42, 150 problems)}
+
+Syllabus topic: inverse and implicit functions
+(\de{Inverse und implizite Funktionen}). Chapter~33 is the mechanics in one
+variable, Chapter~42 the Implicit Function Theorem, the
+Jacobian, homogeneity and Euler's theorem. The one thing to take away is
+where the theorem \emph{fails}: at a vertical tangent or a self-crossing.
+
+\textbf{Mastery test.} Given the picture of an implicit curve, name every
+point where $y$ cannot be written as a function of $x$, justify it from the
+picture, and confirm it by computing $F_{y}=0$ together with $F=0$.
+
+\emph{Core:} both, but within Ch.~42 the Jacobian and Euler's theorem can
+wait; the Implicit Function Theorem itself cannot.
+
+\subsection*{Stage 10 --- Constrained optimization and linear programming \;(Ch.~57--60 and 61--68, 346 problems)}
+
+The payoff, and the largest block of the examination: Lagrange with its
+first- and second-order conditions and the interpretation of the multiplier;
+the bordered Hessian; Kuhn--Tucker with complementary slackness; and then
+linear programming end to end. On most syllabuses these two topics carry
+more examination weight than any other pair, so budget accordingly.
+
+\textbf{Mastery test.} Solve a constrained problem by Lagrange, certify it
+with the bordered Hessian, and re-derive it by substitution; then solve a
+Kuhn--Tucker problem by systematic case analysis, and read an optimal
+simplex tableau for the shadow prices.
+
+\emph{Core:} all of it. If time forces a choice, Ch.~57--60 outrank the
+linear-programming chapters: Lagrange and Kuhn--Tucker are the techniques a
+business or economics examination reaches for most often, and they carry
+into later courses in a way the simplex tableau does not.
+
+\section*{Finally: the mixed sets}
+
+Everything above drills one technique at a time, which is the right way to
+learn a method and the wrong way to sit an examination --- a chapter heading
+tells you what to do before you have read the question. The three sets of
+Part~IX (Ch.~69--71) announce nothing. Work one in a single sitting under a
+time limit, then for every problem you got wrong write down not the
+arithmetic but the \emph{decision}: which signal in the wording should have
+pointed at which method? That note is worth more than redoing the
+computation, and it is the thing a syllabus's closing set of cross-topic
+problems (\emph{Kapitel\"ubergreifende Aufgaben}) exists to train.
+
+\section*{Mapping a syllabus to this book}
+
+Business and economics mathematics courses usually hand out an exercise
+collection organised by topic, and the topics are remarkably standard from
+one degree to the next. Below are the ones such a collection almost always
+contains, with the German headings under which they are usually taught in
+the German-speaking countries. Match your own syllabus against it: the
+wording will differ, the topics will not.
+
+\begin{center}\footnotesize
+\begin{tabular}{@{}lllr@{}}
+\textbf{Syllabus topic} & \textbf{German heading} &
+  \textbf{Chapters} & \textbf{Problems}\\
+\hline
+One-variable functions, revision & \de{Wiederholung eindimensionale Funktionen}
+  & 10--14, 29--36 & 914\\
+Inequalities in two variables & \de{Ungleichungen in zwei Variablen}
+  & 13 & 70\\
+Domain, level curves, range & \de{Definitionsmenge, Niveaulinien, Wertemenge}
+  & 10, 37 & 140\\
+Multivariable differentiation & \de{Differentialrechnung in mehreren Variablen}
+  & 38, 39, 41 & 185\\
+Chain rule & \de{Kettenregel} & 40 & 59\\
+Convexity and the Hessian & \de{Konvexit\"at und Hessematrix}
+  & 39, 52, 53 & 131\\
+Unconstrained optimization & \de{Optimierung ohne Nebenbedingungen}
+  & 54, 55, 56 & 90\\
+Inverse and implicit functions & \de{Inverse und implizite Funktionen}
+  & 33, 42 & 150\\
+Equality constraints (Lagrange) & \de{Optimierung mit Gleichungen}
+  & 57, 58, 59 & 131\\
+Nonlinear programming (KKT) & \de{Nichtlineare Programmierung}
+  & 60 & 33\\
+Linear programming & \de{Lineare Programmierung} & 61--68 & 182\\
+Cross-topic problems & \de{Kapitel\"ubergreifende Aufgaben} & 69--71 & 60\\
+\end{tabular}
+\end{center}
+
+Two chapters sit outside that table and are worth knowing about. Part~VI
+(integration, Ch.~43--50) is not on a typical second-semester syllabus at
+all, but it is on most business and economics degrees somewhere, and consumer
+surplus and present value live there. Chapter~27, financial mathematics, is the same
+case.
+
+\section*{What this book does not do}
+
+Worth knowing before you rely on it.
+
+\begin{itemize}[leftmargin=1.6em,itemsep=0.4ex]
+  \item \textbf{No $\varepsilon$--$\delta$.} Limits are established with the
+        limit rules, L'H\^opital and algebra, never with
+        $\varepsilon$-arguments. That matches a mathematics-for-economists
+        syllabus, which asks you to \emph{compute} limits rather than prove
+        them exist. If your course does demand the rigorous definition, it
+        is the one thing you will have to get elsewhere.
+  \item \textbf{Proofs are demonstrations, not verifications.} Results are
+        derived far enough that they are believable and usable --- the
+        gradient's perpendicularity, $AC'=(MC-AC)/q$, Euler's theorem --- but
+        this is not an analysis text and does not pretend to be.
+  \item \textbf{Integration is a bonus, not a requirement.} Part~VI and
+        Ch.~27 sit outside a typical second-semester syllabus. They are here
+        because a business or economics degree wants them somewhere. Skip
+        them unless your course lists them.
+  \item \textbf{No statistics, no econometrics, no differential equations.}
+        Ch.~24 touches OLS only as a matrix identity.
+\end{itemize}
+
+\section*{Practical notes}
+
+\begin{itemize}[leftmargin=1.6em,itemsep=0.4ex]
+  \item \textbf{Start each chapter with its worked example.} Every chapter
+        carries one, between the rule boxes and the problems: a single
+        representative problem solved end to end, with the traps named where
+        they occur and every answer checked. Read it with a pen, reproducing
+        each step before looking at it, and only then start the drill. It is
+        the shortest route from ``I have read the rules'' to ``I can use
+        them'', and the \emph{Trap} notes in it are the errors that actually
+        cost marks.
+  \item \textbf{Work the problem before reading the solution.} Every
+        solution here is complete, which makes it very easy to read one and
+        feel that you could have produced it. You could not, until you have.
+  \item \textbf{When you are stuck, read only the first line.} The solutions
+        in Part~IX open by naming the technique and nothing else; elsewhere
+        the first sentence usually does the same. Read that one line, close
+        the book, and try again. Most failures are failures of
+        \emph{selection}, not of execution, and reading the whole solution
+        hides which of the two yours was.
+  \item \textbf{Draw everything.} The course asks you to read properties off
+        pictures --- convexity from a surface, critical points from a
+        contour map, binding constraints from a shaded region. That skill is
+        only built by drawing, not by reading drawings.
+  \item \textbf{Use the back matter.} The \emph{Formula Summary} is what to
+        revise from in the last week, and the \emph{German--English
+        Glossary} is there for degrees that teach from English sources and
+        examine in German.
+  \item \textbf{When stuck, go one stage back.} Almost every wall in
+        Stages~6 to~10 is really a gap in Stage~1, 3 or 4 --- an
+        unrecognised domain, a definiteness test misapplied, a derivative
+        taken wrongly.
+\end{itemize}

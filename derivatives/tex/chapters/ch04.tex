@@ -103,6 +103,105 @@ versus $0.5\%$ at $x=0.1$. Rule of thumb: expand around a base point
 close to where you evaluate, and use the remainder bound to check.
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{Expand $\ln(1+x)$ to third order about $0$, bound the error at $x=0.5$, and read the economics off the second-order term}
+\wstep{Step 1. Collect the derivatives at the expansion point.}
+\[
+  f(x)=\ln(1+x),\quad
+  f'=\frac{1}{1+x},\quad
+  f''=\frac{-1}{(1+x)^{2}},\quad
+  f'''=\frac{2}{(1+x)^{3}},\quad
+  f^{(4)}=\frac{-6}{(1+x)^{4}} .
+\]
+At $a=0$: $f(0)=0$, $f'(0)=1$, $f''(0)=-1$, $f'''(0)=2$, and
+$f^{(4)}(0)=-6$.
+\wtrap{Evaluate \emph{after} differentiating, never before. Substituting
+$x=0$ into $f'$ and then differentiating the resulting constant gives zeros
+all the way down --- a surprisingly frequent way to produce the polynomial
+$P_{3}(x)=x$.}
+
+\wstep{Step 2. Assemble the Taylor polynomial.}
+\[
+  P_{n}(x)=\sum_{k=0}^{n}\frac{f^{(k)}(a)}{k!}(x-a)^{k}
+  \quad\Longrightarrow\quad
+  P_{3}(x)=0+x-\frac{1}{2!}x^{2}+\frac{2}{3!}x^{3}
+  =\boxed{x-\frac{x^{2}}{2}+\frac{x^{3}}{3}}
+\]
+The factorials are what turn the raw derivatives $1,-1,2$ into the
+coefficients $1,-\tfrac12,\tfrac13$.
+\wtrap{Do not omit $k!$, and do not omit $(x-a)^{k}$ when $a\neq0$. Expanding
+about $a=2$ and writing powers of $x$ rather than of $x-2$ is the standard
+error, and it silently produces a polynomial that is wrong everywhere.}
+
+\wstep{Step 3. Evaluate at $x=0.5$ and compare.}
+\[
+  P_{3}(0.5)=0.5-0.125+0.041\overline{6}=0.4166\overline{6},
+  \qquad
+  \ln(1.5)=0.405465 ,
+\]
+so the actual error is $0.011202$.
+
+\wstep{Step 4. Bound the error \emph{before} knowing the true value.}
+The Lagrange remainder is
+\[
+  R_{3}(x)=\frac{f^{(4)}(\xi)}{4!}x^{4}
+  \qquad\text{for some }\xi\text{ between }0\text{ and }x .
+\]
+$\xi$ is unknown, so take the worst case. On $[0,0.5]$,
+\[
+  \bigl|f^{(4)}(\xi)\bigr|=\frac{6}{(1+\xi)^{4}}\le\frac{6}{1^{4}}=6
+  \qquad(\text{largest at }\xi=0),
+\]
+\[
+  |R_{3}(0.5)|\le\frac{6}{24}(0.5)^{4}=0.25\cdot0.0625=0.015625 .
+\]
+And indeed $0.011201\le0.015625$. \checkmark
+\wtrap{Maximise $|f^{(n+1)}|$ over the whole interval between $a$ and $x$ ---
+do not substitute $\xi=x$ or $\xi=a$ and call it a bound. Here $1/(1+\xi)^{4}$
+is decreasing, so the worst case is at the \emph{left} end; for an
+increasing derivative it would be at the right. Check which end before
+committing.}
+
+\wstep{Step 5. Note how fast the accuracy degrades with distance.}
+At $x=0.1$ the same bound gives $\tfrac14(0.1)^{4}=0.000025$; at $x=0.5$ it
+is $625$ times larger. The error carries the factor $x^{4}$, so halving the
+distance to the expansion point cuts the error sixteenfold. At $x=1$ the
+series still converges, but at $x=1.1$ it diverges outright --- the
+expansion of $\ln(1+x)$ is valid only for $|x|<1$.
+\wtrap{A Taylor polynomial is a \textbf{local} statement. It is excellent
+near $a$, useless far from it, and there is no warning in the formula --- 
+$P_{3}(5)=5-12.5+41.7=34.2$, while $\ln6=1.79$. Always ask how far from $a$
+you are being asked to work.}
+
+\wstep{Step 6. The first two terms are the economics.}
+Keeping $n=1$ gives the \textbf{linear approximation} $\ln(1+x)\approx x$:
+the familiar ``a log difference is a percentage change'', accurate to about
+half a percentage point for $|x|\le0.1$. Keeping $n=2$ gives
+\[
+  f(x)\approx f(a)+f'(a)(x-a)+\tfrac12 f''(a)(x-a)^{2},
+\]
+whose quadratic term carries the \textbf{curvature}. In expected-utility
+theory that term is exactly what produces the risk premium: a concave $u$
+has $u''<0$, so the quadratic term is negative, and its size relative to
+$u'$ is the Arrow--Pratt coefficient $-u''/u'$. Risk aversion \emph{is} the
+second-order term of a Taylor expansion.
+
+\wstep{Step 7. The expansions worth knowing by heart.}
+\[
+  \mathrm{e}^{x}=1+x+\tfrac{x^{2}}{2}+\tfrac{x^{3}}{6}+\cdots,
+  \qquad
+  \ln(1+x)=x-\tfrac{x^{2}}{2}+\tfrac{x^{3}}{3}-\cdots,
+\]
+\[
+  (1+x)^{\alpha}=1+\alpha x+\tfrac{\alpha(\alpha-1)}{2}x^{2}+\cdots,
+  \qquad
+  \frac{1}{1-x}=1+x+x^{2}+\cdots
+\]
+The last is the geometric series of Volume~4, which is why a perpetuity
+formula and a Taylor expansion are the same computation twice.
+\end{worked}
+
 \section{Practice Problems}
 
 \begin{problems}
@@ -351,7 +450,8 @@ close to where you evaluate, and use the remainder bound to check.
           n=3:\ \frac{2\cdot 0.0625}{24}\approx 5.2\cdot 10^{-3},
           \qquad
           n=4:\ \frac{2\cdot 0.03125}{120}\approx 5.2\cdot 10^{-4},
-          \qquad
+        \]
+        \[
           n=5:\ \frac{2\cdot 0.015625}{720}\approx 4.3\cdot 10^{-5} .
         \]
         The first value below $10^{-4}$ occurs at $n=5$. Check with the

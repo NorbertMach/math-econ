@@ -60,6 +60,88 @@ theorem allows the derivative $\mathrm{d}V/\mathrm{d}\alpha$ to be computed
 \emph{without} solving for $x^*(\alpha)$ explicitly.
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{$U=x^{0.4}y^{0.6}$, $p_{x}=2$, $p_{y}=3$, $M=100$: find the optimum, the multiplier, and verify $\lambda^{*}=\mathrm{d}V/\mathrm{d}M$}
+\wstep{Step 1. Solve the problem.}
+The Cobb--Douglas demands (Chapter~7) put a fixed expenditure share on each
+good:
+\[
+  x^{*}=\frac{0.4M}{p_{x}}=\frac{40}{2}=20,
+  \qquad
+  y^{*}=\frac{0.6M}{p_{y}}=\frac{60}{3}=20 .
+\]
+Budget check: $2(20)+3(20)=40+60=100$. \checkmark
+
+\wstep{Step 2. Evaluate the value function.}
+\[
+  V(M)=U(x^{*},y^{*})=20^{0.4}\cdot20^{0.6}=20^{1}=20 .
+\]
+
+\wstep{Step 3. Recover the multiplier from a first-order condition.}
+$U_{x}=0.4x^{-0.6}y^{0.6}=0.4\bigl(y/x\bigr)^{0.6}$, which at
+$x^{*}=y^{*}=20$ is $0.4$. From $U_{x}=\lambda p_{x}$,
+\[
+  \lambda^{*}=\frac{U_{x}}{p_{x}}=\frac{0.4}{2}=0.2 .
+\]
+Cross-check with the other condition: $U_{y}=0.6(x/y)^{0.4}=0.6$, and
+$0.6/3=0.2$. \checkmark\ The two must agree --- that agreement \emph{is} the
+tangency condition, and it is a free check on the whole solution.
+
+\wstep{Step 4. Now verify the interpretation directly.}
+For general $M$ the demands are $x^{*}=0.2M$ and $y^{*}=0.2M$, so
+\[
+  V(M)=(0.2M)^{0.4}(0.2M)^{0.6}=0.2M ,
+  \qquad
+  \dd{V}{M}=0.2=\lambda^{*} . \checkmark
+\]
+\[
+  \boxed{\lambda^{*}=\pd{V}{M}:\ \text{the multiplier is the marginal value of the constraint.}}
+\]
+
+\wstep{Step 5. Use it as intended --- an approximation, without re-solving.}
+If income rises to $M=105$, the predicted utility is
+\[
+  V(105)\approx V(100)+\lambda^{*}\cdot5=20+1=21 ,
+\]
+and here the prediction is exact ($0.2\times105=21$) because $V$ happens to
+be linear in $M$. In general it is a first-order approximation, accurate for
+small changes.
+\wtrap{The approximation is local. For a large parameter change the
+underlying solution may move to a different regime --- a constraint that was
+slack becomes binding, or a variable hits zero --- and the multiplier
+computed at the old optimum no longer applies. ``Small change'' is a real
+qualification, not a politeness.}
+
+\wstep{Step 6. Units, which are how you check any shadow price.}
+$\lambda$ has the units of \emph{objective per unit of constraint}. Here:
+utils per euro. In the cost-minimisation problem of Chapter~7 it was euros
+per unit of output --- marginal cost. In a linear programme it is profit per
+machine-hour. Getting the units right identifies what the number means, and
+a $\lambda$ whose units make no sense signals a mis-specified constraint.
+\wtrap{For a \emph{utility} problem, $\lambda$ has no absolute meaning. Utility
+is ordinal: replacing $U$ by $U^{3}$ describes identical preferences,
+leaves $x^{*},y^{*}$ unchanged, and multiplies $\lambda$ by
+$3U^{2}=1200$. The multiplier is only meaningful when the objective is
+measured in real units --- money, output, time --- which is why shadow
+prices in cost, profit and programming problems are quoted and marginal
+utilities of income are not.}
+
+\wstep{Step 7. Where the ``envelope'' name comes from.}
+$V(M)$ is the upper envelope of the family of curves $M\mapsto U(x,y)$
+indexed by fixed bundles $(x,y)$: each fixed bundle's utility is a
+horizontal line, affordable only once $M$ is large enough, and $V$ traces
+the highest one available at each $M$. At every $M$ the envelope touches one
+member of the family, and there the two have the same slope --- which is
+exactly the theorem.
+
+\wstep{Step 8. Sign, in general.}
+Relaxing a binding constraint can never hurt, so for a maximisation problem
+with the convention of Chapter~7, $\lambda^{*}\ge0$; and $\lambda^{*}=0$
+precisely when the constraint is not binding. That last observation is the
+whole content of complementary slackness in Chapter~10.
+\end{worked}
+
 \section{Practice Problems}
 
 \begin{problems}
@@ -250,9 +332,12 @@ theorem allows the derivative $\mathrm{d}V/\mathrm{d}\alpha$ to be computed
         loss in utility as $p_x$ rises.
 
   \item $Q^* = (K^*)^{1/3}(L^*)^{2/3}
-        = (TC/(3 r))^{1/3}(2 TC/(3 w))^{2/3}$. Factor $TC$:
-        $Q^* = TC \cdot (1/(3 r))^{1/3}(2/(3 w))^{2/3}
-        = TC \cdot 2^{2/3}/(3 r^{1/3} w^{2/3})$. Envelope theorem says
+        = (TC/(3 r))^{1/3}(2 TC/(3 w))^{2/3}$. Factoring out $TC$,
+        \[
+          Q^* = TC \cdot (1/(3 r))^{1/3}(2/(3 w))^{2/3}
+              = TC \cdot 2^{2/3}/(3 r^{1/3} w^{2/3}).
+        \]
+        Envelope theorem says
         $\partial Q^*/\partial w = -\lambda^* L^*$. Direct:
         $\partial Q^*/\partial w = TC \cdot 2^{2/3}/3 \cdot r^{-1/3}
         \cdot (-2/3) w^{-5/3}$. From FOC
@@ -383,11 +468,13 @@ theorem allows the derivative $\mathrm{d}V/\mathrm{d}\alpha$ to be computed
 
   \item $\mathcal{L} = K^{2/3} L^{1/3} + \lambda(TC - r K - w L)$. From
         FOC $(2/3) K^{-1/3} L^{1/3} = \lambda r$. At
-        $K^* = 2 TC/(3 r), L^* = TC/(3 w)$: $L^*/K^* = r/(2 w)$, so
-        $\lambda^* = (2/(3 r))(L^*/K^*)^{1/3}
-        = (2/(3 r))(r/(2 w))^{1/3}$. Envelope:
-        $\partial Q^*/\partial TC = \lambda^*
-        = (2/(3 r))(r/(2 w))^{1/3} = 2^{2/3}/(3 r^{2/3} w^{1/3})$.
+        $K^* = 2 TC/(3 r)$, $L^* = TC/(3 w)$ we get $L^*/K^* = r/(2 w)$, so
+        $\lambda^* = (2/(3 r))(L^*/K^*)^{1/3} = (2/(3 r))(r/(2 w))^{1/3}$.
+        Envelope:
+        \[
+          \partial Q^*/\partial TC = \lambda^*
+            = (2/(3 r))(r/(2 w))^{1/3} = 2^{2/3}/(3 r^{2/3} w^{1/3}).
+        \]
         Direct: $Q^* = (K^*)^{2/3}(L^*)^{1/3}
         = (2 TC/(3 r))^{2/3}(TC/(3 w))^{1/3}
         = TC \cdot 2^{2/3}/(3 r^{2/3} w^{1/3})$, so

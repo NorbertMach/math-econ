@@ -1,0 +1,582 @@
+\chapter{Transforming Functions}
+
+Knowing the catalogue of standard shapes is worth much more once it is
+combined with the second half of the skill: recognising that an unfamiliar
+formula is a familiar function in disguise. The graph of
+$y=-2\mathrm{e}^{-(x-3)}+5$ never has to be plotted point by point. It is
+the exponential, mirrored twice, stretched, and moved: five seconds of
+reading, not five minutes of arithmetic.
+
+Three related skills belong here. \textbf{Transforming}: what the constants
+in $a\,f\bigl(b(x-c)\bigr)+d$ do to a graph, with the standing trap that
+everything \emph{inside} the function acts in the opposite direction and by
+the reciprocal factor. \textbf{Composing and decomposing}: building a
+function out of simpler ones, and taking one apart again, which is exactly
+the reading that makes the chain rule mechanical later. And
+\textbf{inverting}: swapping the roles of $x$ and $y$, the operation that
+turns an exponential into a logarithm and a demand curve into an inverse
+demand curve.
+
+The chapter ends with the reverse question, the one an economist meets
+most often: not ``what does this formula look like'', but ``which formula has
+the shape I need?'' Given a vertex, an asymptote, a saturation level or two
+data points, determine the parameters.
+
+\section{Core Rules}
+
+\begin{rulebox}{The four elementary moves}
+Start from a known graph $y=f(x)$ and read the general form
+\[
+  y=a\,f\bigl(b(x-c)\bigr)+d .
+\]
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{$d$: vertical shift.} $f(x)+d$ moves the graph \emph{up}
+        by $d$ (down if $d<0$). Outside the function, and in the direction
+        you expect.
+  \item \textbf{$c$: horizontal shift.} $f(x-c)$ moves the graph
+        \emph{right} by $c$. Inside the function, and \emph{against}
+        the sign: $f(x+2)$ moves two units to the \emph{left}.
+  \item \textbf{$a$: vertical scaling.} $a\,f(x)$ stretches the graph
+        vertically by the factor $|a|$ ($0<|a|<1$ compresses), and
+        \textbf{reflects it in the $x$-axis} if $a<0$. Roots stay put;
+        every $y$-value is multiplied by $a$.
+  \item \textbf{$b$: horizontal scaling.} $f(bx)$ \emph{compresses} the
+        graph horizontally by the factor $|b|$ --- again the reciprocal of
+        what the number suggests --- and \textbf{reflects it in the
+        $y$-axis} if $b<0$. The $y$-intercept stays put.
+\end{itemize}
+Order matters: inside operations act on $x$ before $f$ is applied, outside
+operations act on the result. Apply them as
+\emph{horizontal scaling and shifting first, then $f$, then vertical
+scaling and shifting}. And factor before reading: $f(2x-6)=f\bigl(2(x-3)\bigr)$
+is a compression by $2$ together with a shift of $3$ to the right, not a
+shift of $6$.
+\end{rulebox}
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[fnaxis, xmin=-2.6, xmax=4.6, ymin=-1.2, ymax=4.6,
+      xtick={-2,2,4}, ytick={2,4}, title={$y=(x-2)^{2}+1$}]
+    \addplot[gray!60, dashed, thin, samples=101, domain=-2.1:2.1]{x^2};
+    \addplot[domain=0.15:3.85]{(x-2)^2+1};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[fnaxis, xmin=-2.6, xmax=2.6, ymin=-1.2, ymax=4.6,
+      xtick={-2,2}, ytick={2,4}, title={$y=2x^{2}$}]
+    \addplot[gray!60, dashed, thin, samples=101, domain=-2.1:2.1]{x^2};
+    \addplot[domain=-1.5:1.5]{2*x^2};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[fnaxis, xmin=-3.4, xmax=3.4, ymin=-1.2, ymax=4.6,
+      xtick={-2,2}, ytick={2,4}, title={$y=\mathrm{e}^{-x}$}]
+    \addplot[gray!60, dashed, thin, domain=-3.2:1.5]{exp(x)};
+    \addplot[domain=-1.5:3.2]{exp(-x)};
+  \end{axis}
+\end{tikzpicture}
+\gcap{Shift right and up \quad\textbullet\quad vertical stretch
+\quad\textbullet\quad reflection in the $y$-axis. The original is dashed.}
+\end{gallery}
+
+\begin{rulebox}{Absolute values: two different operations}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item $y=|f(x)|$ acts on the \textbf{output}: everything below the
+        $x$-axis is folded \emph{up}, everything above stays. Roots become
+        points where the graph touches the axis and turns.
+  \item $y=f(|x|)$ acts on the \textbf{input}: the part of the graph with
+        $x\geq0$ is kept and \emph{mirrored} to the left, and whatever the
+        function did for $x<0$ is discarded. The result is always even.
+\end{itemize}
+The two coincide only by accident. Note also $|ax+b|=|a|\,
+\bigl|x+\tfrac{b}{a}\bigr|$, which turns any such expression into a shifted
+and stretched V.
+\end{rulebox}
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[fnaxis, xmin=-2.6, xmax=2.6, ymin=-2.6, ymax=2.6,
+      xtick={-2,2}, ytick={-2,2}, title={$y=f(x)=x^{3}-3x$}]
+    \addplot[domain=-2.1:2.1]{x^3-3*x};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[fnaxis, xmin=-2.6, xmax=2.6, ymin=-2.6, ymax=2.6,
+      xtick={-2,2}, ytick={2}, title={$y=|f(x)|$}]
+    \addplot[domain=-2.1:2.1]{abs(x^3-3*x)};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[fnaxis, xmin=-2.6, xmax=2.6, ymin=-2.6, ymax=2.6,
+      xtick={-2,2}, ytick={-2,2}, title={$y=f(|x|)$}]
+    \addplot[domain=-2.1:2.1]{abs(x)^3-3*abs(x)};
+  \end{axis}
+\end{tikzpicture}
+\end{gallery}
+
+\begin{rulebox}{Composing and decomposing}
+$(f\circ g)(x)=f\bigl(g(x)\bigr)$: the \textbf{inner} function $g$ is
+applied first. To \emph{decompose} a formula, ask what you would compute
+first with a calculator; that is the inner function:
+\[
+  \begin{aligned}
+    \sqrt{3x+1}\;&:\quad g(x)=3x+1, \quad f(u)=\sqrt{u},\\
+    \mathrm{e}^{x^{2}}\;&:\quad g(x)=x^{2}, \quad f(u)=\mathrm{e}^{u},\\
+    (\ln x)^{3}\;&:\quad g(x)=\ln x, \quad f(u)=u^{3}.
+  \end{aligned}
+\]
+Decompositions are not unique, but the ``innermost bracket first'' reading
+is the one the chain rule wants. Note that all four elementary moves are
+themselves compositions with linear functions: $f(b(x-c))$ is $f$ composed
+with a linear inner function.
+\end{rulebox}
+
+\begin{rulebox}{Inverse functions}
+$f^{-1}$ undoes $f$: \;$f^{-1}\bigl(f(x)\bigr)=x$ and
+$f\bigl(f^{-1}(y)\bigr)=y$. It exists exactly when $f$ is
+\textbf{injective}; if it is not, restrict the domain first (as with
+$x^{2}$ on $[0,\infty)$). Three consequences and one recipe:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item $D(f^{-1})=W(f)$ and $W(f^{-1})=D(f)$: domain and range swap.
+  \item The graph of $f^{-1}$ is the graph of $f$ \textbf{mirrored in the
+        line $y=x$}; the point $(p,q)$ becomes $(q,p)$.
+  \item $f^{-1}$ is \emph{not} $1/f$.
+  \item \textbf{Recipe:} write $y=f(x)$, solve for $x$, then rename the
+        variables. \;$y=\mathrm{e}^{2x}\Rightarrow \ln y=2x\Rightarrow
+        x=\tfrac12\ln y$, so $f^{-1}(x)=\tfrac12\ln x$ with
+        $D(f^{-1})=(0,\infty)$.
+\end{itemize}
+This is the operation behind every \emph{inverse demand} function: the
+demand $q(p)$ solved for $p$ gives $p(q)$, the same curve read along the
+other axis.
+\end{rulebox}
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[fnaxis, xmin=-3.2, xmax=4.4, ymin=-3.2, ymax=4.4,
+      xtick={-2,2,4}, ytick={-2,2,4},
+      title={$\mathrm{e}^{x}$ and $\ln x$}]
+    \addplot[domain=-3:1.45]{exp(x)};
+    \addplot[domain=0.05:4.2]{ln(x)};
+    \addplot[gray!60, dashed, thin, samples=2, domain=-3:4.2]{x};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[fnaxis, xmin=-0.8, xmax=4.4, ymin=-0.8, ymax=4.4,
+      xtick={2,4}, ytick={2,4},
+      title={$x^{2}$ on $[0,\infty)$ and $\sqrt{x}$}]
+    \addplot[domain=0:2.05]{x^2};
+    \addplot[domain=0:4.2]{sqrt(x)};
+    \addplot[gray!60, dashed, thin, samples=2, domain=0:4.2]{x};
+  \end{axis}
+\end{tikzpicture}
+\gcap{Each pair is symmetric about the dashed line $y=x$.}
+\end{gallery}
+
+\begin{rulebox}{Reverse engineering: choosing the parameters}
+Given the shape you want, pick the family and fit the constants.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Prescribed vertex:} use $y=a(x-h)^{2}+k$ with the vertex
+        $(h,k)$, and determine $a$ from one further point.
+  \item \textbf{Prescribed asymptotes:} $y=\dfrac{k}{x-c}+d$ has the
+        vertical asymptote $x=c$ and the horizontal one $y=d$; a rational
+        $\dfrac{ax+b}{x-c}$ has $y=a$ as horizontal asymptote.
+  \item \textbf{Prescribed saturation:} $y=S\bigl(1-\mathrm{e}^{-kx}\bigr)$
+        starts at $0$ and rises to the ceiling $S$; $y=S\mathrm{e}^{-kx}$
+        starts at $S$ and decays to $0$.
+  \item \textbf{Two data points, exponential family:} $y=A\,q^{x}$ with
+        $A=y(0)$, and $q$ from the ratio of the two values. Halving every
+        $T$ units means $q=2^{-1/T}$.
+  \item \textbf{Economic shifts:} a change in fixed cost shifts $C(q)$
+        \emph{vertically}; a per-unit tax $t$ adds $tq$ and therefore
+        changes the \emph{slope}, not the intercept; measuring the input in
+        thousands instead of units rescales $x$ horizontally.
+\end{itemize}
+\end{rulebox}
+
+\section{Worked Example}
+
+\begin{worked}{Describe the moves taking $y=f(x)$ to $y=-3f(2x-4)+1$, apply them to $f(x)=\sqrt{x}$, and invert $g(x)=2\ln(x-1)+3$}
+\wstep{Step 1. Factor the inside before saying anything about the shift.}
+The inside is $2x-4$, and it must be written as
+\[
+  2x-4=2(x-2)
+\]
+before it can be read. In this form the horizontal instructions are
+unambiguous: \textbf{compress by a factor $2$}, and \textbf{shift right by
+$2$} --- not by $4$.
+\wtrap{This is the chapter's central trap. $f(2x-4)$ shifts by $2$, because
+what matters is the value of $x$ that makes the argument zero. Reading the
+shift straight off the $-4$ is the most common error in every examination
+that includes transformations.}
+
+\wstep{Step 2. Separate inside from outside, and get the directions right.}
+\begin{center}\footnotesize
+\begin{tabular}{lll}
+  \hline
+  where & operation & effect on the graph\\
+  \hline
+  inside, $2(\cdot)$ & multiply $x$ by $2$ & horizontal compression by $2$ \\
+  inside, $(\cdot-2)$ & subtract $2$ from $x$ & shift \emph{right} $2$ \\
+  outside, $-3(\cdot)$ & multiply by $-3$ & vertical stretch $3$, flip in the $x$-axis\\
+  outside, $+1$ & add $1$ & shift \emph{up} $1$ \\
+  \hline
+\end{tabular}
+\end{center}
+Inside changes act \textbf{opposite} to how they read (subtracting moves
+right, multiplying compresses); outside changes act \textbf{as} they read.
+The reason is that inside operations act on the input before $f$ sees it,
+so to keep the output the same you must compensate.
+
+\wstep{Step 3. Order matters, and here is the order.}
+Inside: shift and scale, in the order that the factored form dictates ---
+compress first, then shift, or equivalently shift the compressed picture by
+$2$. Outside: stretch and reflect first, then translate. Applying the
+vertical shift before the stretch would multiply the shift by $-3$ as well,
+landing at $-3f(\cdot)-3$ instead.
+
+\wstep{Step 4. Apply it to $f(x)=\sqrt{x}$.}
+\[
+  y=-3\sqrt{2x-4}+1=-3\sqrt{2(x-2)}+1 .
+\]
+The domain moves with the graph: $\sqrt{\cdot}$ needs $2x-4\ge0$, so
+$x\ge2$. The starting point $(0,0)$ of $\sqrt{x}$ goes to $(2,1)$: $x=2$
+because the shift is right by~$2$, and $y=1$ because $-3\cdot0+1=1$. From
+there the curve falls (the reflection), so its range is $(-\infty,1]$.
+
+\wstep{Step 5. Track one more point, as a check.}
+The point $(4,2)$ on $y=\sqrt{x}$: solve $2x-4=4$ for the new abscissa,
+giving $x=4$; the new ordinate is $-3\cdot2+1=-5$. So $(4,2)\mapsto(4,-5)$,
+and substituting $x=4$ into the final formula gives
+$-3\sqrt{4}+1=-5$. \checkmark
+
+\wstep{Step 6. Now the inverse of $g(x)=2\ln(x-1)+3$: undo the operations in reverse order.}
+Forward, $g$ does: subtract $1$, take $\ln$, double, add $3$. Backwards:
+subtract $3$, halve, exponentiate, add $1$. In symbols, set $y=g(x)$ and
+solve for $x$:
+\[
+  y-3=2\ln(x-1)
+  \;\Longrightarrow\;
+  \frac{y-3}{2}=\ln(x-1)
+  \;\Longrightarrow\;
+  \mathrm{e}^{(y-3)/2}=x-1
+  \;\Longrightarrow\;
+  x=1+\mathrm{e}^{(y-3)/2} .
+\]
+Renaming the variable,
+\[
+  \boxed{\;g^{-1}(x)=1+\mathrm{e}^{(x-3)/2}\;}
+\]
+
+\wstep{Step 7. State the domain and range, which swap.}
+$g$ has domain $(1,\infty)$ and range $\R$. Therefore $g^{-1}$ has domain
+$\R$ and range $(1,\infty)$ --- visible in the formula, since
+$\mathrm{e}^{(x-3)/2}>0$ always, so $g^{-1}>1$ always.
+\wtrap{The domain of the inverse is the \emph{range} of the original. This is
+not bookkeeping: it is what makes $g^{-1}$ a function at all. And check
+$g^{-1}(g(x))=x$ on one value --- $g(1+\mathrm{e}^{0})=g(2)=2\ln1+3=3$ and
+$g^{-1}(3)=1+\mathrm{e}^{0}=2$. \checkmark}
+\end{worked}
+
+\section{Practice Problems}
+
+In problems 1--10, describe in words how the graph of $y=f(x)$ has to be
+moved, scaled or reflected.
+
+\begin{problems}
+  \item $y=f(x-3)$
+  \item $y=f(x)+2$
+  \item $y=-f(x)$
+  \item $y=f(-x)$
+  \item $y=2f(x)$
+  \item $y=f(2x)$
+  \item $y=f\!\left(\dfrac{x}{2}\right)+1$
+  \item $y=-3f(x-1)+4$
+  \item $y=f(x+2)-5$
+  \item $y=\tfrac12 f(-x)$
+\end{problems}
+
+In problems 11--18, write down the formula.
+
+\begin{problems}[resume]
+  \item $y=x^{2}$ shifted $3$ to the right and $1$ up.
+  \item $y=\sqrt{x}$ reflected in the $x$-axis and shifted $4$ up.
+  \item $y=\mathrm{e}^{x}$ compressed horizontally by the factor $2$.
+  \item $y=\ln x$ shifted $5$ to the left.
+  \item $y=1/x$ shifted $2$ to the right and $3$ down.
+  \item $y=|x|$ shifted $1$ to the left and stretched vertically by $3$.
+  \item $y=x^{3}$ reflected in the $y$-axis and shifted $2$ up.
+  \item A downward parabola with vertex $(-1,5)$, twice as steep as
+        $y=x^{2}$.
+\end{problems}
+
+In problems 19--24, name the base function and the transformations, and
+give the features asked for.
+
+\begin{problems}[resume]
+  \item $y=2(x+1)^{2}-8$: vertex, roots, range.
+  \item $y=-\sqrt{x-2}+3$: domain, starting point, range.
+  \item $y=3\mathrm{e}^{x+1}$: asymptote, value at $x=-1$.
+  \item $y=\ln(2x)$: give \emph{two} readings of this graph, one
+        horizontal and one vertical.
+  \item $y=\dfrac{1}{x-4}+2$: both asymptotes.
+  \item $y=-|x+3|+5$: vertex, roots, direction of opening.
+\end{problems}
+
+\begin{problems}[resume]
+  \item For $f(x)=x^{2}-2x-3$, describe the graph of $y=|f(x)|$: which
+        part moves, and what happens at the roots?
+  \item Sketch $y=|2x-6|$ by first writing it as a stretched, shifted V.
+  \item For $f(x)=\sqrt{x}$, describe $y=f(|x|)$: give its domain and its
+        symmetry.
+  \item With $f(u)=u^{2}$ and $g(x)=x-5$: give $(f\circ g)(x)$ and
+        $(g\circ f)(x)$, and say which transformation of $u^{2}$ each one
+        is.
+  \item With $f(u)=\sqrt{u}$ and $g(x)=x^{2}+9$: give $(f\circ g)(x)$ and
+        its domain.
+  \item Decompose $h(x)=\sqrt{3x+1}$ into $f\circ g$.
+  \item Decompose $h(x)=\mathrm{e}^{x^{2}}$ into $f\circ g$.
+  \item Decompose $h(x)=(\ln x)^{3}$ into $f\circ g$.
+  \item Decompose $h(x)=\dfrac{1}{x^{2}+1}$ into $f\circ g$.
+\end{problems}
+
+In problems 34--39, find the inverse together with its domain and range.
+
+\begin{problems}[resume]
+  \item $f(x)=3x-7$
+  \item $f(x)=\dfrac{x+2}{x-1}$
+  \item $f(x)=x^{2}$ on $D=[0,\infty)$
+  \item $f(x)=\ln(x-1)$
+  \item $f(x)=\sqrt{x+4}$
+  \item $f(x)=\dfrac{2x+1}{x-3}$
+  \item Verify for $f(x)=3x-7$ that $f\bigl(f^{-1}(x)\bigr)=x$ and
+        $f^{-1}\bigl(f(x)\bigr)=x$.
+  \item The demand function is $q(p)=50-2p$. Give the inverse demand
+        function $p(q)$, and state on which interval of quantities it is
+        economically meaningful.
+\end{problems}
+
+\begin{problems}[resume]
+  \item Determine $a$ so that the parabola with vertex $(2,-3)$ passes
+        through $(0,1)$, and write the function.
+  \item An exponential $y=A\,q^{x}$ passes through $(0,5)$ and $(2,45)$.
+        Determine $A$ and $q$.
+  \item Write a rational function with vertical asymptote $x=2$,
+        horizontal asymptote $y=3$, and a root at the origin.
+  \item Total cost is $C(q)=5q+100$. Write the new cost function and name
+        the transformation when (a) the fixed cost rises by $40$;
+        (b) a tax of $2$ per unit is levied.
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item Shifted $3$ units to the \emph{right} (inside, against the sign).
+  \item Shifted $2$ units up.
+  \item Reflected in the $x$-axis: every $y$-value changes sign.
+  \item Reflected in the $y$-axis: left and right are swapped.
+  \item Stretched vertically by the factor $2$; roots and $x$-intercepts
+        stay where they are.
+  \item Compressed horizontally by the factor $2$: what happened at $x=4$
+        now happens at $x=2$. The $y$-intercept is unchanged.
+  \item Stretched horizontally by the factor $2$ (the inner factor
+        $\tfrac12$ is a compression by $\tfrac12$, i.e. a stretch), then
+        moved $1$ up.
+  \item Right $1$, stretched vertically by $3$, reflected in the $x$-axis,
+        then up $4$ --- inside first, outside afterwards.
+  \item Left $2$ and down $5$.
+  \item Reflected in the $y$-axis and compressed vertically to half its
+        height.
+  \item $y=(x-3)^{2}+1$.
+  \item $y=-\sqrt{x}+4$.
+  \item $y=\mathrm{e}^{2x}$ (a factor $2$ \emph{inside} compresses).
+  \item $y=\ln(x+5)$, with the vertical asymptote moved to $x=-5$.
+  \item $y=\dfrac{1}{x-2}-3$, asymptotes $x=2$ and $y=-3$.
+  \item $y=3|x+1|$.
+  \item $y=(-x)^{3}+2=-x^{3}+2$.
+  \item $y=-2(x+1)^{2}+5$.
+  \item Base $x^{2}$: left $1$, stretched by $2$, down $8$. Vertex
+        $(-1,-8)$; roots from $2(x+1)^{2}=8\iff(x+1)^{2}=4\iff x=1$ or
+        $x=-3$; range $[-8,\infty)$.
+  \item Base $\sqrt{x}$: right $2$, reflected in the $x$-axis, up $3$.
+        $D=[2,\infty)$, the curve starts at $(2,3)$ and falls,
+        $W=(-\infty,3]$.
+  \item Base $\mathrm{e}^{x}$: left $1$, stretched by $3$. Asymptote
+        $y=0$; $y(-1)=3\mathrm{e}^{0}=3$. (Equivalently
+        $3\mathrm{e}\cdot\mathrm{e}^{x}$: a horizontal shift of an
+        exponential is also a vertical stretch.)
+  \item Horizontally: $\ln x$ compressed by the factor $2$. Vertically:
+        since $\ln(2x)=\ln 2+\ln x$, the same graph is $\ln x$ shifted up
+        by $\ln2\approx0.69$. Both readings are correct --- a peculiarity
+        of the logarithm.
+  \item Base $1/x$: right $4$, up $2$. Vertical asymptote $x=4$,
+        horizontal asymptote $y=2$.
+  \item Base $|x|$: left $3$, reflected (so it opens downwards), up $5$.
+        Vertex $(-3,5)$; roots where $|x+3|=5$, i.e. $x=2$ and $x=-8$.
+  \item $f(x)=(x-3)(x+1)$ is negative exactly on $(-1,3)$, and that arc is
+        folded up above the axis; outside it the graph is unchanged. At the
+        roots $x=-1$ and $x=3$ the curve now touches the axis and turns
+        instead of crossing it, and the old minimum $f(1)=-4$ becomes a
+        local maximum of height $4$.
+  \item $|2x-6|=2|x-3|$: a V with vertex $(3,0)$, twice as steep as
+        $|x|$, i.e. with slopes $-2$ and $+2$; $y$-intercept $6$.
+  \item $y=\sqrt{|x|}$: $D=\R$ now, since $|x|\geq0$ always. The right half
+        is unchanged and mirrored to the left, so the function is even,
+        with range $[0,\infty)$ and a sharp point at the origin.
+  \item $(f\circ g)(x)=(x-5)^{2}$: the parabola shifted $5$ to the right.
+        $(g\circ f)(x)=x^{2}-5$: the parabola shifted $5$ down. Inner
+        shifts move horizontally, outer shifts vertically.
+  \item $(f\circ g)(x)=\sqrt{x^{2}+9}$, and since $x^{2}+9\geq9>0$ for
+        every $x$, $D=\R$. (Its range is $[3,\infty)$.)
+  \item $g(x)=3x+1$, $f(u)=\sqrt{u}$.
+  \item $g(x)=x^{2}$, $f(u)=\mathrm{e}^{u}$.
+  \item $g(x)=\ln x$, $f(u)=u^{3}$.
+  \item $g(x)=x^{2}+1$, $f(u)=\dfrac{1}{u}$.
+  \item $y=3x-7\Rightarrow x=\dfrac{y+7}{3}$, so
+        $f^{-1}(x)=\dfrac{x+7}{3}$, with $D=W=\R$.
+  \item $y=\dfrac{x+2}{x-1}\Rightarrow y(x-1)=x+2\Rightarrow x(y-1)=y+2
+        \Rightarrow x=\dfrac{y+2}{y-1}$. Hence
+        $f^{-1}(x)=\dfrac{x+2}{x-1}=f(x)$: the function is its own
+        inverse, and its graph is symmetric about $y=x$. Domain and range
+        are both $\R\setminus\{1\}$.
+  \item $f^{-1}(x)=\sqrt{x}$, with $D(f^{-1})=[0,\infty)=W(f)$ and
+        $W(f^{-1})=[0,\infty)=D(f)$. The restriction to $[0,\infty)$ was
+        needed to make $f$ injective in the first place.
+  \item $y=\ln(x-1)\Rightarrow \mathrm{e}^{y}=x-1\Rightarrow
+        x=\mathrm{e}^{y}+1$: $f^{-1}(x)=\mathrm{e}^{x}+1$, with $D=\R$ and
+        $W=(1,\infty)$ --- exactly the domain $(1,\infty)$ of $f$.
+  \item $y=\sqrt{x+4}\Rightarrow y^{2}=x+4\Rightarrow x=y^{2}-4$, and only
+        $y\geq0$ occurs: $f^{-1}(x)=x^{2}-4$ with $D=[0,\infty)$ and
+        $W=[-4,\infty)$. Without the restriction $D=[0,\infty)$ the formula
+        $x^{2}-4$ would not be the inverse.
+  \item $y=\dfrac{2x+1}{x-3}\Rightarrow y(x-3)=2x+1\Rightarrow
+        x(y-2)=3y+1\Rightarrow x=\dfrac{3y+1}{y-2}$. So
+        $f^{-1}(x)=\dfrac{3x+1}{x-2}$, with $D=\R\setminus\{2\}$ (the
+        range of $f$) and $W=\R\setminus\{3\}$ (the domain of $f$). The two
+        asymptotes have swapped roles.
+  \item $f\bigl(f^{-1}(x)\bigr)=3\cdot\dfrac{x+7}{3}-7=x+7-7=x$, and
+        $f^{-1}\bigl(f(x)\bigr)=\dfrac{(3x-7)+7}{3}=\dfrac{3x}{3}=x$.
+  \item $q=50-2p\Rightarrow 2p=50-q\Rightarrow p(q)=25-\dfrac{q}{2}$. It
+        is meaningful for $q\in[0,50]$: at $q=50$ the price has fallen to
+        $0$, and larger quantities would require a negative price.
+  \item $y=a(x-2)^{2}-3$ with $1=a\cdot4-3$, so $a=1$ and
+        $y=(x-2)^{2}-3$.
+  \item $A=y(0)=5$. Then $45=5q^{2}\Rightarrow q^{2}=9\Rightarrow q=3$
+        (positive base), so $y=5\cdot3^{x}$.
+  \item $y=\dfrac{3x}{x-2}$: the denominator gives the pole $x=2$, equal
+        degrees give the horizontal asymptote $y=3$, and the numerator
+        vanishes at $x=0$, so the graph passes through the origin.
+  \item (a) $C(q)=5q+140$: a pure vertical shift by $40$; the curve keeps
+        its slope. (b) $C(q)=7q+100$: the tax adds $2q$, so the
+        \emph{slope} changes from $5$ to $7$ while the intercept stays.
+        A vertical shift and a change of slope are different operations,
+        and only the first one is a translation.
+\end{solutions}
+
+\section{Additional Problems}
+
+\begin{problems}
+  \item $y=(x+4)^{2}-2$: base function, transformations, vertex, range.
+  \item $y=-2\sqrt{x}+1$: transformations, domain, range.
+  \item $y=\mathrm{e}^{-(x-1)}$: transformations, asymptote, value at
+        $x=1$.
+  \item $y=\ln(x+3)$: transformation, vertical asymptote, domain.
+  \item $y=\dfrac{3}{x+2}-1$: transformations and both asymptotes.
+  \item $y=\tfrac12|x-6|$: transformations and vertex.
+  \item Write: $y=1/x$ reflected in the $x$-axis and shifted $3$ up.
+  \item Write: $y=\mathrm{e}^{x}$ compressed horizontally by the factor
+        $3$ and shifted $1$ down.
+  \item Write: $y=\sqrt{x}$ stretched vertically by $5$ and shifted $1$ to
+        the right.
+  \item Write: a downward parabola with vertex $(3,-4)$, twice as steep as
+        $y=x^{2}$.
+  \item Describe the graph of $y=|x^{2}-1|$: which arc is folded, and what
+        does the graph do at $x=\pm1$?
+  \item Describe the graph of $y=|\ln x|$: domain, roots, and behaviour as
+        $x\to0^{+}$.
+  \item For $f(x)=x^{3}-3x$, give the formula for $f(|x|)$ and state its
+        symmetry.
+  \item With $f(u)=u^{2}$ and $g(x)=x+3$: give both composites and say why
+        they differ.
+  \item Decompose $h(x)=\sqrt{1-x^{2}}$ into $f\circ g$ and give its
+        domain.
+  \item Decompose $h(x)=\mathrm{e}^{\sqrt{x}}$ into $f\circ g$.
+  \item Decompose $h(x)=(2x+5)^{10}$ into $f\circ g$.
+  \item Inverse of $f(x)=5-2x$.
+  \item Inverse of $f(x)=x^{3}+1$.
+  \item Inverse of $f(x)=\dfrac{1}{x-2}$, with domain and range.
+  \item Inverse of $f(x)=10^{x}$, with domain and range.
+  \item Inverse of $f(x)=\ln(3x)$, with domain and range.
+  \item Why does $f(x)=x^{2}$ have no inverse on $\R$, and which two
+        restrictions repair it?
+  \item A quantity is $200$ at $x=0$ and halves every $5$ units. Write it
+        both as $A\,q^{x}$ and in the form $A\,\mathrm{e}^{-kx}$.
+  \item Cost is $C(q)=3q+40$. Fixed cost rises to $60$ and the unit cost
+        falls to $2.5$. Write the new function and name both changes as
+        transformations of the graph.
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item Base $x^{2}$, shifted $4$ to the left and $2$ down; vertex
+        $(-4,-2)$; range $[-2,\infty)$.
+  \item Base $\sqrt{x}$: stretched by $2$, reflected in the $x$-axis, then
+        up $1$. $D=[0,\infty)$, and since $-2\sqrt{x}\in(-\infty,0]$,
+        $W=(-\infty,1]$.
+  \item $\mathrm{e}^{-(x-1)}$: reflect $\mathrm{e}^{x}$ in the $y$-axis,
+        then shift $1$ to the right (the inner expression is
+        $-(x-1)$). Asymptote $y=0$; $y(1)=\mathrm{e}^{0}=1$.
+  \item $\ln x$ shifted $3$ to the left; the asymptote moves with it to
+        $x=-3$; $D=(-3,\infty)$.
+  \item Base $1/x$: stretched by $3$, left $2$, down $1$. Vertical
+        asymptote $x=-2$, horizontal asymptote $y=-1$.
+  \item Base $|x|$: right $6$ and compressed vertically to half the height;
+        vertex $(6,0)$, slopes $\pm\tfrac12$.
+  \item $y=-\dfrac{1}{x}+3$.
+  \item $y=\mathrm{e}^{3x}-1$.
+  \item $y=5\sqrt{x-1}$.
+  \item $y=-2(x-3)^{2}-4$.
+  \item The arc between the roots, where $x^{2}-1<0$, i.e. over
+        $(-1,1)$, is folded up; it becomes a hump of height $1$ at $x=0$.
+        At $x=\pm1$ the graph touches the axis and turns, forming two
+        corners.
+  \item $D=(0,\infty)$; the single root is $x=1$; on $(0,1)$ the logarithm
+        is negative and is folded up, so the graph falls from $+\infty$ to
+        $0$ there and rises again afterwards, with a corner at $(1,0)$. As
+        $x\to0^{+}$ it goes to $+\infty$.
+  \item $f(|x|)=|x|^{3}-3|x|$. It is even: the right half of the original
+        cubic is kept and mirrored into the left half-plane, so the old
+        left branch is discarded.
+  \item $(f\circ g)(x)=(x+3)^{2}$, the parabola shifted $3$ to the left;
+        $(g\circ f)(x)=x^{2}+3$, the parabola shifted $3$ up. Composition
+        is not commutative: an inner shift moves the graph horizontally, an
+        outer one vertically.
+  \item $g(x)=1-x^{2}$, $f(u)=\sqrt{u}$; $D=[-1,1]$ from $1-x^{2}\geq0$.
+  \item $g(x)=\sqrt{x}$, $f(u)=\mathrm{e}^{u}$; $D=[0,\infty)$.
+  \item $g(x)=2x+5$, $f(u)=u^{10}$.
+  \item $y=5-2x\Rightarrow x=\dfrac{5-y}{2}$, so
+        $f^{-1}(x)=\dfrac{5-x}{2}$.
+  \item $y=x^{3}+1\Rightarrow x=\sqrt[3]{y-1}$, so
+        $f^{-1}(x)=\sqrt[3]{x-1}$, with $D=W=\R$.
+  \item $y=\dfrac{1}{x-2}\Rightarrow x-2=\dfrac1y\Rightarrow
+        x=2+\dfrac1y$: $f^{-1}(x)=2+\dfrac{1}{x}$, with
+        $D=\R\setminus\{0\}$ and $W=\R\setminus\{2\}$.
+  \item $f^{-1}(x)=\log_{10}x$, with $D=(0,\infty)$ and $W=\R$.
+  \item $y=\ln(3x)\Rightarrow \mathrm{e}^{y}=3x\Rightarrow
+        x=\dfrac{\mathrm{e}^{y}}{3}$: $f^{-1}(x)=\dfrac{\mathrm{e}^{x}}{3}$,
+        with $D=\R$ and $W=(0,\infty)$.
+  \item It is not injective: $f(-2)=f(2)=4$, so a horizontal line meets the
+        graph twice and the inverse assignment would not be unique.
+        Restricting to $[0,\infty)$ gives the inverse $\sqrt{x}$;
+        restricting to $(-\infty,0]$ gives $-\sqrt{x}$.
+  \item Halving every $5$ units means $q=2^{-1/5}$, so
+        $y=200\cdot2^{-x/5}$. Since $2^{-x/5}
+        =\mathrm{e}^{-(\ln2/5)x}$, the same function is
+        $y=200\,\mathrm{e}^{-kx}$ with
+        $k=\dfrac{\ln2}{5}\approx0.1386$.
+  \item $C(q)=2.5q+60$. Raising the fixed cost from $40$ to $60$ shifts the
+        line $20$ units up; lowering the unit cost from $3$ to $2.5$
+        flattens it, a change of slope rather than a translation. Only the
+        first is a shift of the graph.
+\end{solutions}

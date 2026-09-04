@@ -3,6 +3,123 @@
 For 1--12, expand. For 13--22, factor completely. For 23--30, solve for
 the variable.
 
+\section{Core Rules}
+
+\begin{rulebox}{The products worth recognising on sight}
+\[
+  (a\pm b)^{2}=a^{2}\pm2ab+b^{2},\qquad
+  (a-b)(a+b)=a^{2}-b^{2},
+\]
+\[
+  a^{3}\pm b^{3}=(a\pm b)(a^{2}\mp ab+b^{2}),\qquad
+  (a+b+c)^{2}=a^{2}+b^{2}+c^{2}+2ab+2ac+2bc .
+\]
+Read left to right they expand; read right to left they factor. The middle
+term $2ab$ is the one that is forgotten: $(a+b)^{2}\neq a^{2}+b^{2}$.
+\end{rulebox}
+
+\begin{rulebox}{The binomial theorem}
+\[
+  (a+b)^{n}=\sum_{k=0}^{n}\binom{n}{k}a^{n-k}b^{k},
+  \qquad \binom{n}{k}=\frac{n!}{k!\,(n-k)!} .
+\]
+The coefficients are Pascal's triangle, so $(a+b)^{4}$ uses
+$1,4,6,4,1$ and $(1-x)^{5}$ uses $1,-5,10,-10,5,-1$ --- the signs alternate
+because $b=-x$. The exponents of $a$ fall while those of $b$ rise, and every
+term has total degree $n$: a useful check.
+\end{rulebox}
+
+\begin{rulebox}{Factoring: a fixed order of attack}
+\begin{enumerate}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Common factor first}, always: $4x^{4}-4=4(x^{4}-1)$.
+  \item \textbf{Recognise a pattern}: difference of squares, perfect square,
+        sum or difference of cubes. Apply repeatedly ---
+        $x^{4}-1=(x^{2}-1)(x^{2}+1)=(x-1)(x+1)(x^{2}+1)$.
+  \item \textbf{Group} when there are four terms:
+        $a^{2}-2ab+b^{2}-c^{2}=(a-b)^{2}-c^{2}=(a-b-c)(a-b+c)$.
+  \item \textbf{Substitute} when the exponents are in a $2\!:\!1$ ratio:
+        $u=x^{2}$ turns $x^{4}-5x^{2}+4$ into a quadratic.
+  \item \textbf{Split the middle term} for $ax^{2}+bx+c$ with $a\neq1$: find
+        two numbers with product $ac$ and sum $b$.
+\end{enumerate}
+\end{rulebox}
+
+\begin{rulebox}{Quadratics: roots and what the discriminant says}
+\[
+  ax^{2}+bx+c=0
+  \quad\Longrightarrow\quad
+  x=\frac{-b\pm\sqrt{D}}{2a},\qquad D=b^{2}-4ac .
+\]
+$D>0$: two real roots. $D=0$: one double root, and the parabola touches the
+axis. $D<0$: no real root, and the quadratic keeps one sign everywhere ---
+which is how $x^{2}+4>0$ is proved, and how a strictly convex cost function
+is recognised. If the roots are $x_{1},x_{2}$ then
+$x_{1}+x_{2}=-b/a$ and $x_{1}x_{2}=c/a$, a fast check on any factorisation.
+\end{rulebox}
+
+\begin{rulebox}{The zero-product property, and its one precondition}
+$AB=0$ holds if and only if $A=0$ or $B=0$. \textbf{There is no analogue for
+any other number.} From $A B=12$ nothing follows about $A$ and $B$
+separately. Every quadratic must therefore be brought to the form
+$(\cdots)(\cdots)=0$ --- with zero on the right --- before the factors are
+read off.
+\end{rulebox}
+
+\section{Worked Example}
+
+\begin{worked}{Factor $x^{4}-5x^{2}+4$, then solve $x(x-4)=12$ and $-2P^{2}+16P-30=0$}
+\wstep{Step 1. Recognise the biquadratic and substitute.}
+The exponents $4$ and $2$ are in a $2\!:\!1$ ratio, so $u=x^{2}$ turns the
+quartic into a quadratic:
+\[
+  x^{4}-5x^{2}+4=u^{2}-5u+4=(u-1)(u-4).
+\]
+
+\wstep{Step 2. Substitute back --- and keep factoring.}
+\[
+  (x^{2}-1)(x^{2}-4)=(x-1)(x+1)(x-2)(x+2).
+\]
+\wtrap{Two errors live here. Stopping at $(u-1)(u-4)$ leaves the answer in
+the wrong variable; stopping at $(x^{2}-1)(x^{2}-4)$ leaves it unfactored,
+since each bracket is still a difference of squares. ``Factor completely''
+means until no factor factors further.}
+
+\wstep{Step 3. Now solve $x(x-4)=12$ --- but not by reading off the factors.}
+The left side is factored, which tempts one to write $x=12$ or $x-4=12$.
+That is invalid: the zero-product property needs a \textbf{zero} on the
+right. Expand, move everything across, and factor afresh:
+\[
+  x^{2}-4x=12
+  \;\Longrightarrow\;
+  x^{2}-4x-12=0
+  \;\Longrightarrow\;
+  (x-6)(x+2)=0
+  \;\Longrightarrow\;
+  x=6\ \text{or}\ x=-2 .
+\]
+Check with Vieta: the roots sum to $4=-b/a$ and multiply to $-12=c/a$.
+\checkmark\ (And indeed $6\cdot2=12$, $(-2)(-6)=12$, so both satisfy the
+original.)
+
+\wstep{Step 4. And $-2P^{2}+16P-30=0$: remove the leading coefficient first.}
+Dividing by $-2$ is free --- zero divided by anything is still zero --- and
+it makes the factorisation visible:
+\[
+  P^{2}-8P+15=0\;\Longrightarrow\;(P-3)(P-5)=0\;\Longrightarrow\;P=3\ \text{or}\ P=5 .
+\]
+\wtrap{Divide by the leading coefficient, do not merely change signs. Writing
+$2P^{2}-16P+30=0$ after multiplying by $-1$ is correct but leaves the
+$2$ in place; halving as well is what turns the problem into a
+one-line factorisation. And when you divide, divide \emph{every} term ---
+including the constant.}
+
+\wstep{Step 5. Read the economics.}
+If this were a profit condition, $P=3$ and $P=5$ are the break-even prices,
+and since the parabola opens downward ($a=-2<0$) the firm makes a positive
+profit strictly \emph{between} them. The sign of $a$ carries that
+information; do not discard it when you divide.
+\end{worked}
+
 \section{Practice Problems}
 
 \begin{problems}

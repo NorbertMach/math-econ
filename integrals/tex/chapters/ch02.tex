@@ -52,6 +52,105 @@ if $x$ runs from $a$ to $b$ then $u$ runs from $g(a)$ to $g(b)$, and
 \]
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{Compute $\displaystyle\int\frac{2x+3}{x^{2}+3x+7}\mathrm{d}x$, $\displaystyle\int x^{2}\sqrt{x^{3}+1}\,\mathrm{d}x$ and $\displaystyle\int_{0}^{\ln2}\frac{\mathrm{e}^{x}}{1+\mathrm{e}^{x}}\mathrm{d}x$}
+\wstep{Step 1. Look for a function and its derivative, together.}
+Substitution reverses the chain rule, so it works exactly when the integrand
+contains some inner function $u$ \emph{and} a factor proportional to $u'$.
+In the first integral, the denominator is $u=x^{2}+3x+7$ and the numerator
+is $u'=2x+3$ --- exactly, with no constant to fix.
+
+\wstep{Step 2. Substitute, including the differential.}
+\[
+  u=x^{2}+3x+7,\qquad \mathrm{d}u=(2x+3)\,\mathrm{d}x .
+\]
+\[
+  \int\frac{2x+3}{x^{2}+3x+7}\mathrm{d}x=\int\frac{\mathrm{d}u}{u}=\ln|u|+C
+  =\boxed{\ln\bigl|x^{2}+3x+7\bigr|+C}
+\]
+\wtrap{$\mathrm{d}x$ must be replaced, not deleted. An integral containing
+both $u$ and $x$ after substitution means the substitution has failed ---
+either the wrong $u$ was chosen, or a factor is left over. Every surviving
+$x$ is a red flag.}
+
+\wstep{Step 3. The pattern behind it, worth naming.}
+\[
+  \int\frac{f'(x)}{f(x)}\,\mathrm{d}x=\ln|f(x)|+C .
+\]
+Whenever the numerator is the derivative of the denominator, the answer is a
+logarithm. Recognising this saves the substitution entirely --- and it is
+the single most useful pattern in the chapter.
+
+\wstep{Step 4. Second integral: the derivative is present up to a constant.}
+Here $u=x^{3}+1$ gives $\mathrm{d}u=3x^{2}\mathrm{d}x$, while the integrand
+offers only $x^{2}\mathrm{d}x$. Solve for what you have:
+\[
+  x^{2}\,\mathrm{d}x=\tfrac13\,\mathrm{d}u .
+\]
+\[
+  \int x^{2}\sqrt{x^{3}+1}\,\mathrm{d}x
+  =\tfrac13\int u^{1/2}\,\mathrm{d}u
+  =\tfrac13\cdot\tfrac23u^{3/2}+C
+  =\boxed{\tfrac29\bigl(x^{3}+1\bigr)^{3/2}+C}
+\]
+Check: $\frac{\mathrm{d}}{\mathrm{d}x}\bigl[\tfrac29(x^{3}+1)^{3/2}\bigr]
+=\tfrac29\cdot\tfrac32(x^{3}+1)^{1/2}\cdot3x^{2}=x^{2}\sqrt{x^{3}+1}$.
+\checkmark
+\wtrap{A missing \emph{constant} factor can be repaired --- move it outside.
+A missing \emph{function} of $x$ cannot: $\int x\sqrt{x^{3}+1}\,\mathrm{d}x$
+does not yield to this substitution, because $x/(3x^{2})$ is not a constant.
+Check that the leftover is a number before proceeding.}
+
+\wstep{Step 5. A definite integral: change the limits with the variable.}
+For $\int_{0}^{\ln2}\frac{\mathrm{e}^{x}}{1+\mathrm{e}^{x}}\mathrm{d}x$
+take $u=1+\mathrm{e}^{x}$, so $\mathrm{d}u=\mathrm{e}^{x}\mathrm{d}x$ and
+\[
+  x=0\;\Rightarrow\;u=2,
+  \qquad
+  x=\ln2\;\Rightarrow\;u=1+2=3 .
+\]
+\[
+  \int_{0}^{\ln2}\frac{\mathrm{e}^{x}}{1+\mathrm{e}^{x}}\mathrm{d}x
+  =\int_{2}^{3}\frac{\mathrm{d}u}{u}
+  =\bigl[\ln u\bigr]_{2}^{3}
+  =\ln3-\ln2=\boxed{\ln\tfrac32\approx0.4055}
+\]
+\wtrap{Once the limits are converted, they belong to $u$ --- do not
+substitute back to $x$ as well, and do not evaluate the $u$-antiderivative
+at $0$ and $\ln2$. Either change the limits and finish in $u$, or keep the
+old limits and convert the antiderivative back to $x$ first. Mixing the two
+is the standard error, and here it would give
+$\ln(1+\mathrm{e}^{3})-\ln(1+\mathrm{e}^{2})$, which is simply a different
+number.}
+
+\wstep{Step 6. How to choose $u$.}
+\begin{center}\footnotesize
+\begin{tabular}{ll}
+  \hline
+  what you see & try\\
+  \hline
+  something inside a bracket, root, or exponent & $u=$ that inside thing\\
+  a denominator whose derivative is on top & $u=$ denominator\\
+  $f(g(x))\cdot g'(x)$ & $u=g(x)$\\
+  \hline
+\end{tabular}
+\end{center}
+In every case: differentiate the candidate $u$ and check that what is left
+over is a constant multiple of the rest of the integrand. If it is, the
+substitution works; if not, try another $u$ or another chapter's technique.
+
+\wstep{Step 7. The special cases that recur in economics.}
+\[
+  \int\mathrm{e}^{-rt}\,\mathrm{d}t=-\frac{\mathrm{e}^{-rt}}{r}+C,
+  \qquad
+  \int\frac{\mathrm{d}x}{ax+b}=\frac{1}{a}\ln|ax+b|+C .
+\]
+The first is discounting, the second is every linear denominator you will
+meet. Both are one-line substitutions, and both are worth knowing without
+doing the work.
+\end{worked}
+
 \section{Practice Problems}
 
 Evaluate each integral using a suitable substitution.

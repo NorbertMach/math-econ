@@ -1,530 +1,293 @@
-\chapter{Applications: Leontief, OLS, Markov, Portfolios}
+\chapter{Quadratic Forms and Definiteness}
 
-Almost every linear-algebraic tool from the previous chapters shows up in a
-standard economics course. This chapter collects the headline applications:
-the Leontief input-output model (an inverse problem), the ordinary least
-squares (OLS) estimator (matrix calculus meets the inverse), Hessian
-classification of critical points (Sylvester's criterion in action), Markov
-transition matrices (eigenvalues with $|\lambda| \le 1$), and portfolio
-variance (a quadratic form). Treat the problems below as integration
-exercises drawing on everything so far.
+A quadratic form is a homogeneous polynomial of degree $2$ in several
+variables. In economics it shows up as the variance of a portfolio,
+$w^{T} \Sigma w$, and as the second-order term in the Taylor expansion of an
+objective function. Whether the quadratic form is positive, negative, or
+mixed in sign decides whether a critical point of a smooth function is a
+(local) minimum, maximum, or saddle.
 
 \section{Core Rules}
 
-\begin{rulebox}{Leontief input-output}
-An economy with $n$ sectors has a technology matrix $A \in \R^{n \times n}$
-where $a_{ij}$ is the amount of good $i$ needed to produce one unit of good
-$j$. With final demand $d \in \R^{n}$ the gross output $x$ must satisfy
+\begin{rulebox}{Quadratic form}
+Given a symmetric matrix $A \in \R^{n \times n}$, the associated quadratic
+form is the function
 \[
-x \;=\; A x + d \quad \Longleftrightarrow \quad (I - A) x \;=\; d.
+Q(x) \;=\; x^{T} A x \;=\; \sum_{i, j} a_{ij} x_{i} x_{j}, \qquad x \in \R^{n}.
 \]
-If $I - A$ is invertible (which it is when $A$ has spectral radius $< 1$, a
-productivity condition), the solution is $x = (I - A)^{-1} d$. The matrix
-$(I - A)^{-1}$ is the \emph{Leontief inverse}; its $(i, j)$-entry is total
-(direct $+$ indirect) demand on sector $i$ per unit of final demand for
-sector $j$.
+Without loss of generality one may always take $A$ symmetric: replace any
+$A$ by $\tfrac{1}{2}(A + A^{T})$ without changing $Q$.
 \end{rulebox}
 
-\begin{rulebox}{OLS estimator}
-Given a design matrix $X \in \R^{n \times k}$ of full column rank and
-observations $y \in \R^{n}$, the ordinary least squares estimator minimising
-$\|y - X \beta\|^{2}$ is
+\begin{rulebox}{Definiteness}
+Let $A \in \R^{n \times n}$ be symmetric. We say:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+    \item $A$ is \emph{positive definite} (pd) if $x^{T} A x > 0$ for all $x \neq 0$.
+    \item $A$ is \emph{positive semidefinite} (psd) if $x^{T} A x \ge 0$ for all $x$.
+    \item $A$ is \emph{negative definite} (nd) if $x^{T} A x < 0$ for all $x \neq 0$.
+    \item $A$ is \emph{negative semidefinite} (nsd) if $x^{T} A x \le 0$ for all $x$.
+    \item $A$ is \emph{indefinite} if $x^{T} A x$ takes both positive and negative values.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Eigenvalue criterion}
+For symmetric $A$:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+    \item $A$ pd $\Leftrightarrow$ all eigenvalues $> 0$;
+    \item $A$ nd $\Leftrightarrow$ all eigenvalues $< 0$;
+    \item $A$ psd $\Leftrightarrow$ all eigenvalues $\ge 0$;
+    \item $A$ nsd $\Leftrightarrow$ all eigenvalues $\le 0$;
+    \item $A$ indefinite $\Leftrightarrow$ $A$ has both a positive and a negative eigenvalue.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Principal-minor (Sylvester) criterion}
+Let $D_{k}$ denote the determinant of the leading $k \times k$ principal
+submatrix of $A$ (the top-left $k \times k$ block). Then:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+    \item $A$ pd $\Leftrightarrow$ $D_{1}, D_{2}, \dots, D_{n} > 0$;
+    \item $A$ nd $\Leftrightarrow$ $(-1)^{k} D_{k} > 0$ for $k = 1, \dots, n$
+          (signs alternate: $D_{1} < 0, D_{2} > 0, D_{3} < 0, \dots$).
+\end{itemize}
+For semidefiniteness one must check \emph{all} principal minors, not just
+the leading ones; the simple form above does not extend.
+\end{rulebox}
+
+\begin{rulebox}{The $2 \times 2$ case}
+For $A = \bigl(\begin{smallmatrix} a & b \\ b & c \end{smallmatrix}\bigr)$:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+    \item pd $\Leftrightarrow$ $a > 0$ and $a c - b^{2} > 0$;
+    \item nd $\Leftrightarrow$ $a < 0$ and $a c - b^{2} > 0$;
+    \item indefinite $\Leftrightarrow$ $a c - b^{2} < 0$.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Application: Hessian and second-order conditions}
+For $f : \R^{n} \to \R$ of class $C^{2}$ at an interior critical point
+$x^{*}$ (i.e.\ $\grad f(x^{*}) = 0$):
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+    \item Hessian $H_{f}(x^{*})$ pd $\Rightarrow$ strict local minimum.
+    \item Hessian nd $\Rightarrow$ strict local maximum.
+    \item Hessian indefinite $\Rightarrow$ saddle point.
+    \item Otherwise (semidefinite, not definite) the test is inconclusive.
+\end{itemize}
+\end{rulebox}
+
+\section{Worked Example}
+
+\begin{worked}{Write $Q(x,y)=2x^{2}-2xy+2y^{2}$ in matrix form and classify it by both criteria; then classify $x^{2}+4xy+y^{2}$ and $x^{2}+2xy+y^{2}$}
+\wstep{Step 1. Build the matrix --- and halve the cross terms.}
+A quadratic form $Q(\mathbf x)=\mathbf x^{\!\top}A\mathbf x$ with $A$
+symmetric has $a_{ii}$ equal to the coefficient of $x_{i}^{2}$ and
+$a_{ij}=a_{ji}$ equal to \textbf{half} the coefficient of $x_{i}x_{j}$. The
+cross term $-2xy$ therefore contributes $-1$ in each off-diagonal slot:
 \[
-\hat{\beta} \;=\; (X^{T} X)^{-1} X^{T} y.
+  Q(x,y)=2x^{2}-2xy+2y^{2}
+  =\begin{pmatrix}x&y\end{pmatrix}
+   \begin{pmatrix}2&-1\\-1&2\end{pmatrix}
+   \begin{pmatrix}x\\y\end{pmatrix}.
 \]
-The $k \times k$ matrix $X^{T} X$ is symmetric and pd when $X$ has full
-column rank, hence invertible.
-\end{rulebox}
+\wtrap{This halving is the chapter's central trap. Writing
+$\begin{pmatrix}2&-2\\0&2\end{pmatrix}$ or
+$\begin{pmatrix}2&-2\\-2&2\end{pmatrix}$ gives a different form and a
+different classification. Check by expanding back: $\mathbf x^{\!\top}A
+\mathbf x$ collects $a_{12}xy$ \emph{and} $a_{21}yx$, so the two halves
+reassemble the full $-2xy$.}
 
-\begin{rulebox}{Hessian classification}
-For $f \in C^{2}$ at an interior critical point $x^{*}$, the Hessian
-$H = H_{f}(x^{*})$ classifies via the rules of Chapter 7.
-\end{rulebox}
-
-\begin{rulebox}{Markov transition matrices}
-A column-stochastic matrix $P$ has nonnegative entries with each column
-summing to $1$. The state distribution $\pi_{t}$ evolves as
-$\pi_{t + 1} = P \pi_{t}$. The eigenvalue $\lambda = 1$ always exists; the
-corresponding eigenvector (suitably normalised so its components sum to $1$)
-is a stationary distribution.
-\end{rulebox}
-
-\begin{rulebox}{Portfolio variance}
-For asset weights $w \in \R^{n}$ summing to $1$ and a (symmetric, psd)
-return covariance matrix $\Sigma$, the portfolio's return variance is
+\wstep{Step 2. First criterion: the eigenvalues.}
 \[
-\mathrm{Var}(w^{T} r) \;=\; w^{T} \Sigma w.
+  \det(A-\lambda I)=(2-\lambda)^{2}-1=\lambda^{2}-4\lambda+3=(\lambda-1)(\lambda-3),
 \]
-Minimising $w^{T} \Sigma w$ subject to $w^{T} \mathbf{1} = 1$ gives the
-global minimum variance portfolio.
-\end{rulebox}
+so $\lambda=1$ and $\lambda=3$. Both are strictly positive, hence
+\[
+  \boxed{A\ \text{is positive definite},\qquad Q(x,y)>0\ \text{for all}\ (x,y)\neq(0,0).}
+\]
+
+\wstep{Step 3. Second criterion: the leading principal minors (Sylvester).}
+\[
+  D_{1}=a_{11}=2>0,
+  \qquad
+  D_{2}=\det A=4-1=3>0 .
+\]
+All leading principal minors positive $\Rightarrow$ positive definite:
+the same verdict, reached without solving a polynomial. For negative
+definiteness the signs must \textbf{alternate} starting negative:
+$D_{1}<0$, $D_{2}>0$, $D_{3}<0,\dots$
+\wtrap{``All minors negative'' is not the test for negative definiteness ---
+$D_{2}$ must be \emph{positive}. The reason is that $-A$ is positive
+definite exactly when the minors of $A$ alternate, and $\det(-A)=(-1)^{n}
+\det A$ flips every other sign.}
+
+\wstep{Step 4. Confirm by completing the square, which shows \emph{why}.}
+\[
+  2x^{2}-2xy+2y^{2}
+  =2\Bigl(x-\tfrac{y}{2}\Bigr)^{2}+\tfrac32 y^{2} .
+\]
+A sum of two positive multiples of squares, zero only when $y=0$ and then
+$x=0$. Three independent routes, one answer.
+
+\wstep{Step 5. Second form: $x^{2}+4xy+y^{2}$.}
+Halving the cross term gives
+$A=\begin{pmatrix}1&2\\2&1\end{pmatrix}$, and
+\[
+  D_{1}=1>0,\qquad D_{2}=1-4=-3<0 .
+\]
+A negative determinant in the $2\times2$ case means the eigenvalues have
+opposite signs, so the form is \textbf{indefinite}: positive in some
+directions, negative in others. Witness it directly --- $Q(1,0)=1>0$ and
+$Q(1,-1)=1-4+1=-2<0$.
+
+\wstep{Step 6. Third form: $x^{2}+2xy+y^{2}$, and the limit of Sylvester's test.}
+Here $A=\begin{pmatrix}1&1\\1&1\end{pmatrix}$, so
+\[
+  D_{1}=1>0,\qquad D_{2}=1-1=0 .
+\]
+The leading-minor test is now \textbf{inconclusive}, and the answer is not
+``positive definite''. In fact $Q(x,y)=(x+y)^{2}\ge0$ always, but it
+\emph{vanishes} on the whole line $y=-x$: the form is positive
+\textbf{semi}definite, not definite.
+\wtrap{A zero leading minor ends Sylvester's test. Semidefiniteness requires
+checking \emph{all} principal minors --- every diagonal sub-block, not only
+the top-left ones --- and here they are $1$, $1$ and $0$, all $\ge0$, which
+confirms positive semidefiniteness. Reporting ``positive definite'' from
+$D_{1}>0,\ D_{2}=0$ is the error, and in Volume~7 it turns a saddle or a
+flat valley into a claimed strict minimum.}
+
+\wstep{Step 7. Why any of this matters.}
+Replace $A$ by the Hessian of $f$ at a critical point:
+\begin{center}\footnotesize
+\begin{tabular}{ll}
+  \hline
+  $\Hess f$ at a critical point & conclusion\\
+  \hline
+  positive definite & strict local minimum\\
+  negative definite & strict local maximum\\
+  indefinite & saddle point\\
+  semidefinite & the test says nothing\\
+  \hline
+\end{tabular}
+\end{center}
+The three forms above are, in order, a valley, a saddle, and a flat-bottomed
+trough --- which is exactly the trio of pictures the second-order conditions
+have to distinguish.
+\end{worked}
 
 \section{Practice Problems}
 
 \begin{problems}
-  \item Leontief, $n = 2$. Let
-        $A = \bigl(\begin{smallmatrix} 0.2 & 0.3 \\ 0.4 & 0.1 \end{smallmatrix}\bigr)$
-        and $d = (10, 20)^{T}$. Compute the gross output vector $x$.
-  \item For the same $A$, compute the Leontief inverse $(I - A)^{-1}$.
-  \item Leontief, $n = 2$,
-        $A = \bigl(\begin{smallmatrix} 0.5 & 0.25 \\ 0.4 & 0.5 \end{smallmatrix}\bigr)$,
-        $d = (50, 60)^{T}$. Find $x$.
-  \item Show that if every column of $A$ has sum $< 1$ (and $A \ge 0$
-        entrywise) then $(I - A)$ is invertible. (Sketch: spectral radius
-        argument or geometric series $\sum_{k \ge 0} A^{k}$ converges.)
-  \item OLS with $n = 3, k = 2$. Data:
-        $X = \begin{pmatrix} 1 & 1 \\ 1 & 2 \\ 1 & 3 \end{pmatrix}$,
-        $y = (2, 2, 4)^{T}$. Compute $X^{T} X$, $X^{T} y$, and $\hat{\beta}$.
-  \item For the same $X, y$, give the fitted values $\hat{y} = X \hat{\beta}$
-        and the residual vector $y - \hat{y}$.
-  \item OLS,
-        $X = \begin{pmatrix} 1 & 0 \\ 1 & 1 \\ 1 & 2 \\ 1 & 3 \end{pmatrix}$,
-        $y = (1, 1, 2, 2)^{T}$. Compute $\hat{\beta}$.
-  \item Why does OLS require $X$ to have full column rank?
-  \item Hessian classification. $f(x, y) = x^{2} + 4 x y + y^{2}$. Find and
-        classify the critical points.
-  \item $f(x, y) = x^{3} + y^{3} - 3 x y$. Find and classify all critical
-        points.
-  \item $f(x, y, z) = x^{2} + y^{2} + z^{2} - x y$. Find the critical point
-        and classify.
-  \item For $f(x, y) = \mathrm{e}^{x^{2} + y^{2}}$, classify the critical
-        point at the origin.
-  \item Markov.
-        $P = \bigl(\begin{smallmatrix} 0.9 & 0.2 \\ 0.1 & 0.8 \end{smallmatrix}\bigr)$
-        (column-stochastic). Find the stationary distribution.
-  \item For
-        $P = \bigl(\begin{smallmatrix} 0.6 & 0.3 \\ 0.4 & 0.7 \end{smallmatrix}\bigr)$,
-        find the stationary distribution.
-  \item For $P$ in problem 13, find $P^{n} v_{0}$ for $v_{0} = (1, 0)^{T}$
-        as $n \to \infty$ (use the stationary distribution and the second
-        eigenvalue).
-  \item Portfolio. Two assets with covariance
-        $\Sigma = \bigl(\begin{smallmatrix} 4 & 1 \\ 1 & 9 \end{smallmatrix}\bigr)$.
-        Compute the variance of the equally weighted portfolio
-        $w = (1/2, 1/2)^{T}$.
-  \item For the same $\Sigma$, find the global minimum-variance portfolio
-        (weights summing to $1$). \emph{Hint: minimise $w^{T} \Sigma w$
-        subject to $w_{1} + w_{2} = 1$, e.g.\ set $w = (t, 1 - t)$ and
-        minimise in $t$.}
-  \item Three assets,
-        $\Sigma = \begin{pmatrix} 2 & 0 & 0 \\ 0 & 3 & 0 \\ 0 & 0 & 5 \end{pmatrix}$.
-        Compute the variance of the equally weighted portfolio
-        $w = (1/3, 1/3, 1/3)^{T}$.
-  \item For the same diagonal $\Sigma$, give a formula for the variance of
-        an arbitrary portfolio $w = (w_{1}, w_{2}, w_{3})^{T}$.
-  \item Show $X^{T} X$ is positive definite whenever $X$ has full column
-        rank.
-  \item OLS in a tiny one-regressor case.
-        $X = (1, 2, 3, 4)^{T} \in \R^{4 \times 1}$ (a single column),
-        $y = (2, 3, 5, 6)^{T}$. Compute
-        $\hat{\beta} = (X^{T} X)^{-1} X^{T} y$ (a scalar).
-  \item For an upper-triangular Markov matrix
-        $P = \bigl(\begin{smallmatrix} 1 & 0.5 \\ 0 & 0.5 \end{smallmatrix}\bigr)$
-        (column-stochastic), find the eigenvalues and stationary
-        distribution.
-  \item Verify the rule $\det(A^{-1}) = 1/\det A$ for $A = (I - A_{0})$ with
-        $A_{0} = \bigl(\begin{smallmatrix} 0.2 & 0.3 \\ 0.4 & 0.1 \end{smallmatrix}\bigr)$
-        from problem 1.
-  \item For $f(x, y) = -x^{2} - y^{2} + 2 x + 4 y$, find the maximiser and
-        the maximum value.
+    \item Classify $A = \bigl(\begin{smallmatrix} 2 & 0 \\ 0 & 3 \end{smallmatrix}\bigr)$.
+    \item Classify $A = \bigl(\begin{smallmatrix} -1 & 0 \\ 0 & -4 \end{smallmatrix}\bigr)$.
+    \item Classify $A = \bigl(\begin{smallmatrix} 1 & 0 \\ 0 & -1 \end{smallmatrix}\bigr)$.
+    \item Classify $A = \bigl(\begin{smallmatrix} 2 & 1 \\ 1 & 2 \end{smallmatrix}\bigr)$.
+    \item Classify $A = \bigl(\begin{smallmatrix} 1 & 2 \\ 2 & 1 \end{smallmatrix}\bigr)$.
+    \item Classify $A = \bigl(\begin{smallmatrix} 4 & 2 \\ 2 & 1 \end{smallmatrix}\bigr)$.
+    \item For which $a$ is $A = \bigl(\begin{smallmatrix} a & 1 \\ 1 & a \end{smallmatrix}\bigr)$ positive definite?
+    \item For which $b$ is $A = \bigl(\begin{smallmatrix} 4 & b \\ b & 9 \end{smallmatrix}\bigr)$ positive definite?
+    \item Write $Q(x, y) = 3 x^{2} + 4 x y + y^{2}$ as $x^{T} A x$ for a symmetric $A$, and classify $A$.
+    \item Write $Q(x, y) = x^{2} - 6 x y + 10 y^{2}$ as $x^{T} A x$ and classify.
+    \item Classify $A = \begin{pmatrix} 2 & 1 & 0 \\ 1 & 2 & 1 \\ 0 & 1 & 2 \end{pmatrix}$ via leading principal minors.
+    \item Classify $A = \begin{pmatrix} -2 & 1 & 0 \\ 1 & -3 & 1 \\ 0 & 1 & -2 \end{pmatrix}$ via leading principal minors.
+    \item Classify $A = \begin{pmatrix} 1 & 1 & 0 \\ 1 & 2 & 1 \\ 0 & 1 & 3 \end{pmatrix}$.
+    \item Classify $A = \begin{pmatrix} 1 & 2 & 0 \\ 2 & 1 & 0 \\ 0 & 0 & 5 \end{pmatrix}$.
+    \item For $f(x, y) = x^{2} + x y + y^{2}$, find the Hessian and classify the critical point at the origin.
+    \item For $f(x, y) = x^{2} - x y + y^{2} - 3 x$, find the critical point and classify it.
+    \item For $f(x, y) = x^{3} - 3 x + y^{2}$, find all critical points and classify them.
+    \item For $f(x, y) = x^{2} + y^{2} - x y - x - y$, find the critical point and classify.
+    \item Show that $A^{T} A$ is psd for any real matrix $A$.
+    \item Show that if $A$ is pd then $A$ is invertible.
+    \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 3 & -1 \\ -1 & 3 \end{smallmatrix}\bigr)$ and classify it.
+    \item A covariance matrix is symmetric and psd. If $\Sigma = \bigl(\begin{smallmatrix} 4 & \rho \\ \rho & 1 \end{smallmatrix}\bigr)$ is a valid covariance matrix, what range of $\rho$ is allowed?
+    \item For the same $\Sigma$ with $\rho = 1$, is $\Sigma$ pd or just psd? Justify.
+    \item Compute $Q(1, 2) = x^{T} A x$ for $A = \bigl(\begin{smallmatrix} 1 & 2 \\ 2 & 3 \end{smallmatrix}\bigr)$.
+    \item For which $\alpha$ is the Hessian of $f(x, y) = \alpha x^{2} - 2 x y + y^{2}$ pd?
 \end{problems}
 
 \section{Solutions}
 
 \begin{solutions}
-  \item $I - A = \bigl(\begin{smallmatrix} 0.8 & -0.3 \\ -0.4 & 0.9 \end{smallmatrix}\bigr)$.
-        $\det = 0.72 - 0.12 = 0.6$.
-        $(I - A)^{-1} = \tfrac{1}{0.6}\bigl(\begin{smallmatrix} 0.9 & 0.3 \\ 0.4 & 0.8 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 1.5 & 0.5 \\ 2/3 & 4/3 \end{smallmatrix}\bigr)$.
-        \[
-        x = (I - A)^{-1} d = \begin{pmatrix} 1.5 & 0.5 \\ 2/3 & 4/3 \end{pmatrix} \begin{pmatrix} 10 \\ 20 \end{pmatrix} = \begin{pmatrix} 15 + 10 \\ 20/3 + 80/3 \end{pmatrix} = \begin{pmatrix} 25 \\ 100/3 \end{pmatrix}.
-        \]
-        Check:
-        $A x + d = \bigl(\begin{smallmatrix} 0.2 \cdot 25 + 0.3 \cdot 100/3 \\ 0.4 \cdot 25 + 0.1 \cdot 100/3 \end{smallmatrix}\bigr) + \bigl(\begin{smallmatrix} 10 \\ 20 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 5 + 10 \\ 10 + 10/3 \end{smallmatrix}\bigr) + \bigl(\begin{smallmatrix} 10 \\ 20 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 25 \\ 100/3 \end{smallmatrix}\bigr) = x$.
-        Good.
-
-  \item Computed in problem 1:
-        $(I - A)^{-1} = \tfrac{1}{0.6}\bigl(\begin{smallmatrix} 0.9 & 0.3 \\ 0.4 & 0.8 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 1.5 & 0.5 \\ 2/3 & 4/3 \end{smallmatrix}\bigr)$.
-
-  \item $I - A = \bigl(\begin{smallmatrix} 0.5 & -0.25 \\ -0.4 & 0.5 \end{smallmatrix}\bigr)$.
-        $\det = 0.25 - 0.1 = 0.15$.
-        $(I - A)^{-1} = \tfrac{1}{0.15} \bigl(\begin{smallmatrix} 0.5 & 0.25 \\ 0.4 & 0.5 \end{smallmatrix}\bigr) = \tfrac{1}{0.15}\bigl(\begin{smallmatrix} 0.5 & 0.25 \\ 0.4 & 0.5 \end{smallmatrix}\bigr)$.
-        \[
-        x = (I - A)^{-1} d = \tfrac{1}{0.15}\begin{pmatrix} 0.5 \cdot 50 + 0.25 \cdot 60 \\ 0.4 \cdot 50 + 0.5 \cdot 60 \end{pmatrix} = \tfrac{1}{0.15}\begin{pmatrix} 40 \\ 50 \end{pmatrix} = \begin{pmatrix} 800/3 \\ 1000/3 \end{pmatrix}.
-        \]
-        Check: $A x + d$, first entry:
-        $0.5 \cdot 800/3 + 0.25 \cdot 1000/3 + 50 = 400/3 + 250/3 + 150/3 = 800/3$.
-        Good.
-
-  \item If column sums of $A$ are all $< 1$ (and $A \ge 0$), the matrix $A$
-        has spectral radius $\rho(A) < 1$ (by Perron-Frobenius, since the
-        spectral radius of a nonnegative matrix is bounded by the maximal
-        column sum). Hence the geometric series
-        $\sum_{k = 0}^{\infty} A^{k}$ converges and equals $(I - A)^{-1}$;
-        in particular $I - A$ is invertible.
-
-  \item $X^{T} X = \begin{pmatrix} 1 & 1 & 1 \\ 1 & 2 & 3 \end{pmatrix} \begin{pmatrix} 1 & 1 \\ 1 & 2 \\ 1 & 3 \end{pmatrix} = \bigl(\begin{smallmatrix} 3 & 6 \\ 6 & 14 \end{smallmatrix}\bigr)$.
-        With $X^{T} y = (\sum y_{i}, \sum x_{i} y_{i})^{T}$ where $x_{i}$ is
-        column 2 of $X$: $\sum y_{i} = 2 + 2 + 4 = 8$ and
-        $\sum x_{i} y_{i} = 1 \cdot 2 + 2 \cdot 2 + 3 \cdot 4 = 2 + 4 + 12 = 18$.
-        So $X^{T} y = (8, 18)^{T}$.
-        $\det(X^{T} X) = 42 - 36 = 6$.
-        $(X^{T} X)^{-1} = \tfrac{1}{6}\bigl(\begin{smallmatrix} 14 & -6 \\ -6 & 3 \end{smallmatrix}\bigr)$.
-        \[
-        \hat{\beta} = \tfrac{1}{6}\begin{pmatrix} 14 \cdot 8 - 6 \cdot 18 \\ -6 \cdot 8 + 3 \cdot 18 \end{pmatrix} = \tfrac{1}{6}\begin{pmatrix} 112 - 108 \\ -48 + 54 \end{pmatrix} = \tfrac{1}{6}\begin{pmatrix} 4 \\ 6 \end{pmatrix} = \begin{pmatrix} 2/3 \\ 1 \end{pmatrix}.
-        \]
-
-  \item $\hat{y} = X \hat{\beta} = \begin{pmatrix} 1 \\ 1 \\ 1 \end{pmatrix}(2/3) + \begin{pmatrix} 1 \\ 2 \\ 3 \end{pmatrix}(1) = \begin{pmatrix} 2/3 + 1 \\ 2/3 + 2 \\ 2/3 + 3 \end{pmatrix} = \begin{pmatrix} 5/3 \\ 8/3 \\ 11/3 \end{pmatrix}$.
-        Residuals
-        $y - \hat{y} = (2 - 5/3, 2 - 8/3, 4 - 11/3)^{T} = (1/3, -2/3, 1/3)^{T}$.
-        (Note they sum to $0$ and are orthogonal to each column of $X$, as
-        required.)
-
-  \item $X^{T} X = \bigl(\begin{smallmatrix} 4 & 6 \\ 6 & 14 \end{smallmatrix}\bigr)$,
-        where $\sum x_{i}^{2} = 0 + 1 + 4 + 9 = 14$, $\sum x_{i} = 6$.
-        $X^{T} y = (\sum y_{i}, \sum x_{i} y_{i})^{T} = (6, 0 + 1 + 4 + 6)^{T} = (6, 11)^{T}$.
-        $\det(X^{T} X) = 56 - 36 = 20$.
-        $(X^{T} X)^{-1} = \tfrac{1}{20}\bigl(\begin{smallmatrix} 14 & -6 \\ -6 & 4 \end{smallmatrix}\bigr)$.
-        So
-        \[
-        \hat{\beta} = \tfrac{1}{20}\begin{pmatrix} 14 \cdot 6 - 6 \cdot 11 \\ -6 \cdot 6 + 4 \cdot 11 \end{pmatrix} = \tfrac{1}{20}\begin{pmatrix} 84 - 66 \\ -36 + 44 \end{pmatrix} = \tfrac{1}{20}\begin{pmatrix} 18 \\ 8 \end{pmatrix} = \begin{pmatrix} 0.9 \\ 0.4 \end{pmatrix}.
-        \]
-
-  \item If $X$ lacks full column rank, two columns (regressors) are linearly
-        dependent. Then $X^{T} X$ is singular ($\det = 0$,
-        $\mathrm{rk}(X^{T} X) = \mathrm{rk}(X) < k$), so the inverse
-        $(X^{T} X)^{-1}$ does not exist and $\hat{\beta}$ is not uniquely
-        defined. Geometrically: the projection of $y$ onto
-        $\mathrm{col}(X)$ is still well-defined, but multiple coefficient
-        vectors $\beta$ produce the same projection.
-
-  \item $f_{x} = 2 x + 4 y, f_{y} = 4 x + 2 y$.
-        $f_{x} = f_{y} = 0 \Rightarrow x = y = 0$.
-        $H = \bigl(\begin{smallmatrix} 2 & 4 \\ 4 & 2 \end{smallmatrix}\bigr)$,
-        $D_{2} = 4 - 16 = -12 < 0$: indefinite. Origin is a saddle.
-
-  \item $f_{x} = 3 x^{2} - 3 y = 0 \Rightarrow y = x^{2}$.
-        $f_{y} = 3 y^{2} - 3 x = 0 \Rightarrow x = y^{2}$. Combine:
-        $x = x^{4}$, so $x(x^{3} - 1) = 0$, giving $x = 0$ or $x = 1$.
-        Critical points $(0, 0)$ and $(1, 1)$.
-        $H = \bigl(\begin{smallmatrix} 6 x & -3 \\ -3 & 6 y \end{smallmatrix}\bigr)$.
-        At $(0, 0)$:
-        $H = \bigl(\begin{smallmatrix} 0 & -3 \\ -3 & 0 \end{smallmatrix}\bigr)$,
-        $D_{2} = -9 < 0$: indefinite, saddle. At $(1, 1)$:
-        $H = \bigl(\begin{smallmatrix} 6 & -3 \\ -3 & 6 \end{smallmatrix}\bigr)$,
-        $D_{1} = 6, D_{2} = 27 > 0$: pd, strict local min.
-
-  \item $f_{x} = 2 x - y, f_{y} = 2 y - x, f_{z} = 2 z$. All zero iff
-        $x = y = z = 0$.
-        $H = \begin{pmatrix} 2 & -1 & 0 \\ -1 & 2 & 0 \\ 0 & 0 & 2 \end{pmatrix}$,
-        $D_{1} = 2, D_{2} = 3, D_{3} = 2 \cdot 3 = 6$: pd. Origin is a
-        strict local (in fact global) min.
-
-  \item $f_{x} = 2 x \mathrm{e}^{x^{2} + y^{2}}, f_{y} = 2 y \mathrm{e}^{x^{2} + y^{2}}$.
-        Both zero iff $x = y = 0$. At origin,
-        $H = \bigl(\begin{smallmatrix} 2 & 0 \\ 0 & 2 \end{smallmatrix}\bigr) \cdot \mathrm{e}^{0} = 2 I$
-        (after differentiating again at $0$; cross terms vanish). pd:
-        strict local min.
-
-  \item $(P - I)\pi = 0$:
-        $\bigl(\begin{smallmatrix} -0.1 & 0.2 \\ 0.1 & -0.2 \end{smallmatrix}\bigr)\pi = 0$.
-        So $-0.1 \pi_{1} + 0.2 \pi_{2} = 0 \Rightarrow \pi_{1} = 2 \pi_{2}$.
-        With $\pi_{1} + \pi_{2} = 1$: $\pi = (2/3, 1/3)^{T}$.
-
-  \item $(P - I)\pi = 0$:
-        $\bigl(\begin{smallmatrix} -0.4 & 0.3 \\ 0.4 & -0.3 \end{smallmatrix}\bigr)\pi = 0 \Rightarrow 4 \pi_{1} = 3 \pi_{2}$,
-        i.e.\ $\pi_{1} = 3/7, \pi_{2} = 4/7$.
-
-  \item Eigenvalues of $P$ from problem 13:
-        $\lambda^{2} - 1.7 \lambda + (0.72 - 0.02) = \lambda^{2} - 1.7 \lambda + 0.7 = (\lambda - 1)(\lambda - 0.7)$.
-        The second eigenvalue $0.7 < 1$, so $P^{n}$ converges.
-        $\lim_{n \to \infty} P^{n} v_{0}$ is the stationary distribution
-        $(2/3, 1/3)^{T}$.
-
-  \item $w^{T} \Sigma w = (1/2, 1/2)\bigl(\begin{smallmatrix} 4 & 1 \\ 1 & 9 \end{smallmatrix}\bigr)\bigl(\begin{smallmatrix} 1/2 \\ 1/2 \end{smallmatrix}\bigr) = (1/2, 1/2)\bigl(\begin{smallmatrix} 5/2 \\ 5 \end{smallmatrix}\bigr) = 5/4 + 5/2 = 15/4$.
-
-  \item Set $w = (t, 1 - t)$:
-        $w^{T} \Sigma w = 4 t^{2} + 2 \cdot 1 \cdot t(1 - t) + 9(1 - t)^{2} = 4 t^{2} + 2 t - 2 t^{2} + 9 - 18 t + 9 t^{2} = 11 t^{2} - 16 t + 9$.
-        Differentiate: $22 t - 16 = 0 \Rightarrow t = 8/11$. So
-        $w^{*} = (8/11, 3/11)^{T}$. Minimum variance
-        $= 11 \cdot 64/121 - 16 \cdot 8/11 + 9 = 64/11 - 128/11 + 99/11 = 35/11$.
-
-  \item $w^{T} \Sigma w = (1/9)(2) + (1/9)(3) + (1/9)(5) = 10/9$.
-
-  \item Diagonal $\Sigma$:
-        $w^{T} \Sigma w = 2 w_{1}^{2} + 3 w_{2}^{2} + 5 w_{3}^{2}$.
-
-  \item For $x \neq 0$, $x^{T}(X^{T} X)x = \|X x\|^{2} \ge 0$. If
-        $\|X x\|^{2} = 0$ then $X x = 0$. Since $X$ has full column rank,
-        the only solution is $x = 0$. So $x^{T}(X^{T} X)x > 0$ for
-        $x \neq 0$: pd.
-
-  \item $X^{T} X = 1 + 4 + 9 + 16 = 30$.
-        $X^{T} y = 1 \cdot 2 + 2 \cdot 3 + 3 \cdot 5 + 4 \cdot 6 = 2 + 6 + 15 + 24 = 47$.
-        $\hat{\beta} = 47/30$.
-
-  \item Upper-triangular: eigenvalues $\lambda = 1, 0.5$ (the diagonal).
-        For $\lambda = 1$:
-        $(P - I) = \bigl(\begin{smallmatrix} 0 & 0.5 \\ 0 & -0.5 \end{smallmatrix}\bigr)$,
-        so $\pi_{2} = 0$, $\pi_{1}$ free. Normalised: $\pi = (1, 0)^{T}$.
-        (State $1$ is absorbing.)
-
-  \item From problem 1, $\det(I - A_{0}) = 0.6$, so
-        $\det((I - A_{0})^{-1}) = 1/0.6 = 5/3$. Directly: from problem 1,
-        $(I - A_{0})^{-1} = \bigl(\begin{smallmatrix} 1.5 & 0.5 \\ 2/3 & 4/3 \end{smallmatrix}\bigr)$,
-        $\det = 1.5 \cdot 4/3 - 0.5 \cdot 2/3 = 2 - 1/3 = 5/3$. Match.
-
-  \item $f_{x} = -2 x + 2 = 0 \Rightarrow x = 1$.
-        $f_{y} = -2 y + 4 = 0 \Rightarrow y = 2$. $H = -2 I$, nd: strict
-        (and global) max. $f(1, 2) = -1 - 4 + 2 + 8 = 5$.
+    \item Eigenvalues $2, 3 > 0$: positive definite.
+    \item Eigenvalues $-1, -4 < 0$: negative definite.
+    \item Eigenvalues $1, -1$: indefinite.
+    \item Eigenvalues $1, 3 > 0$: pd. (Or: $D_{1} = 2 > 0$, $D_{2} = 3 > 0$.)
+    \item $D_{1} = 1 > 0$, $D_{2} = 1 - 4 = -3 < 0$: indefinite. (Eigenvalues $-1, 3$.)
+    \item $D_{2} = 4 - 4 = 0$: not pd. Eigenvalues from $\lambda^{2} - 5 \lambda + 0 = 0$ give $\lambda = 0, 5$. Both $\ge 0$ with one zero: psd but not pd.
+    \item $D_{1} = a > 0$ and $D_{2} = a^{2} - 1 > 0$, i.e.\ $|a| > 1$. Combined: $a > 1$.
+    \item $D_{1} = 4 > 0$, $D_{2} = 36 - b^{2} > 0 \Leftrightarrow |b| < 6$.
+    \item $A = \bigl(\begin{smallmatrix} 3 & 2 \\ 2 & 1 \end{smallmatrix}\bigr)$. $D_{1} = 3 > 0$, $D_{2} = 3 - 4 = -1 < 0$: indefinite.
+    \item $A = \bigl(\begin{smallmatrix} 1 & -3 \\ -3 & 10 \end{smallmatrix}\bigr)$. $D_{1} = 1 > 0$, $D_{2} = 10 - 9 = 1 > 0$: pd.
+    \item $D_{1} = 2$, $D_{2} = 4 - 1 = 3$, $D_{3} = $ expand along row 1: $2(4 - 1) - 1(2 - 0) + 0 = 6 - 2 = 4$. All $> 0$: pd.
+    \item $D_{1} = -2$, $D_{2} = 6 - 1 = 5$, $D_{3} = $ expand: $-2(6 - 1) - 1(-2 - 0) + 0 = -10 + 2 = -8$. Signs $-, +, -$: nd.
+    \item $D_{1} = 1$, $D_{2} = 2 - 1 = 1$, $D_{3}$ by expansion: $1(6 - 1) - 1(3 - 0) + 0 = 5 - 3 = 2$. All $> 0$: pd.
+    \item Block diagonal. Upper $2 \times 2$ has $D_{1} = 1 > 0$, $D_{2} = 1 - 4 = -3 < 0$: indefinite. Thus $A$ has at least one negative and one positive eigenvalue (from the block), so $A$ is indefinite overall.
+    \item $f_{x} = 2 x + y$, $f_{y} = x + 2 y$. Hessian $H = \bigl(\begin{smallmatrix} 2 & 1 \\ 1 & 2 \end{smallmatrix}\bigr)$. $D_{1} = 2 > 0$, $D_{2} = 3 > 0$: pd. Origin is a strict local (and global) min.
+    \item $f_{x} = 2 x - y - 3 = 0$, $f_{y} = -x + 2 y = 0 \Rightarrow x = 2 y$. Substituting: $4 y - y - 3 = 0 \Rightarrow y = 1, x = 2$. Hessian $H = \bigl(\begin{smallmatrix} 2 & -1 \\ -1 & 2 \end{smallmatrix}\bigr)$, $D_{1} = 2 > 0$, $D_{2} = 3 > 0$: pd. Strict local min at $(2, 1)$.
+    \item $f_{x} = 3 x^{2} - 3 = 0 \Rightarrow x = \pm 1$. $f_{y} = 2 y = 0 \Rightarrow y = 0$. Critical points $(1, 0)$ and $(-1, 0)$. $H = \bigl(\begin{smallmatrix} 6 x & 0 \\ 0 & 2 \end{smallmatrix}\bigr)$. At $(1, 0)$: $H = \bigl(\begin{smallmatrix} 6 & 0 \\ 0 & 2 \end{smallmatrix}\bigr)$, pd $\Rightarrow$ local min. At $(-1, 0)$: $H = \bigl(\begin{smallmatrix} -6 & 0 \\ 0 & 2 \end{smallmatrix}\bigr)$, indefinite $\Rightarrow$ saddle.
+    \item $f_{x} = 2 x - y - 1 = 0$, $f_{y} = 2 y - x - 1 = 0$. Solve: from the first, $y = 2 x - 1$; substitute: $2(2 x - 1) - x - 1 = 3 x - 3 = 0$, so $x = 1, y = 1$. $H = \bigl(\begin{smallmatrix} 2 & -1 \\ -1 & 2 \end{smallmatrix}\bigr)$, pd. Local min at $(1, 1)$.
+    \item $x^{T} (A^{T} A) x = (A x)^{T} (A x) = \|A x\|^{2} \ge 0$ for all $x$, so $A^{T} A$ is psd.
+    \item If $A$ is pd then no eigenvalue is $0$ (all $> 0$), so $\det A = \prod \lambda_{i} > 0$, hence $A$ is invertible.
+    \item $p(\lambda) = (3 - \lambda)^{2} - 1 = \lambda^{2} - 6 \lambda + 8 = (\lambda - 2)(\lambda - 4)$. Eigenvalues $2, 4 > 0$: pd.
+    \item $\Sigma$ psd $\Leftrightarrow$ $D_{1} = 4 \ge 0$ (yes) and $D_{2} = 4 - \rho^{2} \ge 0 \Leftrightarrow |\rho| \le 2$. (Note: a valid \emph{correlation} matrix would force $|\rho| \le 1$ since correlations lie in $[-1, 1]$; the question only asks psd-ness for the covariance.)
+    \item With $\rho = 1$: $D_{2} = 4 - 1 = 3 > 0$, so $\Sigma$ is pd (eigenvalues are roots of $\lambda^{2} - 5\lambda + 3 = 0$, both positive).
+    \item $x^{T} A x = (1, 2)\bigl(\begin{smallmatrix} 1 & 2 \\ 2 & 3 \end{smallmatrix}\bigr)\bigl(\begin{smallmatrix} 1 \\ 2 \end{smallmatrix}\bigr) = (1, 2)\bigl(\begin{smallmatrix} 5 \\ 8 \end{smallmatrix}\bigr) = 5 + 16 = 21$.
+    \item Hessian $H = \bigl(\begin{smallmatrix} 2 \alpha & -2 \\ -2 & 2 \end{smallmatrix}\bigr)$. pd $\Leftrightarrow$ $2 \alpha > 0$ and $4 \alpha - 4 > 0$, i.e.\ $\alpha > 1$.
 \end{solutions}
 
 \section{Additional Problems}
 
 \begin{problems}
-  \item Leontief, $n = 2$. Let
-        $A = \bigl(\begin{smallmatrix} 0.1 & 0.2 \\ 0.3 & 0.4 \end{smallmatrix}\bigr)$
-        and $d = (8, 12)^{T}$. Compute the gross output vector $x$.
-  \item For the same $A$, give the Leontief inverse $(I - A)^{-1}$
-        explicitly.
-  \item Leontief, $n = 2$.
-        $A = \bigl(\begin{smallmatrix} 0.2 & 0.1 \\ 0.5 & 0.3 \end{smallmatrix}\bigr)$,
-        $d = (4, 7)^{T}$. Find $x$.
-  \item For a Leontief economy with
-        $A = \bigl(\begin{smallmatrix} 0.5 & 0.2 \\ 0.4 & 0.5 \end{smallmatrix}\bigr)$,
-        check that the spectral radius of $A$ is $< 1$ (so productivity
-        holds) and compute $(I - A)^{-1}$.
-  \item OLS with $n = 4, k = 2$. Data:
-        $X = \begin{pmatrix} 1 & 1 \\ 1 & 2 \\ 1 & 3 \\ 1 & 4 \end{pmatrix}$,
-        $y = (3, 5, 7, 10)^{T}$. Compute $X^{T} X$, $X^{T} y$, and
-        $\hat{\beta}$.
-  \item For the same $X, y$, give the fitted values $\hat{y}$ and residuals
-        $y - \hat{y}$.
-  \item OLS,
-        $X = \begin{pmatrix} 1 & -1 \\ 1 & 0 \\ 1 & 1 \\ 1 & 2 \end{pmatrix}$,
-        $y = (0, 1, 3, 4)^{T}$. Compute $\hat{\beta}$.
-  \item Hessian classification.
-        $f(x, y) = 2 x^{2} + y^{2} + 4 x y - 6 x$. Find and classify
-        critical points.
-  \item $f(x, y) = x^{2} - y^{2} + 4 x + 6 y$. Find and classify the
-        critical point.
-  \item $f(x, y, z) = x^{2} + 2 y^{2} + 3 z^{2} - 2 x y - 4 y z + 5$. Find
-        the critical point and classify.
-  \item For $f(x, y) = \ln(1 + x^{2} + y^{2})$, classify the critical point
-        at the origin.
-  \item Markov.
-        $P = \bigl(\begin{smallmatrix} 0.7 & 0.4 \\ 0.3 & 0.6 \end{smallmatrix}\bigr)$
-        (column-stochastic). Find the stationary distribution.
-  \item For
-        $P = \bigl(\begin{smallmatrix} 0.5 & 0.2 \\ 0.5 & 0.8 \end{smallmatrix}\bigr)$,
-        find the stationary distribution.
-  \item For $P$ in problem 12, compute the eigenvalues and use them to argue
-        $\lim_{n \to \infty} P^{n} v_{0}$ for any probability vector $v_{0}$
-        equals the stationary distribution.
-  \item Portfolio. Two assets with covariance
-        $\Sigma = \bigl(\begin{smallmatrix} 9 & 2 \\ 2 & 4 \end{smallmatrix}\bigr)$.
-        Compute the variance of $w = (1/3, 2/3)^{T}$.
-  \item For the same $\Sigma$, find the global minimum-variance portfolio.
-  \item Three assets,
-        $\Sigma = \begin{pmatrix} 4 & 1 & 0 \\ 1 & 5 & 0 \\ 0 & 0 & 9 \end{pmatrix}$.
-        Compute the variance of the equally weighted portfolio
-        $w = (1/3, 1/3, 1/3)^{T}$.
-  \item For the same $\Sigma$, classify $\Sigma$ (pd, psd, indefinite?). Use
-        principal minors.
-  \item OLS, single regressor through origin.
-        $X = (1, 2, 3)^{T} \in \R^{3 \times 1}$, $y = (1, 3, 4)^{T}$.
-        Compute $\hat{\beta}$ (a scalar).
-  \item Markov.
-        $P = \begin{pmatrix} 0.5 & 0.1 & 0.2 \\ 0.3 & 0.6 & 0.3 \\ 0.2 & 0.3 & 0.5 \end{pmatrix}$
-        (column-stochastic). Verify $\pi = (1/3, 1/3, 1/3)^{T}$ \emph{or}
-        find the stationary distribution.
-  \item For $f(x, y) = x^{2} + x y + y^{2} + 2 x - 4 y$, find the critical
-        point and the optimum value.
-  \item Verify for the OLS problem in Additional Problem 5 that the residual
-        vector is orthogonal to each column of $X$.
-  \item Leontief with productivity check: for
-        $A = \bigl(\begin{smallmatrix} 0.3 & 0.6 \\ 0.4 & 0.5 \end{smallmatrix}\bigr)$,
-        determine whether the productivity condition (column sums $<1$)
-        holds. If yes, find $x$ for $d = (10, 10)^{T}$; if no, explain.
-  \item Portfolio with constraint. Two assets,
-        $\Sigma = \bigl(\begin{smallmatrix} 1 & 0.5 \\ 0.5 & 4 \end{smallmatrix}\bigr)$.
-        Find the global minimum-variance portfolio and its variance.
+    \item Classify $A = \bigl(\begin{smallmatrix} 5 & 0 \\ 0 & 1 \end{smallmatrix}\bigr)$.
+    \item Classify $A = \bigl(\begin{smallmatrix} -3 & 0 \\ 0 & -2 \end{smallmatrix}\bigr)$.
+    \item Classify $A = \bigl(\begin{smallmatrix} 3 & 0 \\ 0 & -1 \end{smallmatrix}\bigr)$.
+    \item Classify $A = \bigl(\begin{smallmatrix} 3 & 1 \\ 1 & 3 \end{smallmatrix}\bigr)$.
+    \item Classify $A = \bigl(\begin{smallmatrix} 2 & 3 \\ 3 & 2 \end{smallmatrix}\bigr)$.
+    \item Classify $A = \bigl(\begin{smallmatrix} 9 & 6 \\ 6 & 4 \end{smallmatrix}\bigr)$.
+    \item For which $b$ is $A = \bigl(\begin{smallmatrix} 3 & b \\ b & 3 \end{smallmatrix}\bigr)$ positive definite?
+    \item For which $c$ is $A = \bigl(\begin{smallmatrix} -2 & 1 \\ 1 & c \end{smallmatrix}\bigr)$ negative definite?
+    \item Write $Q(x, y) = 2 x^{2} + 6 x y + 5 y^{2}$ as $x^{T} A x$ and classify $A$.
+    \item Write $Q(x, y) = -x^{2} + 4 x y - 5 y^{2}$ as $x^{T} A x$ and classify.
+    \item Classify $A = \begin{pmatrix} 3 & 1 & 0 \\ 1 & 3 & 1 \\ 0 & 1 & 3 \end{pmatrix}$ via leading principal minors.
+    \item Classify $A = \begin{pmatrix} -3 & 2 & 0 \\ 2 & -4 & 1 \\ 0 & 1 & -2 \end{pmatrix}$ via leading principal minors.
+    \item Classify $A = \begin{pmatrix} 2 & 1 & 1 \\ 1 & 2 & 1 \\ 1 & 1 & 2 \end{pmatrix}$.
+    \item Classify $A = \begin{pmatrix} 2 & 0 & 0 \\ 0 & -1 & 0 \\ 0 & 0 & 3 \end{pmatrix}$.
+    \item For $f(x, y) = 2 x^{2} - 4 x y + 3 y^{2}$, find the Hessian and classify the origin.
+    \item For $f(x, y) = x^{2} + 4 x y + 2 y^{2} + 6 x$, find the critical point and classify it.
+    \item For $f(x, y) = x^{3} - 12 x + y^{2} - 2 y$, find all critical points and classify them.
+    \item For $f(x, y) = x^{2} + 4 x y + y^{2} - 2 x - 4 y$, find the critical point and classify.
+    \item Show that if $A$ is symmetric and all eigenvalues are positive, then $A$ is invertible and $A^{-1}$ has all positive eigenvalues.
+    \item Show: $A$ is positive definite iff $-A$ is negative definite.
+    \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 4 & 1 \\ 1 & 4 \end{smallmatrix}\bigr)$ and classify it.
+    \item For $\Sigma = \bigl(\begin{smallmatrix} 9 & \rho \\ \rho & 16 \end{smallmatrix}\bigr)$ a valid covariance matrix, what range of $\rho$ is allowed?
+    \item Compute $Q(2, -1) = x^{T} A x$ for $A = \bigl(\begin{smallmatrix} 3 & 1 \\ 1 & 2 \end{smallmatrix}\bigr)$.
+    \item For which $\alpha$ is the Hessian of $f(x, y) = x^{2} + 2 \alpha x y + 4 y^{2}$ pd?
+    \item Determine whether $Q(x, y, z) = x^{2} + y^{2} + z^{2} + 2 x y$ is pd, psd, or indefinite.
 \end{problems}
 
 \section{Additional Solutions}
 
 \begin{solutions}
-  \item $I - A = \bigl(\begin{smallmatrix} 0.9 & -0.2 \\ -0.3 & 0.6 \end{smallmatrix}\bigr)$.
-        $\det = 0.54 - 0.06 = 0.48$.
-        $(I - A)^{-1} = \tfrac{1}{0.48}\bigl(\begin{smallmatrix} 0.6 & 0.2 \\ 0.3 & 0.9 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 5/4 & 5/12 \\ 5/8 & 15/8 \end{smallmatrix}\bigr)$.
-        \[
-        x = (I - A)^{-1} d = \tfrac{1}{0.48}\begin{pmatrix} 0.6 & 0.2 \\ 0.3 & 0.9 \end{pmatrix}\begin{pmatrix} 8 \\ 12 \end{pmatrix} = \tfrac{1}{0.48}\begin{pmatrix} 4.8 + 2.4 \\ 2.4 + 10.8 \end{pmatrix} = \tfrac{1}{0.48}\begin{pmatrix} 7.2 \\ 13.2 \end{pmatrix} = \begin{pmatrix} 15 \\ 27.5 \end{pmatrix}.
-        \]
-        Verify:
-        $A x + d = (0.1 \cdot 15 + 0.2 \cdot 27.5, 0.3 \cdot 15 + 0.4 \cdot 27.5)^{T} + (8, 12)^{T} = (1.5 + 5.5, 4.5 + 11)^{T} + (8, 12)^{T} = (7, 15.5)^{T} + (8, 12)^{T} = (15, 27.5)^{T}$.
-        Good.
-
-  \item From problem 1:
-        $(I - A)^{-1} = \bigl(\begin{smallmatrix} 5/4 & 5/12 \\ 5/8 & 15/8 \end{smallmatrix}\bigr)$.
-
-  \item $I - A = \bigl(\begin{smallmatrix} 0.8 & -0.1 \\ -0.5 & 0.7 \end{smallmatrix}\bigr)$.
-        $\det = 0.56 - 0.05 = 0.51$.
-        $(I - A)^{-1} = \tfrac{1}{0.51}\bigl(\begin{smallmatrix} 0.7 & 0.1 \\ 0.5 & 0.8 \end{smallmatrix}\bigr)$.
-        \[
-        x = \tfrac{1}{0.51}\begin{pmatrix} 0.7 \cdot 4 + 0.1 \cdot 7 \\ 0.5 \cdot 4 + 0.8 \cdot 7 \end{pmatrix} = \tfrac{1}{0.51}\begin{pmatrix} 3.5 \\ 7.6 \end{pmatrix} = \begin{pmatrix} 350/51 \\ 760/51 \end{pmatrix} \approx \begin{pmatrix} 6.86 \\ 14.90 \end{pmatrix}.
-        \]
-
-  \item Column sums: $0.5 + 0.4 = 0.9 < 1$ and $0.2 + 0.5 = 0.7 < 1$, so
-        spectral radius bound $\rho(A) \le \max$ col sum $= 0.9 < 1$:
-        productive.
-        $I - A = \bigl(\begin{smallmatrix} 0.5 & -0.2 \\ -0.4 & 0.5 \end{smallmatrix}\bigr)$.
-        $\det = 0.25 - 0.08 = 0.17$.
-        $(I - A)^{-1} = \tfrac{1}{0.17}\bigl(\begin{smallmatrix} 0.5 & 0.2 \\ 0.4 & 0.5 \end{smallmatrix}\bigr)$.
-
-  \item $X^{T} X = \bigl(\begin{smallmatrix} n & \sum x_{i} \\ \sum x_{i} & \sum x_{i}^{2} \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 4 & 10 \\ 10 & 30 \end{smallmatrix}\bigr)$,
-        since $\sum x_{i} = 10, \sum x_{i}^{2} = 1 + 4 + 9 + 16 = 30$.
-        $X^{T} y = (\sum y_{i}, \sum x_{i} y_{i})^{T} = (3 + 5 + 7 + 10, 3 + 10 + 21 + 40)^{T} = (25, 74)^{T}$.
-        $\det(X^{T} X) = 120 - 100 = 20$.
-        $(X^{T} X)^{-1} = \tfrac{1}{20}\bigl(\begin{smallmatrix} 30 & -10 \\ -10 & 4 \end{smallmatrix}\bigr)$.
-        So
-        \[
-        \hat{\beta} = \tfrac{1}{20}\begin{pmatrix} 30 \cdot 25 - 10 \cdot 74 \\ -10 \cdot 25 + 4 \cdot 74 \end{pmatrix} = \tfrac{1}{20}\begin{pmatrix} 750 - 740 \\ -250 + 296 \end{pmatrix} = \tfrac{1}{20}\begin{pmatrix} 10 \\ 46 \end{pmatrix} = \begin{pmatrix} 0.5 \\ 2.3 \end{pmatrix}.
-        \]
-
-  \item $\hat{y}_{i} = 0.5 + 2.3 x_{i}$:
-        $\hat{y} = (0.5 + 2.3, 0.5 + 4.6, 0.5 + 6.9, 0.5 + 9.2)^{T} = (2.8, 5.1, 7.4, 9.7)^{T}$.
-        Residuals
-        $y - \hat{y} = (3 - 2.8, 5 - 5.1, 7 - 7.4, 10 - 9.7)^{T} = (0.2, -0.1, -0.4, 0.3)^{T}$.
-        Sum $= 0$: good.
-
-  \item $\sum x_{i} = -1 + 0 + 1 + 2 = 2$,
-        $\sum x_{i}^{2} = 1 + 0 + 1 + 4 = 6$,
-        $\sum y_{i} = 0 + 1 + 3 + 4 = 8$,
-        $\sum x_{i} y_{i} = 0 + 0 + 3 + 8 = 11$.
-        $X^{T} X = \bigl(\begin{smallmatrix} 4 & 2 \\ 2 & 6 \end{smallmatrix}\bigr)$,
-        $\det = 20$.
-        $(X^{T} X)^{-1} = \tfrac{1}{20}\bigl(\begin{smallmatrix} 6 & -2 \\ -2 & 4 \end{smallmatrix}\bigr)$.
-        So
-        \[
-        \hat{\beta} = \tfrac{1}{20}\begin{pmatrix} 6 \cdot 8 - 2 \cdot 11 \\ -2 \cdot 8 + 4 \cdot 11 \end{pmatrix} = \tfrac{1}{20}\begin{pmatrix} 26 \\ 28 \end{pmatrix} = \begin{pmatrix} 1.3 \\ 1.4 \end{pmatrix}.
-        \]
-
-  \item $f_{x} = 4 x + 4 y - 6 = 0$,
-        $f_{y} = 2 y + 4 x = 0 \Rightarrow y = -2 x$. Substitute:
-        $4 x - 8 x - 6 = 0 \Rightarrow x = -3/2, y = 3$.
-        $H = \bigl(\begin{smallmatrix} 4 & 4 \\ 4 & 2 \end{smallmatrix}\bigr)$,
-        $D_{2} = 8 - 16 = -8 < 0$: indefinite. Saddle at $(-3/2, 3)$.
-
-  \item $f_{x} = 2 x + 4 = 0 \Rightarrow x = -2$.
-        $f_{y} = -2 y + 6 = 0 \Rightarrow y = 3$.
-        $H = \bigl(\begin{smallmatrix} 2 & 0 \\ 0 & -2 \end{smallmatrix}\bigr)$,
-        indefinite (eigenvalues $2, -2$). Saddle at $(-2, 3)$.
-
-  \item $f_{x} = 2 x - 2 y = 0 \Rightarrow x = y$.
-        $f_{y} = 4 y - 2 x - 4 z = 0 \Rightarrow 4 y - 2 y - 4 z = 0 \Rightarrow z = y/2$.
-        $f_{z} = 6 z - 4 y = 0 \Rightarrow z = 2 y/3$. So
-        $y/2 = 2 y/3 \Rightarrow 3 y = 4 y \Rightarrow y = 0$. So
-        $x = y = z = 0$.
-        $H = \begin{pmatrix} 2 & -2 & 0 \\ -2 & 4 & -4 \\ 0 & -4 & 6 \end{pmatrix}$.
-        $D_{1} = 2 > 0$, $D_{2} = 8 - 4 = 4 > 0$,
-        $D_{3} = 2(24 - 16) - (-2)(-12 - 0) + 0 = 16 - 24 = -8$. Signs
-        $+, +, -$: not pd, not nd, so indefinite. Origin is a saddle.
-
-  \item $f_{x} = \tfrac{2 x}{1 + x^{2} + y^{2}}$,
-        $f_{y} = \tfrac{2 y}{1 + x^{2} + y^{2}}$. Both zero at origin. At
-        origin,
-        $H = \bigl(\begin{smallmatrix} 2 & 0 \\ 0 & 2 \end{smallmatrix}\bigr)$
-        (second derivatives evaluated at $(0,0)$ give
-        $f_{xx} = 2, f_{yy} = 2, f_{xy} = 0$). pd: strict local min.
-
-  \item $(P - I)\pi = 0$:
-        $\bigl(\begin{smallmatrix} -0.3 & 0.4 \\ 0.3 & -0.4 \end{smallmatrix}\bigr)\pi = 0 \Rightarrow 0.3 \pi_{1} = 0.4 \pi_{2}$,
-        so $\pi_{1} = \tfrac{4}{3} \pi_{2}$. With $\pi_{1} + \pi_{2} = 1$:
-        $\pi_{2} = 3/7, \pi_{1} = 4/7$.
-
-  \item $(P - I)\pi = 0$:
-        $\bigl(\begin{smallmatrix} -0.5 & 0.2 \\ 0.5 & -0.2 \end{smallmatrix}\bigr)\pi = 0 \Rightarrow 5 \pi_{1} = 2 \pi_{2}$,
-        so $\pi_{1} = \tfrac{2}{7}, \pi_{2} = \tfrac{5}{7}$. Verify:
-        $P \pi = (0.5 \cdot 2/7 + 0.2 \cdot 5/7, 0.5 \cdot 2/7 + 0.8 \cdot 5/7)^{T} = (1/7 + 1/7, 1/7 + 4/7)^{T} = (2/7, 5/7)^{T} = \pi$.
-        Good.
-
-  \item $p(\lambda) = (0.7 - \lambda)(0.6 - \lambda) - 0.12 = \lambda^{2} - 1.3 \lambda + 0.42 - 0.12 = \lambda^{2} - 1.3 \lambda + 0.30 = (\lambda - 1)(\lambda - 0.3)$.
-        Since the second eigenvalue $0.3 < 1$, $P^{n} v_{0} \to $
-        stationary distribution as $n \to \infty$, which is
-        $(4/7, 3/7)^{T}$ from problem 12.
-
-  \item $w^{T} \Sigma w = (1/3, 2/3)\bigl(\begin{smallmatrix} 9 & 2 \\ 2 & 4 \end{smallmatrix}\bigr)\bigl(\begin{smallmatrix} 1/3 \\ 2/3 \end{smallmatrix}\bigr) = (1/3, 2/3)\bigl(\begin{smallmatrix} 3 + 4/3 \\ 2/3 + 8/3 \end{smallmatrix}\bigr) = (1/3, 2/3)\bigl(\begin{smallmatrix} 13/3 \\ 10/3 \end{smallmatrix}\bigr) = 13/9 + 20/9 = 33/9 = 11/3$.
-
-  \item Set $w = (t, 1 - t)$.
-        $w^{T} \Sigma w = 9 t^{2} + 4 t(1 - t) + 4(1 - t)^{2} = 9 t^{2} + 4 t - 4 t^{2} + 4 - 8 t + 4 t^{2} = 9 t^{2} - 4 t + 4$.
-        Differentiate: $18 t - 4 = 0 \Rightarrow t = 2/9$. So
-        $w^{*} = (2/9, 7/9)^{T}$. Variance
-        $= 9 \cdot 4/81 - 4 \cdot 2/9 + 4 = 4/9 - 8/9 + 36/9 = 32/9$.
-
-  \item Compute
-        $\Sigma w = \tfrac{1}{3}(4 + 1, 1 + 5, 9)^{T} = (5/3, 6/3, 9/3)^{T} = (5/3, 2, 3)^{T}$.
-        Then
-        $w^{T} \Sigma w = (1/3)(5/3 + 2 + 3) = (1/3)(5/3 + 5) = (1/3)(20/3) = 20/9$.
-
-  \item Block diagonal. Upper $2 \times 2$: $D_{1} = 4 > 0$,
-        $D_{2} = 20 - 1 = 19 > 0$: pd. Lower $1 \times 1$ block: $9 > 0$.
-        So $\Sigma$ is pd overall.
-
-  \item $X^{T} X = 1 + 4 + 9 = 14$. $X^{T} y = 1 + 6 + 12 = 19$.
-        $\hat{\beta} = 19/14$.
-
-  \item Test $\pi = (1/3, 1/3, 1/3)^{T}$.
-        $P \pi = \tfrac{1}{3}(0.5 + 0.1 + 0.2, 0.3 + 0.6 + 0.3, 0.2 + 0.3 + 0.5)^{T} = \tfrac{1}{3}(0.8, 1.2, 1.0)^{T} = (0.267, 0.4, 0.333)^{T} \neq \pi$.
-        So uniform is not stationary. Solve $(P - I)\pi = 0$ with
-        $\pi_{1} + \pi_{2} + \pi_{3} = 1$:
-        \[
-        P - I = \begin{pmatrix} -0.5 & 0.1 & 0.2 \\ 0.3 & -0.4 & 0.3 \\ 0.2 & 0.3 & -0.5 \end{pmatrix}.
-        \]
-        Take row 1 and 2:
-        $-0.5 \pi_{1} + 0.1 \pi_{2} + 0.2 \pi_{3} = 0$,
-        $0.3 \pi_{1} - 0.4 \pi_{2} + 0.3 \pi_{3} = 0$. Multiply by $10$:
-        $-5 \pi_{1} + \pi_{2} + 2 \pi_{3} = 0$,
-        $3 \pi_{1} - 4 \pi_{2} + 3 \pi_{3} = 0$. Add $4 \times$ first to
-        second:
-        $-20 \pi_{1} + 4 \pi_{2} + 8 \pi_{3} + 3 \pi_{1} - 4 \pi_{2} + 3 \pi_{3} = 0 \Rightarrow -17 \pi_{1} + 11 \pi_{3} = 0 \Rightarrow \pi_{3} = \tfrac{17}{11} \pi_{1}$.
-        From first:
-        $\pi_{2} = 5 \pi_{1} - 2 \pi_{3} = 5 \pi_{1} - \tfrac{34}{11} \pi_{1} = \tfrac{55 - 34}{11} \pi_{1} = \tfrac{21}{11} \pi_{1}$.
-        So
-        $\pi = \pi_{1}(1, 21/11, 17/11)^{T} = \tfrac{\pi_{1}}{11}(11, 21, 17)^{T}$.
-        Sum: $11 + 21 + 17 = 49$, set
-        $\pi_{1}/11 \cdot 49 = 1 \Rightarrow \pi = \tfrac{1}{49}(11, 21, 17)^{T}$.
-        Verify column sums of $P$: $0.5 + 0.3 + 0.2 = 1$,
-        $0.1 + 0.6 + 0.3 = 1$, $0.2 + 0.3 + 0.5 = 1$. Good. Check $P \pi$:
-        first entry
-        $= \tfrac{1}{49}(0.5 \cdot 11 + 0.1 \cdot 21 + 0.2 \cdot 17) = \tfrac{1}{49}(5.5 + 2.1 + 3.4) = \tfrac{11}{49}$.
-        Match.
-
-  \item $f_{x} = 2 x + y + 2 = 0$, $f_{y} = x + 2 y - 4 = 0$. Solve: from
-        first, $y = -2 x - 2$; sub:
-        $x + 2(-2 x - 2) - 4 = 0 \Rightarrow -3 x - 8 = 0 \Rightarrow x = -8/3, y = -2(-8/3) - 2 = 16/3 - 6/3 = 10/3$.
-        $H = \bigl(\begin{smallmatrix} 2 & 1 \\ 1 & 2 \end{smallmatrix}\bigr)$,
-        pd: local (and global) min. Value:
-        $f(-8/3, 10/3) = 64/9 + (-8/3)(10/3) + 100/9 + 2(-8/3) - 4(10/3) = 64/9 - 80/9 + 100/9 - 16/3 - 40/3 = 84/9 - 56/3 = 84/9 - 168/9 = -84/9 = -28/3$.
-
-  \item Residuals $r = (0.2, -0.1, -0.4, 0.3)^{T}$. Col 1 of $X$ is
-        $\mathbf{1}$: $\mathbf{1}^{T} r = 0.2 - 0.1 - 0.4 + 0.3 = 0$. Col 2
-        of $X$ is $(1, 2, 3, 4)^{T}$:
-        $1 \cdot 0.2 + 2 \cdot (-0.1) + 3 \cdot (-0.4) + 4 \cdot 0.3 = 0.2 - 0.2 - 1.2 + 1.2 = 0$.
-        Good.
-
-  \item Column sums: $0.3 + 0.4 = 0.7 < 1$ and
-        $0.6 + 0.5 = 1.1 \not< 1$. Productivity fails in the column-sum
-        sense. However we can still check directly:
-        $\det(I - A) = (0.7)(0.5) - (-0.6)(-0.4) = 0.35 - 0.24 = 0.11 \neq 0$,
-        so $I - A$ is invertible.
-        $(I - A)^{-1} = \tfrac{1}{0.11}\bigl(\begin{smallmatrix} 0.5 & 0.6 \\ 0.4 & 0.7 \end{smallmatrix}\bigr)$.
-        $x = \tfrac{1}{0.11}(0.5 \cdot 10 + 0.6 \cdot 10, 0.4 \cdot 10 + 0.7 \cdot 10)^{T} = \tfrac{1}{0.11}(11, 11)^{T} = (100, 100)^{T}$.
-        Productivity in spectral-radius sense does hold here (since the
-        inverse exists with positive entries); the column-sum bound is
-        sufficient but not necessary.
-
-  \item Set $w = (t, 1 - t)$.
-        $w^{T} \Sigma w = t^{2} + 2 \cdot 0.5 \cdot t(1 - t) + 4(1 - t)^{2} = t^{2} + t - t^{2} + 4 - 8 t + 4 t^{2} = 4 t^{2} - 7 t + 4$.
-        Differentiate: $8 t - 7 = 0 \Rightarrow t = 7/8$. So
-        $w^{*} = (7/8, 1/8)^{T}$. Variance
-        $= 4(49/64) - 7(7/8) + 4 = 49/16 - 49/8 + 64/16 = 49/16 - 98/16 + 64/16 = 15/16$.
+    \item Eigenvalues $5, 1 > 0$: pd.
+    \item Eigenvalues $-3, -2 < 0$: nd.
+    \item Eigenvalues $3, -1$: indefinite.
+    \item Eigenvalues from $p(\lambda) = (3 - \lambda)^{2} - 1 = (\lambda - 2)(\lambda - 4)$: both positive, pd. Or: $D_{1} = 3 > 0$, $D_{2} = 9 - 1 = 8 > 0$. pd.
+    \item $D_{1} = 2 > 0$, $D_{2} = 4 - 9 = -5 < 0$: indefinite. (Eigenvalues $-1, 5$.)
+    \item $D_{2} = 36 - 36 = 0$: not pd. Eigenvalues from $\lambda^{2} - 13 \lambda + 0 = 0$: $\lambda = 0, 13$. psd, not pd.
+    \item $D_{1} = 3 > 0$, $D_{2} = 9 - b^{2} > 0 \Leftrightarrow |b| < 3$.
+    \item nd requires $D_{1} = -2 < 0$ (OK) and $D_{2} = -2 c - 1 > 0 \Leftrightarrow c < -1/2$.
+    \item $A = \bigl(\begin{smallmatrix} 2 & 3 \\ 3 & 5 \end{smallmatrix}\bigr)$. $D_{1} = 2 > 0$, $D_{2} = 10 - 9 = 1 > 0$: pd.
+    \item $A = \bigl(\begin{smallmatrix} -1 & 2 \\ 2 & -5 \end{smallmatrix}\bigr)$. $D_{1} = -1 < 0$, $D_{2} = 5 - 4 = 1 > 0$: signs $-, +$: nd.
+    \item $D_{1} = 3, D_{2} = 9 - 1 = 8, D_{3} = $ expand along row 1: $3(9 - 1) - 1(3 - 0) + 0 = 24 - 3 = 21$. All $> 0$: pd.
+    \item $D_{1} = -3, D_{2} = 12 - 4 = 8, D_{3} = $ expand: $-3(8 - 1) - 2(-4 - 0) + 0 = -21 + 8 = -13$. Signs $-, +, -$: nd.
+    \item $D_{1} = 2, D_{2} = 4 - 1 = 3, D_{3} = $ expand: $2(4 - 1) - 1(2 - 1) + 1(1 - 2) = 6 - 1 - 1 = 4$. All $> 0$: pd. (Eigenvalues are $1, 1, 4$.)
+    \item Diagonal: eigenvalues $2, -1, 3$ (mixed signs): indefinite.
+    \item $H = \bigl(\begin{smallmatrix} 4 & -4 \\ -4 & 6 \end{smallmatrix}\bigr)$. $D_{1} = 4 > 0$, $D_{2} = 24 - 16 = 8 > 0$: pd. Origin is a strict local min.
+    \item $f_{x} = 2 x + 4 y + 6 = 0$, $f_{y} = 4 x + 4 y = 0 \Rightarrow x = -y$. Substitute: $-2 y + 4 y + 6 = 0 \Rightarrow y = -3, x = 3$. $H = \bigl(\begin{smallmatrix} 2 & 4 \\ 4 & 4 \end{smallmatrix}\bigr)$, $D_{2} = 8 - 16 = -8 < 0$: indefinite. Saddle at $(3, -3)$.
+    \item $f_{x} = 3 x^{2} - 12 = 0 \Rightarrow x = \pm 2$. $f_{y} = 2 y - 2 = 0 \Rightarrow y = 1$. Critical points $(2, 1)$ and $(-2, 1)$. $H = \bigl(\begin{smallmatrix} 6 x & 0 \\ 0 & 2 \end{smallmatrix}\bigr)$. At $(2, 1)$: $\bigl(\begin{smallmatrix} 12 & 0 \\ 0 & 2 \end{smallmatrix}\bigr)$, pd: local min. At $(-2, 1)$: $\bigl(\begin{smallmatrix} -12 & 0 \\ 0 & 2 \end{smallmatrix}\bigr)$, indefinite: saddle.
+    \item $f_{x} = 2 x + 4 y - 2 = 0$, $f_{y} = 4 x + 2 y - 4 = 0$. Solve: $x + 2 y = 1$, $2 x + y = 2$. From first $x = 1 - 2 y$; sub: $2 - 4 y + y = 2 \Rightarrow y = 0, x = 1$. $H = \bigl(\begin{smallmatrix} 2 & 4 \\ 4 & 2 \end{smallmatrix}\bigr)$, $D_{2} = 4 - 16 = -12 < 0$: indefinite. Saddle at $(1, 0)$.
+    \item All eigenvalues $> 0$ implies $\det A = \prod \lambda_{i} > 0$, so $A$ is invertible. The eigenvalues of $A^{-1}$ are $1/\lambda_{i}$, each $> 0$.
+    \item $x^{T}(-A)x = -(x^{T} A x)$. If $x^{T} A x > 0$ for all $x \neq 0$, then $x^{T}(-A)x < 0$ for all $x \neq 0$. Converse identical.
+    \item $p(\lambda) = (4 - \lambda)^{2} - 1 = (\lambda - 3)(\lambda - 5)$. Eigenvalues $3, 5 > 0$: pd.
+    \item Need $D_{1} = 9 \ge 0$ (OK), $D_{2} = 144 - \rho^{2} \ge 0 \Leftrightarrow |\rho| \le 12$.
+    \item $A \bigl(\begin{smallmatrix} 2 \\ -1 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 6 - 1 \\ 2 - 2 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 5 \\ 0 \end{smallmatrix}\bigr)$. $(2, -1) \cdot (5, 0) = 10$. So $Q = 10$.
+    \item $H = \bigl(\begin{smallmatrix} 2 & 2 \alpha \\ 2 \alpha & 8 \end{smallmatrix}\bigr)$. pd iff $2 > 0$ (OK) and $16 - 4 \alpha^{2} > 0 \Leftrightarrow |\alpha| < 2$.
+    \item $A = \begin{pmatrix} 1 & 1 & 0 \\ 1 & 1 & 0 \\ 0 & 0 & 1 \end{pmatrix}$. Eigenvalues: from $2 \times 2$ block $\bigl(\begin{smallmatrix} 1 & 1 \\ 1 & 1 \end{smallmatrix}\bigr)$ we get $0, 2$; from $1 \times 1$ block, $1$. So eigenvalues $\{0, 1, 2\}$. All $\ge 0$, one zero: psd but not pd. Verify: $Q = (x + y)^{2} + z^{2} \ge 0$, with $Q = 0$ at $(1, -1, 0) \neq 0$.
 \end{solutions}

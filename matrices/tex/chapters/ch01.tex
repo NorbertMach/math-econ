@@ -8,7 +8,7 @@ vectors into one number and thereby measures expenditure, length, angle, and
 orthogonality. This chapter drills vector arithmetic and the inner product;
 it is the required review material for everything that follows. The other
 half of the review topic (linear (in)dependence) has its own chapter
-later in the book (Chapter~6); here we only prepare the ground with linear
+later in the book (Chapter~7); here we only prepare the ground with linear
 combinations.
 
 \section{Core Rules}
@@ -166,8 +166,103 @@ One bridge remark before drilling: a set of vectors is \emph{linearly
 independent} when none of them is a linear combination of the others,
 equivalently, when the only combination giving $0$ uses all-zero weights.
 That concept, listed alongside the inner product as required review, is
-developed and drilled in Chapter~6; the combinations practised here are its
+developed and drilled in Chapter~7; the combinations practised here are its
 raw material.
+
+\section{Worked Example}
+
+\begin{worked}{For $\mathbf a=(3,-1,2)$ and $\mathbf b=(1,2,-1)$: compute $\mathbf a\cdot\mathbf b$, the two norms, the angle, the unit vector in the direction of $\mathbf a$, and the projection of $\mathbf a$ onto $\mathbf b$}
+\wstep{Step 1. The inner product is a number, not a vector.}
+\[
+  \mathbf a\cdot\mathbf b=3\cdot1+(-1)\cdot2+2\cdot(-1)=3-2-2=-1 .
+\]
+\wtrap{Multiply componentwise and then \emph{add}. The result is one scalar.
+Producing the triple $(3,-2,-2)$ is a different operation altogether
+(componentwise multiplication), and it is not what any formula in this book
+asks for.}
+
+\wstep{Step 2. Norms: square, add, then take one square root.}
+\[
+  \|\mathbf a\|=\sqrt{3^{2}+(-1)^{2}+2^{2}}=\sqrt{9+1+4}=\sqrt{14}\approx3.742 ,
+\]
+\[
+  \|\mathbf b\|=\sqrt{1+4+1}=\sqrt6\approx2.449 .
+\]
+Note $\|\mathbf a\|^{2}=\mathbf a\cdot\mathbf a$: the norm is the inner
+product of a vector with itself, rooted. That identity is the reason the two
+concepts belong in one chapter.
+\wtrap{$\|\mathbf a\|\neq3-1+2$, and the minus sign disappears because it is
+squared. A norm is never negative.}
+
+\wstep{Step 3. The angle, from the definition of the inner product.}
+\[
+  \cos\theta=\frac{\mathbf a\cdot\mathbf b}{\|\mathbf a\|\,\|\mathbf b\|}
+  =\frac{-1}{\sqrt{14}\sqrt6}=\frac{-1}{\sqrt{84}}\approx-0.1091 ,
+\]
+so $\theta=\arccos(-0.1091)\approx96.3^{\circ}$.
+
+The sign alone already answers the qualitative question: $\mathbf a\cdot
+\mathbf b<0$ means \emph{obtuse}, $>0$ means acute, $=0$ means
+perpendicular. Here the vectors are almost --- but not quite ---
+orthogonal.
+\wtrap{Cauchy--Schwarz guarantees
+$|\mathbf a\cdot\mathbf b|\le\|\mathbf a\|\|\mathbf b\|$, so the fraction is
+always in $[-1,1]$ and $\arccos$ always succeeds. If your quotient comes out
+bigger than $1$ in absolute value, the arithmetic is wrong --- it is a free
+check, so use it.}
+
+\wstep{Step 4. The unit vector: divide by the norm, do not subtract anything.}
+\[
+  \hat{\mathbf a}=\frac{\mathbf a}{\|\mathbf a\|}
+  =\frac{1}{\sqrt{14}}(3,-1,2)
+  =\Bigl(\tfrac{3}{\sqrt{14}},-\tfrac{1}{\sqrt{14}},\tfrac{2}{\sqrt{14}}\Bigr)
+  \approx(0.802,-0.267,0.535).
+\]
+Check: $0.802^{2}+0.267^{2}+0.535^{2}\approx0.643+0.071+0.286=1.000$.
+\checkmark
+
+\wstep{Step 5. The projection --- and be clear which vector is projected onto which.}
+The projection of $\mathbf a$ \emph{onto} $\mathbf b$ is the multiple of
+$\mathbf b$ closest to $\mathbf a$:
+\[
+  \mathrm{proj}_{\mathbf b}\mathbf a
+  =\frac{\mathbf a\cdot\mathbf b}{\|\mathbf b\|^{2}}\,\mathbf b
+  =\frac{-1}{6}(1,2,-1)
+  =\Bigl(-\tfrac16,-\tfrac13,\tfrac16\Bigr).
+\]
+It points \emph{against} $\mathbf b$, because the inner product was
+negative --- consistent with the obtuse angle found in Step~3.
+\wtrap{The denominator is $\|\mathbf b\|^{2}=6$, the norm of the vector you
+project \emph{onto}, squared --- not $\|\mathbf a\|^{2}$, and not
+$\|\mathbf b\|$. Two ways to remember it: the result must be a multiple of
+$\mathbf b$, and projecting $\mathbf b$ onto itself must return $\mathbf b$,
+which pins the denominator uniquely.}
+
+\wstep{Step 6. Verify the defining property of a projection.}
+The residual $\mathbf a-\mathrm{proj}_{\mathbf b}\mathbf a$ must be
+orthogonal to $\mathbf b$:
+\[
+  \mathbf a-\mathrm{proj}_{\mathbf b}\mathbf a
+  =\Bigl(3+\tfrac16,\,-1+\tfrac13,\,2-\tfrac16\Bigr)
+  =\Bigl(\tfrac{19}{6},-\tfrac23,\tfrac{11}{6}\Bigr),
+\]
+\[
+  \Bigl(\tfrac{19}{6},-\tfrac23,\tfrac{11}{6}\Bigr)\cdot(1,2,-1)
+  =\tfrac{19}{6}-\tfrac43-\tfrac{11}{6}
+  =\tfrac{19-8-11}{6}=0 . \checkmark
+\]
+This orthogonality is exactly what least squares exploits: the OLS residual
+is orthogonal to every regressor, and the normal equations are that
+statement written in matrix form.
+
+\wstep{Step 7. The economic reading.}
+If $\mathbf p$ is a price vector and $\mathbf q$ a quantity vector, then
+$\mathbf p\cdot\mathbf q$ is total expenditure --- a single number, which is
+why the inner product had to be a scalar. If $\mathbf w$ are portfolio
+weights and $\mathbf r$ returns, $\mathbf w\cdot\mathbf r$ is the portfolio
+return. Orthogonality then means ``no overlap'': two uncorrelated return
+series, or a budget-neutral reallocation.
+\end{worked}
 
 \section{Practice Problems}
 

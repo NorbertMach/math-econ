@@ -1,306 +1,322 @@
-\chapter{Rank and Linear (In)Dependence}
+\chapter{Inverses and Linear Systems}
 
-The rank of a matrix is the dimension of the space spanned by its columns
-(equivalently, by its rows). It answers the structural questions that
-determinants only partially address, especially for non-square matrices: How
-many of the columns of $X$ are genuinely independent regressors? Does
-$A x = b$ have any solution at all? If so, how many?
+A square matrix $A \in \R^{n \times n}$ is \emph{invertible} (or
+\emph{nonsingular}) if there exists a matrix $A^{-1}$ with
+$A A^{-1} = A^{-1} A = I_{n}$. Equivalent statements: $\det A \neq 0$; the
+columns of $A$ are linearly independent; the system $A x = b$ has a unique
+solution for every $b$. The inverse is the workhorse for solving systems by
+hand and theoretically (think $\hat{\beta} = (X^{T} X)^{-1} X^{T} y$ or
+$x = (I - A)^{-1} d$ in input-output models).
 
 \section{Core Rules}
 
-\begin{rulebox}{Linear (in)dependence}
-Vectors $v_{1}, \dots, v_{k} \in \R^{n}$ are \emph{linearly dependent} if
-there exist scalars $c_{1}, \dots, c_{k}$, not all zero, with
-$c_{1} v_{1} + \dots + c_{k} v_{k} = 0$. Otherwise they are \emph{linearly
-independent}: the only such combination is the trivial one.
-\end{rulebox}
-
-\begin{rulebox}{Rank}
-The rank of $A \in \R^{m \times n}$, $\mathrm{rk}(A)$, is the dimension of
-the column space $\mathrm{col}(A) = \{A x : x \in \R^{n}\} \subseteq \R^{m}$.
-Equivalently, the maximal number of linearly independent columns (or rows,
-row rank $=$ column rank).
-\end{rulebox}
-
-\begin{rulebox}{Computation}
-Row-reduce $A$ to row-echelon form. The rank equals the number of nonzero
-rows (equivalently, the number of pivot positions).
-\end{rulebox}
-
-\begin{rulebox}{Bounds}
-For $A \in \R^{m \times n}$, $0 \le \mathrm{rk}(A) \le \min(m, n)$. We say
-$A$ has \emph{full row rank} if $\mathrm{rk}(A) = m$, \emph{full column
-rank} if $\mathrm{rk}(A) = n$.
-\end{rulebox}
-
-\begin{rulebox}{Null space}
-$\ker(A) = \{x \in \R^{n} : A x = 0\}$. Its dimension is the
-\emph{nullity}, $\mathrm{null}(A)$.
-\end{rulebox}
-
-\begin{rulebox}{Rank-nullity theorem}
-For $A \in \R^{m \times n}$,
+\begin{rulebox}{$2 \times 2$ formula}
+For $A = \bigl(\begin{smallmatrix} a & b \\ c & d \end{smallmatrix}\bigr)$
+with $\det A = a d - b c \neq 0$,
 \[
-\mathrm{rk}(A) + \mathrm{null}(A) \;=\; n.
+A^{-1} \;=\; \frac{1}{a d - b c} \begin{pmatrix} d & -b \\ -c & a \end{pmatrix}.
 \]
+(Swap the diagonal, negate the off-diagonal, divide by the determinant.)
 \end{rulebox}
 
-\begin{rulebox}{Solvability of $A x = b$}
-Let $[A \mid b]$ be the augmented matrix.
-\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
-    \item \textbf{Existence:} $A x = b$ is consistent iff
-          $\mathrm{rk}(A) = \mathrm{rk}([A \mid b])$ (Rouch{\'e}-Capelli).
-    \item \textbf{Uniqueness:} when consistent, the solution is unique iff
-          $\mathrm{rk}(A) = n$ (i.e.\ full column rank).
-    \item Otherwise the solution set is an affine subspace of dimension
-          $n - \mathrm{rk}(A)$.
-\end{itemize}
-\end{rulebox}
-
-\begin{rulebox}{Column space basis}
-The columns of $A$ that correspond to pivot columns of its row-echelon form
-give a basis for $\mathrm{col}(A)$.
-\end{rulebox}
-
-\begin{rulebox}{Basis and dimension}
-A \emph{basis} of a subspace $V \subseteq \R^{n}$ is a
-linearly independent set of vectors that spans $V$. Every basis of $V$ has
-the same number of elements; this number is the \emph{dimension}, $\dim V$. The \emph{standard basis}
-of $\R^{n}$ consists of $e_{1} = (1, 0, \dots, 0)^{T}, \dots,
-e_{n} = (0, \dots, 0, 1)^{T}$, so $\dim \R^{n} = n$. For given vectors,
+\begin{rulebox}{General formula (adjugate)}
+For $A \in \R^{n \times n}$ invertible,
 \[
-\dim \mathrm{span}(v_{1}, \dots, v_{k}) \;=\; \mathrm{rk}(A),
-\qquad A = \bigl(\, v_{1} \;\cdots\; v_{k} \,\bigr),
+A^{-1} \;=\; \frac{1}{\det A} \, \mathrm{adj}(A), \qquad
+\mathrm{adj}(A)_{ij} = C_{ji} = (-1)^{i + j} M_{ji},
 \]
-the rank of the matrix whose columns are the vectors.
+where $C_{ji}$ are the cofactors of $A$. In practice for $n \ge 3$ one
+usually inverts by Gauss-Jordan elimination on $[A \mid I]$ instead.
+\end{rulebox}
+
+\begin{rulebox}{Properties}
+Whenever the inverses exist:
 \begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
-    \item \textbf{Reducing to a basis:} place the spanning vectors as
-          columns, row-reduce, keep the vectors in pivot columns.
-    \item \textbf{Extending to a basis:} append the standard basis vectors
-          to the independent set, row-reduce, keep the pivot columns (the
-          original vectors always survive as leading pivots).
+    \item $(A^{-1})^{-1} = A$.
+    \item $(A B)^{-1} = B^{-1} A^{-1}$ \emph{(order reverses)}.
+    \item $(A^{T})^{-1} = (A^{-1})^{T}$.
+    \item $(\lambda A)^{-1} = \lambda^{-1} A^{-1}$ for $\lambda \neq 0$.
+    \item $\det(A^{-1}) = 1 / \det A$.
+    \item For a diagonal matrix $D = \mathrm{diag}(d_{1}, \dots, d_{n})$
+          with all $d_{i} \neq 0$,
+          $D^{-1} = \mathrm{diag}(1/d_{1}, \dots, 1/d_{n})$.
 \end{itemize}
 \end{rulebox}
 
-\begin{rulebox}{Linear mappings and matrices}
-A map $f \colon \R^{n} \to \R^{m}$ is \emph{linear} if it respects sums and scalar multiples:
-$f(x + y) = f(x) + f(y)$ and $f(\lambda x) = \lambda f(x)$. For every
-$A \in \R^{m \times n}$ the map $f(x) = A x$ is linear, and \emph{every}
-linear map $\R^{n} \to \R^{m}$ arises this way: the $j$-th column of $A$
-is the image $f(e_{j})$ of the $j$-th standard basis vector. Composition
-corresponds to the matrix product: if $f(x) = A x$ and $g(y) = B y$, then
-$(g \circ f)(x) = B(A x) = (B A) x$.
-\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
-    \item \textbf{Rotation} by $90^{\circ}$ (counterclockwise) in
-          $\R^{2}$: $A = \bigl(\begin{smallmatrix} 0 & -1 \\ 1 & 0 \end{smallmatrix}\bigr)$,
-          since $e_{1} \mapsto e_{2}$ and $e_{2} \mapsto -e_{1}$.
-    \item \textbf{Projection} onto the $x$-axis:
-          $A = \bigl(\begin{smallmatrix} 1 & 0 \\ 0 & 0 \end{smallmatrix}\bigr)$.
-    \item \textbf{Input--output:} if producing one unit of good $j$
-          requires $a_{ij}$ units of resource $i$, the activity levels
-          $x \in \R^{n}$ determine the resource use $r = A x \in \R^{m}$,
-          a linear map from production plans to resource requirements.
-\end{itemize}
+\begin{rulebox}{Solving $A x = b$}
+If $A$ is invertible, $x = A^{-1} b$ is the unique solution. In practice
+Gauss elimination on $[A \mid b]$ is faster than computing $A^{-1}$ and
+multiplying.
 \end{rulebox}
+
+\begin{rulebox}{Cramer's rule}
+For $A x = b$ with $A \in \R^{n \times n}$ invertible,
+\[
+x_{i} \;=\; \frac{\det A_{i}}{\det A},
+\]
+where $A_{i}$ is $A$ with column $i$ replaced by $b$.
+\end{rulebox}
+
+\section{Worked Example}
+
+\begin{worked}{Invert $A=\begin{pmatrix}2&1&0\\1&3&1\\0&1&2\end{pmatrix}$, use it to solve $A\mathbf x=(1,2,3)^{\!\top}$, and get the same $x_{1}$ from Cramer's rule}
+\wstep{Step 1. Check invertibility first --- one number decides everything.}
+Expanding along the first row,
+\[
+  \det A=2(3\cdot2-1\cdot1)-1(1\cdot2-1\cdot0)+0
+        =2\cdot5-2=8\neq0 ,
+\]
+so $A^{-1}$ exists. Had this been $0$, the whole exercise would be over: no
+inverse, and $A\mathbf x=\mathbf b$ either has no solution or infinitely
+many.
+
+\wstep{Step 2. Build the cofactor matrix, sign by position.}
+\[
+  C_{11}=+\begin{vmatrix}3&1\\1&2\end{vmatrix}=5,\quad
+  C_{12}=-\begin{vmatrix}1&1\\0&2\end{vmatrix}=-2,\quad
+  C_{13}=+\begin{vmatrix}1&3\\0&1\end{vmatrix}=1,
+\]
+\[
+  C_{21}=-2,\quad C_{22}=4,\quad C_{23}=-2,\qquad
+  C_{31}=1,\quad C_{32}=-2,\quad C_{33}=5 .
+\]
+
+\wstep{Step 3. Transpose to get the adjugate, then divide by the determinant.}
+\[
+  A^{-1}=\frac{1}{\det A}\,C^{\!\top}
+  =\frac18\begin{pmatrix}5&-2&1\\-2&4&-2\\1&-2&5\end{pmatrix} .
+\]
+\wtrap{The adjugate is the \textbf{transpose} of the cofactor matrix.
+Forgetting the transpose is the classic error --- and here it is invisible,
+because $A$ is symmetric and so is $C$. Test your method on a
+non-symmetric matrix before trusting it.}
+
+\wstep{Step 4. Verify. Always verify an inverse.}
+One row suffices to catch most slips. Row $1$ of $A$ is $(2,1,0)$; times
+column $1$ of the adjugate $(5,-2,1)^{\!\top}$:
+\[
+  2\cdot5+1\cdot(-2)+0\cdot1=8 ,
+\]
+which over $8$ is the $1$ on the diagonal. \checkmark\ Times column $2$,
+$(-2,4,-2)^{\!\top}$: $-4+4+0=0$. \checkmark
+
+\wstep{Step 5. Solve the system.}
+\[
+  \mathbf x=A^{-1}\mathbf b
+  =\frac18\begin{pmatrix}5&-2&1\\-2&4&-2\\1&-2&5\end{pmatrix}
+   \begin{pmatrix}1\\2\\3\end{pmatrix}
+  =\frac18\begin{pmatrix}5-4+3\\-2+8-6\\1-4+15\end{pmatrix}
+  =\frac18\begin{pmatrix}4\\0\\12\end{pmatrix}
+  =\boxed{\begin{pmatrix}1/2\\0\\3/2\end{pmatrix}}
+\]
+Check in the original system: $2(\tfrac12)+0+0=1$ \checkmark;
+$\tfrac12+0+\tfrac32=2$ \checkmark; $0+0+2(\tfrac32)=3$ \checkmark.
+
+\wstep{Step 6. The same $x_{1}$ by Cramer's rule.}
+Replace the \emph{first} column of $A$ by $\mathbf b$ and divide by
+$\det A$:
+\[
+  x_{1}=\frac{1}{8}\begin{vmatrix}1&1&0\\2&3&1\\3&1&2\end{vmatrix}
+  =\frac{1}{8}\Bigl[1(6-1)-1(4-3)+0\Bigr]
+  =\frac{5-1}{8}=\frac12 . \checkmark
+\]
+\wtrap{Cramer replaces the column matching the variable you want ---
+column~$k$ for $x_{k}$ --- and the denominator is always $\det A$, never the
+determinant of the modified matrix. It is elegant for one component of a
+small system and hopeless beyond $3\times3$: solving a $10\times10$ system
+this way needs eleven $10\times10$ determinants.}
+
+\wstep{Step 7. Which method, when.}
+\begin{center}\footnotesize
+\begin{tabular}{ll}
+  \hline
+  situation & method\\
+  \hline
+  one system, one $\mathbf b$ & Gaussian elimination (Chapter~5)\\
+  many systems, same $A$ & compute $A^{-1}$ once, reuse\\
+  one component only, $n\le3$ & Cramer's rule\\
+  $n\ge4$ by hand & row-reduce $[A\mid I]$, not the adjugate\\
+  \hline
+\end{tabular}
+\end{center}
+\wtrap{Never solve a numerical system by computing $A^{-1}$ and multiplying:
+it is more arithmetic and more rounding error than elimination. The inverse
+earns its keep as a \emph{formula} --- $\mathbf x=A^{-1}\mathbf b$ shows how
+the solution depends on $\mathbf b$, which is what comparative statics needs
+--- not as a computational route.}
+\end{worked}
 
 \section{Practice Problems}
 
 \begin{problems}
-    \item Are $v_{1} = (1, 2)^{T}$, $v_{2} = (3, 6)^{T}$ linearly independent?
-    \item Are $v_{1} = (1, 0)^{T}$, $v_{2} = (1, 1)^{T}$ linearly independent?
-    \item Are $v_{1} = (1, 2, 3)^{T}$, $v_{2} = (4, 5, 6)^{T}$, $v_{3} = (7, 8, 9)^{T}$ linearly independent?
-    \item Are $v_{1} = (1, 0, 0)^{T}$, $v_{2} = (1, 1, 0)^{T}$, $v_{3} = (1, 1, 1)^{T}$ linearly independent?
-    \item Find $\mathrm{rk}(A)$ for $A = \bigl(\begin{smallmatrix} 1 & 2 \\ 3 & 6 \end{smallmatrix}\bigr)$.
-    \item Find $\mathrm{rk}(A)$ for $A = \bigl(\begin{smallmatrix} 1 & 2 \\ 3 & 4 \end{smallmatrix}\bigr)$.
-    \item Find $\mathrm{rk}(A)$ for $A = \begin{pmatrix} 1 & 2 & 1 \\ 2 & 4 & 2 \\ 3 & 6 & 3 \end{pmatrix}$.
-    \item Find $\mathrm{rk}(A)$ for $A = \begin{pmatrix} 1 & 0 & 2 \\ 0 & 1 & 3 \\ 1 & 1 & 5 \end{pmatrix}$.
-    \item Find $\mathrm{rk}(A)$ for $A = \begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & 9 \end{pmatrix}$.
-    \item Find $\mathrm{rk}(A)$ for $A = \begin{pmatrix} 1 & 1 & 2 & 3 \\ 2 & 2 & 4 & 6 \\ 1 & 0 & 1 & 1 \end{pmatrix}$.
-    \item For $A = \begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{pmatrix}$, compute $\mathrm{rk}(A)$ and $\mathrm{null}(A)$. Find a basis of $\ker A$.
-    \item For $A = \bigl(\begin{smallmatrix} 1 & 2 & 3 \\ 2 & 4 & 6 \end{smallmatrix}\bigr)$, compute $\mathrm{rk}(A)$, $\mathrm{null}(A)$, and a basis of $\ker A$.
-    \item For which $a$ does the system $\,x + 2 y = 1,\, 3 x + a y = 4\,$ have a unique solution? No solution? Infinitely many?
-    \item Use Rouché-Capelli on $\,x + y + z = 1,\, x + 2 y + 3 z = 4,\, 2 x + 3 y + 4 z = 5\,$. Determine consistency and the number of solutions.
-    \item Use Rouché-Capelli on $\,x + y + z = 1,\, x + 2 y + 3 z = 4,\, 2 x + 3 y + 4 z = 6$. Consistency?
-    \item Find a basis for the column space of $A = \begin{pmatrix} 1 & 2 & 1 \\ 0 & 1 & 1 \\ 1 & 3 & 2 \end{pmatrix}$.
-    \item Determine whether $b = (1, 2, 3)^{T}$ is in $\mathrm{col}(A)$ for $A = \bigl(\begin{smallmatrix} 1 & 0 \\ 0 & 1 \\ 1 & 1 \end{smallmatrix}\bigr)$.
-    \item Determine whether $b = (1, 1, 0)^{T}$ is in $\mathrm{col}(A)$ for the same $A$.
-    \item Let $A \in \R^{4 \times 6}$ have rank $3$. What is $\mathrm{null}(A)$? Can $A x = b$ have a solution for every $b \in \R^{4}$? If so, is it unique?
-    \item Let $A \in \R^{3 \times 5}$ have rank $3$. Does $A x = b$ have a solution for every $b$? Unique?
-    \item For $A = \begin{pmatrix} 1 & a & 1 \\ 1 & 1 & a \\ a & 1 & 1 \end{pmatrix}$, find all $a$ for which $\mathrm{rk}(A) < 3$.
-    \item Are the rows of $\begin{pmatrix} 1 & 0 & 0 \\ 2 & 1 & 0 \\ 3 & 4 & 1 \end{pmatrix}$ linearly independent?
-    \item Find a basis of $\ker A$ for $A = \begin{pmatrix} 1 & 1 & 1 \\ 2 & 2 & 2 \end{pmatrix}$.
-    \item For $A \in \R^{n \times n}$, prove: $A$ is invertible iff $\mathrm{rk}(A) = n$.
-    \item Find $\mathrm{rk}\!\begin{pmatrix} 1 & 2 & 0 & 1 \\ 2 & 4 & 1 & 3 \\ 3 & 6 & 1 & 4 \end{pmatrix}$.
+    \item Invert $A = \bigl(\begin{smallmatrix} 1 & 2 \\ 3 & 4 \end{smallmatrix}\bigr)$.
+    \item Invert $A = \bigl(\begin{smallmatrix} 2 & 5 \\ 1 & 3 \end{smallmatrix}\bigr)$.
+    \item Invert $A = \bigl(\begin{smallmatrix} 4 & 7 \\ 2 & 6 \end{smallmatrix}\bigr)$.
+    \item For which $a$ is $A = \bigl(\begin{smallmatrix} a & 2 \\ 3 & a + 1 \end{smallmatrix}\bigr)$ invertible?
+    \item Solve $\bigl(\begin{smallmatrix} 1 & 2 \\ 3 & 4 \end{smallmatrix}\bigr) x = \bigl(\begin{smallmatrix} 5 \\ 11 \end{smallmatrix}\bigr)$ using $A^{-1}$ (from problem 1).
+    \item Solve $\bigl(\begin{smallmatrix} 2 & 5 \\ 1 & 3 \end{smallmatrix}\bigr) x = \bigl(\begin{smallmatrix} 1 \\ 0 \end{smallmatrix}\bigr)$ by Cramer's rule.
+    \item Solve the system $\,2 x + 3 y = 7,\, x - y = 1\,$ using Cramer.
+    \item Invert the diagonal matrix $D = \mathrm{diag}(2, -3, 5)$.
+    \item Invert $A = \begin{pmatrix} 1 & 0 & 0 \\ 2 & 1 & 0 \\ 3 & 4 & 1 \end{pmatrix}$ (lower-triangular with $1$'s on the diagonal).
+    \item Invert $A = \begin{pmatrix} 1 & 2 & 3 \\ 0 & 1 & 4 \\ 0 & 0 & 1 \end{pmatrix}$.
+    \item Invert $A = \begin{pmatrix} 1 & 2 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 2 \end{pmatrix}$.
+    \item Invert $A = \begin{pmatrix} 1 & 1 & 1 \\ 0 & 1 & 1 \\ 0 & 0 & 1 \end{pmatrix}$.
+    \item Solve $\begin{pmatrix} 1 & 1 & 1 \\ 0 & 1 & 1 \\ 0 & 0 & 1 \end{pmatrix} x = \begin{pmatrix} 6 \\ 5 \\ 3 \end{pmatrix}$ by back-substitution.
+    \item Solve $\begin{pmatrix} 2 & 1 & 0 \\ 1 & 3 & 1 \\ 0 & 1 & 2 \end{pmatrix} x = \begin{pmatrix} 3 \\ 5 \\ 3 \end{pmatrix}$ by Gauss elimination.
+    \item If $A = \bigl(\begin{smallmatrix} 1 & 2 \\ 3 & 4 \end{smallmatrix}\bigr)$ and $B = \bigl(\begin{smallmatrix} 2 & 0 \\ 0 & 5 \end{smallmatrix}\bigr)$, compute $(A B)^{-1}$ two ways: directly and via $B^{-1} A^{-1}$.
+    \item For $A \in \R^{3 \times 3}$ with $\det A = 2$, what is $\det(A^{-1})$? $\det(2 A^{-1})$?
+    \item Show that if $A$ is invertible and symmetric, then so is $A^{-1}$.
+    \item For $A$ as in problem 1, verify that $A A^{-1} = I_{2}$ by direct multiplication.
+    \item Solve $A x = b$ with $A = \bigl(\begin{smallmatrix} 1 & 2 \\ 3 & 7 \end{smallmatrix}\bigr)$ and $b = \bigl(\begin{smallmatrix} 4 \\ 9 \end{smallmatrix}\bigr)$.
+    \item For which $\lambda$ is $A - \lambda I_{2}$ not invertible, where $A = \bigl(\begin{smallmatrix} 2 & 1 \\ 0 & 3 \end{smallmatrix}\bigr)$?
+    \item Compute the inverse of a rotation matrix $R(\theta) = \bigl(\begin{smallmatrix} \cos \theta & -\sin \theta \\ \sin \theta & \cos \theta \end{smallmatrix}\bigr)$.
+    \item Find $X$ from $X A = B$ with $A = \bigl(\begin{smallmatrix} 1 & 2 \\ 3 & 4 \end{smallmatrix}\bigr)$ and $B = \bigl(\begin{smallmatrix} 2 & 0 \\ -1 & 1 \end{smallmatrix}\bigr)$.
+    \item Compute $A^{-1}$ for $A = \begin{pmatrix} 2 & 0 & 1 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix}$.
+    \item Solve $\begin{pmatrix} 2 & 0 & 1 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix} x = \begin{pmatrix} 3 \\ 2 \\ 2 \end{pmatrix}$.
+    \item True or false: if $A \in \R^{3 \times 3}$ has two equal columns then $A$ is not invertible. Justify.
 \end{problems}
 
 \section{Solutions}
 
 \begin{solutions}
-    \item Dependent: $v_{2} = 3 v_{1}$.
-
-    \item Independent: $c_{1} v_{1} + c_{2} v_{2} = (c_{1} + c_{2}, c_{2})^{T} = 0$ forces $c_{2} = 0$ and then $c_{1} = 0$.
-
-    \item Dependent: $v_{1} - 2 v_{2} + v_{3} = 0$. (And $\det\bigl(\begin{smallmatrix} 1 & 4 & 7 \\ 2 & 5 & 8 \\ 3 & 6 & 9 \end{smallmatrix}\bigr) = 0$.)
-
-    \item Independent: the matrix $\bigl(\begin{smallmatrix} 1 & 1 & 1 \\ 0 & 1 & 1 \\ 0 & 0 & 1 \end{smallmatrix}\bigr)$ is upper-triangular with nonzero diagonal, $\det = 1 \neq 0$.
-
-    \item Rows are proportional, $\mathrm{rk}(A) = 1$.
-
-    \item $\det A = -2 \neq 0$, so $\mathrm{rk}(A) = 2$.
-
-    \item All three rows are multiples of $(1, 2, 1)$. $\mathrm{rk}(A) = 1$.
-
-    \item Row-reduce: $R_{3} \to R_{3} - R_{1} - R_{2}$ gives $(0, 0, 0)$. So $\mathrm{rk} = 2$.
-
-    \item As in problem 3, columns dependent: $\mathrm{rk}(A) = 2$.
-
-    \item $R_{2} \to R_{2} - 2 R_{1}$ gives $(0, 0, 0, 0)$. $R_{3} \to R_{3} - R_{1}$ gives $(0, -1, -1, -2)$. Two nonzero rows: $\mathrm{rk} = 2$.
-
-    \item $\mathrm{rk} = 2$ (rows independent: not proportional), so $\mathrm{null} = 3 - 2 = 1$. Solve $A x = 0$: $R_{2} \to R_{2} - 4 R_{1}$ gives $(0, -3, -6)$, so $-3 y - 6 z = 0 \Rightarrow y = -2 z$ and $x + 2 y + 3 z = 0 \Rightarrow x = -2 y - 3 z = 4 z - 3 z = z$. Basis: $(1, -2, 1)^{T}$.
-
-    \item $\mathrm{rk} = 1$, $\mathrm{null} = 2$. Kernel: $x + 2 y + 3 z = 0$. Free parameters $y = s, z = t$, $x = -2 s - 3 t$. Basis: $(-2, 1, 0)^{T}, (-3, 0, 1)^{T}$.
-
-    \item $\det \bigl(\begin{smallmatrix} 1 & 2 \\ 3 & a \end{smallmatrix}\bigr) = a - 6$. Unique iff $a \neq 6$. If $a = 6$: rows of $A$ are proportional but $b = (1, 4)^{T}$ is not on $3 \cdot$(first equation) $= (3, 6 \mid 3)$, so $b_{2} = 4 \neq 3$, hence no solution. Never infinitely many (for these specific RHS values).
-
-    \item Augmented: $R_{2} \to R_{2} - R_{1}$: $(0, 1, 2 \mid 3)$. $R_{3} \to R_{3} - 2 R_{1}$: $(0, 1, 2 \mid 3)$. $R_{3} \to R_{3} - R_{2}$: $(0, 0, 0 \mid 0)$. So $\mathrm{rk}(A) = 2 = \mathrm{rk}([A \mid b])$, and $n - r = 3 - 2 = 1$-parameter family of solutions. Free $z = t$: $y = 3 - 2 t$, $x = 1 - y - z = 1 - (3 - 2 t) - t = -2 + t$. Solutions: $(-2, 3, 0)^{T} + t (1, -2, 1)^{T}$.
-
-    \item Same row reduction on the LHS; RHS changes. $R_{2} - R_{1} = (0, 1, 2 \mid 3)$. $R_{3} - 2 R_{1} = (0, 1, 2 \mid 4)$. $R_{3} - R_{2} = (0, 0, 0 \mid 1)$. Last row says $0 = 1$: inconsistent. $\mathrm{rk}(A) = 2 < \mathrm{rk}([A \mid b]) = 3$.
-
-    \item Row-reduce. $R_{3} \to R_{3} - R_{1}$: $(0, 1, 1)$. $R_{3} \to R_{3} - R_{2}$: $(0, 0, 0)$. Echelon: pivots in columns $1$ and $2$. Basis of $\mathrm{col}(A)$: columns $1$ and $2$ of $A$, namely $(1, 0, 1)^{T}$ and $(2, 1, 3)^{T}$.
-
-    \item Need $c_{1}(1, 0, 1)^{T} + c_{2}(0, 1, 1)^{T} = (1, 2, 3)^{T}$, i.e.\ $c_{1} = 1, c_{2} = 2$, $c_{1} + c_{2} = 3$. Yes, $b \in \mathrm{col}(A)$.
-
-    \item Need $c_{1} = 1, c_{2} = 1$, $c_{1} + c_{2} = 0$. But $1 + 1 = 2 \neq 0$. No, $b \notin \mathrm{col}(A)$.
-
-    \item $\mathrm{null}(A) = 6 - 3 = 3$. The map is not surjective onto $\R^{4}$ since $\mathrm{rk}(A) = 3 < 4$, so $A x = b$ has solutions only for $b$ in a $3$-dimensional subspace of $\R^{4}$, and when consistent, solutions form a $3$-parameter family (not unique).
-
-    \item $\mathrm{rk}(A) = 3 = $ number of rows: full row rank, so $A x = b$ has a solution for every $b \in \R^{3}$. But $\mathrm{null}(A) = 5 - 3 = 2 > 0$, so the solution is not unique.
-
-    \item Cofactor expansion along row 1:
-    \begin{align*}
-    \det A &= 1 \cdot (1 - a) - a \cdot (1 - a^{2}) + 1 \cdot (1 - a) \\
-           &= 2(1 - a) - a(1 - a)(1 + a) \\
-           &= (1 - a)\bigl[2 - a(1 + a)\bigr] = (1 - a)(2 - a - a^{2}).
-    \end{align*}
-    Factor $2 - a - a^{2} = -(a + 2)(a - 1)$, so $\det A = (1 - a)^{2}(a + 2)$. Hence $\mathrm{rk}(A) < 3$ iff $a = 1$ or $a = -2$.
-
-    \item Lower-triangular with nonzero diagonal: $\det = 1 \neq 0$, so rows are independent.
-
-    \item $A$ has rank $1$, nullity $2$. Solve $x + y + z = 0$: $(- 1, 1, 0)^{T}, (-1, 0, 1)^{T}$ form a basis.
-
-    \item Equivalent statements: $A$ is invertible $\Leftrightarrow$ $\det A \neq 0$ $\Leftrightarrow$ columns of $A$ are linearly independent $\Leftrightarrow$ $\mathrm{rk}(A) = n$. Sketch: $A$ invertible $\Rightarrow$ $A x = 0$ has only the trivial solution, so columns independent, $\mathrm{rk} = n$. Conversely, if $\mathrm{rk}(A) = n$, then columns span $\R^{n}$ and are independent, so $A x = b$ has a unique solution for every $b$, hence $A$ is invertible.
-
-    \item $R_{2} \to R_{2} - 2 R_{1}$: $(0, 0, 1, 1)$. $R_{3} \to R_{3} - 3 R_{1}$: $(0, 0, 1, 1)$. $R_{3} \to R_{3} - R_{2}$: $(0, 0, 0, 0)$. Pivots in cols $1, 3$. $\mathrm{rk} = 2$.
+    \item $\det A = 1 \cdot 4 - 2 \cdot 3 = -2$. So $A^{-1} = -\tfrac{1}{2} \bigl(\begin{smallmatrix} 4 & -2 \\ -3 & 1 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} -2 & 1 \\ 3/2 & -1/2 \end{smallmatrix}\bigr)$.
+    \item $\det A = 6 - 5 = 1$. $A^{-1} = \bigl(\begin{smallmatrix} 3 & -5 \\ -1 & 2 \end{smallmatrix}\bigr)$.
+    \item $\det A = 24 - 14 = 10$. $A^{-1} = \tfrac{1}{10} \bigl(\begin{smallmatrix} 6 & -7 \\ -2 & 4 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 3/5 & -7/10 \\ -1/5 & 2/5 \end{smallmatrix}\bigr)$.
+    \item $\det A = a(a + 1) - 6 = a^{2} + a - 6 = (a - 2)(a + 3)$. Invertible iff $a \neq 2, -3$.
+    \item $x = A^{-1} b = \bigl(\begin{smallmatrix} -2 & 1 \\ 3/2 & -1/2 \end{smallmatrix}\bigr) \bigl(\begin{smallmatrix} 5 \\ 11 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} -10 + 11 \\ 15/2 - 11/2 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 1 \\ 2 \end{smallmatrix}\bigr)$.
+    \item $\det A = 1$. $A_{1} = \bigl(\begin{smallmatrix} 1 & 5 \\ 0 & 3 \end{smallmatrix}\bigr)$, $\det A_{1} = 3$. $A_{2} = \bigl(\begin{smallmatrix} 2 & 1 \\ 1 & 0 \end{smallmatrix}\bigr)$, $\det A_{2} = -1$. So $x_{1} = 3,\, x_{2} = -1$.
+    \item $A = \bigl(\begin{smallmatrix} 2 & 3 \\ 1 & -1 \end{smallmatrix}\bigr)$, $\det A = -2 - 3 = -5$. $A_{x} = \bigl(\begin{smallmatrix} 7 & 3 \\ 1 & -1 \end{smallmatrix}\bigr)$, $\det = -7 - 3 = -10$. $A_{y} = \bigl(\begin{smallmatrix} 2 & 7 \\ 1 & 1 \end{smallmatrix}\bigr)$, $\det = 2 - 7 = -5$. So $x = -10/-5 = 2$, $y = -5/-5 = 1$.
+    \item $D^{-1} = \mathrm{diag}(1/2, -1/3, 1/5)$.
+    \item Row-reduce $[A \mid I]$. $R_{2} \to R_{2} - 2 R_{1}$, $R_{3} \to R_{3} - 3 R_{1}$ gives $\bigl(\begin{smallmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 4 & 1 \end{smallmatrix}\big| \begin{smallmatrix} 1 & 0 & 0 \\ -2 & 1 & 0 \\ -3 & 0 & 1 \end{smallmatrix}\bigr)$. Then $R_{3} \to R_{3} - 4 R_{2}$:
+    \[
+    A^{-1} = \begin{pmatrix} 1 & 0 & 0 \\ -2 & 1 & 0 \\ 5 & -4 & 1 \end{pmatrix}.
+    \]
+    Check: $A A^{-1}$: row 3 of $A$ is $(3, 4, 1)$; dotted with cols of $A^{-1}$ gives $(3 - 8 + 5,\, 0 + 4 - 4,\, 0 + 0 + 1) = (0, 0, 1)$. Good.
+    \item Use the unit upper-triangular structure. The inverse is unit upper-triangular. Row-reduce $[A \mid I]$: clear column 3 first using $R_{1} \to R_{1} - 3 R_{3}$, $R_{2} \to R_{2} - 4 R_{3}$:
+    \[
+    \begin{pmatrix} 1 & 2 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{pmatrix} \Big| \begin{pmatrix} 1 & 0 & -3 \\ 0 & 1 & -4 \\ 0 & 0 & 1 \end{pmatrix}.
+    \]
+    Now $R_{1} \to R_{1} - 2 R_{2}$:
+    \[
+    A^{-1} = \begin{pmatrix} 1 & -2 & 5 \\ 0 & 1 & -4 \\ 0 & 0 & 1 \end{pmatrix}.
+    \]
+    Check the $(1, 3)$ entry of $A A^{-1}$: $1 \cdot 5 + 2 \cdot (-4) + 3 \cdot 1 = 5 - 8 + 3 = 0$. Good.
+    \item Block-by-block: the upper-left $2 \times 2$ block $\bigl(\begin{smallmatrix} 1 & 2 \\ 0 & 1 \end{smallmatrix}\bigr)$ has inverse $\bigl(\begin{smallmatrix} 1 & -2 \\ 0 & 1 \end{smallmatrix}\bigr)$, and the $(3,3)$ block is $1/2$.
+    \[
+    A^{-1} = \begin{pmatrix} 1 & -2 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1/2 \end{pmatrix}.
+    \]
+    \item Row-reduce $[A \mid I]$: $R_{1} \to R_{1} - R_{2}$, $R_{2} \to R_{2} - R_{3}$:
+    \[
+    A^{-1} = \begin{pmatrix} 1 & -1 & 0 \\ 0 & 1 & -1 \\ 0 & 0 & 1 \end{pmatrix}.
+    \]
+    Verify $A A^{-1}$ has the right diagonal of $1$'s and zeros off-diagonal.
+    \item Back-substitute: $x_{3} = 3$; $x_{2} + x_{3} = 5 \Rightarrow x_{2} = 2$; $x_{1} + x_{2} + x_{3} = 6 \Rightarrow x_{1} = 1$.
+    \item Augmented matrix: $\bigl(\begin{smallmatrix} 2 & 1 & 0 & 3 \\ 1 & 3 & 1 & 5 \\ 0 & 1 & 2 & 3 \end{smallmatrix}\bigr)$. $R_{2} \to R_{2} - \tfrac{1}{2} R_{1}$: $(0, 5/2, 1, 7/2)$. $R_{3}$ unchanged. Then $R_{3} \to R_{3} - \tfrac{2}{5} R_{2}$: $(0, 0, 2 - 2/5, 3 - 7/5) = (0, 0, 8/5, 8/5)$. So $x_{3} = 1$. Back-sub: $\tfrac{5}{2} x_{2} + 1 = 7/2 \Rightarrow x_{2} = 1$. $2 x_{1} + 1 = 3 \Rightarrow x_{1} = 1$. So $x = (1, 1, 1)^{T}$.
+    \item Direct: $A B = \bigl(\begin{smallmatrix} 2 & 10 \\ 6 & 20 \end{smallmatrix}\bigr)$, $\det = 40 - 60 = -20$, so $(A B)^{-1} = -\tfrac{1}{20}\bigl(\begin{smallmatrix} 20 & -10 \\ -6 & 2 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} -1 & 1/2 \\ 3/10 & -1/10 \end{smallmatrix}\bigr)$.
+    Via $B^{-1} A^{-1}$: $B^{-1} = \mathrm{diag}(1/2, 1/5)$, $A^{-1} = \bigl(\begin{smallmatrix} -2 & 1 \\ 3/2 & -1/2 \end{smallmatrix}\bigr)$.
+    \[
+    B^{-1} A^{-1} = \begin{pmatrix} 1/2 & 0 \\ 0 & 1/5 \end{pmatrix} \begin{pmatrix} -2 & 1 \\ 3/2 & -1/2 \end{pmatrix} = \begin{pmatrix} -1 & 1/2 \\ 3/10 & -1/10 \end{pmatrix}.
+    \]
+    Match.
+    \item $\det(A^{-1}) = 1/2$. $\det(2 A^{-1}) = 2^{3} \cdot \det(A^{-1}) = 8 \cdot \tfrac{1}{2} = 4$.
+    \item From $A A^{-1} = I$, transpose: $(A^{-1})^{T} A^{T} = I$. If $A^{T} = A$, this gives $(A^{-1})^{T} A = I$, so $(A^{-1})^{T} = A^{-1}$, i.e.\ $A^{-1}$ is symmetric.
+    \item $A A^{-1} = \bigl(\begin{smallmatrix} 1 & 2 \\ 3 & 4 \end{smallmatrix}\bigr) \bigl(\begin{smallmatrix} -2 & 1 \\ 3/2 & -1/2 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} -2 + 3 & 1 - 1 \\ -6 + 6 & 3 - 2 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 1 & 0 \\ 0 & 1 \end{smallmatrix}\bigr)$.
+    \item $\det A = 7 - 6 = 1$, $A^{-1} = \bigl(\begin{smallmatrix} 7 & -2 \\ -3 & 1 \end{smallmatrix}\bigr)$. $x = A^{-1} b = \bigl(\begin{smallmatrix} 28 - 18 \\ -12 + 9 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 10 \\ -3 \end{smallmatrix}\bigr)$.
+    \item $\det(A - \lambda I) = (2 - \lambda)(3 - \lambda) - 0 = 0 \Rightarrow \lambda = 2$ or $\lambda = 3$.
+    \item $\det R(\theta) = \cos^{2}\theta + \sin^{2}\theta = 1$, so $R^{-1} = \bigl(\begin{smallmatrix} \cos \theta & \sin \theta \\ -\sin \theta & \cos \theta \end{smallmatrix}\bigr) = R(-\theta)$.
+    \item $X = B A^{-1}$. From problem 1, $A^{-1} = \bigl(\begin{smallmatrix} -2 & 1 \\ 3/2 & -1/2 \end{smallmatrix}\bigr)$. So
+    \[
+    X = \begin{pmatrix} 2 & 0 \\ -1 & 1 \end{pmatrix} \begin{pmatrix} -2 & 1 \\ 3/2 & -1/2 \end{pmatrix} = \begin{pmatrix} -4 & 2 \\ 2 + 3/2 & -1 - 1/2 \end{pmatrix} = \begin{pmatrix} -4 & 2 \\ 7/2 & -3/2 \end{pmatrix}.
+    \]
+    \item $\det A$ along row 2: $1 \cdot \det\bigl(\begin{smallmatrix} 2 & 1 \\ 1 & 1 \end{smallmatrix}\bigr) = 1$. Row-reduce $[A \mid I]$. Swap to expose the structure, or compute cofactors directly. By the adjugate, cofactor matrix is
+    \[
+    C = \begin{pmatrix} 1 & 0 & -1 \\ 0 & 1 & 0 \\ -1 & 0 & 2 \end{pmatrix},
+    \]
+    so $A^{-1} = \mathrm{adj}(A) = C^{T} = \begin{pmatrix} 1 & 0 & -1 \\ 0 & 1 & 0 \\ -1 & 0 & 2 \end{pmatrix}$ (symmetric since $A$ is). Verify: $A A^{-1}$ row 1: $(2 \cdot 1 + 0 + 1 \cdot (-1),\, 0,\, 2 \cdot (-1) + 0 + 1 \cdot 2) = (1, 0, 0)$. Good.
+    \item $x = A^{-1} b = \begin{pmatrix} 1 & 0 & -1 \\ 0 & 1 & 0 \\ -1 & 0 & 2 \end{pmatrix} \begin{pmatrix} 3 \\ 2 \\ 2 \end{pmatrix} = \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix}$.
+    \item True. Two equal columns imply linear dependence of columns, so $\det A = 0$ (or equivalently rank $< 3$), so $A$ is not invertible.
 \end{solutions}
 
 \section{Additional Problems}
 
 \begin{problems}
-    \item Are $v_{1} = (2, 4)^{T}$, $v_{2} = (3, 6)^{T}$ linearly independent?
-    \item Are $v_{1} = (1, 1, 0)^{T}$, $v_{2} = (0, 1, 1)^{T}$, $v_{3} = (1, 0, -1)^{T}$ linearly independent?
-    \item Are $v_{1} = (1, 2, 0)^{T}$, $v_{2} = (0, 1, 3)^{T}$, $v_{3} = (1, 1, 2)^{T}$ linearly independent?
-    \item Find $\mathrm{rk}(A)$ for $A = \bigl(\begin{smallmatrix} 4 & -2 \\ -2 & 1 \end{smallmatrix}\bigr)$.
-    \item Find $\mathrm{rk}(A)$ for $A = \bigl(\begin{smallmatrix} 1 & 3 \\ 2 & 5 \end{smallmatrix}\bigr)$.
-    \item Find $\mathrm{rk}(A)$ for $A = \begin{pmatrix} 1 & 2 & 3 \\ 2 & 4 & 6 \\ 3 & 6 & 9 \end{pmatrix}$.
-    \item Find $\mathrm{rk}(A)$ for $A = \begin{pmatrix} 1 & 0 & 1 \\ 0 & 1 & 2 \\ 1 & 1 & 4 \end{pmatrix}$.
-    \item Find $\mathrm{rk}(A)$ for $A = \begin{pmatrix} 2 & 1 & 0 \\ 4 & 2 & 1 \\ 0 & 0 & 1 \end{pmatrix}$.
-    \item Find $\mathrm{rk}(A)$ for $A = \begin{pmatrix} 1 & 2 & 1 & 0 \\ 2 & 4 & 0 & 1 \\ 0 & 0 & 2 & -1 \end{pmatrix}$.
-    \item For $A = \bigl(\begin{smallmatrix} 1 & -1 & 2 \\ 2 & -2 & 4 \end{smallmatrix}\bigr)$, find $\mathrm{rk}(A)$, $\mathrm{null}(A)$, and a basis of $\ker A$.
-    \item For $A = \begin{pmatrix} 1 & 2 & 3 \\ 0 & 1 & 2 \end{pmatrix}$, find $\mathrm{rk}(A)$, $\mathrm{null}(A)$, and a basis of $\ker A$.
-    \item For which $a$ does $\,x + y + z = 1, \, x + 2 y + a z = 2,\, 2 x + 3 y + (a + 1) z = 3\,$ have a unique solution?
-    \item Use Rouché-Capelli on $\,x + 2 y - z = 1,\, 2 x + 3 y + z = 3,\, x + y + 2 z = 2$. Consistency? Number of solutions?
-    \item Use Rouché-Capelli on $\,x + 2 y - z = 1,\, 2 x + 4 y - 2 z = 3$. Consistency?
-    \item Find a basis for the column space of $A = \begin{pmatrix} 1 & 1 & 2 \\ 1 & 2 & 3 \\ 2 & 1 & 3 \end{pmatrix}$.
-    \item Determine whether $b = (3, 5, 8)^{T}$ is in $\mathrm{col}(A)$ for $A = \begin{pmatrix} 1 & 1 \\ 2 & 1 \\ 3 & 2 \end{pmatrix}$.
-    \item Let $A \in \R^{5 \times 3}$ have rank $3$. Find $\mathrm{null}(A)$. Is $A x = b$ always solvable? When uniquely?
-    \item Let $A \in \R^{3 \times 4}$ have rank $3$. Find $\mathrm{null}(A)$. Is $A x = b$ always solvable? Uniquely?
-    \item For $A = \begin{pmatrix} 1 & a & a^{2} \\ 1 & 1 & 1 \\ 1 & 2 & 4 \end{pmatrix}$, find all $a$ for which $\mathrm{rk}(A) < 3$.
-    \item Are the columns of $\begin{pmatrix} 1 & 2 & 1 \\ 0 & 1 & -1 \\ 1 & 3 & 0 \end{pmatrix}$ linearly independent?
-    \item Find a basis of $\ker A$ for $A = \begin{pmatrix} 1 & 2 & 3 \\ 1 & 2 & 3 \\ 1 & 2 & 3 \end{pmatrix}$.
-    \item Find $\mathrm{rk}\begin{pmatrix} 1 & 2 & 1 & 4 \\ 2 & 4 & 3 & 9 \\ 0 & 0 & 1 & 1 \end{pmatrix}$.
-    \item Show: if $A \in \R^{m \times n}$ with $m < n$, then $\ker A \neq \{0\}$.
-    \item Find a basis of $\ker A$ for $A = \begin{pmatrix} 1 & 0 & 1 \\ 0 & 1 & 1 \end{pmatrix}$.
-    \item For which $\alpha$ are $v_{1} = (1, \alpha)^{T}$, $v_{2} = (\alpha, 4)^{T}$ linearly dependent?
-    \item Do $v_{1} = (1, 2)^{T}$, $v_{2} = (2, 3)^{T}$ form a basis of $\R^{2}$? Do $w_{1} = (1, 0, 1)^{T}$, $w_{2} = (0, 1, 1)^{T}$, $w_{3} = (1, 1, 2)^{T}$ form a basis of $\R^{3}$?
-    \item Find $\dim \mathrm{span}(v_{1}, v_{2}, v_{3})$ for $v_{1} = (1, 2, 1)^{T}$, $v_{2} = (2, 4, 3)^{T}$, $v_{3} = (3, 6, 4)^{T}$.
-    \item The vectors $v_{1} = (1, 0, 1)^{T}$, $v_{2} = (2, 1, 3)^{T}$, $v_{3} = (0, 1, 1)^{T}$, $v_{4} = (1, 1, 1)^{T}$ span $\R^{3}$. Reduce this spanning set to a basis.
-    \item A linear map $f \colon \R^{3} \to \R^{2}$ satisfies $f(e_{1}) = (1, 2)^{T}$, $f(e_{2}) = (0, 1)^{T}$, $f(e_{3}) = (3, -1)^{T}$. Write down the matrix $A$ with $f(x) = A x$.
-    \item Verify linearity or exhibit its failure: $f(x, y) = (2 x - y, \, x + 3 y)$ and $g(x, y) = (x + 1, \, y)$.
-    \item Let $f$ be the counterclockwise rotation by $90^{\circ}$ in $\R^{2}$ and $g$ the projection onto the $x$-axis. Find the matrix of $g \circ f$ and check the result on $x = (1, 2)^{T}$.
+    \item Invert $A = \bigl(\begin{smallmatrix} 3 & 1 \\ 5 & 2 \end{smallmatrix}\bigr)$.
+    \item Invert $A = \bigl(\begin{smallmatrix} 4 & 3 \\ 1 & 1 \end{smallmatrix}\bigr)$.
+    \item Invert $A = \bigl(\begin{smallmatrix} 2 & -3 \\ 1 & 4 \end{smallmatrix}\bigr)$.
+    \item For which $a$ is $A = \bigl(\begin{smallmatrix} a+1 & 4 \\ 2 & a \end{smallmatrix}\bigr)$ invertible?
+    \item Solve $\bigl(\begin{smallmatrix} 3 & 1 \\ 5 & 2 \end{smallmatrix}\bigr) x = \bigl(\begin{smallmatrix} 4 \\ 7 \end{smallmatrix}\bigr)$ using $A^{-1}$ from problem 1.
+    \item Solve $\bigl(\begin{smallmatrix} 4 & 3 \\ 1 & 1 \end{smallmatrix}\bigr) x = \bigl(\begin{smallmatrix} 7 \\ 2 \end{smallmatrix}\bigr)$ by Cramer's rule.
+    \item Solve the system $\,3x - y = 5,\, 2x + y = 5\,$ using Cramer.
+    \item Invert the diagonal matrix $D = \mathrm{diag}(4, 2, -5)$.
+    \item Invert $A = \begin{pmatrix} 1 & 0 & 0 \\ -1 & 1 & 0 \\ 2 & -3 & 1 \end{pmatrix}$.
+    \item Invert $A = \begin{pmatrix} 1 & 2 & -1 \\ 0 & 1 & 3 \\ 0 & 0 & 1 \end{pmatrix}$.
+    \item Invert $A = \begin{pmatrix} 2 & 0 & 0 \\ 0 & 1 & 3 \\ 0 & 0 & 1 \end{pmatrix}$.
+    \item Solve $\begin{pmatrix} 1 & 2 & -1 \\ 0 & 1 & 3 \\ 0 & 0 & 1 \end{pmatrix} x = \begin{pmatrix} 1 \\ 4 \\ 2 \end{pmatrix}$ by back-substitution.
+    \item Solve $\begin{pmatrix} 1 & 1 & 1 \\ 0 & 2 & 3 \\ 0 & 0 & 4 \end{pmatrix} x = \begin{pmatrix} 6 \\ 11 \\ 12 \end{pmatrix}$ by back-substitution.
+    \item Solve $\begin{pmatrix} 1 & 2 & 1 \\ 2 & 5 & 0 \\ 3 & 5 & 8 \end{pmatrix} x = \begin{pmatrix} 4 \\ 5 \\ 14 \end{pmatrix}$ by Gauss elimination.
+    \item For $A = \bigl(\begin{smallmatrix} 2 & 1 \\ 1 & 1 \end{smallmatrix}\bigr)$ and $B = \bigl(\begin{smallmatrix} 3 & 0 \\ 0 & 2 \end{smallmatrix}\bigr)$, compute $(A B)^{-1}$ as $B^{-1} A^{-1}$.
+    \item For $A \in \R^{4 \times 4}$ with $\det A = 3$, compute $\det(2 A^{-1})$.
+    \item For $A$ in problem 3, verify directly that $A A^{-1} = I_{2}$.
+    \item Solve $A x = b$ with $A = \bigl(\begin{smallmatrix} 5 & 2 \\ 3 & 1 \end{smallmatrix}\bigr)$, $b = \bigl(\begin{smallmatrix} 1 \\ 0 \end{smallmatrix}\bigr)$.
+    \item For which $\lambda$ is $A - \lambda I_{2}$ not invertible, where $A = \bigl(\begin{smallmatrix} 4 & 2 \\ 0 & 1 \end{smallmatrix}\bigr)$?
+    \item For an orthogonal matrix $Q$ (i.e.\ $Q^{T} Q = I$), what is $Q^{-1}$?
+    \item Find $X$ from $A X = B$ with $A = \bigl(\begin{smallmatrix} 2 & 1 \\ 1 & 1 \end{smallmatrix}\bigr)$ and $B = \bigl(\begin{smallmatrix} 3 & 0 \\ 1 & -1 \end{smallmatrix}\bigr)$.
+    \item Compute $A^{-1}$ for $A = \begin{pmatrix} 1 & 1 & 0 \\ 0 & 1 & 1 \\ 1 & 0 & 1 \end{pmatrix}$.
+    \item Solve $\begin{pmatrix} 1 & 1 & 0 \\ 0 & 1 & 1 \\ 1 & 0 & 1 \end{pmatrix} x = \begin{pmatrix} 2 \\ 3 \\ 1 \end{pmatrix}$.
+    \item For $A \in \R^{2 \times 2}$ with $A^{2} = I$, show $A^{-1} = A$.
+    \item Invert $A = \bigl(\begin{smallmatrix} 1 & 2 \\ 0 & 3 \end{smallmatrix}\bigr)$ and verify the rule $(\lambda A)^{-1} = \lambda^{-1} A^{-1}$ with $\lambda = 2$.
 \end{problems}
 
 \section{Additional Solutions}
 
 \begin{solutions}
-    \item Both proportional to $(1, 2)^{T}$: dependent ($v_{1}/2 = (1, 2)^{T}, v_{2}/3 = (1, 2)^{T}$, so $3 v_{1} - 2 v_{2} = 0$).
-
-    \item $\det\begin{pmatrix} 1 & 0 & 1 \\ 1 & 1 & 0 \\ 0 & 1 & -1 \end{pmatrix} = 1(-1 - 0) - 0 + 1(1 - 0) = -1 + 1 = 0$. Dependent. Indeed $v_{1} - v_{2} - v_{3} = (1, 1, 0) - (0, 1, 1) - (1, 0, -1) = (0, 0, 0)$.
-
-    \item $\det\begin{pmatrix} 1 & 0 & 1 \\ 2 & 1 & 1 \\ 0 & 3 & 2 \end{pmatrix} = 1(2 - 3) - 0 + 1(6 - 0) = -1 + 6 = 5 \neq 0$. Independent.
-
-    \item Rows proportional ($R_{2} = -\tfrac{1}{2} R_{1}$): $\mathrm{rk} = 1$.
-
-    \item $\det = 5 - 6 = -1 \neq 0$: $\mathrm{rk} = 2$.
-
-    \item All rows proportional: $\mathrm{rk} = 1$.
-
-    \item $R_{3} \to R_{3} - R_{1} - R_{2}$: $(0, 0, 1)$. So rows reduce to $\bigl(\begin{smallmatrix} 1 & 0 & 1 \\ 0 & 1 & 2 \\ 0 & 0 & 1 \end{smallmatrix}\bigr)$. $\mathrm{rk} = 3$.
-
-    \item $R_{2} \to R_{2} - 2 R_{1}$: $(0, 0, 1)$. Now rows: $(2, 1, 0), (0, 0, 1), (0, 0, 1)$. $R_{3} \to R_{3} - R_{2}$: $(0, 0, 0)$. $\mathrm{rk} = 2$.
-
-    \item $R_{2} \to R_{2} - 2 R_{1}$: $(0, 0, -2, 1)$. Rows: $(1, 2, 1, 0), (0, 0, -2, 1), (0, 0, 2, -1)$. $R_{3} \to R_{3} + R_{2}$: $(0, 0, 0, 0)$. Two pivots: $\mathrm{rk} = 2$.
-
-    \item $R_{2} \to R_{2} - 2 R_{1}$: $(0, 0, 0)$. $\mathrm{rk} = 1$. $\mathrm{null} = 3 - 1 = 2$. Kernel: $x - y + 2 z = 0 \Rightarrow x = y - 2 z$. Set $y = s, z = t$: $(s - 2 t, s, t)^{T}$. Basis: $(1, 1, 0)^{T}, (-2, 0, 1)^{T}$.
-
-    \item Already echelon, two pivots: $\mathrm{rk} = 2$, $\mathrm{null} = 3 - 2 = 1$. Kernel: $y + 2 z = 0 \Rightarrow y = -2 z$ and $x + 2 y + 3 z = 0 \Rightarrow x = -2(-2 z) - 3 z = z$. Basis: $(1, -2, 1)^{T}$.
-
-    \item Augmented coefficient matrix. Row-reduce $\bigl(\begin{smallmatrix} 1 & 1 & 1 \\ 1 & 2 & a \\ 2 & 3 & a + 1 \end{smallmatrix}\bigr)$. $R_{2} \to R_{2} - R_{1}$: $(0, 1, a - 1)$. $R_{3} \to R_{3} - 2 R_{1}$: $(0, 1, a - 1)$. $R_{3} \to R_{3} - R_{2}$: $(0, 0, 0)$. Rank $= 2 < 3$ regardless of $a$. So no value of $a$ gives a unique solution; the system is either inconsistent or has a $1$-parameter family of solutions.
-
-    \item Augmented: $R_{2} \to R_{2} - 2 R_{1}$: $(0, -1, 3 \mid 1)$. $R_{3} \to R_{3} - R_{1}$: $(0, -1, 3 \mid 1)$. $R_{3} \to R_{3} - R_{2}$: $(0, 0, 0 \mid 0)$. So $\mathrm{rk}(A) = \mathrm{rk}([A \mid b]) = 2 < 3$. Consistent with $1$-parameter family. Free $z = t$: from row 2, $-y + 3 t = 1 \Rightarrow y = 3 t - 1$. From row 1, $x + 2(3 t - 1) - t = 1 \Rightarrow x = 1 + 2 - 6 t + t = 3 - 5 t$. Solutions: $(3, -1, 0)^{T} + t(-5, 3, 1)^{T}$.
-
-    \item $R_{2} \to R_{2} - 2 R_{1}$: $(0, 0, 0 \mid 1)$. Inconsistent: $\mathrm{rk}(A) = 1 < 2 = \mathrm{rk}([A \mid b])$.
-
-    \item $R_{2} \to R_{2} - R_{1}$: $(0, 1, 1)$. $R_{3} \to R_{3} - 2 R_{1}$: $(0, -1, -1)$. $R_{3} \to R_{3} + R_{2}$: $(0, 0, 0)$. Pivots in cols 1 and 2. Basis: cols 1 and 2 of $A$: $(1, 1, 2)^{T}, (1, 2, 1)^{T}$.
-
-    \item Need $c_{1}(1, 2, 3)^{T} + c_{2}(1, 1, 2)^{T} = (3, 5, 8)^{T}$. From row 1: $c_{1} + c_{2} = 3$. From row 2: $2 c_{1} + c_{2} = 5 \Rightarrow c_{1} = 2, c_{2} = 1$. Check row 3: $3 \cdot 2 + 2 \cdot 1 = 8$. Yes, $b \in \mathrm{col}(A)$.
-
-    \item $\mathrm{null}(A) = 3 - 3 = 0$. Not surjective onto $\R^{5}$ (rank $3 < 5$), so $A x = b$ is solvable only for $b$ in a $3$-dim subspace; when solvable, unique (since null is $0$).
-
-    \item $\mathrm{null}(A) = 4 - 3 = 1$. $\mathrm{rk}(A) = 3 = $ rows, so $A$ is surjective: $A x = b$ has solutions for every $b \in \R^{3}$. Not unique: $1$-parameter family.
-
-    \item Subtract row 2 from row 1: $(0, a - 1, a^{2} - 1)$. Subtract row 2 from row 3: $(0, 1, 3)$. So get $\begin{pmatrix} 1 & 1 & 1 \\ 0 & a - 1 & a^{2} - 1 \\ 0 & 1 & 3 \end{pmatrix}$. $\det = 1 \cdot ((a-1) \cdot 3 - (a^{2} - 1) \cdot 1) = 3(a - 1) - (a - 1)(a + 1) = (a - 1)(3 - a - 1) = (a - 1)(2 - a)$. So $\mathrm{rk}(A) < 3 \Leftrightarrow a = 1$ or $a = 2$.
-
-    \item $\det \begin{pmatrix} 1 & 2 & 1 \\ 0 & 1 & -1 \\ 1 & 3 & 0 \end{pmatrix}$. Expand along col 1: $1 \cdot (0 - (-3)) - 0 + 1 \cdot (-2 - 1) = 3 - 3 = 0$. So columns are dependent. Explicit relation: $3 \mathrm{col}_{1} - \mathrm{col}_{2} - \mathrm{col}_{3} = (3 - 2 - 1, 0 - 1 - (-1), 3 - 3 - 0)^{T} = (0, 0, 0)^{T}$.
-
-    \item All three rows equal, $\mathrm{rk} = 1$, $\mathrm{null} = 2$. Kernel: $x + 2 y + 3 z = 0$. Basis: $(-2, 1, 0)^{T}, (-3, 0, 1)^{T}$.
-
-    \item $R_{2} \to R_{2} - 2 R_{1}$: $(0, 0, 1, 1)$. Rows: $(1, 2, 1, 4), (0, 0, 1, 1), (0, 0, 1, 1)$. $R_{3} \to R_{3} - R_{2}$: $(0, 0, 0, 0)$. $\mathrm{rk} = 2$.
-
-    \item $A$ has $n > m$ columns, so the columns lie in $\R^{m}$ and cannot all be linearly independent (at most $m$ can be). Hence $A x = 0$ has nontrivial solutions, i.e.\ $\ker A \neq \{0\}$. Equivalently $\mathrm{null}(A) = n - \mathrm{rk}(A) \ge n - m > 0$.
-
-    \item Already echelon. $\mathrm{rk} = 2$, $\mathrm{null} = 1$. Kernel: $x + z = 0, y + z = 0 \Rightarrow x = -z, y = -z$. Basis: $(-1, -1, 1)^{T}$.
-
-    \item Dependent iff $\det\bigl(\begin{smallmatrix} 1 & \alpha \\ \alpha & 4 \end{smallmatrix}\bigr) = 4 - \alpha^{2} = 0 \Leftrightarrow \alpha = \pm 2$.
-
-    \item In $\R^{2}$: the matrix with columns $v_{1}, v_{2}$ has $\det\bigl(\begin{smallmatrix} 1 & 2 \\ 2 & 3 \end{smallmatrix}\bigr) = 3 - 4 = -1 \neq 0$, so $v_{1}, v_{2}$ are independent, and two independent vectors in $\R^{2}$ form a basis. Yes. In $\R^{3}$: $\det\begin{pmatrix} 1 & 0 & 1 \\ 0 & 1 & 1 \\ 1 & 1 & 2 \end{pmatrix} = 1(2 - 1) - 0 + 1(0 - 1) = 1 - 1 = 0$, so $w_{1}, w_{2}, w_{3}$ are dependent (indeed $w_{3} = w_{1} + w_{2}$): no basis.
-
-    \item Put the vectors as columns: $A = \begin{pmatrix} 1 & 2 & 3 \\ 2 & 4 & 6 \\ 1 & 3 & 4 \end{pmatrix}$. $R_{2} \to R_{2} - 2 R_{1}$: $(0, 0, 0)$. $R_{3} \to R_{3} - R_{1}$: $(0, 1, 1)$. Two nonzero rows: $\mathrm{rk}(A) = 2$, so $\dim \mathrm{span}(v_{1}, v_{2}, v_{3}) = 2$. Indeed $v_{3} = v_{1} + v_{2}$.
-
-    \item Columns: $A = \begin{pmatrix} 1 & 2 & 0 & 1 \\ 0 & 1 & 1 & 1 \\ 1 & 3 & 1 & 1 \end{pmatrix}$. $R_{3} \to R_{3} - R_{1}$: $(0, 1, 1, 0)$. $R_{3} \to R_{3} - R_{2}$: $(0, 0, 0, -1)$. Pivots in columns $1, 2, 4$, so $\{v_{1}, v_{2}, v_{4}\}$ is a basis of the span (which is all of $\R^{3}$, since $\mathrm{rk} = 3$). The discarded vector is redundant: $v_{3} = -2 v_{1} + v_{2}$.
-
-    \item The columns of $A$ are the images of the standard basis vectors:
+    \item $\det A = 6 - 5 = 1$. $A^{-1} = \bigl(\begin{smallmatrix} 2 & -1 \\ -5 & 3 \end{smallmatrix}\bigr)$. Check: $A A^{-1} = \bigl(\begin{smallmatrix} 6 - 5 & -3 + 3 \\ 10 - 10 & -5 + 6 \end{smallmatrix}\bigr) = I$. Good.
+    \item $\det A = 4 - 3 = 1$. $A^{-1} = \bigl(\begin{smallmatrix} 1 & -3 \\ -1 & 4 \end{smallmatrix}\bigr)$.
+    \item $\det A = 8 + 3 = 11$. $A^{-1} = \tfrac{1}{11}\bigl(\begin{smallmatrix} 4 & 3 \\ -1 & 2 \end{smallmatrix}\bigr)$.
+    \item $\det A = a(a + 1) - 8 = a^{2} + a - 8$. Roots: $a = \tfrac{-1 \pm \sqrt{33}}{2}$. So $A$ is invertible iff $a \neq \tfrac{-1 \pm \sqrt{33}}{2}$.
+    \item $x = A^{-1} b = \bigl(\begin{smallmatrix} 2 & -1 \\ -5 & 3 \end{smallmatrix}\bigr)\bigl(\begin{smallmatrix} 4 \\ 7 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 8 - 7 \\ -20 + 21 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 1 \\ 1 \end{smallmatrix}\bigr)$.
+    \item $\det A = 1$. $A_{1} = \bigl(\begin{smallmatrix} 7 & 3 \\ 2 & 1 \end{smallmatrix}\bigr)$, $\det = 1$. $A_{2} = \bigl(\begin{smallmatrix} 4 & 7 \\ 1 & 2 \end{smallmatrix}\bigr)$, $\det = 1$. So $x = 1, y = 1$.
+    \item $A = \bigl(\begin{smallmatrix} 3 & -1 \\ 2 & 1 \end{smallmatrix}\bigr)$, $\det = 3 + 2 = 5$. $A_{x} = \bigl(\begin{smallmatrix} 5 & -1 \\ 5 & 1 \end{smallmatrix}\bigr)$, $\det = 5 + 5 = 10$. $A_{y} = \bigl(\begin{smallmatrix} 3 & 5 \\ 2 & 5 \end{smallmatrix}\bigr)$, $\det = 15 - 10 = 5$. $x = 2, y = 1$.
+    \item $D^{-1} = \mathrm{diag}(1/4, 1/2, -1/5)$.
+    \item Lower-triangular with $1$'s on the diagonal; since $a_{21} = -1$, the operation $R_{2} \to R_{2} + R_{1}$ clears it. (Alternatively $A = I + N$ with $N$ strictly lower-triangular and $N^{2}$ nonzero.) Gauss-Jordan on $[A \mid I]$:
     \[
-    A = \begin{pmatrix} 1 & 0 & 3 \\ 2 & 1 & -1 \end{pmatrix}.
+    [A \mid I] = \begin{pmatrix} 1 & 0 & 0 & | & 1 & 0 & 0 \\ -1 & 1 & 0 & | & 0 & 1 & 0 \\ 2 & -3 & 1 & | & 0 & 0 & 1 \end{pmatrix}.
     \]
-    Check: $f((1, 1, 1)^{T}) = f(e_{1}) + f(e_{2}) + f(e_{3}) = (1 + 0 + 3, \, 2 + 1 - 1)^{T} = (4, 2)^{T}$, and indeed $A (1, 1, 1)^{T} = (4, 2)^{T}$.
-
-    \item $f$ is linear: $f(x, y) = A (x, y)^{T}$ with $A = \bigl(\begin{smallmatrix} 2 & -1 \\ 1 & 3 \end{smallmatrix}\bigr)$. Directly: $f\bigl((x_{1}, y_{1}) + (x_{2}, y_{2})\bigr) = \bigl(2(x_{1} + x_{2}) - (y_{1} + y_{2}), \, (x_{1} + x_{2}) + 3(y_{1} + y_{2})\bigr) = f(x_{1}, y_{1}) + f(x_{2}, y_{2})$, and $f(\lambda x, \lambda y) = (2 \lambda x - \lambda y, \, \lambda x + 3 \lambda y) = \lambda f(x, y)$. $g$ is not linear: every linear map sends $0$ to $0$, but $g(0, 0) = (1, 0) \neq (0, 0)$. (Also homogeneity fails: $g(2, 0) = (3, 0) \neq 2\, g(1, 0) = (4, 0)$. $g$ is affine, the identity followed by a shift by $(1, 0)^{T}$.)
-
-    \item Rotation: $A = \bigl(\begin{smallmatrix} 0 & -1 \\ 1 & 0 \end{smallmatrix}\bigr)$; projection: $B = \bigl(\begin{smallmatrix} 1 & 0 \\ 0 & 0 \end{smallmatrix}\bigr)$. Since $g \circ f$ applies $f$ first, its matrix is
+    $R_{2} \to R_{2} + R_{1}$: $(0, 1, 0 \mid 1, 1, 0)$. $R_{3} \to R_{3} - 2 R_{1}$: $(0, -3, 1 \mid -2, 0, 1)$. $R_{3} \to R_{3} + 3 R_{2}$: $(0, 0, 1 \mid 1, 3, 1)$. So
     \[
-    B A = \begin{pmatrix} 1 & 0 \\ 0 & 0 \end{pmatrix}
-          \begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}
-        = \begin{pmatrix} 0 & -1 \\ 0 & 0 \end{pmatrix}.
+    A^{-1} = \begin{pmatrix} 1 & 0 & 0 \\ 1 & 1 & 0 \\ 1 & 3 & 1 \end{pmatrix}.
     \]
-    Check on $x = (1, 2)^{T}$: rotating gives $f(x) = (0 \cdot 1 - 1 \cdot 2, \, 1 \cdot 1 + 0 \cdot 2)^{T} = (-2, 1)^{T}$; projecting keeps the first coordinate, $g(f(x)) = (-2, 0)^{T}$. Directly, $(B A) x = (0 \cdot 1 - 1 \cdot 2, \, 0)^{T} = (-2, 0)^{T}$. Both agree.
+    Verify $A A^{-1}$ row 3: $(2, -3, 1) \cdot $ columns: col 1: $2 + (-3) + 1 = 0$. col 2: $0 + (-3) + 3 = 0$. col 3: $0 + 0 + 1 = 1$. Good.
+    \item Upper-triangular with $1$'s on diagonal. Clear column 3 first using $R_{3}$: $R_{2} \to R_{2} - 3 R_{3}$, $R_{1} \to R_{1} + R_{3}$:
+    \[
+    \begin{pmatrix} 1 & 2 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{pmatrix} \Big| \begin{pmatrix} 1 & 0 & 1 \\ 0 & 1 & -3 \\ 0 & 0 & 1 \end{pmatrix}.
+    \]
+    Then $R_{1} \to R_{1} - 2 R_{2}$:
+    \[
+    A^{-1} = \begin{pmatrix} 1 & -2 & 7 \\ 0 & 1 & -3 \\ 0 & 0 & 1 \end{pmatrix}.
+    \]
+    Verify $(1, 3)$ entry of $A A^{-1}$: $1 \cdot 7 + 2 \cdot (-3) + (-1) \cdot 1 = 7 - 6 - 1 = 0$. Good.
+    \item Block diagonal: $A^{-1} = \begin{pmatrix} 1/2 & 0 & 0 \\ 0 & 1 & -3 \\ 0 & 0 & 1 \end{pmatrix}$. (The $2 \times 2$ block $\bigl(\begin{smallmatrix} 1 & 3 \\ 0 & 1 \end{smallmatrix}\bigr)$ has inverse $\bigl(\begin{smallmatrix} 1 & -3 \\ 0 & 1 \end{smallmatrix}\bigr)$.)
+    \item $x_{3} = 2$; $x_{2} + 3 \cdot 2 = 4 \Rightarrow x_{2} = -2$; $x_{1} + 2(-2) - 2 = 1 \Rightarrow x_{1} = 7$. So $x = (7, -2, 2)^{T}$.
+    \item $4 x_{3} = 12 \Rightarrow x_{3} = 3$; $2 x_{2} + 3 \cdot 3 = 11 \Rightarrow x_{2} = 1$; $x_{1} + 1 + 3 = 6 \Rightarrow x_{1} = 2$. So $x = (2, 1, 3)^{T}$.
+    \item Augmented matrix. $R_{2} \to R_{2} - 2 R_{1}$: $(0, 1, -2, -3)$. $R_{3} \to R_{3} - 3 R_{1}$: $(0, -1, 5, 2)$. $R_{3} \to R_{3} + R_{2}$: $(0, 0, 3, -1)$. So $x_{3} = -1/3$. $x_{2} - 2 \cdot (-1/3) = -3 \Rightarrow x_{2} = -3 - 2/3 = -11/3$. $x_{1} + 2(-11/3) + (-1/3) = 4 \Rightarrow x_{1} = 4 + 22/3 + 1/3 = 4 + 23/3 = 35/3$. So $x = (35/3, -11/3, -1/3)^{T}$. Verify by checking against original equation 2: $2(35/3) + 5(-11/3) + 0 = 70/3 - 55/3 = 15/3 = 5$. Good.
+    \item $A^{-1} = \bigl(\begin{smallmatrix} 1 & -1 \\ -1 & 2 \end{smallmatrix}\bigr)$ (det $= 1$). $B^{-1} = \mathrm{diag}(1/3, 1/2)$. So
+    \[
+    B^{-1} A^{-1} = \begin{pmatrix} 1/3 & 0 \\ 0 & 1/2 \end{pmatrix}\begin{pmatrix} 1 & -1 \\ -1 & 2 \end{pmatrix} = \begin{pmatrix} 1/3 & -1/3 \\ -1/2 & 1 \end{pmatrix}.
+    \]
+    Verify: $A B = \bigl(\begin{smallmatrix} 6 & 2 \\ 3 & 2 \end{smallmatrix}\bigr)$, $\det = 12 - 6 = 6$. $(A B)^{-1} = \tfrac{1}{6}\bigl(\begin{smallmatrix} 2 & -2 \\ -3 & 6 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 1/3 & -1/3 \\ -1/2 & 1 \end{smallmatrix}\bigr)$. Match.
+    \item $\det(A^{-1}) = 1/3$. $\det(2 A^{-1}) = 2^{4} \cdot 1/3 = 16/3$.
+    \item $A A^{-1} = \bigl(\begin{smallmatrix} 2 & -3 \\ 1 & 4 \end{smallmatrix}\bigr) \cdot \tfrac{1}{11}\bigl(\begin{smallmatrix} 4 & 3 \\ -1 & 2 \end{smallmatrix}\bigr) = \tfrac{1}{11}\bigl(\begin{smallmatrix} 8 + 3 & 6 - 6 \\ 4 - 4 & 3 + 8 \end{smallmatrix}\bigr) = \tfrac{1}{11}\bigl(\begin{smallmatrix} 11 & 0 \\ 0 & 11 \end{smallmatrix}\bigr) = I$.
+    \item $\det A = 5 - 6 = -1$, $A^{-1} = -\bigl(\begin{smallmatrix} 1 & -2 \\ -3 & 5 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} -1 & 2 \\ 3 & -5 \end{smallmatrix}\bigr)$. $x = A^{-1} b = \bigl(\begin{smallmatrix} -1 \\ 3 \end{smallmatrix}\bigr)$.
+    \item $\det(A - \lambda I) = (4 - \lambda)(1 - \lambda) = 0 \Rightarrow \lambda = 4, 1$.
+    \item $Q^{T} Q = I$ means $Q^{-1} = Q^{T}$.
+    \item $X = A^{-1} B$. $\det A = 1$, $A^{-1} = \bigl(\begin{smallmatrix} 1 & -1 \\ -1 & 2 \end{smallmatrix}\bigr)$. $X = \bigl(\begin{smallmatrix} 1 & -1 \\ -1 & 2 \end{smallmatrix}\bigr)\bigl(\begin{smallmatrix} 3 & 0 \\ 1 & -1 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 3 - 1 & 0 + 1 \\ -3 + 2 & 0 - 2 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 2 & 1 \\ -1 & -2 \end{smallmatrix}\bigr)$.
+    \item Row-reduce $[A \mid I]$. $R_{3} \to R_{3} - R_{1}$: $(0, -1, 1 \mid -1, 0, 1)$. $R_{3} \to R_{3} + R_{2}$: $(0, 0, 2 \mid -1, 1, 1)$. So $A$ has $\det = 2$. Continue: $R_{3} \to \tfrac{1}{2}R_{3}$: $(0, 0, 1 \mid -1/2, 1/2, 1/2)$. $R_{2} \to R_{2} - R_{3}$: $(0, 1, 0 \mid 1/2, 1/2, -1/2)$. $R_{1} \to R_{1} - R_{2}$: $(1, 0, 0 \mid 1/2, -1/2, 1/2)$. So
+    \[
+    A^{-1} = \tfrac{1}{2}\begin{pmatrix} 1 & -1 & 1 \\ 1 & 1 & -1 \\ -1 & 1 & 1 \end{pmatrix}.
+    \]
+    Verify $A A^{-1}$ row 1: $(1, 1, 0) \cdot $ col 1 $= 1/2 \cdot 1 + 1/2 \cdot 1 + 0 = 1$. Col 2: $-1/2 + 1/2 + 0 = 0$. Col 3: $1/2 - 1/2 + 0 = 0$. Good.
+    \item $x = A^{-1} b = \tfrac{1}{2}\begin{pmatrix} 1 & -1 & 1 \\ 1 & 1 & -1 \\ -1 & 1 & 1 \end{pmatrix}\begin{pmatrix} 2 \\ 3 \\ 1 \end{pmatrix} = \tfrac{1}{2}\begin{pmatrix} 2 - 3 + 1 \\ 2 + 3 - 1 \\ -2 + 3 + 1 \end{pmatrix} = \tfrac{1}{2}\begin{pmatrix} 0 \\ 4 \\ 2 \end{pmatrix} = \begin{pmatrix} 0 \\ 2 \\ 1 \end{pmatrix}$. Verify: $A x = (0 + 2 + 0, 0 + 2 + 1, 0 + 0 + 1)^{T} = (2, 3, 1)^{T}$. Good.
+    \item $A^{2} = I$ means $A \cdot A = I$, so by definition of the inverse $A^{-1} = A$.
+    \item $\det A = 3$. $A^{-1} = \tfrac{1}{3}\bigl(\begin{smallmatrix} 3 & -2 \\ 0 & 1 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 1 & -2/3 \\ 0 & 1/3 \end{smallmatrix}\bigr)$. For $\lambda = 2$: $2 A = \bigl(\begin{smallmatrix} 2 & 4 \\ 0 & 6 \end{smallmatrix}\bigr)$, $\det = 12$, $(2A)^{-1} = \tfrac{1}{12}\bigl(\begin{smallmatrix} 6 & -4 \\ 0 & 2 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 1/2 & -1/3 \\ 0 & 1/6 \end{smallmatrix}\bigr)$. And $\tfrac{1}{2}A^{-1} = \bigl(\begin{smallmatrix} 1/2 & -1/3 \\ 0 & 1/6 \end{smallmatrix}\bigr)$. Match.
 \end{solutions}

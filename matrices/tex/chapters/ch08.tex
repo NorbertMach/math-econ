@@ -1,194 +1,315 @@
-\chapter{Quadratic Forms and Definiteness}
+\chapter{Eigenvalues and Eigenvectors}
 
-A quadratic form is a homogeneous polynomial of degree $2$ in several
-variables. In economics it shows up as the variance of a portfolio,
-$w^{T} \Sigma w$, and as the second-order term in the Taylor expansion of an
-objective function. Whether the quadratic form is positive, negative, or
-mixed in sign decides whether a critical point of a smooth function is a
-(local) minimum, maximum, or saddle.
+An eigenvector of $A \in \R^{n \times n}$ is a direction that the linear map
+$x \mapsto A x$ leaves invariant (up to scaling). The corresponding scale
+factor is the eigenvalue. Eigenvalues encode long-run behaviour of dynamical
+systems, drive the spectral characterisation of definiteness used for
+second-order conditions, and provide the means to compute powers $A^{n}$
+efficiently via diagonalisation.
 
 \section{Core Rules}
 
-\begin{rulebox}{Quadratic form}
-Given a symmetric matrix $A \in \R^{n \times n}$, the associated quadratic
-form is the function
+\begin{rulebox}{Definition}
+A scalar $\lambda \in \R$ (or $\mathbb{C}$) is an \emph{eigenvalue} of
+$A \in \R^{n \times n}$ if there exists a nonzero vector $v$ with
 \[
-Q(x) \;=\; x^{T} A x \;=\; \sum_{i, j} a_{ij} x_{i} x_{j}, \qquad x \in \R^{n}.
+A v \;=\; \lambda v.
 \]
-Without loss of generality one may always take $A$ symmetric: replace any
-$A$ by $\tfrac{1}{2}(A + A^{T})$ without changing $Q$.
+Such a $v$ is an \emph{eigenvector} for $\lambda$.
 \end{rulebox}
 
-\begin{rulebox}{Definiteness}
-Let $A \in \R^{n \times n}$ be symmetric. We say:
-\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
-    \item $A$ is \emph{positive definite} (pd) if $x^{T} A x > 0$ for all $x \neq 0$.
-    \item $A$ is \emph{positive semidefinite} (psd) if $x^{T} A x \ge 0$ for all $x$.
-    \item $A$ is \emph{negative definite} (nd) if $x^{T} A x < 0$ for all $x \neq 0$.
-    \item $A$ is \emph{negative semidefinite} (nsd) if $x^{T} A x \le 0$ for all $x$.
-    \item $A$ is \emph{indefinite} if $x^{T} A x$ takes both positive and negative values.
-\end{itemize}
+\begin{rulebox}{Characteristic polynomial}
+$\lambda$ is an eigenvalue iff $A - \lambda I$ is singular, i.e.\
+\[
+p_{A}(\lambda) \;:=\; \det(A - \lambda I) \;=\; 0.
+\]
+$p_{A}$ is a polynomial of degree $n$ in $\lambda$.
 \end{rulebox}
 
-\begin{rulebox}{Eigenvalue criterion}
-For symmetric $A$:
-\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
-    \item $A$ pd $\Leftrightarrow$ all eigenvalues $> 0$;
-    \item $A$ nd $\Leftrightarrow$ all eigenvalues $< 0$;
-    \item $A$ psd $\Leftrightarrow$ all eigenvalues $\ge 0$;
-    \item $A$ nsd $\Leftrightarrow$ all eigenvalues $\le 0$;
-    \item $A$ indefinite $\Leftrightarrow$ $A$ has both a positive and a negative eigenvalue.
-\end{itemize}
+\begin{rulebox}{Eigenspace}
+For an eigenvalue $\lambda$, the corresponding eigenspace is
+$E_{\lambda} = \ker(A - \lambda I) = \{v : A v = \lambda v\}$.
 \end{rulebox}
 
-\begin{rulebox}{Principal-minor (Sylvester) criterion}
-Let $D_{k}$ denote the determinant of the leading $k \times k$ principal
-submatrix of $A$ (the top-left $k \times k$ block). Then:
-\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
-    \item $A$ pd $\Leftrightarrow$ $D_{1}, D_{2}, \dots, D_{n} > 0$;
-    \item $A$ nd $\Leftrightarrow$ $(-1)^{k} D_{k} > 0$ for $k = 1, \dots, n$
-          (signs alternate: $D_{1} < 0, D_{2} > 0, D_{3} < 0, \dots$).
-\end{itemize}
-For semidefiniteness one must check \emph{all} principal minors, not just
-the leading ones; the simple form above does not extend.
+\begin{rulebox}{Trace and determinant identities}
+For any $A \in \R^{n \times n}$ with eigenvalues
+$\lambda_{1}, \dots, \lambda_{n}$ (with multiplicity):
+\[
+\mathrm{tr}(A) \;=\; \sum_{i} \lambda_{i}, \qquad
+\det(A) \;=\; \prod_{i} \lambda_{i}.
+\]
 \end{rulebox}
 
-\begin{rulebox}{The $2 \times 2$ case}
-For $A = \bigl(\begin{smallmatrix} a & b \\ b & c \end{smallmatrix}\bigr)$:
-\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
-    \item pd $\Leftrightarrow$ $a > 0$ and $a c - b^{2} > 0$;
-    \item nd $\Leftrightarrow$ $a < 0$ and $a c - b^{2} > 0$;
-    \item indefinite $\Leftrightarrow$ $a c - b^{2} < 0$.
-\end{itemize}
+\begin{rulebox}{Diagonalisation}
+$A$ is \emph{diagonalisable} if it has $n$ linearly independent eigenvectors
+$v_{1}, \dots, v_{n}$. Put them as columns of $P$ and the eigenvalues on the
+diagonal of $D$; then
+\[
+A \;=\; P D P^{-1}, \qquad A^{k} \;=\; P D^{k} P^{-1}.
+\]
+Sufficient condition: $n$ distinct eigenvalues $\Rightarrow$ diagonalisable.
+A symmetric real matrix is always diagonalisable (and via an orthogonal $P$,
+with real eigenvalues, spectral theorem).
 \end{rulebox}
 
-\begin{rulebox}{Application: Hessian and second-order conditions}
-For $f : \R^{n} \to \R$ of class $C^{2}$ at an interior critical point
-$x^{*}$ (i.e.\ $\grad f(x^{*}) = 0$):
-\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
-    \item Hessian $H_{f}(x^{*})$ pd $\Rightarrow$ strict local minimum.
-    \item Hessian nd $\Rightarrow$ strict local maximum.
-    \item Hessian indefinite $\Rightarrow$ saddle point.
-    \item Otherwise (semidefinite, not definite) the test is inconclusive.
-\end{itemize}
+\begin{rulebox}{Triangular shortcut}
+For triangular $A$, the eigenvalues are exactly the diagonal entries.
 \end{rulebox}
+
+\section{Worked Example}
+
+\begin{worked}{Find the eigenvalues and eigenvectors of $A=\begin{pmatrix}4&1\\2&3\end{pmatrix}$, diagonalise it, and use the diagonalisation to compute $A^{5}$}
+\wstep{Step 1. Set up $\det(A-\lambda I)=0$.}
+\[
+  A-\lambda I=\begin{pmatrix}4-\lambda&1\\2&3-\lambda\end{pmatrix},
+  \qquad
+  \det(A-\lambda I)=(4-\lambda)(3-\lambda)-1\cdot2 .
+\]
+\wtrap{Subtract $\lambda$ from the \emph{diagonal only}. Writing
+$\begin{pmatrix}4-\lambda&1-\lambda\\2-\lambda&3-\lambda\end{pmatrix}$ is a
+surprisingly common slip and produces nonsense.}
+
+\wstep{Step 2. Expand into the characteristic polynomial.}
+\[
+  (4-\lambda)(3-\lambda)-2=\lambda^{2}-7\lambda+12-2=\lambda^{2}-7\lambda+10 .
+\]
+For a $2\times2$ matrix this is always
+\[
+  \lambda^{2}-(\operatorname{tr}A)\lambda+\det A ,
+\]
+and indeed $\operatorname{tr}A=4+3=7$ and $\det A=12-2=10$. Use that as the
+formula and the expansion as the check, or the reverse --- but do both.
+
+\wstep{Step 3. Factor.}
+\[
+  \lambda^{2}-7\lambda+10=(\lambda-5)(\lambda-2)
+  \quad\Longrightarrow\quad
+  \lambda_{1}=5,\ \lambda_{2}=2 .
+\]
+\wstep{Step 4. Check before continuing.}
+\[
+  \lambda_{1}+\lambda_{2}=7=\operatorname{tr}A \checkmark,
+  \qquad
+  \lambda_{1}\lambda_{2}=10=\det A \checkmark .
+\]
+These two identities hold for every square matrix (sum of eigenvalues is the
+trace, product is the determinant) and catch nearly every algebraic error in
+one line. Never skip them.
+
+\wstep{Step 5. Eigenvector for $\lambda=5$: solve $(A-5I)\mathbf v=\mathbf 0$.}
+\[
+  A-5I=\begin{pmatrix}-1&1\\2&-2\end{pmatrix}
+  \;\Longrightarrow\;
+  -v_{1}+v_{2}=0
+  \;\Longrightarrow\;
+  \mathbf v_{1}=\begin{pmatrix}1\\1\end{pmatrix}.
+\]
+The second row $2v_{1}-2v_{2}=0$ says the same thing --- it \emph{must},
+because $\det(A-5I)=0$ makes the rows dependent.
+\wtrap{If the two rows of $A-\lambda I$ give you \emph{independent}
+equations, then $\lambda$ is not an eigenvalue and the only solution is
+$\mathbf 0$. A dependent pair of rows is the confirmation that Step~3 was
+right. And $\mathbf 0$ is never an eigenvector, by definition.}
+
+\wstep{Step 6. Eigenvector for $\lambda=2$.}
+\[
+  A-2I=\begin{pmatrix}2&1\\2&1\end{pmatrix}
+  \;\Longrightarrow\;
+  2v_{1}+v_{2}=0
+  \;\Longrightarrow\;
+  \mathbf v_{2}=\begin{pmatrix}1\\-2\end{pmatrix}.
+\]
+Verify directly: $A\mathbf v_{2}=(4-2,\,2-6)^{\!\top}=(2,-4)^{\!\top}
+=2\mathbf v_{2}$. \checkmark
+\wtrap{Eigenvectors are determined only up to a non-zero scalar multiple.
+$(1,-2)$, $(-1,2)$ and $(\tfrac12,-1)$ are all correct answers, and an
+answer key showing a different multiple from yours is not a disagreement.
+What is \emph{not} free is the direction.}
+
+\wstep{Step 7. Assemble the diagonalisation.}
+Eigenvectors as columns of $P$, eigenvalues in the \emph{matching} order on
+the diagonal of $D$:
+\[
+  P=\begin{pmatrix}1&1\\1&-2\end{pmatrix},\qquad
+  D=\begin{pmatrix}5&0\\0&2\end{pmatrix},\qquad
+  A=PDP^{-1}.
+\]
+\[
+  \det P=-3\neq0,\qquad
+  P^{-1}=-\frac13\begin{pmatrix}-2&-1\\-1&1\end{pmatrix}
+        =\frac13\begin{pmatrix}2&1\\1&-1\end{pmatrix}.
+\]
+\wtrap{The order of the columns of $P$ must match the order of the entries
+of $D$. Swap one and you must swap the other; getting this wrong gives a
+$PDP^{-1}$ that is simply not $A$, and it is worth one multiplication to
+confirm.}
+
+\wstep{Step 8. Powers become trivial.}
+$A^{k}=PD^{k}P^{-1}$, because the inner $P^{-1}P$ pairs all cancel. With
+$5^{5}=3125$ and $2^{5}=32$:
+\[
+  A^{5}=P\begin{pmatrix}3125&0\\0&32\end{pmatrix}P^{-1}
+  =\frac13\begin{pmatrix}3125&32\\3125&-64\end{pmatrix}
+   \begin{pmatrix}2&1\\1&-1\end{pmatrix}
+  =\frac13\begin{pmatrix}6282&3093\\6186&3189\end{pmatrix}
+\]
+\[
+  =\begin{pmatrix}2094&1031\\2062&1063\end{pmatrix}.
+\]
+Check with the trace: $\operatorname{tr}A^{5}$ must equal
+$5^{5}+2^{5}=3157$, and $2094+1063=3157$. \checkmark
+
+\wstep{Step 9. What the eigenvalues mean.}
+Along $\mathbf v_{1}=(1,1)$ the map multiplies by $5$; along
+$\mathbf v_{2}=(1,-2)$ by $2$. Iterating, the $5$-direction dominates
+completely, so $A^{k}\mathbf x$ turns towards $(1,1)$ for almost every
+starting $\mathbf x$. That is the whole content of long-run behaviour in a
+dynamic model: the largest eigenvalue sets the growth rate, its eigenvector
+sets the direction, and stability is the question of whether that eigenvalue
+is below $1$ in modulus.
+\end{worked}
 
 \section{Practice Problems}
 
 \begin{problems}
-    \item Classify $A = \bigl(\begin{smallmatrix} 2 & 0 \\ 0 & 3 \end{smallmatrix}\bigr)$.
-    \item Classify $A = \bigl(\begin{smallmatrix} -1 & 0 \\ 0 & -4 \end{smallmatrix}\bigr)$.
-    \item Classify $A = \bigl(\begin{smallmatrix} 1 & 0 \\ 0 & -1 \end{smallmatrix}\bigr)$.
-    \item Classify $A = \bigl(\begin{smallmatrix} 2 & 1 \\ 1 & 2 \end{smallmatrix}\bigr)$.
-    \item Classify $A = \bigl(\begin{smallmatrix} 1 & 2 \\ 2 & 1 \end{smallmatrix}\bigr)$.
-    \item Classify $A = \bigl(\begin{smallmatrix} 4 & 2 \\ 2 & 1 \end{smallmatrix}\bigr)$.
-    \item For which $a$ is $A = \bigl(\begin{smallmatrix} a & 1 \\ 1 & a \end{smallmatrix}\bigr)$ positive definite?
-    \item For which $b$ is $A = \bigl(\begin{smallmatrix} 4 & b \\ b & 9 \end{smallmatrix}\bigr)$ positive definite?
-    \item Write $Q(x, y) = 3 x^{2} + 4 x y + y^{2}$ as $x^{T} A x$ for a symmetric $A$, and classify $A$.
-    \item Write $Q(x, y) = x^{2} - 6 x y + 10 y^{2}$ as $x^{T} A x$ and classify.
-    \item Classify $A = \begin{pmatrix} 2 & 1 & 0 \\ 1 & 2 & 1 \\ 0 & 1 & 2 \end{pmatrix}$ via leading principal minors.
-    \item Classify $A = \begin{pmatrix} -2 & 1 & 0 \\ 1 & -3 & 1 \\ 0 & 1 & -2 \end{pmatrix}$ via leading principal minors.
-    \item Classify $A = \begin{pmatrix} 1 & 1 & 0 \\ 1 & 2 & 1 \\ 0 & 1 & 3 \end{pmatrix}$.
-    \item Classify $A = \begin{pmatrix} 1 & 2 & 0 \\ 2 & 1 & 0 \\ 0 & 0 & 5 \end{pmatrix}$.
-    \item For $f(x, y) = x^{2} + x y + y^{2}$, find the Hessian and classify the critical point at the origin.
-    \item For $f(x, y) = x^{2} - x y + y^{2} - 3 x$, find the critical point and classify it.
-    \item For $f(x, y) = x^{3} - 3 x + y^{2}$, find all critical points and classify them.
-    \item For $f(x, y) = x^{2} + y^{2} - x y - x - y$, find the critical point and classify.
-    \item Show that $A^{T} A$ is psd for any real matrix $A$.
-    \item Show that if $A$ is pd then $A$ is invertible.
-    \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 3 & -1 \\ -1 & 3 \end{smallmatrix}\bigr)$ and classify it.
-    \item A covariance matrix is symmetric and psd. If $\Sigma = \bigl(\begin{smallmatrix} 4 & \rho \\ \rho & 1 \end{smallmatrix}\bigr)$ is a valid covariance matrix, what range of $\rho$ is allowed?
-    \item For the same $\Sigma$ with $\rho = 1$, is $\Sigma$ pd or just psd? Justify.
-    \item Compute $Q(1, 2) = x^{T} A x$ for $A = \bigl(\begin{smallmatrix} 1 & 2 \\ 2 & 3 \end{smallmatrix}\bigr)$.
-    \item For which $\alpha$ is the Hessian of $f(x, y) = \alpha x^{2} - 2 x y + y^{2}$ pd?
+  \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 2 & 0 \\ 0 & 3 \end{smallmatrix}\bigr)$.
+  \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 4 & 1 \\ 0 & 3 \end{smallmatrix}\bigr)$.
+  \item Find the eigenvalues and eigenvectors of $A = \bigl(\begin{smallmatrix} 2 & 1 \\ 1 & 2 \end{smallmatrix}\bigr)$.
+  \item Find the eigenvalues and eigenvectors of $A = \bigl(\begin{smallmatrix} 3 & 1 \\ 0 & 3 \end{smallmatrix}\bigr)$. Is $A$ diagonalisable?
+  \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 0 & 1 \\ 1 & 0 \end{smallmatrix}\bigr)$ and the corresponding eigenvectors.
+  \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 0 & -1 \\ 1 & 0 \end{smallmatrix}\bigr)$ (real rotation). Real eigenvalues?
+  \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 5 & 2 \\ 2 & 5 \end{smallmatrix}\bigr)$ and eigenvectors.
+  \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 1 & 4 \\ 2 & 3 \end{smallmatrix}\bigr)$ and eigenvectors.
+  \item Find the eigenvalues of $A = \begin{pmatrix} 2 & 0 & 0 \\ 1 & 2 & 0 \\ 3 & 1 & 4 \end{pmatrix}$.
+  \item Find the eigenvalues of $A = \begin{pmatrix} 1 & 1 & 0 \\ 0 & 2 & 1 \\ 0 & 0 & 3 \end{pmatrix}$.
+  \item Find the eigenvalues and eigenvectors of $A = \begin{pmatrix} 2 & 0 & 0 \\ 0 & 3 & 4 \\ 0 & 4 & 9 \end{pmatrix}$.
+  \item Verify $\mathrm{tr}(A) = $ sum of eigenvalues and $\det A = $ product, for $A = \bigl(\begin{smallmatrix} 2 & 1 \\ 1 & 2 \end{smallmatrix}\bigr)$.
+  \item Compute $A^{5}$ for $A = \bigl(\begin{smallmatrix} 2 & 0 \\ 0 & 3 \end{smallmatrix}\bigr)$.
+  \item Diagonalise $A = \bigl(\begin{smallmatrix} 2 & 1 \\ 1 & 2 \end{smallmatrix}\bigr)$: find $P, D$ with $A = P D P^{-1}$.
+  \item Using the diagonalisation, compute $A^{4}$ for $A = \bigl(\begin{smallmatrix} 2 & 1 \\ 1 & 2 \end{smallmatrix}\bigr)$.
+  \item Show that if $v$ is an eigenvector of $A$ with eigenvalue $\lambda$, then $v$ is also an eigenvector of $A^{2}$ with eigenvalue $\lambda^{2}$.
+  \item If $A$ is invertible and $\lambda$ is an eigenvalue of $A$, what is the corresponding eigenvalue of $A^{-1}$?
+  \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 6 & -2 \\ 2 & 2 \end{smallmatrix}\bigr)$.
+  \item Find the eigenvalues of $A = \begin{pmatrix} 1 & 0 & 1 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix}$ and an eigenvector for the largest one.
+  \item For $A = \bigl(\begin{smallmatrix} 0.8 & 0.3 \\ 0.2 & 0.7 \end{smallmatrix}\bigr)$ (a stochastic matrix), find the eigenvalues.
+  \item For the same $A$, find the eigenvector for $\lambda = 1$ (the stationary distribution).
+  \item Show that $\lambda = 0$ is an eigenvalue of $A$ iff $A$ is singular.
+  \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 7 & 4 \\ -6 & -3 \end{smallmatrix}\bigr)$.
+  \item Compute the characteristic polynomial of $A = \begin{pmatrix} 1 & 2 & 0 \\ 0 & 3 & 0 \\ 4 & 0 & 5 \end{pmatrix}$ and find its eigenvalues.
+  \item For a $2 \times 2$ symmetric matrix $A$ with $\mathrm{tr}(A) = 5$ and $\det A = 6$, find its eigenvalues without computing $A$ explicitly.
 \end{problems}
 
 \section{Solutions}
 
 \begin{solutions}
-    \item Eigenvalues $2, 3 > 0$: positive definite.
-    \item Eigenvalues $-1, -4 < 0$: negative definite.
-    \item Eigenvalues $1, -1$: indefinite.
-    \item Eigenvalues $1, 3 > 0$: pd. (Or: $D_{1} = 2 > 0$, $D_{2} = 3 > 0$.)
-    \item $D_{1} = 1 > 0$, $D_{2} = 1 - 4 = -3 < 0$: indefinite. (Eigenvalues $-1, 3$.)
-    \item $D_{2} = 4 - 4 = 0$: not pd. Eigenvalues from $\lambda^{2} - 5 \lambda + 0 = 0$ give $\lambda = 0, 5$. Both $\ge 0$ with one zero: psd but not pd.
-    \item $D_{1} = a > 0$ and $D_{2} = a^{2} - 1 > 0$, i.e.\ $|a| > 1$. Combined: $a > 1$.
-    \item $D_{1} = 4 > 0$, $D_{2} = 36 - b^{2} > 0 \Leftrightarrow |b| < 6$.
-    \item $A = \bigl(\begin{smallmatrix} 3 & 2 \\ 2 & 1 \end{smallmatrix}\bigr)$. $D_{1} = 3 > 0$, $D_{2} = 3 - 4 = -1 < 0$: indefinite.
-    \item $A = \bigl(\begin{smallmatrix} 1 & -3 \\ -3 & 10 \end{smallmatrix}\bigr)$. $D_{1} = 1 > 0$, $D_{2} = 10 - 9 = 1 > 0$: pd.
-    \item $D_{1} = 2$, $D_{2} = 4 - 1 = 3$, $D_{3} = $ expand along row 1: $2(4 - 1) - 1(2 - 0) + 0 = 6 - 2 = 4$. All $> 0$: pd.
-    \item $D_{1} = -2$, $D_{2} = 6 - 1 = 5$, $D_{3} = $ expand: $-2(6 - 1) - 1(-2 - 0) + 0 = -10 + 2 = -8$. Signs $-, +, -$: nd.
-    \item $D_{1} = 1$, $D_{2} = 2 - 1 = 1$, $D_{3}$ by expansion: $1(6 - 1) - 1(3 - 0) + 0 = 5 - 3 = 2$. All $> 0$: pd.
-    \item Block diagonal. Upper $2 \times 2$ has $D_{1} = 1 > 0$, $D_{2} = 1 - 4 = -3 < 0$: indefinite. Thus $A$ has at least one negative and one positive eigenvalue (from the block), so $A$ is indefinite overall.
-    \item $f_{x} = 2 x + y$, $f_{y} = x + 2 y$. Hessian $H = \bigl(\begin{smallmatrix} 2 & 1 \\ 1 & 2 \end{smallmatrix}\bigr)$. $D_{1} = 2 > 0$, $D_{2} = 3 > 0$: pd. Origin is a strict local (and global) min.
-    \item $f_{x} = 2 x - y - 3 = 0$, $f_{y} = -x + 2 y = 0 \Rightarrow x = 2 y$. Substituting: $4 y - y - 3 = 0 \Rightarrow y = 1, x = 2$. Hessian $H = \bigl(\begin{smallmatrix} 2 & -1 \\ -1 & 2 \end{smallmatrix}\bigr)$, $D_{1} = 2 > 0$, $D_{2} = 3 > 0$: pd. Strict local min at $(2, 1)$.
-    \item $f_{x} = 3 x^{2} - 3 = 0 \Rightarrow x = \pm 1$. $f_{y} = 2 y = 0 \Rightarrow y = 0$. Critical points $(1, 0)$ and $(-1, 0)$. $H = \bigl(\begin{smallmatrix} 6 x & 0 \\ 0 & 2 \end{smallmatrix}\bigr)$. At $(1, 0)$: $H = \bigl(\begin{smallmatrix} 6 & 0 \\ 0 & 2 \end{smallmatrix}\bigr)$, pd $\Rightarrow$ local min. At $(-1, 0)$: $H = \bigl(\begin{smallmatrix} -6 & 0 \\ 0 & 2 \end{smallmatrix}\bigr)$, indefinite $\Rightarrow$ saddle.
-    \item $f_{x} = 2 x - y - 1 = 0$, $f_{y} = 2 y - x - 1 = 0$. Solve: from the first, $y = 2 x - 1$; substitute: $2(2 x - 1) - x - 1 = 3 x - 3 = 0$, so $x = 1, y = 1$. $H = \bigl(\begin{smallmatrix} 2 & -1 \\ -1 & 2 \end{smallmatrix}\bigr)$, pd. Local min at $(1, 1)$.
-    \item $x^{T} (A^{T} A) x = (A x)^{T} (A x) = \|A x\|^{2} \ge 0$ for all $x$, so $A^{T} A$ is psd.
-    \item If $A$ is pd then no eigenvalue is $0$ (all $> 0$), so $\det A = \prod \lambda_{i} > 0$, hence $A$ is invertible.
-    \item $p(\lambda) = (3 - \lambda)^{2} - 1 = \lambda^{2} - 6 \lambda + 8 = (\lambda - 2)(\lambda - 4)$. Eigenvalues $2, 4 > 0$: pd.
-    \item $\Sigma$ psd $\Leftrightarrow$ $D_{1} = 4 \ge 0$ (yes) and $D_{2} = 4 - \rho^{2} \ge 0 \Leftrightarrow |\rho| \le 2$. (Note: a valid \emph{correlation} matrix would force $|\rho| \le 1$ since correlations lie in $[-1, 1]$; the question only asks psd-ness for the covariance.)
-    \item With $\rho = 1$: $D_{2} = 4 - 1 = 3 > 0$, so $\Sigma$ is pd (eigenvalues are roots of $\lambda^{2} - 5\lambda + 3 = 0$, both positive).
-    \item $x^{T} A x = (1, 2)\bigl(\begin{smallmatrix} 1 & 2 \\ 2 & 3 \end{smallmatrix}\bigr)\bigl(\begin{smallmatrix} 1 \\ 2 \end{smallmatrix}\bigr) = (1, 2)\bigl(\begin{smallmatrix} 5 \\ 8 \end{smallmatrix}\bigr) = 5 + 16 = 21$.
-    \item Hessian $H = \bigl(\begin{smallmatrix} 2 \alpha & -2 \\ -2 & 2 \end{smallmatrix}\bigr)$. pd $\Leftrightarrow$ $2 \alpha > 0$ and $4 \alpha - 4 > 0$, i.e.\ $\alpha > 1$.
+  \item Diagonal: $\lambda = 2, 3$.
+  \item Upper-triangular: $\lambda = 4, 3$.
+  \item $p_{A}(\lambda) = (2 - \lambda)^{2} - 1 = \lambda^{2} - 4 \lambda + 3 = (\lambda - 1)(\lambda - 3)$. Eigenvalues $\lambda = 1, 3$.
+  For $\lambda = 1$: $A - I = \bigl(\begin{smallmatrix} 1 & 1 \\ 1 & 1 \end{smallmatrix}\bigr)$, eigenvector $(1, -1)^{T}$.
+  For $\lambda = 3$: $A - 3 I = \bigl(\begin{smallmatrix} -1 & 1 \\ 1 & -1 \end{smallmatrix}\bigr)$, eigenvector $(1, 1)^{T}$.
+  \item Upper-triangular: $\lambda = 3$ (double). $A - 3 I = \bigl(\begin{smallmatrix} 0 & 1 \\ 0 & 0 \end{smallmatrix}\bigr)$, rank $1$, eigenspace $1$-dimensional spanned by $(1, 0)^{T}$. Geometric multiplicity $1 <$ algebraic multiplicity $2$, so $A$ is \emph{not} diagonalisable.
+  \item $p_{A}(\lambda) = \lambda^{2} - 1$, so $\lambda = \pm 1$. For $\lambda = 1$: eigenvector $(1, 1)^{T}$. For $\lambda = -1$: eigenvector $(1, -1)^{T}$.
+  \item $p_{A}(\lambda) = \lambda^{2} + 1$, roots $\pm i$. No real eigenvalues.
+  \item $p_{A}(\lambda) = (5 - \lambda)^{2} - 4 = \lambda^{2} - 10 \lambda + 21 = (\lambda - 3)(\lambda - 7)$. Eigenvalues $3, 7$. For $\lambda = 3$: $A - 3 I = \bigl(\begin{smallmatrix} 2 & 2 \\ 2 & 2 \end{smallmatrix}\bigr)$, eigenvector $(1, -1)^{T}$. For $\lambda = 7$: $(1, 1)^{T}$.
+  \item $p_{A}(\lambda) = (1 - \lambda)(3 - \lambda) - 8 = \lambda^{2} - 4 \lambda - 5 = (\lambda - 5)(\lambda + 1)$. Eigenvalues $5, -1$.
+  For $\lambda = 5$: $A - 5 I = \bigl(\begin{smallmatrix} -4 & 4 \\ 2 & -2 \end{smallmatrix}\bigr)$, eigenvector $(1, 1)^{T}$.
+  For $\lambda = -1$: $A + I = \bigl(\begin{smallmatrix} 2 & 4 \\ 2 & 4 \end{smallmatrix}\bigr)$, eigenvector $(2, -1)^{T}$.
+  \item Lower-triangular: $\lambda = 2, 2, 4$.
+  \item Upper-triangular: $\lambda = 1, 2, 3$.
+  \item Block diagonal: $\lambda = 2$ (from upper $1 \times 1$ block), and from the $2 \times 2$ block $\bigl(\begin{smallmatrix} 3 & 4 \\ 4 & 9 \end{smallmatrix}\bigr)$, $p(\lambda) = (3 - \lambda)(9 - \lambda) - 16 = \lambda^{2} - 12 \lambda + 11 = (\lambda - 1)(\lambda - 11)$. Eigenvalues $\lambda = 1, 2, 11$.
+  Eigenvectors: for $\lambda = 2$: $e_{1} = (1, 0, 0)^{T}$. For $\lambda = 1$ (from $2 \times 2$ block $\bigl(\begin{smallmatrix} 2 & 4 \\ 4 & 8 \end{smallmatrix}\bigr)$): $(2, -1)^{T}$ in the lower block, so $(0, 2, -1)^{T}$. For $\lambda = 11$: $(3 - 11)v_{2} + 4 v_{3} = 0 \Rightarrow v_{3} = 2 v_{2}$, so $(0, 1, 2)^{T}$.
+  \item Eigenvalues $\{1, 3\}$. Sum $= 4 = \mathrm{tr}(A) = 2 + 2$. Product $= 3 = \det A = 4 - 1$. Check.
+  \item $A^{5} = \mathrm{diag}(2^{5}, 3^{5}) = \mathrm{diag}(32, 243)$.
+  \item Eigenvalues $1, 3$ with eigenvectors $(1, -1)^{T}, (1, 1)^{T}$. So $P = \bigl(\begin{smallmatrix} 1 & 1 \\ -1 & 1 \end{smallmatrix}\bigr)$, $D = \mathrm{diag}(1, 3)$. $\det P = 2$, $P^{-1} = \tfrac{1}{2}\bigl(\begin{smallmatrix} 1 & -1 \\ 1 & 1 \end{smallmatrix}\bigr)$.
+  \item $A^{4} = P D^{4} P^{-1} = P \mathrm{diag}(1, 81) P^{-1}$.
+  \[
+  P D^{4} = \begin{pmatrix} 1 & 81 \\ -1 & 81 \end{pmatrix}, \quad P D^{4} P^{-1} = \tfrac{1}{2}\begin{pmatrix} 1 & 81 \\ -1 & 81 \end{pmatrix} \begin{pmatrix} 1 & -1 \\ 1 & 1 \end{pmatrix} = \tfrac{1}{2}\begin{pmatrix} 82 & 80 \\ 80 & 82 \end{pmatrix} = \begin{pmatrix} 41 & 40 \\ 40 & 41 \end{pmatrix}.
+  \]
+  Sanity check via direct: $A^{2} = \bigl(\begin{smallmatrix} 5 & 4 \\ 4 & 5 \end{smallmatrix}\bigr)$, $A^{4} = (A^{2})^{2} = \bigl(\begin{smallmatrix} 25 + 16 & 20 + 20 \\ 20 + 20 & 16 + 25 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 41 & 40 \\ 40 & 41 \end{smallmatrix}\bigr)$. Good.
+  \item $A^{2} v = A(A v) = A(\lambda v) = \lambda A v = \lambda^{2} v$.
+  \item $A v = \lambda v \Rightarrow v = A^{-1} \lambda v \Rightarrow A^{-1} v = \tfrac{1}{\lambda} v$. So eigenvalue is $1/\lambda$ (and $\lambda \neq 0$ since $A$ is invertible).
+  \item $p_{A}(\lambda) = (6 - \lambda)(2 - \lambda) + 4 = \lambda^{2} - 8 \lambda + 16 = (\lambda - 4)^{2}$. Double eigenvalue $\lambda = 4$.
+  \item Row $1 = $ Row $3$, so $\det A = 0$ and $\lambda = 0$ is an eigenvalue. The middle block gives $\lambda = 1$. For the remaining eigenvalue, $\mathrm{tr}(A) = 1 + 1 + 1 = 3$, so $\lambda_{1} + \lambda_{2} + \lambda_{3} = 0 + 1 + \lambda_{3} = 3 \Rightarrow \lambda_{3} = 2$.
+  For $\lambda = 2$: $(A - 2 I)v = 0$ with $A - 2 I = \begin{pmatrix} -1 & 0 & 1 \\ 0 & -1 & 0 \\ 1 & 0 & -1 \end{pmatrix}$. Rows: $-v_{1} + v_{3} = 0$, $-v_{2} = 0$. So $v = (1, 0, 1)^{T}$.
+  \item $p_{A}(\lambda) = (0.8 - \lambda)(0.7 - \lambda) - 0.06 = \lambda^{2} - 1.5 \lambda + 0.56 - 0.06 = \lambda^{2} - 1.5 \lambda + 0.5 = (\lambda - 1)(\lambda - 0.5)$. So $\lambda = 1, 0.5$.
+  \item $A - I = \bigl(\begin{smallmatrix} -0.2 & 0.3 \\ 0.2 & -0.3 \end{smallmatrix}\bigr)$. Set $-0.2 v_{1} + 0.3 v_{2} = 0 \Rightarrow v_{1} = 1.5 v_{2}$. Choose $v_{2} = 2$: $v = (3, 2)^{T}$. Normalised to a probability vector: $(3/5, 2/5)^{T} = (0.6, 0.4)^{T}$.
+  \item $\lambda = 0$ is an eigenvalue $\Leftrightarrow$ there exists $v \neq 0$ with $A v = 0$ $\Leftrightarrow$ $\ker A \neq \{0\}$ $\Leftrightarrow$ $A$ is singular.
+  \item $p_{A}(\lambda) = (7 - \lambda)(-3 - \lambda) + 24 = \lambda^{2} - 4 \lambda + 3 = (\lambda - 1)(\lambda - 3)$. Eigenvalues $1, 3$.
+  \item Expand $\det(A - \lambda I)$ along column 2: only the $(2, 2)$-entry is nonzero in that column (entries are $2, 3 - \lambda, 0$). Actually let's just expand directly.
+  \[
+  \det\!\begin{pmatrix} 1 - \lambda & 2 & 0 \\ 0 & 3 - \lambda & 0 \\ 4 & 0 & 5 - \lambda \end{pmatrix} = (3 - \lambda) \det \begin{pmatrix} 1 - \lambda & 0 \\ 4 & 5 - \lambda \end{pmatrix} = (3 - \lambda)(1 - \lambda)(5 - \lambda).
+  \]
+  (Cofactor along row 2 picks out only the $(2, 2)$ minor.) Eigenvalues $\lambda = 1, 3, 5$.
+  \item $\lambda_{1} + \lambda_{2} = 5$, $\lambda_{1} \lambda_{2} = 6$. So $\lambda_{1}, \lambda_{2}$ are roots of $t^{2} - 5 t + 6 = (t - 2)(t - 3) = 0$. Eigenvalues $2, 3$.
 \end{solutions}
 
 \section{Additional Problems}
 
 \begin{problems}
-    \item Classify $A = \bigl(\begin{smallmatrix} 5 & 0 \\ 0 & 1 \end{smallmatrix}\bigr)$.
-    \item Classify $A = \bigl(\begin{smallmatrix} -3 & 0 \\ 0 & -2 \end{smallmatrix}\bigr)$.
-    \item Classify $A = \bigl(\begin{smallmatrix} 3 & 0 \\ 0 & -1 \end{smallmatrix}\bigr)$.
-    \item Classify $A = \bigl(\begin{smallmatrix} 3 & 1 \\ 1 & 3 \end{smallmatrix}\bigr)$.
-    \item Classify $A = \bigl(\begin{smallmatrix} 2 & 3 \\ 3 & 2 \end{smallmatrix}\bigr)$.
-    \item Classify $A = \bigl(\begin{smallmatrix} 9 & 6 \\ 6 & 4 \end{smallmatrix}\bigr)$.
-    \item For which $b$ is $A = \bigl(\begin{smallmatrix} 3 & b \\ b & 3 \end{smallmatrix}\bigr)$ positive definite?
-    \item For which $c$ is $A = \bigl(\begin{smallmatrix} -2 & 1 \\ 1 & c \end{smallmatrix}\bigr)$ negative definite?
-    \item Write $Q(x, y) = 2 x^{2} + 6 x y + 5 y^{2}$ as $x^{T} A x$ and classify $A$.
-    \item Write $Q(x, y) = -x^{2} + 4 x y - 5 y^{2}$ as $x^{T} A x$ and classify.
-    \item Classify $A = \begin{pmatrix} 3 & 1 & 0 \\ 1 & 3 & 1 \\ 0 & 1 & 3 \end{pmatrix}$ via leading principal minors.
-    \item Classify $A = \begin{pmatrix} -3 & 2 & 0 \\ 2 & -4 & 1 \\ 0 & 1 & -2 \end{pmatrix}$ via leading principal minors.
-    \item Classify $A = \begin{pmatrix} 2 & 1 & 1 \\ 1 & 2 & 1 \\ 1 & 1 & 2 \end{pmatrix}$.
-    \item Classify $A = \begin{pmatrix} 2 & 0 & 0 \\ 0 & -1 & 0 \\ 0 & 0 & 3 \end{pmatrix}$.
-    \item For $f(x, y) = 2 x^{2} - 4 x y + 3 y^{2}$, find the Hessian and classify the origin.
-    \item For $f(x, y) = x^{2} + 4 x y + 2 y^{2} + 6 x$, find the critical point and classify it.
-    \item For $f(x, y) = x^{3} - 12 x + y^{2} - 2 y$, find all critical points and classify them.
-    \item For $f(x, y) = x^{2} + 4 x y + y^{2} - 2 x - 4 y$, find the critical point and classify.
-    \item Show that if $A$ is symmetric and all eigenvalues are positive, then $A$ is invertible and $A^{-1}$ has all positive eigenvalues.
-    \item Show: $A$ is positive definite iff $-A$ is negative definite.
-    \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 4 & 1 \\ 1 & 4 \end{smallmatrix}\bigr)$ and classify it.
-    \item For $\Sigma = \bigl(\begin{smallmatrix} 9 & \rho \\ \rho & 16 \end{smallmatrix}\bigr)$ a valid covariance matrix, what range of $\rho$ is allowed?
-    \item Compute $Q(2, -1) = x^{T} A x$ for $A = \bigl(\begin{smallmatrix} 3 & 1 \\ 1 & 2 \end{smallmatrix}\bigr)$.
-    \item For which $\alpha$ is the Hessian of $f(x, y) = x^{2} + 2 \alpha x y + 4 y^{2}$ pd?
-    \item Determine whether $Q(x, y, z) = x^{2} + y^{2} + z^{2} + 2 x y$ is pd, psd, or indefinite.
+  \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 5 & 0 \\ 0 & -2 \end{smallmatrix}\bigr)$.
+  \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 2 & 5 \\ 0 & -1 \end{smallmatrix}\bigr)$.
+  \item Find the eigenvalues and eigenvectors of $A = \bigl(\begin{smallmatrix} 3 & 1 \\ 1 & 3 \end{smallmatrix}\bigr)$.
+  \item Find the eigenvalues and eigenvectors of $A = \bigl(\begin{smallmatrix} 4 & 2 \\ 0 & 4 \end{smallmatrix}\bigr)$. Is $A$ diagonalisable?
+  \item Find the eigenvalues and eigenvectors of $A = \bigl(\begin{smallmatrix} 1 & 2 \\ 3 & 2 \end{smallmatrix}\bigr)$.
+  \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 0 & 2 \\ -2 & 0 \end{smallmatrix}\bigr)$.
+  \item Find the eigenvalues and eigenvectors of $A = \bigl(\begin{smallmatrix} 6 & -2 \\ -2 & 3 \end{smallmatrix}\bigr)$.
+  \item Find the eigenvalues and eigenvectors of $A = \bigl(\begin{smallmatrix} 2 & 3 \\ 1 & 4 \end{smallmatrix}\bigr)$.
+  \item Find the eigenvalues of $A = \begin{pmatrix} 3 & 0 & 0 \\ 2 & 1 & 0 \\ -1 & 4 & 5 \end{pmatrix}$.
+  \item Find the eigenvalues of $A = \begin{pmatrix} 2 & 1 & 1 \\ 0 & 3 & 4 \\ 0 & 0 & -1 \end{pmatrix}$.
+  \item Find the eigenvalues and eigenvectors of $A = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 2 & 1 \\ 0 & 1 & 2 \end{pmatrix}$.
+  \item For $A = \bigl(\begin{smallmatrix} 3 & 1 \\ 1 & 3 \end{smallmatrix}\bigr)$, verify $\mathrm{tr}(A) = $ sum of eigenvalues and $\det A = $ product.
+  \item Compute $A^{4}$ for $A = \bigl(\begin{smallmatrix} -1 & 0 \\ 0 & 2 \end{smallmatrix}\bigr)$.
+  \item Diagonalise $A = \bigl(\begin{smallmatrix} 3 & 1 \\ 1 & 3 \end{smallmatrix}\bigr)$.
+  \item Using the diagonalisation, compute $A^{3}$ for $A = \bigl(\begin{smallmatrix} 3 & 1 \\ 1 & 3 \end{smallmatrix}\bigr)$.
+  \item Show that if $\lambda$ is an eigenvalue of $A$, then $\lambda + c$ is an eigenvalue of $A + c I$ (for any scalar $c$).
+  \item If $A$ has eigenvalues $\{2, 5\}$ with eigenvectors $v_{1}, v_{2}$, what are the eigenvalues of $A^{2} - 3 A$? With which eigenvectors?
+  \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 4 & -3 \\ 3 & -2 \end{smallmatrix}\bigr)$.
+  \item Find the eigenvalues of $A = \begin{pmatrix} 2 & 1 & 0 \\ 0 & 2 & 0 \\ 0 & 0 & 3 \end{pmatrix}$ and an eigenvector for $\lambda = 2$. Is $A$ diagonalisable?
+  \item For $A = \bigl(\begin{smallmatrix} 0.6 & 0.5 \\ 0.4 & 0.5 \end{smallmatrix}\bigr)$ (column-stochastic), find the eigenvalues.
+  \item For the same $A$, find the stationary distribution (eigenvector for $\lambda = 1$ summing to $1$).
+  \item Show: if $A$ is real and symmetric with eigenvalues $\lambda_{1}, \dots, \lambda_{n}$, then $A^{T} A$ has eigenvalues $\lambda_{1}^{2}, \dots, \lambda_{n}^{2}$.
+  \item Find the eigenvalues of $A = \bigl(\begin{smallmatrix} 5 & 4 \\ -2 & -1 \end{smallmatrix}\bigr)$.
+  \item Compute the characteristic polynomial of $A = \begin{pmatrix} 2 & 1 & 0 \\ 1 & 2 & 0 \\ 0 & 0 & 5 \end{pmatrix}$ and its eigenvalues.
+  \item For a $2 \times 2$ matrix $A$ with $\mathrm{tr}(A) = 3$ and $\det A = -10$, find the eigenvalues without computing $A$.
 \end{problems}
 
 \section{Additional Solutions}
 
 \begin{solutions}
-    \item Eigenvalues $5, 1 > 0$: pd.
-    \item Eigenvalues $-3, -2 < 0$: nd.
-    \item Eigenvalues $3, -1$: indefinite.
-    \item Eigenvalues from $p(\lambda) = (3 - \lambda)^{2} - 1 = (\lambda - 2)(\lambda - 4)$: both positive, pd. Or: $D_{1} = 3 > 0$, $D_{2} = 9 - 1 = 8 > 0$. pd.
-    \item $D_{1} = 2 > 0$, $D_{2} = 4 - 9 = -5 < 0$: indefinite. (Eigenvalues $-1, 5$.)
-    \item $D_{2} = 36 - 36 = 0$: not pd. Eigenvalues from $\lambda^{2} - 13 \lambda + 0 = 0$: $\lambda = 0, 13$. psd, not pd.
-    \item $D_{1} = 3 > 0$, $D_{2} = 9 - b^{2} > 0 \Leftrightarrow |b| < 3$.
-    \item nd requires $D_{1} = -2 < 0$ (OK) and $D_{2} = -2 c - 1 > 0 \Leftrightarrow c < -1/2$.
-    \item $A = \bigl(\begin{smallmatrix} 2 & 3 \\ 3 & 5 \end{smallmatrix}\bigr)$. $D_{1} = 2 > 0$, $D_{2} = 10 - 9 = 1 > 0$: pd.
-    \item $A = \bigl(\begin{smallmatrix} -1 & 2 \\ 2 & -5 \end{smallmatrix}\bigr)$. $D_{1} = -1 < 0$, $D_{2} = 5 - 4 = 1 > 0$: signs $-, +$: nd.
-    \item $D_{1} = 3, D_{2} = 9 - 1 = 8, D_{3} = $ expand along row 1: $3(9 - 1) - 1(3 - 0) + 0 = 24 - 3 = 21$. All $> 0$: pd.
-    \item $D_{1} = -3, D_{2} = 12 - 4 = 8, D_{3} = $ expand: $-3(8 - 1) - 2(-4 - 0) + 0 = -21 + 8 = -13$. Signs $-, +, -$: nd.
-    \item $D_{1} = 2, D_{2} = 4 - 1 = 3, D_{3} = $ expand: $2(4 - 1) - 1(2 - 1) + 1(1 - 2) = 6 - 1 - 1 = 4$. All $> 0$: pd. (Eigenvalues are $1, 1, 4$.)
-    \item Diagonal: eigenvalues $2, -1, 3$ (mixed signs): indefinite.
-    \item $H = \bigl(\begin{smallmatrix} 4 & -4 \\ -4 & 6 \end{smallmatrix}\bigr)$. $D_{1} = 4 > 0$, $D_{2} = 24 - 16 = 8 > 0$: pd. Origin is a strict local min.
-    \item $f_{x} = 2 x + 4 y + 6 = 0$, $f_{y} = 4 x + 4 y = 0 \Rightarrow x = -y$. Substitute: $-2 y + 4 y + 6 = 0 \Rightarrow y = -3, x = 3$. $H = \bigl(\begin{smallmatrix} 2 & 4 \\ 4 & 4 \end{smallmatrix}\bigr)$, $D_{2} = 8 - 16 = -8 < 0$: indefinite. Saddle at $(3, -3)$.
-    \item $f_{x} = 3 x^{2} - 12 = 0 \Rightarrow x = \pm 2$. $f_{y} = 2 y - 2 = 0 \Rightarrow y = 1$. Critical points $(2, 1)$ and $(-2, 1)$. $H = \bigl(\begin{smallmatrix} 6 x & 0 \\ 0 & 2 \end{smallmatrix}\bigr)$. At $(2, 1)$: $\bigl(\begin{smallmatrix} 12 & 0 \\ 0 & 2 \end{smallmatrix}\bigr)$, pd: local min. At $(-2, 1)$: $\bigl(\begin{smallmatrix} -12 & 0 \\ 0 & 2 \end{smallmatrix}\bigr)$, indefinite: saddle.
-    \item $f_{x} = 2 x + 4 y - 2 = 0$, $f_{y} = 4 x + 2 y - 4 = 0$. Solve: $x + 2 y = 1$, $2 x + y = 2$. From first $x = 1 - 2 y$; sub: $2 - 4 y + y = 2 \Rightarrow y = 0, x = 1$. $H = \bigl(\begin{smallmatrix} 2 & 4 \\ 4 & 2 \end{smallmatrix}\bigr)$, $D_{2} = 4 - 16 = -12 < 0$: indefinite. Saddle at $(1, 0)$.
-    \item All eigenvalues $> 0$ implies $\det A = \prod \lambda_{i} > 0$, so $A$ is invertible. The eigenvalues of $A^{-1}$ are $1/\lambda_{i}$, each $> 0$.
-    \item $x^{T}(-A)x = -(x^{T} A x)$. If $x^{T} A x > 0$ for all $x \neq 0$, then $x^{T}(-A)x < 0$ for all $x \neq 0$. Converse identical.
-    \item $p(\lambda) = (4 - \lambda)^{2} - 1 = (\lambda - 3)(\lambda - 5)$. Eigenvalues $3, 5 > 0$: pd.
-    \item Need $D_{1} = 9 \ge 0$ (OK), $D_{2} = 144 - \rho^{2} \ge 0 \Leftrightarrow |\rho| \le 12$.
-    \item $A \bigl(\begin{smallmatrix} 2 \\ -1 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 6 - 1 \\ 2 - 2 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 5 \\ 0 \end{smallmatrix}\bigr)$. $(2, -1) \cdot (5, 0) = 10$. So $Q = 10$.
-    \item $H = \bigl(\begin{smallmatrix} 2 & 2 \alpha \\ 2 \alpha & 8 \end{smallmatrix}\bigr)$. pd iff $2 > 0$ (OK) and $16 - 4 \alpha^{2} > 0 \Leftrightarrow |\alpha| < 2$.
-    \item $A = \begin{pmatrix} 1 & 1 & 0 \\ 1 & 1 & 0 \\ 0 & 0 & 1 \end{pmatrix}$. Eigenvalues: from $2 \times 2$ block $\bigl(\begin{smallmatrix} 1 & 1 \\ 1 & 1 \end{smallmatrix}\bigr)$ we get $0, 2$; from $1 \times 1$ block, $1$. So eigenvalues $\{0, 1, 2\}$. All $\ge 0$, one zero: psd but not pd. Verify: $Q = (x + y)^{2} + z^{2} \ge 0$, with $Q = 0$ at $(1, -1, 0) \neq 0$.
+  \item Diagonal: $\lambda = 5, -2$.
+  \item Upper-triangular: $\lambda = 2, -1$.
+  \item $p(\lambda) = (3 - \lambda)^{2} - 1 = \lambda^{2} - 6 \lambda + 8 = (\lambda - 2)(\lambda - 4)$. Eigenvalues $2, 4$. For $\lambda = 2$: $A - 2 I = \bigl(\begin{smallmatrix} 1 & 1 \\ 1 & 1 \end{smallmatrix}\bigr)$, eigenvector $(1, -1)^{T}$. For $\lambda = 4$: $A - 4 I = \bigl(\begin{smallmatrix} -1 & 1 \\ 1 & -1 \end{smallmatrix}\bigr)$, eigenvector $(1, 1)^{T}$. Verify $\lambda = 4$: $A(1, 1)^{T} = (4, 4)^{T} = 4 (1, 1)^{T}$. Good.
+  \item Upper-triangular: $\lambda = 4$ (double). $A - 4 I = \bigl(\begin{smallmatrix} 0 & 2 \\ 0 & 0 \end{smallmatrix}\bigr)$, rank $1$, eigenspace spanned by $(1, 0)^{T}$. Geometric multiplicity $1 <$ algebraic multiplicity $2$: \emph{not} diagonalisable.
+  \item $p(\lambda) = (1 - \lambda)(2 - \lambda) - 6 = \lambda^{2} - 3 \lambda - 4 = (\lambda - 4)(\lambda + 1)$. Eigenvalues $4, -1$.
+  For $\lambda = 4$: $A - 4 I = \bigl(\begin{smallmatrix} -3 & 2 \\ 3 & -2 \end{smallmatrix}\bigr)$. From row 1, $-3 v_{1} + 2 v_{2} = 0 \Rightarrow v = (2, 3)^{T}$. Verify: $A(2, 3)^{T} = (2 + 6, 6 + 6)^{T} = (8, 12)^{T} = 4(2, 3)^{T}$. Good.
+  For $\lambda = -1$: $A + I = \bigl(\begin{smallmatrix} 2 & 2 \\ 3 & 3 \end{smallmatrix}\bigr)$, eigenvector $(1, -1)^{T}$.
+  \item $p(\lambda) = \lambda^{2} + 4$, roots $\pm 2 i$. No real eigenvalues.
+  \item $p(\lambda) = (6 - \lambda)(3 - \lambda) - 4 = \lambda^{2} - 9 \lambda + 14 = (\lambda - 2)(\lambda - 7)$. Eigenvalues $2, 7$.
+  For $\lambda = 2$: $A - 2 I = \bigl(\begin{smallmatrix} 4 & -2 \\ -2 & 1 \end{smallmatrix}\bigr)$, eigenvector $(1, 2)^{T}$. Verify $A(1, 2)^{T} = (6 - 4, -2 + 6)^{T} = (2, 4)^{T} = 2(1, 2)^{T}$. Good.
+  For $\lambda = 7$: $A - 7 I = \bigl(\begin{smallmatrix} -1 & -2 \\ -2 & -4 \end{smallmatrix}\bigr)$, eigenvector $(2, -1)^{T}$. Verify $A(2, -1)^{T} = (12 + 2, -4 - 3)^{T} = (14, -7)^{T} = 7(2, -1)^{T}$. Good.
+  \item $p(\lambda) = (2 - \lambda)(4 - \lambda) - 3 = \lambda^{2} - 6 \lambda + 5 = (\lambda - 1)(\lambda - 5)$. Eigenvalues $1, 5$.
+  For $\lambda = 1$: $A - I = \bigl(\begin{smallmatrix} 1 & 3 \\ 1 & 3 \end{smallmatrix}\bigr)$, eigenvector $(3, -1)^{T}$.
+  For $\lambda = 5$: $A - 5 I = \bigl(\begin{smallmatrix} -3 & 3 \\ 1 & -1 \end{smallmatrix}\bigr)$, eigenvector $(1, 1)^{T}$.
+  \item Lower-triangular: $\lambda = 3, 1, 5$.
+  \item Upper-triangular: $\lambda = 2, 3, -1$.
+  \item Block diagonal: $\lambda = 1$ (from upper $1 \times 1$ block), then from the $2 \times 2$ block $\bigl(\begin{smallmatrix} 2 & 1 \\ 1 & 2 \end{smallmatrix}\bigr)$: $p(\lambda) = (2 - \lambda)^{2} - 1 = (\lambda - 1)(\lambda - 3)$. So $\lambda = 1, 3$ from the block, giving overall eigenvalues $1, 1, 3$.
+  Eigenvectors: for $\lambda = 3$ (block): $(1, 1)^{T}$ in the lower block, full vector $(0, 1, 1)^{T}$. Verify $A(0, 1, 1)^{T} = (0, 2 + 1, 1 + 2)^{T} = (0, 3, 3)^{T}$. Good. For $\lambda = 1$: from $1 \times 1$ block, $(1, 0, 0)^{T}$. From $2 \times 2$ block with $\lambda = 1$: $\bigl(\begin{smallmatrix} 1 & 1 \\ 1 & 1 \end{smallmatrix}\bigr) v = 0 \Rightarrow (1, -1)^{T}$ in block, full vector $(0, 1, -1)^{T}$.
+  \item Eigenvalues $\{2, 4\}$. Sum $= 6 = \mathrm{tr}(A) = 3 + 3$. Product $= 8 = \det A = 9 - 1$. Check.
+  \item $A^{4} = \mathrm{diag}((-1)^{4}, 2^{4}) = \mathrm{diag}(1, 16)$.
+  \item Eigenvalues $2, 4$ with eigenvectors $(1, -1)^{T}, (1, 1)^{T}$. So $P = \bigl(\begin{smallmatrix} 1 & 1 \\ -1 & 1 \end{smallmatrix}\bigr)$, $D = \mathrm{diag}(2, 4)$. $\det P = 2$, $P^{-1} = \tfrac{1}{2}\bigl(\begin{smallmatrix} 1 & -1 \\ 1 & 1 \end{smallmatrix}\bigr)$.
+  \item $A^{3} = P D^{3} P^{-1} = P \mathrm{diag}(8, 64) P^{-1}$.
+  \[
+  P D^{3} = \begin{pmatrix} 8 & 64 \\ -8 & 64 \end{pmatrix}, \quad P D^{3} P^{-1} = \tfrac{1}{2}\begin{pmatrix} 8 & 64 \\ -8 & 64 \end{pmatrix}\begin{pmatrix} 1 & -1 \\ 1 & 1 \end{pmatrix} = \tfrac{1}{2}\begin{pmatrix} 72 & 56 \\ 56 & 72 \end{pmatrix} = \begin{pmatrix} 36 & 28 \\ 28 & 36 \end{pmatrix}.
+  \]
+  Sanity check: $A^{2} = \bigl(\begin{smallmatrix} 9 + 1 & 3 + 3 \\ 3 + 3 & 1 + 9 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 10 & 6 \\ 6 & 10 \end{smallmatrix}\bigr)$. $A^{3} = A^{2} \cdot A = \bigl(\begin{smallmatrix} 30 + 6 & 10 + 18 \\ 18 + 10 & 6 + 30 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 36 & 28 \\ 28 & 36 \end{smallmatrix}\bigr)$. Good.
+  \item If $A v = \lambda v$, then $(A + c I) v = A v + c v = (\lambda + c) v$. So $\lambda + c$ is an eigenvalue with the same eigenvector $v$.
+  \item For an eigenvector $v_{i}$ with $A v_{i} = \lambda_{i} v_{i}$: $(A^{2} - 3 A) v_{i} = (\lambda_{i}^{2} - 3 \lambda_{i}) v_{i}$. So eigenvalues are $4 - 6 = -2$ and $25 - 15 = 10$, with the same eigenvectors $v_{1}, v_{2}$.
+  \item $p(\lambda) = (4 - \lambda)(-2 - \lambda) + 9 = \lambda^{2} - 2 \lambda + 1 = (\lambda - 1)^{2}$. Double eigenvalue $\lambda = 1$.
+  \item Upper-triangular: $\lambda = 2, 2, 3$. For $\lambda = 2$: $A - 2 I = \begin{pmatrix} 0 & 1 & 0 \\ 0 & 0 & 0 \\ 0 & 0 & 1 \end{pmatrix}$, rank $2$, nullity $1$: eigenspace 1-dim, $(1, 0, 0)^{T}$. Geometric multiplicity $1 <$ algebraic multiplicity $2$: \emph{not} diagonalisable.
+  \item $p(\lambda) = (0.6 - \lambda)(0.5 - \lambda) - 0.2 = \lambda^{2} - 1.1 \lambda + 0.3 - 0.2 = \lambda^{2} - 1.1 \lambda + 0.1 = (\lambda - 1)(\lambda - 0.1)$. So $\lambda = 1, 0.1$.
+  \item $(A - I) = \bigl(\begin{smallmatrix} -0.4 & 0.5 \\ 0.4 & -0.5 \end{smallmatrix}\bigr)$, $-0.4 v_{1} + 0.5 v_{2} = 0 \Rightarrow v_{2} = 0.8 v_{1}$. Choose $v_{1} = 5, v_{2} = 4$: $v = (5, 4)^{T}$. Normalised: $\pi = (5/9, 4/9)^{T}$. Verify: $A \pi = (0.6 \cdot 5/9 + 0.5 \cdot 4/9, 0.4 \cdot 5/9 + 0.5 \cdot 4/9)^{T} = (3/9 + 2/9, 2/9 + 2/9)^{T} = (5/9, 4/9)^{T} = \pi$. Good.
+  \item If $A$ is symmetric and $A v = \lambda v$, then $(A^{T} A) v = A^{2} v = \lambda^{2} v$. So $v$ is an eigenvector of $A^{T} A$ with eigenvalue $\lambda^{2}$. Hence $A^{T} A$ has eigenvalues $\lambda_{1}^{2}, \dots, \lambda_{n}^{2}$.
+  \item $p(\lambda) = (5 - \lambda)(-1 - \lambda) + 8 = \lambda^{2} - 4 \lambda + 3 = (\lambda - 1)(\lambda - 3)$. Eigenvalues $1, 3$.
+  \item Block diagonal. From upper $2 \times 2$ block $\bigl(\begin{smallmatrix} 2 & 1 \\ 1 & 2 \end{smallmatrix}\bigr)$: $p(\lambda) = (2 - \lambda)^{2} - 1 = (\lambda - 1)(\lambda - 3)$. From lower $1 \times 1$ block: $\lambda = 5$. Full char poly: $(\lambda - 1)(\lambda - 3)(\lambda - 5)$. Eigenvalues $1, 3, 5$.
+  \item $\lambda_{1} + \lambda_{2} = 3$, $\lambda_{1} \lambda_{2} = -10$. Roots of $t^{2} - 3 t - 10 = (t - 5)(t + 2) = 0$. Eigenvalues $5, -2$.
 \end{solutions}

@@ -80,6 +80,115 @@ with remainder
 for some $\xi$ between $a$ and $x$.
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{Analyse $f(x)=x^{4}-4x^{3}$ completely: critical points, convexity, inflections --- and see the second-derivative test fail}
+\wstep{Step 1. Two derivatives, both factored.}
+\[
+  f'(x)=4x^{3}-12x^{2}=4x^{2}(x-3),
+  \qquad
+  f''(x)=12x^{2}-24x=12x(x-2).
+\]
+Factor as you go. The zeros are the whole point, and they are invisible in
+the expanded form.
+
+\wstep{Step 2. Critical points.}
+$f'(x)=0$ at $x=0$ (a double root) and $x=3$.
+
+\wstep{Step 3. Apply the second-derivative test --- and watch it break.}
+\[
+  f''(3)=12\cdot3\cdot1=36>0
+  \quad\Longrightarrow\quad
+  \text{strict local minimum at }x=3,\ f(3)=81-108=-27 .
+\]
+\[
+  f''(0)=0
+  \quad\Longrightarrow\quad
+  \textbf{the test is inconclusive.}
+\]
+\wtrap{$f''=0$ at a critical point means the test says \emph{nothing} --- not
+``inflection'', not ``neither''. Compare $x^{4}$ (minimum at $0$),
+$-x^{4}$ (maximum) and $x^{3}$ (neither): all three have $f'=f''=0$ at the
+origin. When the test fails you must fall back on the sign of $f'$.}
+
+\wstep{Step 4. Fall back on the first derivative: a sign table.}
+$f'(x)=4x^{2}(x-3)$. The factor $4x^{2}$ is $\ge0$ always, so the sign of
+$f'$ is the sign of $x-3$ alone:
+\begin{center}\footnotesize
+\begin{tabular}{lcccc}
+  \hline
+  interval & $x<0$ & $0<x<3$ & $x>3$\\
+  \hline
+  $4x^{2}$ & $+$ & $+$ & $+$\\
+  $x-3$ & $-$ & $-$ & $+$\\
+  $f'$ & $-$ & $-$ & $+$\\
+  $f$ & falling & falling & rising\\
+  \hline
+\end{tabular}
+\end{center}
+$f'$ does \emph{not} change sign at $x=0$: the function falls, flattens
+momentarily, and goes on falling. So $x=0$ is a \textbf{terrace point} (a
+horizontal inflection), not an extremum.
+\wtrap{A double root of $f'$ touches zero without crossing it, so it cannot
+be an extremum --- the same multiplicity logic as for graphs in Volume~2.
+Odd multiplicity crosses and gives an extremum; even multiplicity touches
+and does not.}
+
+\wstep{Step 5. Convexity from the second derivative.}
+$f''(x)=12x(x-2)$ is positive for $x<0$, negative on $0<x<2$, positive for
+$x>2$:
+\[
+  \text{convex on }(-\infty,0),\quad
+  \text{concave on }(0,2),\quad
+  \text{convex on }(2,\infty).
+\]
+
+\wstep{Step 6. Inflections need a \emph{sign change}, not just a zero.}
+$f''$ vanishes at $x=0$ and $x=2$, and changes sign at both. Hence there are
+two inflection points:
+\[
+  (0,\,0)\qquad\text{and}\qquad (2,\,16-32)=(2,-16).
+\]
+\wtrap{$f''(a)=0$ is necessary, never sufficient. For $f(x)=x^{4}$,
+$f''(0)=0$ but $f''=12x^{2}\ge0$ on both sides --- no sign change, no
+inflection, and in fact a strict minimum. Always check the sign on both
+sides before writing ``inflection point''.}
+
+\wstep{Step 7. Assemble the picture and confirm it.}
+$f(x)=x^{3}(x-4)$ crosses the axis at $x=0$ (triple) and $x=4$, tends to
+$+\infty$ at both ends, falls all the way from $-\infty$ to the minimum
+$(3,-27)$ pausing at the terrace point $(0,0)$, then rises.
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[fnaxis, width=8.2cm, height=5.2cm, domain=-1.1:4.4,
+             xmin=-1.4, xmax=4.6, ymin=-34, ymax=26,
+             xtick={-1,1,2,3,4}, ytick={-27,-16}]
+  \addplot {x^4-4*x^3};
+  \addplot[only marks, mark=*, mark size=1.2pt, accent!70, forget plot]
+    coordinates {(0,0) (2,-16) (3,-27)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+Numerical check on the classification: $f(2.9)=-26.98$ and $f(3.1)=-26.97$,
+both above $f(3)=-27$ --- a minimum. \checkmark\ And $f(-0.1)=0.0041>0$,
+$f(0.1)=-0.0039<0$: the graph passes through the terrace point, confirming
+that $x=0$ is not an extremum.
+
+\wstep{Step 8. The three questions, and which derivative answers each.}
+\begin{center}\footnotesize
+\begin{tabular}{lll}
+  \hline
+  question & tool & fallback if it fails\\
+  \hline
+  rising or falling? & sign of $f'$ & ---\\
+  max, min, or neither? & sign of $f''$ at $f'=0$ & sign change of $f'$\\
+  convex or concave? & sign of $f''$ & ---\\
+  inflection? & sign \emph{change} of $f''$ & ---\\
+  \hline
+\end{tabular}
+\end{center}
+\end{worked}
+
 \section{Practice Problems}
 
 \begin{problems}
@@ -312,7 +421,9 @@ for some $\xi$ between $a$ and $x$.
         \[
           f''(x)=-2(1+x^{2})^{-2}+(-2x)\cdot(-2)(1+x^{2})^{-3}\cdot 2x
                 =-\frac{2}{(1+x^{2})^{2}}+\frac{8x^{2}}{(1+x^{2})^{3}}
-                =\frac{-2(1+x^{2})+8x^{2}}{(1+x^{2})^{3}}
+        \]
+        \[
+          \phantom{f''(x)}=\frac{-2(1+x^{2})+8x^{2}}{(1+x^{2})^{3}}
                 =\frac{6x^{2}-2}{(1+x^{2})^{3}} .
         \]
 
@@ -536,6 +647,9 @@ for some $\xi$ between $a$ and $x$.
              +\binom{n}{1}\cdot 3x^{2}\cdot\mathrm{e}^{x}
              +\binom{n}{2}\cdot 6x\cdot\mathrm{e}^{x}
              +\binom{n}{3}\cdot 6\cdot\mathrm{e}^{x}
+        \]
+        \[
+          \phantom{(x^{3}\mathrm{e}^{x})^{(n)}}
             =\mathrm{e}^{x}\bigl[x^{3}+3nx^{2}+3n(n-1)x+n(n-1)(n-2)\bigr] .
         \]
 \end{solutions}

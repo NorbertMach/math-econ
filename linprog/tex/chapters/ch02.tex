@@ -54,6 +54,52 @@ optimal, the objective is constant along the edge joining them, and every
 point of that edge is optimal as well.
 \end{rulebox}
 
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-0.8, xmax=9.4, ymin=-0.8, ymax=9.4,
+      xtick={2,4,6,8}, ytick={2,4,6,8},
+      title={the feasible region}]
+    % x>=0, y>=0, x+y<=8, 2x+y<=12  ->  vertices (0,0),(6,0),(4,4),(0,8)
+    \addplot[draw=none, name path=lowA, domain=0:4, samples=2]{0};
+    \addplot[draw=none, name path=upA, domain=0:4, samples=2]{8-x};
+    \region{lowA}{upA}{}
+    \addplot[draw=none, name path=lowB, domain=4:6, samples=2]{0};
+    \addplot[draw=none, name path=upB, domain=4:6, samples=2]{12-2*x};
+    \region{lowB}{upB}{}
+    \addplot[domain=-0.5:9.2, samples=2]{8-x};
+    \addplot[domain=1.4:9.2, samples=2]{12-2*x};
+    \addplot[only marks, mark=*, mark size=1.4pt, black, forget plot]
+      coordinates {(0,0) (6,0) (4,4) (0,8)};
+    \node[font=\tiny, anchor=west]  at (axis cs:4.15,4.2) {$(4,4)$};
+    \node[font=\tiny, anchor=south] at (axis cs:6,0.15) {$(6,0)$};
+    \node[font=\tiny, anchor=west]  at (axis cs:0.15,8.1) {$(0,8)$};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-0.8, xmax=9.4, ymin=-0.8, ymax=9.4,
+      xtick={2,4,6,8}, ytick={2,4,6,8},
+      title={iso-profit lines $3x+2y=c$}]
+    \addplot[draw=none, name path=lowA, domain=0:4, samples=2]{0};
+    \addplot[draw=none, name path=upA, domain=0:4, samples=2]{8-x};
+    \region{lowA}{upA}{}
+    \addplot[draw=none, name path=lowB, domain=4:6, samples=2]{0};
+    \addplot[draw=none, name path=upB, domain=4:6, samples=2]{12-2*x};
+    \region{lowB}{upB}{}
+    \addplot[accent!30, line width=0.5pt, domain=-0.5:9.2, samples=2]{(6-3*x)/2};
+    \addplot[accent!30, line width=0.5pt, domain=-0.5:9.2, samples=2]{(12-3*x)/2};
+    \addplot[accent!30, line width=0.5pt, domain=-0.5:9.2, samples=2]{(20-3*x)/2};
+    \addplot[domain=-0.5:9.2, samples=2]{(20-3*x)/2};
+    \addplot[only marks, mark=*, mark size=1.4pt, black, forget plot]
+      coordinates {(4,4)};
+    \node[font=\tiny, anchor=south west] at (axis cs:4.1,4.15) {$c^{*}=20$};
+  \end{axis}
+\end{tikzpicture}
+\gcap{Left: the feasible region of $x+y\le8$, $2x+y\le12$, $x,y\ge0$ ---
+an intersection of four half-planes, with its four corners. Right: the
+iso-profit lines of $3x+2y$ slide up until the last one still touching the
+region does so at the corner $(4,4)$, where $c=20$.}
+\end{gallery}
+
 \begin{rulebox}{Recipe: solving a two-variable LP by corner enumeration}
 \begin{enumerate}[leftmargin=1.8em,itemsep=0.3ex]
   \item List all boundary lines and compute all pairwise intersection
@@ -98,6 +144,152 @@ value.
         because moving into the region only increases the objective.
 \end{itemize}
 \end{rulebox}
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-0.8, xmax=6.4, ymin=-0.8, ymax=6.4,
+      xtick={2,4,6}, ytick={2,4,6}, title={unbounded}]
+    \addplot[draw=none, name path=lo, domain=0:6.2, samples=2]{max(0,4-x)};
+    \addplot[draw=none, name path=hi, domain=0:6.2, samples=2]{6.2};
+    \region{lo}{hi}{}
+    \addplot[domain=-0.5:6.2, samples=2]{4-x};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-0.8, xmax=6.4, ymin=-0.8, ymax=6.4,
+      xtick={2,4,6}, ytick={2,4,6}, title={infeasible}]
+    \addplot[domain=-0.5:6.2, samples=2]{2-x};
+    \addplot[domain=-0.5:6.2, samples=2]{5-x};
+    \node[font=\tiny, anchor=west] at (axis cs:2.6,0.6) {$x+y\le2$};
+    \node[font=\tiny, anchor=west] at (axis cs:3.4,3.4) {$x+y\ge5$};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-0.8, xmax=6.4, ymin=-0.8, ymax=6.4,
+      xtick={2,4,6}, ytick={2,4,6}, title={multiple optima}]
+    \addplot[draw=none, name path=lowA, domain=0:2, samples=2]{0};
+    \addplot[draw=none, name path=upA, domain=0:2, samples=2]{4-x};
+    \region{lowA}{upA}{}
+    \addplot[draw=none, name path=lowB, domain=2:3, samples=2]{0};
+    \addplot[draw=none, name path=upB, domain=2:3, samples=2]{6-2*x};
+    \region{lowB}{upB}{}
+    \addplot[domain=-0.5:5, samples=2]{4-x};
+    \addplot[domain=1.6:3.6, samples=2]{6-2*x};
+    \addplot[black, very thick, samples=2, domain=0:2]{4-x};
+    \node[font=\tiny, anchor=south west] at (axis cs:0.6,3.5)
+      {objective $\parallel$ edge};
+  \end{axis}
+\end{tikzpicture}
+\gcap{An unbounded feasible region (no finite maximum for an increasing
+objective), an infeasible system (two constraints with no common point),
+and an objective parallel to a binding edge, so every point of that edge is
+optimal.}
+\end{gallery}
+
+\section{Worked Example}
+
+\begin{worked}{Solve the running example graphically: $\max 40x_{1}+30x_{2}$ s.t. $2x_{1}+x_{2}\le100$, $x_{1}+x_{2}\le80$, $x\ge0$}
+\wstep{Step 1. Draw each constraint as a line, then decide which side.}
+Plot the boundary by its two intercepts:
+\begin{center}\footnotesize
+\begin{tabular}{lll}
+  \hline
+  constraint & $x_{1}$-intercept & $x_{2}$-intercept\\
+  \hline
+  $2x_{1}+x_{2}=100$ & $(50,0)$ & $(0,100)$\\
+  $x_{1}+x_{2}=80$ & $(80,0)$ & $(0,80)$\\
+  \hline
+\end{tabular}
+\end{center}
+For the side, test the origin: $0\le100$ and $0\le80$, both true, so the
+feasible side of each line is the one containing $(0,0)$.
+
+\wstep{Step 2. The feasible region.}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[geoaxis, width=7.4cm, height=6.6cm,
+             xmin=-6, xmax=90, ymin=-8, ymax=108,
+             xlabel={$x_{1}$}, ylabel={$x_{2}$},
+             xtick={20,50,80}, ytick={60,80,100},
+             minor tick num=0]
+  \addplot[draw=none, fill=regionfill, fill opacity=0.5, forget plot]
+    coordinates {(0,0) (50,0) (20,60) (0,80)} --cycle;
+  \addplot[domain=0:50, samples=2] {100-2*x};
+  \addplot[domain=0:80, samples=2] {80-x};
+  \addplot[accent!45, thick, dash pattern=on 3pt off 2pt, samples=2,
+           domain=0:65, forget plot] {(1800-40*x)/30};
+  \addplot[accent!45, thick, dash pattern=on 3pt off 2pt, samples=2,
+           domain=0:65, forget plot] {(2600-40*x)/30};
+  \addplot[only marks, mark=*, mark size=1.4pt, accent, forget plot]
+    coordinates {(0,0) (50,0) (20,60) (0,80)};
+  \node[font=\tiny, anchor=south west] at (axis cs:21,61) {$(20,60)$};
+  \node[font=\tiny, anchor=west] at (axis cs:41,20) {$z=1800$};
+  \node[font=\tiny, anchor=west] at (axis cs:56,44) {$z=2600$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+The region is a quadrilateral --- bounded, non-empty, and convex, being an
+intersection of half-planes.
+
+\wstep{Step 3. Find every corner, including the ones on the axes.}
+\begin{center}\footnotesize
+\begin{tabular}{lll}
+  \hline
+  corner & from & $z=40x_{1}+30x_{2}$\\
+  \hline
+  $(0,0)$ & $x_{1}=0,\ x_{2}=0$ & $0$\\
+  $(50,0)$ & $x_{2}=0$, machine binding & $2000$\\
+  $(20,60)$ & both constraints binding & $\mathbf{2600}$\\
+  $(0,80)$ & $x_{1}=0$, labour binding & $2400$\\
+  \hline
+\end{tabular}
+\end{center}
+The interesting corner comes from solving the two binding constraints
+together:
+\[
+  2x_{1}+x_{2}=100,\quad x_{1}+x_{2}=80
+  \;\Longrightarrow\;
+  x_{1}=20,\ x_{2}=60 .
+\]
+\wtrap{$(80,0)$ and $(0,100)$ are intercepts of the lines but are
+\textbf{not} corners of the feasible region --- each violates the other
+constraint. Every candidate must be checked against \emph{all} constraints
+before it is evaluated. Enumerating intersections without feasibility
+checks is the standard way to report a corner that does not exist.}
+
+\wstep{Step 4. Read off the optimum.}
+\[
+  \boxed{x^{*}=(20,60),\qquad z^{*}=2600 .}
+\]
+The \textbf{corner point theorem} guarantees this is legitimate: a bounded,
+non-empty feasible region always has an optimum at a corner, so enumerating
+the finitely many corners cannot miss it.
+
+\wstep{Step 5. Confirm with the iso-profit line.}
+$z=40x_{1}+30x_{2}$ has slope $-\tfrac43$ in the $(x_{1},x_{2})$-plane.
+Sliding that line outwards from the origin, the last feasible point it
+touches is $(20,60)$ --- the two dashed lines in the figure show it at
+$z=1800$ and at the optimum $z=2600$. This is the picture behind every
+simplex pivot.
+
+\wstep{Step 6. Binding or slack? Compute both slacks.}
+\[
+  \text{machine: }2(20)+60=100 \Rightarrow \text{slack }0\ (\textbf{binding}),
+\]
+\[
+  \text{labour: }20+60=80 \Rightarrow \text{slack }0\ (\textbf{binding}).
+\]
+Both resources are fully used, which is why the optimum sits at their
+intersection. A constraint with positive slack would have had a zero shadow
+price in Chapter~7 --- the connection is worth noting now.
+
+\wstep{Step 7. The prediction from Chapter~1, confirmed.}
+Product~1 yields $40/2=20$ euros per machine hour, product~2 yields $30/1=30$.
+Product~2 is the better use of the scarce machine, but labour caps the
+total, so the answer mixes them --- $60$ units of the machine-efficient
+product and $20$ of the other. Economic reasoning predicted the character of
+the answer; the geometry supplied the numbers.
+\end{worked}
 
 \section{Practice Problems}
 

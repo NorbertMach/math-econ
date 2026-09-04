@@ -1,0 +1,179 @@
+\chapter*{Formula Summary}
+\addcontentsline{toc}{chapter}{Formula Summary}
+\markboth{Formula Summary}{Formula Summary}
+
+Everything the seven parts establish, compressed to what has to be
+recalled under time pressure. Nothing here is proved; the chapter that
+proves it is the one with the same subject.
+
+\section*{Algebra}
+
+\[
+  a^{m}a^{n}=a^{m+n},\quad
+  \frac{a^{m}}{a^{n}}=a^{m-n},\quad
+  (a^{m})^{n}=a^{mn},\quad
+  a^{-n}=\frac{1}{a^{n}},\quad
+  a^{m/n}=\sqrt[n]{a^{m}}
+\]
+\[
+  \ln(xy)=\ln x+\ln y,\quad
+  \ln\frac{x}{y}=\ln x-\ln y,\quad
+  \ln x^{r}=r\ln x,\quad
+  \log_{b}x=\frac{\ln x}{\ln b},\quad
+  a^{x}=\mathrm{e}^{x\ln a}
+\]
+\[
+  x_{1,2}=\frac{-b\pm\sqrt{b^{2}-4ac}}{2a},\qquad
+  a(x-h)^{2}+k \text{ has vertex } (h,k),\qquad
+  \sum_{i=1}^{n}i=\frac{n(n+1)}{2}
+\]
+
+\textbf{Maximal domain:} denominator $\neq0$, even radicand $\ge0$,
+logarithm argument $>0$. \textbf{Transformations:} in
+$a\,f\bigl(b(x-c)\bigr)+d$ the outside constants act as expected, the
+inside ones in the opposite direction and by the reciprocal factor.
+\textbf{Inverse:} solve $y=f(x)$ for $x$; $D(f^{-1})=W(f)$; graph mirrored
+in $y=x$.
+
+\section*{Matrix algebra}
+
+\[
+  (AB)^{T}=B^{T}A^{T},\qquad (AB)^{-1}=B^{-1}A^{-1},\qquad
+  \det(AB)=\det A\cdot\det B,\qquad \det(A^{-1})=\frac{1}{\det A}
+\]
+\[
+  A^{-1}=\frac{1}{ad-bc}\begin{pmatrix} d & -b\\ -c & a\end{pmatrix}
+  \quad\text{for } A=\begin{pmatrix} a&b\\c&d\end{pmatrix},
+  \qquad
+  x_{i}=\frac{\det A_{i}}{\det A}\ \ \text{(Cramer)}
+\]
+
+\textbf{Elimination:} row operations preserve the solution set; pivots
+count the rank. With $r=\mathrm{rk}(A)$ and $n$ unknowns: no solution if
+$\mathrm{rk}([A\mid\mathbf{b}])>r$; unique if $r=n$; otherwise $n-r$ free
+parameters. \textbf{Rank--nullity:} $\mathrm{rk}(A)+\mathrm{null}(A)=n$.
+
+\textbf{Definiteness} of a symmetric $A$ --- all eigenvalues $>0$
+(positive definite), $<0$ (negative definite), mixed signs (indefinite).
+For $2\times2$: positive definite iff $a_{11}>0$ and $\det A>0$; negative
+definite iff $a_{11}<0$ and $\det A>0$.
+
+\section*{Sequences, series, financial mathematics}
+
+\[
+  \sum_{k=0}^{n-1}aq^{k}=a\,\frac{1-q^{n}}{1-q},\qquad
+  \sum_{k=0}^{\infty}aq^{k}=\frac{a}{1-q}\ \ (|q|<1)
+\]
+\[
+  K_{n}=K_{0}(1+i)^{n},\qquad
+  PV=\frac{FV}{(1+i)^{n}},\qquad
+  \left(1+\frac{r}{n}\right)^{n}\to\mathrm{e}^{r}
+\]
+\[
+  PV_{\text{annuity}}=R\,\frac{1-(1+i)^{-n}}{i},\qquad
+  PV_{\text{perp}}=\frac{R}{i}
+\]
+
+\section*{Differentiation}
+
+\[
+  (uv)'=u'v+uv',\qquad
+  \left(\frac{u}{v}\right)'=\frac{u'v-uv'}{v^{2}},\qquad
+  \bigl(f(g(x))\bigr)'=f'(g(x))\,g'(x)
+\]
+\[
+  (x^{n})'=nx^{n-1},\quad
+  (\mathrm{e}^{x})'=\mathrm{e}^{x},\quad
+  (a^{x})'=a^{x}\ln a,\quad
+  (\ln x)'=\frac1x,
+\]
+\[
+  (\sin x)'=\cos x,\quad
+  (\cos x)'=-\sin x
+\]
+
+\textbf{L'H\^opital:} for $0/0$ or $\infty/\infty$,
+$\lim f/g=\lim f'/g'$. \textbf{Hierarchy:}
+$\ln x\ll x^{a}\ll\mathrm{e}^{bx}$. \textbf{Taylor:}
+$f(x)\approx\sum_{k=0}^{n}\frac{f^{(k)}(a)}{k!}(x-a)^{k}$.
+
+\textbf{Curve discussion:} domain, symmetry, intercepts, asymptotes,
+$f'$ for monotonicity and extrema, $f''$ for curvature and inflection,
+then sketch. \textbf{Implicit:}
+$\dd{y}{x}=-\dfrac{F_{x}}{F_{y}}$ where $F_{y}\neq0$.
+
+\textbf{Elasticity:}
+$\varepsilon=\dfrac{f'(x)\,x}{f(x)}=\dfrac{\mathrm{d}\ln f}
+{\mathrm{d}\ln x}$.
+
+\section*{Several variables}
+
+\[
+  \grad f=\begin{pmatrix} f_{x}\\ f_{y}\end{pmatrix},\qquad
+  D_{\mathbf{u}}f=\grad f\cdot\mathbf{u}\ \ (\|\mathbf{u}\|=1),\qquad
+  \mathrm{d}f=f_{x}\,\mathrm{d}x+f_{y}\,\mathrm{d}y
+\]
+\[
+  \Hess f=\begin{pmatrix} f_{xx} & f_{xy}\\ f_{yx} & f_{yy}\end{pmatrix},
+  \qquad f_{xy}=f_{yx}\ \text{(Young)},\qquad
+  \mathrm{MRS}=\frac{f_{x}}{f_{y}}
+\]
+
+$\grad f$ points in the direction of steepest ascent and is perpendicular
+to the level curve. \textbf{Euler} (degree $k$ homogeneous):
+$x f_{x}+y f_{y}=k f$.
+
+\textbf{Critical points:} $\grad f=\mathbf{0}$; with
+$D=f_{xx}f_{yy}-f_{xy}^{2}$: $D>0$ and $f_{xx}>0$ minimum, $D>0$ and
+$f_{xx}<0$ maximum, $D<0$ saddle, $D=0$ inconclusive.
+
+\section*{Constrained optimization}
+
+\[
+  \mathcal{L}=f(\mathbf{x})+\lambda\bigl(c-g(\mathbf{x})\bigr),\qquad
+  \grad f=\lambda\,\grad g,\qquad
+  \lambda^{*}=\frac{\mathrm{d}V^{*}}{\mathrm{d}c}
+  \ \ \text{(shadow price)}
+\]
+
+\textbf{Bordered Hessian} ($n=2$, $m=1$): $\det\overline{H}>0$ maximum,
+$\det\overline{H}<0$ minimum.
+
+\textbf{Kuhn--Tucker} for $\max f$ s.t. $g_{i}\le b_{i}$: stationarity
+$\grad f=\sum_{i}\lambda_{i}\grad g_{i}$; primal feasibility
+$g_{i}\le b_{i}$; dual feasibility $\lambda_{i}\ge0$; complementary
+slackness $\lambda_{i}(b_{i}-g_{i})=0$. Sufficient without a second-order
+check when the programme is convex ($f$ concave, every $g_{i}$ convex).
+
+\textbf{Envelope theorem:} only the direct effect of the parameter counts,
+$\dfrac{\mathrm{d}V^{*}}{\mathrm{d}\alpha}
+=\dfrac{\partial\mathcal{L}}{\partial\alpha}$ evaluated at the optimum.
+
+\section*{Integration}
+
+\[
+  \int x^{n}\mathrm{d}x=\frac{x^{n+1}}{n+1}+C\ (n\neq-1),\qquad
+  \int\frac{1}{x}\mathrm{d}x=\ln|x|+C,\qquad
+  \int\mathrm{e}^{x}\mathrm{d}x=\mathrm{e}^{x}+C
+\]
+\[
+  \int u\,v'\,\mathrm{d}x=uv-\int u'v\,\mathrm{d}x,\qquad
+  \int f(g(x))g'(x)\,\mathrm{d}x=\int f(u)\,\mathrm{d}u,\qquad
+  \int_{a}^{b}f=F(b)-F(a)
+\]
+
+\textbf{Consumer surplus} at $(q^{*},p^{*})$:
+$\int_{0}^{q^{*}}p_{d}(q)\,\mathrm{d}q-p^{*}q^{*}$;
+\textbf{producer surplus} $p^{*}q^{*}-\int_{0}^{q^{*}}p_{s}(q)\,
+\mathrm{d}q$.
+
+\section*{Linear programming}
+
+Standard form $\max \mathbf{c}^{T}\mathbf{x}$ s.t.
+$A\mathbf{x}\le\mathbf{b}$, $\mathbf{x}\ge\mathbf{0}$. The feasible set is
+a convex polyhedron and an optimum, if one exists, is attained at a
+vertex. \textbf{Dual:} $\min\mathbf{b}^{T}\mathbf{y}$ s.t.
+$A^{T}\mathbf{y}\ge\mathbf{c}$, $\mathbf{y}\ge\mathbf{0}$; the optimal
+values agree, and $\mathbf{y}^{*}$ are the shadow prices of the
+constraints. \textbf{Complementary slackness:} a slack primal constraint
+has a zero dual variable, and conversely.

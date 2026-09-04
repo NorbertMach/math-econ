@@ -134,6 +134,110 @@ infeasible LP & phase one ends with $w>0$ (artificial stuck positive) &
 \end{center}
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{Break the running example four ways --- multiple optima, degeneracy, unboundedness, infeasibility --- and recognise each in the tableau}
+\wstep{Step 1. Multiple optima: make the objective parallel to a constraint.}
+Change the objective to $\max 40x_{1}+20x_{2}$. Its slope is $-2$, the same
+as the machine constraint $2x_{1}+x_{2}=100$. Running the simplex method,
+one pivot on $x_{1}$ gives
+\begin{center}\footnotesize
+\begin{tabular}{c|rrrr|r}
+  \hline
+  basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & RHS\\
+  \hline
+  $x_{1}$ & $1$ & $0.5$ & $0.5$ & $0$ & $50$\\
+  $s_{2}$ & $0$ & $0.5$ & $-0.5$ & $1$ & $30$\\
+  \hline
+  $z$ & $0$ & $\mathbf 0$ & $20$ & $0$ & $2000$\\
+  \hline
+\end{tabular}
+\end{center}
+No negative entry, so this is optimal: $(50,0)$ with $z=2000$.
+
+\wstep{Step 2. Spot the signature.}
+The $z$-row entry under $x_{2}$ is $\mathbf 0$, and $x_{2}$ is
+\textbf{non-basic}. That means $x_{2}$ can be brought in at no cost to the
+objective. Pivoting it in (ratios $50/0.5=100$ and $30/0.5=60$, so $s_{2}$
+leaves) reaches $(20,60)$ --- also with $z=2000$.
+\[
+  \boxed{\text{Every point of the segment from }(50,0)\text{ to }(20,60)\text{ is optimal.}}
+\]
+The full set is $\lambda(50,0)+(1-\lambda)(20,60)$ for $\lambda\in[0,1]$.
+\wtrap{A zero in the $z$-row under a \emph{basic} variable is normal and
+means nothing --- every basic column is a unit vector with a zero there. The
+signal is a zero under a \textbf{non-basic} variable. Reporting one optimal
+corner is not wrong, but reporting it as \emph{the} optimum is.}
+
+\wstep{Step 3. Degeneracy: add a constraint through an existing corner.}
+Add $x_{1}\le20$ to the original problem. The optimum $(20,60)$ still
+satisfies everything, but now \emph{three} constraints pass through it:
+machine, labour, and the new one. With three equations binding at a
+two-dimensional corner, one basic variable must be zero --- here the new
+slack $s_{3}=20-20=0$.
+\[
+  \text{Degenerate: a \textbf{basic} variable equals }0 .
+\]
+\wtrap{Degeneracy is a basic variable at zero, not a non-basic one --- 
+non-basic variables are zero by construction. Its practical effect is a
+pivot that changes the basis without moving the point ($z$ does not improve),
+and in rare cases cycling. Bland's rule --- always choose the lowest-index
+eligible variable --- prevents it.}
+
+\wstep{Step 4. Unboundedness: remove the ceilings.}
+Replace the two constraints with $x_{1}-x_{2}\le10$, $x\ge0$, keeping
+$\max40x_{1}+30x_{2}$. Now $(t,t)$ is feasible for every $t\ge0$ and gives
+$z=70t\to\infty$.
+
+In the tableau this appears as an entering column with \textbf{no positive
+entry}: every ratio test candidate is absent, so no basic variable limits
+the increase.
+\[
+  \boxed{\text{Negative }z\text{-row entry, and no positive entry in its column}\Rightarrow\text{unbounded.}}
+\]
+\wtrap{Unbounded is not the same as infeasible. An unbounded problem has
+plenty of feasible solutions --- too many. In practice it almost always
+means a constraint was left out of the model, so the correct response is to
+re-read the story, not to report ``$\infty$''.}
+
+\wstep{Step 5. Infeasibility: add a contradictory requirement.}
+Add $x_{1}+x_{2}\ge100$ to the original. Together with $x_{1}+x_{2}\le80$
+this is impossible: no point satisfies both.
+
+The simplex method detects it in Phase~I: after minimising the sum of the
+artificial variables, that sum remains \textbf{strictly positive}, meaning
+no genuine feasible point exists.
+\wtrap{Do not confuse the two Phase~I outcomes. Artificial sum driven to
+$0$ means a feasible basis was found and Phase~II proceeds; a positive
+minimum means the constraints contradict each other. And an artificial
+variable remaining \emph{basic at zero} at the end of Phase~I is neither ---
+it signals a redundant constraint, and it must be pivoted out before
+Phase~II.}
+
+\wstep{Step 6. Diagnosis at a glance.}
+\begin{center}\footnotesize
+\begin{tabular}{ll}
+  \hline
+  what you see & what it means\\
+  \hline
+  no negative $z$-row entry & optimal\\
+  zero $z$-row entry under a non-basic variable & multiple optima\\
+  a basic variable equal to $0$ & degenerate corner\\
+  negative $z$-row entry, no positive entry in its column & unbounded\\
+  Phase~I ends with artificial sum $>0$ & infeasible\\
+  \hline
+\end{tabular}
+\end{center}
+
+\wstep{Step 7. What each one means for the workshop.}
+Multiple optima: two production plans earn the same, so choose on grounds
+the model does not capture --- setup time, customer relations, risk.
+Degeneracy: a redundant constraint, harmless but worth removing.
+Unbounded: the model is wrong. Infeasible: the requirements conflict, and
+somebody must decide which one to relax --- and the shadow prices of
+Chapter~7 tell them what relaxing each would be worth.
+\end{worked}
+
 \section{Practice Problems}
 
 All variables are nonnegative. Tableaus follow the conventions of the recap

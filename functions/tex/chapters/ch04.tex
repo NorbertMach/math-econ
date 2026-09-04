@@ -1,0 +1,704 @@
+\chapter{Inequalities in Two Variables: Regions in the Plane}
+
+The algebra volume solved inequalities in one variable, where the answer is
+a set of points on a line --- an interval, or a union of a few. With two variables
+the same question has a two-dimensional answer: the solution set of
+$2x+3y\le12$ is not a list of numbers but a \emph{region} of the plane, and
+it is described by drawing it.
+
+The mechanism is short. The corresponding \emph{equation} $2x+3y=12$ is a
+curve, and a curve cuts the plane into pieces. On each piece the expression
+$2x+3y-12$ cannot change sign without passing through zero, so its sign is
+constant there. One test point per piece therefore settles the whole
+region --- the same sign-table logic as in one variable, with curves in
+place of points.
+
+Two directions are worth drilling, and examinations favour the second. The
+forward direction is: given inequalities, shade the region. The reverse is:
+given a shaded region, write down the inequalities that describe it. The
+reverse is harder and more useful, because it is what modelling actually
+requires --- a feasible set is described in words or in a picture long before
+anyone writes the constraints. It is also exactly the skill that the
+graphical solution of a linear programme depends on.
+
+\section{Core Rules}
+
+\begin{rulebox}{The solution set is a region}
+For an expression $F(x,y)$, the set $\{F(x,y)<0\}$ is bounded by the curve
+$\{F(x,y)=0\}$. The recipe:
+\begin{enumerate}[leftmargin=1.8em,itemsep=0.3ex]
+  \item \textbf{Draw the boundary} $F(x,y)=0$. It is one of the curves of
+        Chapter~2: a line, circle, ellipse, parabola or hyperbola.
+  \item \textbf{Note which pieces it creates.} A line makes two half-planes;
+        a circle makes an inside and an outside; a parabola makes an
+        ``above'' and a ``below''.
+  \item \textbf{Test one point per piece.} Substituting a single convenient
+        point --- the origin whenever it is not on the boundary --- decides
+        the sign for that whole piece.
+  \item \textbf{Mark the boundary.} Solid if the inequality is
+        $\le$ or $\ge$ (the boundary belongs to the set), dashed if it is
+        $<$ or $>$ (it does not).
+\end{enumerate}
+\end{rulebox}
+
+\begin{rulebox}{The standard regions}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Half-plane:} $ax+by\le c$. Draw the line, test the origin.
+        With $c>0$ and the origin satisfying it, the region is the side
+        containing the origin.
+  \item \textbf{Disc and its complement:} $x^{2}+y^{2}\le r^{2}$ is the
+        closed disc; $\ge$ gives everything outside. Shifted:
+        $(x-x_{0})^{2}+(y-y_{0})^{2}\le r^{2}$.
+  \item \textbf{Ellipse interior:} $\dfrac{x^{2}}{a^{2}}
+        +\dfrac{y^{2}}{b^{2}}\le1$.
+  \item \textbf{Above or below a parabola:} $y\ge x^{2}$ is the region
+        \emph{inside} the parabola's opening; $y\le x^{2}$ is everything
+        outside it. Rewriting an inequality as $y\ge\cdots$ or
+        $y\le\cdots$ makes the side unambiguous: ``$y$ at least this'' means
+        upwards.
+  \item \textbf{Between hyperbola branches:} $xy\ge c$ with $c>0$ is the
+        pair of regions beyond the two branches --- and on the positive
+        quadrant alone it is the convex ``better set'' of Cobb--Douglas.
+  \item \textbf{Strip:} $|x|\le a$ is the vertical strip $-a\le x\le a$;
+        $|y|\le b$ a horizontal one.
+\end{itemize}
+\end{rulebox}
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-1.4, xmax=7.4, ymin=-1.4, ymax=5.4,
+      xtick={2,4,6}, ytick={2,4}, title={$2x+3y\le12$, $x,y\ge0$}]
+    \addplot[draw=none, name path=lin, domain=0:6, samples=2]{(12-2*x)/3};
+    \addplot[draw=none, name path=ax, domain=0:6, samples=2]{0};
+    \region{lin}{ax}{}
+    \addplot[domain=-1.2:7.2, samples=2]{(12-2*x)/3};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-3.4, xmax=3.4, ymin=-3.4, ymax=3.4,
+      xtick={-2,2}, ytick={-2,2}, title={$x^{2}+y^{2}\le4$}]
+    \addplot[draw=none, name path=up, domain=-2:2, samples=201]{sqrt(4-x^2)};
+    \addplot[draw=none, name path=lo, domain=-2:2, samples=201]{-sqrt(4-x^2)};
+    \region{up}{lo}{}
+    \addplot[domain=0:360, samples=181]({2*cos(x)},{2*sin(x)});
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-2.6, xmax=2.6, ymin=-0.8, ymax=4.6,
+      xtick={-2,2}, ytick={2,4}, title={$x^{2}\le y\le 4$}]
+    \addplot[draw=none, name path=par, domain=-2:2, samples=201]{x^2};
+    \addplot[draw=none, name path=top, domain=-2:2, samples=2]{4};
+    \region{par}{top}{}
+    \addplot[domain=-2.15:2.15, samples=201]{x^2};
+    \addplot[domain=-2.5:2.5, samples=2]{4};
+  \end{axis}
+\end{tikzpicture}
+\gcap{Three regions: an intersection of three half-planes (a triangle), a
+disc, and the region caught between a parabola and a line.}
+\end{gallery}
+
+\begin{rulebox}{Systems: intersect}
+Several inequalities holding \emph{simultaneously} give the
+\textbf{intersection} of their regions --- shade each one and keep only the
+overlap. Two consequences:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item An intersection of half-planes is a \textbf{convex polygon}
+        (possibly unbounded). This is precisely the feasible region of a
+        linear programme, and the reason the optimum of an LP sits at a
+        corner.
+  \item An intersection of convex regions is always convex, so discs,
+        ellipse interiors and half-planes may be combined freely and the
+        result stays convex. A \emph{union}, by contrast, usually is not,
+        and neither is the outside of a disc.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{The reverse direction: from picture to inequalities}
+Given a shaded region, work boundary by boundary.
+\begin{enumerate}[leftmargin=1.8em,itemsep=0.3ex]
+  \item \textbf{Identify every boundary curve} and write its equation. A
+        circle needs its centre and radius; a line two points or an
+        intercept and a slope; a parabola its vertex and one further
+        point.
+  \item \textbf{Fix the direction of each} with a point that is clearly
+        inside the shaded region: substitute it and keep the inequality
+        sign that comes out true.
+  \item \textbf{Join the conditions with ``and''}, one per boundary. A region
+        bounded by three curves needs three inequalities.
+  \item \textbf{Check a point just outside} each boundary: it must fail
+        exactly one condition. If it fails none, a condition is missing.
+\end{enumerate}
+Read the boundary style too: a dashed boundary means a strict inequality.
+\end{rulebox}
+
+\begin{rulebox}{Which of these regions are convex}
+One rule settles almost every case. For a function $f$ of one variable:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item $f$ \textbf{convex} $\Longrightarrow$ the region \emph{above} it,
+        $\{y\ge f(x)\}$ (its \de{Epigraph}), is a convex set. The region
+        \emph{below} it is then not convex.
+  \item $f$ \textbf{concave} $\Longrightarrow$ the region \emph{below} it,
+        $\{y\le f(x)\}$, is convex. The region above it is then not.
+\end{itemize}
+The proof is one line: if $y_{i}\ge f(x_{i})$ and $f$ is convex then
+$ty_{1}+(1-t)y_{2}\ge tf(x_{1})+(1-t)f(x_{2})\ge f(tx_{1}+(1-t)x_{2})$.
+So $y\ge x^{2}$ is convex and $y\le x^{2}$ is not, while $y\le4-x^{2}$
+\emph{is} convex, because $4-x^{2}$ is concave. Add to this that
+half-planes, discs and ellipse interiors are convex, that any
+\textbf{intersection} of convex sets is convex, and that the
+\emph{outside} of a disc and any \emph{union} of separated pieces is not,
+and every region in this chapter is decided.
+\end{rulebox}
+
+\begin{rulebox}{Absolute values in two variables}
+Split on the sign, exactly as in one variable, or recognise the standard
+shapes:
+\[
+  |x|+|y|\le c \;\text{(a diamond, or square rotated }45^{\circ}),\qquad
+  \max(|x|,|y|)\le c \;\text{(a square)} .
+\]
+For $|y|\le f(x)$ the region is squeezed between $y=f(x)$ and $y=-f(x)$,
+and exists only where $f(x)\ge0$. For $y\ge|x|$ it is the wedge above both
+lines $y=x$ and $y=-x$.
+\end{rulebox}
+
+\section{Worked Example}
+
+\begin{worked}{Sketch $S=\{(x,y):x^{2}+y^{2}\le16,\ y\ge0,\ x\le2\}$, then decide whether $\{(x,y):y\ge\sqrt{x}\}$ is convex}
+\wstep{Step 1. Take the constraints one at a time, and shade each.}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.2ex]
+  \item $x^{2}+y^{2}\le16$: the closed disc of radius $4$ about the origin
+        --- ``$\le$'' is the inside, because the origin satisfies it
+        ($0\le16$).
+  \item $y\ge0$: the upper half-plane, boundary included.
+  \item $x\le2$: everything to the left of the vertical line $x=2$.
+\end{itemize}
+\wtrap{Decide inside-versus-outside by testing one point, not by staring at
+the inequality sign. The origin is free and settles the disc immediately.
+For a line not through the origin, any convenient point does.}
+
+\wstep{Step 2. Intersect the three.}
+The region is the part of the upper half-disc lying left of $x=2$: a
+half-disc with a circular segment removed on the right. Its boundary
+consists of three pieces --- the segment of the $x$-axis from $x=-4$ to
+$x=2$, the vertical segment $x=2$ from $y=0$ up to $y=\sqrt{16-4}=2\sqrt3$,
+and the arc of the circle from $(2,2\sqrt3)$ counter-clockwise round to
+$(-4,0)$.
+
+\wstep{Step 3. Find the corner points explicitly.}
+Where $x=2$ meets the circle: $4+y^{2}=16$, so $y=2\sqrt3\approx3.46$ (the
+negative root is cut off by $y\ge0$). Where $y=0$ meets the circle:
+$x=\pm4$, of which $x=4$ is cut off by $x\le2$, leaving $(-4,0)$. And
+$(2,0)$ where the two straight boundaries meet. Three corners:
+$(-4,0)$, $(2,0)$, $(2,2\sqrt3)$.
+
+\wstep{Step 4. Sketch, and check one interior point.}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[geoaxis, width=6.6cm, height=6.6cm,
+             xmin=-5.2, xmax=5.2, ymin=-1.2, ymax=5.2,
+             xtick={-4,-2,2,4}, ytick={2,3.464},
+             yticklabels={$2$,$2\sqrt3$}]
+  % the region: under the upper semicircle, above y=0, left of x=2
+  \addplot[accent, very thick, domain=-4:2, samples=200,
+           fill=regionfill, fill opacity=0.5] {sqrt(16-x^2)} \closedcycle;
+  % the discarded part of the disc, for contrast
+  \addplot[accent!35, thick, dashed, domain=2:4, samples=80]
+           {sqrt(16-x^2)};
+  \node[font=\scriptsize] at (axis cs:-1.2,1.4) {$S$};
+  \node[font=\tiny, anchor=south west] at (axis cs:2.1,3.6) {$(2,2\sqrt3)$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+Test $(0,1)$: $0+1\le16$ \checkmark, $1\ge0$ \checkmark, $0\le2$
+\checkmark. Inside, as drawn.
+
+\wstep{Step 5. Note that $S$ is convex, and why you can say so instantly.}
+Each of the three constraint sets is convex --- a disc, a half-plane, a
+half-plane --- and \textbf{an intersection of convex sets is convex}. No
+picture is needed for that conclusion, and no amount of picture-gazing
+substitutes for it.
+
+\wstep{Step 6. The second region: $\{y\ge\sqrt{x}\}$. Do not trust the eye.}
+The boundary $y=\sqrt{x}$ is a smooth, gently bending curve, and the region
+above it looks perfectly well behaved. Test the definition instead. Take the
+two boundary points
+\[
+  P=(0,0),\qquad Q=(4,2),
+\]
+both in the set, since $0\ge\sqrt0$ and $2\ge\sqrt4$. Their midpoint is
+$M=(2,1)$, and
+\[
+  \sqrt{2}\approx1.414>1 ,
+\]
+so $M$ violates $y\ge\sqrt{x}$ and lies \emph{outside}. A segment between
+two points of the set leaves the set:
+\[
+  \boxed{\{(x,y):y\ge\sqrt{x}\}\ \text{is not convex.}}
+\]
+
+\wstep{Step 7. The principle behind it.}
+$\sqrt{x}$ is \textbf{concave}. The set above the graph of a function --- its
+epigraph --- is convex exactly when the function is \emph{convex}; the set
+below --- the hypograph --- is convex exactly when the function is
+\emph{concave}. So $\{y\ge\sqrt{x}\}$ fails while $\{y\le\sqrt{x}\}$
+succeeds, and $\{y\ge x^{2}\}$ succeeds while $\{y\le x^{2}\}$ fails.
+\wtrap{``Above'' is not a synonym for ``convex''. Match the direction of the
+inequality to the curvature of the function: convex function with $\ge$, or
+concave function with $\le$. Getting this backwards is the single most
+common mistake in the chapter, and it recurs in Volume~7 where the feasible
+set of a constrained problem must be convex for the first-order conditions
+to be sufficient.}
+\end{worked}
+
+\section{Practice Problems}
+
+Sketch the region described by each inequality in problems 1--12, and say
+whether it is convex.
+
+\begin{problems}
+  \item $y\ge 2x-1$
+  \item $x+y\le 3$
+  \item $x^{2}+y^{2}\le 9$
+  \item $x^{2}+y^{2}>4$
+  \item $y\ge x^{2}$
+  \item $y\le 4-x^{2}$
+  \item $\dfrac{x^{2}}{9}+\dfrac{y^{2}}{4}\le1$
+  \item $xy\ge 1$ on $x>0$
+  \item $|x|\le 2$
+  \item $|y|\le x$
+  \item $(x-2)^{2}+(y+1)^{2}\le 9$
+  \item $y>\dfrac1x$ on $x>0$
+\end{problems}
+
+In problems 13--20 sketch the region defined by the whole system.
+
+\begin{problems}[resume]
+  \item $x\ge0$, \;$y\ge0$, \;$2x+3y\le12$
+  \item $x\ge0$, \;$y\ge0$, \;$x+y\le4$, \;$y\le2$
+  \item $x^{2}+y^{2}\le16$, \;$y\ge0$
+  \item $x^{2}+y^{2}\le16$, \;$y\ge0$, \;$x\le2$
+  \item $x^{2}\le y$, \;$y\le x+2$
+  \item $1\le x^{2}+y^{2}\le9$
+  \item $x^{2}+y^{2}\le9$, \;$x\ge0$, \;$y\ge0$
+  \item $y\ge x^{2}$, \;$y\le 4$, \;$x\ge0$
+\end{problems}
+
+Problems 21--28 refer to the eight shaded regions below. For each, give a
+system of inequalities describing it.
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-5.2, xmax=5.2, ymin=-5.2, ymax=5.2,
+      xtick={-4,-2,2,4}, ytick={-4,-2,2,4}, title={(a)}]
+    \addplot[draw=none, name path=up, domain=-4:2, samples=201]{sqrt(16-x^2)};
+    \addplot[draw=none, name path=ax, domain=-4:2, samples=2]{0};
+    \region{up}{ax}{}
+    \addplot[domain=0:360, samples=181]({4*cos(x)},{4*sin(x)});
+    \addplot[gray!60, dashed, thin, samples=2] coordinates {(2,-5)(2,5)};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-2.8, xmax=2.8, ymin=-0.9, ymax=5.1,
+      xtick={-2,2}, ytick={2,4}, title={(b)}]
+    \addplot[draw=none, name path=par, domain=-2:2, samples=201]{x^2};
+    \addplot[draw=none, name path=top, domain=-2:2, samples=2]{4};
+    \region{par}{top}{}
+    \addplot[domain=-2.2:2.2, samples=201]{x^2};
+    \addplot[domain=-2.6:2.6, samples=2]{4};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-3.9, xmax=3.9, ymin=-2.9, ymax=2.9,
+      xtick={-2,2}, ytick={-2,2}, title={(c)}]
+    \addplot[draw=none, name path=ell, domain=0:3, samples=201]{2*sqrt(1-x^2/9)};
+    \addplot[draw=none, name path=ax, domain=0:3, samples=2]{0};
+    \region{ell}{ax}{}
+    \addplot[domain=0:360, samples=181]({3*cos(x)},{2*sin(x)});
+  \end{axis}
+\end{tikzpicture}
+\end{gallery}
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-2.4, xmax=3.4, ymin=-0.9, ymax=4.9,
+      xtick={-2,2}, ytick={2,4}, title={(d)}]
+    \addplot[draw=none, name path=par, domain=-1:2, samples=201]{x^2};
+    \addplot[draw=none, name path=lin, domain=-1:2, samples=2]{x+2};
+    \region{par}{lin}{}
+    \addplot[domain=-2.1:2.2, samples=201]{x^2};
+    \addplot[domain=-2.2:3.2, samples=2]{x+2};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-3.9, xmax=3.9, ymin=-3.9, ymax=3.9,
+      xtick={-2,2}, ytick={-2,2}, title={(e)}]
+    \addplot[draw=none, name path=o1, domain=-3:3, samples=201]{sqrt(9-x^2)};
+    \addplot[draw=none, name path=o2, domain=-3:3, samples=201]{-sqrt(9-x^2)};
+    \region{o1}{o2}{}
+    \addplot[draw=none, name path=i1, domain=-1:1, samples=201]{sqrt(1-x^2)};
+    \addplot[draw=none, name path=i2, domain=-1:1, samples=201]{-sqrt(1-x^2)};
+    \addplot[white, forget plot, sharp plot] fill between[of=i1 and i2];
+    \addplot[domain=0:360, samples=181]({3*cos(x)},{3*sin(x)});
+    \addplot[domain=0:360, samples=181]({cos(x)},{sin(x)});
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-1.4, xmax=7.4, ymin=-1.4, ymax=5.4,
+      xtick={2,4,6}, ytick={2,4}, title={(f)}]
+    \addplot[draw=none, name path=lin, domain=0:6, samples=2]{(12-2*x)/3};
+    \addplot[draw=none, name path=ax, domain=0:6, samples=2]{0};
+    \region{lin}{ax}{}
+    \addplot[domain=-1.2:7.2, samples=2]{(12-2*x)/3};
+  \end{axis}
+\end{tikzpicture}
+\end{gallery}
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-1.2, xmax=5.4, ymin=-2.9, ymax=2.9,
+      xtick={2,4}, ytick={-2,2}, title={(g)}]
+    \addplot[draw=none, name path=up, domain=0:4, samples=201]{sqrt(x)};
+    \addplot[draw=none, name path=lo, domain=0:4, samples=201]{-sqrt(x)};
+    \region{up}{lo}{}
+    \addplot[domain=0:4.6, samples=201]{sqrt(x)};
+    \addplot[domain=0:4.6, samples=201]{-sqrt(x)};
+    \addplot[gray!60, dashed, thin, samples=2] coordinates {(4,-2.8)(4,2.8)};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-3.4, xmax=3.4, ymin=-3.4, ymax=3.4,
+      xtick={-2,2}, ytick={-2,2}, title={(h)}]
+    \addplot[draw=none, name path=up, domain=-2:2, samples=101]{2-abs(x)};
+    \addplot[draw=none, name path=lo, domain=-2:2, samples=101]{abs(x)-2};
+    \region{up}{lo}{}
+    \addplot[domain=-2:2, samples=101]{2-abs(x)};
+    \addplot[domain=-2:2, samples=101]{abs(x)-2};
+  \end{axis}
+\end{tikzpicture}
+\gcap{Regions (a)--(h) for problems 21--28. A dashed boundary means the
+inequality there is strict.}
+\end{gallery}
+
+\begin{problems}[resume]
+  \item Region (a).
+  \item Region (b).
+  \item Region (c).
+  \item Region (d).
+  \item Region (e).
+  \item Region (f).
+  \item Region (g).
+  \item Region (h).
+\end{problems}
+
+\begin{problems}[resume]
+  \item Which of the eight regions (a)--(h) are convex?
+  \item Sketch $|x|+|y|\le 3$ and give its four vertices.
+  \item Sketch $y\ge|x|$ and describe it in words.
+  \item Sketch $|y|\le 4-x^{2}$ and give the $x$-values for which the
+        region is non-empty.
+  \item Write inequalities for the closed square with vertices
+        $(\pm2,\pm2)$, using absolute values and then without them.
+  \item A test point satisfies every inequality of a system but lies
+        outside the intended region. What has gone wrong?
+  \item Explain why the outside of a disc is never convex.
+  \item Give a system of two inequalities whose solution set is empty, both
+        of them satisfiable on their own.
+  \item Show that the intersection of any two convex regions is convex.
+  \item Is the union of the two half-planes $y\ge1$ and $y\le-1$ convex?
+        Justify.
+  \item Write inequalities for the set of points strictly inside the circle
+        of radius $2$ about the origin and strictly above the line $y=x$.
+  \item For which values of $c$ is the region $\{x^{2}+y^{2}\le c\}$ empty,
+        a single point, and a disc?
+\end{problems}
+
+\begin{problems}[resume]
+  \item \textbf{Budget set.} A consumer has income $60$ and faces prices
+        $p_{x}=3$, $p_{y}=4$. Write the budget set as a system, sketch it,
+        and give its three vertices.
+  \item For the same consumer, write the set of bundles that are
+        \emph{affordable and} give at least utility $12$ under
+        $U(x,y)=xy$. Sketch it and say whether it is convex.
+  \item \textbf{Production.} A firm can use at most $40$ hours of labour
+        and $30$ units of capital; product A needs $2$ hours and $1$ unit,
+        product B needs $1$ hour and $2$ units. Write the feasible set and
+        sketch it.
+  \item For the feasible set of the previous problem, give all its
+        vertices, and say why a linear objective attains its maximum at one
+        of them.
+  \item \textbf{Tax wedge.} The set $\{(q,p): p\le 100-2q,\ p\ge 20+q,\
+        q\ge0\}$ describes the quantities at which demand price exceeds
+        supply price. Sketch it and find the largest $q$ in it.
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item The closed half-plane on or above the line $y=2x-1$. Testing
+        $(0,0)$: $0\ge-1$ true, so the origin is in it. Convex.
+  \item The closed half-plane on or below $x+y=3$ (through $(3,0)$ and
+        $(0,3)$); the origin satisfies it. Convex.
+  \item The closed disc of radius $3$ about the origin. Convex.
+  \item Everything strictly outside the circle of radius $2$, boundary
+        dashed and excluded. \textbf{Not} convex.
+  \item The region on or above the parabola $y=x^{2}$ --- inside its
+        opening. Convex.
+  \item The region on or below the downward parabola $y=4-x^{2}$, which
+        includes everything far below it. Since $4-x^{2}$ is
+        \emph{concave}, the region below it is \textbf{convex}.
+  \item The closed elliptical disc with semi-axes $3$ and $2$. Convex.
+  \item The region on or beyond the hyperbola branch $y=1/x$ in the first
+        quadrant. Convex (this is the quasiconcavity of $xy$).
+  \item The closed vertical strip $-2\le x\le2$. Convex, being the
+        intersection of two half-planes.
+  \item Requires $x\ge0$ and $-x\le y\le x$: the wedge opening to the right
+        between the lines $y=\pm x$. Convex.
+  \item The closed disc of radius $3$ centred at $(2,-1)$. Convex.
+  \item The region strictly above the hyperbola branch $y=1/x$ for $x>0$,
+        boundary dashed. Convex.
+  \item The triangle with vertices $(0,0)$, $(6,0)$, $(0,4)$ --- the
+        intersection of three half-planes.
+  \item The quadrilateral with vertices $(0,0)$, $(4,0)$, $(2,2)$,
+        $(0,2)$: the triangle $x+y\le4$ in the first quadrant, with its top
+        cut off by $y\le2$.
+  \item The upper half-disc of radius $4$: the semicircular region above
+        the $x$-axis.
+  \item The same half-disc with everything right of $x=2$ removed --- the
+        region shown in figure (a).
+  \item The lens between the parabola and the line, from $x=-1$ to $x=2$
+        (the boundaries meet where $x^{2}=x+2$, i.e. $x=-1,2$). Convex.
+  \item The annulus between the circles of radius $1$ and $3$. Not convex.
+  \item The quarter-disc of radius $3$ in the first quadrant. Convex.
+  \item The region above the parabola, below $y=4$, right of the $y$-axis:
+        the right half of figure (b).
+  \item $x^{2}+y^{2}\le16$, \;$y\ge0$, \;$x<2$. The circle and the
+        $x$-axis are solid, so those two are non-strict; the vertical
+        boundary is dashed, so that one is strict.
+  \item $y\ge x^{2}$ and $y\le4$. (Equivalently
+        $x^{2}\le y\le 4$, which also forces $-2\le x\le2$ without needing
+        a separate condition.)
+  \item $\dfrac{x^{2}}{9}+\dfrac{y^{2}}{4}\le1$, \;$x\ge0$, \;$y\ge0$: the
+        quarter of the elliptical disc in the first quadrant.
+  \item $y\ge x^{2}$ and $y\le x+2$.
+  \item $1\le x^{2}+y^{2}\le9$, that is $x^{2}+y^{2}\ge1$ \emph{and}
+        $x^{2}+y^{2}\le9$.
+  \item $2x+3y\le12$, \;$x\ge0$, \;$y\ge0$.
+  \item $y^{2}\le x$ and $x<4$; equivalently
+        $-\sqrt{x}\le y\le\sqrt{x}$ with $x<4$. The parabola opens to the
+        right and is solid; the line $x=4$ is dashed.
+  \item $|x|+|y|\le2$. Written without absolute values it is the four
+        conditions $x+y\le2$, $x-y\le2$, $-x+y\le2$, $-x-y\le2$.
+  \item All except (e). Each of (a), (b), (c), (d), (f), (g), (h) is an
+        intersection of convex sets: discs and ellipse interiors,
+        half-planes, the region above the convex $x^{2}$, the region
+        \emph{right} of the parabola $x=y^{2}$ (the same rule with the axes
+        exchanged, since $y\mapsto y^{2}$ is convex), and the diamond
+        $|x|+|y|\le2$, which is an intersection of four half-planes.
+        Only (e), the annulus, fails: it is the disc of radius $3$ with a
+        hole, and the segment from $(-2,0)$ to $(2,0)$ runs straight
+        through the hole.
+  \item A diamond with vertices $(3,0)$, $(0,3)$, $(-3,0)$, $(0,-3)$: the
+        square of side $3\sqrt2$ rotated by $45^{\circ}$.
+  \item The wedge above both lines $y=x$ and $y=-x$ --- everything at or
+        above the V of $y=|x|$, opening upwards with its vertex at the
+        origin. Convex.
+  \item Squeezed between $y=4-x^{2}$ and $y=-(4-x^{2})$, so it exists only
+        where $4-x^{2}\ge0$, i.e. for $-2\le x\le2$. It is the
+        lens-shaped region symmetric about both axes.
+  \item With absolute values: $\max(|x|,|y|)\le2$, i.e. $|x|\le2$ and
+        $|y|\le2$. Without: $-2\le x\le2$ and $-2\le y\le2$, four
+        half-planes.
+  \item The system describes a \emph{larger} set than intended --- a
+        condition is missing. Every boundary of the intended region must
+        contribute one inequality; a point outside that satisfies them all
+        proves one boundary has been forgotten.
+  \item Take two points diametrically opposite each other just outside the
+        circle: the segment between them passes through the centre of the
+        disc, which is not in the set. So the segment leaves the set and
+        convexity fails.
+  \item For instance $y\ge x+1$ and $y\le x-1$. Each is a satisfiable
+        half-plane, but together they demand $x+1\le y\le x-1$, impossible
+        since $x+1>x-1$. The two half-planes are on opposite sides of
+        parallel lines.
+  \item Let $C_{1},C_{2}$ be convex and take $P,Q\in C_{1}\cap C_{2}$.
+        Since $P,Q\in C_{1}$ and $C_{1}$ is convex, the whole segment
+        $[P,Q]$ lies in $C_{1}$; the same argument puts it in $C_{2}$.
+        Hence $[P,Q]\subseteq C_{1}\cap C_{2}$, which is the definition of
+        convexity. (The argument works for any number of sets.)
+  \item No. The points $(0,1)$ and $(0,-1)$ both lie in the union, but the
+        midpoint $(0,0)$ lies in neither half-plane. A union of disjoint
+        convex sets is essentially never convex.
+  \item $x^{2}+y^{2}<4$ \;and\; $y>x$. Both boundaries are dashed: the open
+        half-disc lying above the diagonal. (It is convex, being an
+        intersection of two convex sets.)
+  \item Empty for $c<0$; the single point $(0,0)$ for $c=0$; the closed disc
+        of radius $\sqrt{c}$ for $c>0$. The three cases are exactly the
+        three things a level \emph{set} of $x^{2}+y^{2}$ can do, and they
+        are why a sublevel set can be empty without the inequality being
+        malformed.
+  \item $3x+4y\le60$, \;$x\ge0$, \;$y\ge0$: the triangle with vertices
+        $(0,0)$, $(20,0)$ and $(0,15)$.
+  \item $3x+4y\le60$, \;$xy\ge12$, \;$x,y>0$: the part of the budget
+        triangle lying beyond the indifference curve $y=12/x$. It is the
+        intersection of a convex set (the triangle) with another convex set
+        (the better set of a quasiconcave utility), hence \textbf{convex}.
+  \item With $a$ units of A and $b$ of B: $2a+b\le40$ (labour),
+        $a+2b\le30$ (capital), $a\ge0$, $b\ge0$. Four half-planes, so a
+        convex polygon.
+  \item Vertices: $(0,0)$, $(20,0)$, $(0,15)$, and the intersection of
+        $2a+b=40$ with $a+2b=30$. Solving: $b=40-2a$ and
+        $a+80-4a=30$, so $a=\tfrac{50}{3}$ and $b=\tfrac{20}{3}$. A linear
+        objective has parallel straight level lines; pushing them across a
+        convex polygon, the last point of contact is a vertex (or a whole
+        edge, if the level lines happen to be parallel to it). Hence
+        checking the vertices suffices --- the fundamental theorem of
+        linear programming.
+  \item The two lines meet where $100-2q=20+q$, i.e. $q=\tfrac{80}{3}$ with
+        $p=\tfrac{140}{3}$. The region is the triangle with vertices
+        $(0,20)$, $(0,100)$ and
+        $\bigl(\tfrac{80}{3},\tfrac{140}{3}\bigr)$, so the largest feasible
+        quantity is $q=\tfrac{80}{3}\approx26.7$ --- beyond it no price
+        satisfies both buyer and seller, which is exactly the competitive
+        equilibrium quantity.
+\end{solutions}
+
+\section{Additional Problems}
+
+\begin{problems}
+  \item Sketch $3x-2y>6$ and say which side of the line contains the
+        origin.
+  \item Sketch $y\le -x+5$ together with $x\ge1$.
+  \item Sketch $(x+1)^{2}+(y-2)^{2}<4$ and give centre and radius.
+  \item Sketch $x^{2}+y^{2}\ge 1$ and $x^{2}+y^{2}\le 4$ together.
+  \item Sketch $y\ge x^{2}-4$.
+  \item Sketch $y\le 2^{x}$.
+  \item Sketch $y\ge\ln x$ and state the domain restriction it forces.
+  \item Sketch $xy\le 4$ on the first quadrant.
+  \item Sketch $|x-1|\le 2$.
+  \item Sketch $|x|+|y|\ge 1$ and decide convexity.
+  \item Sketch $y>x^{2}$ and $y<x+6$, and find the $x$-range of the
+        region.
+  \item Sketch $x^{2}+4y^{2}\le 16$ and $y\ge 0$.
+  \item Write inequalities for the closed triangle with vertices $(0,0)$,
+        $(4,0)$, $(0,3)$.
+  \item Write inequalities for the closed disc of radius $2$ centred at
+        $(1,1)$, intersected with the first quadrant.
+  \item Write inequalities for the region above $y=x^{2}$ and below
+        $y=2x+3$, and give the $x$-range.
+  \item Write inequalities for the horizontal strip between $y=-1$ and
+        $y=3$, once with an absolute value and once without.
+  \item Write inequalities for everything outside the ellipse
+        $x^{2}/4+y^{2}=1$ but inside the circle $x^{2}+y^{2}=9$.
+  \item Is the region $\{y\ge x^{2}\}\cap\{y\le 4\}$ bounded? Give its
+        extreme $x$- and $y$-values.
+  \item Give a system of three inequalities whose solution set is a single
+        point.
+  \item Give a system of three inequalities whose solution set is an
+        unbounded convex region with exactly two vertices.
+  \item Show that $\{(x,y): y\ge \mathrm{e}^{x}\}$ is convex.
+  \item Show that $\{(x,y): y\ge \sqrt{x},\ x\ge0\}$ is \emph{not}
+        convex, and say which nearby set \emph{is}.
+  \item \textbf{Two constraints, two goods.} Sketch
+        $x+y\le 10$, \;$2x+y\le 16$, \;$x,y\ge0$, and give all vertices.
+  \item \textbf{Diet problem.} A feed must supply at least $8$ units of
+        protein and $12$ of energy. Grain gives $2$ protein and $2$ energy
+        per kg; soy gives $1$ protein and $4$ energy per kg. Write the
+        feasible set, sketch it, and say why it is unbounded.
+  \item \textbf{Minimum-wage wedge.} Sketch
+        $\{(L,w): w\ge 10,\ w\le 30-L,\ L\ge0\}$ and interpret the region
+        and its largest $L$.
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item The open half-plane strictly below the line $y=\tfrac32x-3$.
+        Testing $(0,0)$: $0>6$ is false, so the origin is \emph{not} in the
+        region; it lies on the other side.
+  \item The intersection of the half-plane on or below $y=5-x$ with the
+        half-plane $x\ge1$: an unbounded wedge opening down-right, with
+        corner $(1,4)$.
+  \item The \emph{open} disc of radius $2$ centred at $(-1,2)$; the
+        boundary circle is dashed and excluded.
+  \item The closed annulus $1\le x^{2}+y^{2}\le4$ between the two circles.
+        Not convex.
+  \item The region on or above the parabola $y=x^{2}-4$, whose vertex is
+        $(0,-4)$ and which crosses the axis at $x=\pm2$. Convex.
+  \item Everything on or below the increasing curve $y=2^{x}$, which
+        passes through $(0,1)$ and hugs the $x$-axis to the left. Since
+        $2^{x}$ is \emph{convex}, the region below it is \textbf{not}
+        convex: $(-3,\tfrac18)$ and $(3,8)$ both satisfy the inequality,
+        but their midpoint $(0,4.0625)$ does not, since $2^{0}=1<4.0625$.
+  \item The region on or above $y=\ln x$; the logarithm's domain confines
+        it to the open right half-plane $x>0$. Since $\ln x$ is
+        \emph{concave}, the region above it is \textbf{not} convex: the
+        boundary points $(0.1,\ln 0.1)$ and $(10,\ln 10)$ have midpoint
+        $(5.05,0)$, and $0<\ln 5.05\approx1.62$, so the midpoint is
+        outside.
+  \item The part of the first quadrant on or below the hyperbola $y=4/x$
+        --- the sublevel set $\{xy\le4\}$. \textbf{Not} convex: $(0.5,8)$
+        and $(8,0.5)$ both lie on the boundary, but their midpoint
+        $(4.25,4.25)$ has $xy\approx18.1>4$. (Equivalently: $4/x$ is convex
+        on $x>0$, so the region below it is not.)
+  \item $-2\le x-1\le2$, i.e. the closed vertical strip $-1\le x\le3$.
+        Convex.
+  \item Everything on or outside the diamond $|x|+|y|=1$. Not convex ---
+        the segment from $(1,0)$ to $(-1,0)$ passes through the origin,
+        where $|x|+|y|=0<1$.
+  \item Strictly between the parabola and the line; they meet where
+        $x^{2}=x+6$, i.e. $x=-2$ and $x=3$, so the region spans
+        $-2<x<3$. Both boundaries dashed.
+  \item $\dfrac{x^{2}}{16}+\dfrac{y^{2}}{4}\le1$ with $y\ge0$: the upper
+        half of an elliptical disc with semi-axes $4$ and $2$.
+  \item $x\ge0$, \;$y\ge0$, \;$3x+4y\le12$ (the line through $(4,0)$ and
+        $(0,3)$).
+  \item $(x-1)^{2}+(y-1)^{2}\le4$, \;$x\ge0$, \;$y\ge0$.
+  \item $y\ge x^{2}$ and $y\le 2x+3$; the boundaries meet where
+        $x^{2}=2x+3$, i.e. $x=-1$ and $x=3$, so $-1\le x\le3$.
+  \item With an absolute value: $|y-1|\le2$. Without: $y\ge-1$ and
+        $y\le3$.
+  \item $\dfrac{x^{2}}{4}+y^{2}\ge1$ \;and\; $x^{2}+y^{2}\le9$: the disc of
+        radius $3$ with the elliptical disc punched out. Not convex.
+  \item Yes, bounded: $y$ ranges over $[0,4]$ and $x$ over $[-2,2]$, since
+        $y\ge x^{2}$ together with $y\le4$ forces $x^{2}\le4$. The extreme
+        points are $(\pm2,4)$ and $(0,0)$.
+  \item For example $x\ge0$, \;$y\ge0$, \;$x+y\le0$: the first two force
+        $x,y\ge0$ and the third then forces $x=y=0$, so the solution set is
+        exactly $\{(0,0)\}$.
+  \item $x\ge0$, \;$y\ge0$, \;$x+y\ge2$. The boundary consists of the
+        ray $\{x=0,\ y\ge2\}$, the segment from $(0,2)$ to $(2,0)$, and the
+        ray $\{y=0,\ x\ge2\}$, so there are exactly two corners, $(0,2)$
+        and $(2,0)$. The region is unbounded (it contains every large
+        point of the quadrant) and convex, being an intersection of three
+        half-planes.
+  \item $\mathrm{e}^{x}$ is a convex function, and the set lying \emph{on
+        or above} the graph of a convex function --- its epigraph --- is a
+        convex set: if $y_{1}\ge\mathrm{e}^{x_{1}}$ and
+        $y_{2}\ge\mathrm{e}^{x_{2}}$ then for $t\in[0,1]$
+        \[
+          ty_{1}+(1-t)y_{2}\ \ge\ t\mathrm{e}^{x_{1}}+(1-t)\mathrm{e}^{x_{2}}
+          \ \ge\ \mathrm{e}^{tx_{1}+(1-t)x_{2}},
+        \]
+        the last step being exactly convexity of $\mathrm{e}^{x}$.
+  \item $\sqrt{x}$ is \emph{concave}, so the region \emph{above} it is
+        not convex. Concretely, $(0,0)$ and $(4,2)$ both lie on the
+        boundary and so belong to the set, but their midpoint $(2,1)$ does
+        not, since $\sqrt2\approx1.414>1$. The set that \emph{is} convex is
+        the one below the curve, $\{y\le\sqrt{x},\ x\ge0\}$ --- the
+        hypograph of a concave function.
+  \item The lines meet where $x+y=10$ and $2x+y=16$, i.e. $x=6$, $y=4$.
+        Vertices: $(0,0)$, $(8,0)$, $(6,4)$, $(0,10)$.
+  \item With $g$ kg of grain and $s$ kg of soy: $2g+s\ge8$,
+        $2g+4s\ge12$, $g\ge0$, $s\ge0$. It is unbounded because the
+        constraints are all ``at least'' --- buying arbitrarily much feed is
+        always still feasible, so the region extends indefinitely up and to
+        the right. A cost-minimising objective is nevertheless attained,
+        at one of the two vertices on the lower-left boundary.
+  \item The region is the triangle bounded below by $w=10$, above by
+        $w=30-L$, and on the left by $L=0$; the two sloping boundaries
+        meet at $L=20$, $w=10$. It shows the employment levels compatible
+        with a wage floor of $10$ when labour demand is $w=30-L$: the
+        largest feasible $L$ is $20$, the employment the floor permits.
+        Any $L$ beyond that would require a wage below the minimum.
+\end{solutions}

@@ -136,6 +136,129 @@ bottom-right entry is $z^{*}$. Every pivot moves to an adjacent vertex of
 the feasible polytope without ever decreasing $z$.
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{Run the simplex method on the running example, from the initial tableau to the optimum}
+\wstep{Step 1. The initial tableau.}
+With the standard form of Chapter~3 and the objective written as
+$z-40x_{1}-30x_{2}=0$:
+\begin{center}\footnotesize
+\begin{tabular}{c|rrrr|r}
+  \hline
+  basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & RHS\\
+  \hline
+  $s_{1}$ & $2$ & $1$ & $1$ & $0$ & $100$\\
+  $s_{2}$ & $1$ & $1$ & $0$ & $1$ & $80$\\
+  \hline
+  $z$ & $-40$ & $-30$ & $0$ & $0$ & $0$\\
+  \hline
+\end{tabular}
+\end{center}
+The basis is $\{s_{1},s_{2}\}$, the basic solution is $(0,0,100,80)$, and
+$z=0$: produce nothing, all capacity idle. That is the corner $(0,0)$.
+\wtrap{With the objective written as $z-\mathbf c^{\!\top}\mathbf x=0$, the
+$z$-row holds \emph{negated} objective coefficients. Signs in the $z$-row
+are the single largest source of confusion in this chapter; fix the
+convention --- \emph{negative entries mean improvement is available} --- and
+never change it mid-problem.}
+
+\wstep{Step 2. First iteration: choose the entering variable.}
+The most negative $z$-row entry is $-40$, under $x_{1}$. Bringing $x_{1}$
+into the basis raises $z$ by $40$ per unit, faster than $x_{2}$'s $30$. So
+$x_{1}$ \textbf{enters}.
+
+\wstep{Step 3. Minimum-ratio test for the leaving variable.}
+Divide each RHS by the \emph{positive} entries in the pivot column:
+\[
+  \text{row }s_{1}:\ \frac{100}{2}=50 ;
+  \qquad
+  \text{row }s_{2}:\ \frac{80}{1}=80 .
+\]
+The smallest ratio, $50$, is in row $s_{1}$: that row's resource runs out
+first, so $s_{1}$ \textbf{leaves}. The pivot element is the $2$.
+\wtrap{Use only \emph{strictly positive} entries in the ratio test. A zero
+or negative entry imposes no limit --- increasing the entering variable
+never drives that basic variable negative --- and including it produces a
+nonsensical ratio and an infeasible next tableau. If \emph{no} entry is
+positive, the problem is unbounded (Chapter~6).}
+
+\wstep{Step 4. Pivot: make the pivot element $1$ and clear its column.}
+Divide the pivot row by $2$, then subtract multiples of it from the others:
+\begin{center}\footnotesize
+\begin{tabular}{c|rrrr|r}
+  \hline
+  basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & RHS\\
+  \hline
+  $x_{1}$ & $1$ & $0.5$ & $0.5$ & $0$ & $50$\\
+  $s_{2}$ & $0$ & $0.5$ & $-0.5$ & $1$ & $30$\\
+  \hline
+  $z$ & $0$ & $-10$ & $20$ & $0$ & $2000$\\
+  \hline
+\end{tabular}
+\end{center}
+Basic solution $(50,0,0,30)$, $z=2000$ --- the corner $(50,0)$. The method
+has moved along an edge of the feasible region.
+\wtrap{Clear the pivot column in \emph{every} other row, the $z$-row
+included. Forgetting the $z$-row leaves a stale objective and the algorithm
+loses track of where it is. After each pivot, the pivot column should be a
+unit vector.}
+
+\wstep{Step 5. Second iteration.}
+$-10$ under $x_{2}$ is still negative, so $x_{2}$ enters. Ratios:
+\[
+  \text{row }x_{1}:\ \frac{50}{0.5}=100 ;
+  \qquad
+  \text{row }s_{2}:\ \frac{30}{0.5}=60 .
+\]
+Minimum $60$, so $s_{2}$ leaves; the pivot element is the $0.5$ in the
+$s_{2}$ row.
+
+\wstep{Step 6. Pivot again.}
+Multiply that row by $2$, then clear the $x_{2}$ column:
+\begin{center}\footnotesize
+\begin{tabular}{c|rrrr|r}
+  \hline
+  basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & RHS\\
+  \hline
+  $x_{1}$ & $1$ & $0$ & $1$ & $-1$ & $20$\\
+  $x_{2}$ & $0$ & $1$ & $-1$ & $2$ & $60$\\
+  \hline
+  $z$ & $0$ & $0$ & $10$ & $20$ & $2600$\\
+  \hline
+\end{tabular}
+\end{center}
+
+\wstep{Step 7. Stop, and read everything off.}
+No negative entry remains in the $z$-row, so no variable can improve $z$:
+\textbf{optimal}.
+\[
+  \boxed{x_{1}^{*}=20,\quad x_{2}^{*}=60,\quad s_{1}^{*}=s_{2}^{*}=0,\quad z^{*}=2600 .}
+\]
+This matches the graphical answer of Chapter~2 exactly. \checkmark\ The path
+taken was $(0,0)\to(50,0)\to(20,60)$: two pivots, two edges, three corners.
+
+\wstep{Step 8. The $z$-row entries under the slacks are not decoration.}
+The $10$ under $s_{1}$ and $20$ under $s_{2}$ are the \textbf{shadow
+prices}: one more machine hour is worth $10$ euros, one more labour hour
+$20$. Chapter~5 reads them systematically and Chapter~7 proves they are the
+dual solution.
+
+\wstep{Step 9. The algorithm in five lines.}
+\begin{center}\footnotesize
+\begin{tabular}{ll}
+  \hline
+  1 & any negative $z$-row entry? If not, stop --- optimal.\\
+  2 & entering: the most negative one (its column is the pivot column).\\
+  3 & leaving: minimum ratio RHS $/$ positive column entry.\\
+  4 & pivot: normalise the pivot row, clear the column everywhere else.\\
+  5 & go to 1.\\
+  \hline
+\end{tabular}
+\end{center}
+Each pass moves to an adjacent corner with a value at least as good, and
+since there are finitely many corners the method terminates.
+\end{worked}
+
 \section{Practice Problems}
 
 All variables are non-negative in every problem. For each complete simplex

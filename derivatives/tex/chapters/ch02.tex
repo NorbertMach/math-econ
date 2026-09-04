@@ -87,6 +87,90 @@ Combine each entry with the chain rule whenever the argument is a
 non-trivial function of $x$.
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{Differentiate $f(x)=\mathrm{e}^{2x}\ln(3x^{2}+1)$, $g(x)=5^{x^{2}}$ and $h(x)=x^{x}$}
+\wstep{Step 1. $f$ is a product; each factor is a composite.}
+\[
+  \bigl(\mathrm{e}^{2x}\bigr)'=2\mathrm{e}^{2x},
+  \qquad
+  \bigl(\ln(3x^{2}+1)\bigr)'=\frac{6x}{3x^{2}+1} .
+\]
+Both are chain rules: $\bigl(\mathrm{e}^{u}\bigr)'=\mathrm{e}^{u}u'$ and
+$\bigl(\ln u\bigr)'=u'/u$.
+\wtrap{$\bigl(\mathrm{e}^{2x}\bigr)'=2\mathrm{e}^{2x}$, not
+$\mathrm{e}^{2x}$ and not $2x\mathrm{e}^{2x-1}$. The exponential is the one
+function that reproduces itself, so the \emph{only} thing that happens is
+the inner factor appearing in front. And $(\ln u)'=u'/u$ puts the
+\emph{derivative} of the inside on top, not the inside itself.}
+
+\wstep{Step 2. Assemble with the product rule, then factor.}
+\[
+  f'=2\mathrm{e}^{2x}\ln(3x^{2}+1)+\mathrm{e}^{2x}\cdot\frac{6x}{3x^{2}+1}
+   =\boxed{\mathrm{e}^{2x}\left[2\ln(3x^{2}+1)+\frac{6x}{3x^{2}+1}\right]}
+\]
+At $x=0$ this gives $1\cdot[0+0]=0$; and indeed $f(x)=\mathrm{e}^{2x}
+\ln(3x^{2}+1)$ has a minimum at $0$, since $\ln(3x^{2}+1)\ge0$ with equality
+only there. \checkmark
+
+\wstep{Step 3. A general base: convert to base $\mathrm{e}$ first.}
+$5^{x^{2}}$ is not a power function --- the variable is in the
+\emph{exponent}. Rewrite it so that the only exponential is $\mathrm{e}$:
+\[
+  5^{x^{2}}=\mathrm{e}^{x^{2}\ln5}
+  \quad\Longrightarrow\quad
+  g'(x)=\mathrm{e}^{x^{2}\ln5}\cdot\bigl(2x\ln5\bigr)
+       =\boxed{2x\ln5\cdot5^{x^{2}}}
+\]
+which is the rule $\bigl(a^{u}\bigr)'=a^{u}\ln a\cdot u'$, derived rather
+than memorised.
+\wtrap{$\bigl(5^{x}\bigr)'\neq x\,5^{x-1}$. The power rule applies when the
+\emph{base} varies and the exponent is constant; here it is the other way
+round. Ask which of the two is moving before choosing a rule --- and the
+factor $\ln a$ is what distinguishes $a^{x}$ from $\mathrm{e}^{x}$, where
+$\ln\mathrm{e}=1$ makes it invisible.}
+
+\wstep{Step 4. Both moving at once: logarithmic differentiation.}
+In $x^{x}$ the base \emph{and} the exponent contain $x$, so neither rule
+applies. Take logarithms of both sides:
+\[
+  \ln h=x\ln x .
+\]
+Differentiate, remembering that the left side is a composite in $x$:
+\[
+  \frac{h'}{h}=\ln x+x\cdot\frac1x=\ln x+1
+  \quad\Longrightarrow\quad
+  h'=h\,(\ln x+1)=\boxed{x^{x}(\ln x+1)}
+\]
+\wtrap{Neither $x\cdot x^{x-1}$ (power rule, wrongly) nor $x^{x}\ln x$
+(exponential rule, wrongly) is correct, and both are common. Whenever the
+variable appears in the base and the exponent, take logs --- there is no
+other route. Check: $h'=0$ at $\ln x=-1$, i.e.\ $x=1/\mathrm{e}$, and
+$x^{x}$ does have its minimum there.}
+
+\wstep{Step 5. The table this chapter has to make automatic.}
+\begin{center}\footnotesize
+\begin{tabular}{llll}
+  \hline
+  $f$ & $f'$ & $f$ & $f'$\\
+  \hline
+  $\mathrm{e}^{u}$ & $\mathrm{e}^{u}u'$ & $\sin u$ & $u'\cos u$\\
+  $a^{u}$ & $a^{u}\ln a\cdot u'$ & $\cos u$ & $-u'\sin u$\\
+  $\ln u$ & $u'/u$ & $\tan u$ & $u'/\cos^{2}u$\\
+  $\log_{a}u$ & $u'/(u\ln a)$ & $\arctan u$ & $u'/(1+u^{2})$\\
+  \hline
+\end{tabular}
+\end{center}
+Every entry carries a factor $u'$. That factor \emph{is} the chain rule, and
+it is what the whole table has in common.
+
+\wstep{Step 6. Why $\ln$ dominates economic work.}
+$\bigl(\ln f\bigr)'=f'/f$ is the \textbf{growth rate} of $f$. So the
+derivative of a log is a percentage change per unit time, which is why
+growth models, elasticities and log-linear regressions are all written in
+logs: differentiating turns levels into rates automatically.
+\end{worked}
+
 \section{Practice Problems}
 
 Differentiate each of the following with respect to $x$ (or the indicated

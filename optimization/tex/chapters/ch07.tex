@@ -135,6 +135,121 @@ Rule of thumb: substitution for quick checks in two variables; Lagrange as
 the systematic method.
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{Cost minimisation: minimise $wL+rK$ subject to $K^{1/2}L^{1/2}=\bar Q$}
+\wstep{Step 1. Set up the Lagrangian --- and mind the sign convention for a minimum.}
+Write the constraint as ``constant minus function equals zero'' and attach
+the multiplier:
+\[
+  \mathcal L(L,K,\lambda)=wL+rK+\lambda\bigl(\bar Q-K^{1/2}L^{1/2}\bigr).
+\]
+\wtrap{Any consistent convention works --- $+\lambda(\bar Q-g)$ or
+$-\lambda(g-\bar Q)$ --- provided you keep it for all conditions. What
+changes with the convention is only the \emph{sign} of $\lambda$, and you
+must know which sign you have chosen before interpreting it. Here
+$\lambda>0$ will mean ``cost rises when required output rises'', which is
+what we want.}
+
+\wstep{Step 2. First-order conditions.}
+\[
+  \pd{\mathcal L}{L}=w-\lambda\cdot\tfrac12K^{1/2}L^{-1/2}=0,
+  \qquad
+  \pd{\mathcal L}{K}=r-\lambda\cdot\tfrac12K^{-1/2}L^{1/2}=0,
+\]
+\[
+  \pd{\mathcal L}{\lambda}=\bar Q-K^{1/2}L^{1/2}=0 .
+\]
+Three equations, three unknowns. The third is just the constraint restated,
+which is the point of differentiating with respect to $\lambda$.
+
+\wstep{Step 3. Divide the first two to eliminate $\lambda$.}
+\[
+  \frac{w}{r}
+  =\frac{\tfrac12K^{1/2}L^{-1/2}}{\tfrac12K^{-1/2}L^{1/2}}
+  =K^{1/2-(-1/2)}L^{-1/2-1/2}
+  =\frac{K}{L} .
+\]
+\[
+  \boxed{\frac{K}{L}=\frac{w}{r}}
+\]
+\wtrap{The exponent arithmetic is where this dies: $\tfrac12-(-\tfrac12)=1$
+and $-\tfrac12-\tfrac12=-1$. Write both subtractions with brackets. The
+reward is that all the awkward powers collapse into the single ratio $K/L$
+--- which is what makes the rest of the problem easy.}
+
+\wstep{Step 4. Read the condition before using it.}
+It says $MRTS=$ input price ratio: the isoquant is tangent to the isocost
+line. Every constrained problem in this volume produces a tangency
+condition at this stage, and recognising it confirms the algebra is on
+track. Note it is the \emph{opposite} orientation to the consumer problem
+--- there the objective is curved and the constraint straight, here the
+constraint is curved and the objective straight --- but the tangency is the
+same.
+
+\wstep{Step 5. Impose the constraint.}
+From $K=(w/r)L$,
+\[
+  \bar Q=K^{1/2}L^{1/2}=\Bigl(\tfrac wr L\Bigr)^{1/2}L^{1/2}
+        =L\sqrt{\tfrac wr}
+  \quad\Longrightarrow\quad
+  L^{*}=\bar Q\sqrt{\frac rw},
+  \qquad
+  K^{*}=\bar Q\sqrt{\frac wr} .
+\]
+
+\wstep{Step 6. The cost function, and a satisfying cancellation.}
+\[
+  C(\bar Q,w,r)=wL^{*}+rK^{*}
+  =w\bar Q\sqrt{\tfrac rw}+r\bar Q\sqrt{\tfrac wr}
+  =\bar Q\sqrt{wr}+\bar Q\sqrt{wr}
+  =\boxed{2\bar Q\sqrt{wr}}
+\]
+Each input absorbs exactly half the cost --- the shares are the exponents
+$\tfrac12,\tfrac12$, as always for Cobb--Douglas.
+
+\wstep{Step 7. Recover $\lambda$ and check what it means.}
+From the first condition,
+\[
+  \lambda=\frac{w}{\tfrac12K^{1/2}L^{-1/2}}
+  =\frac{2w}{\sqrt{K/L}}
+  =\frac{2w}{\sqrt{w/r}}
+  =2\sqrt{wr} .
+\]
+And differentiating the cost function directly,
+\[
+  \pd{C}{\bar Q}=2\sqrt{wr}=\lambda . \checkmark
+\]
+So $\lambda$ is the \textbf{marginal cost} of output --- the shadow price of
+the constraint. It is constant here because the technology has constant
+returns to scale.
+
+\wstep{Step 8. Verify the answer is a minimum, not a maximum.}
+The first-order conditions are necessary for either. Here the argument is
+structural rather than computational: the objective $wL+rK$ is linear (hence
+convex), and the feasible set $\{K^{1/2}L^{1/2}\ge\bar Q\}$ is convex,
+because $K^{1/2}L^{1/2}$ is concave and this is a superlevel set. A convex
+objective over a convex set has its stationary point as a global minimum.
+\wtrap{Lagrange finds stationary points of $\mathcal L$, which include
+maxima, minima and saddles alike. Some argument --- a bordered Hessian
+(Chapter~9), or convexity as here --- is always required. And check the
+constraint qualification: $\grad g=(\tfrac12K^{-1/2}L^{1/2},
+\tfrac12K^{1/2}L^{-1/2})\neq\mathbf0$ for $K,L>0$, so the method is
+licensed.}
+
+\wstep{Step 9. The four-step pipeline, for reuse.}
+\begin{center}\footnotesize
+\begin{tabular}{ll}
+  \hline
+  1 & write $\mathcal L$, fixing a sign convention\\
+  2 & set all partials to zero, including the one in $\lambda$\\
+  3 & divide two conditions to eliminate $\lambda$ $\to$ tangency\\
+  4 & substitute into the constraint, solve, then recover $\lambda$\\
+  \hline
+\end{tabular}
+\end{center}
+\end{worked}
+
 \section{Practice Problems}
 
 For Problems 1--15, write down (a) the Lagrangian and (b) the three FOCs.
@@ -297,6 +412,32 @@ constrained problem for $(x^*, y^*)$ and $\lambda^*$.
   \item Maximise $U = x^{1/2} y^{1/2}$ subject to the budget $2 x + y = 12$, (a) by substitution and (b) by the Lagrange method. From the Lagrange version, read off $\lambda^*$ and interpret it.
   \item Extremise $f(x, y) = x + y$ on the circle $x^2 + y^2 = 2$. First substitute $y = \sqrt{2 - x^2}$ and find the resulting candidate; then run the Lagrange method and compare. What did the substitution miss, and why?
   \item For $\min\, x^2 + y^2 + z^2$ s.t.\ $x + 2 y + 3 z = 14$, state which method (substitution or Lagrange) you would use and why. Then solve the problem with that method.
+
+  \item \textbf{Laying a cable (multi-part).} A distributor $V$ stands on a
+        straight road; a house $H$ lies $300$\,m from the road, and $V$ is
+        $500$\,m from $H$. Cable costs $60$ per metre along the road and
+        $100$ per metre across open ground. The cable runs $x$ metres along
+        the road and then $y$ metres straight to the house.
+        \begin{enumerate}[label=(\alph*),leftmargin=1.6em,itemsep=0.2ex]
+          \item Put the road on the $x$-axis with $H=(0,300)$, so
+                $V=(400,0)$. Show that the geometry forces
+                $y^{2}-(400-x)^{2}=90000$.
+          \item Minimise $60x+100y$ subject to that constraint by the
+                Lagrange method.
+          \item Confirm with the bordered Hessian that the solution is a
+                minimum.
+          \item Compare the minimal cost with (i) running the cable
+                straight from $V$ to $H$, and (ii) running it along the
+                road as far as possible and then straight across.
+          \item Solve the same problem by substitution, and state the
+                domain of the resulting one-variable function.
+        \end{enumerate}
+  \item In the cable problem, show that the optimum satisfies
+        $\dfrac{400-x}{y}=\dfrac{60}{100}$, and interpret this ratio.
+  \item \textbf{Fencing.} A rectangular enclosure of area $800$ m$^{2}$ is
+        to be fenced, with the fence costing $30$ per metre on three sides
+        and $50$ per metre on the fourth. Minimise the cost by Lagrange,
+        and give the dimensions.
 \end{problems}
 
 \section{Additional Solutions}
@@ -364,4 +505,73 @@ constrained problem for $(x^*, y^*)$ and $\lambda^*$.
   \emph{Lagrange:} $\mathcal{L} = x + y + \lambda(2 - x^2 - y^2)$. FOCs: $1 = 2 \lambda x$, $1 = 2 \lambda y$, so $x = y = 1/(2 \lambda)$; the constraint $2 x^2 = 2$ gives $x = \pm 1$. Both candidates appear: $(1, 1)$ with $f = 2$ (maximum, $\lambda^* = 1/2$) and $(-1, -1)$ with $f = -2$ (minimum, $\lambda^* = -1/2$). Solving for $y$ chose a sign; the Lagrange method never had to.
   \item Either method works, since the linear constraint can be solved globally for any variable. Lagrange is the better choice here: with three variables the substitution $x = 14 - 2 y - 3 z$ destroys the symmetry of the objective and leads to messier two-variable FOCs, while the Lagrangian keeps the symmetric structure and supplies $\lambda^*$.
   $\mathcal{L} = x^2 + y^2 + z^2 + \lambda(14 - x - 2 y - 3 z)$. FOCs: $2 x = \lambda$, $2 y = 2 \lambda$, $2 z = 3 \lambda$, so $x = \lambda/2$, $y = \lambda$, $z = 3 \lambda/2$. Constraint: $\lambda/2 + 2 \lambda + 9 \lambda/2 = 7 \lambda = 14 \Rightarrow \lambda^* = 2$, hence $x^* = 1$, $y^* = 2$, $z^* = 3$ and $f^* = 1 + 4 + 9 = 14$. (Geometric check: the squared distance from the origin to the plane $x + 2 y + 3 z = 14$ is $14^2/(1^2 + 2^2 + 3^2) = 196/14 = 14$.) \checkmark
+
+  \item (a) The cable leaves the road at $(400-x,0)$ and runs to
+        $H=(0,300)$, so by Pythagoras
+        $y^{2}=(400-x)^{2}+300^{2}$, i.e. $y^{2}-(400-x)^{2}=90000$.
+
+        (b) With $g(x,y)=y^{2}-(400-x)^{2}-90000$ we have
+        $g_{x}=2(400-x)$ and $g_{y}=2y$, so the first-order conditions
+        $60=\lambda\,2(400-x)$ and $100=\lambda\,2y$ give
+        \[
+          \frac{30}{400-x}=\lambda=\frac{50}{y}
+          \quad\Longrightarrow\quad 3y=5(400-x).
+        \]
+        Writing $u=400-x$: $y=\tfrac53u$, and the constraint gives
+        $\tfrac{25}{9}u^{2}-u^{2}=90000$, so $\tfrac{16}{9}u^{2}=90000$,
+        $u^{2}=50625$ and $u=225$. Hence $x=175$, $y=375$ and
+        \[
+          C^{*}=60\cdot175+100\cdot375=10\,500+37\,500=48\,000 .
+        \]
+        Also $\lambda=30/225=\tfrac{2}{15}$.
+
+        (c) $\mathcal{L}_{xx}=-\lambda g_{xx}=2\lambda=\tfrac4{15}$,
+        $\mathcal{L}_{yy}=-\lambda g_{yy}=-2\lambda=-\tfrac4{15}$,
+        $\mathcal{L}_{xy}=0$, with $g_{x}=450$ and $g_{y}=750$. Then
+        \[
+          \det\overline{H}
+          =\begin{vmatrix}
+             0 & 450 & 750\\ 450 & \tfrac4{15} & 0\\
+             750 & 0 & -\tfrac4{15}
+           \end{vmatrix}
+          =-450\left(450\cdot\left(-\tfrac4{15}\right)\right)
+           +750\left(-\tfrac4{15}\cdot750\right)
+        \]
+        \[
+          =54\,000-150\,000=-96\,000 .
+        \]
+        Negative, so by the sign rule of Chapter~9 this is a constrained
+        \textbf{minimum}.
+
+        (d) (i) Straight from $V$ to $H$: $100\cdot500=50\,000$.
+        (ii) Along the road to the foot of the perpendicular and then
+        across: $60\cdot400+100\cdot300=24\,000+30\,000=54\,000$. The
+        optimum, $48\,000$, beats both --- and note that the naive
+        ``cheapest terrain crossing'' is the \emph{worst} of the three.
+
+        (e) Substituting $y=\sqrt{(400-x)^{2}+90000}$ gives
+        \[
+          C(x)=60x+100\sqrt{(400-x)^{2}+90000},\qquad x\in[0,400],
+        \]
+        the domain being the road distances that keep the leaving point
+        between the foot of the perpendicular and $V$. Then
+        $C'(x)=60-\dfrac{100(400-x)}{\sqrt{(400-x)^{2}+90000}}=0$ leads to
+        $100u=60\sqrt{u^{2}+90000}$, hence $64u^{2}=3\,240\,000$ and
+        $u=225$ once more.
+  \item Dividing the two first-order conditions,
+        $\dfrac{60}{100}=\dfrac{2(400-x)\lambda}{2y\lambda}
+        =\dfrac{400-x}{y}$, and indeed $225/375=0.6$. The ratio of the two
+        unit costs equals the ratio of the horizontal run to the slant
+        length --- the same ``law of refraction'' that governs light passing
+        between two media, and economically the statement that at the
+        optimum the marginal cost of a metre of progress is equal along
+        both routes.
+  \item Let the sides be $a$ (the expensive one and its opposite are the
+        pair of length $a$; take the expensive side to be one of length
+        $a$) and $b$, with $ab=800$. Cost is
+        $C=50a+30a+30b+30b=80a+60b$. Minimising $80a+60b$ subject to
+        $ab=800$: $80=\mu b$ and $60=\mu a$, so $a/b=60/80=3/4$, i.e.
+        $b=\tfrac43a$. Then $a\cdot\tfrac43a=800$ gives $a^{2}=600$,
+        $a=10\sqrt6\approx24.5$ and $b=\tfrac43a\approx32.7$. The minimal
+        cost is $80a+60b=80\cdot24.49+60\cdot32.66\approx3919$.
 \end{solutions}

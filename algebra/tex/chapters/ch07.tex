@@ -1,588 +1,201 @@
-\chapter{The Standard Functions and Their Graphs}
+\chapter{Summation Notation}
 
-A first course in mathematics for economists assumes that the graphs of the
-usual functions are known by sight: which way a cubic runs off at its ends,
-where a rational function has a pole, that $\ln x$ never turns around, that
-an isoquant is a hyperbola. That knowledge is not decoration either. Every
-optimisation problem later on begins with a picture, every limit is checked
-against one, and a wrong sketch produces a wrong answer faster than any
-arithmetic slip.
-
-This chapter is the catalogue, and the drill that makes it stick. First the
-standard shapes; then the features that can be read straight off a formula
-without any calculus: intercepts, roots, symmetry, poles and asymptotes,
-and the behaviour at the far ends of the axis. The last block leaves the
-world of $y=f(x)$ and sketches curves given by an \emph{equation} in $x$
-and $y$: circles, ellipses, hyperbolas, budget lines and indifference
-curves.
+For 1--3, expand. For 4--7, use the closed-form sum formulas. For 8--15,
+simplify. For 16--29, evaluate with the data
+\[
+  n=4,\qquad a=(3,-1,2,4),\qquad b=(1,2,-1,2),
+\]
+so $\bar a=2$ and $\bar b=1$. For 30, evaluate the inequality.
 
 \section{Core Rules}
 
-\begin{rulebox}{The power functions}
-Whole-number powers alternate: even powers are symmetric about the
-$y$-axis and non-negative, odd powers are symmetric about the origin and
-run from $-\infty$ to $+\infty$. Negative powers have a pole at $0$; the
-root $\sqrt{x}$ is the upper half of a sideways parabola.
+\begin{rulebox}{What the notation abbreviates}
+\[
+  \sum_{i=1}^{n}a_{i}=a_{1}+a_{2}+\cdots+a_{n} .
+\]
+$i$ is a \textbf{dummy index}: it exists only inside the sum, and renaming
+it changes nothing ($\sum_{i}a_{i}=\sum_{j}a_{j}$). A quantity carrying no
+index --- $c$, $n$, $\bar a$ --- is constant with respect to $i$ and can be
+moved outside.
 \end{rulebox}
 
-\begin{gallery}
-\begin{tikzpicture}
-  \begin{axis}[fnaxis, xmin=-2.6, xmax=2.6, ymin=-2.6, ymax=2.6,
-      xtick={-2,2}, ytick={-2,2}, title={$y=x$}]
-    \addplot[domain=-2.4:2.4]{x};
-  \end{axis}
-\end{tikzpicture}\hfill
-\begin{tikzpicture}
-  \begin{axis}[fnaxis, xmin=-2.6, xmax=2.6, ymin=-1.0, ymax=4.4,
-      xtick={-2,2}, ytick={2,4}, title={$y=x^{2}$}]
-    \addplot[domain=-2.1:2.1]{x^2};
-  \end{axis}
-\end{tikzpicture}\hfill
-\begin{tikzpicture}
-  \begin{axis}[fnaxis, xmin=-2.6, xmax=2.6, ymin=-4.4, ymax=4.4,
-      xtick={-2,2}, ytick={-4,4}, title={$y=x^{3}$}]
-    \addplot[domain=-1.62:1.62]{x^3};
-  \end{axis}
-\end{tikzpicture}
-\end{gallery}
-
-\begin{gallery}
-\begin{tikzpicture}
-  \begin{axis}[fnaxis, xmin=-0.6, xmax=4.6, ymin=-0.8, ymax=2.6,
-      xtick={2,4}, ytick={1,2}, title={$y=\sqrt{x}$}]
-    \addplot[domain=0:4.4]{sqrt(x)};
-  \end{axis}
-\end{tikzpicture}\hfill
-\begin{tikzpicture}
-  \begin{axis}[fnaxis, xmin=-3.4, xmax=3.4, ymin=-3.4, ymax=3.4,
-      xtick={-2,2}, ytick={-2,2}, title={$y=1/x$}]
-    \addplot[domain=-3.2:-0.31]{1/x};
-    \addplot[domain=0.31:3.2]{1/x};
-  \end{axis}
-\end{tikzpicture}\hfill
-\begin{tikzpicture}
-  \begin{axis}[fnaxis, xmin=-3.4, xmax=3.4, ymin=-0.6, ymax=4.4,
-      xtick={-2,2}, ytick={2,4}, title={$y=1/x^{2}$}]
-    \addplot[domain=-3.2:-0.48]{1/x^2};
-    \addplot[domain=0.48:3.2]{1/x^2};
-  \end{axis}
-\end{tikzpicture}
-\end{gallery}
-
-\begin{rulebox}{Exponential, logarithm, absolute value}
-$\mathrm{e}^{x}$ is positive everywhere, strictly increasing, and flattens
-onto the asymptote $y=0$ as $x\to-\infty$; it passes through $(0,1)$.
-$\ln x$ is its mirror image at the line $y=x$: defined only for $x>0$,
-strictly increasing, passing through $(1,0)$, with the $y$-axis as a
-vertical asymptote. A general exponential $a^{x}$ rises for $a>1$ and falls
-for $0<a<1$, always through $(0,1)$; note $\bigl(\tfrac12\bigr)^{x}
-=2^{-x}$, so the decreasing case is the increasing one reflected in the
-$y$-axis. The absolute value $|x|$ is a V with its vertex at the origin.
+\begin{rulebox}{Linearity, and the constant sum}
+\[
+  \sum_{i=1}^{n}(a_{i}+b_{i})=\sum a_{i}+\sum b_{i},\qquad
+  \sum_{i=1}^{n}c\,a_{i}=c\sum a_{i},\qquad
+  \sum_{i=1}^{n}c=nc .
+\]
+The third is the one that is forgotten: summing a constant $n$ times gives
+$nc$, not $c$. Together these handle every expression of the form
+$\sum(\alpha a_{i}+\beta)$.
 \end{rulebox}
 
-\begin{gallery}
-\begin{tikzpicture}
-  \begin{axis}[fnaxis, xmin=-3.4, xmax=2.4, ymin=-0.8, ymax=4.4,
-      xtick={-2,2}, ytick={1,3}, title={$y=\mathrm{e}^{x}$}]
-    \addplot[domain=-3.2:1.45]{exp(x)};
-  \end{axis}
-\end{tikzpicture}\hfill
-\begin{tikzpicture}
-  \begin{axis}[fnaxis, xmin=-0.8, xmax=5.4, ymin=-3.4, ymax=2.4,
-      xtick={1,3,5}, ytick={-2,1}, title={$y=\ln x$}]
-    \addplot[domain=0.045:5.2]{ln(x)};
-  \end{axis}
-\end{tikzpicture}\hfill
-\begin{tikzpicture}
-  \begin{axis}[fnaxis, xmin=-3.4, xmax=3.4, ymin=-0.8, ymax=3.4,
-      xtick={-2,2}, ytick={1,3}, title={$y=|x|$}]
-    \addplot[domain=-3:3]{abs(x)};
-  \end{axis}
-\end{tikzpicture}
-\end{gallery}
-
-\begin{rulebox}{What can be read off a formula without calculus}
-\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
-  \item \textbf{$y$-intercept:} evaluate $f(0)$ (if $0\in D$).
-  \item \textbf{Roots} \de{(Nullstellen)}: solve $f(x)=0$. For a product,
-        set each factor to zero. A factor $(x-a)^{k}$ with $k$ odd makes
-        the graph \emph{cross} the axis at $a$; with $k$ even it only
-        \emph{touches} it.
-  \item \textbf{Sign:} between consecutive roots and poles the sign cannot
-        change. Pick one test point per interval; that fixes the whole
-        picture.
-  \item \textbf{Symmetry:} $f(-x)=f(x)$ gives mirror symmetry in the
-        $y$-axis, $f(-x)=-f(x)$ point symmetry in the origin.
-  \item \textbf{End behaviour of a polynomial:} only the leading term
-        $a_{n}x^{n}$ matters as $x\to\pm\infty$. Even $n$: both ends go the
-        same way (up if $a_{n}>0$). Odd $n$: the ends go opposite ways
-        (down--left, up--right if $a_{n}>0$).
-\end{itemize}
+\begin{rulebox}{The closed forms}
+\[
+  \sum_{k=1}^{n}k=\frac{n(n+1)}{2},\qquad
+  \sum_{k=1}^{n}k^{2}=\frac{n(n+1)(2n+1)}{6},\qquad
+  \sum_{k=1}^{n}k^{3}=\Bigl(\frac{n(n+1)}{2}\Bigr)^{2},
+\]
+\[
+  \sum_{k=0}^{n}c\,r^{k}=c\,\frac{1-r^{n+1}}{1-r}\quad(r\neq1) .
+\]
+The geometric one has $n+1$ terms because it starts at $k=0$; that
+off-by-one is worth checking every time.
 \end{rulebox}
 
-\begin{rulebox}{Rational functions: poles and asymptotes}
-Write $f(x)=\dfrac{p(x)}{q(x)}$ with $p,q$ polynomials and
-\textbf{cancel common factors first}.
-\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
-  \item A zero of $q$ that does \emph{not} cancel is a \textbf{pole}
-        \de{(Polstelle)}: the vertical line $x=a$ is a
-        \textbf{vertical asymptote}, and $|f|\to\infty$ there.
-  \item A zero of $q$ that \emph{does} cancel is a \textbf{hole}: the graph
-        is that of the reduced function, minus the single point $x=a$.
-  \item \textbf{Horizontal asymptote}, by comparing degrees:
-        $\deg p<\deg q\Rightarrow y=0$; \;$\deg p=\deg q\Rightarrow
-        y=\dfrac{\text{leading coeff. of }p}{\text{leading coeff. of }q}$;
-        \;$\deg p>\deg q\Rightarrow$ none.
-  \item If $\deg p=\deg q+1$, polynomial division gives
-        $f(x)=(\text{linear})+\dfrac{\text{remainder}}{q(x)}$, and the
-        linear part is an \textbf{oblique asymptote}
-        \de{(schiefe Asymptote)}, because the remainder term dies out.
-\end{itemize}
+\begin{rulebox}{What is \emph{not} linear}
+\[
+  \sum a_{i}^{2}\neq\Bigl(\sum a_{i}\Bigr)^{2},\qquad
+  \sum a_{i}b_{i}\neq\Bigl(\sum a_{i}\Bigr)\Bigl(\sum b_{i}\Bigr),\qquad
+  \sum\frac{1}{a_{i}}\neq\frac{1}{\sum a_{i}} .
+\]
+Sums pass through addition and scalar multiples, and through nothing else.
+The gap between $\sum a_{i}^{2}$ and $(\sum a_{i})^{2}$ is, up to a factor,
+the variance --- so it is not a small technicality but the subject matter of
+statistics.
 \end{rulebox}
 
-\begin{gallery}
-\begin{tikzpicture}
-  \begin{axis}[fnaxis, xmin=-2.4, xmax=6.4, ymin=-4.4, ymax=6.4,
-      xtick={2,4,6}, ytick={-2,2,4}, title={$y=\dfrac{2x+1}{x-3}$}]
-    \addplot[domain=-2.2:2.55]{(2*x+1)/(x-3)};
-    \addplot[domain=3.42:6.2]{(2*x+1)/(x-3)};
-    \addplot[gray, dashed, thin, forget plot, samples=2, domain=-2.2:6.2]{2};
-    \addplot[gray, dashed, thin, forget plot, samples=2] coordinates {(3,-4.2)(3,6.2)};
-  \end{axis}
-\end{tikzpicture}\hfill
-\begin{tikzpicture}
-  \begin{axis}[fnaxis, xmin=-4.4, xmax=4.4, ymin=-6.4, ymax=6.4,
-      xtick={-2,2}, ytick={-4,4}, title={$y=\dfrac{x^{2}+1}{x}$}]
-    \addplot[domain=-4.2:-0.17]{(x^2+1)/x};
-    \addplot[domain=0.17:4.2]{(x^2+1)/x};
-    \addplot[gray, dashed, thin, forget plot, samples=2, domain=-4.2:4.2]{x};
-  \end{axis}
-\end{tikzpicture}\hfill
-\begin{tikzpicture}
-  \begin{axis}[fnaxis, xmin=-3, xmax=42, ymin=-3, ymax=32,
-      xtick={10,20,30,40}, ytick={5,15,25},
-      title={$AC(q)=\dfrac{100+5q}{q}$}]
-    \addplot[domain=3.9:40]{(100+5*x)/x};
-    \addplot[gray, dashed, thin, forget plot, samples=2, domain=-2.8:40]{5};
-  \end{axis}
-\end{tikzpicture}
-\gcap{Horizontal asymptote $y=2$ and pole $x=3$ \quad\textbullet\quad
-oblique asymptote $y=x$ \quad\textbullet\quad average cost falling towards
-the asymptote $AC=5$.}
-\end{gallery}
-
-\begin{rulebox}{Curves given by an equation in two variables}
-Not every curve is a graph $y=f(x)$. The standard ones:
-\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
-  \item \textbf{Line:} $ax+by=c$. Sketch it from the two intercepts
-        $x=c/a$ and $y=c/b$; solved for $y$ the slope is $-a/b$. This is
-        the budget line $p_{x}x+p_{y}y=M$, with slope $-p_{x}/p_{y}$.
-  \item \textbf{Circle:} $(x-x_{0})^{2}+(y-y_{0})^{2}=r^{2}$, centre
-        $(x_{0},y_{0})$, radius $r$. A general
-        $x^{2}+y^{2}+Dx+Ey+F=0$ is brought to this form by
-        \textbf{completing the square} in $x$ and in $y$.
-  \item \textbf{Ellipse:} $\dfrac{x^{2}}{a^{2}}+\dfrac{y^{2}}{b^{2}}=1$,
-        crossing the axes at $(\pm a,0)$ and $(0,\pm b)$.
-  \item \textbf{Hyperbola:} $xy=c$ with $c>0$ lies in the first and third
-        quadrant with both axes as asymptotes. Solved for $y$ it is
-        $y=c/x$. Every Cobb--Douglas isoquant $K^{\alpha}L^{\beta}=\bar Q$
-        and every indifference curve $xy=\bar U$ has this shape.
-\end{itemize}
-To sketch, either solve for $y$, remembering that a square root splits the
-curve into \textbf{two branches} $y=\pm\sqrt{\cdots}$, or read off centre,
-radius and intercepts directly.
+\begin{rulebox}{Two structural identities}
+With $\bar a=\frac1n\sum a_{i}$, deviations from the mean sum to zero:
+\[
+  \sum_{i=1}^{n}(a_{i}-\bar a)=\sum a_{i}-n\bar a=n\bar a-n\bar a=0 .
+\]
+And a telescoping sum collapses to its ends:
+\[
+  \sum_{i=1}^{n}(a_{i+1}-a_{i})=a_{n+1}-a_{1} .
+\]
 \end{rulebox}
+
+\section{Worked Example}
+
+\begin{worked}{Prove $\sum_{i=1}^{n}(a_{i}-\bar a)^{2}=\sum_{i=1}^{n}a_{i}^{2}-n\bar a^{2}$, then verify it on $a=(3,-1,2,4)$}
+\wstep{Step 1. Expand the square inside the sum.}
+\[
+  (a_{i}-\bar a)^{2}=a_{i}^{2}-2\bar a\,a_{i}+\bar a^{2} .
+\]
+Expand \emph{before} summing: the summation sign passes over sums of terms,
+so once the bracket is expanded the sum splits.
+
+\wstep{Step 2. Split by linearity.}
+\[
+  \sum_{i=1}^{n}(a_{i}-\bar a)^{2}
+  =\sum_{i=1}^{n}a_{i}^{2}-2\bar a\sum_{i=1}^{n}a_{i}+\sum_{i=1}^{n}\bar a^{2} .
+\]
+\wtrap{$\bar a$ carries no index $i$, so it is a constant for this sum and
+comes out of the middle term. This is the step students hesitate over ---
+$\bar a$ is built from all the $a_{i}$, so it \emph{feels} like it varies.
+It does not: it is one number, computed once.}
+
+\wstep{Step 3. Deal with the two remaining sums.}
+By definition $\sum a_{i}=n\bar a$, and the last sum adds the constant
+$\bar a^{2}$ exactly $n$ times:
+\[
+  =\sum a_{i}^{2}-2\bar a\,(n\bar a)+n\bar a^{2}
+  =\sum a_{i}^{2}-2n\bar a^{2}+n\bar a^{2}
+  =\boxed{\sum_{i=1}^{n}a_{i}^{2}-n\bar a^{2}} .
+\]
+\wtrap{$\sum_{i=1}^{n}\bar a^{2}=n\bar a^{2}$, not $\bar a^{2}$. Constants do
+not ``pass through'' a sum untouched --- they get counted $n$ times.}
+
+\wstep{Step 4. Verify numerically, which is how you catch a slip.}
+With $a=(3,-1,2,4)$ and $n=4$: $\sum a_{i}=8$, so $\bar a=2$.
+
+\emph{Right-hand side:}
+$\sum a_{i}^{2}=9+1+4+16=30$, and $n\bar a^{2}=4\cdot4=16$, giving
+$30-16=14$.
+
+\emph{Left-hand side:} the deviations are $1,-3,0,2$, and
+$1+9+0+4=14$. \checkmark
+
+\wstep{Step 5. Note what the two sides are for.}
+The left side says what the quantity \emph{means} --- total squared
+dispersion about the mean. The right side is how it is \emph{computed}: one
+pass over the data accumulating $\sum a_{i}$ and $\sum a_{i}^{2}$, with no
+need to know the mean in advance. Divided by $n$ it is the variance, and the
+same identity in two variables produces the covariance, and with it the
+OLS slope formula of Volume~3.
+\wtrap{Check the deviations sum to zero --- here $1-3+0+2=0$ --- before
+squaring them. If they do not, the mean is wrong and everything after it
+is too.}
+\end{worked}
 
 \section{Practice Problems}
 
-For each polynomial in problems 1--8, give the roots (with multiplicity
-where it matters), the $y$-intercept, the symmetry, and the end behaviour
-as $x\to\pm\infty$.
-
 \begin{problems}
-  \item $f(x)=x^{3}-4x$
-  \item $f(x)=x^{4}-5x^{2}+4$
-  \item $f(x)=-2x^{3}+6x$
-  \item $f(x)=(x-1)^{2}(x+3)$
-  \item $f(x)=x^{2}-6x+8$
-  \item $f(x)=-x^{2}+4x-4$
-  \item $f(x)=x^{5}-x$
-  \item A polynomial satisfies $f(x)\to-\infty$ both as $x\to+\infty$ and
-        as $x\to-\infty$. What does that say about its degree and its
-        leading coefficient?
-\end{problems}
-
-In problems 9--20, give all vertical asymptotes, holes, and horizontal or
-oblique asymptotes.
-
-\begin{problems}[resume]
-  \item $f(x)=\dfrac{1}{x-3}$
-  \item $f(x)=\dfrac{2x+1}{x-3}$
-  \item $f(x)=\dfrac{x^{2}-1}{x-1}$
-  \item $f(x)=\dfrac{3x}{x^{2}-4}$
-  \item $f(x)=\dfrac{x^{2}+1}{x}$
-  \item $f(x)=\dfrac{x^{2}-4}{x^{2}-9}$
-  \item $f(x)=\dfrac{x^{2}+3x+2}{x+1}$
-  \item $f(x)=\dfrac{x^{2}-x-6}{x-3}$
-  \item $f(x)=\dfrac{2x^{2}+3}{x-1}$
-  \item $f(x)=\dfrac{5}{x^{2}+1}$
-  \item $AC(q)=\dfrac{100+5q}{q}$ \;(average cost, $q>0$)
-  \item $f(x)=\dfrac{x+3}{x^{2}+x-6}$
-\end{problems}
-
-\begin{problems}[resume]
-  \item For $y=2^{x}$: give the $y$-intercept, the asymptote, the
-        monotonicity and the range.
-  \item Explain why the graph of $y=\bigl(\tfrac12\bigr)^{x}$ is the graph
-        of $y=2^{x}$ reflected in the $y$-axis.
-  \item For $y=\ln x$: give the $x$-intercept, the asymptote, the domain
-        and the range.
-  \item Sketch $y=\mathrm{e}^{-x}$ and state its asymptote and range.
-  \item Both $\ln x$ and $\log_{10}x$ pass through $(1,0)$ and rise. What
-        exactly distinguishes their graphs?
-  \item The adjustment path $y=1-\mathrm{e}^{-x}$, $x\ge0$, is used for
-        saturation effects. Give $y(0)$, the asymptote, and say in words
-        what the curve does.
-\end{problems}
-
-\begin{problems}[resume]
-  \item Match each graph (A)--(F) below to one of the formulas
-        $\;\ln x$, \;$|x|$, \;$\sqrt{x}$, \;$x^{3}-x$,
-        \;$\mathrm{e}^{-x}$, \;$1/x^{2}$.
-\end{problems}
-
-\begin{gallery}
-\begin{tikzpicture}
-  \begin{axis}[fnaxis, xmin=-2.6, xmax=2.6, ymin=-2.2, ymax=2.6,
-      xtick={-2,2}, ytick={-2,2}, title={(A)}]
-    \addplot[domain=-1.85:1.85]{x^3-x};
-  \end{axis}
-\end{tikzpicture}\hfill
-\begin{tikzpicture}
-  \begin{axis}[fnaxis, xmin=-0.7, xmax=4.6, ymin=-0.8, ymax=2.6,
-      xtick={2,4}, ytick={1,2}, title={(B)}]
-    \addplot[domain=0:4.4]{sqrt(x)};
-  \end{axis}
-\end{tikzpicture}\hfill
-\begin{tikzpicture}
-  \begin{axis}[fnaxis, xmin=-3.4, xmax=3.4, ymin=-0.6, ymax=4.4,
-      xtick={-2,2}, ytick={2,4}, title={(C)}]
-    \addplot[domain=-3.2:-0.48]{1/x^2};
-    \addplot[domain=0.48:3.2]{1/x^2};
-  \end{axis}
-\end{tikzpicture}
-\end{gallery}
-
-\begin{gallery}
-\begin{tikzpicture}
-  \begin{axis}[fnaxis, xmin=-2.4, xmax=3.4, ymin=-0.8, ymax=4.4,
-      xtick={-2,2}, ytick={1,3}, title={(D)}]
-    \addplot[domain=-1.45:3.2]{exp(-x)};
-  \end{axis}
-\end{tikzpicture}\hfill
-\begin{tikzpicture}
-  \begin{axis}[fnaxis, xmin=-3.4, xmax=3.4, ymin=-0.8, ymax=3.4,
-      xtick={-2,2}, ytick={1,3}, title={(E)}]
-    \addplot[domain=-3:3]{abs(x)};
-  \end{axis}
-\end{tikzpicture}\hfill
-\begin{tikzpicture}
-  \begin{axis}[fnaxis, xmin=-0.8, xmax=5.4, ymin=-3.4, ymax=2.4,
-      xtick={1,3,5}, ytick={-2,1}, title={(F)}]
-    \addplot[domain=0.045:5.2]{ln(x)};
-  \end{axis}
-\end{tikzpicture}
-\end{gallery}
-
-\begin{problems}[resume]
-  \item Sketch $f(x)=x^{2}-4x+3$: give the vertex, both intercepts and the
-        direction of opening.
-  \item Sketch $f(x)=\dfrac{x+1}{x-1}$: give both asymptotes and both
-        intercepts.
-  \item Sketch $f(x)=\sqrt{x+4}$: give the domain, the range and the
-        starting point of the curve.
-  \item Sketch $f(x)=|x|-2$: give the vertex and the roots.
-  \item Sketch $f(x)=x^{3}-3x^{2}$: give the roots with multiplicity and
-        the end behaviour.
-  \item Classify as even, odd, or neither: (a) $x^{4}+2$, \;(b) $x^{3}+x$,
-        \;(c) $1/x^{2}$, \;(d) $\mathrm{e}^{x}$.
-  \item Which of these have a horizontal asymptote, and what is it?
-        (a) $\dfrac{3x+1}{x-2}$, \;(b) $\dfrac{x^{2}}{x+1}$,
-        \;(c) $\mathrm{e}^{-x}$ as $x\to+\infty$, \;(d) $\ln x$.
-  \item On which intervals is $f(x)=\dfrac{(x-1)(x+2)}{x-3}$ positive?
-  \item Describe the graph of $f(x)=\sqrt{x^{2}-1}$: domain, symmetry,
-        range, and the two points where it meets the $x$-axis.
-\end{problems}
-
-In problems 37--45, identify the curve, and sketch it.
-
-\begin{problems}[resume]
-  \item $x^{2}+y^{2}=16$. Also solve for $y$ and give the two branches with
-        their domains.
-  \item $(x-2)^{2}+(y+1)^{2}=9$. Give centre and radius.
-  \item $\dfrac{x^{2}}{9}+\dfrac{y^{2}}{4}=1$. Give the four axis
-        intercepts.
-  \item $xy=6$. Solve for $y$; in which quadrants does the curve lie?
-  \item $y^{2}=x$. Is $y$ a function of $x$? Is $x$ a function of $y$?
-  \item $2x+3y=12$. Give both intercepts and the slope.
-  \item $x^{2}+y^{2}-4x+6y+9=0$. Complete the square; give centre and
-        radius.
-  \item The isoquant $K^{0.5}L^{0.5}=10$. Solve for $L$ and describe the
-        shape for $K>0$.
-  \item The budget line $4x+2y=40$ and the indifference curve $xy=50$.
-        Give the slope of the budget line and $y$ as a function of $x$ on
-        the indifference curve.
+  \item Expand: $\displaystyle\sum_{k=1}^{n}k$
+  \item Expand: $\displaystyle\sum_{i=2}^{4}a_{i}^{2}$
+  \item Expand: $\displaystyle\sum_{j=0}^{3}2^{j}$
+  \item Compute: $\displaystyle\sum_{k=1}^{5}k$
+  \item Compute: $\displaystyle\sum_{k=1}^{4}k^{2}$
+  \item Compute: $\displaystyle\sum_{k=1}^{3}k^{3}$
+  \item Geometric series formula: $\displaystyle\sum_{k=0}^{n}c\,r^{k}$ for
+        $r\neq 1$.
+  \item Simplify: $\displaystyle\sum_{i=1}^{n}(a_{i}+c)-nc$
+  \item Simplify: $\displaystyle\sum_{i=1}^{n}(a_{i}-\bar a)$
+  \item Simplify: $\displaystyle\frac{1}{n}\sum_{i=1}^{n}a_{i}^{2}-\bar
+        a^{2}$ (name the quantity)
+  \item Prove: $\displaystyle\sum_{i=1}^{n}(a_{i}-\bar a)^{2}
+        =\sum_{i=1}^{n}a_{i}^{2}-n\bar a^{2}$
+  \item Simplify: $\displaystyle\sum_{i=1}^{n}c\,a_{i}b_{i}$
+  \item Index shift: rewrite $\displaystyle\sum_{i=1}^{n}a_{i+1}$ in terms
+        of $a_{j}$.
+  \item Telescoping: $\displaystyle\sum_{i=1}^{n}(a_{i+1}-a_{i})$
+  \item Simplify: $\displaystyle\sum_{i=1}^{n}i(i+1)$
+  \item Evaluate: $\bar a$
+  \item Evaluate: $\bar b$
+  \item Evaluate: $\displaystyle\sum_{i=1}^{4}a_{i}^{2}$
+  \item Evaluate: $\displaystyle\left(\sum_{i=1}^{4}a_{i}\right)^{2}$
+  \item Evaluate: $\displaystyle\sum_{i=1}^{4}a_{i}b_{i}$
+  \item Evaluate: $\displaystyle\sum_{i=1}^{4}(a_{i}-\bar a)(b_{i}-\bar b)$
+  \item Evaluate: $\displaystyle\sum_{i=1}^{4}(a_{i}-\bar a)^{2}$
+  \item Evaluate: $\displaystyle\sum_{i=1}^{4}(3a_{i}+2)$
+  \item Evaluate: $\displaystyle\sum_{i=1}^{4}(a_{i}+b_{i})^{2}$
+  \item Evaluate: $\displaystyle\sum_{i=1}^{3}(-1)^{i}\,i$
+  \item Evaluate: $\displaystyle\sum_{k=0}^{4}\left(\frac{1}{2}\right)^{k}$
+  \item Present value: $\displaystyle\sum_{t=1}^{3}\frac{100}{(1.1)^{t}}$
+        (round to two decimals)
+  \item Compute the sum of the first ten odd numbers:
+        $\displaystyle\sum_{i=1}^{10}(2i-1)$
+  \item With $c=7,\ n=5$: $\displaystyle\sum_{i=1}^{n}c$
+  \item True or false (with one-line justification):
+        $\displaystyle\left|\sum a_{i}\right|\le\sum|a_{i}|$
 \end{problems}
 
 \section{Solutions}
 
 \begin{solutions}
-  \item $x^{3}-4x=x(x^{2}-4)=x(x-2)(x+2)$: roots $-2,0,2$, all simple, all
-        crossings; $f(0)=0$; odd (only odd powers); degree $3$ with
-        positive leading coefficient, so $f\to-\infty$ as $x\to-\infty$ and
-        $f\to+\infty$ as $x\to+\infty$.
-  \item $x^{4}-5x^{2}+4=(x^{2}-1)(x^{2}-4)$: roots $\pm1,\pm2$;
-        $f(0)=4$; even; degree $4$, positive leading coefficient, so both
-        ends go to $+\infty$ (a W-shape).
-  \item $-2x^{3}+6x=-2x(x^{2}-3)$: roots $0,\pm\sqrt3$; $f(0)=0$; odd;
-        degree $3$ with \emph{negative} leading coefficient, so
-        $f\to+\infty$ as $x\to-\infty$ and $f\to-\infty$ as $x\to+\infty$.
-  \item Roots $x=1$ (double, the graph touches and turns back) and $x=-3$
-        (simple, a crossing); $f(0)=(-1)^{2}\cdot3=3$; neither even nor
-        odd; degree $3$, leading coefficient $+1$: down on the left, up on
-        the right.
-  \item $(x-2)(x-4)$: roots $2$ and $4$; $f(0)=8$; vertex at
-        $x=3$, $f(3)=-1$; neither even nor odd; parabola opening upwards,
-        both ends $+\infty$.
-  \item $-(x-2)^{2}$: a double root at $x=2$ (the vertex touches the axis);
-        $f(0)=-4$; opens downwards, both ends $-\infty$.
-  \item $x^{5}-x=x(x^{4}-1)=x(x^{2}-1)(x^{2}+1)$: roots $-1,0,1$;
-        $f(0)=0$; odd; degree $5$, positive leading coefficient: down on
-        the left, up on the right.
-  \item Both ends behave alike, so the degree is \textbf{even}; both go
-        \emph{down}, so the leading coefficient is \textbf{negative}.
-  \item Vertical asymptote $x=3$; $\deg p=0<1=\deg q$, so the horizontal
-        asymptote is $y=0$. No holes.
-  \item Vertical asymptote $x=3$; equal degrees, so
-        $y=\tfrac{2}{1}=2$ is the horizontal asymptote.
-  \item $\dfrac{(x-1)(x+1)}{x-1}=x+1$ for $x\neq1$: no pole but a
-        \textbf{hole} at $(1,2)$. The graph is the line $y=x+1$ with that
-        one point punched out; no horizontal asymptote.
-  \item $x^{2}-4=(x-2)(x+2)$: poles at $x=\pm2$; $\deg p=1<2=\deg q$, so
-        $y=0$.
-  \item Pole at $x=0$. Degrees differ by one, so divide:
-        $\dfrac{x^{2}+1}{x}=x+\dfrac{1}{x}$, giving the oblique asymptote
-        $y=x$.
-  \item Poles at $x=\pm3$; equal degrees with leading coefficients $1$ and
-        $1$, so the horizontal asymptote is $y=1$.
-  \item $\dfrac{(x+1)(x+2)}{x+1}=x+2$ for $x\neq-1$: a hole at $(-1,1)$,
-        no pole, no horizontal asymptote.
-  \item $\dfrac{(x-3)(x+2)}{x-3}=x+2$ for $x\neq3$: a hole at $(3,5)$.
-  \item Pole at $x=1$. Division: $2x^{2}+3=(x-1)(2x+2)+5$, so
-        $f(x)=2x+2+\dfrac{5}{x-1}$ and the oblique asymptote is $y=2x+2$.
-  \item $x^{2}+1$ never vanishes: no poles at all. $\deg p=0<2$, so
-        $y=0$; the graph is a bell-shaped hump with maximum $5$ at $x=0$,
-        even.
-  \item $AC(q)=\dfrac{100}{q}+5$: pole at $q=0$ and horizontal asymptote
-        $AC=5$. Average cost falls towards the marginal cost $5$ as the
-        fixed cost $100$ is spread over more units.
-  \item $x^{2}+x-6=(x+3)(x-2)$, so
-        $f(x)=\dfrac{x+3}{(x+3)(x-2)}=\dfrac{1}{x-2}$ for $x\neq-3$:
-        a hole at $\bigl(-3,-\tfrac15\bigr)$, a pole at $x=2$, and the
-        horizontal asymptote $y=0$.
-  \item $y$-intercept $2^{0}=1$; asymptote $y=0$ (approached as
-        $x\to-\infty$); strictly increasing; range $(0,\infty)$.
-  \item Because $\bigl(\tfrac12\bigr)^{x}=(2^{-1})^{x}=2^{-x}$: the
-        argument $x$ has been replaced by $-x$, and replacing $x$ by $-x$
-        mirrors any graph in the $y$-axis.
-  \item $x$-intercept $(1,0)$; the $y$-axis $x=0$ is a vertical asymptote
-        (as $x\to0^{+}$, $\ln x\to-\infty$); $D=(0,\infty)$, $W=\R$.
-  \item The decreasing exponential: it falls from $+\infty$ through
-        $(0,1)$ towards the asymptote $y=0$ as $x\to+\infty$;
-        $W=(0,\infty)$. It is $\mathrm{e}^{x}$ mirrored in the $y$-axis.
-  \item Only the vertical scale: $\log_{10}x=\dfrac{\ln x}{\ln 10}$, so the
-        common logarithm is the natural one compressed by the constant
-        factor $\ln 10\approx2.303$. Same domain, same asymptote, same
-        intercept, same shape.
-  \item $y(0)=1-1=0$; as $x\to\infty$, $\mathrm{e}^{-x}\to0$, so the
-        asymptote is $y=1$. The curve starts at the origin, rises steeply
-        at first and then ever more slowly, approaching the saturation
-        level $1$ without ever reaching it.
-  \item (A) $x^{3}-x$ \;(odd, three roots); \;(B) $\sqrt{x}$;
-        \;(C) $1/x^{2}$ \;(even, positive, pole at $0$);
-        \;(D) $\mathrm{e}^{-x}$; \;(E) $|x|$; \;(F) $\ln x$.
-  \item $x^{2}-4x+3=(x-1)(x-3)=(x-2)^{2}-1$: opens upwards, vertex
-        $(2,-1)$, roots $1$ and $3$, $y$-intercept $3$.
-  \item $\dfrac{x+1}{x-1}$: pole $x=1$, horizontal asymptote $y=1$ (equal
-        degrees); root $x=-1$; $y$-intercept $f(0)=-1$. Two branches, one
-        in each half-plane of the pole.
-  \item $D=[-4,\infty)$, $W=[0,\infty)$; the curve starts at $(-4,0)$ and
-        rises, ever more slowly: the $\sqrt{\;}$ shape moved four units to
-        the left.
-  \item A V with vertex $(0,-2)$; roots where $|x|=2$, i.e. $x=\pm2$;
-        $y$-intercept $-2$.
-  \item $x^{3}-3x^{2}=x^{2}(x-3)$: a double root at $x=0$ (touch) and a
-        simple root at $x=3$ (crossing); degree $3$, positive leading
-        coefficient: down on the left, up on the right.
-  \item (a) even; (b) odd; (c) even, since $1/(-x)^{2}=1/x^{2}$;
-        (d) neither.
-  \item (a) yes, $y=3$ (equal degrees); (b) no: the numerator degree
-        exceeds the denominator degree by one, so there is an oblique
-        asymptote $y=x-1$ instead; (c) yes, $y=0$; (d) no: $\ln x$ grows
-        without bound, however slowly.
-  \item Critical points $-2,1,3$. Test one point per interval:
-        $x=-3$ gives $\frac{(-4)(-1)}{-6}<0$; $x=0$ gives
-        $\frac{(-1)(2)}{-3}>0$; $x=2$ gives $\frac{(1)(4)}{-1}<0$;
-        $x=4$ gives $\frac{(3)(6)}{1}>0$. Hence $f>0$ on
-        $(-2,1)\cup(3,\infty)$.
-  \item $D=(-\infty,-1]\cup[1,\infty)$ (from $x^{2}-1\ge0$); even, so
-        symmetric about the $y$-axis; $W=[0,\infty)$; it meets the axis at
-        $(-1,0)$ and $(1,0)$ and rises from there, approaching the lines
-        $y=\pm x$ from below for large $|x|$.
-  \item Circle, centre $(0,0)$, radius $4$. Solving:
-        $y=\pm\sqrt{16-x^{2}}$, two branches, each with domain $[-4,4]$;
-        the plus sign is the upper semicircle, the minus sign the lower.
-  \item Circle with centre $(2,-1)$ and radius $3$.
-  \item Ellipse with $a=3$ and $b=2$: it crosses the axes at
-        $(\pm3,0)$ and $(0,\pm2)$.
-  \item $y=6/x$, a hyperbola with both axes as asymptotes. Since the
-        product is positive, $x$ and $y$ share a sign: the curve lies in
-        the first and third quadrants.
-  \item A parabola opening to the right. $y$ is \emph{not} a function of
-        $x$: the line $x=4$ meets the curve at $y=\pm2$. But $x=y^{2}$
-        \emph{is} a function of $y$.
-  \item Intercepts $(6,0)$ and $(0,4)$; solved for $y$,
-        $y=4-\tfrac23 x$, so the slope is $-\tfrac23$.
-  \item $(x^{2}-4x+4)+(y^{2}+6y+9)=-9+4+9$, i.e.
-        $(x-2)^{2}+(y+3)^{2}=4$: centre $(2,-3)$, radius $2$.
-  \item $K^{0.5}L^{0.5}=10\Rightarrow (KL)^{0.5}=10\Rightarrow KL=100
-        \Rightarrow L=\dfrac{100}{K}$. A hyperbola in the first quadrant,
-        falling and convex, with both axes as asymptotes: the familiar
-        isoquant, along which more capital buys ever less labour saving.
-  \item Budget line: $y=20-2x$, slope $-2$ (the price ratio
-        $-p_{x}/p_{y}=-4/2$), intercepts $(10,0)$ and $(0,20)$.
-        Indifference curve: $y=50/x$, a hyperbola in the first quadrant.
-\end{solutions}
-
-\section{Additional Problems}
-
-\begin{problems}
-  \item Asymptotes of $f(x)=\dfrac{4x-1}{2x+6}$.
-  \item Asymptotes and holes of $f(x)=\dfrac{x^{2}-9}{x+3}$.
-  \item Asymptotes and symmetry of $f(x)=\dfrac{x^{3}}{x^{2}-1}$.
-  \item Asymptotes and holes of $f(x)=\dfrac{x^{2}-2x}{x^{2}-4}$.
-  \item Asymptotes of $f(x)=\dfrac{6}{x^{2}-x-2}$.
-  \item Asymptotes of $f(x)=\dfrac{x-4}{x^{2}+4}$.
-  \item Roots, symmetry and end behaviour of $f(x)=x^{4}-4x^{2}$.
-  \item Roots, sign and end behaviour of $f(x)=(x+2)(x-1)(x-3)$.
-  \item Symmetry and asymptote of $f(x)=\dfrac{x}{x^{2}+1}$.
-  \item Where do $y=3^{x}$ and $y=3^{-x}$ intersect, and what asymptote do
-        they share?
-  \item The graphs of $y=\mathrm{e}^{x}$ and $y=\ln x$ are mirror images.
-        In which line, and which points correspond to each other?
-  \item Domain, range, symmetry and asymptotes of $y=1/x^{2}$.
-  \item Domain, symmetry and shape of $y=\sqrt[3]{x}$.
-  \item Vertex and roots of $y=|x-2|$.
-  \item For the cost function $C(q)=q^{3}-6q^{2}+15q$, tabulate
-        $C(0),C(1),\dots,C(5)$ and describe the shape of the curve.
-  \item Tabulate $f(x)=x^{2}-2x-3$ for $x=-2,\dots,4$ and sketch it from
-        the table; give vertex and roots.
-  \item Identify $9x^{2}+4y^{2}=36$ and give its axis intercepts.
-  \item Identify $x^{2}-y^{2}=9$ and solve it for $y$.
-  \item What curve is $(x+1)^{2}+(y-2)^{2}=0$?
-  \item Identify $x^{2}+y^{2}+2x-8=0$: centre and radius.
-  \item Compare $y=\sqrt{9-x^{2}}$ with $x^{2}+y^{2}=9$: which is a
-        function, and what are its domain and range?
-  \item The isocost line $5K+2L=100$: give both intercepts and $L$ as a
-        function of $K$.
-  \item For the indifference curve $xy=36$, tabulate $y$ at
-        $x=1,2,3,4,6,9,12$ and describe the shape.
-  \item The demand curve $p=100/q$ has the property that revenue $pq$ is
-        constant. Give that constant, the asymptotes, and the economic
-        reading of each.
-  \item A curve passes through the origin, rises throughout, is concave,
-        and flattens onto the horizontal line $y=4$. Which of
-        $y=4-\mathrm{e}^{-x}$, \;$y=4(1-\mathrm{e}^{-x})$,
-        \;$y=4\mathrm{e}^{-x}$ fits, and why do the other two fail?
-\end{problems}
-
-\section{Additional Solutions}
-
-\begin{solutions}
-  \item Pole where $2x+6=0$, i.e. $x=-3$; equal degrees, so the horizontal
-        asymptote is $y=\tfrac42=2$.
-  \item $\dfrac{(x-3)(x+3)}{x+3}=x-3$ for $x\neq-3$: a hole at
-        $(-3,-6)$, no pole, no horizontal asymptote (the graph is a line).
-  \item Poles at $x=\pm1$. Division: $x^{3}=x(x^{2}-1)+x$, so
-        $f(x)=x+\dfrac{x}{x^{2}-1}$ and the oblique asymptote is $y=x$.
-        Odd: numerator odd, denominator even.
-  \item $\dfrac{x(x-2)}{(x-2)(x+2)}=\dfrac{x}{x+2}$ for $x\neq2$: a hole at
-        $\bigl(2,\tfrac12\bigr)$, a pole at $x=-2$, horizontal asymptote
-        $y=1$.
-  \item $x^{2}-x-2=(x-2)(x+1)$: poles at $x=2$ and $x=-1$; horizontal
-        asymptote $y=0$.
-  \item $x^{2}+4>0$ always: no poles. Numerator degree smaller, so $y=0$.
-  \item $x^{4}-4x^{2}=x^{2}(x^{2}-4)=x^{2}(x-2)(x+2)$: double root at $0$
-        (touch), simple roots at $\pm2$; even; degree $4$ with positive
-        leading coefficient, so both ends rise to $+\infty$.
-  \item Roots $-2,1,3$, all simple. Degree $3$, positive leading
-        coefficient: down on the left, up on the right. Signs alternate
-        between the roots: negative on $(-\infty,-2)$, positive on
-        $(-2,1)$, negative on $(1,3)$, positive on $(3,\infty)$.
-  \item Odd (odd numerator over even denominator); no poles since
-        $x^{2}+1>0$; horizontal asymptote $y=0$ at both ends. The graph is
-        a hump above the axis on the right and its mirror image below on
-        the left.
-  \item $3^{x}=3^{-x}\iff x=-x\iff x=0$: they meet at $(0,1)$. Both have
-        the horizontal asymptote $y=0$, the first as $x\to-\infty$, the
-        second as $x\to+\infty$; each is the other reflected in the
-        $y$-axis.
-  \item In the line $y=x$. The point $(a,\mathrm{e}^{a})$ on the
-        exponential corresponds to $(\mathrm{e}^{a},a)$ on the logarithm;
-        in particular $(0,1)\leftrightarrow(1,0)$ and
-        $(1,\mathrm{e})\leftrightarrow(\mathrm{e},1)$. The two functions
-        are inverse to each other.
-  \item $D=\R\setminus\{0\}$, $W=(0,\infty)$; even, hence symmetric about
-        the $y$-axis; vertical asymptote $x=0$ and horizontal asymptote
-        $y=0$. Both branches lie above the axis.
-  \item $D=\R$: an odd root accepts negative radicands. It is odd, since
-        $\sqrt[3]{-x}=-\sqrt[3]{x}$, strictly increasing, steep near the
-        origin and flattening out: the graph of $x^{3}$ mirrored in
-        $y=x$.
-  \item A V with vertex $(2,0)$; a single (double) root at $x=2$;
-        $y$-intercept $|0-2|=2$.
-  \item $C(0)=0$, $C(1)=10$, $C(2)=14$, $C(3)=18$, $C(4)=28$, $C(5)=50$.
-        Increasing throughout; the increments $10,4,4,10,22$ first fall and
-        then rise, so the curve is concave up to about $q=2$ and convex
-        afterwards: the S-shaped total cost curve of the textbooks, with
-        its inflection at $q=2$.
-  \item $f(-2)=5$, $f(-1)=0$, $f(0)=-3$, $f(1)=-4$, $f(2)=-3$, $f(3)=0$,
-        $f(4)=5$. The table is symmetric about $x=1$: an upward parabola
-        with vertex $(1,-4)$ and roots $-1$ and $3$.
-  \item Divide by $36$: $\dfrac{x^{2}}{4}+\dfrac{y^{2}}{9}=1$, an ellipse
-        with $a=2$, $b=3$, crossing the axes at $(\pm2,0)$ and
-        $(0,\pm3)$.
-  \item A hyperbola opening left and right. Solved for $y$:
-        $y=\pm\sqrt{x^{2}-9}$, defined for $|x|\ge3$, two branches.
-  \item A sum of two squares is zero only if both vanish: the ``curve'' is
-        the single point $(-1,2)$.
-  \item $(x+1)^{2}-1+y^{2}=8$, so $(x+1)^{2}+y^{2}=9$: a circle with centre
-        $(-1,0)$ and radius $3$.
-  \item $y=\sqrt{9-x^{2}}$ is a function, the upper semicircle, with
-        $D=[-3,3]$ and $W=[0,3]$. The full equation $x^{2}+y^{2}=9$ is not
-        a function of $x$: it also contains the lower half.
-  \item Intercepts $(20,0)$ on the $K$-axis and $(0,50)$ on the $L$-axis;
-        $L=50-2.5K$, a falling line with slope $-2.5$, the ratio of the
-        input prices.
-  \item $y=36/x$: $36,18,12,9,6,4,3$. A falling, convex hyperbola branch in
-        the first quadrant, approaching both axes without touching them:
-        halving $x$ doubles $y$.
-  \item $pq=100$. The asymptotes are $p=0$ and $q=0$: as the quantity
-        grows, the price falls towards zero without reaching it, and no
-        finite price clears an arbitrarily small quantity. Revenue stays at
-        $100$ everywhere, which is what unit elasticity means.
-  \item $y=4(1-\mathrm{e}^{-x})$. It gives $y(0)=0$ and rises to the
-        asymptote $4$. \;$y=4-\mathrm{e}^{-x}$ has the right asymptote but
-        starts at $y(0)=3$, not at the origin; \;$y=4\mathrm{e}^{-x}$ falls
-        from $4$ towards $0$ instead of rising.
+  \item $1+2+\cdots+n$
+  \item $a_{2}^{2}+a_{3}^{2}+a_{4}^{2}$
+  \item $1+2+4+8=15$
+  \item $\dfrac{5\cdot 6}{2}=15$
+  \item $\dfrac{4\cdot 5\cdot 9}{6}=30$
+  \item $\left(\dfrac{3\cdot 4}{2}\right)^{2}=36$
+  \item $c\cdot\dfrac{r^{n+1}-1}{r-1}$
+  \item $\displaystyle\sum a_{i}$
+  \item $0$
+  \item Population variance of $\{a_{i}\}$.
+  \item Expand: $\sum(a_{i}^{2}-2\bar a a_{i}+\bar a^{2})
+        =\sum a_{i}^{2}-2\bar a\,n\bar a+n\bar a^{2}
+        =\sum a_{i}^{2}-n\bar a^{2}$.
+  \item $c\displaystyle\sum a_{i}b_{i}$
+  \item $\displaystyle\sum_{j=2}^{n+1}a_{j}$
+  \item $a_{n+1}-a_{1}$
+  \item $\dfrac{n(n+1)(n+2)}{3}$
+  \item $\bar a=\dfrac{8}{4}=2$
+  \item $\bar b=\dfrac{4}{4}=1$
+  \item $9+1+4+16=30$
+  \item $8^{2}=64$
+  \item $3-2-2+8=7$
+  \item $(1)(0)+(-3)(1)+(0)(-2)+(2)(1)=-1$
+  \item $1+9+0+4=14$
+  \item $3\cdot 8+2\cdot 4=32$
+  \item $16+1+1+36=54$ (consistent: $30+2(7)+10=54$)
+  \item $-1+2-3=-2$
+  \item $\dfrac{1-(1/2)^{5}}{1-1/2}=\dfrac{31}{16}$
+  \item $\dfrac{100}{1.1}+\dfrac{100}{1.21}+\dfrac{100}{1.331}\approx
+        248.69$
+  \item $10^{2}=100$
+  \item $5\cdot 7=35$
+  \item True. This is the triangle inequality applied iteratively to
+        $|a_{1}+\cdots+a_{n}|$.
 \end{solutions}

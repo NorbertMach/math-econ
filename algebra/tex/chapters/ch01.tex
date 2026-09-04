@@ -3,6 +3,109 @@
 Simplify each expression. Assume all variables are positive unless stated
 otherwise. Write answers without negative exponents where possible.
 
+\section{Core Rules}
+
+\begin{rulebox}{The five laws, and the one definition they all rest on}
+For $a,b>0$ and any real $m,n$:
+\[
+  a^{m}a^{n}=a^{m+n},\qquad
+  \frac{a^{m}}{a^{n}}=a^{m-n},\qquad
+  (a^{m})^{n}=a^{mn},\qquad
+  (ab)^{n}=a^{n}b^{n},\qquad
+  \Bigl(\frac{a}{b}\Bigr)^{n}=\frac{a^{n}}{b^{n}} .
+\]
+Everything else follows from the first law together with $a^{0}=1$:
+\[
+  a^{-n}=\frac{1}{a^{n}},\qquad
+  a^{1/n}=\sqrt[n]{a},\qquad
+  a^{m/n}=\sqrt[n]{a^{m}}=\bigl(\sqrt[n]{a}\bigr)^{m} .
+\]
+A negative exponent is a \textbf{reciprocal}, never a negative number:
+$2^{-3}=\tfrac18$, not $-8$.
+\end{rulebox}
+
+\begin{rulebox}{Roots and the absolute value}
+For even $n$, $\sqrt[n]{a}$ denotes the \emph{non-negative} root, so
+\[
+  \sqrt{x^{2}}=|x|,\qquad\text{not } x .
+\]
+This matters the moment $x$ is allowed to be negative --- when solving
+$x^{2}=9$, when simplifying inside an optimisation problem, and whenever a
+variable has not been declared positive. For odd $n$ the root of a negative
+number exists and is negative: $\sqrt[3]{-125}=-5$.
+\end{rulebox}
+
+\begin{rulebox}{What the laws do \emph{not} say}
+There is no law for a power of a sum. In general
+\[
+  (a+b)^{n}\neq a^{n}+b^{n},\qquad
+  \sqrt{a+b}\neq\sqrt{a}+\sqrt{b},\qquad
+  \frac{1}{a+b}\neq\frac1a+\frac1b .
+\]
+Exponent laws apply to \textbf{products and quotients only}. A sum must
+first be factored into a product before any exponent may act on it.
+\end{rulebox}
+
+\section{Worked Example}
+
+\begin{worked}{Simplify $\left(\dfrac{8x^{-3}y^{6}}{27x^{3}y^{-3}}\right)^{-2/3}$, and simplify $\sqrt{x^{2}}$ for $x\in\R$}
+\wstep{Step 1. Tidy the inside before touching the outer exponent.}
+Raising a messy fraction to a power multiplies the mess. Collect each base
+once, using $a^{m}/a^{n}=a^{m-n}$ and subtracting the \emph{denominator}
+exponent from the numerator one:
+\[
+  \frac{8x^{-3}y^{6}}{27x^{3}y^{-3}}
+  =\frac{8}{27}\,x^{-3-3}\,y^{6-(-3)}
+  =\frac{8}{27}\,x^{-6}y^{9} .
+\]
+\wtrap{The exponent $6-(-3)=9$ is where most marks are lost. Write the
+subtraction out rather than doing it in your head; a negative exponent in
+the denominator becomes a \emph{larger} positive one in the numerator.}
+
+\wstep{Step 2. Distribute the outer exponent over every factor.}
+The exponent $-2/3$ acts on the numerical fraction \emph{and} on each
+power --- all three, not just the letters:
+\[
+  \Bigl(\tfrac{8}{27}x^{-6}y^{9}\Bigr)^{-2/3}
+  =\Bigl(\tfrac{8}{27}\Bigr)^{-2/3}\cdot x^{(-6)(-2/3)}\cdot y^{(9)(-2/3)}
+  =\Bigl(\tfrac{8}{27}\Bigr)^{-2/3}x^{4}y^{-6} .
+\]
+
+\wstep{Step 3. Evaluate the numerical part.}
+Read $-2/3$ as three instructions in whichever order is easiest. Taking the
+reciprocal first is easiest, because it clears the negative sign:
+\[
+  \Bigl(\tfrac{8}{27}\Bigr)^{-2/3}
+  =\Bigl(\tfrac{27}{8}\Bigr)^{2/3}
+  =\Bigl(\sqrt[3]{\tfrac{27}{8}}\Bigr)^{2}
+  =\Bigl(\tfrac{3}{2}\Bigr)^{2}
+  =\tfrac{9}{4}.
+\]
+\wtrap{Take the root \emph{before} the square. $\bigl(\sqrt[3]{27/8}\bigr)^{2}$
+needs only mental arithmetic; $\sqrt[3]{(27/8)^{2}}=\sqrt[3]{729/64}$ needs a
+calculator and gives the same answer.}
+
+\wstep{Step 4. Clear the remaining negative exponent.}
+\[
+  \tfrac{9}{4}\,x^{4}y^{-6}=\boxed{\dfrac{9x^{4}}{4y^{6}}}
+\]
+
+\wstep{Step 5. The second question, which is not the same kind of question.}
+$\sqrt{x^{2}}$ looks like an instance of $(a^{m})^{n}=a^{mn}$ with
+$m=2$, $n=\tfrac12$, giving $x$. That law was stated for $a>0$. Test it:
+at $x=-4$, $\sqrt{(-4)^{2}}=\sqrt{16}=4$, not $-4$. The square root symbol
+returns the non-negative root, so
+\[
+  \sqrt{x^{2}}=|x| ,
+\]
+which equals $x$ only when $x\ge0$. That is why the chapter heading says
+``assume all variables are positive'': the whole first part of this example
+is valid because the assumption was granted, and this last part shows what
+the assumption was doing.
+\wtrap{Whenever an even root meets an even power, ask whether the base could
+be negative. If it could, an absolute value belongs in the answer.}
+\end{worked}
+
 \section{Practice Problems}
 
 \begin{problems}

@@ -3,6 +3,126 @@
 Mix of evaluating, expanding, condensing, and solving. Bases of 10 and 2
 appear alongside the natural log.
 
+\section{Core Rules}
+
+\begin{rulebox}{What a logarithm is}
+$\log_{a}(b)$ is \textbf{the exponent that turns $a$ into $b$}:
+\[
+  \log_{a}(b)=c\iff a^{c}=b\qquad (a>0,\ a\neq1,\ b>0).
+\]
+Every log identity below is an exponent law read backwards. The domain
+restriction $b>0$ is part of the definition, not a technicality: it is what
+manufactures extraneous roots when you solve equations.
+\end{rulebox}
+
+\begin{rulebox}{The three laws, and the change of base}
+\[
+  \ln(xy)=\ln x+\ln y,\qquad
+  \ln\!\Bigl(\frac{x}{y}\Bigr)=\ln x-\ln y,\qquad
+  \ln(x^{p})=p\ln x .
+\]
+The third is the workhorse: it is what pulls an unknown down out of an
+exponent. Any base converts to any other,
+\[
+  \log_{a}(b)=\frac{\ln b}{\ln a},
+\]
+so a calculator with only $\ln$ suffices. Also $\ln(\mathrm{e}^{x})=x$ and
+$\mathrm{e}^{\ln x}=x$: the two functions undo each other.
+\end{rulebox}
+
+\begin{rulebox}{There is no law for a sum inside the log}
+\[
+  \ln(x+y)\neq\ln x+\ln y .
+\]
+The left side cannot be expanded at all. The laws convert
+\emph{multiplication into addition}, never addition into anything. The same
+warning in the other direction: $\ln x\cdot\ln y$ does not simplify, and
+$(\ln x)^{2}\neq\ln(x^{2})=2\ln x$.
+\end{rulebox}
+
+\begin{rulebox}{Solving: the standard shapes}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Unknown in the exponent} ($a^{x}=b$): take $\ln$ of both
+        sides, then $x=\ln b/\ln a$.
+  \item \textbf{Unknown in the base} ($x^{n}=b$): raise both sides to
+        $1/n$.
+  \item \textbf{Logs on both sides}: condense each side to a single log,
+        then drop the logs --- legitimate because $\ln$ is one-to-one.
+  \item \textbf{One log, one number}: condense, then exponentiate.
+\end{itemize}
+Then \textbf{check every root against the original domain.}
+\end{rulebox}
+
+\section{Worked Examples}
+
+\begin{worked}{(a) Solve $\log_{3}(x)+\log_{3}(x-2)=1$}
+\wstep{Step 1. Record the domain first, before solving anything.}
+Both logs must take positive arguments: $x>0$ \emph{and} $x-2>0$, so
+\[
+  x>2 .
+\]
+Writing this down now costs one line and settles the last step
+automatically.
+
+\wstep{Step 2. Condense the left side to a single logarithm.}
+\[
+  \log_{3}(x)+\log_{3}(x-2)=\log_{3}\bigl(x(x-2)\bigr).
+\]
+
+\wstep{Step 3. Undo the logarithm.}
+The equation now reads $\log_{3}\bigl(x(x-2)\bigr)=1$, and by the
+definition of a logarithm that says $3^{1}=x(x-2)$:
+\[
+  x^{2}-2x=3\quad\Longrightarrow\quad x^{2}-2x-3=0
+  \quad\Longrightarrow\quad (x-3)(x+1)=0 .
+\]
+
+\wstep{Step 4. Apply the domain.}
+The candidates are $x=3$ and $x=-1$. The second fails $x>2$ --- indeed
+$\log_{3}(-1)$ does not exist --- so
+\[
+  \boxed{x=3}.
+\]
+Check: $\log_{3}3+\log_{3}1=1+0=1$. \checkmark
+\wtrap{$x=-1$ is not a wrong calculation; it is a genuine root of the
+\emph{quadratic}, which is a different equation from the one asked. The
+condensing step in Step~2 enlarged the domain, and enlarging a domain is
+exactly what creates extraneous roots. Any time you condense two logs into
+one, the final domain check is compulsory.}
+\end{worked}
+
+\begin{worked}{(b) How long until an economy doubles? Solve $Y_{0}\mathrm{e}^{gt}=2Y_{0}$, and solve $(1+r)^{10}=2$}
+\wstep{Step 1. Cancel what is common, then isolate the exponential.}
+$Y_{0}>0$, so dividing by it is legal and the initial level drops out
+entirely: $\mathrm{e}^{gt}=2$. \emph{Doubling time does not depend on where
+you start} --- that is the content of exponential growth, and it is visible
+here before any calculation.
+
+\wstep{Step 2. The unknown is in the exponent, so take logs.}
+\[
+  \ln\bigl(\mathrm{e}^{gt}\bigr)=\ln 2
+  \quad\Longrightarrow\quad
+  gt=\ln 2
+  \quad\Longrightarrow\quad
+  t=\frac{\ln 2}{g}\approx\frac{0.693}{g}.
+\]
+At $g=0.03$ this is $23.1$ years --- the ``rule of 70'', which is just
+$100\ln 2\approx69.3$ rounded.
+
+\wstep{Step 3. The second equation has the unknown in the \emph{base}.}
+$(1+r)^{10}=2$: here $r$ sits inside the base, not the exponent, so logs
+are the wrong tool. Undo the tenth power with a tenth root:
+\[
+  1+r=2^{1/10}\quad\Longrightarrow\quad r=2^{1/10}-1\approx0.0718 .
+\]
+So $7.18\%$ a year doubles capital in a decade.
+\wtrap{Decide \emph{where the unknown lives} before choosing a move.
+Unknown in the exponent $\Rightarrow$ take logs. Unknown in the base
+$\Rightarrow$ take a root. Taking logs of $(1+r)^{10}=2$ is not wrong, but
+it leads to $\ln(1+r)=\tfrac{1}{10}\ln2$ and one more exponentiation to
+undo --- the long way round.}
+\end{worked}
+
 \section{Practice Problems}
 
 \begin{problems}

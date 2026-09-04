@@ -67,6 +67,52 @@ are among those points.
 \end{itemize}
 \end{rulebox}
 
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-2.6, xmax=2.6, ymin=-2.6, ymax=2.6,
+      xtick={-2,2}, ytick={-2,2}, title={convex: a disc}]
+    \addplot[draw=none, name path=up, domain=-2:2, samples=201]{sqrt(4-x^2)};
+    \addplot[draw=none, name path=lo, domain=-2:2, samples=201]{-sqrt(4-x^2)};
+    \region{up}{lo}{}
+    \addplot[domain=0:360, samples=181]({2*cos(x)},{2*sin(x)});
+    \draw[black, dashed, thick] (axis cs:-1.5,0.8) -- (axis cs:1.5,-0.8);
+    \addplot[only marks, mark=*, mark size=1.1pt, black, forget plot]
+      coordinates {(-1.5,0.8) (1.5,-0.8)};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-2.6, xmax=2.6, ymin=-2.6, ymax=2.6,
+      xtick={-2,2}, ytick={-2,2}, title={not convex: an annulus}]
+    \addplot[draw=none, name path=o1, domain=-2:2, samples=201]{sqrt(4-x^2)};
+    \addplot[draw=none, name path=o2, domain=-2:2, samples=201]{-sqrt(4-x^2)};
+    \region{o1}{o2}{}
+    \addplot[draw=none, name path=i1, domain=-1:1, samples=201]{sqrt(1-x^2)};
+    \addplot[draw=none, name path=i2, domain=-1:1, samples=201]{-sqrt(1-x^2)};
+    \addplot[white, forget plot, sharp plot] fill between[of=i1 and i2];
+    \addplot[domain=0:360, samples=181]({2*cos(x)},{2*sin(x)});
+    \addplot[domain=0:360, samples=181]({cos(x)},{sin(x)});
+    \draw[black, dashed, thick] (axis cs:-1.5,0) -- (axis cs:1.5,0);
+    \addplot[only marks, mark=*, mark size=1.1pt, black, forget plot]
+      coordinates {(-1.5,0) (1.5,0)};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-2.6, xmax=2.6, ymin=-0.6, ymax=4.6,
+      xtick={-2,2}, ytick={2,4}, title={not convex: $y\le x^{2}$}]
+    \addplot[draw=none, name path=par, domain=-2.1:2.1, samples=201]{x^2};
+    \addplot[draw=none, name path=bot, domain=-2.1:2.1, samples=2]{-0.55};
+    \region{par}{bot}{}
+    \addplot[domain=-2.15:2.15]{x^2};
+    \draw[black, dashed, thick] (axis cs:-1.5,2.25) -- (axis cs:1.5,2.25);
+    \addplot[only marks, mark=*, mark size=1.1pt, black, forget plot]
+      coordinates {(-1.5,2.25) (1.5,2.25)};
+  \end{axis}
+\end{tikzpicture}
+\gcap{The line-segment test. In the first set every chord stays inside; in
+the other two a chord between two points of the set leaves it, so the sets
+are not convex.}
+\end{gallery}
+
 \begin{rulebox}{Operations that preserve convexity: and one that does not}
 Let $S$, $S_{1}$, $S_{2}$ be convex. Then the following are convex:
 \begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
@@ -87,7 +133,12 @@ generally not convex either.
 \begin{rulebox}{Contour sets: the bridge to quasiconcavity}
 For $f:\R^{n}\to\R$ and $c\in\R$ define the \emph{upper contour set}
 $U_{c}=\{x: f(x)\ge c\}$ and the \emph{lower contour set}
-$L_{c}=\{x: f(x)\le c\}$.
+$L_{c}=\{x: f(x)\le c\}$. The same two sets are also written
+$B(c)=U_{c}$ \de{(Superniveaumenge, obere Konturmenge)} and
+$W(c)=L_{c}$ \de{(Subniveaumenge, untere Konturmenge)}, and indexed by a
+\emph{point} rather than a level: $B(P)=B(f(P))$, $W(P)=W(f(P))$. Both
+notations are in common use; the derivatives volume introduces them with
+the level curves.
 \begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
   \item If $f$ is \textbf{convex}, every lower contour set $L_{c}$ is
         convex.
@@ -123,6 +174,105 @@ half-plane computation above). Two workhorses:
 To \emph{disprove} convexity: exhibit two points of $S$ whose midpoint
 violates the defining condition, a single counterexample suffices.
 \end{rulebox}
+
+\section{Worked Example}
+
+\begin{worked}{Which of these are convex? The budget set, the circle $x^{2}+y^{2}=1$, the region $\{xy\ge1,\ x>0\}$, and a union of two discs}
+\wstep{Step 1. State the criterion you will actually use.}
+$S$ is convex if for all $\mathbf a,\mathbf b\in S$ and all
+$\lambda\in[0,1]$,
+\[
+  \lambda\mathbf a+(1-\lambda)\mathbf b\in S .
+\]
+In words: the segment joining any two points of $S$ stays inside $S$. To
+prove convexity you must handle \emph{all} pairs; to disprove it you need
+only \emph{one} pair. That asymmetry decides which way to attack.
+
+\wstep{Step 2. The budget set --- convex, and for a reusable reason.}
+\[
+  B=\{(x,y):p_{x}x+p_{y}y\le M,\ x\ge0,\ y\ge0\}
+\]
+is the intersection of three half-planes. Each half-plane
+$\{\mathbf x:\mathbf a\cdot\mathbf x\le c\}$ is convex, because
+\[
+  \mathbf a\cdot\bigl(\lambda\mathbf x_{1}+(1-\lambda)\mathbf x_{2}\bigr)
+  =\lambda(\mathbf a\cdot\mathbf x_{1})+(1-\lambda)(\mathbf a\cdot\mathbf x_{2})
+  \le\lambda c+(1-\lambda)c=c ,
+\]
+and \textbf{an intersection of convex sets is convex}. So $B$ is convex
+without any picture. Every feasible set defined by linear inequalities is
+convex for exactly this reason --- which is why linear programming in
+Volume~8 is as well behaved as it is.
+
+\wstep{Step 3. The circle --- not convex, and the reason is instructive.}
+$C=\{(x,y):x^{2}+y^{2}=1\}$ is the \emph{curve}, not the disc. Take
+$\mathbf a=(1,0)$ and $\mathbf b=(-1,0)$, both in $C$. Their midpoint is
+$(0,0)$, and $0^{2}+0^{2}=0\neq1$. So $C$ is \textbf{not convex}.
+\wtrap{A set defined by an \emph{equality} is convex only if the equality is
+linear. $\{x+y=1\}$ is a line and is convex; $\{x^{2}+y^{2}=1\}$ is a circle
+and is not. Read the relation symbol before anything else: $\le$ and $\ge$
+give solid regions, $=$ gives a thin boundary that is almost never convex.
+The closed \emph{disc} $x^{2}+y^{2}\le1$ is, of course, convex.}
+
+\wstep{Step 4. $\{xy\ge1,\ x>0\}$ --- convex, proved algebraically.}
+Take $(x_{1},y_{1})$ and $(x_{2},y_{2})$ with all coordinates positive and
+$x_{i}y_{i}\ge1$. Write $\mu=1-\lambda$ and expand the product at the
+intermediate point:
+\[
+  (\lambda x_{1}+\mu x_{2})(\lambda y_{1}+\mu y_{2})
+  =\lambda^{2}x_{1}y_{1}+\mu^{2}x_{2}y_{2}+\lambda\mu\bigl(x_{1}y_{2}+x_{2}y_{1}\bigr).
+\]
+By the arithmetic--geometric mean inequality,
+\[
+  x_{1}y_{2}+x_{2}y_{1}\ge2\sqrt{x_{1}y_{2}x_{2}y_{1}}
+  =2\sqrt{(x_{1}y_{1})(x_{2}y_{2})}\ge2 .
+\]
+Hence the product is at least
+$\lambda^{2}+\mu^{2}+2\lambda\mu=(\lambda+\mu)^{2}=1$, and the intermediate
+point is in the set. \textbf{Convex.} \checkmark
+
+Geometrically this is the region above a hyperbola --- and a hyperbola in
+the positive quadrant is a convex curve, so ``above'' is the right side.
+
+\wstep{Step 5. A union of two discs --- not convex, even though each piece is.}
+Take the discs of radius $1$ centred at $(0,0)$ and at $(5,0)$. The points
+$(0,0)$ and $(5,0)$ both belong to the union, but their midpoint
+$(2.5,0)$ is in neither disc.
+\[
+  \boxed{\text{Intersections of convex sets are convex; unions are not.}}
+\]
+\wtrap{This asymmetry matters in practice. A constraint written with
+``and'' ($g_{1}\le0$ \emph{and} $g_{2}\le0$) preserves convexity; one
+written with ``or'' destroys it, and with it every sufficiency theorem in
+this volume. Integer restrictions and fixed-cost ``either produce nothing or
+at least $q_{0}$'' conditions are exactly of the ``or'' kind, which is why
+they need entirely different methods.}
+
+\wstep{Step 6. The operations that are safe.}
+\begin{center}\footnotesize
+\begin{tabular}{ll}
+  \hline
+  operation & preserves convexity?\\
+  \hline
+  intersection (any number) & yes\\
+  scaling $cS$, translation $S+\mathbf v$ & yes\\
+  sum $S_{1}+S_{2}=\{\mathbf a+\mathbf b\}$ & yes\\
+  image under a linear map & yes\\
+  union & \textbf{no}\\
+  complement & \textbf{no}\\
+  \hline
+\end{tabular}
+\end{center}
+
+\wstep{Step 7. Where this is heading.}
+Convexity of the \emph{feasible set} is one of the two hypotheses that turn
+a first-order condition into a proof of a global optimum; concavity of the
+\emph{objective} is the other. Chapter~3 supplies the second, and
+Chapter~10 shows what fails when either is missing. Contour sets provide the
+bridge: the superlevel sets $\{U\ge\bar u\}$ of a utility function are
+convex precisely when $U$ is quasiconcave, and that --- not concavity --- is
+what economics actually assumes about preferences.
+\end{worked}
 
 \section{Practice Problems}
 
@@ -404,6 +554,8 @@ violates the defining condition, a single counterexample suffices.
           +\bigl(\lambda y_{1}+(1-\lambda)y_{2}\bigr)
           +\bigl(\lambda z_{1}+(1-\lambda)z_{2}\bigr)
           =\lambda(x_{1}+y_{1}+z_{1})+(1-\lambda)(x_{2}+y_{2}+z_{2})
+        \]
+        \[
           =\lambda\cdot 1+(1-\lambda)\cdot 1=1 .
         \]
         The combination satisfies the equation, so the plane (an affine

@@ -1,14 +1,49 @@
 \chapter{Implicit Differentiation}
 
-When a curve in the plane is defined by an equation $F(x,y)=0$ that we
-cannot (or do not wish to) solve explicitly for $y$, implicit
-differentiation produces $\dd{y}{x}$ directly: differentiate both sides
-with respect to $x$, treat $y$ as a (locally) differentiable function of
-$x$, and solve algebraically for $y'$. The same idea drives logarithmic
-differentiation, comparative statics in economics, and the Implicit
-Function Theorem in higher dimensions.
+Most curves in the plane are not graphs. The circle $x^{2}+y^{2}=25$ fails
+the vertical line test, the equation $\mathrm{e}^{y}+xy=1$ cannot be solved
+for $y$ in closed form at all, and an indifference curve is handed to us as
+a level set rather than as a formula. Yet each of them has a tangent at
+almost every point, and economics asks for its slope constantly: that slope
+\emph{is} the marginal rate of substitution.
+
+Implicit differentiation gets it without solving for $y$. The move rests on
+one idea, and the whole chapter is that idea applied repeatedly: pretend the
+equation has already been solved near the point of interest, so that $y$ is
+a function $y(x)$; substituting it makes the equation an identity in $x$;
+identities may be differentiated. Because every $y$ in sight is secretly the
+composite $y(x)$, the chain rule leaves a factor $y'$ behind wherever a $y$
+was, and the resulting linear equation is solved for $y'$.
+
+Two questions have to be kept apart, and the chapter answers both. \emph{Is}
+there such a function $y(x)$ near the point --- and if so, what is its
+slope? The first question is the Implicit Function Theorem, and the honest
+answer is sometimes no: at a point where the curve crosses itself or stands
+vertically, no function $y(x)$ describes it, and the slope formula returns a
+division by zero to say so.
 
 \section{Core Rules}
+
+\begin{rulebox}{Why a factor $y'$ appears}
+Suppose that near a point of the curve the equation really does pin down one
+$y$ for each $x$, and call that function $y(x)$. Substituting it turns the
+equation into an \textbf{identity in $x$}, true for every $x$ near $x_{0}$:
+\[
+  x^{2}+\bigl(y(x)\bigr)^{2}=25 .
+\]
+An identity may be differentiated on both sides. Every $y$ in the expression
+is the composite $y(x)$, so it is differentiated by the \textbf{chain rule}
+and leaves a factor $y'$ behind:
+\[
+  \frac{\mathrm{d}}{\mathrm{d}x}\bigl[y^{2}\bigr]
+  =\frac{\mathrm{d}}{\mathrm{d}x}\bigl[(y(x))^{2}\bigr]
+  =2\,y(x)\,y'(x)=2yy' .
+\]
+Hence $2x+2yy'=0$ and $y'=-x/y$. Nothing was solved for $y$, and the answer
+is \emph{allowed} to contain $y$: it is the slope at a point of the curve,
+and the two points with the same $x$ --- here $(3,4)$ and $(3,-4)$ --- have
+slopes $-3/4$ and $+3/4$.
+\end{rulebox}
 
 \begin{rulebox}{Setup}
 Suppose $F(x,y)=0$ defines $y=y(x)$ implicitly. Differentiate every term
@@ -17,6 +52,9 @@ produces an extra factor $\dd{y}{x}$:
 \[
   \frac{\mathrm{d}}{\mathrm{d}x}\bigl[g(y)\bigr]=g'(y)\cdot\dd{y}{x} .
 \]
+So $\frac{\mathrm{d}}{\mathrm{d}x}[\sin y]=\cos(y)\,y'$,
+$\frac{\mathrm{d}}{\mathrm{d}x}[\mathrm{e}^{y}]=\mathrm{e}^{y}y'$, and
+$\frac{\mathrm{d}}{\mathrm{d}x}[\ln y]=y'/y$.
 \end{rulebox}
 
 \begin{rulebox}{Mixed terms}
@@ -32,6 +70,73 @@ Collect all terms containing $y'$ on one side and factor:
 \[
   A(x,y)\,y'+B(x,y)=0\;\Longrightarrow\;y'=-\frac{B(x,y)}{A(x,y)} .
 \]
+The equation is always \emph{linear} in $y'$, however complicated it looks,
+because $y'$ only ever enters through one chain-rule step.
+\end{rulebox}
+
+\begin{rulebox}{The curve is a level set --- and that gives the formula at once}
+Write the equation as $F(x,y)=0$. Then the curve is the \textbf{level set of
+the surface $z=F(x,y)$ at height $0$}: the shoreline where the surface cuts
+the horizontal plane $z=0$. Walking along the curve, $F$ never changes.
+Writing that down with the chain rule for $F\bigl(x,y(x)\bigr)=0$,
+\[
+  \pd{F}{x}+\pd{F}{y}\cdot\dd{y}{x}=0
+  \qquad\Longrightarrow\qquad
+  \boxed{\;\dd{y}{x}=-\frac{F_{x}(x,y)}{F_{y}(x,y)}\;}
+  \qquad\text{provided } F_{y}(x,y)\neq0 .
+\]
+This is not a new method, it is the same computation done once and for all:
+for $F=x^{2}+y^{2}-25$ it returns $-2x/2y=-x/y$, as above. In economics the
+curve is an indifference curve $U(x,y)=\bar u$ and the formula reads
+$\dd{y}{x}=-U_{x}/U_{y}$: the marginal rate of substitution is the ratio of
+marginal utilities.
+\end{rulebox}
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[surfaxis, title={$z=F(x,y)=x^{3}-3x^{2}+y^{2}-2y+1$}]
+    \addplot3[surf, domain=-1.2:3.2, y domain=-1.6:3.6]{x^3-3*x^2+y^2-2*y+1};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-1.6, xmax=3.6, ymin=-1.9, ymax=3.9,
+      xtick={-1,1,2,3}, ytick={-1,1,2,3}, title={the level set $F=0$}]
+    \addplot[domain=-1.2:3, samples=241]{1+abs(x)*sqrt(3-x)};
+    \addplot[domain=-1.2:3, samples=241]{1-abs(x)*sqrt(3-x)};
+    \addplot[only marks, mark=*, mark size=1.3pt, accent, forget plot]
+      coordinates {(0,1) (3,1)};
+  \end{axis}
+\end{tikzpicture}
+\gcap{The surface and its zero level set $k$. At $(0,1)$ the curve crosses
+itself; at $(3,1)$ it stands vertical. Everywhere else a local $y(x)$
+exists.}
+\end{gallery}
+
+\begin{rulebox}{When there is no $y(x)$: the Implicit Function Theorem}
+\textbf{Theorem.} If $F$ is $C^{1}$ near $(x_{0},y_{0})$, if
+$F(x_{0},y_{0})=0$, and if
+\[
+  F_{y}(x_{0},y_{0})\neq0 ,
+\]
+then there are neighbourhoods on which the equation $F(x,y)=0$ defines
+exactly one differentiable function $y=y(x)$ with $y(x_{0})=y_{0}$, and its
+derivative is $-F_{x}/F_{y}$.
+
+The condition is exactly what the formula needs, and its failure is
+visible in the picture. Where $F_{y}=0$:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item if $F_{x}\neq0$, the curve has a \textbf{vertical tangent}. No
+        function $y(x)$ can describe it there --- but the roles may be
+        swapped: $x=x(y)$ exists, with
+        $\dd{x}{y}=-F_{y}/F_{x}$, and that derivative is $0$.
+  \item if $F_{x}=0$ as well, the point is \textbf{singular}: typically the
+        curve crosses itself, and \emph{two} branches with two different
+        slopes pass through. No single function describes either the curve
+        or its slope, and $-F_{x}/F_{y}$ degenerates to $0/0$. Separate the
+        branches first, then differentiate each one.
+\end{itemize}
+Reading it off a picture: look for vertical tangents and self-intersections.
+Those are the only places the theorem can fail.
 \end{rulebox}
 
 \begin{rulebox}{Logarithmic differentiation}
@@ -44,29 +149,116 @@ first:
   \;\Longrightarrow\;
   y'=y\cdot\frac{\mathrm{d}}{\mathrm{d}x}\ln f(x) .
 \]
-Particularly useful for $y=u(x)^{v(x)}$: $\ln y=v(x)\ln u(x)$.
+Particularly useful for $y=u(x)^{v(x)}$: $\ln y=v(x)\ln u(x)$. This is
+implicit differentiation applied to $\ln y-\ln f(x)=0$, which is why the
+factor $y'/y$ appears.
 \end{rulebox}
 
 \begin{rulebox}{Higher-order implicit}
 To find $y''$, differentiate $y'$ a second time with respect to $x$, again
-remembering that any $y$ that appears contributes a factor $y'$.
+remembering that any $y$ that appears contributes a factor $y'$. Then
+substitute the expression already found for $y'$ to eliminate it.
 \end{rulebox}
 
 \begin{rulebox}{Tangent line via implicit slope}
 The tangent at $(x_{0},y_{0})$ on $F(x,y)=0$ is
 $y-y_{0}=y'(x_{0})\cdot(x-x_{0})$, where $y'(x_{0})$ is computed
-implicitly.
+implicitly. Both coordinates are substituted into $-F_{x}/F_{y}$ before the
+line is written down.
 \end{rulebox}
 
-\begin{rulebox}{IFT preview}
-If $F:\R^{2}\to\R$ is $C^{1}$ near $(x_{0},y_{0})$ with $F(x_{0},y_{0})=0$
-and $F_{y}(x_{0},y_{0})\neq 0$, then locally $y=y(x)$ exists and
+\section{Worked Example}
+
+\begin{worked}{The folium $x^{3}+y^{3}=6xy$: find $y'$, the tangent at $(3,3)$, and every point where the tangent is vertical}
+\wstep{Step 1. Confirm the point is on the curve.}
+$27+27=54$ and $6\cdot3\cdot3=54$. \checkmark\ Do this first: an implicit
+slope formula evaluated at a point that is not on the curve returns a
+perfectly plausible number that means nothing.
+
+\wstep{Step 2. Differentiate every term with respect to $x$, treating $y$ as $y(x)$.}
+Left side: $\frac{\mathrm{d}}{\mathrm{d}x}\bigl[x^{3}+y^{3}\bigr]
+=3x^{2}+3y^{2}y'$ --- the chain rule leaves a factor $y'$ behind wherever a
+$y$ was.
+
+Right side: $6xy$ is a \textbf{product} of two functions of $x$, so the
+product rule applies:
 \[
-  \dd{y}{x}=-\frac{F_{x}(x,y)}{F_{y}(x,y)} .
+  \frac{\mathrm{d}}{\mathrm{d}x}\bigl[6xy\bigr]=6y+6xy' .
 \]
-Implicit differentiation \emph{recovers} this formula on a
-problem-by-problem basis.
-\end{rulebox}
+\wtrap{The right side is where this problem is lost. Writing $6y$ alone
+(treating $y$ as a constant) or $6xy'$ alone (forgetting the product rule)
+are both common. Every occurrence of $y$ needs the chain rule, \emph{and}
+every product needs the product rule --- they compound rather than replace
+each other.}
+
+\wstep{Step 3. Collect the $y'$ terms; the equation is always linear in $y'$.}
+\[
+  3x^{2}+3y^{2}y'=6y+6xy'
+  \;\Longrightarrow\;
+  3y^{2}y'-6xy'=6y-3x^{2}
+  \;\Longrightarrow\;
+  y'\bigl(3y^{2}-6x\bigr)=6y-3x^{2} .
+\]
+\[
+  \boxed{\;y'=\frac{6y-3x^{2}}{3y^{2}-6x}=\frac{2y-x^{2}}{y^{2}-2x}\;}
+\]
+The answer contains $y$, and it must: two points of the curve can share an
+$x$ and have different slopes, so $x$ alone cannot determine $y'$.
+
+\wstep{Step 4. Evaluate at the point.}
+\[
+  y'(3,3)=\frac{2\cdot3-9}{9-6}=\frac{-3}{3}=-1 ,
+\]
+so the tangent is
+\[
+  y-3=-1(x-3)\quad\Longrightarrow\quad y=6-x .
+\]
+By the symmetry of the equation in $x$ and $y$, the curve is symmetric about
+the line $y=x$, and $(3,3)$ lies on that line --- so a slope of $-1$,
+perpendicular to it, is exactly what the geometry predicts. \checkmark
+
+\wstep{Step 5. Cross-check with the level-set formula.}
+Writing $F(x,y)=x^{3}+y^{3}-6xy$,
+\[
+  F_{x}=3x^{2}-6y,\qquad F_{y}=3y^{2}-6x,
+  \qquad
+  y'=-\frac{F_{x}}{F_{y}}=-\frac{3x^{2}-6y}{3y^{2}-6x}=\frac{6y-3x^{2}}{3y^{2}-6x},
+\]
+the same expression. The two routes --- differentiate term by term, or
+apply $-F_{x}/F_{y}$ --- are the same computation; use whichever you find
+faster, but know that they must agree.
+
+\wstep{Step 6. Vertical tangents: where the denominator vanishes.}
+$y'$ blows up when $F_{y}=3y^{2}-6x=0$, i.e.\ $x=y^{2}/2$. Substituting into
+the curve:
+\[
+  \frac{y^{6}}{8}+y^{3}=6\cdot\frac{y^{2}}{2}\cdot y=3y^{3}
+  \;\Longrightarrow\;
+  \frac{y^{6}}{8}=2y^{3}
+  \;\Longrightarrow\;
+  y^{3}\bigl(y^{3}-16\bigr)=0 .
+\]
+So $y=0$ (giving $x=0$) or $y=16^{1/3}=2\sqrt[3]{2}\approx2.520$, giving
+$x=y^{2}/2\approx3.175$. At the latter the tangent is genuinely vertical.
+\wtrap{At the origin the numerator $2y-x^{2}$ also vanishes, so $y'$ is
+$0/0$ there --- undefined for a different reason. The folium
+\emph{crosses itself} at $(0,0)$, with two distinct tangents, so no single
+function $y(x)$ describes the curve near it. That is precisely the case the
+Implicit Function Theorem excludes, and a $0/0$ in the slope formula is how
+it announces itself.}
+
+\wstep{Step 7. The economic version of the same calculation.}
+An indifference curve is a level set $U(x,y)=\bar u$, and the identical
+manipulation gives
+\[
+  \frac{\mathrm{d}y}{\mathrm{d}x}=-\frac{U_{x}}{U_{y}}=-\mathrm{MRS} .
+\]
+For $U=x^{1/2}y^{1/2}=4$: $U_{x}=\tfrac12x^{-1/2}y^{1/2}$,
+$U_{y}=\tfrac12x^{1/2}y^{-1/2}$, so $y'=-y/x$. At $(4,4)$ the slope is
+$-1$; at $(8,2)$ it is $-\tfrac14$ --- the indifference curve flattens as
+$x$ becomes abundant, which is diminishing marginal rate of substitution
+stated as a derivative.
+\end{worked}
 
 \section{Practice Problems}
 
@@ -433,7 +625,9 @@ problem-by-problem basis.
         \[
           xy'-y=-\frac{x(2x+y)}{x+2y}-y
                =-\frac{x(2x+y)+y(x+2y)}{x+2y}
-               =-\frac{2x^{2}+xy+xy+2y^{2}}{x+2y}
+        \]
+        \[
+          \phantom{xy'-y}=-\frac{2x^{2}+xy+xy+2y^{2}}{x+2y}
                =-\frac{2(x^{2}+xy+y^{2})}{x+2y},
         \]
         using $x^{2}+xy+y^{2}=3$. Hence
@@ -506,6 +700,55 @@ problem-by-problem basis.
         substitution.
   \item Use logarithmic differentiation to find $y'$ for
         $y=(x^{2}+1)^{\sin x}$ ($x\in\R$).
+
+  \item The curve $k$ below is the set of points satisfying
+        \[
+          x^{3}-3x^{2}+y^{2}-2y=-1 .
+        \]
+        Verify that $(0,1)$, $(3,1)$, $(-1,3)$ and $(-1,-1)$ all lie on
+        $k$.
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-1.6, xmax=3.6, ymin=-1.9, ymax=3.9,
+      xtick={-1,1,2,3}, ytick={-1,1,2,3}, title={the curve $k$}]
+    \addplot[domain=-1.2:3, samples=241]{1+abs(x)*sqrt(3-x)};
+    \addplot[domain=-1.2:3, samples=241]{1-abs(x)*sqrt(3-x)};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-1.4, xmax=1.4, ymin=-0.9, ymax=0.9,
+      xtick={-1,1}, ytick={-0.5,0.5}, title={the curve $\ell$}]
+    \addplot[domain=-1:1, samples=241]{x*sqrt(1-x^2)};
+    \addplot[domain=-1:1, samples=241]{-x*sqrt(1-x^2)};
+  \end{axis}
+\end{tikzpicture}
+\end{gallery}
+
+  \item Name every point of $k$ at which the hypotheses of the implicit
+        function theorem fail for writing $y$ as a function of $x$, and say
+        which graphical feature identifies each one.
+  \item Confirm the previous answer by computation: solve $F_{y}=0$
+        together with $F=0$.
+  \item Compute the slope of the tangent to $k$ at $(-1,3)$.
+  \item Compute the slope of the tangent to $k$ at $(-1,-1)$, and explain
+        why it is the negative of the previous answer.
+  \item Find every point of $k$ at which the tangent is horizontal.
+  \item Near $(3,1)$ no function $y(x)$ describes $k$. Show that
+        $x=x(y)$ does exist there, and compute $\dd{x}{y}$ at that point.
+  \item The curve $\ell$ above is $y^{2}=x^{2}\bigl(1-x^{2}\bigr)$. Write it
+        as $F(x,y)=0$ and give $F_{x}$ and $F_{y}$.
+  \item Name every point of $\ell$ at which the implicit function theorem
+        fails, and the graphical feature of each.
+  \item Compute the slope of the tangent to $\ell$ at
+        $\bigl(\tfrac12,\tfrac{\sqrt3}{4}\bigr)$.
+  \item Compute the slope of the tangent to $\ell$ at
+        $\bigl(\tfrac12,-\tfrac{\sqrt3}{4}\bigr)$.
+  \item Find the four points of $\ell$ at which the tangent is horizontal.
+  \item At the origin two branches of $\ell$ cross. Separate them by solving
+        for $y$, and compute the slope of each branch there.
+  \item Explain in one or two sentences why $-F_{x}/F_{y}$ cannot deliver
+        those two slopes, and what has to be done instead.
 \end{problems}
 
 \section{Additional Solutions}
@@ -599,4 +842,63 @@ problem-by-problem basis.
           y'=(x^{2}+1)^{\sin x}\left[\cos(x)\ln(x^{2}+1)
              +\frac{2x\sin x}{x^{2}+1}\right] .
         \]
+
+  \item With $F(x,y)=x^{3}-3x^{2}+y^{2}-2y+1$:
+        $F(0,1)=0-0+1-2+1=0$; \;$F(3,1)=27-27+1-2+1=0$;
+        \;$F(-1,3)=-1-3+9-6+1=0$; \;$F(-1,-1)=-1-3+1+2+1=0$.
+        All four are on $k$.
+  \item Graphically: at $(0,1)$ the curve \textbf{crosses itself}, and at
+        $(3,1)$ it has a \textbf{vertical tangent}. At every other point of
+        $k$ a local $y(x)$ exists.
+  \item $F_{y}=2y-2=0\iff y=1$. Substituting $y=1$ into $F=0$ gives
+        $x^{3}-3x^{2}+1-2+1=x^{2}(x-3)=0$, so $x=0$ (a double root) or
+        $x=3$: the points $(0,1)$ and $(3,1)$. At $(3,1)$,
+        $F_{x}=3x^{2}-6x=9\neq0$, so this is the vertical-tangent case; at
+        $(0,1)$, $F_{x}=0$ as well, the singular case.
+  \item $F_{x}=3x^{2}-6x$, $F_{y}=2y-2$, so
+        $y'=-\dfrac{3x^{2}-6x}{2y-2}$. At $(-1,3)$:
+        $y'=-\dfrac{3+6}{6-2}=-\dfrac94$.
+  \item At $(-1,-1)$: $y'=-\dfrac{3+6}{-2-2}=\dfrac94$. The equation
+        contains $y$ only through $(y-1)^{2}$, so $k$ is symmetric about the
+        line $y=1$; reflecting a curve in a horizontal line negates every
+        slope, and $(-1,3)$ and $(-1,-1)$ are mirror images.
+  \item Horizontal tangent needs $F_{x}=0$ and $F_{y}\neq0$:
+        $3x^{2}-6x=3x(x-2)=0$ gives $x=0$ or $x=2$. The value $x=0$ forces
+        $y=1$, where $F_{y}=0$ too --- that is the singular point, not a
+        horizontal tangent. For $x=2$: $(y-1)^{2}=x^{2}(3-x)=4$, so $y=3$ or
+        $y=-1$. The tangent is horizontal at $(2,3)$ and $(2,-1)$.
+  \item At $(3,1)$ we have $F_{x}=9\neq0$, so the theorem applies with the
+        roles of the variables exchanged and gives a function $x=x(y)$.
+        Differentiating $F\bigl(x(y),y\bigr)=0$ with respect to $y$:
+        $F_{x}\,x'(y)+F_{y}=0$, hence
+        $\dd{x}{y}=-\dfrac{F_{y}}{F_{x}}=-\dfrac{0}{9}=0$ --- the curve is
+        momentarily vertical, which is exactly a horizontal tangent for
+        $x(y)$.
+  \item $F(x,y)=y^{2}-x^{2}+x^{4}$, with $F_{x}=-2x+4x^{3}=2x(2x^{2}-1)$
+        and $F_{y}=2y$.
+  \item $F_{y}=2y=0\iff y=0$, and then $x^{2}(1-x^{2})=0$ gives
+        $x=0,\pm1$. At $(\pm1,0)$: $F_{x}=\pm2\neq0$, \textbf{vertical
+        tangents} --- the two tips of the figure eight. At $(0,0)$:
+        $F_{x}=0$ too, the \textbf{self-intersection} in the middle.
+  \item $y'=-\dfrac{2x(2x^{2}-1)}{2y}$. At
+        $\bigl(\tfrac12,\tfrac{\sqrt3}{4}\bigr)$ the numerator is
+        $2\cdot\tfrac12\bigl(\tfrac12-1\bigr)=-\tfrac12$ and the denominator
+        is $\tfrac{\sqrt3}{2}$, so
+        $y'=\dfrac{1/2}{\sqrt3/2}=\dfrac{1}{\sqrt3}=\dfrac{\sqrt3}{3}$.
+  \item Only the sign of $y$ changes, so
+        $y'=-\dfrac{\sqrt3}{3}$.
+  \item $F_{x}=2x(2x^{2}-1)=0$ with $F_{y}\neq0$ gives $x=\pm
+        \tfrac{1}{\sqrt2}$ (the root $x=0$ is the singular point). Then
+        $y^{2}=x^{2}(1-x^{2})=\tfrac12\cdot\tfrac12=\tfrac14$, so
+        $y=\pm\tfrac12$: the four points
+        $\bigl(\pm\tfrac{1}{\sqrt2},\pm\tfrac12\bigr)$.
+  \item Solving gives $y=x\sqrt{1-x^{2}}$ and $y=-x\sqrt{1-x^{2}}$. For the
+        first,
+        $y'=\sqrt{1-x^{2}}-\dfrac{x^{2}}{\sqrt{1-x^{2}}}$, which at $x=0$
+        equals $1$; the second branch gives $-1$. The two branches cross the
+        origin at $+45^{\circ}$ and $-45^{\circ}$.
+  \item At the origin both partials vanish, so $-F_{x}/F_{y}$ is $0/0$: it
+        carries no information, and a single number could not describe two
+        different slopes anyway. The branches have to be separated first ---
+        here by solving for $y$ --- and each differentiated on its own.
 \end{solutions}

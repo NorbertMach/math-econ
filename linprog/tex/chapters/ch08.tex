@@ -142,6 +142,122 @@ remain valid. If the sum exceeds $1$ the rule is silent: the basis
 sufficient, not necessary.
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{Sensitivity analysis on the running example: how far can $100$ machine hours and the profit $40$ move before the answer changes?}
+\wstep{Step 1. Recall what stays fixed.}
+From Chapter~5 the optimal basis is $\{x_{1},x_{2}\}$ with
+\[
+  B=\begin{pmatrix}2&1\\1&1\end{pmatrix},
+  \qquad
+  B^{-1}=\begin{pmatrix}1&-1\\-1&2\end{pmatrix},
+  \qquad
+  \mathbf y=(10,20) .
+\]
+Sensitivity analysis asks: over what range of a parameter does this
+\emph{basis} remain optimal? Within that range the answer changes smoothly
+and predictably; outside it, a different basis takes over and everything
+must be recomputed.
+
+\wstep{Step 2. Right-hand-side ranging for machine hours $b_{1}$.}
+The basic variables are $\mathbf x_{B}=B^{-1}\mathbf b$:
+\[
+  \begin{pmatrix}x_{1}\\x_{2}\end{pmatrix}
+  =\begin{pmatrix}1&-1\\-1&2\end{pmatrix}\begin{pmatrix}b_{1}\\80\end{pmatrix}
+  =\begin{pmatrix}b_{1}-80\\160-b_{1}\end{pmatrix}.
+\]
+Feasibility requires both to be $\ge0$:
+\[
+  b_{1}-80\ge0\ \text{and}\ 160-b_{1}\ge0
+  \quad\Longrightarrow\quad
+  \boxed{80\le b_{1}\le160 .}
+\]
+At $b_{1}=100$ this gives $(20,60)$ \checkmark, comfortably inside.
+
+\wstep{Step 3. What the range means.}
+\emph{Within} $[80,160]$ the shadow price $10$ is exact: each additional
+machine hour is worth $10$ euros. Ten more hours, $b_{1}=110$, gives
+$z=2600+10\cdot10=2700$ and the plan $(30,50)$ --- check:
+$2(30)+50=110$ \checkmark and $30+50=80$ \checkmark, with
+$z=1200+1500=2700$ \checkmark.
+
+\emph{Outside} it the price changes. At $b_{1}=160$, $x_{2}$ hits zero;
+beyond that, extra machine hours cannot be used because labour has run out,
+and the shadow price drops to $0$.
+\wtrap{Shadow prices are local. Applying $10$ euros per hour to a proposal
+for $200$ machine hours predicts $z=3600$; the truth is that nothing beyond
+$160$ has any value, so $z$ stops at $3200$. Always quote the range with the
+price, and never extrapolate past it.}
+
+\wstep{Step 4. Objective-coefficient ranging for $c_{1}=40$.}
+Optimality requires the $z$-row entries under the non-basic variables
+(the slacks) to stay non-negative. Those entries are
+$\mathbf y^{\!\top}=\mathbf c_{B}^{\!\top}B^{-1}$:
+\[
+  (c_{1},30)\begin{pmatrix}1&-1\\-1&2\end{pmatrix}
+  =\bigl(c_{1}-30,\;-c_{1}+60\bigr).
+\]
+\[
+  c_{1}-30\ge0\ \text{and}\ 60-c_{1}\ge0
+  \quad\Longrightarrow\quad
+  \boxed{30\le c_{1}\le60 .}
+\]
+
+\wstep{Step 5. Confirm it geometrically.}
+The objective's slope is $-c_{1}/30$. The corner $(20,60)$ stays optimal as
+long as that slope lies between the slopes of the two binding constraints,
+$-2$ (machine) and $-1$ (labour):
+\[
+  -2\le-\frac{c_{1}}{30}\le-1
+  \quad\Longrightarrow\quad
+  30\le c_{1}\le60 . \checkmark
+\]
+At the endpoints the objective becomes parallel to one of the constraints
+and multiple optima appear --- precisely the situation of Chapter~6.
+\wtrap{Within this range the optimal \emph{plan} $(20,60)$ does not change
+at all; only the optimal \emph{value} does, at $20$ euros per unit of
+$c_{1}$. Right-hand-side changes move the plan and keep the price;
+objective changes keep the plan and move the value. Confusing which is
+which is the chapter's main hazard.}
+
+\wstep{Step 6. Reduced costs, and the new-product question.}
+Both $x_{1}$ and $x_{2}$ are basic, so both have reduced cost $0$: they are
+already in the plan. A \emph{non-basic} variable's reduced cost says how
+much its profit coefficient would have to improve before it enters. For the
+hypothetical product~3 of Chapter~5 (one hour of each resource, margin
+$35$):
+\[
+  35-\mathbf y^{\!\top}\mathbf a_{3}=35-(10+20)=5>0 ,
+\]
+so it enters; at a margin of $28$ it would not, and the break-even margin is
+exactly $30$.
+
+\wstep{Step 7. Two parameters at once: the 100\% rule.}
+Ranging is valid for \textbf{one change at a time}. For simultaneous
+changes, add the fractions of each allowable range used up; if the total is
+at most $100\%$, the basis certainly stays optimal. Raising $b_{1}$ from
+$100$ to $130$ uses $30/60=50\%$ of its upward slack; a change in $b_{2}$
+that uses $40\%$ of its own range brings the total to $90\%$, so the basis
+survives. Above $100\%$ the rule is silent --- not violated, merely
+uninformative, and re-solving is then the only reliable answer.
+
+\wstep{Step 8. What a solver's sensitivity report contains.}
+\begin{center}\footnotesize
+\begin{tabular}{ll}
+  \hline
+  column & meaning\\
+  \hline
+  final value & the optimal $x_{j}$ or the constraint's usage\\
+  reduced cost & $0$ if basic; else the margin shortfall\\
+  shadow price & value of one more unit of that right-hand side\\
+  allowable increase/decrease & the ranges computed above\\
+  \hline
+\end{tabular}
+\end{center}
+Every number in such a report has been derived by hand in this example. The
+report is not a black box --- it is this chapter, printed.
+\end{worked}
+
 \section{Practice Problems}
 
 Three data sets are shared by the problems below.

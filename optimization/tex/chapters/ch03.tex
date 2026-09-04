@@ -159,6 +159,32 @@ transform $\mathrm{e}^{(\cdot)}$ of the strictly concave function
 $\alpha\ln x+\beta\ln y$.
 \end{rulebox}
 
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[surfaxis, title={(a)}, z post scale=1.2]
+    \addplot3[surf, domain=-2:2, y domain=-2:2]{x^2+y^2};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[surfaxis, title={(b)}, z post scale=1.2]
+    \addplot3[surf, domain=-2:2, y domain=-2:2]{8-x^2-y^2};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[surfaxis, title={(c)}, z post scale=1.2]
+    \addplot3[surf, domain=-2:2, y domain=-2:2]{x^2-y^2};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[surfaxis, title={(d)}, z post scale=1.2]
+    \addplot3[surf, domain=0.05:2, y domain=0.05:2]{x*y};
+  \end{axis}
+\end{tikzpicture}
+\gcap{(a) $x^{2}+y^{2}$, \;(b) $8-x^{2}-y^{2}$, \;(c) $x^{2}-y^{2}$,
+\;(d) $xy$ on the positive quadrant. Problems 1--6 of the additional block
+refer to these.}
+\end{gallery}
+
 \begin{rulebox}{Why concavity matters: the FOC becomes sufficient}
 Let $S\subseteq\R^{n}$ be open and convex and $f$ differentiable on $S$.
 \begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
@@ -175,6 +201,109 @@ Let $S\subseteq\R^{n}$ be open and convex and $f$ differentiable on $S$.
         one maximizer, and any local maximizer is global.
 \end{itemize}
 \end{rulebox}
+
+\section{Worked Example}
+
+\begin{worked}{Classify $f(x,y)=x^{2}+xy+y^{2}$ and the Cobb--Douglas $U(x,y)=x^{1/2}y^{1/2}$ on $x,y>0$ --- and see why the second is concave but \emph{not} strictly}
+\wstep{Step 1. First function: build the Hessian.}
+\[
+  f_{x}=2x+y,\quad f_{y}=x+2y,
+  \qquad
+  \Hess f=\begin{pmatrix}2&1\\1&2\end{pmatrix},
+\]
+constant, because $f$ is a quadratic.
+
+\wstep{Step 2. Test definiteness by leading principal minors.}
+\[
+  D_{1}=2>0,\qquad D_{2}=4-1=3>0 .
+\]
+Positive definite everywhere, so $f$ is \textbf{strictly convex} on all of
+$\R^{2}$. Consequently any critical point is the unique global minimum ---
+here $(0,0)$.
+\wtrap{The matrix is $\begin{pmatrix}2&1\\1&2\end{pmatrix}$, not
+$\begin{pmatrix}2&1\\0&2\end{pmatrix}$: the cross term $xy$ contributes
+\emph{half} of its coefficient to each off-diagonal entry, because
+$f_{xy}=f_{yx}=1$. This is the same halving as in the quadratic forms of
+Volume~3, and it changes the answer.}
+
+\wstep{Step 3. Second function: the partials.}
+\[
+  U_{x}=\tfrac12x^{-1/2}y^{1/2},
+  \qquad
+  U_{y}=\tfrac12x^{1/2}y^{-1/2} .
+\]
+Both are positive on $x,y>0$: more of either good is better.
+
+\wstep{Step 4. The second-order partials.}
+\[
+  U_{xx}=-\tfrac14x^{-3/2}y^{1/2},
+  \qquad
+  U_{yy}=-\tfrac14x^{1/2}y^{-3/2},
+  \qquad
+  U_{xy}=\tfrac14x^{-1/2}y^{-1/2} .
+\]
+$U_{xx}<0$ and $U_{yy}<0$: diminishing marginal utility in each good
+separately.
+
+\wstep{Step 5. Now the determinant --- and it vanishes.}
+\[
+  \det\Hess U=U_{xx}U_{yy}-U_{xy}^{2}
+  =\tfrac{1}{16}x^{-1}y^{-1}-\tfrac{1}{16}x^{-1}y^{-1}=0 .
+\]
+So the Hessian is negative \textbf{semi}definite --- not negative definite.
+$U$ is concave, but not \emph{strictly} concave.
+\wtrap{This is the chapter's central trap, and the exact-zero result is not
+a coincidence: it happens for every Cobb--Douglas whose exponents sum to
+$1$. Reporting ``negative definite, so strictly concave'' from
+$U_{xx}<0$ alone --- without the determinant --- is the standard error, and
+it claims a uniqueness that does not hold.}
+
+\wstep{Step 6. See the flatness directly.}
+Along the ray $y=x$, $U(x,x)=x$: a straight line. A strictly concave
+function is never linear on any segment, so the failure of strict concavity
+is visible without any matrix. It is the constant-returns-to-scale property
+of the function --- doubling both inputs doubles output --- expressed as
+flatness along rays through the origin.
+
+\wstep{Step 7. What survives, and why economics does not mind.}
+$U$ is \textbf{strictly quasiconcave}: its superlevel sets
+$\{(x,y):U\ge\bar u\}$ --- the ``at least as good as'' sets --- are strictly
+convex, because the indifference curves $xy=\bar u^{2}$ are strictly convex
+hyperbolas. Quasiconcavity is weaker than concavity but is what the theory
+needs:
+\begin{center}\footnotesize
+\begin{tabular}{ll}
+  \hline
+  property & what it buys\\
+  \hline
+  concave objective on convex set & FOC is sufficient for a global max\\
+  \emph{strictly} concave & the maximiser is unique\\
+  \emph{strictly quasiconcave} & the \emph{constrained} maximiser is unique\\
+  \hline
+\end{tabular}
+\end{center}
+Concavity is not an ordinal property --- $U$ and $U^{3}$ describe the same
+preferences while $U^{3}$ is not concave --- so preferences can only ever be
+assumed quasiconcave. That is why the textbook assumption is ``convex
+preferences'' rather than ``concave utility''.
+
+\wstep{Step 8. If the exponents do not sum to one.}
+For $U=x^{a}y^{b}$ with $a,b>0$: the determinant of the Hessian works out
+to $ab(1-a-b)x^{2a-2}y^{2b-2}$. So
+\[
+  a+b<1\Rightarrow\det>0\ \text{and}\ U_{xx}<0:\ \text{strictly concave};
+\]
+\[
+  a+b=1\Rightarrow\det=0:\ \text{concave, not strictly};
+  \qquad
+  a+b>1\Rightarrow\det<0:\ \textbf{not concave at all.}
+\]
+Decreasing returns give strict concavity; constant returns give the
+borderline case computed above; increasing returns destroy concavity
+entirely --- and with it the sufficiency of the first-order conditions,
+which is the mathematical reason increasing returns break the competitive
+model.
+\end{worked}
 
 \section{Practice Problems}
 
@@ -518,6 +647,19 @@ A second pass over the same rules, with fresh functions.
         $\pi(q_1,q_2)=20q_1+30q_2-2q_1^{2}-3q_2^{2}-q_1q_2$. Show that
         $\pi$ is strictly concave on $\R^{2}$ and find the unique global
         profit maximizer.
+
+  \item Classify each of the four surfaces (a)--(d) in the figure of the
+        Core Rules as convex, concave, both, or neither on the domain
+        drawn.
+  \item Which of the four are quasiconcave on the domain drawn?
+  \item Show by computing the Hessian that $f(x,y)=xy$ is not concave
+        anywhere, despite surface (d) looking like a hill from some angles.
+  \item Show directly that the superlevel sets of $f(x,y)=xy$ on
+        $x,y>0$ are convex, so that $f$ is quasiconcave there.
+  \item A function is simultaneously convex and concave on $\R^{n}$. What
+        must it be, and what do its level sets look like?
+  \item Use the chord criterion to explain in one sentence why a saddle is
+        neither convex nor concave.
 \end{problems}
 
 \section{Additional Solutions}
@@ -636,4 +778,33 @@ A second pass over the same rules, with fresh functions.
         and $q_2^{*}=20-\frac{360}{23}=\frac{460-360}{23}=\frac{100}{23}$.
         Unique global profit maximizer
         $(q_1^{*},q_2^{*})=\bigl(\tfrac{90}{23},\tfrac{100}{23}\bigr)$.
+
+  \item (a) convex --- a bowl. (b) concave --- a dome. (c) neither --- a
+        saddle. (d) neither: along the diagonal $y=x$ the function
+        $x^{2}$ is convex, while along $y=-x$ it is $-x^{2}$, concave, so
+        no single curvature holds.
+  \item (a) is quasiconvex but not quasiconcave; (b) is concave, hence
+        quasiconcave; (c) is neither; (d) \emph{is} quasiconcave on the
+        positive quadrant, which is the whole point of the Cobb--Douglas
+        picture --- its superlevel sets are the convex regions beyond the
+        isoquants.
+  \item $f_{xx}=0$, $f_{yy}=0$, $f_{xy}=1$, so
+        $\Hess f=\begin{pmatrix}0&1\\1&0\end{pmatrix}$ with
+        $\det=-1<0$: indefinite at every point. An indefinite Hessian rules
+        out both concavity and convexity everywhere.
+  \item The superlevel set is $\{(x,y):x,y>0,\ xy\ge c\}$. For $c\le0$ it is
+        the whole quadrant, which is convex. For $c>0$ it is the region on
+        or above the curve $y=c/x$, and that curve is convex as a
+        one-variable function ($y''=2c/x^{3}>0$ for $x>0$), so the region
+        above it is a convex set. Every superlevel set being convex is the
+        definition of quasiconcavity.
+  \item It must be \textbf{affine}: $f(\mathbf{x})=\mathbf{a}^{T}
+        \mathbf{x}+b$. Both chord inequalities hold with equality, so the
+        graph contains every chord, which forces a flat graph --- a
+        hyperplane. Its level sets are parallel hyperplanes (parallel
+        straight lines when $n=2$).
+  \item On a saddle some chords lie above the surface and others lie below
+        it --- along one axis the surface curves up, along the other it
+        curves down --- so neither the convex nor the concave chord
+        inequality can hold for all pairs of points.
 \end{solutions}

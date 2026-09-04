@@ -118,6 +118,103 @@ with Hotelling's lemma this yields $\pi''(p)=\dd{q^*}{p}\ge0$, the law
 of supply.
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{A firm maximises $\pi(L;w)=10\sqrt L-wL$. Find $L^{*}(w)$, the value function $\pi^{*}(w)$, and verify the envelope theorem}
+\wstep{Step 1. Solve the problem for a \emph{fixed} parameter.}
+\[
+  \pd{\pi}{L}=\frac{10}{2\sqrt L}-w=\frac{5}{\sqrt L}-w=0
+  \quad\Longrightarrow\quad
+  \sqrt L=\frac5w
+  \quad\Longrightarrow\quad
+  \boxed{L^{*}(w)=\frac{25}{w^{2}}}
+\]
+Second order: $\pi_{LL}=-\tfrac52L^{-3/2}<0$, a maximum. \checkmark
+
+\wstep{Step 2. Comparative statics: how the optimum responds.}
+\[
+  \dd{L^{*}}{w}=-\frac{50}{w^{3}}<0 .
+\]
+Labour demand falls when the wage rises --- as it must. Note this was
+obtained by differentiating the \emph{solution}; the alternative, valid when
+$L^{*}$ cannot be written down, is to differentiate the first-order
+condition implicitly:
+\[
+  \frac{5}{\sqrt L}-w=0
+  \;\Longrightarrow\;
+  -\tfrac52L^{-3/2}\dd{L}{w}-1=0
+  \;\Longrightarrow\;
+  \dd{L}{w}=\frac{-1}{\tfrac52L^{-3/2}}=-\tfrac25L^{3/2} ,
+\]
+which at $L=25/w^{2}$ equals $-\tfrac25\cdot\frac{125}{w^{3}}=-\frac{50}{w^{3}}$.
+\checkmark\ Same answer, and the second method is the one that generalises.
+\wtrap{The sign of $\mathrm{d}L^{*}/\mathrm{d}w$ is the answer to
+``does labour demand slope down?''. Implicit differentiation of the FOC
+delivers it as $-\pi_{Lw}/\pi_{LL}$, where the denominator is negative by
+the second-order condition --- so the sign of the response is the
+\emph{sign of the cross partial}. That is the general comparative-statics
+result, and this example is its simplest instance.}
+
+\wstep{Step 3. Build the value function.}
+Substitute the optimiser back into the objective:
+\[
+  \pi^{*}(w)=10\sqrt{\frac{25}{w^{2}}}-w\cdot\frac{25}{w^{2}}
+  =10\cdot\frac5w-\frac{25}{w}
+  =\frac{50-25}{w}
+  =\boxed{\frac{25}{w}}
+\]
+
+\wstep{Step 4. Differentiate the value function directly.}
+\[
+  \dd{\pi^{*}}{w}=-\frac{25}{w^{2}} .
+\]
+
+\wstep{Step 5. Now the envelope theorem, which claims a shortcut.}
+The theorem says: to differentiate the \emph{optimised} value with respect
+to a parameter, differentiate the objective with respect to that parameter
+and evaluate at the optimum --- \textbf{ignoring} how the optimum moves:
+\[
+  \dd{\pi^{*}}{w}=\left.\pd{\pi}{w}\right|_{L=L^{*}}
+  =-L^{*}=-\frac{25}{w^{2}} . \checkmark
+\]
+One line, and it agrees with Step~4.
+
+\wstep{Step 6. Why the moving optimum can be ignored.}
+The full chain rule would read
+\[
+  \dd{\pi^{*}}{w}
+  =\underbrace{\pd{\pi}{L}}_{=\,0\ \text{at }L^{*}}\dd{L^{*}}{w}
+   +\pd{\pi}{w} .
+\]
+The first term vanishes \emph{because $L^{*}$ satisfies the first-order
+condition}. The optimum does move, and its movement does change output ---
+but at an optimum the objective is flat in $L$, so to first order that
+movement contributes nothing.
+\wtrap{The envelope theorem holds only \emph{at} the optimum, and only for a
+parameter's \emph{direct} effect. Applying it at a non-optimal point, or
+forgetting that $\partial\pi/\partial w$ means the derivative holding $L$
+fixed, both give wrong answers. And it says nothing about second
+derivatives --- $\mathrm{d}^{2}\pi^{*}/\mathrm{d}w^{2}$ genuinely requires
+$\mathrm{d}L^{*}/\mathrm{d}w$.}
+
+\wstep{Step 7. Read the result as economics.}
+$\mathrm{d}\pi^{*}/\mathrm{d}w=-L^{*}$ is \textbf{Hotelling's lemma}: the
+rate at which maximised profit falls when the wage rises equals the amount
+of labour employed. A firm using $25$ workers loses about $25$ euros of
+profit per euro of wage increase --- to first order, before it has time to
+re-optimise. The whole family of ``derivative of the value function equals
+the quantity'' results (Shephard's lemma, Roy's identity, the shadow price
+$\lambda$ of Chapter~8) are this same theorem.
+
+\wstep{Step 8. Curvature.}
+$\pi^{*}(w)=25/w$ has $\mathrm{d}^{2}\pi^{*}/\mathrm{d}w^{2}=50/w^{3}>0$:
+the value function is \textbf{convex} in the wage. This is general --- a
+maximised value function is convex in the parameters it is linear in ---
+and it has content: a firm facing a volatile wage with mean $\bar w$ does
+better than one facing $\bar w$ for certain, because it can adjust. The
+convexity \emph{is} the value of flexibility.
+\end{worked}
+
 \section{Practice Problems}
 
 \begin{problems}
@@ -398,6 +495,22 @@ of supply.
         $0<t<w$ is a wage tax, chooses hours $h\ge0$. Find $h^*(w,t)$,
         the sign of $\dd{h^*}{t}$, and $\pd{V}{t}$; verify directly and
         interpret.
+
+  \item \textbf{Without re-solving.} The load a rectangular beam of width
+        $B$ and height $H$ can carry is proportional to $BH^{2}$. The beam
+        is cut from a circular log of diameter $d$, so $B^{2}+H^{2}=d^{2}$.
+        Solve the maximisation once for general $d$, and give the maximal
+        load $S^{*}(d)$.
+  \item Using the previous answer, estimate the percentage increase in
+        carrying capacity when the log's diameter grows from $30$\,cm to
+        $31$\,cm --- \emph{without} re-solving the optimisation.
+  \item A firm minimises cost $C=2K+3L$ subject to producing
+        $\sqrt{KL}=q$. Find the value function $C^{*}(q)$ and use the
+        envelope theorem to say by roughly how much minimum cost rises when
+        the output target increases from $10$ to $10.5$.
+  \item For $\max U=xy$ subject to $2x+5y=M$, the multiplier is
+        $\lambda^{*}=M/20$. Estimate the gain in utility when income rises
+        from $100$ to $104$, and compare with the exact change.
 \end{problems}
 
 \section{Additional Solutions}
@@ -468,4 +581,39 @@ of supply.
         worker's welfare falls at the rate of hours currently worked;
         the induced cut in hours has no first-order welfare effect,
         pure envelope logic.
+
+  \item Maximise $BH^{2}$ with $H^{2}=d^{2}-B^{2}$, i.e. maximise
+        $B(d^{2}-B^{2})$. The derivative $d^{2}-3B^{2}$ vanishes at
+        $B=d/\sqrt3$, giving $H^{2}=\tfrac23 d^{2}$ and
+        \[
+          S^{*}(d)=B H^{2}=\frac{d}{\sqrt3}\cdot\frac{2d^{2}}{3}
+                  =\frac{2d^{3}}{3\sqrt3}.
+        \]
+        The optimal beam is always $H=\sqrt2\,B$, whatever the log.
+  \item $S^{*}$ is proportional to $d^{3}$, so
+        $\dfrac{\mathrm{d}S^{*}/S^{*}}{\mathrm{d}d/d}=3$: the elasticity of
+        capacity with respect to diameter is exactly $3$. A rise from $30$
+        to $31$ is $\tfrac{1}{30}=3.33\%$, so capacity rises by about
+        $3\times3.33\%=10\%$. (Exactly:
+        $(31/30)^{3}-1=10.34\%$.) No re-optimisation was needed --- only the
+        envelope-style derivative of the value function.
+  \item From $\sqrt{KL}=q$, $KL=q^{2}$. Minimising $2K+3L$ on that
+        hyperbola gives $2=\mu L$, $3=\mu K$ (with $\mu$ the multiplier on
+        $KL=q^{2}$), so $K/L=3/2$; substituting $KL=q^{2}$ gives
+        $L=q\sqrt{2/3}$, $K=q\sqrt{3/2}$ and
+        \[
+          C^{*}(q)=2q\sqrt{\tfrac32}+3q\sqrt{\tfrac23}=2\sqrt6\,q
+          \approx4.899\,q .
+        \]
+        By the envelope theorem $\mathrm{d}C^{*}/\mathrm{d}q=2\sqrt6$, so
+        raising the target from $10$ to $10.5$ costs about
+        $0.5\times4.899\approx2.45$. Here $C^{*}$ is linear in $q$, so the
+        estimate is exact.
+  \item The envelope theorem gives
+        $\mathrm{d}V^{*}/\mathrm{d}M=\lambda^{*}=M/20$, which at $M=100$ is
+        $5$. So $\Delta V^{*}\approx5\times4=20$. Exactly:
+        $V^{*}(M)=M^{2}/40$, so
+        $V^{*}(104)-V^{*}(100)=\tfrac{10816-10000}{40}=20.4$. The
+        multiplier gives the first-order estimate; the $0.4$ gap is the
+        curvature of the value function.
 \end{solutions}

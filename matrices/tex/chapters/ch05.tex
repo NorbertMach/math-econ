@@ -1,233 +1,655 @@
-\chapter{Inverses and Linear Systems}
+\chapter{Gaussian Elimination and Linear Systems}
 
-A square matrix $A \in \R^{n \times n}$ is \emph{invertible} (or
-\emph{nonsingular}) if there exists a matrix $A^{-1}$ with
-$A A^{-1} = A^{-1} A = I_{n}$. Equivalent statements: $\det A \neq 0$; the
-columns of $A$ are linearly independent; the system $A x = b$ has a unique
-solution for every $b$. The inverse is the workhorse for solving systems by
-hand and theoretically (think $\hat{\beta} = (X^{T} X)^{-1} X^{T} y$ or
-$x = (I - A)^{-1} d$ in input-output models).
+Every later chapter of this volume quietly assumes this one. The inverse of
+a $3\times3$ matrix is computed by row-reducing $[A\mid I]$; the rank of a
+matrix is the number of non-zero rows after row reduction; the simplex
+method of the linear-programming volume is row reduction with a rule for
+choosing which pivot to use next. It is worth having the mechanism itself
+drilled until it is automatic.
+
+The idea is older and simpler than matrices. To solve a system of linear
+equations one adds multiples of equations to each other until each new
+equation contains one unknown fewer, then reads the unknowns off backwards.
+Gaussian elimination is that procedure written down without the letters:
+only the coefficients are carried along, in a rectangular array, and the
+operations on equations become operations on \emph{rows}.
+
+Two things make it more than a computational recipe. It never loses or
+invents solutions --- each step is reversible, so the solution set is
+untouched --- and the shape of the final array reveals immediately which of
+the three possible outcomes holds: one solution, none, or infinitely many.
+That last case is where the parameters come from, and it is the case
+examinations ask about.
 
 \section{Core Rules}
 
-\begin{rulebox}{$2 \times 2$ formula}
-For $A = \bigl(\begin{smallmatrix} a & b \\ c & d \end{smallmatrix}\bigr)$
-with $\det A = a d - b c \neq 0$,
+\begin{rulebox}{The augmented matrix}
+The system
 \[
-A^{-1} \;=\; \frac{1}{a d - b c} \begin{pmatrix} d & -b \\ -c & a \end{pmatrix}.
+  \begin{array}{r@{}c@{}r@{}c@{}r@{}c@{}l}
+    a_{11}x_{1}&{}+{}&\cdots&{}+{}&a_{1n}x_{n}&{}={}&b_{1}\\
+    &&\vdots&&&&\\
+    a_{m1}x_{1}&{}+{}&\cdots&{}+{}&a_{mn}x_{n}&{}={}&b_{m}
+  \end{array}
 \]
-(Swap the diagonal, negate the off-diagonal, divide by the determinant.)
+is recorded as the \textbf{augmented matrix} $[A\mid \mathbf{b}]$: the
+coefficients on the left of the bar, the right-hand sides on the right. The
+unknowns are not written; their identity is their column.
 \end{rulebox}
 
-\begin{rulebox}{General formula (adjugate)}
-For $A \in \R^{n \times n}$ invertible,
+\begin{rulebox}{The three elementary row operations}
+\begin{enumerate}[leftmargin=1.8em,itemsep=0.3ex]
+  \item \textbf{Swap} two rows. \hfill $R_{i}\leftrightarrow R_{j}$
+  \item \textbf{Scale} a row by a constant $c\neq0$. \hfill $R_{i}\to cR_{i}$
+  \item \textbf{Add} a multiple of one row to another. \hfill
+        $R_{i}\to R_{i}+cR_{j}$
+\end{enumerate}
+Each corresponds to something obviously harmless done to the equations ---
+reordering them, multiplying one by a non-zero number, adding one to
+another --- and each is \textbf{reversible}. Hence
 \[
-A^{-1} \;=\; \frac{1}{\det A} \, \mathrm{adj}(A), \qquad
-\mathrm{adj}(A)_{ij} = C_{ji} = (-1)^{i + j} M_{ji},
+  [A\mid\mathbf{b}]\ \longrightarrow\ [A'\mid\mathbf{b}']
+  \quad\Longrightarrow\quad
+  \text{same solution set.}
 \]
-where $C_{ji}$ are the cofactors of $A$. In practice for $n \ge 3$ one
-usually inverts by Gauss-Jordan elimination on $[A \mid I]$ instead.
+The requirement $c\neq0$ in the second operation is what keeps it
+reversible: multiplying a row by $0$ destroys information.
 \end{rulebox}
 
-\begin{rulebox}{Properties}
-Whenever the inverses exist:
-\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
-    \item $(A^{-1})^{-1} = A$.
-    \item $(A B)^{-1} = B^{-1} A^{-1}$ \emph{(order reverses)}.
-    \item $(A^{T})^{-1} = (A^{-1})^{T}$.
-    \item $(\lambda A)^{-1} = \lambda^{-1} A^{-1}$ for $\lambda \neq 0$.
-    \item $\det(A^{-1}) = 1 / \det A$.
-    \item For a diagonal matrix $D = \mathrm{diag}(d_{1}, \dots, d_{n})$
-          with all $d_{i} \neq 0$,
-          $D^{-1} = \mathrm{diag}(1/d_{1}, \dots, 1/d_{n})$.
+\begin{rulebox}{Row-echelon form and pivots}
+A matrix is in \textbf{row-echelon form} (REF) if
+\begin{itemize}[leftmargin=1.6em,itemsep=0.2ex]
+  \item all zero rows are at the bottom, and
+  \item in every non-zero row the first non-zero entry --- its
+        \textbf{pivot} --- stands strictly to the right of the pivot of the
+        row above.
+\end{itemize}
+The result is a staircase descending to the right. In \textbf{reduced}
+row-echelon form (RREF) additionally every pivot equals $1$ and is the only
+non-zero entry in its column.
+\[
+  \underbrace{\begin{pmatrix}
+    \mathbf{2} & 1 & -1 & 3\\
+    0 & \mathbf{3} & 4 & 1\\
+    0 & 0 & 0 & 0
+  \end{pmatrix}}_{\text{REF, pivots }2,3}
+  \qquad
+  \underbrace{\begin{pmatrix}
+    \mathbf{1} & 0 & 5 & 2\\
+    0 & \mathbf{1} & 4 & 1\\
+    0 & 0 & 0 & 0
+  \end{pmatrix}}_{\text{RREF}}
+\]
+A column containing a pivot is a \textbf{pivot column}; its variable is
+determined. A non-pivot column belongs to a \textbf{free variable}, which
+may be chosen at will.
+\end{rulebox}
+
+\begin{rulebox}{The algorithm}
+\textbf{Forward elimination.} Work column by column, left to right.
+\begin{enumerate}[leftmargin=1.8em,itemsep=0.2ex]
+  \item Find the topmost unused row with a non-zero entry in the current
+        column; swap it into position. (If the whole column is zero, move
+        to the next column.)
+  \item Use operation 3 to clear every entry \emph{below} that pivot.
+  \item Move down one row and right one column, and repeat.
+\end{enumerate}
+\textbf{Back substitution.} From the bottom pivot upwards, solve each row
+for its pivot variable and substitute into the rows above. Alternatively
+continue with row operations until the matrix is in RREF --- then each
+pivot row reads off its variable directly. That variant is
+\textbf{Gauss--Jordan}.
+
+Arithmetic advice that pays for itself: keep integers as long as possible
+by scaling rows rather than dividing early, and never clear a column using
+a row you have not finished with.
+\end{rulebox}
+
+\begin{rulebox}{Reading the solution set off the echelon form}
+Let $r$ be the number of pivots in $A$ (that is, $\mathrm{rk}(A)$) and $n$
+the number of unknowns.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.35ex]
+  \item \textbf{No solution} exactly when a row reads
+        $\bigl(0\ \cdots\ 0 \mid \beta\bigr)$ with $\beta\neq0$: the
+        equation $0=\beta$ is false. Equivalently
+        $\mathrm{rk}([A\mid\mathbf{b}])>\mathrm{rk}(A)$. The system is
+        \emph{inconsistent}.
+  \item \textbf{Exactly one solution} when the system is consistent and
+        $r=n$: every variable is a pivot variable.
+  \item \textbf{Infinitely many} when the system is consistent and $r<n$:
+        there are $n-r$ free variables. Setting them to parameters
+        $t_{1},\dots,t_{n-r}$ gives the general solution as one particular
+        solution plus a combination of $n-r$ direction vectors.
+\end{itemize}
+A \textbf{homogeneous} system ($\mathbf{b}=\mathbf{0}$) is never
+inconsistent --- $\mathbf{x}=\mathbf{0}$ always solves it --- so it has
+non-trivial solutions exactly when $r<n$.
+\end{rulebox}
+
+\begin{rulebox}{Two by-products}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.35ex]
+  \item \textbf{The inverse.} Row-reduce $[A\mid I]$ to RREF. If the left
+        block becomes $I$, the right block is $A^{-1}$; if a zero row
+        appears on the left, $A$ is singular and has no inverse. This is the
+        practical method for $n\ge3$, where the adjugate formula becomes
+        unwieldy.
+  \item \textbf{The determinant.} Row operations change $\det$ in a known
+        way: a swap flips its sign, scaling a row by $c$ multiplies it by
+        $c$, and adding a multiple of one row to another leaves it
+        unchanged. So reducing to a triangular form and multiplying the
+        pivots --- correcting for swaps and scalings --- computes the
+        determinant in far fewer operations than cofactor expansion.
 \end{itemize}
 \end{rulebox}
 
-\begin{rulebox}{Solving $A x = b$}
-If $A$ is invertible, $x = A^{-1} b$ is the unique solution. In practice
-Gauss elimination on $[A \mid b]$ is faster than computing $A^{-1}$ and
-multiplying.
-\end{rulebox}
+\section{Worked Example}
 
-\begin{rulebox}{Cramer's rule}
-For $A x = b$ with $A \in \R^{n \times n}$ invertible,
+\begin{worked}{Solve $x+y+z=6$, $2x-y+z=3$, $x+2y-z=2$ by elimination --- and then change one number so that the system breaks}
+\wstep{Step 1. Write the augmented matrix. Never carry the letters.}
 \[
-x_{i} \;=\; \frac{\det A_{i}}{\det A},
+  \begin{array}{rcl}
+    x+y+z&=&6\\ 2x-y+z&=&3\\ x+2y-z&=&2
+  \end{array}
+  \qquad\Longrightarrow\qquad
+  [A\mid\mathbf b]=
+  \left(\begin{array}{ccc|c}
+    1&1&1&6\\ 2&-1&1&3\\ 1&2&-1&2
+  \end{array}\right)
 \]
-where $A_{i}$ is $A$ with column $i$ replaced by $b$.
-\end{rulebox}
+The vertical bar is not decoration: everything left of it is a coefficient,
+everything right of it is a constant, and row operations act on the whole
+row including the constant.
+\wtrap{Line the variables up in the same order in every equation, and write
+a $0$ where a variable is absent. A missing zero shifts a whole column and
+corrupts everything downstream.}
+
+\wstep{Step 2. Clear the first column using the first row.}
+$R_{2}\to R_{2}-2R_{1}$ and $R_{3}\to R_{3}-R_{1}$:
+\[
+  \left(\begin{array}{ccc|c}
+    1&1&1&6\\ 0&-3&-1&-9\\ 0&1&-2&-4
+  \end{array}\right)
+\]
+Check one entry by hand: the new $(2,4)$ entry is $3-2\cdot6=-9$. \checkmark
+
+\wstep{Step 3. Clear the second column using the second row.}
+$R_{3}\to 3R_{3}+R_{2}$ avoids fractions:
+\[
+  \left(\begin{array}{ccc|c}
+    1&1&1&6\\ 0&-3&-1&-9\\ 0&0&-7&-21
+  \end{array}\right)
+\]
+\wtrap{Scaling $R_{3}$ by $3$ is harmless \emph{for solving} --- it does not
+change the solution set. It does change the determinant, by a factor $3$. If
+the same reduction is being used to compute $\det A$, record every scaling
+and every swap; if you are only solving, ignore them.}
+
+\wstep{Step 4. Count pivots before back-substituting.}
+Three pivots ($1$, $-3$, $-7$) in three columns, and no row of the form
+$(0\ 0\ 0\mid c)$ with $c\neq0$. So: consistent, no free variables,
+\textbf{exactly one solution}. This diagnosis comes before the arithmetic,
+and it is what an examination question usually asks for.
+
+\wstep{Step 5. Back-substitute from the bottom.}
+\[
+  -7z=-21\;\Rightarrow\;z=3;\qquad
+  -3y-3=-9\;\Rightarrow\;y=2;\qquad
+  x+2+3=6\;\Rightarrow\;x=1 .
+\]
+\[
+  \boxed{(x,y,z)=(1,2,3)}
+\]
+
+\wstep{Step 6. Check in the \emph{original} equations, not the reduced ones.}
+$1+2+3=6$ \checkmark;\; $2-2+3=3$ \checkmark;\; $1+4-3=2$ \checkmark.
+Checking against the row-echelon form would only confirm the back
+substitution, not the elimination --- so it catches half the possible
+errors.
+
+\wstep{Step 7. Now break it, to see the other two outcomes.}
+Replace the third equation by $3x+3y+3z=18$, a copy of the first. Then
+$R_{3}\to R_{3}-3R_{1}$ gives the row $(0\ 0\ 0\mid0)$: two pivots, three
+unknowns, so one \textbf{free variable} and infinitely many solutions.
+Setting $z=t$ and back-substituting through $-3y-t=-9$ gives
+\[
+  y=3-\tfrac{t}{3},\qquad x=6-y-z=3-\tfrac{2t}{3},\qquad t\in\R .
+\]
+Replace it instead by $3x+3y+3z=17$ and the same operation gives
+$(0\ 0\ 0\mid-1)$: the equation $0=-1$, so \textbf{no solution}.
+\wtrap{$(0\ 0\ 0\mid 0)$ and $(0\ 0\ 0\mid c\neq0)$ look almost identical
+and mean opposite things --- infinitely many solutions versus none. Read the
+entry to the right of the bar before concluding anything, and never
+``simplify away'' a zero row without looking at it.}
+
+\wstep{Step 8. What else the reduction has told you.}
+The same triangular form gives $\det A=1\cdot(-3)\cdot(-7)/3=7$ --- dividing
+by the $3$ introduced in Step~3 --- and shows $\operatorname{rank}A=3$. One
+elimination answers three questions: solve, rank, determinant.
+\end{worked}
 
 \section{Practice Problems}
 
 \begin{problems}
-    \item Invert $A = \bigl(\begin{smallmatrix} 1 & 2 \\ 3 & 4 \end{smallmatrix}\bigr)$.
-    \item Invert $A = \bigl(\begin{smallmatrix} 2 & 5 \\ 1 & 3 \end{smallmatrix}\bigr)$.
-    \item Invert $A = \bigl(\begin{smallmatrix} 4 & 7 \\ 2 & 6 \end{smallmatrix}\bigr)$.
-    \item For which $a$ is $A = \bigl(\begin{smallmatrix} a & 2 \\ 3 & a + 1 \end{smallmatrix}\bigr)$ invertible?
-    \item Solve $\bigl(\begin{smallmatrix} 1 & 2 \\ 3 & 4 \end{smallmatrix}\bigr) x = \bigl(\begin{smallmatrix} 5 \\ 11 \end{smallmatrix}\bigr)$ using $A^{-1}$ (from problem 1).
-    \item Solve $\bigl(\begin{smallmatrix} 2 & 5 \\ 1 & 3 \end{smallmatrix}\bigr) x = \bigl(\begin{smallmatrix} 1 \\ 0 \end{smallmatrix}\bigr)$ by Cramer's rule.
-    \item Solve the system $\,2 x + 3 y = 7,\, x - y = 1\,$ using Cramer.
-    \item Invert the diagonal matrix $D = \mathrm{diag}(2, -3, 5)$.
-    \item Invert $A = \begin{pmatrix} 1 & 0 & 0 \\ 2 & 1 & 0 \\ 3 & 4 & 1 \end{pmatrix}$ (lower-triangular with $1$'s on the diagonal).
-    \item Invert $A = \begin{pmatrix} 1 & 2 & 3 \\ 0 & 1 & 4 \\ 0 & 0 & 1 \end{pmatrix}$.
-    \item Invert $A = \begin{pmatrix} 1 & 2 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 2 \end{pmatrix}$.
-    \item Invert $A = \begin{pmatrix} 1 & 1 & 1 \\ 0 & 1 & 1 \\ 0 & 0 & 1 \end{pmatrix}$.
-    \item Solve $\begin{pmatrix} 1 & 1 & 1 \\ 0 & 1 & 1 \\ 0 & 0 & 1 \end{pmatrix} x = \begin{pmatrix} 6 \\ 5 \\ 3 \end{pmatrix}$ by back-substitution.
-    \item Solve $\begin{pmatrix} 2 & 1 & 0 \\ 1 & 3 & 1 \\ 0 & 1 & 2 \end{pmatrix} x = \begin{pmatrix} 3 \\ 5 \\ 3 \end{pmatrix}$ by Gauss elimination.
-    \item If $A = \bigl(\begin{smallmatrix} 1 & 2 \\ 3 & 4 \end{smallmatrix}\bigr)$ and $B = \bigl(\begin{smallmatrix} 2 & 0 \\ 0 & 5 \end{smallmatrix}\bigr)$, compute $(A B)^{-1}$ two ways: directly and via $B^{-1} A^{-1}$.
-    \item For $A \in \R^{3 \times 3}$ with $\det A = 2$, what is $\det(A^{-1})$? $\det(2 A^{-1})$?
-    \item Show that if $A$ is invertible and symmetric, then so is $A^{-1}$.
-    \item For $A$ as in problem 1, verify that $A A^{-1} = I_{2}$ by direct multiplication.
-    \item Solve $A x = b$ with $A = \bigl(\begin{smallmatrix} 1 & 2 \\ 3 & 7 \end{smallmatrix}\bigr)$ and $b = \bigl(\begin{smallmatrix} 4 \\ 9 \end{smallmatrix}\bigr)$.
-    \item For which $\lambda$ is $A - \lambda I_{2}$ not invertible, where $A = \bigl(\begin{smallmatrix} 2 & 1 \\ 0 & 3 \end{smallmatrix}\bigr)$?
-    \item Compute the inverse of a rotation matrix $R(\theta) = \bigl(\begin{smallmatrix} \cos \theta & -\sin \theta \\ \sin \theta & \cos \theta \end{smallmatrix}\bigr)$.
-    \item Find $X$ from $X A = B$ with $A = \bigl(\begin{smallmatrix} 1 & 2 \\ 3 & 4 \end{smallmatrix}\bigr)$ and $B = \bigl(\begin{smallmatrix} 2 & 0 \\ -1 & 1 \end{smallmatrix}\bigr)$.
-    \item Compute $A^{-1}$ for $A = \begin{pmatrix} 2 & 0 & 1 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix}$.
-    \item Solve $\begin{pmatrix} 2 & 0 & 1 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix} x = \begin{pmatrix} 3 \\ 2 \\ 2 \end{pmatrix}$.
-    \item True or false: if $A \in \R^{3 \times 3}$ has two equal columns then $A$ is not invertible. Justify.
+  \item Name the three elementary row operations and say why each one
+        leaves the solution set unchanged.
+  \item Why must the scaling factor in operation 2 be non-zero?
+  \item Is $\begin{pmatrix}1&2&3\\0&0&4\\0&5&6\end{pmatrix}$ in row-echelon
+        form? If not, make it so with one operation.
+  \item Is $\begin{pmatrix}1&0&2\\0&1&3\\0&0&0\end{pmatrix}$ in REF, in
+        RREF, or neither?
+  \item Give the pivots and the pivot columns of
+        $\begin{pmatrix}0&2&1&3\\0&0&0&5\\0&0&0&0\end{pmatrix}$.
+  \item How many free variables does a consistent system with $5$ unknowns
+        and $3$ pivots have?
+  \item A row of an augmented matrix reads $(0\ 0\ 0\mid 4)$. What does that
+        tell you?
+  \item A row of an augmented matrix reads $(0\ 0\ 0\mid 0)$. What does
+        \emph{that} tell you?
+\end{problems}
+
+Solve the systems in problems 9--20 by elimination, and state which of the
+three outcomes occurs.
+
+\begin{problems}[resume]
+  \item $x+y=5$, \;$2x-y=1$.
+  \item $2x+3y=12$, \;$x-y=1$.
+  \item $x+y+z=6$, \;$2x-y+z=3$, \;$x+2y-z=2$.
+  \item $x+2y+3z=14$, \;$2x-y+z=3$, \;$3x+y-z=2$.
+  \item $x+y=2$, \;$2x+2y=5$.
+  \item $x+y+z=3$, \;$2x+2y+2z=6$.
+  \item $x+y-z=1$, \;$2x+3y+z=4$, \;$3x+4y=5$.
+  \item $x+2y-z=0$, \;$2x-y+3z=0$.
+  \item $2x+y-z=1$, \;$x-y+2z=5$, \;$3x+3y-4z=-3$.
+  \item $x+2y=4$, \;$3x-y=5$, \;$2x+3y=7$.
+  \item $x-2y+z=3$, \;$2x-4y+2z=6$, \;$-x+2y-z=-3$.
+  \item $x+y+2z=1$, \;$2x+3y+5z=3$, \;$x+2y+3z=2$.
+\end{problems}
+
+In problems 21--26 give the general solution in parametric form.
+
+\begin{problems}[resume]
+  \item $x+2y+z=4$, \;$2x+4y+2z=8$.
+  \item $x+y+z+w=2$, \;$x-y+z-w=0$.
+  \item $x+y-z=1$, \;$2x+3y+z=4$.
+  \item $2x-y+z=0$, \;$4x-2y+2z=0$.
+  \item $x+2y-3z=0$, \;$2x+5y-8z=0$.
+  \item $x_{1}+x_{2}+x_{3}+x_{4}=0$ \;(one equation, four unknowns).
+\end{problems}
+
+In problems 27--30 determine the rank by row reduction.
+
+\begin{problems}[resume]
+  \item $\begin{pmatrix}1&2&3\\2&4&6\\1&1&1\end{pmatrix}$
+  \item $\begin{pmatrix}1&2\\3&4\\5&6\end{pmatrix}$
+  \item $\begin{pmatrix}1&1&1\\1&2&3\\1&3&6\end{pmatrix}$
+  \item $\begin{pmatrix}2&-1&3\\4&-2&6\\-2&1&-3\end{pmatrix}$
+\end{problems}
+
+In problems 31--34 invert the matrix by row-reducing $[A\mid I]$, or show
+that it is singular.
+
+\begin{problems}[resume]
+  \item $A=\begin{pmatrix}1&2\\3&4\end{pmatrix}$
+  \item $A=\begin{pmatrix}1&1&0\\0&1&1\\1&0&1\end{pmatrix}$
+  \item $A=\begin{pmatrix}2&0&0\\0&3&0\\0&0&5\end{pmatrix}$
+  \item $A=\begin{pmatrix}1&2\\2&4\end{pmatrix}$
+\end{problems}
+
+\begin{problems}[resume]
+  \item For which $t$ does $x+y=1$, \;$x+ty=2$ have a unique solution, no
+        solution, or infinitely many?
+  \item For which $t$ does $x+2y=3$, \;$2x+ty=6$ have a unique solution, no
+        solution, or infinitely many?
+  \item For which $t$ does the system $x+y+z=1$, \;$x+2y+3z=2$,
+        \;$x+3y+tz=3$ fail to have a unique solution, and what happens
+        then?
+  \item For which $t$ does $tx+y=1$, \;$x+ty=1$ have infinitely many
+        solutions?
+  \item Compute $\det\begin{pmatrix}1&2&3\\2&5&3\\1&0&8\end{pmatrix}$ by
+        row-reducing to triangular form, tracking the effect of each
+        operation on the determinant.
+  \item A $4\times4$ matrix is row-reduced to an upper triangular matrix
+        using two row swaps, one scaling by $\tfrac12$, and several
+        additions. The resulting diagonal is $(2,3,1,4)$. What was
+        $\det A$?
+  \item Explain why a homogeneous system with more unknowns than equations
+        always has a non-trivial solution.
+  \item Show that if $A\mathbf{x}=\mathbf{b}$ has two distinct solutions,
+        it has infinitely many.
+\end{problems}
+
+\begin{problems}[resume]
+  \item \textbf{Leontief.} With input matrix
+        $A=\begin{pmatrix}0.2&0.4\\0.3&0.1\end{pmatrix}$ and final demand
+        $\mathbf{d}=\binom{12}{9}$, solve
+        $(I-A)\mathbf{x}=\mathbf{d}$ by elimination.
+  \item \textbf{Three-good equilibrium.} Solve
+        $2p_{1}-p_{2}=5$, \;$-p_{1}+3p_{2}-p_{3}=12$,
+        \;$-p_{2}+2p_{3}=15$.
+  \item \textbf{National income.} With $Y=C+I+G$,
+        $C=100+0.8(Y-T)$, $T=0.25Y$, $I=150$, $G=200$: write the model as a
+        linear system in $(Y,C,T)$ and solve it by elimination.
 \end{problems}
 
 \section{Solutions}
 
 \begin{solutions}
-    \item $\det A = 1 \cdot 4 - 2 \cdot 3 = -2$. So $A^{-1} = -\tfrac{1}{2} \bigl(\begin{smallmatrix} 4 & -2 \\ -3 & 1 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} -2 & 1 \\ 3/2 & -1/2 \end{smallmatrix}\bigr)$.
-    \item $\det A = 6 - 5 = 1$. $A^{-1} = \bigl(\begin{smallmatrix} 3 & -5 \\ -1 & 2 \end{smallmatrix}\bigr)$.
-    \item $\det A = 24 - 14 = 10$. $A^{-1} = \tfrac{1}{10} \bigl(\begin{smallmatrix} 6 & -7 \\ -2 & 4 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 3/5 & -7/10 \\ -1/5 & 2/5 \end{smallmatrix}\bigr)$.
-    \item $\det A = a(a + 1) - 6 = a^{2} + a - 6 = (a - 2)(a + 3)$. Invertible iff $a \neq 2, -3$.
-    \item $x = A^{-1} b = \bigl(\begin{smallmatrix} -2 & 1 \\ 3/2 & -1/2 \end{smallmatrix}\bigr) \bigl(\begin{smallmatrix} 5 \\ 11 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} -10 + 11 \\ 15/2 - 11/2 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 1 \\ 2 \end{smallmatrix}\bigr)$.
-    \item $\det A = 1$. $A_{1} = \bigl(\begin{smallmatrix} 1 & 5 \\ 0 & 3 \end{smallmatrix}\bigr)$, $\det A_{1} = 3$. $A_{2} = \bigl(\begin{smallmatrix} 2 & 1 \\ 1 & 0 \end{smallmatrix}\bigr)$, $\det A_{2} = -1$. So $x_{1} = 3,\, x_{2} = -1$.
-    \item $A = \bigl(\begin{smallmatrix} 2 & 3 \\ 1 & -1 \end{smallmatrix}\bigr)$, $\det A = -2 - 3 = -5$. $A_{x} = \bigl(\begin{smallmatrix} 7 & 3 \\ 1 & -1 \end{smallmatrix}\bigr)$, $\det = -7 - 3 = -10$. $A_{y} = \bigl(\begin{smallmatrix} 2 & 7 \\ 1 & 1 \end{smallmatrix}\bigr)$, $\det = 2 - 7 = -5$. So $x = -10/-5 = 2$, $y = -5/-5 = 1$.
-    \item $D^{-1} = \mathrm{diag}(1/2, -1/3, 1/5)$.
-    \item Row-reduce $[A \mid I]$. $R_{2} \to R_{2} - 2 R_{1}$, $R_{3} \to R_{3} - 3 R_{1}$ gives $\bigl(\begin{smallmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 4 & 1 \end{smallmatrix}\big| \begin{smallmatrix} 1 & 0 & 0 \\ -2 & 1 & 0 \\ -3 & 0 & 1 \end{smallmatrix}\bigr)$. Then $R_{3} \to R_{3} - 4 R_{2}$:
-    \[
-    A^{-1} = \begin{pmatrix} 1 & 0 & 0 \\ -2 & 1 & 0 \\ 5 & -4 & 1 \end{pmatrix}.
-    \]
-    Check: $A A^{-1}$: row 3 of $A$ is $(3, 4, 1)$; dotted with cols of $A^{-1}$ gives $(3 - 8 + 5,\, 0 + 4 - 4,\, 0 + 0 + 1) = (0, 0, 1)$. Good.
-    \item Use the unit upper-triangular structure. The inverse is unit upper-triangular. Row-reduce $[A \mid I]$: clear column 3 first using $R_{1} \to R_{1} - 3 R_{3}$, $R_{2} \to R_{2} - 4 R_{3}$:
-    \[
-    \begin{pmatrix} 1 & 2 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{pmatrix} \Big| \begin{pmatrix} 1 & 0 & -3 \\ 0 & 1 & -4 \\ 0 & 0 & 1 \end{pmatrix}.
-    \]
-    Now $R_{1} \to R_{1} - 2 R_{2}$:
-    \[
-    A^{-1} = \begin{pmatrix} 1 & -2 & 5 \\ 0 & 1 & -4 \\ 0 & 0 & 1 \end{pmatrix}.
-    \]
-    Check the $(1, 3)$ entry of $A A^{-1}$: $1 \cdot 5 + 2 \cdot (-4) + 3 \cdot 1 = 5 - 8 + 3 = 0$. Good.
-    \item Block-by-block: the upper-left $2 \times 2$ block $\bigl(\begin{smallmatrix} 1 & 2 \\ 0 & 1 \end{smallmatrix}\bigr)$ has inverse $\bigl(\begin{smallmatrix} 1 & -2 \\ 0 & 1 \end{smallmatrix}\bigr)$, and the $(3,3)$ block is $1/2$.
-    \[
-    A^{-1} = \begin{pmatrix} 1 & -2 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1/2 \end{pmatrix}.
-    \]
-    \item Row-reduce $[A \mid I]$: $R_{1} \to R_{1} - R_{2}$, $R_{2} \to R_{2} - R_{3}$:
-    \[
-    A^{-1} = \begin{pmatrix} 1 & -1 & 0 \\ 0 & 1 & -1 \\ 0 & 0 & 1 \end{pmatrix}.
-    \]
-    Verify $A A^{-1}$ has the right diagonal of $1$'s and zeros off-diagonal.
-    \item Back-substitute: $x_{3} = 3$; $x_{2} + x_{3} = 5 \Rightarrow x_{2} = 2$; $x_{1} + x_{2} + x_{3} = 6 \Rightarrow x_{1} = 1$.
-    \item Augmented matrix: $\bigl(\begin{smallmatrix} 2 & 1 & 0 & 3 \\ 1 & 3 & 1 & 5 \\ 0 & 1 & 2 & 3 \end{smallmatrix}\bigr)$. $R_{2} \to R_{2} - \tfrac{1}{2} R_{1}$: $(0, 5/2, 1, 7/2)$. $R_{3}$ unchanged. Then $R_{3} \to R_{3} - \tfrac{2}{5} R_{2}$: $(0, 0, 2 - 2/5, 3 - 7/5) = (0, 0, 8/5, 8/5)$. So $x_{3} = 1$. Back-sub: $\tfrac{5}{2} x_{2} + 1 = 7/2 \Rightarrow x_{2} = 1$. $2 x_{1} + 1 = 3 \Rightarrow x_{1} = 1$. So $x = (1, 1, 1)^{T}$.
-    \item Direct: $A B = \bigl(\begin{smallmatrix} 2 & 10 \\ 6 & 20 \end{smallmatrix}\bigr)$, $\det = 40 - 60 = -20$, so $(A B)^{-1} = -\tfrac{1}{20}\bigl(\begin{smallmatrix} 20 & -10 \\ -6 & 2 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} -1 & 1/2 \\ 3/10 & -1/10 \end{smallmatrix}\bigr)$.
-    Via $B^{-1} A^{-1}$: $B^{-1} = \mathrm{diag}(1/2, 1/5)$, $A^{-1} = \bigl(\begin{smallmatrix} -2 & 1 \\ 3/2 & -1/2 \end{smallmatrix}\bigr)$.
-    \[
-    B^{-1} A^{-1} = \begin{pmatrix} 1/2 & 0 \\ 0 & 1/5 \end{pmatrix} \begin{pmatrix} -2 & 1 \\ 3/2 & -1/2 \end{pmatrix} = \begin{pmatrix} -1 & 1/2 \\ 3/10 & -1/10 \end{pmatrix}.
-    \]
-    Match.
-    \item $\det(A^{-1}) = 1/2$. $\det(2 A^{-1}) = 2^{3} \cdot \det(A^{-1}) = 8 \cdot \tfrac{1}{2} = 4$.
-    \item From $A A^{-1} = I$, transpose: $(A^{-1})^{T} A^{T} = I$. If $A^{T} = A$, this gives $(A^{-1})^{T} A = I$, so $(A^{-1})^{T} = A^{-1}$, i.e.\ $A^{-1}$ is symmetric.
-    \item $A A^{-1} = \bigl(\begin{smallmatrix} 1 & 2 \\ 3 & 4 \end{smallmatrix}\bigr) \bigl(\begin{smallmatrix} -2 & 1 \\ 3/2 & -1/2 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} -2 + 3 & 1 - 1 \\ -6 + 6 & 3 - 2 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 1 & 0 \\ 0 & 1 \end{smallmatrix}\bigr)$.
-    \item $\det A = 7 - 6 = 1$, $A^{-1} = \bigl(\begin{smallmatrix} 7 & -2 \\ -3 & 1 \end{smallmatrix}\bigr)$. $x = A^{-1} b = \bigl(\begin{smallmatrix} 28 - 18 \\ -12 + 9 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 10 \\ -3 \end{smallmatrix}\bigr)$.
-    \item $\det(A - \lambda I) = (2 - \lambda)(3 - \lambda) - 0 = 0 \Rightarrow \lambda = 2$ or $\lambda = 3$.
-    \item $\det R(\theta) = \cos^{2}\theta + \sin^{2}\theta = 1$, so $R^{-1} = \bigl(\begin{smallmatrix} \cos \theta & \sin \theta \\ -\sin \theta & \cos \theta \end{smallmatrix}\bigr) = R(-\theta)$.
-    \item $X = B A^{-1}$. From problem 1, $A^{-1} = \bigl(\begin{smallmatrix} -2 & 1 \\ 3/2 & -1/2 \end{smallmatrix}\bigr)$. So
-    \[
-    X = \begin{pmatrix} 2 & 0 \\ -1 & 1 \end{pmatrix} \begin{pmatrix} -2 & 1 \\ 3/2 & -1/2 \end{pmatrix} = \begin{pmatrix} -4 & 2 \\ 2 + 3/2 & -1 - 1/2 \end{pmatrix} = \begin{pmatrix} -4 & 2 \\ 7/2 & -3/2 \end{pmatrix}.
-    \]
-    \item $\det A$ along row 2: $1 \cdot \det\bigl(\begin{smallmatrix} 2 & 1 \\ 1 & 1 \end{smallmatrix}\bigr) = 1$. Row-reduce $[A \mid I]$. Swap to expose the structure, or compute cofactors directly. By the adjugate, cofactor matrix is
-    \[
-    C = \begin{pmatrix} 1 & 0 & -1 \\ 0 & 1 & 0 \\ -1 & 0 & 2 \end{pmatrix},
-    \]
-    so $A^{-1} = \mathrm{adj}(A) = C^{T} = \begin{pmatrix} 1 & 0 & -1 \\ 0 & 1 & 0 \\ -1 & 0 & 2 \end{pmatrix}$ (symmetric since $A$ is). Verify: $A A^{-1}$ row 1: $(2 \cdot 1 + 0 + 1 \cdot (-1),\, 0,\, 2 \cdot (-1) + 0 + 1 \cdot 2) = (1, 0, 0)$. Good.
-    \item $x = A^{-1} b = \begin{pmatrix} 1 & 0 & -1 \\ 0 & 1 & 0 \\ -1 & 0 & 2 \end{pmatrix} \begin{pmatrix} 3 \\ 2 \\ 2 \end{pmatrix} = \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix}$.
-    \item True. Two equal columns imply linear dependence of columns, so $\det A = 0$ (or equivalently rank $< 3$), so $A$ is not invertible.
+  \item Swapping two rows reorders the equations; scaling a row by $c\neq0$
+        multiplies one equation by a non-zero constant; adding a multiple of
+        one row to another replaces one equation by a consequence of two of
+        them. Every one is reversible --- swap back, scale by $1/c$,
+        subtract the same multiple --- so no solution can be lost or
+        gained.
+  \item Because multiplying by $0$ is not reversible: the row becomes
+        $0=0$, and the information in that equation is destroyed. Solutions
+        would be gained.
+  \item Not in REF: the pivot of row 2 sits in column 3, but row 3 has a
+        non-zero entry in column 2, which is further left. Swapping
+        $R_{2}\leftrightarrow R_{3}$ gives
+        $\begin{pmatrix}1&2&3\\0&5&6\\0&0&4\end{pmatrix}$, which is.
+  \item Both: pivots are $1$, each is alone in its column, and the zero row
+        is at the bottom. It is in RREF (hence also in REF).
+  \item Pivots $2$ (row 1, column 2) and $5$ (row 2, column 4). Pivot
+        columns are $2$ and $4$; columns $1$ and $3$ are free.
+  \item $n-r=5-3=2$ free variables.
+  \item The equation $0=4$: the system is \textbf{inconsistent} and has no
+        solution.
+  \item Nothing at all --- $0=0$ is true for every $\mathbf{x}$. The row is
+        redundant, which signals that the original equations were
+        dependent, so a free variable is likely.
+  \item $R_{2}\to R_{2}-2R_{1}$ gives $-3y=-9$, $y=3$, then $x=2$. Unique:
+        $(x,y)=(2,3)$.
+  \item From the second equation $x=y+1$; substituting,
+        $2y+2+3y=12$ so $y=2$, $x=3$. Unique.
+  \item The worked example: $(x,y,z)=(1,2,3)$. Unique.
+  \item Eliminating gives $y+z=5$ and $y+2z=8$, so $z=3$, $y=2$,
+        $x=14-4-9=1$. Unique: $(1,2,3)$.
+  \item $R_{2}\to R_{2}-2R_{1}$ leaves $(0\ 0\mid1)$, i.e. $0=1$:
+        \textbf{no solution}.
+  \item $R_{2}\to R_{2}-2R_{1}$ leaves a zero row. One pivot, three
+        unknowns: \textbf{infinitely many}, $x=3-y-z$ with $y,z$ free.
+  \item $R_{3}=R_{1}+R_{2}$, so the third equation is redundant. Two
+        pivots, three unknowns: infinitely many. With $z=t$:
+        $y=2-3t$ and $x=-1+4t$, i.e.
+        $(x,y,z)=(-1,2,0)+t(4,-3,1)$.
+  \item Homogeneous, two equations, three unknowns, so non-trivial
+        solutions exist. Eliminating gives $-5y+5z=0$, so $y=z$ and
+        $x=z-2y=-z$: the solution set is $t(-1,1,1)$.
+  \item $R_{2}\to 2R_{2}-R_{1}$ gives $-3y+5z=9$;
+        $R_{3}\to 2R_{3}-3R_{1}$ gives $3y-5z=-9$, the same equation.
+        Two pivots, three unknowns: infinitely many. With $z=t$:
+        $y=\tfrac{5t-9}{3}$ and, from the first equation,
+        $x=\tfrac{1+z-y\cdot 1}{2}$ --- explicitly
+        $x=\tfrac{1}{2}\bigl(1+t-\tfrac{5t-9}{3}\bigr)
+        =\tfrac{12-2t}{6}=2-\tfrac{t}{3}$. So
+        $(x,y,z)=(2,-3,0)+t\bigl(-\tfrac13,\tfrac53,1\bigr)$.
+  \item Three equations, two unknowns. From the first two: $x=2$, $y=1$.
+        Testing in the third: $4+3=7$ \checkmark, so the third is
+        consistent and the unique solution is $(2,1)$. (An
+        over-determined system need not be inconsistent.)
+  \item The second row is twice the first and the third is minus the first,
+        so both reduce to zero rows. One pivot, three unknowns: infinitely
+        many, $x=3+2y-z$ with $y,z$ free.
+  \item Eliminating: $R_{2}\to R_{2}-2R_{1}$ gives $y+z=1$;
+        $R_{3}\to R_{3}-R_{1}$ gives $y+z=1$ --- the same. Two pivots,
+        three unknowns: infinitely many. With $z=t$: $y=1-t$ and
+        $x=1-y-2t=-t$, so $(x,y,z)=(0,1,0)+t(-1,-1,1)$.
+  \item The second equation is twice the first, so one pivot and two free
+        variables: $x=4-2s-t$, $y=s$, $z=t$, i.e.
+        $(4,0,0)+s(-2,1,0)+t(-1,0,1)$.
+  \item Adding the equations gives $2x+2z=2$, so $x+z=1$; subtracting gives
+        $2y+2w=2$, so $y+w=1$. With $z=s$ and $w=t$:
+        $(x,y,z,w)=(1-s,\,1-t,\,s,\,t)$.
+  \item $R_{2}\to R_{2}-2R_{1}$ gives $y+3z=2$, so $y=2-3t$ with $z=t$, and
+        $x=1-y+z=1-(2-3t)+t=-1+4t$:
+        $(x,y,z)=(-1,2,0)+t(4,-3,1)$.
+  \item The second equation is twice the first, so there is one pivot and
+        two free variables. Choosing $x$ and $z$ as the free ones avoids
+        fractions: $y=2x+z$, so with $x=s$ and $z=t$
+        \[
+          (x,y,z)=(s,\;2s+t,\;t)=s(1,2,0)+t(0,1,1).
+        \]
+        The solution set is the plane $2x-y+z=0$ through the origin, and
+        any two independent directions in it give an equally valid
+        answer.
+  \item $R_{2}\to R_{2}-2R_{1}$ gives $y-2z=0$, so $y=2t$ with $z=t$, and
+        $x=3z-2y=3t-4t=-t$: $(x,y,z)=t(-1,2,1)$.
+  \item One pivot, four unknowns, three free:
+        $x_{1}=-s-t-u$, $x_{2}=s$, $x_{3}=t$, $x_{4}=u$.
+  \item $R_{2}\to R_{2}-2R_{1}$ gives a zero row;
+        $R_{3}\to R_{3}-R_{1}$ gives $(0,-1,-2)$. Two non-zero rows:
+        $\mathrm{rk}=2$.
+  \item $R_{2}\to R_{2}-3R_{1}$ and $R_{3}\to R_{3}-5R_{1}$ give
+        $(0,-2)$ and $(0,-4)$; then $R_{3}\to R_{3}-2R_{2}$ gives a zero
+        row. $\mathrm{rk}=2$.
+  \item Subtracting $R_{1}$ from the other rows gives $(0,1,2)$ and
+        $(0,2,5)$; then $R_{3}\to R_{3}-2R_{2}$ gives $(0,0,1)$. Three
+        pivots: $\mathrm{rk}=3$.
+  \item $R_{2}=2R_{1}$ and $R_{3}=-R_{1}$, so both become zero rows.
+        $\mathrm{rk}=1$.
+  \item $\left(\begin{array}{cc|cc}1&2&1&0\\3&4&0&1\end{array}\right)
+        \to R_{2}-3R_{1}:\ (0,-2\mid-3,1)
+        \to -\tfrac12R_{2}:\ (0,1\mid\tfrac32,-\tfrac12)
+        \to R_{1}-2R_{2}$, giving
+        $A^{-1}=\begin{pmatrix}-2&1\\ \tfrac32&-\tfrac12\end{pmatrix}$.
+  \item Row-reducing $[A\mid I]$ gives
+        $A^{-1}=\tfrac12\begin{pmatrix}1&-1&1\\1&1&-1\\-1&1&1\end{pmatrix}$.
+        (Check: $A A^{-1}=I$, e.g. row $1$ of $A$ times column $1$ of
+        $A^{-1}$ is $\tfrac12(1+1+0)=1$.)
+  \item Diagonal, so each row is scaled independently:
+        $A^{-1}=\mathrm{diag}\bigl(\tfrac12,\tfrac13,\tfrac15\bigr)$.
+  \item $R_{2}\to R_{2}-2R_{1}$ turns the left block's second row into
+        $(0,0)$. A zero row on the left means the reduction cannot reach
+        $I$: $A$ is \textbf{singular} and has no inverse (indeed
+        $\det A=4-4=0$).
+  \item Eliminating gives $(t-1)y=1$. If $t\neq1$ there is a unique
+        solution, $y=\tfrac{1}{t-1}$ and $x=1-y$. If $t=1$ the row reads
+        $0=1$: no solution. Infinitely many never occurs.
+  \item Eliminating gives $(t-4)y=0$. If $t\neq4$: unique, $y=0$ and
+        $x=3$. If $t=4$ the second equation is exactly twice the first, so
+        there are infinitely many solutions, $x=3-2y$ with $y$ free. No
+        solution never occurs.
+  \item Subtracting $R_{1}$ from $R_{2}$ and $R_{3}$ gives $y+2z=1$ and
+        $2y+(t-1)z=2$; then $R_{3}\to R_{3}-2R_{2}$ gives $(t-5)z=0$. For
+        $t\neq5$ the solution is unique, $z=0$, $y=1$, $x=0$. For $t=5$ the
+        last row vanishes and $z$ is free: infinitely many, namely
+        $(x,y,z)=(0,1,0)+z(1,-2,1)$. The system is never inconsistent.
+  \item The determinant is $t^{2}-1$, so the system is degenerate for
+        $t=\pm1$. For $t=1$ both equations read $x+y=1$: infinitely many.
+        For $t=-1$ they read $-x+y=1$ and $x-y=1$, i.e. $0=2$: no
+        solution. So infinitely many exactly when $t=1$.
+  \item $R_{2}\to R_{2}-2R_{1}$ and $R_{3}\to R_{3}-R_{1}$ (both leave
+        $\det$ unchanged) give
+        $\begin{pmatrix}1&2&3\\0&1&-3\\0&-2&5\end{pmatrix}$, then
+        $R_{3}\to R_{3}+2R_{2}$ gives
+        $\begin{pmatrix}1&2&3\\0&1&-3\\0&0&-1\end{pmatrix}$. No swaps and
+        no scalings were used, so $\det A=1\cdot1\cdot(-1)=-1$.
+  \item Each swap multiplies the determinant by $-1$ (two swaps: no net
+        change) and scaling a row by $\tfrac12$ halves it, while the
+        additions change nothing. So
+        $\tfrac12\det A=2\cdot3\cdot1\cdot4=24$, giving $\det A=48$.
+  \item With $m$ equations and $n>m$ unknowns the number of pivots is at
+        most $m<n$, so at least $n-m\ge1$ variables are free. A homogeneous
+        system is always consistent, so those free variables generate
+        infinitely many solutions, all but one of them non-trivial.
+  \item Let $\mathbf{x}_{1}\neq\mathbf{x}_{2}$ both solve it and set
+        $\mathbf{d}=\mathbf{x}_{1}-\mathbf{x}_{2}\neq\mathbf{0}$. Then
+        $A\mathbf{d}=\mathbf{b}-\mathbf{b}=\mathbf{0}$, so for every
+        $t\in\R$,
+        $A(\mathbf{x}_{1}+t\mathbf{d})=\mathbf{b}+t\mathbf{0}=\mathbf{b}$.
+        Every $t$ gives a solution, and they are all distinct.
+  \item $I-A=\begin{pmatrix}0.8&-0.4\\-0.3&0.9\end{pmatrix}$. Scaling both
+        rows by $10$ and eliminating:
+        $8x-4y=120$, $-3x+9y=90$; from the first $y=2x-30$, and then
+        $-3x+18x-270=90$ gives $15x=360$, $x=24$ and $y=18$. Gross outputs
+        $\mathbf{x}=(24,18)$. (Check: $0.8\cdot24-0.4\cdot18=12$
+        \checkmark.)
+  \item From the first, $p_{2}=2p_{1}-5$; from the third,
+        $p_{3}=\tfrac{15+p_{2}}{2}=5+p_{1}$. Substituting into the second:
+        $-p_{1}+3(2p_{1}-5)-(5+p_{1})=4p_{1}-20=12$, so $p_{1}=8$,
+        $p_{2}=11$, $p_{3}=13$. (Check the third: $-11+26=15$
+        \checkmark.)
+  \item Written as a system:
+        \[
+          \begin{array}{rcl}
+            Y-C&=&350\\
+            C-0.8Y+0.8T&=&100\\
+            T-0.25Y&=&0
+          \end{array}
+        \]
+        Substituting $T=0.25Y$ into the second gives
+        $C=100+0.8Y-0.2Y=100+0.6Y$; the first then gives
+        $Y-100-0.6Y=350$, so $0.4Y=450$ and $Y=1125$. Hence
+        $T=281.25$ and $C=775$. (Check: $775+150+200=1125$ \checkmark.)
+        The multiplier $1/0.4=2.5$ is the coefficient sitting in that
+        elimination step.
 \end{solutions}
 
 \section{Additional Problems}
 
 \begin{problems}
-    \item Invert $A = \bigl(\begin{smallmatrix} 3 & 1 \\ 5 & 2 \end{smallmatrix}\bigr)$.
-    \item Invert $A = \bigl(\begin{smallmatrix} 4 & 3 \\ 1 & 1 \end{smallmatrix}\bigr)$.
-    \item Invert $A = \bigl(\begin{smallmatrix} 2 & -3 \\ 1 & 4 \end{smallmatrix}\bigr)$.
-    \item For which $a$ is $A = \bigl(\begin{smallmatrix} a+1 & 4 \\ 2 & a \end{smallmatrix}\bigr)$ invertible?
-    \item Solve $\bigl(\begin{smallmatrix} 3 & 1 \\ 5 & 2 \end{smallmatrix}\bigr) x = \bigl(\begin{smallmatrix} 4 \\ 7 \end{smallmatrix}\bigr)$ using $A^{-1}$ from problem 1.
-    \item Solve $\bigl(\begin{smallmatrix} 4 & 3 \\ 1 & 1 \end{smallmatrix}\bigr) x = \bigl(\begin{smallmatrix} 7 \\ 2 \end{smallmatrix}\bigr)$ by Cramer's rule.
-    \item Solve the system $\,3x - y = 5,\, 2x + y = 5\,$ using Cramer.
-    \item Invert the diagonal matrix $D = \mathrm{diag}(4, 2, -5)$.
-    \item Invert $A = \begin{pmatrix} 1 & 0 & 0 \\ -1 & 1 & 0 \\ 2 & -3 & 1 \end{pmatrix}$.
-    \item Invert $A = \begin{pmatrix} 1 & 2 & -1 \\ 0 & 1 & 3 \\ 0 & 0 & 1 \end{pmatrix}$.
-    \item Invert $A = \begin{pmatrix} 2 & 0 & 0 \\ 0 & 1 & 3 \\ 0 & 0 & 1 \end{pmatrix}$.
-    \item Solve $\begin{pmatrix} 1 & 2 & -1 \\ 0 & 1 & 3 \\ 0 & 0 & 1 \end{pmatrix} x = \begin{pmatrix} 1 \\ 4 \\ 2 \end{pmatrix}$ by back-substitution.
-    \item Solve $\begin{pmatrix} 1 & 1 & 1 \\ 0 & 2 & 3 \\ 0 & 0 & 4 \end{pmatrix} x = \begin{pmatrix} 6 \\ 11 \\ 12 \end{pmatrix}$ by back-substitution.
-    \item Solve $\begin{pmatrix} 1 & 2 & 1 \\ 2 & 5 & 0 \\ 3 & 5 & 8 \end{pmatrix} x = \begin{pmatrix} 4 \\ 5 \\ 14 \end{pmatrix}$ by Gauss elimination.
-    \item For $A = \bigl(\begin{smallmatrix} 2 & 1 \\ 1 & 1 \end{smallmatrix}\bigr)$ and $B = \bigl(\begin{smallmatrix} 3 & 0 \\ 0 & 2 \end{smallmatrix}\bigr)$, compute $(A B)^{-1}$ as $B^{-1} A^{-1}$.
-    \item For $A \in \R^{4 \times 4}$ with $\det A = 3$, compute $\det(2 A^{-1})$.
-    \item For $A$ in problem 3, verify directly that $A A^{-1} = I_{2}$.
-    \item Solve $A x = b$ with $A = \bigl(\begin{smallmatrix} 5 & 2 \\ 3 & 1 \end{smallmatrix}\bigr)$, $b = \bigl(\begin{smallmatrix} 1 \\ 0 \end{smallmatrix}\bigr)$.
-    \item For which $\lambda$ is $A - \lambda I_{2}$ not invertible, where $A = \bigl(\begin{smallmatrix} 4 & 2 \\ 0 & 1 \end{smallmatrix}\bigr)$?
-    \item For an orthogonal matrix $Q$ (i.e.\ $Q^{T} Q = I$), what is $Q^{-1}$?
-    \item Find $X$ from $A X = B$ with $A = \bigl(\begin{smallmatrix} 2 & 1 \\ 1 & 1 \end{smallmatrix}\bigr)$ and $B = \bigl(\begin{smallmatrix} 3 & 0 \\ 1 & -1 \end{smallmatrix}\bigr)$.
-    \item Compute $A^{-1}$ for $A = \begin{pmatrix} 1 & 1 & 0 \\ 0 & 1 & 1 \\ 1 & 0 & 1 \end{pmatrix}$.
-    \item Solve $\begin{pmatrix} 1 & 1 & 0 \\ 0 & 1 & 1 \\ 1 & 0 & 1 \end{pmatrix} x = \begin{pmatrix} 2 \\ 3 \\ 1 \end{pmatrix}$.
-    \item For $A \in \R^{2 \times 2}$ with $A^{2} = I$, show $A^{-1} = A$.
-    \item Invert $A = \bigl(\begin{smallmatrix} 1 & 2 \\ 0 & 3 \end{smallmatrix}\bigr)$ and verify the rule $(\lambda A)^{-1} = \lambda^{-1} A^{-1}$ with $\lambda = 2$.
+  \item Bring $\begin{pmatrix}0&1&2\\1&2&3\\2&4&6\end{pmatrix}$ to REF and
+        give its rank.
+  \item Bring the matrix of the previous problem to RREF.
+  \item Solve $3x+2y=7$, \;$x-y=-1$.
+  \item Solve $x+y+z=1$, \;$x-y+2z=4$, \;$2x+y-z=-1$.
+  \item Solve $2x+4y-2z=2$, \;$x+2y-z=1$, \;$3x+6y-3z=3$.
+  \item Solve $x+y=1$, \;$y+z=2$, \;$x+z=3$.
+  \item Solve $x+2y+3z=1$, \;$4x+5y+6z=2$, \;$7x+8y+9z=4$.
+  \item Solve the homogeneous system $x+2y+3z=0$, \;$2x+4y+6z=0$.
+  \item Solve $x_{1}-x_{2}+2x_{3}=1$, \;$2x_{1}+x_{3}=3$.
+  \item Give the general solution of $x+y+z=6$, \;$x-y+z=2$ in parametric
+        form.
+  \item Rank of $\begin{pmatrix}1&2&1\\2&4&2\\3&6&3\end{pmatrix}$.
+  \item Rank of $\begin{pmatrix}1&0&1\\0&1&1\\1&1&0\end{pmatrix}$.
+  \item Rank of $\begin{pmatrix}1&2&3&4\\0&1&2&3\\0&0&0&1\end{pmatrix}$.
+  \item Invert $\begin{pmatrix}2&1\\1&1\end{pmatrix}$ by Gauss--Jordan.
+  \item Invert $\begin{pmatrix}1&2&3\\0&1&4\\0&0&1\end{pmatrix}$ by
+        Gauss--Jordan.
+  \item Show $\begin{pmatrix}1&2&3\\4&5&6\\7&8&9\end{pmatrix}$ is singular
+        by row reduction.
+  \item For which $t$ is $\begin{pmatrix}1&2\\2&t\end{pmatrix}$ singular,
+        and what does that mean for the system with that coefficient
+        matrix?
+  \item Show that $x+y+z=1$, \;$2x+2y+tz=2$ has infinitely many solutions
+        for \emph{every} $t$, and say what changes at $t=2$.
+  \item Compute $\det\begin{pmatrix}0&1&2\\1&0&3\\2&3&0\end{pmatrix}$ by
+        row reduction, tracking the swaps.
+  \item After row-reducing a $3\times3$ matrix with one swap and no
+        scalings, the diagonal is $(1,2,3)$. Give $\det A$.
+  \item Explain why a square system $A\mathbf{x}=\mathbf{b}$ has a unique
+        solution for \emph{every} $\mathbf{b}$ exactly when
+        $\mathrm{rk}(A)=n$.
+  \item A system of $3$ equations in $3$ unknowns has a unique solution.
+        What can be said about $\det A$, about the rank, and about the
+        homogeneous system with the same coefficients?
+  \item \textbf{Leontief, three sectors.} Solve
+        $(I-A)\mathbf{x}=\mathbf{d}$ for
+        $A=\begin{pmatrix}0&0.5&0\\0.5&0&0.5\\0&0.5&0\end{pmatrix}$ and
+        $\mathbf{d}=(10,20,10)^{T}$.
+  \item \textbf{Portfolio.} Three assets return $2\%$, $5\%$ and $9\%$. A
+        total of $100$ is invested, the whole portfolio must return
+        $5\%$, and twice as much goes into asset 1 as into asset 3.
+        Find the three amounts.
+  \item \textbf{Two-good equilibrium with a tax.} Solve
+        $q_{1}+2q_{2}=100$, \;$2q_{1}+q_{2}=110$, then say how the solution
+        changes if the second right-hand side rises to $120$, and
+        interpret.
 \end{problems}
 
 \section{Additional Solutions}
 
 \begin{solutions}
-    \item $\det A = 6 - 5 = 1$. $A^{-1} = \bigl(\begin{smallmatrix} 2 & -1 \\ -5 & 3 \end{smallmatrix}\bigr)$. Check: $A A^{-1} = \bigl(\begin{smallmatrix} 6 - 5 & -3 + 3 \\ 10 - 10 & -5 + 6 \end{smallmatrix}\bigr) = I$. Good.
-    \item $\det A = 4 - 3 = 1$. $A^{-1} = \bigl(\begin{smallmatrix} 1 & -3 \\ -1 & 4 \end{smallmatrix}\bigr)$.
-    \item $\det A = 8 + 3 = 11$. $A^{-1} = \tfrac{1}{11}\bigl(\begin{smallmatrix} 4 & 3 \\ -1 & 2 \end{smallmatrix}\bigr)$.
-    \item $\det A = a(a + 1) - 8 = a^{2} + a - 8$. Roots: $a = \tfrac{-1 \pm \sqrt{33}}{2}$. So $A$ is invertible iff $a \neq \tfrac{-1 \pm \sqrt{33}}{2}$.
-    \item $x = A^{-1} b = \bigl(\begin{smallmatrix} 2 & -1 \\ -5 & 3 \end{smallmatrix}\bigr)\bigl(\begin{smallmatrix} 4 \\ 7 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 8 - 7 \\ -20 + 21 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 1 \\ 1 \end{smallmatrix}\bigr)$.
-    \item $\det A = 1$. $A_{1} = \bigl(\begin{smallmatrix} 7 & 3 \\ 2 & 1 \end{smallmatrix}\bigr)$, $\det = 1$. $A_{2} = \bigl(\begin{smallmatrix} 4 & 7 \\ 1 & 2 \end{smallmatrix}\bigr)$, $\det = 1$. So $x = 1, y = 1$.
-    \item $A = \bigl(\begin{smallmatrix} 3 & -1 \\ 2 & 1 \end{smallmatrix}\bigr)$, $\det = 3 + 2 = 5$. $A_{x} = \bigl(\begin{smallmatrix} 5 & -1 \\ 5 & 1 \end{smallmatrix}\bigr)$, $\det = 5 + 5 = 10$. $A_{y} = \bigl(\begin{smallmatrix} 3 & 5 \\ 2 & 5 \end{smallmatrix}\bigr)$, $\det = 15 - 10 = 5$. $x = 2, y = 1$.
-    \item $D^{-1} = \mathrm{diag}(1/4, 1/2, -1/5)$.
-    \item Lower-triangular with $1$'s on the diagonal; since $a_{21} = -1$, the operation $R_{2} \to R_{2} + R_{1}$ clears it. (Alternatively $A = I + N$ with $N$ strictly lower-triangular and $N^{2}$ nonzero.) Gauss-Jordan on $[A \mid I]$:
-    \[
-    [A \mid I] = \begin{pmatrix} 1 & 0 & 0 & | & 1 & 0 & 0 \\ -1 & 1 & 0 & | & 0 & 1 & 0 \\ 2 & -3 & 1 & | & 0 & 0 & 1 \end{pmatrix}.
-    \]
-    $R_{2} \to R_{2} + R_{1}$: $(0, 1, 0 \mid 1, 1, 0)$. $R_{3} \to R_{3} - 2 R_{1}$: $(0, -3, 1 \mid -2, 0, 1)$. $R_{3} \to R_{3} + 3 R_{2}$: $(0, 0, 1 \mid 1, 3, 1)$. So
-    \[
-    A^{-1} = \begin{pmatrix} 1 & 0 & 0 \\ 1 & 1 & 0 \\ 1 & 3 & 1 \end{pmatrix}.
-    \]
-    Verify $A A^{-1}$ row 3: $(2, -3, 1) \cdot $ columns: col 1: $2 + (-3) + 1 = 0$. col 2: $0 + (-3) + 3 = 0$. col 3: $0 + 0 + 1 = 1$. Good.
-    \item Upper-triangular with $1$'s on diagonal. Clear column 3 first using $R_{3}$: $R_{2} \to R_{2} - 3 R_{3}$, $R_{1} \to R_{1} + R_{3}$:
-    \[
-    \begin{pmatrix} 1 & 2 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{pmatrix} \Big| \begin{pmatrix} 1 & 0 & 1 \\ 0 & 1 & -3 \\ 0 & 0 & 1 \end{pmatrix}.
-    \]
-    Then $R_{1} \to R_{1} - 2 R_{2}$:
-    \[
-    A^{-1} = \begin{pmatrix} 1 & -2 & 7 \\ 0 & 1 & -3 \\ 0 & 0 & 1 \end{pmatrix}.
-    \]
-    Verify $(1, 3)$ entry of $A A^{-1}$: $1 \cdot 7 + 2 \cdot (-3) + (-1) \cdot 1 = 7 - 6 - 1 = 0$. Good.
-    \item Block diagonal: $A^{-1} = \begin{pmatrix} 1/2 & 0 & 0 \\ 0 & 1 & -3 \\ 0 & 0 & 1 \end{pmatrix}$. (The $2 \times 2$ block $\bigl(\begin{smallmatrix} 1 & 3 \\ 0 & 1 \end{smallmatrix}\bigr)$ has inverse $\bigl(\begin{smallmatrix} 1 & -3 \\ 0 & 1 \end{smallmatrix}\bigr)$.)
-    \item $x_{3} = 2$; $x_{2} + 3 \cdot 2 = 4 \Rightarrow x_{2} = -2$; $x_{1} + 2(-2) - 2 = 1 \Rightarrow x_{1} = 7$. So $x = (7, -2, 2)^{T}$.
-    \item $4 x_{3} = 12 \Rightarrow x_{3} = 3$; $2 x_{2} + 3 \cdot 3 = 11 \Rightarrow x_{2} = 1$; $x_{1} + 1 + 3 = 6 \Rightarrow x_{1} = 2$. So $x = (2, 1, 3)^{T}$.
-    \item Augmented matrix. $R_{2} \to R_{2} - 2 R_{1}$: $(0, 1, -2, -3)$. $R_{3} \to R_{3} - 3 R_{1}$: $(0, -1, 5, 2)$. $R_{3} \to R_{3} + R_{2}$: $(0, 0, 3, -1)$. So $x_{3} = -1/3$. $x_{2} - 2 \cdot (-1/3) = -3 \Rightarrow x_{2} = -3 - 2/3 = -11/3$. $x_{1} + 2(-11/3) + (-1/3) = 4 \Rightarrow x_{1} = 4 + 22/3 + 1/3 = 4 + 23/3 = 35/3$. So $x = (35/3, -11/3, -1/3)^{T}$. Verify by checking against original equation 2: $2(35/3) + 5(-11/3) + 0 = 70/3 - 55/3 = 15/3 = 5$. Good.
-    \item $A^{-1} = \bigl(\begin{smallmatrix} 1 & -1 \\ -1 & 2 \end{smallmatrix}\bigr)$ (det $= 1$). $B^{-1} = \mathrm{diag}(1/3, 1/2)$. So
-    \[
-    B^{-1} A^{-1} = \begin{pmatrix} 1/3 & 0 \\ 0 & 1/2 \end{pmatrix}\begin{pmatrix} 1 & -1 \\ -1 & 2 \end{pmatrix} = \begin{pmatrix} 1/3 & -1/3 \\ -1/2 & 1 \end{pmatrix}.
-    \]
-    Verify: $A B = \bigl(\begin{smallmatrix} 6 & 2 \\ 3 & 2 \end{smallmatrix}\bigr)$, $\det = 12 - 6 = 6$. $(A B)^{-1} = \tfrac{1}{6}\bigl(\begin{smallmatrix} 2 & -2 \\ -3 & 6 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 1/3 & -1/3 \\ -1/2 & 1 \end{smallmatrix}\bigr)$. Match.
-    \item $\det(A^{-1}) = 1/3$. $\det(2 A^{-1}) = 2^{4} \cdot 1/3 = 16/3$.
-    \item $A A^{-1} = \bigl(\begin{smallmatrix} 2 & -3 \\ 1 & 4 \end{smallmatrix}\bigr) \cdot \tfrac{1}{11}\bigl(\begin{smallmatrix} 4 & 3 \\ -1 & 2 \end{smallmatrix}\bigr) = \tfrac{1}{11}\bigl(\begin{smallmatrix} 8 + 3 & 6 - 6 \\ 4 - 4 & 3 + 8 \end{smallmatrix}\bigr) = \tfrac{1}{11}\bigl(\begin{smallmatrix} 11 & 0 \\ 0 & 11 \end{smallmatrix}\bigr) = I$.
-    \item $\det A = 5 - 6 = -1$, $A^{-1} = -\bigl(\begin{smallmatrix} 1 & -2 \\ -3 & 5 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} -1 & 2 \\ 3 & -5 \end{smallmatrix}\bigr)$. $x = A^{-1} b = \bigl(\begin{smallmatrix} -1 \\ 3 \end{smallmatrix}\bigr)$.
-    \item $\det(A - \lambda I) = (4 - \lambda)(1 - \lambda) = 0 \Rightarrow \lambda = 4, 1$.
-    \item $Q^{T} Q = I$ means $Q^{-1} = Q^{T}$.
-    \item $X = A^{-1} B$. $\det A = 1$, $A^{-1} = \bigl(\begin{smallmatrix} 1 & -1 \\ -1 & 2 \end{smallmatrix}\bigr)$. $X = \bigl(\begin{smallmatrix} 1 & -1 \\ -1 & 2 \end{smallmatrix}\bigr)\bigl(\begin{smallmatrix} 3 & 0 \\ 1 & -1 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 3 - 1 & 0 + 1 \\ -3 + 2 & 0 - 2 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 2 & 1 \\ -1 & -2 \end{smallmatrix}\bigr)$.
-    \item Row-reduce $[A \mid I]$. $R_{3} \to R_{3} - R_{1}$: $(0, -1, 1 \mid -1, 0, 1)$. $R_{3} \to R_{3} + R_{2}$: $(0, 0, 2 \mid -1, 1, 1)$. So $A$ has $\det = 2$. Continue: $R_{3} \to \tfrac{1}{2}R_{3}$: $(0, 0, 1 \mid -1/2, 1/2, 1/2)$. $R_{2} \to R_{2} - R_{3}$: $(0, 1, 0 \mid 1/2, 1/2, -1/2)$. $R_{1} \to R_{1} - R_{2}$: $(1, 0, 0 \mid 1/2, -1/2, 1/2)$. So
-    \[
-    A^{-1} = \tfrac{1}{2}\begin{pmatrix} 1 & -1 & 1 \\ 1 & 1 & -1 \\ -1 & 1 & 1 \end{pmatrix}.
-    \]
-    Verify $A A^{-1}$ row 1: $(1, 1, 0) \cdot $ col 1 $= 1/2 \cdot 1 + 1/2 \cdot 1 + 0 = 1$. Col 2: $-1/2 + 1/2 + 0 = 0$. Col 3: $1/2 - 1/2 + 0 = 0$. Good.
-    \item $x = A^{-1} b = \tfrac{1}{2}\begin{pmatrix} 1 & -1 & 1 \\ 1 & 1 & -1 \\ -1 & 1 & 1 \end{pmatrix}\begin{pmatrix} 2 \\ 3 \\ 1 \end{pmatrix} = \tfrac{1}{2}\begin{pmatrix} 2 - 3 + 1 \\ 2 + 3 - 1 \\ -2 + 3 + 1 \end{pmatrix} = \tfrac{1}{2}\begin{pmatrix} 0 \\ 4 \\ 2 \end{pmatrix} = \begin{pmatrix} 0 \\ 2 \\ 1 \end{pmatrix}$. Verify: $A x = (0 + 2 + 0, 0 + 2 + 1, 0 + 0 + 1)^{T} = (2, 3, 1)^{T}$. Good.
-    \item $A^{2} = I$ means $A \cdot A = I$, so by definition of the inverse $A^{-1} = A$.
-    \item $\det A = 3$. $A^{-1} = \tfrac{1}{3}\bigl(\begin{smallmatrix} 3 & -2 \\ 0 & 1 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 1 & -2/3 \\ 0 & 1/3 \end{smallmatrix}\bigr)$. For $\lambda = 2$: $2 A = \bigl(\begin{smallmatrix} 2 & 4 \\ 0 & 6 \end{smallmatrix}\bigr)$, $\det = 12$, $(2A)^{-1} = \tfrac{1}{12}\bigl(\begin{smallmatrix} 6 & -4 \\ 0 & 2 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 1/2 & -1/3 \\ 0 & 1/6 \end{smallmatrix}\bigr)$. And $\tfrac{1}{2}A^{-1} = \bigl(\begin{smallmatrix} 1/2 & -1/3 \\ 0 & 1/6 \end{smallmatrix}\bigr)$. Match.
+  \item Swap $R_{1}\leftrightarrow R_{2}$, then $R_{3}\to R_{3}-2R_{1}$
+        gives a zero row:
+        $\begin{pmatrix}1&2&3\\0&1&2\\0&0&0\end{pmatrix}$. Rank $2$.
+  \item Continue with $R_{1}\to R_{1}-2R_{2}$:
+        $\begin{pmatrix}1&0&-1\\0&1&2\\0&0&0\end{pmatrix}$.
+  \item From the second, $x=y-1$; then $3y-3+2y=7$, $y=2$, $x=1$.
+  \item Eliminating: $R_{2}-R_{1}$ gives $-2y+z=3$; $R_{3}-2R_{1}$ gives
+        $-y-3z=-3$. From the first of these $z=3+2y$; substituting,
+        $-y-9-6y=-3$ so $-7y=6$, $y=-\tfrac67$,
+        $z=3-\tfrac{12}{7}=\tfrac97$, and
+        $x=1-y-z=1+\tfrac67-\tfrac97=\tfrac47$.
+  \item All three equations are multiples of $x+2y-z=1$. One pivot, two
+        free variables: $x=1-2s+t$, $y=s$, $z=t$.
+  \item Adding all three gives $2(x+y+z)=6$, so $x+y+z=3$. Subtracting each
+        equation in turn: $z=2$, $x=1$, $y=0$. Unique: $(1,0,2)$.
+  \item $R_{2}-4R_{1}$ gives $-3y-6z=-2$; $R_{3}-7R_{1}$ gives
+        $-6y-12z=-3$. Doubling the first of these gives $-6y-12z=-4\neq-3$:
+        \textbf{inconsistent}, no solution.
+  \item The second equation is twice the first, so one pivot and two free
+        variables: $x=-2s-3t$, $y=s$, $z=t$.
+  \item Two equations, three unknowns. From the second,
+        $x_{1}=\tfrac{3-x_{3}}{2}$; substituting into the first,
+        $\tfrac{3-x_{3}}{2}-x_{2}+2x_{3}=1$, so
+        $x_{2}=\tfrac12+\tfrac32x_{3}$. With $x_{3}=t$:
+        $\bigl(\tfrac32-\tfrac t2,\ \tfrac12+\tfrac{3t}{2},\ t\bigr)$.
+  \item Adding gives $2x+2z=8$, so $x=4-z$; subtracting gives $2y=4$, so
+        $y=2$. With $z=t$: $(4-t,\,2,\,t)$.
+  \item Rows $2$ and $3$ are multiples of row $1$: rank $1$.
+  \item $R_{3}-R_{1}$ gives $(0,1,-1)$; then $R_{3}-R_{2}$ gives
+        $(0,0,-2)$. Three pivots: rank $3$.
+  \item Already in REF with three non-zero rows: rank $3$.
+  \item $\left(\begin{array}{cc|cc}2&1&1&0\\1&1&0&1\end{array}\right)$;
+        swap, then eliminate to get
+        $A^{-1}=\begin{pmatrix}1&-1\\-1&2\end{pmatrix}$,
+        which checks against
+        $\begin{pmatrix}2&1\\1&1\end{pmatrix}
+         \begin{pmatrix}1&-1\\-1&2\end{pmatrix}=I$.
+  \item Upper triangular with unit diagonal, so clear upwards:
+        $A^{-1}=\begin{pmatrix}1&-2&5\\0&1&-4\\0&0&1\end{pmatrix}$.
+  \item $R_{2}-4R_{1}$ and $R_{3}-7R_{1}$ give $(0,-3,-6)$ and
+        $(0,-6,-12)$; then $R_{3}-2R_{2}$ gives a zero row. Rank $2<3$, so
+        the matrix is singular.
+  \item $\det=t-4$, so singular exactly at $t=4$. Then the system either
+        has no solution or infinitely many, depending on
+        $\mathbf{b}$ --- never exactly one.
+  \item $R_{2}\to R_{2}-2R_{1}$ gives $(0\ 0\ t-2\mid 0)$, i.e.
+        $(t-2)z=0$. For $t\neq2$ this forces $z=0$, leaving $x+y=1$ with
+        one free variable --- infinitely many solutions. For $t=2$ the row
+        vanishes entirely, leaving $x+y+z=1$ with \emph{two} free
+        variables --- again infinitely many, but a larger family. So the
+        count of solutions is infinite throughout; what changes at $t=2$ is
+        the \textbf{dimension} of the solution set, from a line to a
+        plane, because the second equation stops carrying information.
+  \item Swap $R_{1}\leftrightarrow R_{2}$ (sign flips):
+        $\begin{pmatrix}1&0&3\\0&1&2\\2&3&0\end{pmatrix}$; then
+        $R_{3}-2R_{1}$ gives $(0,3,-6)$ and $R_{3}-3R_{2}$ gives
+        $(0,0,-12)$. The triangular product is $1\cdot1\cdot(-12)=-12$,
+        and one swap flips the sign: $\det A=12$.
+  \item One swap contributes a factor $-1$, so
+        $\det A=-(1\cdot2\cdot3)=-6$.
+  \item $\mathrm{rk}(A)=n$ means $n$ pivots, so no free variables and no
+        zero row on the left --- hence no row of the form
+        $(0\cdots0\mid\beta)$ can ever appear, whatever $\mathbf{b}$ is.
+        Conversely if $\mathrm{rk}(A)<n$ there is a free variable and the
+        solution, when it exists, is never unique.
+  \item $\det A\neq0$; $\mathrm{rk}(A)=3$ (full rank); and the homogeneous
+        system $A\mathbf{x}=\mathbf{0}$ has only the trivial solution
+        $\mathbf{x}=\mathbf{0}$ --- all three statements are equivalent to
+        invertibility.
+  \item $I-A=\begin{pmatrix}1&-0.5&0\\-0.5&1&-0.5\\0&-0.5&1\end{pmatrix}$.
+        Scaling by $2$: $2x_{1}-x_{2}=20$, $-x_{1}+2x_{2}-x_{3}=40$,
+        $-x_{2}+2x_{3}=20$. By symmetry try $x_{1}=x_{3}$: then the middle
+        equation gives $2x_{2}-2x_{1}=40$, and the first gives
+        $x_{2}=2x_{1}-20$; substituting, $4x_{1}-40-2x_{1}=40$, so
+        $x_{1}=40$, $x_{3}=40$, $x_{2}=60$. Gross outputs $(40,60,40)$.
+        (Check the middle row: $-40+120-40=40$ \checkmark.)
+  \item With amounts $a_{1},a_{2},a_{3}$:
+        $a_{1}+a_{2}+a_{3}=100$, \;$0.02a_{1}+0.05a_{2}+0.09a_{3}=5$,
+        \;$a_{1}=2a_{3}$. Substituting the third into the first two:
+        $3a_{3}+a_{2}=100$ and $0.04a_{3}+0.05a_{2}+0.09a_{3}=5$, i.e.
+        $0.13a_{3}+0.05a_{2}=5$. From the first, $a_{2}=100-3a_{3}$; then
+        $0.13a_{3}+5-0.15a_{3}=5$ gives $-0.02a_{3}=0$, so $a_{3}=0$,
+        $a_{1}=0$, $a_{2}=100$. The only portfolio meeting all three
+        conditions puts everything into asset 2 --- the constraints leave no
+        freedom, which the elimination reveals immediately.
+  \item Eliminating: from the second, $q_{2}=110-2q_{1}$; substituting,
+        $q_{1}+220-4q_{1}=100$, so $-3q_{1}=-120$, $q_{1}=40$ and
+        $q_{2}=30$. With $120$ in place of $110$: $q_{2}=120-2q_{1}$ and
+        $q_{1}+240-4q_{1}=100$, so $q_{1}=\tfrac{140}{3}\approx46.7$ and
+        $q_{2}=120-\tfrac{280}{3}=\tfrac{80}{3}\approx26.7$. The shock to
+        one equation moves \emph{both} quantities, one up and one down:
+        in a simultaneous system nothing adjusts in isolation.
 \end{solutions}

@@ -142,6 +142,112 @@ output reconstructs everything about the optimal basis from the end tableau
 alone.
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{Read everything off the end tableau of the running example --- including the basis inverse}
+\wstep{Step 1. The end tableau from Chapter~4.}
+\begin{center}\footnotesize
+\begin{tabular}{c|rrrr|r}
+  \hline
+  basis & $x_{1}$ & $x_{2}$ & $s_{1}$ & $s_{2}$ & RHS\\
+  \hline
+  $x_{1}$ & $1$ & $0$ & $1$ & $-1$ & $20$\\
+  $x_{2}$ & $0$ & $1$ & $-1$ & $2$ & $60$\\
+  \hline
+  $z$ & $0$ & $0$ & $10$ & $20$ & $2600$\\
+  \hline
+\end{tabular}
+\end{center}
+Everything below is read from this one table. Nothing needs recomputing.
+
+\wstep{Step 2. The solution and the objective.}
+Basic variables take their RHS values; non-basic variables are zero:
+\[
+  x_{1}=20,\quad x_{2}=60,\quad s_{1}=0,\quad s_{2}=0,
+  \qquad
+  z^{*}=2600 .
+\]
+\wtrap{Read the value of each basic variable from the row \emph{labelled}
+with it, not from the row's position. After several pivots the basis labels
+are in no particular order, and reading down the column blindly gives the
+wrong assignment.}
+
+\wstep{Step 3. Constraint status, from the slack values.}
+$s_{1}=0$: machine hours fully used, the constraint is \textbf{binding}.
+$s_{2}=0$: labour fully used, \textbf{binding}. Both resources are
+exhausted, so both are candidates for a positive shadow price.
+
+\wstep{Step 4. Shadow prices, from the $z$-row under the slacks.}
+\[
+  y_{1}=10\ \text{(per machine hour)},
+  \qquad
+  y_{2}=20\ \text{(per labour hour)} .
+\]
+One extra machine hour would raise profit by about $10$ euros, one extra
+labour hour by about $20$. So if overtime costs $15$ euros an hour, buying
+labour is worth it and buying machine time is not --- which is the practical
+question the model was built to answer.
+\wtrap{The shadow price sits under the \textbf{slack} variable of the
+constraint, not under a decision variable. And it is a rate ``per unit of
+right-hand side'', valid only over a range --- Chapter~8 computes that
+range. Quoting a shadow price without its validity interval is quoting half
+a result.}
+
+\wstep{Step 5. The complementarity, visible in the table.}
+A binding constraint has $s_{i}=0$ and may have $y_{i}>0$; a slack
+constraint has $s_{i}>0$ and \emph{must} have $y_{i}=0$ --- spare capacity
+is worth nothing at the margin. Here both slacks are zero and both prices
+positive, consistent. This is complementary slackness, proved in Chapter~7.
+
+\wstep{Step 6. The basis inverse is sitting in the slack columns.}
+The initial tableau had an identity matrix under $(s_{1},s_{2})$. Every
+pivot multiplies the whole tableau by the same sequence of elementary
+matrices, so whatever now stands in those columns is the accumulated
+product:
+\[
+  B^{-1}=\begin{pmatrix}1&-1\\-1&2\end{pmatrix}.
+\]
+Check it directly. The basis columns from the original constraint matrix are
+\[
+  B=\begin{pmatrix}2&1\\1&1\end{pmatrix},
+  \qquad
+  \det B=1,
+  \qquad
+  B^{-1}=\frac{1}{1}\begin{pmatrix}1&-1\\-1&2\end{pmatrix}. \checkmark
+\]
+
+\wstep{Step 7. Use it to re-solve without re-pivoting.}
+\[
+  \mathbf x_{B}=B^{-1}\mathbf b
+  =\begin{pmatrix}1&-1\\-1&2\end{pmatrix}\begin{pmatrix}100\\80\end{pmatrix}
+  =\begin{pmatrix}20\\60\end{pmatrix}. \checkmark
+\]
+\[
+  \mathbf y^{\!\top}=\mathbf c_{B}^{\!\top}B^{-1}
+  =(40,30)\begin{pmatrix}1&-1\\-1&2\end{pmatrix}
+  =(10,20). \checkmark
+\]
+Both the solution and the shadow prices are recovered by two small matrix
+products. That is the whole basis of sensitivity analysis: change
+$\mathbf b$, keep $B^{-1}$, and read the new answer --- valid as long as the
+basis stays optimal.
+
+\wstep{Step 8. Would a third product be worth making?}
+Suppose a product~3 earns $35$ and needs $1$ machine hour and $1$ labour
+hour. Its \textbf{reduced cost} is
+\[
+  c_{3}-\mathbf y^{\!\top}\mathbf a_{3}=35-(10\cdot1+20\cdot1)=35-30=5>0 ,
+\]
+so it \emph{would} improve the objective and should be introduced. Had the
+figure been negative, the shadow prices would already have shown the
+resources are worth more elsewhere --- and no re-solving would be needed to
+know it.
+\wtrap{Compare the product's margin against the \emph{shadow} value of the
+resources it consumes, not against their accounting cost. A product that
+looks profitable at book cost can be unprofitable at shadow prices, and that
+divergence is exactly what the model is for.}
+\end{worked}
+
 \section{Practice Problems}
 
 Problems 1--4 drill the conversion to tableau-ready form, Problems 5--9 are

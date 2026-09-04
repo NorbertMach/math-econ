@@ -1,0 +1,234 @@
+\chapter{Mixed Set C}
+
+Twenty problems, no order, no announced methods. Target time: 75 minutes.
+
+\section{Worked Example}
+
+The last specimen is an applied one, of the kind that hides three techniques
+inside a sentence of prose. As before it is not among the twenty.
+
+\begin{worked}{A machine yields a net flow of $D(t)=8000\,\mathrm{e}^{-0.1t}$ euros per year, discounted continuously at $r=5\%$. Find (a) the present value over ten years, (b) over an infinite horizon, (c) the time at which half the infinite value has accrued}
+\wstep{Step 1. Translate the sentence into an integral.}
+``Continuous flow'' plus ``continuous discounting'' means
+\[
+  PV(T)=\int_{0}^{T}D(t)\,\mathrm{e}^{-rt}\,\mathrm{d}t .
+\]
+\wtrap{Two exponentials appear and they are different things: $\mathrm{e}^{-0.1t}$
+is the machine \emph{decaying}, $\mathrm{e}^{-0.05t}$ is money being
+\emph{discounted}. Both must be present, and using only one is the standard
+misreading of the sentence.}
+
+\wstep{Step 2. Combine the exponents --- this is what makes it easy.}
+\[
+  PV(T)=\int_{0}^{T}8000\,\mathrm{e}^{-0.1t}\mathrm{e}^{-0.05t}\,\mathrm{d}t
+  =8000\int_{0}^{T}\mathrm{e}^{-0.15t}\,\mathrm{d}t .
+\]
+The two rates \emph{add}, because $\mathrm{e}^{a}\mathrm{e}^{b}
+=\mathrm{e}^{a+b}$: the effective rate of decline is $15\%$.
+
+\wstep{Step 3. Integrate.}
+\[
+  8000\Bigl[\frac{\mathrm{e}^{-0.15t}}{-0.15}\Bigr]_{0}^{T}
+  =\frac{8000}{0.15}\bigl(1-\mathrm{e}^{-0.15T}\bigr)
+  =53\,333.33\,\bigl(1-\mathrm{e}^{-0.15T}\bigr).
+\]
+\wtrap{The factor $1/(-0.15)$ turns $\mathrm{e}^{-0.15T}-1$ into
+$1-\mathrm{e}^{-0.15T}$. Get this backwards and the present value comes out
+negative --- which is the alarm, since a positive flow cannot have a
+negative value.}
+
+\wstep{Step 4. Part (a): ten years.}
+\[
+  PV(10)=53\,333.33\,\bigl(1-\mathrm{e}^{-1.5}\bigr)
+        =53\,333.33\,(1-0.22313)
+        =\boxed{41\,433\ \text{euros}}
+\]
+
+\wstep{Step 5. Part (b): the infinite horizon.}
+\[
+  PV(\infty)=\lim_{T\to\infty}53\,333.33\bigl(1-\mathrm{e}^{-0.15T}\bigr)
+  =\boxed{53\,333\ \text{euros}}
+\]
+The limit exists because $0.15>0$. Had the machine's output grown faster
+than the discount rate --- $D(t)=8000\mathrm{e}^{+0.06t}$ against $r=0.05$
+--- the integral would diverge, and the asset would have no finite value.
+That convergence condition is the same $g<r$ that governs a growing
+perpetuity in Volume~4.
+
+\wstep{Step 6. Part (c): solve for the time, which is a logarithm problem.}
+\[
+  53\,333.33\bigl(1-\mathrm{e}^{-0.15T}\bigr)=\tfrac12\cdot53\,333.33
+  \;\Longrightarrow\;
+  1-\mathrm{e}^{-0.15T}=\tfrac12
+  \;\Longrightarrow\;
+  \mathrm{e}^{-0.15T}=\tfrac12 .
+\]
+\[
+  -0.15T=\ln\tfrac12=-\ln2
+  \quad\Longrightarrow\quad
+  T=\frac{\ln2}{0.15}=\boxed{4.62\ \text{years}}
+\]
+The constant $53\,333.33$ cancels before any arithmetic is done --- notice
+that before computing it.
+\wtrap{This is a half-life, and it depends only on the \emph{combined} rate
+$0.15$, not on the size of the flow. Recognising the shape
+$\mathrm{e}^{-kT}=\tfrac12\Rightarrow T=\ln2/k$ saves the whole
+manipulation.}
+
+\wstep{Step 7. Sanity-check all three answers together.}
+$41\,433<53\,333$ \checkmark --- ten years cannot beat for ever. The ten-year
+figure is $77.7\%$ of the total, and $4.62$ years already delivers $50\%$
+\checkmark --- consistent with a flow that decays. And $53\,333=8000/0.15$
+\checkmark, the perpetuity formula with the combined rate.
+
+\wstep{Step 8. What made this an applied problem rather than a calculus exercise.}
+Three separate recognitions: that ``continuous flow'' means an integral,
+that two exponential rates add, and that ``half the value'' is an equation
+to be solved rather than a quantity to be computed. The calculus itself was
+one substitution. That ratio --- most of the difficulty in the translation,
+little in the technique --- is characteristic of the applied problems in
+these sets, and it is why reading the sentence twice is time well spent.
+\end{worked}
+
+\section{Problems}
+
+\begin{problems}
+  \item Solve $|2x-5|\le3$.
+  \item Give the maximal domain of $f(x)=\ln(x^{2}-x-6)$.
+  \item Describe $y=-2\sqrt{x+1}+3$ as a chain of transformations, and give
+        its domain and range.
+  \item Describe the region $\{y\ge x^{2},\ y\le 2x+3\}$ and give the range
+        of $x$ it occupies.
+  \item Give the level curve of $f(x,y)=xy$ at $c=-4$ and say which
+        quadrants it lies in.
+  \item Evaluate $\displaystyle\lim_{x\to\infty}
+        x\bigl(\sqrt{x^{2}+1}-x\bigr)$.
+  \item Evaluate $\displaystyle\lim_{x\to1}\frac{x^{n}-1}{x-1}$ for a
+        positive integer $n$.
+  \item Carry out a complete discussion of $f(x)=x^{3}-12x$.
+  \item For which $t$ does the system $x+y+tz=1$, \;$x+ty+z=1$,
+        \;$tx+y+z=1$ fail to have a unique solution?
+  \item Give the eigenvalues of
+        $\begin{pmatrix}4&2\\2&1\end{pmatrix}$ and its definiteness.
+  \item Determine the definiteness of the Hessian of
+        $f(x,y)=x^{2}+y^{2}-2xy$ and describe the set of minimisers.
+  \item At the point $(3,4)$ on $x^{2}+y^{2}=25$, may $y$ be written
+        locally as a function of $x$? Give $\dd{y}{x}$ there.
+  \item Show that $f(K,L)=K^{0.3}L^{0.7}$ is homogeneous of degree $1$ and
+        verify Euler's theorem $Kf_{K}+Lf_{L}=f$.
+  \item Maximise $-(x-2)^{2}-(y-3)^{2}$ subject to $x+y\le10$. Does the
+        constraint bind?
+  \item For $\max xy$ subject to $px+qy=M$, show $x^{*}=M/(2p)$ and give
+        $\partial x^{*}/\partial p$.
+  \item Minimise $2x+3y$ subject to $x+y\ge4$, $x\ge1$, $y\ge0$.
+  \item Evaluate $\displaystyle\int_{0}^{1}x^{2}\mathrm{e}^{x^{3}}
+        \,\mathrm{d}x$.
+  \item Evaluate $\displaystyle\int_{1}^{\infty}\frac{1}{x^{2}}
+        \,\mathrm{d}x$.
+  \item Demand is $p=20-2q$. At the equilibrium quantity $q=5$, compute the
+        consumer surplus.
+  \item What is an annuity of $500$ per year for ten years worth today at
+        $4\%$?
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item \textbf{Absolute-value inequality.}
+        $-3\le2x-5\le3\Rightarrow2\le2x\le8$, so $1\le x\le4$.
+  \item \textbf{Logarithm domain, hence a quadratic inequality.}
+        $x^{2}-x-6=(x-3)(x+2)>0$ holds outside the roots:
+        $D=(-\infty,-2)\cup(3,\infty)$.
+  \item \textbf{Transformations.} From $\sqrt{x}$: shift $1$ left, stretch
+        vertically by $2$, reflect in the $x$-axis, shift $3$ up. Domain
+        $[-1,\infty)$; since $-2\sqrt{x+1}\in(-\infty,0]$, the range is
+        $(-\infty,3]$, with the curve starting at $(-1,3)$ and falling.
+  \item \textbf{Region between two curves.} They meet where
+        $x^{2}=2x+3$, i.e. $x=-1$ and $x=3$, so the region is the lens
+        above the parabola and below the line, occupying
+        $-1\le x\le3$. Convex.
+  \item \textbf{Level curve.} $xy=-4\Rightarrow y=-4/x$: a hyperbola whose
+        branches lie in the \textbf{second and fourth} quadrants, since the
+        product is negative.
+  \item \textbf{Conjugate, then a limit at infinity.}
+        $x\bigl(\sqrt{x^{2}+1}-x\bigr)
+        =\dfrac{x}{\sqrt{x^{2}+1}+x}
+        =\dfrac{1}{\sqrt{1+1/x^{2}}+1}\to\dfrac12$.
+  \item \textbf{L'H\^opital (or the factorisation of $x^{n}-1$).}
+        $\dfrac{nx^{n-1}}{1}\to n$.
+  \item \textbf{Complete discussion.} Domain $\R$; \emph{odd}, so
+        symmetric about the origin; $f=x(x^{2}-12)$ gives roots
+        $0,\pm2\sqrt3$; ends $\mp\infty$. $f'=3x^{2}-12=3(x-2)(x+2)$:
+        increasing on $(-\infty,-2)$, decreasing on $(-2,2)$, increasing on
+        $(2,\infty)$, so a local maximum $(-2,16)$ and a local minimum
+        $(2,-16)$. $f''=6x$: concave for $x<0$, convex for $x>0$, with an
+        inflection at the origin $(0,0)$.
+  \item \textbf{Determinant with a parameter.} Expanding,
+        \[
+          \det\begin{pmatrix}1&1&t\\1&t&1\\t&1&1\end{pmatrix}
+          =(t-1)\bigl[2-t(1+t)\bigr]
+          =-(t-1)^{2}(t+2).
+        \]
+        This vanishes for $t=1$ and $t=-2$. At $t=1$ all three equations
+        become $x+y+z=1$: infinitely many solutions. At $t=-2$ the system
+        is inconsistent (adding all three gives $0=3$).
+  \item \textbf{Eigenvalues.} Trace $5$ and determinant $4-4=0$, so
+        $\lambda^{2}-5\lambda=0$ and $\lambda=0$ or $\lambda=5$. Both
+        $\ge0$ with one zero: \textbf{positive semidefinite}, not definite.
+  \item \textbf{Hessian and the minimiser set.}
+        $\Hess f=\begin{pmatrix}2&-2\\-2&2\end{pmatrix}$ with
+        $\det=0$ and trace $4>0$: positive semidefinite, so $f$ is convex
+        but not strictly so. Indeed $f=(x-y)^{2}\ge0$, and the minimum
+        value $0$ is attained on the whole \textbf{line} $y=x$ --- the
+        direction in which the Hessian is singular.
+  \item \textbf{Implicit function theorem.} With
+        $F=x^{2}+y^{2}-25$: $F_{y}=2y=8\neq0$ at $(3,4)$, so yes, a local
+        $y(x)$ exists, and
+        $\dd{y}{x}=-\dfrac{F_{x}}{F_{y}}=-\dfrac{6}{8}=-\dfrac34$.
+  \item \textbf{Homogeneity and Euler.}
+        $f(tK,tL)=(tK)^{0.3}(tL)^{0.7}=t^{0.3+0.7}K^{0.3}L^{0.7}=tf(K,L)$,
+        so the degree is $1$. And
+        $f_{K}=0.3K^{-0.7}L^{0.7}$, $f_{L}=0.7K^{0.3}L^{-0.3}$, so
+        \[
+          Kf_{K}+Lf_{L}=0.3K^{0.3}L^{0.7}+0.7K^{0.3}L^{0.7}
+          =K^{0.3}L^{0.7}=f .
+        \]
+        Economically: with constant returns to scale, paying each factor
+        its marginal product exactly exhausts the product.
+  \item \textbf{Check the unconstrained optimum first.} The objective is
+        maximal at $(2,3)$, where $x+y=5\le10$: the point is already
+        feasible, so the constraint does \textbf{not} bind, its multiplier
+        is $0$, and the maximum is $f=0$ at $(2,3)$. Setting up a
+        Lagrangian with an equality would have produced the wrong answer.
+  \item \textbf{Lagrange with general parameters.} $y=\lambda p$ and
+        $x=\lambda q$ give $px=qy$, so the budget splits evenly:
+        $px=M/2$, hence $x^{*}=\dfrac{M}{2p}$ and $y^{*}=\dfrac{M}{2q}$.
+        Then $\dfrac{\partial x^{*}}{\partial p}=-\dfrac{M}{2p^{2}}<0$:
+        the own-price effect is negative, and the cross-price effect
+        $\partial x^{*}/\partial q=0$ --- Cobb--Douglas demands do not
+        respond to the other price.
+  \item \textbf{Linear programming, minimisation.} The vertices of the
+        feasible set are $(4,0)$ (where $x+y=4$ meets $y=0$) and $(1,3)$
+        (where $x=1$ meets $x+y=4$). The objective takes the values
+        $8$ and $11$, so the minimum is $\mathbf{8}$ at $(4,0)$. The region
+        is unbounded, but the objective increases in both variables, so a
+        minimum exists.
+  \item \textbf{Substitution.} With $u=x^{3}$, $\mathrm{d}u=3x^{2}
+        \mathrm{d}x$:
+        $\dfrac13\displaystyle\int_{0}^{1}\mathrm{e}^{u}\mathrm{d}u
+        =\dfrac{\mathrm{e}-1}{3}\approx0.573$.
+  \item \textbf{Improper integral.}
+        $\displaystyle\int_{1}^{b}x^{-2}\mathrm{d}x
+        =1-\dfrac1b\to1$ as $b\to\infty$: the integral \textbf{converges}
+        to $1$.
+  \item \textbf{Consumer surplus.} At $q=5$ the price is
+        $p=20-10=10$, and
+        \[
+          CS=\int_{0}^{5}(20-2q)\,\mathrm{d}q-10\cdot5
+            =\bigl[20q-q^{2}\bigr]_{0}^{5}-50
+            =75-50=25 .
+        \]
+  \item \textbf{Annuity present value.}
+        $500\cdot\dfrac{1-1.04^{-10}}{0.04}
+        =500\cdot8.1109\approx4055.4$.
+\end{solutions}

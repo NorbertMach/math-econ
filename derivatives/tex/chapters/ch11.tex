@@ -1,798 +1,817 @@
-\chapter{Implicit Function Theorem, Jacobians, Homogeneous Functions, Euler's Theorem}
+\chapter{Higher-Order Partials, Young's Theorem, the Hessian, and Definiteness}
 
-When a relation between variables is given implicitly, the Implicit
-Function Theorem (IFT) extracts derivatives without solving for one
-variable in terms of the other, exactly the situation behind
-indifference curves and isoquants. The Jacobian generalises the derivative
-to vector-valued maps; its determinant is the local area / volume scaling
-factor. Homogeneous functions and Euler's theorem then give a clean
-structural identity that ties marginal products to total output,
-underpinning constant-returns-to-scale models.
+First-order partials describe slopes; second-order partials describe
+\emph{curvature}. In one variable we used $f''$ to distinguish maxima from
+minima. In several variables we need a whole \emph{matrix} of second
+derivatives (the Hessian) and curvature is captured by its
+definiteness, which we test with the leading principal minors (Sylvester's
+criterion).
 
 \section{Core Rules}
 
-\begin{rulebox}{IFT, One Equation in Two Unknowns}
-Suppose $F:\R^{2}\to\R$ is $C^{1}$ and $F(x_{0},y_{0})=0$ with
-$F_{y}(x_{0},y_{0})\neq 0$. Then near $(x_{0},y_{0})$ there is a $C^{1}$
-function $y=g(x)$ satisfying $F(x,g(x))=0$, and
+\begin{rulebox}{Direct second-order partials}
+For $f(x,y)$,
 \[
-  \dd{y}{x} \;=\; -\frac{F_{x}}{F_{y}} .
+  f_{xx} \;=\; \pd{}{x}\!\left(\pd{f}{x}\right) \;=\; \frac{\partial^{2} f}{\partial x^{2}},
+  \qquad
+  f_{yy} \;=\; \frac{\partial^{2} f}{\partial y^{2}} .
 \]
 \end{rulebox}
 
-\begin{rulebox}{IFT, Multivariate}
-If $F(x_{1},\ldots,x_{n},y)=0$ with $F_{y}\neq 0$, then
-$y=g(x_{1},\ldots,x_{n})$ locally and
+\begin{rulebox}{Cross (mixed) partials}
 \[
-  \pd{y}{x_{i}} \;=\; -\frac{F_{x_{i}}}{F_{y}} .
+  f_{xy} \;=\; \pd{}{y}\!\left(\pd{f}{x}\right) \;=\; \frac{\partial^{2} f}{\partial y\,\partial x},
+  \qquad
+  f_{yx} \;=\; \pd{}{x}\!\left(\pd{f}{y}\right) .
 \]
 \end{rulebox}
 
-\begin{rulebox}{MRS and MRTS via IFT}
-For $U(x,y)=c$ set $F=U(x,y)-c$. Then $F_{x}=U_{x}$, $F_{y}=U_{y}$, so
+\begin{rulebox}{Young's Theorem (Schwarz / Clairaut)}
+If $f$ is $C^{2}$ on an open set (i.e.\ all second partials exist and
+are continuous) then the order of differentiation is irrelevant:
 \[
-  \dd{y}{x}\bigg|_{U=c} = -\frac{U_{x}}{U_{y}}\quad\text{(signed)},\qquad
-  \mathrm{MRS} = \frac{U_{x}}{U_{y}}\quad\text{(unsigned)} .
+  f_{xy} \;=\; f_{yx} .
 \]
-Likewise on $Q(K,L)=Q_{0}$: $\dd{L}{K}=-Q_{K}/Q_{L}$,
-$\mathrm{MRTS}=Q_{K}/Q_{L}$.
+This is the symmetry of the Hessian. All standard polynomial, exponential,
+logarithmic, Cobb--Douglas, and CES forms are $C^{2}$ on their natural
+domains.
 \end{rulebox}
 
-\begin{rulebox}{Jacobian Matrix}
-For $\mathbf{f}:\R^{n}\to\R^{m}$,
-$\mathbf{f}(x_{1},\ldots,x_{n})=(f_{1},\ldots,f_{m})$, the \textbf{Jacobian}
-is
+\begin{rulebox}{Hessian matrix}
+For $f:\R^{n}\to\R$,
 \[
-  J_{\mathbf{f}} \;=\;
+  \Hess_f(\mathbf{x}) \;=\; \bigl[f_{x_ix_j}(\mathbf{x})\bigr]_{i,j=1}^{n}
+  \;=\;
   \begin{pmatrix}
-    \partial f_{1}/\partial x_{1} & \cdots & \partial f_{1}/\partial x_{n}\\
-    \vdots & \ddots & \vdots\\
-    \partial f_{m}/\partial x_{1} & \cdots & \partial f_{m}/\partial x_{n}
-  \end{pmatrix} \;\in\; \R^{m\times n} .
+    f_{x_1x_1} & f_{x_1x_2} & \cdots & f_{x_1x_n} \\
+    f_{x_2x_1} & f_{x_2x_2} & \cdots & f_{x_2x_n} \\
+    \vdots     & \vdots     & \ddots & \vdots     \\
+    f_{x_nx_1} & f_{x_nx_2} & \cdots & f_{x_nx_n}
+  \end{pmatrix} .
 \]
-For $m=n$, $\det J_{\mathbf{f}}$ is the local volume scaling factor;
-$|\det J|>0$ at $\mathbf{x}_{0}$ implies local invertibility (Inverse
-Function Theorem).
+For $C^{2}$ functions $\Hess_f$ is symmetric.
 \end{rulebox}
 
-\begin{rulebox}{Homogeneous Functions}
-$f:\R^{n}\to\R$ is \textbf{homogeneous of degree $k$} if for all $t>0$ and
-all $\mathbf{x}$ in the domain,
-\[
-  f(t\mathbf{x}) \;=\; t^{k}f(\mathbf{x}) .
-\]
-Constant returns to scale (CRS) means $k=1$.
+\begin{rulebox}{Definiteness}
+A symmetric matrix $H$ is
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \emph{positive definite (PD)} if $\mathbf{v}^{T}H\mathbf{v}>0$ for
+        every $\mathbf{v}\neq\mathbf{0}$ (curvature ``up'' in every
+        direction $\Rightarrow$ local minimum;
+  \item \emph{negative definite (ND)} if $\mathbf{v}^{T}H\mathbf{v}<0$ for
+        every $\mathbf{v}\neq\mathbf{0}$) curvature ``down'' in every
+        direction $\Rightarrow$ local maximum;
+  \item \emph{indefinite} if $\mathbf{v}^{T}H\mathbf{v}$ takes both
+        positive and negative values $\Rightarrow$ saddle point.
+\end{itemize}
 \end{rulebox}
 
-\begin{rulebox}{Euler's Theorem}
-If $f$ is differentiable and homogeneous of degree $k$ on an open cone,
-then
+\begin{rulebox}{Sylvester's criterion ($2\times2$ case)}
+Let $H=\begin{pmatrix}a&b\\b&c\end{pmatrix}$ with leading principal minors
+$D_1=a$ and $D_2=\det H=ac-b^{2}$. Then
 \[
-  \sum_{i=1}^{n} x_{i}\pd{f}{x_{i}} \;=\; k\,f(\mathbf{x}) .
+  \begin{aligned}
+    D_1>0 \text{ and } D_2>0 &\;\Rightarrow\; H \text{ is PD}, \\
+    D_1<0 \text{ and } D_2>0 &\;\Rightarrow\; H \text{ is ND}, \\
+    D_2<0 &\;\Rightarrow\; H \text{ is indefinite (saddle)}, \\
+    D_2=0 &\;\Rightarrow\; \text{test is inconclusive (semi-definite case)}.
+  \end{aligned}
 \]
-Two-variable case: $xf_{x}+yf_{y}=kf$. \textbf{Verification rule.} Always
-compute the LHS $xf_{x}+yf_{y}$ and the RHS $kf$ \emph{separately}, then
-check that they agree.
+Note: ND requires $D_1<0$ \emph{and} $D_2>0$; the alternating-sign
+condition is what one generalises to higher $n$ (signs $-,+,-,+,\dots$ for
+ND).
 \end{rulebox}
+
+\begin{rulebox}{Classification of critical points}
+A point $\mathbf{x}_0$ is a \emph{critical point} of $f$ if
+$\grad f(\mathbf{x}_0)=\mathbf{0}$. Then evaluate $\Hess_f(\mathbf{x}_0)$:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item $H$ PD at $\mathbf{x}_0$ $\Rightarrow$ strict local minimum;
+  \item $H$ ND at $\mathbf{x}_0$ $\Rightarrow$ strict local maximum;
+  \item $H$ indefinite at $\mathbf{x}_0$ $\Rightarrow$ saddle point;
+  \item $D_2=0$ $\Rightarrow$ inconclusive, higher-order analysis
+        required.
+\end{itemize}
+\end{rulebox}
+
+\section{Worked Example}
+
+\begin{worked}{Find and classify every critical point of $f(x,y)=x^{3}-3xy+y^{3}$}
+\wstep{Step 1. First-order conditions: both partials zero, simultaneously.}
+\[
+  f_{x}=3x^{2}-3y=0
+  \quad\Longrightarrow\quad y=x^{2},
+\]
+\[
+  f_{y}=-3x+3y^{2}=0
+  \quad\Longrightarrow\quad x=y^{2} .
+\]
+\wtrap{A critical point needs \emph{every} partial to vanish at the
+\emph{same} point. Solving each equation separately and pairing the answers
+arbitrarily is not the same thing --- the two equations form a system.}
+
+\wstep{Step 2. Solve the system by substitution.}
+Substituting $y=x^{2}$ into $x=y^{2}$:
+\[
+  x=x^{4}
+  \;\Longrightarrow\;
+  x^{4}-x=0
+  \;\Longrightarrow\;
+  x\bigl(x^{3}-1\bigr)=0
+  \;\Longrightarrow\;
+  x=0\ \text{or}\ x=1 .
+\]
+The corresponding $y=x^{2}$ gives the two critical points
+\[
+  (0,0)\qquad\text{and}\qquad(1,1).
+\]
+\wtrap{Do not divide by $x$ to get $x^{3}=1$. That silently discards the
+root $x=0$ --- and $(0,0)$ turns out to be the more interesting of the two
+points. Factor; never divide by something that may vanish.}
+
+\wstep{Step 3. Build the Hessian once, symbolically.}
+\[
+  f_{xx}=6x,\qquad f_{yy}=6y,\qquad f_{xy}=f_{yx}=-3 ,
+\]
+\[
+  \Hess f(x,y)=\begin{pmatrix}6x&-3\\-3&6y\end{pmatrix}.
+\]
+The two mixed partials agree, as Young's theorem guarantees for a function
+with continuous second derivatives --- differentiating in $x$ then $y$ gives
+the same result as $y$ then $x$. Computing both is a free check, and here
+$\frac{\partial}{\partial y}(3x^{2}-3y)=-3$ and
+$\frac{\partial}{\partial x}(-3x+3y^{2})=-3$. \checkmark
+
+\wstep{Step 4. Classify $(0,0)$.}
+\[
+  \Hess f(0,0)=\begin{pmatrix}0&-3\\-3&0\end{pmatrix},
+  \qquad
+  \det=0-9=-9<0 .
+\]
+A negative determinant means the two eigenvalues have opposite signs, so the
+form is indefinite:
+\[
+  \boxed{(0,0)\ \text{is a saddle point.}}
+\]
+No further test is needed, and the value of $f_{xx}$ is irrelevant here.
+\wtrap{$\det\Hess<0$ settles the matter immediately --- saddle, whatever
+$f_{xx}$ does. It is only when $\det\Hess>0$ that $f_{xx}$ has to be
+consulted. Checking $f_{xx}$ first wastes effort and invites the wrong
+conclusion.}
+
+\wstep{Step 5. Classify $(1,1)$.}
+\[
+  \Hess f(1,1)=\begin{pmatrix}6&-3\\-3&6\end{pmatrix},
+  \qquad
+  \det=36-9=27>0,
+  \qquad
+  f_{xx}=6>0 .
+\]
+Positive determinant with a positive $f_{xx}$: positive definite, so
+\[
+  \boxed{(1,1)\ \text{is a strict local minimum},\qquad f(1,1)=1-3+1=-1 .}
+\]
+
+\wstep{Step 6. Verify the saddle directly, because it is cheap.}
+Along the line $y=x$: $f(x,x)=2x^{3}-3x^{2}$, whose value near $0$ is
+$\approx-3x^{2}<0$. Along $y=-x$: $f(x,-x)=x^{3}+3x^{2}-x^{3}=3x^{2}>0$. So
+$f$ takes both signs arbitrarily close to $(0,0)$, where $f=0$ --- a saddle,
+confirmed without any matrix.
+
+\wstep{Step 7. The decision rule, complete.}
+\begin{center}\footnotesize
+\begin{tabular}{lll}
+  \hline
+  $\det\Hess$ & $f_{xx}$ & conclusion\\
+  \hline
+  $>0$ & $>0$ & strict local minimum\\
+  $>0$ & $<0$ & strict local maximum\\
+  $<0$ & --- & saddle point\\
+  $=0$ & --- & \textbf{test fails}; investigate directly\\
+  \hline
+\end{tabular}
+\end{center}
+\wtrap{$\det\Hess=0$ means the test is silent, not that the point is a
+saddle. $f=x^{4}+y^{4}$ (minimum), $f=-x^{4}-y^{4}$ (maximum) and
+$f=x^{4}-y^{4}$ (saddle) all have the zero Hessian at the origin. When the
+determinant vanishes you must argue directly, as in Step~6.}
+
+\wstep{Step 8. Local is not global.}
+Neither point is a global extremum: $f(x,0)=x^{3}$ runs to $\pm\infty$. On
+an unbounded domain, second-order conditions can never certify a global
+optimum by themselves --- that needs convexity of $f$ on the whole domain,
+or a compact feasible set and Weierstrass. Volume~7 makes this the
+difference between finding a candidate and having an answer.
+\end{worked}
 
 \section{Practice Problems}
 
 \begin{problems}
-  \item Use IFT to find $\dd{y}{x}$ for $x^{3}+y^{3}=6xy$.
-  \item Verify homogeneity and find the degree of
-        $f(x,y)=x^{4}+5x^{2}y^{2}+y^{4}$.
-  \item Compute the Jacobian and its determinant for
-        $\mathbf{f}(x,y)=(3x-2y,\;x+4y)$.
-  \item For $U(x,y)=x+2\ln y$, find the signed slope and unsigned MRS
-        using IFT.
-  \item Verify Euler's theorem for $f(x,y)=x^{2}+5xy-2y^{2}$ (degree $2$).
-  \item Use IFT to find $\dd{y}{x}$ for $x^{2}y+xy^{3}=10$.
-  \item Verify homogeneity and find the degree of
-        $f(x,y)=\dfrac{x^{3}+y^{3}}{x-y}$.
-  \item Compute the Jacobian and its determinant for
-        $\mathbf{f}(x,y)=(x^{2}+y^{2},\;x^{2}-y^{2})$.
-  \item For $U(x,y)=(x+1)(y+2)$, find the signed slope and unsigned MRS.
-  \item Verify Euler's theorem for $Q(K,L)=4K^{1/4}L^{3/4}$ (degree $1$).
-  \item Use IFT to find $\dd{y}{x}$ for $\mathrm{e}^{x+y}=x+y+1$.
-  \item Verify homogeneity and find the degree of $f(x,y)=\sqrt{xy}$.
-  \item Compute the Jacobian and its determinant for
-        $\mathbf{f}(x,y)=(x\mathrm{e}^{y},\;y\mathrm{e}^{x})$.
-  \item For $U(x,y)=x^{a}y^{b}$ ($a,b>0$), find the signed slope and MRS
-        via IFT.
-  \item Verify Euler's theorem for $Q(K,L)=K^{1/2}L^{1/2}+K+L$
-        (degree $1$).
-  \item Use IFT to find $\dd{y}{x}$ for $\ln(x^{2}+y)=x-y$.
-  \item Verify homogeneity for
-        $f(x,y,z)=\dfrac{xy+yz+zx}{x+y+z}$ and find the degree.
-  \item Compute the Jacobian and its determinant for the cylindrical map
-        $\mathbf{f}(\rho,\theta,z)=(\rho\cos\theta,\;\rho\sin\theta,\;z)$.
-  \item For the Leontief $U(x,y)=\min\{2x,3y\}$, discuss MRS on each
-        smooth piece and at the kink.
-  \item Verify Euler's theorem for the harmonic mean
-        $f(x,y)=(x^{-1}+y^{-1})^{-1}$ (degree $1$).
-  \item Use IFT to find $\dd{y}{x}$ for $x\cos y+y\cos x=1$.
-  \item Verify homogeneity and find the degree of
-        $f(x,y)=x\ln(y/x)+y\ln(x/y)$.
-  \item Compute the Jacobian of
-        $\mathbf{f}(x,y)=(x+y,\;xy,\;x^{2}+y^{2})$ and identify where the
-        rank drops.
-  \item For $Q(K,L)=5K+3L$, find the MRTS.
-  \item Verify Euler's theorem for
-        $Q(K,L)=\bigl(\alpha K^{\rho}+(1-\alpha)L^{\rho}\bigr)^{1/\rho}$
-        (CES, degree $1$).
-  \item Use IFT to find $\dd{y}{x}$ for $x^{y}=y^{x}$ with $x,y>0$.
-  \item Verify whether $f(x,y)=x^{2}+xy+y$ is homogeneous; if so, find the
-        degree.
-  \item Compute the Jacobian and determinant of
-        $\mathbf{f}(x,y)=(\mathrm{e}^{x}\cos y,\;\mathrm{e}^{x}\sin y)$.
-        Interpret.
-  \item For $Q(K,L)=K^{2/3}L^{1/3}$, find the MRTS via IFT.
-  \item Verify Euler's theorem for $f(x,y,z)=x^{3}+y^{3}+z^{3}+3xyz$
-        (degree $3$).
-  \item Use IFT to find $\dd{y}{x}$ for $\sqrt{x}+\sqrt{y}+\sqrt{xy}=5$.
-  \item Verify homogeneity and find the degree of
-        $f(x,y)=\dfrac{x^{2}+y^{2}}{xy}$.
-  % VERIFY: right-hand entries of the spherical map obscured by a printer's
-  % page-turn mark in the scan; reconstructed from the standard spherical
-  % parametrization, and confirmed by the worked solution below.
-  \item Compute the Jacobian and determinant of the spherical map
-        $\mathbf{f}(\rho,\theta,\phi)=(\rho\sin\phi\cos\theta,\;
-        \rho\sin\phi\sin\theta,\;\rho\cos\phi)$.
-  \item For $U(x,y)=ax+by$ ($a,b>0$, perfect substitutes), find the MRS.
-  \item Verify Euler's theorem for $f(x,y)=\dfrac{x^{3}+y^{3}}{x+y}$
-        (degree $2$).
-  \item Use IFT to find $\pd{z}{x}$ and $\pd{z}{y}$ for
-        $F(x,y,z)=x^{2}+y^{2}+z^{2}-R^{2}=0$.
-  \item Verify homogeneity of $f(x,y)=x\mathrm{e}^{y/x}$ and find the
-        degree.
-  \item Compute the Jacobian and determinant of
-        $\mathbf{f}(u,v)=(u^{2}-v^{2},\;2uv)$.
-  \item For $U(x,y)=\alpha\ln x+\beta\ln y$, find MRS via IFT.
-  \item Verify Euler's theorem for $f(x,y)=\sqrt{x^{2}+y^{2}}$
-        (degree $1$).
-  \item Use IFT to find $\dd{y}{x}$ for $\sin(xy)+\cos(x+y)=1/2$.
-  \item Decide whether $f(x,y)=x^{2}+y^{3}$ is homogeneous, with
-        justification.
-  \item Compute the Jacobian determinant of the polar map
-        $\mathbf{f}(r,\theta)=(r\cos\theta,\;r\sin\theta)$ and connect to
-        the area element.
-  \item For $Q(K,L)=(K^{\rho}+L^{\rho})^{1/\rho}$ ($\rho\neq 0$), find the
-        MRTS.
-  \item Verify Euler's theorem for the Leontief-like
-        $f(x,y)=\min\{x,y\}$ in the interior of each smooth region.
-  \item Use IFT to find $\pd{y}{x_{1}}$ and $\pd{y}{x_{2}}$ at any point
-        where $F(x_{1},x_{2},y)=x_{1}^{2}+x_{2}y+y^{3}-7=0$, $F_{y}\neq 0$.
-  \item Verify homogeneity and find the degree of
-        $f(x,y,z)=\dfrac{x^{2}y+y^{2}z+z^{2}x}{xyz}$.
-  \item Compute the Jacobian determinant of
-        $\mathbf{f}(x,y)=(x+\sin y,\;y+\sin x)$ and find where it
-        vanishes.
-  \item For $U(x,y)=(x^{\rho}+y^{\rho})^{1/\rho}$ (CES utility), find the
-        MRS.
-  \item Verify Euler's theorem (3-variable form) for
-        $f(x,y,z)=xy+yz+zx$ (degree $2$).
-  \item Use IFT to verify that on the unit circle $x^{2}+y^{2}=1$ the
-        slope at $(\sqrt{3}/2,1/2)$ equals $-\sqrt{3}$.
-  \item Show that $f(x,y)=(x^{1/2}+y^{1/2})^{2}$ is homogeneous of
-        degree $1$, then verify Euler's theorem (LHS and RHS separately).
-  \item Compute the Jacobian determinant of
-        $\mathbf{f}(x,y)=(x/y,\;y/x)$.
-  \item For the translog $\ln Q = \alpha_{0}+\alpha_{K}\ln K+\alpha_{L}\ln L$,
-        find the MRTS in $(K,L)$ space.
-  \item Verify Euler's theorem for the production function
-        $Q(K,L,M)=K^{1/3}L^{1/3}M^{1/3}$ (three-factor CRS Cobb--Douglas).
-  \item Compute the Jacobian and Jacobian determinant of
-        $\mathbf{f}(x,y,z)=(x+y+z,\;xy+yz+zx,\;xyz)$, and explain the link
-        to elementary symmetric polynomials.
+  \item Compute all second partials of $f(x,y) = 4x^{3} - 5x^{2}y + 7y^{4}$
+        and verify Young's theorem.
+  \item Construct the Hessian of
+        $f(x,y) = 5x^{2} + 6xy + 2y^{2} - 3x + 4y$.
+  \item Classify the definiteness of
+        $\Hess = \begin{pmatrix}6&2\\2&3\end{pmatrix}$ using Sylvester's
+        criterion.
+  \item Find and classify the critical points of
+        $f(x,y) = x^{2} + 4y^{2} - 6x + 8y + 11$.
+  \item Compute all second partials of $f(x,y) = (x+2y)^{3}$ and verify
+        $f_{xy} = f_{yx}$.
+  \item Construct the Hessian of $f(x,y) = x^{3} + 2xy^{2} - 4y$.
+  \item Classify $\Hess = \begin{pmatrix}-4&2\\2&-5\end{pmatrix}$.
+  \item Find and classify the critical points of
+        $f(x,y) = -x^{2} - 3y^{2} + 8x - 6y + 5$.
+  \item Compute all second partials of $f(x,y) = x^{2}\ln(y)$ ($y>0$) and
+        verify Young's theorem.
+  \item Construct the Hessian of $f(x,y) = \mathrm{e}^{2x-y}$.
+  \item Classify $\Hess = \begin{pmatrix}2&4\\4&2\end{pmatrix}$.
+  \item Find and classify the critical points of
+        $f(x,y) = x^{2} - y^{2} + 6x - 4y$.
+  \item Compute all second partials of $f(x,y) = \mathrm{e}^{x^{2}+y}$ and
+        verify Young's theorem.
+  \item Construct the Hessian of the Cobb--Douglas function
+        $f(K,L) = K^{1/3}L^{2/3}$, $K,L>0$.
+  \item Classify $\Hess = \begin{pmatrix}7&-3\\-3&1\end{pmatrix}$.
+  \item Find and classify the critical points of
+        $f(x,y) = x^{3} + y^{3} - 12x - 27y$.
+  \item Compute all second partials of $f(x,y) = 1/(x+y)$ and verify
+        Young's theorem.
+  \item Construct the Hessian of
+        $f(x,y,z) = x^{2} + 2y^{2} + 3z^{2} - xy + 2yz$.
+  \item Classify $\Hess = \begin{pmatrix}-3&1\\1&-3\end{pmatrix}$.
+  \item Find and classify the critical points of
+        $f(x,y) = x^{2} + 4xy + y^{2} + 2y$.
+  \item Compute all second partials of $f(x,y) = x^{1/2}y^{1/2}$
+        ($x,y>0$) and verify $f_{xy} = f_{yx}$.
+  \item Construct the Hessian of $f(x,y) = \ln(x^{2}+y^{2})$ at a generic
+        point $(x,y)\neq(0,0)$.
+  \item Find and classify the critical points of
+        $f(x,y) = x^{4} + y^{4} - 4xy$.
+  \item Compute all second partials of $f(x,y) = x\mathrm{e}^{y} + y\mathrm{e}^{x}$
+        and verify Young's theorem.
+  \item Construct the Hessian of $f(x,y) = x^{3} - 3xy^{2}$ (a harmonic
+        function).
+  \item Classify $\Hess = \begin{pmatrix}5&0\\0&-2\end{pmatrix}$ and state
+        what this implies if $H$ is the Hessian at a critical point.
+  \item Find and classify the critical points of
+        $f(x,y) = xy - x^{2} - y^{2} + 6x + 3y$.
+  \item Compute all second partials of $f(x,y) = \ln(xy)$ ($x,y>0$).
+  \item Construct the Hessian of $f(x,y) = (x^{2}+y^{2})^{2}$ at a generic
+        point.
+  \item Classify $\Hess = \begin{pmatrix}-1&2\\2&-1\end{pmatrix}$.
+  \item Find and classify the critical points of
+        $f(x,y) = x^{3} - 3xy + y^{3}$.
+  \item Compute all second partials of $f(x,y) = \sin(x)\cos(y)$ and
+        verify Young's theorem.
+  \item Construct the Hessian of $f(x,y,z) = \mathrm{e}^{xyz}$ at the point
+        $(1,1,1)$ (evaluate numerically).
+  \item Classify $\Hess = \begin{pmatrix}4&-2\\-2&4\end{pmatrix}$.
+  \item Find and classify the critical points of the profit function
+        $\pi(L,K) = 10L^{1/2}K^{1/2} - 2L - 3K$ (assume $L,K>0$).
+  \item Compute all second partials of $f(x,y) = x^{2}y^{3}$ and verify
+        Young's theorem.
+  \item Construct the Hessian of
+        $f(x,y) = \mathrm{e}^{x}\sin(y) - \mathrm{e}^{x}\cos(y)$.
+  \item Classify $\Hess = \begin{pmatrix}9&6\\6&4\end{pmatrix}$. (Note the
+        boundary case.)
+  \item Find and classify the critical points of
+        $f(x,y) = x^{2} + xy + y^{2} - 3x$.
+  \item Compute all second partials of $f(x,y) = \arctan(y/x)$ ($x>0$) and
+        verify Young's theorem.
+  \item Construct the Hessian of the CES function
+        $f(K,L) = (K^{1/2}+L^{1/2})^{2}$ at a generic point.
+  \item Find and classify the critical points of
+        $f(x,y) = -x^{4} - y^{4} + 8xy$.
+  \item Compute all second partials of $f(x,y) = x^{2}\mathrm{e}^{-y}$ and
+        verify Young's theorem.
+  \item Construct the Hessian of $f(x,y) = \cos(xy)$ at the origin
+        $(0,0)$.
+  \item Classify $\Hess = \begin{pmatrix}0&3\\3&0\end{pmatrix}$.
+  \item Find and classify the critical points of
+        $f(x,y) = x^{3} + 3xy^{2} - 15x - 12y$.
+  \item Construct the Hessian of $f(x,y) = \ln(1+x^{2}+y^{2})$ at the
+        origin.
+  \item Find and classify the critical points of
+        $f(x,y) = \mathrm{e}^{-(x^{2}+y^{2})}$.
 \end{problems}
 
 \section{Solutions}
 
 \begin{solutions}
-  \item $F=x^{3}+y^{3}-6xy$. $F_{x}=3x^{2}-6y$, $F_{y}=3y^{2}-6x$.
+  \item $f_x = 12x^{2} - 10xy$, $f_y = -5x^{2} + 28y^{3}$. Then
+        $f_{xx} = 24x - 10y$, $f_{yy} = 84y^{2}$, and
         \[
-          \dd{y}{x} = -\frac{3x^{2}-6y}{3y^{2}-6x} = \frac{2y-x^{2}}{y^{2}-2x} .
+          f_{xy} = \pd{}{y}\bigl(12x^{2}-10xy\bigr) = -10x, \qquad
+          f_{yx} = \pd{}{x}\bigl(-5x^{2}+28y^{3}\bigr) = -10x . \; \checkmark
         \]
 
-  \item $f(tx,ty)=(tx)^{4}+5(tx)^{2}(ty)^{2}+(ty)^{4}
-        =t^{4}(x^{4}+5x^{2}y^{2}+y^{4})=t^{4}f(x,y)$. \textbf{Degree}
-        $k=4$.
-
-  \item
+  \item $f_x = 10x + 6y - 3$, $f_y = 6x + 4y + 4$. Hessian
         \[
-          J=\begin{pmatrix} 3 & -2\\ 1 & 4\end{pmatrix},\qquad
-          \det J=3\cdot 4-(-2)\cdot 1=14 .
-        \]
-        Globally invertible; areas scale by $14$.
-
-  \item $U_{x}=1$, $U_{y}=2/y$. By IFT $\dd{y}{x}=-U_{x}/U_{y}=-y/2$.
-        \textbf{MRS} $=y/2$.
-
-  \item $f_{x}=2x+5y$, $f_{y}=5x-4y$.
-        \[
-          \mathrm{LHS}=x(2x+5y)+y(5x-4y)=2x^{2}+10xy-4y^{2} .
-        \]
-        \[
-          \mathrm{RHS}=2f=2x^{2}+10xy-4y^{2} .
-        \]
-        $\mathrm{LHS}=\mathrm{RHS}$. \checkmark
-
-  \item $F=x^{2}y+xy^{3}-10$. $F_{x}=2xy+y^{3}$, $F_{y}=x^{2}+3xy^{2}$.
-        \[
-          \dd{y}{x} = -\frac{2xy+y^{3}}{x^{2}+3xy^{2}}
-            = -\frac{y(2x+y^{2})}{x(x+3y^{2})} .
+          \Hess = \begin{pmatrix}10&6\\6&4\end{pmatrix} .
         \]
 
-  \item
-        \[
-          f(tx,ty)=\frac{(tx)^{3}+(ty)^{3}}{tx-ty}
-            =\frac{t^{3}(x^{3}+y^{3})}{t(x-y)}=t^{2}f(x,y) .
-        \]
-        \textbf{Degree} $k=2$.
+  \item $D_1 = 6 > 0$, $D_2 = 18 - 4 = 14 > 0$. \textbf{PD.}
 
-  \item
-        \[
-          J=\begin{pmatrix} 2x & 2y\\ 2x & -2y\end{pmatrix},\qquad
-          \det J=(2x)(-2y)-(2y)(2x)=-8xy .
-        \]
-        Locally invertible whenever $x\neq 0$ and $y\neq 0$.
+  \item $\grad f = (2x-6,\,8y+8) = (0,0) \Rightarrow x=3,\,y=-1$. Hessian
+        $\Hess = \begin{pmatrix}2&0\\0&8\end{pmatrix}$: $D_1=2>0$,
+        $D_2=16>0$, \textbf{PD}, so $(3,-1)$ is a strict \textbf{local
+        minimum} with $f(3,-1) = 9+4-18-8+11 = -2$.
 
-  \item $U_{x}=y+2$, $U_{y}=x+1$. $\dd{y}{x}=-(y+2)/(x+1)$.
-        \textbf{MRS} $=(y+2)/(x+1)$.
-
-  \item $Q_{K}=K^{-3/4}L^{3/4}$, $Q_{L}=3K^{1/4}L^{-1/4}$.
+  \item Chain rule: $f_x = 3(x+2y)^{2}$, $f_y = 6(x+2y)^{2}$. So
+        $f_{xx} = 6(x+2y)$, $f_{yy} = 24(x+2y)$, and
         \[
-          \mathrm{LHS}=K\cdot K^{-3/4}L^{3/4}+L\cdot 3K^{1/4}L^{-1/4}
-            =K^{1/4}L^{3/4}+3K^{1/4}L^{3/4}=4K^{1/4}L^{3/4} .
-        \]
-        \[
-          \mathrm{RHS}=1\cdot Q=4K^{1/4}L^{3/4} .
-        \]
-        $\mathrm{LHS}=\mathrm{RHS}$. \checkmark
-
-  \item $F=\mathrm{e}^{x+y}-x-y-1$. $F_{x}=\mathrm{e}^{x+y}-1=F_{y}$.
-        \[
-          \dd{y}{x} = -\frac{F_{x}}{F_{y}} = -1 .
-        \]
-        Valid away from $\mathrm{e}^{x+y}=1$, i.e., $x+y\neq 0$. (The
-        implicit relation forces $x+y$ to be locally constant on any
-        branch.)
-
-  \item $f(tx,ty)=\sqrt{(tx)(ty)}=t\sqrt{xy}=t f(x,y)$ for $t>0$.
-        \textbf{Degree} $k=1$.
-
-  \item
-        \[
-          J=\begin{pmatrix} \mathrm{e}^{y} & x\mathrm{e}^{y}\\
-                             y\mathrm{e}^{x} & \mathrm{e}^{x}\end{pmatrix},
-          \qquad \det J=\mathrm{e}^{x+y}(1-xy) .
-        \]
-        Singular along $xy=1$.
-
-  \item $U_{x}=ax^{a-1}y^{b}$, $U_{y}=bx^{a}y^{b-1}$.
-        $U_{x}/U_{y}=(a/b)(y/x)$. By IFT $\dd{y}{x}=-(a/b)(y/x)$.
-        \textbf{MRS} $=(a/b)(y/x)$.
-
-  \item $Q_{K}=\tfrac12K^{-1/2}L^{1/2}+1$, $Q_{L}=\tfrac12K^{1/2}L^{-1/2}+1$.
-        \[
-          \mathrm{LHS}=K\bigl(\tfrac12K^{-1/2}L^{1/2}+1\bigr)
-            +L\bigl(\tfrac12K^{1/2}L^{-1/2}+1\bigr)=K^{1/2}L^{1/2}+K+L .
-        \]
-        \[
-          \mathrm{RHS}=1\cdot Q=K^{1/2}L^{1/2}+K+L .
-        \]
-        $\mathrm{LHS}=\mathrm{RHS}$. \checkmark
-
-  \item $F=\ln(x^{2}+y)-x+y$. $F_{x}=\dfrac{2x}{x^{2}+y}-1$,
-        $F_{y}=\dfrac{1}{x^{2}+y}+1$.
-        \[
-          \dd{y}{x} = -\frac{2x/(x^{2}+y)-1}{1/(x^{2}+y)+1}
-            = -\frac{2x-(x^{2}+y)}{1+x^{2}+y}
-            = \frac{x^{2}+y-2x}{1+x^{2}+y} .
+          f_{xy} = 12(x+2y) = f_{yx} . \; \checkmark
         \]
 
-  \item
+  \item $f_x = 3x^{2} + 2y^{2}$, $f_y = 4xy - 4$. Hessian
         \[
-          f(tx,ty,tz)=\frac{t^{2}(xy+yz+zx)}{t(x+y+z)}=t f(x,y,z) .
+          \Hess = \begin{pmatrix}6x&4y\\4y&4x\end{pmatrix} .
         \]
-        \textbf{Degree} $k=1$.
 
-  \item
+  \item $D_1 = -4 < 0$, $D_2 = 20 - 4 = 16 > 0$. \textbf{ND.}
+
+  \item $\grad f = (-2x+8,\,-6y-6) = (0,0) \Rightarrow x=4,\,y=-1$. Hessian
+        $\Hess = \begin{pmatrix}-2&0\\0&-6\end{pmatrix}$: $D_1=-2<0$,
+        $D_2=12>0$, \textbf{ND}, so $(4,-1)$ is a strict \textbf{local
+        maximum} with $f(4,-1) = -16-3+32+6+5 = 24$.
+
+  \item $f_x = 2x\ln(y)$, $f_y = x^{2}/y$. So $f_{xx} = 2\ln(y)$,
+        $f_{yy} = -x^{2}/y^{2}$, and
         \[
-          J=\begin{pmatrix}
-            \cos\theta & -\rho\sin\theta & 0\\
-            \sin\theta & \rho\cos\theta & 0\\
-            0 & 0 & 1
+          f_{xy} = 2x/y = f_{yx} . \; \checkmark
+        \]
+
+  \item $f_x = 2\mathrm{e}^{2x-y}$, $f_y = -\mathrm{e}^{2x-y}$. So
+        $f_{xx} = 4\mathrm{e}^{2x-y}$, $f_{yy} = \mathrm{e}^{2x-y}$,
+        $f_{xy} = -2\mathrm{e}^{2x-y}$. Hessian
+        \[
+          \Hess = \mathrm{e}^{2x-y}\begin{pmatrix}4&-2\\-2&1\end{pmatrix} .
+        \]
+
+  \item $D_1 = 2 > 0$, $D_2 = 4 - 16 = -12 < 0$. \textbf{Indefinite
+        (saddle).}
+
+  \item $\grad f = (2x+6,\,-2y-4) = (0,0) \Rightarrow x=-3,\,y=-2$. Hessian
+        $\Hess = \begin{pmatrix}2&0\\0&-2\end{pmatrix}$: $D_2 = -4 < 0$,
+        \textbf{indefinite}, so $(-3,-2)$ is a \textbf{saddle point}.
+
+  \item Let $E = \mathrm{e}^{x^{2}+y}$. Then $f_x = 2xE$, $f_y = E$. So
+        $f_{xx} = 2E + 4x^{2}E = (2+4x^{2})E$, $f_{yy} = E$, and
+        \[
+          f_{xy} = \pd{}{y}(2xE) = 2xE, \qquad
+          f_{yx} = \pd{}{x}(E) = 2xE . \; \checkmark
+        \]
+
+  \item $f_K = \tfrac13K^{-2/3}L^{2/3}$, $f_L = \tfrac23K^{1/3}L^{-1/3}$.
+        So
+        \[
+          f_{KK} = -\tfrac29K^{-5/3}L^{2/3}, \quad
+          f_{LL} = -\tfrac29K^{1/3}L^{-4/3}, \quad
+          f_{KL} = \tfrac29K^{-2/3}L^{-1/3} = f_{LK} . \; \checkmark
+        \]
+        Hessian
+        \[
+          \Hess = \tfrac29
+          \begin{pmatrix}
+            -K^{-5/3}L^{2/3} & K^{-2/3}L^{-1/3} \\
+            K^{-2/3}L^{-1/3} & -K^{1/3}L^{-4/3}
           \end{pmatrix} .
         \]
-        Expanding along the third row:
-        $\det J = 1\cdot(\rho\cos^{2}\theta+\rho\sin^{2}\theta)=\rho$.
-        Volume element $\mathrm{d}V=\rho\,\mathrm{d}\rho\,\mathrm{d}\theta\,\mathrm{d}z$.
 
-  \item Leontief, non-differentiable on $\{2x=3y\}$. On $\{2x<3y\}$:
-        $U=2x$, so $U_{x}=2$, $U_{y}=0$; signed slope $\dd{y}{x}$ is
-        undefined (level curve is vertical), MRS is infinite: $x$ is
-        the binding factor. On $\{2x>3y\}$: $U=3y$, $U_{x}=0$, $U_{y}=3$;
-        signed slope $=0$, MRS $=0$: $y$ is binding. At the kink the
-        two-sided derivative does not exist.
+  \item $D_1 = 7 > 0$, $D_2 = 7 - 9 = -2 < 0$. \textbf{Indefinite.}
 
-  \item $f=(x^{-1}+y^{-1})^{-1}=xy/(x+y)$. $f_{x}=y^{2}/(x+y)^{2}$,
-        $f_{y}=x^{2}/(x+y)^{2}$.
-        \[
-          \mathrm{LHS}=x\cdot\frac{y^{2}}{(x+y)^{2}}
-            +y\cdot\frac{x^{2}}{(x+y)^{2}}
-            =\frac{xy(y+x)}{(x+y)^{2}}=\frac{xy}{x+y} .
-        \]
-        \[
-          \mathrm{RHS}=1\cdot f=\frac{xy}{x+y} .
-        \]
-        $\mathrm{LHS}=\mathrm{RHS}$. \checkmark
+  \item $\grad f = (3x^{2}-12,\,3y^{2}-27) = (0,0) \Rightarrow x^{2}=4,\,
+        y^{2}=9$, giving $(\pm2,\pm3)$. Hessian
+        $\Hess = \begin{pmatrix}6x&0\\0&6y\end{pmatrix}$, so $D_1=6x$,
+        $D_2=36xy$.
+        \begin{itemize}
+          \item $(2,3)$: $D_1=12>0$, $D_2=216>0$, \textbf{PD}: local
+                minimum, $f = 8+27-24-81 = -70$.
+          \item $(2,-3)$: $D_2=-216<0$, \textbf{saddle}.
+          \item $(-2,3)$: $D_2=-216<0$, \textbf{saddle}.
+          \item $(-2,-3)$: $D_1=-12<0$, $D_2=216>0$, \textbf{ND}: local
+                maximum, $f = -8-27+24+81 = 70$.
+        \end{itemize}
 
-  \item $F=x\cos y+y\cos x-1$. $F_{x}=\cos y-y\sin x$,
-        $F_{y}=-x\sin y+\cos x$.
+  \item Let $S=x+y$, $f=S^{-1}$, $f_x = -S^{-2} = f_y$. So
+        $f_{xx} = 2S^{-3} = f_{yy}$, and
         \[
-          \dd{y}{x} = -\frac{\cos y-y\sin x}{\cos x-x\sin y}
-            = \frac{y\sin x-\cos y}{\cos x-x\sin y} .
+          f_{xy} = 2S^{-3} = f_{yx} = \frac{2}{(x+y)^{3}} . \; \checkmark
         \]
 
-  \item
+  \item $f_x = 2x-y$, $f_y = 4y-x+2z$, $f_z = 6z+2y$. Hessian
         \[
-          f(tx,ty)=(tx)\ln(ty/tx)+(ty)\ln(tx/ty)
-            =tx\ln(y/x)+ty\ln(x/y)=t f(x,y)
-        \]
-        (the $t$ inside the log cancels). \textbf{Degree} $k=1$.
-
-  \item
-        \[
-          J=\begin{pmatrix} 1 & 1\\ y & x\\ 2x & 2y\end{pmatrix}
-            \in\R^{3\times 2} .
-        \]
-        Not square, so there is no determinant. The top $2\times 2$
-        minor is $x-y$, which vanishes precisely on $x=y$; the rank
-        drops to $1$ along that diagonal (the other minors also vanish
-        there).
-
-  \item Linear: $Q_{K}=5$, $Q_{L}=3$. $\dd{L}{K}=-5/3$. \textbf{MRTS}
-        $=5/3$ (perfect substitutes with constant exchange rate).
-
-  \item Let $S=\alpha K^{\rho}+(1-\alpha)L^{\rho}$, so $Q=S^{1/\rho}$.
-        \[
-          Q_{K}=\frac{1}{\rho}S^{1/\rho-1}\cdot\alpha\rho K^{\rho-1}
-            =\alpha S^{1/\rho-1}K^{\rho-1},\qquad
-          Q_{L}=(1-\alpha)S^{1/\rho-1}L^{\rho-1} .
-        \]
-        \[
-          \mathrm{LHS}=K\alpha S^{1/\rho-1}K^{\rho-1}
-            +L(1-\alpha)S^{1/\rho-1}L^{\rho-1}
-            =S^{1/\rho-1}\bigl(\alpha K^{\rho}+(1-\alpha)L^{\rho}\bigr)
-            =S^{1/\rho} .
-        \]
-        \[
-          \mathrm{RHS}=1\cdot Q=S^{1/\rho} .
-        \]
-        $\mathrm{LHS}=\mathrm{RHS}$. \checkmark
-
-  \item Take logs: $y\ln x-x\ln y=0$. Set $F=y\ln x-x\ln y$.
-        \[
-          F_{x}=\frac{y}{x}-\ln y,\qquad F_{y}=\ln x-\frac{x}{y} .
-        \]
-        \[
-          \dd{y}{x} = -\frac{y/x-\ln y}{\ln x-x/y}
-            = \frac{\ln y-y/x}{\ln x-x/y}
-            = \frac{y(x\ln y-y)}{x(y\ln x-x)} .
+          \Hess = \begin{pmatrix}2&-1&0\\-1&4&2\\0&2&6\end{pmatrix} .
         \]
 
-  \item Test: $f(tx,ty)=(tx)^{2}+(tx)(ty)+(ty)=t^{2}x^{2}+t^{2}xy+ty$.
-        This cannot be written as $t^{k}(x^{2}+xy+y)$ for a single $k$:
-        the first two terms scale by $t^{2}$, the last by $t$.
-        \textbf{Not homogeneous.}
+  \item $D_1 = -3 < 0$, $D_2 = 9 - 1 = 8 > 0$. \textbf{ND.}
 
-  \item $f_{1}=\mathrm{e}^{x}\cos y$, $f_{2}=\mathrm{e}^{x}\sin y$.
-        \[
-          J=\begin{pmatrix} \mathrm{e}^{x}\cos y & -\mathrm{e}^{x}\sin y\\
-                             \mathrm{e}^{x}\sin y & \mathrm{e}^{x}\cos y
-            \end{pmatrix},\qquad
-          \det J=\mathrm{e}^{2x}(\cos^{2}y+\sin^{2}y)=\mathrm{e}^{2x} .
-        \]
-        Always strictly positive: the map is locally invertible
-        everywhere. (It is the complex exponential $w=\mathrm{e}^{x+iy}$;
-        conformal, orientation-preserving.)
+  \item $\grad f = (2x+4y,\,4x+2y+2) = (0,0)$. From the first, $x=-2y$;
+        substituting, $-8y+2y+2=0 \Rightarrow y=1/3$, $x=-2/3$. Hessian
+        $\Hess = \begin{pmatrix}2&4\\4&2\end{pmatrix}$: $D_1=2>0$,
+        $D_2=4-16=-12<0$, \textbf{indefinite: saddle point} at
+        $(-2/3,1/3)$.
 
-  \item $Q_{K}=\tfrac23K^{-1/3}L^{1/3}$, $Q_{L}=\tfrac13K^{2/3}L^{-2/3}$.
+  \item $f_x = \tfrac12x^{-1/2}y^{1/2}$, $f_y = \tfrac12x^{1/2}y^{-1/2}$.
+        So
         \[
-          \frac{Q_{K}}{Q_{L}}=2\,\frac{L}{K} .
-        \]
-        $\dd{L}{K}=-2L/K$. \textbf{MRTS} $=2L/K$.
-
-  \item $f_{x}=3x^{2}+3yz$, $f_{y}=3y^{2}+3xz$, $f_{z}=3z^{2}+3xy$.
-        \[
-          \mathrm{LHS}=x(3x^{2}+3yz)+y(3y^{2}+3xz)+z(3z^{2}+3xy)
-            =3(x^{3}+y^{3}+z^{3})+9xyz=3f .
-        \]
-        \[
-          \mathrm{RHS}=3f .
-        \]
-        $\mathrm{LHS}=\mathrm{RHS}$. \checkmark
-
-  \item $F=\sqrt{x}+\sqrt{y}+\sqrt{xy}-5$. Compute:
-        \[
-          F_{x}=\frac{1}{2\sqrt{x}}+\frac{y}{2\sqrt{xy}}
-            =\frac{1}{2\sqrt{x}}+\frac{1}{2}\sqrt{\frac{y}{x}}
-            =\frac{1+\sqrt{y}}{2\sqrt{x}} .
-        \]
-        By symmetry, $F_{y}=\dfrac{1+\sqrt{x}}{2\sqrt{y}}$.
-        \[
-          \dd{y}{x} = -\frac{F_{x}}{F_{y}}
-            = -\frac{\sqrt{y}(1+\sqrt{y})}{\sqrt{x}(1+\sqrt{x})} .
+          f_{xx} = -\tfrac14x^{-3/2}y^{1/2}, \quad
+          f_{yy} = -\tfrac14x^{1/2}y^{-3/2}, \quad
+          f_{xy} = \tfrac14x^{-1/2}y^{-1/2} = f_{yx} . \; \checkmark
         \]
 
-  \item
+  \item Let $S=x^{2}+y^{2}$, $f=\ln S$, $f_x = 2x/S$, $f_y = 2y/S$. By the
+        quotient rule:
         \[
-          f(tx,ty)=\frac{t^{2}x^{2}+t^{2}y^{2}}{(tx)(ty)}
-            =\frac{t^{2}(x^{2}+y^{2})}{t^{2}xy}=f(x,y) .
+          f_{xx} = \frac{2S-2x\cdot2x}{S^{2}} = \frac{2(y^{2}-x^{2})}{(x^{2}+y^{2})^{2}}, \quad
+          f_{yy} = \frac{2(x^{2}-y^{2})}{(x^{2}+y^{2})^{2}}, \quad
+          f_{xy} = \frac{-4xy}{(x^{2}+y^{2})^{2}} .
         \]
-        \textbf{Degree} $k=0$.
-
-  \item
+        Hessian
         \[
-          J=\begin{pmatrix}
-            \sin\phi\cos\theta & -\rho\sin\phi\sin\theta & \rho\cos\phi\cos\theta\\
-            \sin\phi\sin\theta & \rho\sin\phi\cos\theta & \rho\cos\phi\sin\theta\\
-            \cos\phi & 0 & -\rho\sin\phi
+          \Hess = \frac{2}{(x^{2}+y^{2})^{2}}
+          \begin{pmatrix}y^{2}-x^{2} & -2xy \\ -2xy & x^{2}-y^{2}\end{pmatrix} .
+        \]
+        Note $f_{xx}+f_{yy}=0$: $\ln(x^{2}+y^{2})$ is harmonic.
+
+  \item $\grad f = (4x^{3}-4y,\,4y^{3}-4x) = (0,0) \Rightarrow y=x^{3}$
+        and $x=y^{3}=x^{9}$. So $x(x^{8}-1)=0$, giving $x\in\{-1,0,1\}$.
+        Critical points: $(0,0),(1,1),(-1,-1)$. Hessian
+        $\Hess = \begin{pmatrix}12x^{2}&-4\\-4&12y^{2}\end{pmatrix}$.
+        \begin{itemize}
+          \item $(0,0)$: $\Hess = \begin{pmatrix}0&-4\\-4&0\end{pmatrix}$,
+                $D_2=-16<0$, \textbf{saddle}.
+          \item $(1,1)$: $\Hess = \begin{pmatrix}12&-4\\-4&12\end{pmatrix}$,
+                $D_1=12>0$, $D_2=144-16=128>0$, \textbf{PD}: local
+                minimum, $f=1+1-4=-2$.
+          \item $(-1,-1)$: same $H$, \textbf{PD}: local minimum, $f=-2$.
+        \end{itemize}
+
+  \item $f_x = \mathrm{e}^{y}+y\mathrm{e}^{x}$, $f_y = x\mathrm{e}^{y}+\mathrm{e}^{x}$. So
+        $f_{xx} = y\mathrm{e}^{x}$, $f_{yy} = x\mathrm{e}^{y}$, and
+        \[
+          f_{xy} = \mathrm{e}^{y}+\mathrm{e}^{x} = f_{yx} . \; \checkmark
+        \]
+
+  \item $f_x = 3x^{2}-3y^{2}$, $f_y = -6xy$. So $f_{xx}=6x$,
+        $f_{yy}=-6x$, $f_{xy}=-6y=f_{yx}$. Hessian
+        \[
+          \Hess = \begin{pmatrix}6x&-6y\\-6y&-6x\end{pmatrix} .
+        \]
+        Note $f_{xx}+f_{yy}=0$: $f$ is harmonic.
+
+  \item $D_1 = 5 > 0$, $D_2 = -10 < 0$. \textbf{Indefinite.} At a critical
+        point this would mean a \textbf{saddle}.
+
+  \item $\grad f = (y-2x+6,\,x-2y+3) = (0,0)$. So $2x-y=6$ and
+        $x-2y=-3$. From the first, $y=2x-6$; substituting:
+        $x-2(2x-6)=-3 \Rightarrow -3x+12=-3 \Rightarrow x=5$, $y=4$.
+        Hessian $\Hess = \begin{pmatrix}-2&1\\1&-2\end{pmatrix}$:
+        $D_1=-2<0$, $D_2=4-1=3>0$, \textbf{ND}, so $(5,4)$ is a
+        \textbf{local maximum} with $f(5,4) = 20-25-16+30+12 = 21$.
+
+  \item $\ln(xy) = \ln x + \ln y$. So $f_x = 1/x$, $f_y = 1/y$,
+        $f_{xx} = -1/x^{2}$, $f_{yy} = -1/y^{2}$, $f_{xy} = 0 = f_{yx}$.
+        \; $\checkmark$
+
+  \item $f_x = 2(x^{2}+y^{2})\cdot2x = 4x(x^{2}+y^{2})$,
+        $f_y = 4y(x^{2}+y^{2})$. Then
+        \[
+          f_{xx} = 4(x^{2}+y^{2})+4x\cdot2x = 4(3x^{2}+y^{2}), \quad
+          f_{yy} = 4(x^{2}+3y^{2}), \quad
+          f_{xy} = 4x\cdot2y = 8xy = f_{yx} .
+        \]
+        Hessian
+        \[
+          \Hess = 4\begin{pmatrix}3x^{2}+y^{2}&2xy\\2xy&x^{2}+3y^{2}\end{pmatrix} .
+        \]
+
+  \item $D_1 = -1 < 0$, $D_2 = 1 - 4 = -3 < 0$. Since $D_2<0$,
+        \textbf{indefinite.}
+
+  \item $\grad f = (3x^{2}-3y,\,-3x+3y^{2}) = (0,0) \Rightarrow y=x^{2}$
+        and $x=y^{2}=x^{4}$, so $x(x^{3}-1)=0$, giving $x\in\{0,1\}$.
+        Critical points: $(0,0)$ and $(1,1)$. Hessian
+        $\Hess = \begin{pmatrix}6x&-3\\-3&6y\end{pmatrix}$.
+        \begin{itemize}
+          \item $(0,0)$: $\Hess = \begin{pmatrix}0&-3\\-3&0\end{pmatrix}$,
+                $D_2=-9<0$, \textbf{saddle}.
+          \item $(1,1)$: $\Hess = \begin{pmatrix}6&-3\\-3&6\end{pmatrix}$,
+                $D_1=6>0$, $D_2=36-9=27>0$, \textbf{PD}: local minimum,
+                $f=1-3+1=-1$.
+        \end{itemize}
+
+  \item $f_x = \cos(x)\cos(y)$, $f_y = -\sin(x)\sin(y)$. So
+        $f_{xx} = -\sin(x)\cos(y)$, $f_{yy} = -\sin(x)\cos(y)$, and
+        \[
+          f_{xy} = -\cos(x)\sin(y) = f_{yx} . \; \checkmark
+        \]
+
+  \item Let $u=xyz$, $f=\mathrm{e}^{u}$. Then $f_x = yz\mathrm{e}^{u}$,
+        $f_y = xz\mathrm{e}^{u}$, $f_z = xy\mathrm{e}^{u}$. Direct
+        partials: $f_{xx} = (yz)^{2}\mathrm{e}^{u}$,
+        $f_{yy} = (xz)^{2}\mathrm{e}^{u}$, $f_{zz} = (xy)^{2}\mathrm{e}^{u}$.
+        Cross-partials (using the product rule on
+        $f_x = yz\,\mathrm{e}^{xyz}$):
+        \[
+          f_{xy} = z\mathrm{e}^{xyz} + yz\cdot xz\mathrm{e}^{xyz}
+                 = z\mathrm{e}^{xyz}(1+xyz) .
+        \]
+        Similarly $f_{xz} = y\mathrm{e}^{xyz}(1+xyz)$ and
+        $f_{yz} = x\mathrm{e}^{xyz}(1+xyz)$. (Symmetry $f_{xy}=f_{yx}$
+        etc.\ confirms Young's theorem.) At $(1,1,1)$: $u=1$,
+        $\mathrm{e}^{u}=\mathrm{e}$, $1+xyz=2$, and $yz=xz=xy=1$, so
+        \[
+          \Hess(1,1,1) = \mathrm{e}\begin{pmatrix}1&2&2\\2&1&2\\2&2&1\end{pmatrix} .
+        \]
+
+  \item $D_1 = 4 > 0$, $D_2 = 16 - 4 = 12 > 0$. \textbf{PD.}
+
+  \item $\pi_L = 5L^{-1/2}K^{1/2}-2$, $\pi_K = 5L^{1/2}K^{-1/2}-3$.
+        Setting both to zero gives $5K^{1/2}/L^{1/2}=2$ and
+        $5L^{1/2}/K^{1/2}=3$. Multiplying these two equations: $25=6$,
+        which is a contradiction. So $\pi$ has \textbf{no interior
+        critical point}. Why? The production function
+        $Q=10L^{1/2}K^{1/2}$ is homogeneous of degree 1 (constant returns
+        to scale), so along any ray $(\lambda L,\lambda K)$ revenue and
+        cost both scale linearly: $\pi(\lambda L,\lambda K)=\lambda\pi(L,K)$.
+        Hence profit is either identically zero, or unbounded above
+        (depending on sign of $\pi$ along some direction). With
+        $\max_{L/K}(10\sqrt{LK}-2L-3K)/K$: setting $t=L/K$ gives
+        $\pi/K = 10\sqrt{t}-2t-3$, maximised at $t=25/4$ giving
+        $\pi/K = 25-25/2-3 = 19/2 > 0$. So $\pi\to+\infty$ along the ray
+        $L=(25/4)K$. The Hessian test does not apply because there is no
+        critical point to classify. (Lesson: an inconsistent
+        first-order system is itself a meaningful answer about the
+        geometry of the problem.)
+
+  \item $f_x = 2xy^{3}$, $f_y = 3x^{2}y^{2}$. So $f_{xx} = 2y^{3}$,
+        $f_{yy} = 6x^{2}y$, and
+        \[
+          f_{xy} = 6xy^{2} = f_{yx} . \; \checkmark
+        \]
+
+  \item Let $g=\sin y-\cos y$, so $f=\mathrm{e}^{x}g$. Then
+        $f_x = \mathrm{e}^{x}g$, $f_y = \mathrm{e}^{x}(\cos y+\sin y)$. So
+        $f_{xx} = \mathrm{e}^{x}g = \mathrm{e}^{x}(\sin y-\cos y)$,
+        $f_{yy} = \mathrm{e}^{x}(-\sin y+\cos y) = -\mathrm{e}^{x}g$, and
+        \[
+          f_{xy} = \mathrm{e}^{x}(\cos y+\sin y) = f_{yx} . \; \checkmark
+        \]
+        Hessian
+        \[
+          \Hess = \mathrm{e}^{x}
+          \begin{pmatrix}
+            \sin y-\cos y & \cos y+\sin y \\
+            \cos y+\sin y & \cos y-\sin y
           \end{pmatrix} .
         \]
-        Expand along the third row:
-        \[
-          \det J = \cos\phi\Bigl[(-\rho\sin\phi\sin\theta)(\rho\cos\phi\sin\theta)
-            -(\rho\cos\phi\cos\theta)(\rho\sin\phi\cos\theta)\Bigr]
-        \]
-        \[
-          \qquad{}+(-\rho\sin\phi)\Bigl[(\sin\phi\cos\theta)(\rho\sin\phi\cos\theta)
-            -(-\rho\sin\phi\sin\theta)(\sin\phi\sin\theta)\Bigr] .
-        \]
-        First bracket: $-\rho^{2}\sin\phi\cos\phi(\sin^{2}\theta+\cos^{2}\theta)
-          =-\rho^{2}\sin\phi\cos\phi$. Multiplied by $\cos\phi$:
-        $-\rho^{2}\sin\phi\cos^{2}\phi$. Second bracket:
-        $\rho\sin^{2}\phi(\cos^{2}\theta+\sin^{2}\theta)=\rho\sin^{2}\phi$.
-        Multiplied by $-\rho\sin\phi$: $-\rho^{2}\sin^{3}\phi$. Sum:
-        $-\rho^{2}\sin\phi(\cos^{2}\phi+\sin^{2}\phi)=-\rho^{2}\sin\phi$.
-        Thus $|\det J|=\rho^{2}\sin\phi$, the spherical volume element.
 
-  \item $U_{x}=a$, $U_{y}=b$. $\dd{y}{x}=-a/b$. \textbf{MRS} $=a/b$
-        (constant, perfect substitutes).
+  \item $D_1 = 9 > 0$, $D_2 = 36 - 36 = 0$. \textbf{Inconclusive
+        (positive semi-definite boundary case)}: Sylvester gives no
+        verdict; we cannot rule out PSD with a zero eigenvalue. (In fact
+        $H = (3,2)^{T}(3,2)$, so it is PSD with one zero eigenvalue.)
 
-  \item Simplify: $f=\dfrac{(x+y)(x^{2}-xy+y^{2})}{x+y}=x^{2}-xy+y^{2}$.
-        Then $f_{x}=2x-y$, $f_{y}=-x+2y$.
+  \item $\grad f = (2x+y-3,\,x+2y) = (0,0)$. From the second: $x=-2y$;
+        substituting: $-4y+y-3=0 \Rightarrow y=-1$, $x=2$. Critical point
+        $(2,-1)$. Hessian $\Hess = \begin{pmatrix}2&1\\1&2\end{pmatrix}$:
+        $D_1=2>0$, $D_2=4-1=3>0$, \textbf{PD}, so $(2,-1)$ is a strict
+        \textbf{local minimum} with $f(2,-1) = 4-2+1-6 = -3$.
+
+  \item With $u=y/x$, $f=\arctan u$: $f_x = -y/(x^{2}+y^{2})$,
+        $f_y = x/(x^{2}+y^{2})$. Let $S=x^{2}+y^{2}$. Then
         \[
-          \mathrm{LHS}=x(2x-y)+y(-x+2y)=2x^{2}-2xy+2y^{2} .
+          f_{xx} = \frac{2xy}{S^{2}}, \qquad
+          f_{yy} = \frac{-2xy}{S^{2}}, \qquad
+          f_{xy} = \frac{-S+2y^{2}}{S^{2}} = \frac{y^{2}-x^{2}}{(x^{2}+y^{2})^{2}}
+                  = f_{yx} . \; \checkmark
         \]
+        (And $f_{xx}+f_{yy}=0$: $\arctan(y/x)$ is harmonic.)
+
+  \item Let $g=K^{1/2}+L^{1/2}$. From sec06 sol.\ 23, $f_K = g/K^{1/2}$,
+        $f_L = g/L^{1/2}$. Then
         \[
-          \mathrm{RHS}=2f=2(x^{2}-xy+y^{2})=2x^{2}-2xy+2y^{2} .
+          f_{KK} = \frac{\tfrac12K^{-1/2}\cdot K^{1/2}-g\cdot\tfrac12K^{-1/2}}{K}
+                  = \frac{\tfrac12-g/(2K^{1/2})}{K}
+                  = \frac{1}{2K}-\frac{g}{2K^{3/2}} .
         \]
-        $\mathrm{LHS}=\mathrm{RHS}$. \checkmark
-
-  \item $F=x^{2}+y^{2}+z^{2}-R^{2}$. $F_{x}=2x$, $F_{y}=2y$, $F_{z}=2z$.
-        Provided $z\neq 0$:
+        More cleanly: $f_K = 1+(L/K)^{1/2}$, so
+        $f_{KK} = -\tfrac12L^{1/2}K^{-3/2}$, and by symmetry
+        $f_{LL} = -\tfrac12K^{1/2}L^{-3/2}$. Cross-partial:
+        $f_{KL} = \tfrac12K^{-1/2}L^{-1/2} = f_{LK}$. \; $\checkmark$
+        Hessian
         \[
-          \pd{z}{x}=-\frac{F_{x}}{F_{z}}=-\frac{x}{z},\qquad
-          \pd{z}{y}=-\frac{F_{y}}{F_{z}}=-\frac{y}{z} .
-        \]
-        (Geometrically, the outward normal on the sphere has direction
-        $(x,y,z)/R$.)
-
-  \item $f(tx,ty)=(tx)\mathrm{e}^{(ty)/(tx)}=tx\,\mathrm{e}^{y/x}
-        =t\,f(x,y)$. \textbf{Degree} $k=1$.
-
-  \item
-        \[
-          J=\begin{pmatrix} 2u & -2v\\ 2v & 2u\end{pmatrix},\qquad
-          \det J=4u^{2}+4v^{2}=4(u^{2}+v^{2}) .
-        \]
-        Vanishes only at the origin. (This is the complex squaring
-        $w=(u+iv)^{2}$.)
-
-  \item $U_{x}=\alpha/x$, $U_{y}=\beta/y$. $U_{x}/U_{y}=(\alpha/\beta)(y/x)$.
-        $\dd{y}{x}=-(\alpha/\beta)(y/x)$. \textbf{MRS}
-        $=(\alpha/\beta)(y/x)$.
-
-  \item $f=(x^{2}+y^{2})^{1/2}$. $f_{x}=x/\sqrt{x^{2}+y^{2}}$,
-        $f_{y}=y/\sqrt{x^{2}+y^{2}}$.
-        \[
-          \mathrm{LHS}=\frac{x^{2}}{\sqrt{x^{2}+y^{2}}}
-            +\frac{y^{2}}{\sqrt{x^{2}+y^{2}}}
-            =\frac{x^{2}+y^{2}}{\sqrt{x^{2}+y^{2}}}=\sqrt{x^{2}+y^{2}} .
-        \]
-        \[
-          \mathrm{RHS}=1\cdot f=\sqrt{x^{2}+y^{2}} .
-        \]
-        $\mathrm{LHS}=\mathrm{RHS}$. \checkmark
-
-  \item $F=\sin(xy)+\cos(x+y)-1/2$. $F_{x}=y\cos(xy)-\sin(x+y)$,
-        $F_{y}=x\cos(xy)-\sin(x+y)$.
-        \[
-          \dd{y}{x} = -\frac{y\cos(xy)-\sin(x+y)}{x\cos(xy)-\sin(x+y)}
-            = \frac{\sin(x+y)-y\cos(xy)}{x\cos(xy)-\sin(x+y)} .
-        \]
-
-  \item $f(tx,ty)=t^{2}x^{2}+t^{3}y^{3}$. The two terms scale with
-        different powers of $t$, so they cannot be factored as
-        $t^{k}(x^{2}+y^{3})$. \textbf{Not homogeneous.}
-
-  \item
-        \[
-          J=\begin{pmatrix} \cos\theta & -r\sin\theta\\
-                             \sin\theta & r\cos\theta\end{pmatrix},\qquad
-          \det J=r\cos^{2}\theta+r\sin^{2}\theta=r .
-        \]
-        Hence $|\det J|=r$, and the area element is
-        $\mathrm{d}A=r\,\mathrm{d}r\,\mathrm{d}\theta$, the standard
-        polar substitution.
-
-  \item Let $S=K^{\rho}+L^{\rho}$. Then $Q=S^{1/\rho}$,
-        $Q_{K}=S^{1/\rho-1}K^{\rho-1}$, $Q_{L}=S^{1/\rho-1}L^{\rho-1}$.
-        \[
-          \frac{Q_{K}}{Q_{L}}=\Bigl(\frac{K}{L}\Bigr)^{\rho-1}
-            =\Bigl(\frac{L}{K}\Bigr)^{1-\rho} .
-        \]
-        $\dd{L}{K}=-(L/K)^{1-\rho}$. \textbf{MRTS} $=(L/K)^{1-\rho}$.
-
-  \item On the smooth piece $\{x<y\}$: $f=x$, $f_{x}=1$, $f_{y}=0$.
-        \[
-          \mathrm{LHS}=x\cdot 1+y\cdot 0=x=f,\qquad \mathrm{RHS}=1\cdot f=x .
-        \]
-        $\mathrm{LHS}=\mathrm{RHS}$. \checkmark On $\{x>y\}$ by symmetry
-        $\mathrm{LHS}=y=f=\mathrm{RHS}$. \checkmark Euler's identity
-        holds wherever the function is differentiable. (At the ridge
-        $x=y$ the function is not differentiable.)
-
-  \item By IFT, $\pd{y}{x_{i}}=-F_{x_{i}}/F_{y}$ with
-        $F_{y}=x_{2}+3y^{2}$:
-        \[
-          \pd{y}{x_{1}}=-\frac{2x_{1}}{x_{2}+3y^{2}},\qquad
-          \pd{y}{x_{2}}=-\frac{y}{x_{2}+3y^{2}} .
-        \]
-
-  \item Numerator has degree $3$, denominator degree $3$. Concretely
-        \[
-          f(tx,ty,tz)=\frac{t^{3}(x^{2}y+y^{2}z+z^{2}x)}{t^{3}xyz}=f(x,y,z) .
-        \]
-        \textbf{Degree} $k=0$.
-
-  \item $J=\begin{pmatrix} 1 & \cos y\\ \cos x & 1\end{pmatrix}$,
-        $\det J=1-\cos x\cos y$. Vanishes when $\cos x\cos y=1$, i.e.,
-        $\cos x=\cos y=1$ or $\cos x=\cos y=-1$, equivalently
-        $(x,y)\in 2\pi\mathbb{Z}\times 2\pi\mathbb{Z}$ or
-        $(2\mathbb{Z}+1)\pi\times(2\mathbb{Z}+1)\pi$.
-
-  \item Let $S=x^{\rho}+y^{\rho}$, $U=S^{1/\rho}$.
-        $U_{x}=S^{1/\rho-1}x^{\rho-1}$, $U_{y}=S^{1/\rho-1}y^{\rho-1}$.
-        \[
-          \frac{U_{x}}{U_{y}}=\Bigl(\frac{x}{y}\Bigr)^{\rho-1}
-            =\Bigl(\frac{y}{x}\Bigr)^{1-\rho} .
-        \]
-        $\dd{y}{x}=-(y/x)^{1-\rho}$. \textbf{MRS} $=(y/x)^{1-\rho}$.
-
-  \item $f_{x}=y+z$, $f_{y}=x+z$, $f_{z}=x+y$.
-        \[
-          \mathrm{LHS}=x(y+z)+y(x+z)+z(x+y)=2(xy+yz+zx)=2f .
-        \]
-        \[
-          \mathrm{RHS}=2f .
-        \]
-        $\mathrm{LHS}=\mathrm{RHS}$. \checkmark
-
-  \item $F=x^{2}+y^{2}-1$. $F_{x}=2x$, $F_{y}=2y$. $\dd{y}{x}=-x/y$.
-        At $(\sqrt{3}/2,1/2)$: $\dd{y}{x}=-(\sqrt{3}/2)/(1/2)=-\sqrt{3}$.
-        \checkmark
-
-  \item $f(tx,ty)=\bigl((tx)^{1/2}+(ty)^{1/2}\bigr)^{2}
-        =(t^{1/2})^{2}(\sqrt{x}+\sqrt{y})^{2}=t f(x,y)$. \textbf{Degree}
-        $k=1$. For Euler's theorem, write $A=\sqrt{x}+\sqrt{y}$,
-        $f=A^{2}$. Then $f_{x}=2A\cdot\dfrac{1}{2\sqrt{x}}=A/\sqrt{x}$,
-        $f_{y}=A/\sqrt{y}$.
-        \[
-          \mathrm{LHS}=x\cdot\frac{A}{\sqrt{x}}+y\cdot\frac{A}{\sqrt{y}}
-            =A(\sqrt{x}+\sqrt{y})=A^{2}=f .
-        \]
-        \[
-          \mathrm{RHS}=1\cdot f=A^{2} .
-        \]
-        $\mathrm{LHS}=\mathrm{RHS}$. \checkmark
-
-  \item
-        \[
-          J=\begin{pmatrix} 1/y & -x/y^{2}\\ -y/x^{2} & 1/x\end{pmatrix},
-          \qquad \det J=\frac{1}{xy}-\frac{xy}{x^{2}y^{2}}
-            =\frac{1}{xy}-\frac{1}{xy}=0 .
-        \]
-        The Jacobian is identically singular: because
-        $(x/y)\cdot(y/x)=1$, the image lies on the curve $f_{1}f_{2}=1$
-        (one-dimensional), so the map is not locally invertible
-        anywhere.
-
-  \item From $\ln Q=\alpha_{0}+\alpha_{K}\ln K+\alpha_{L}\ln L$, we get
-        $Q=AK^{\alpha_{K}}L^{\alpha_{L}}$ with $A=\mathrm{e}^{\alpha_{0}}$
-        (Cobb--Douglas). Then $Q_{K}=A\alpha_{K}K^{\alpha_{K}-1}L^{\alpha_{L}}$,
-        $Q_{L}=A\alpha_{L}K^{\alpha_{K}}L^{\alpha_{L}-1}$.
-        \[
-          \frac{Q_{K}}{Q_{L}}=\frac{\alpha_{K}}{\alpha_{L}}\cdot\frac{L}{K} .
-        \]
-        $\dd{L}{K}=-(\alpha_{K}/\alpha_{L})(L/K)$. \textbf{MRTS}
-        $=(\alpha_{K}/\alpha_{L})(L/K)$.
-
-  \item $Q=K^{1/3}L^{1/3}M^{1/3}$ is homogeneous of degree
-        $1/3+1/3+1/3=1$. $Q_{K}=\tfrac13K^{-2/3}L^{1/3}M^{1/3}=Q/(3K)$,
-        and similarly $Q_{L}=Q/(3L)$, $Q_{M}=Q/(3M)$.
-        \[
-          \mathrm{LHS}=K\cdot\frac{Q}{3K}+L\cdot\frac{Q}{3L}
-            +M\cdot\frac{Q}{3M}=\frac{Q}{3}+\frac{Q}{3}+\frac{Q}{3}=Q .
-        \]
-        \[
-          \mathrm{RHS}=1\cdot Q=Q .
-        \]
-        $\mathrm{LHS}=\mathrm{RHS}$. \checkmark
-
-  \item Write $f_{1}=x+y+z$, $f_{2}=xy+yz+zx$, $f_{3}=xyz$ (the
-        elementary symmetric polynomials $e_{1},e_{2},e_{3}$). Then
-        \[
-          J=\begin{pmatrix}
-            1 & 1 & 1\\
-            y+z & x+z & x+y\\
-            yz & xz & xy
+          \Hess = \tfrac12
+          \begin{pmatrix}
+            -L^{1/2}K^{-3/2} & K^{-1/2}L^{-1/2} \\
+            K^{-1/2}L^{-1/2} & -K^{1/2}L^{-3/2}
           \end{pmatrix} .
         \]
-        For the determinant, subtract column $1$ from columns $2$ and
-        $3$ to get
+
+  \item $\grad f = (-4x^{3}+8y,\,-4y^{3}+8x) = (0,0) \Rightarrow x^{3}=2y$
+        and $y^{3}=2x$. Substituting: $y=x^{3}/2$, then
+        $(x^{3}/2)^{3}=2x \Rightarrow x^{9}/8=2x \Rightarrow x(x^{8}-16)=0$,
+        so $x\in\{0,\pm16^{1/8}\}=\{0,\pm\sqrt2\}$. Points: $(0,0)$,
+        $(\sqrt2,\sqrt2)$ (since $y=x^{3}/2=2\sqrt2/2=\sqrt2$), and
+        $(-\sqrt2,-\sqrt2)$. Hessian
+        $\Hess = \begin{pmatrix}-12x^{2}&8\\8&-12y^{2}\end{pmatrix}$.
+        \begin{itemize}
+          \item $(0,0)$: $\Hess = \begin{pmatrix}0&8\\8&0\end{pmatrix}$,
+                $D_2=-64<0$, \textbf{saddle}.
+          \item $(\sqrt2,\sqrt2)$: $x^{2}=y^{2}=2$,
+                $\Hess = \begin{pmatrix}-24&8\\8&-24\end{pmatrix}$,
+                $D_1=-24<0$, $D_2=576-64=512>0$, \textbf{ND}: local
+                maximum, $f=-4-4+16=8$.
+          \item $(-\sqrt2,-\sqrt2)$: same $H$, $f=-4-4+16=8$. \textbf{Local
+                maximum.}
+        \end{itemize}
+
+  \item $f_x = 2x\mathrm{e}^{-y}$, $f_y = -x^{2}\mathrm{e}^{-y}$. So
+        $f_{xx} = 2\mathrm{e}^{-y}$, $f_{yy} = x^{2}\mathrm{e}^{-y}$, and
         \[
-          \det J = \det\begin{pmatrix}
-            1 & 0 & 0\\
-            y+z & x-y & x-z\\
-            yz & z(x-y) & y(x-z)
-          \end{pmatrix}
-          = 1\cdot\det\begin{pmatrix}
-            x-y & x-z\\ z(x-y) & y(x-z)
-          \end{pmatrix}
+          f_{xy} = -2x\mathrm{e}^{-y} = f_{yx} . \; \checkmark
         \]
+
+  \item $f_x = -y\sin(xy)$, $f_y = -x\sin(xy)$. Then
+        $f_{xx} = -y^{2}\cos(xy)$, $f_{yy} = -x^{2}\cos(xy)$, and
+        (product rule)
         \[
-          = (x-y)(x-z)\det\begin{pmatrix} 1 & 1\\ z & y\end{pmatrix}
-          = (x-y)(x-z)(y-z) .
+          f_{xy} = -\sin(xy) - y\cdot x\cos(xy) = -\sin(xy) - xy\cos(xy) .
         \]
-        Thus $\det J=-(x-y)(y-z)(z-x)$ (the Vandermonde discriminant, up
-        to sign), which vanishes exactly when two of $x,y,z$ coincide:
-        the symmetric-polynomial map fails to be locally invertible
-        at points with repeated coordinates, consistent with the fact
-        that an unordered triple $\{x,y,z\}$ has a unique sorted
-        representative.
+        At $(0,0)$: $\sin 0=0$, $\cos 0=1$. So $f_{xx}(0,0)=0$,
+        $f_{yy}(0,0)=0$, $f_{xy}(0,0)=0$. Hessian
+        \[
+          \Hess(0,0) = \begin{pmatrix}0&0\\0&0\end{pmatrix} .
+        \]
+
+  \item $D_1 = 0$. Sylvester's stated criterion is inconclusive because
+        $D_1$ is not strictly positive or negative. Directly:
+        $D_2 = 0-9 = -9 < 0$, which by the third clause of Sylvester
+        (sufficient on its own) gives \textbf{indefinite.}
+
+  \item $\grad f = (3x^{2}+3y^{2}-15,\,6xy-12) = (0,0)$. From the second:
+        $xy=2$. From the first: $x^{2}+y^{2}=5$. Combined with $xy=2$:
+        $(x+y)^{2}=5+4=9$ so $x+y=\pm3$; $(x-y)^{2}=5-4=1$ so
+        $x-y=\pm1$. Solutions $(x,y)\in\{(2,1),(1,2),(-2,-1),(-1,-2)\}$.
+        Hessian $\Hess = \begin{pmatrix}6x&6y\\6y&6x\end{pmatrix}$, so
+        $D_1=6x$, $D_2=36(x^{2}-y^{2})$.
+        \begin{itemize}
+          \item $(2,1)$: $D_1=12>0$, $D_2=36(4-1)=108>0$, \textbf{PD}:
+                local minimum, $f=8+6-30-12=-28$.
+          \item $(1,2)$: $D_1=6>0$, $D_2=36(1-4)=-108<0$, \textbf{saddle}.
+          \item $(-2,-1)$: $D_1=-12<0$, $D_2=108>0$, \textbf{ND}: local
+                maximum, $f=-8-6+30+12=28$.
+          \item $(-1,-2)$: $D_1=-6<0$, $D_2=-108<0$, $D_2<0$ gives
+                \textbf{saddle}.
+        \end{itemize}
+
+  \item Let $S=1+x^{2}+y^{2}$, $f=\ln S$, $f_x = 2x/S$, $f_y = 2y/S$.
+        Then (using quotient rule):
+        \[
+          f_{xx} = \frac{2S-2x\cdot2x}{S^{2}} = \frac{2(1+y^{2}-x^{2})}{S^{2}}, \quad
+          f_{yy} = \frac{2(1+x^{2}-y^{2})}{S^{2}}, \quad
+          f_{xy} = \frac{-4xy}{S^{2}} = f_{yx} . \; \checkmark
+        \]
+        At the origin $(0,0)$: $S=1$, so
+        \[
+          \Hess(0,0) = \begin{pmatrix}2&0\\0&2\end{pmatrix} .
+        \]
+
+  \item $\grad f = \mathrm{e}^{-(x^{2}+y^{2})}(-2x,-2y) = (0,0)
+        \Rightarrow x=y=0$, since $\mathrm{e}^{-r^{2}}>0$. Critical point
+        $(0,0)$. Compute the Hessian: $f_x = -2x\mathrm{e}^{-(x^{2}+y^{2})}$,
+        and at $(0,0)$, $f_{xx} = -2\mathrm{e}^{0}+(-2x)(-2x)\mathrm{e}^{0}\big|_{0,0}=-2$.
+        Similarly $f_{yy}(0,0)=-2$, and
+        $f_{xy}(0,0) = (-2x)(-2y)\mathrm{e}^{0}\big|_{0,0}=0$. Hessian
+        $\Hess(0,0) = \begin{pmatrix}-2&0\\0&-2\end{pmatrix}$: $D_1=-2<0$,
+        $D_2=4>0$, \textbf{ND: strict local maximum} at $(0,0)$ with
+        $f(0,0)=1$. (Indeed, this is the global maximum, since $f\to0$
+        at infinity and $f>0$ everywhere.)
 \end{solutions}
 
 \section{Additional Problems}
 
 \begin{problems}
-  \item Use IFT to find $\dd{y}{x}$ for $x^{2}+2xy+y^{2}=9$.
-  \item Verify homogeneity and find the degree of $f(x,y)=x^{3}y+xy^{3}$.
-  \item Compute the Jacobian and its determinant for
-        $\mathbf{f}(x,y)=(2x+y,\;x-y)$.
-  \item For $U(x,y)=x^{2}+y$, find the signed slope and unsigned MRS
-        using IFT.
-  \item Verify Euler's theorem for $f(x,y)=x^{3}+2x^{2}y-y^{3}$
-        (degree $3$).
-  \item Use IFT to find $\dd{y}{x}$ for $x^{3}+y^{3}+xy=5$.
-  \item Verify homogeneity and find the degree of
-        $f(x,y)=\dfrac{x^{4}+y^{4}}{x^{2}+y^{2}}$.
-  \item Compute the Jacobian and its determinant for
-        $\mathbf{f}(x,y)=(x^{2}y,\;xy^{2})$.
-  \item For $U(x,y)=x^{1/3}y^{2/3}$, find the signed slope and MRS via
-        IFT.
-  \item Verify Euler's theorem for $Q(K,L)=K^{1/2}L^{1/2}$ (degree $1$).
-  \item Use IFT to find $\dd{y}{x}$ for $\ln(xy)+x+y=4$.
-  \item Decide whether $f(x,y)=x+y^{2}$ is homogeneous, with
-        justification.
-  \item Compute the Jacobian determinant of
-        $\mathbf{f}(x,y,z)=(x+y,\;y+z,\;x+z)$.
-  \item For $Q(K,L)=aK+bL$ ($a,b>0$), find the MRTS.
-  \item Verify Euler's theorem for $f(x,y,z)=xy+yz+xz$ (degree $2$,
-        three-variable).
+  \item Compute all second partials of $f(x,y) = 3x^{3} - 4x^{2}y + 5y^{3}$
+        and verify Young's theorem.
+  \item Construct the Hessian of
+        $f(x,y) = 3x^{2} - 4xy + 2y^{2} + x - 5y$.
+  \item Classify the definiteness of
+        $\Hess = \begin{pmatrix}5&-1\\-1&4\end{pmatrix}$ using Sylvester's
+        criterion.
+  \item Find and classify the critical points of
+        $f(x,y) = 2x^{2} + 3y^{2} - 4x + 6y + 1$.
+  \item Compute all second partials of $f(x,y) = (2x+y)^{4}$ and verify
+        $f_{xy} = f_{yx}$.
+  \item Construct the Hessian of $f(x,y) = \mathrm{e}^{x+2y}$.
+  \item Classify $\Hess = \begin{pmatrix}-3&1\\1&-2\end{pmatrix}$.
+  \item Find and classify the critical points of
+        $f(x,y) = -2x^{2} - 4y^{2} + 8x + 8y - 3$.
+  \item Compute all second partials of $f(x,y) = xy\ln y$ ($y>0$) and
+        verify Young's theorem.
+  \item Construct the Hessian of $f(x,y) = x^{3}y + xy^{3}$.
+  \item Classify $\Hess = \begin{pmatrix}2&3\\3&4\end{pmatrix}$.
+  \item Find and classify the critical points of
+        $f(x,y) = x^{2} - 2xy + 3y^{2} + 2x - 6y$.
+  \item Compute all second partials of the Cobb--Douglas
+        $f(K,L) = K^{1/2}L^{1/2}$ ($K,L>0$) and verify Young's theorem.
+  \item Find and classify the critical points of
+        $f(x,y) = x^{3} + y^{3} - 3x - 3y$.
+  \item Classify $\Hess = \begin{pmatrix}-5&0\\0&-3\end{pmatrix}$ and state
+        what it implies if $H$ is the Hessian at a critical point.
 \end{problems}
 
 \section{Additional Solutions}
 
 \begin{solutions}
-  \item $F=x^{2}+2xy+y^{2}-9=(x+y)^{2}-9$. $F_{x}=2(x+y)$,
-        $F_{y}=2(x+y)$.
+  \item $f_x = 9x^{2} - 8xy$, $f_y = -4x^{2} + 15y^{2}$. Then
+        $f_{xx} = 18x - 8y$, $f_{yy} = 30y$, and
         \[
-          \dd{y}{x}=-\frac{F_{x}}{F_{y}}=-1 .
-        \]
-        (The curve is two lines $x+y=\pm 3$, each with slope $-1$.)
-
-  \item $f(tx,ty)=(tx)^{3}(ty)+(tx)(ty)^{3}=t^{4}(x^{3}y+xy^{3})
-        =t^{4}f(x,y)$. \textbf{Degree $k=4$.}
-
-  \item
-        \[
-          J=\begin{pmatrix} 2 & 1\\ 1 & -1\end{pmatrix},\qquad
-          \det J=-2-1=-3 .
-        \]
-        Globally invertible; areas scale by $|{-3}|=3$ (with orientation
-        reversal).
-
-  \item $U_{x}=2x$, $U_{y}=1$. By IFT $\dd{y}{x}=-2x$. \textbf{MRS}
-        $=2x$ (unsigned).
-
-  \item $f_{x}=3x^{2}+4xy$, $f_{y}=2x^{2}-3y^{2}$.
-        \[
-          \mathrm{LHS}=x(3x^{2}+4xy)+y(2x^{2}-3y^{2})
-          =3x^{3}+4x^{2}y+2x^{2}y-3y^{3}=3x^{3}+6x^{2}y-3y^{3} .
-        \]
-        \[
-          \mathrm{RHS}=3f=3(x^{3}+2x^{2}y-y^{3})
-          =3x^{3}+6x^{2}y-3y^{3} .
-        \]
-        $\mathrm{LHS}=\mathrm{RHS}$. \checkmark
-
-  \item $F=x^{3}+y^{3}+xy-5$. $F_{x}=3x^{2}+y$, $F_{y}=3y^{2}+x$.
-        \[
-          \dd{y}{x}=-\frac{3x^{2}+y}{3y^{2}+x} .
+          f_{xy} = -8x = f_{yx} . \; \checkmark
         \]
 
-  \item $f(tx,ty)=\dfrac{t^{4}(x^{4}+y^{4})}{t^{2}(x^{2}+y^{2})}
-        =t^{2}f(x,y)$. \textbf{Degree $k=2$.}
-
-  \item
+  \item $f_x = 6x - 4y + 1$, $f_y = -4x + 4y - 5$. Hessian
         \[
-          J=\begin{pmatrix} 2xy & x^{2}\\ y^{2} & 2xy\end{pmatrix},\qquad
-          \det J=4x^{2}y^{2}-x^{2}y^{2}=3x^{2}y^{2} .
-        \]
-        Singular when $x=0$ or $y=0$.
-
-  \item $U_{x}=\tfrac13 x^{-2/3}y^{2/3}$,
-        $U_{y}=\tfrac23 x^{1/3}y^{-1/3}$.
-        $U_{x}/U_{y}=\tfrac12\cdot y/x$. By IFT $\dd{y}{x}=-y/(2x)$.
-        \textbf{MRS} $=y/(2x)$.
-
-  \item $Q_{K}=\tfrac12 K^{-1/2}L^{1/2}$,
-        $Q_{L}=\tfrac12 K^{1/2}L^{-1/2}$.
-        \[
-          \mathrm{LHS}=K\cdot\tfrac12 K^{-1/2}L^{1/2}
-          +L\cdot\tfrac12 K^{1/2}L^{-1/2}
-          =\tfrac12 K^{1/2}L^{1/2}+\tfrac12 K^{1/2}L^{1/2}
-          =K^{1/2}L^{1/2} .
-        \]
-        \[
-          \mathrm{RHS}=1\cdot Q=K^{1/2}L^{1/2} .
-        \]
-        $\mathrm{LHS}=\mathrm{RHS}$. \checkmark
-
-  \item $F=\ln(xy)+x+y-4=\ln x+\ln y+x+y-4$. $F_{x}=1/x+1$,
-        $F_{y}=1/y+1$.
-        \[
-          \dd{y}{x}=-\frac{1/x+1}{1/y+1}=-\frac{y(1+x)}{x(1+y)} .
+          \Hess = \begin{pmatrix}6&-4\\-4&4\end{pmatrix} .
         \]
 
-  \item $f(tx,ty)=tx+t^{2}y^{2}$. The two terms scale with different
-        powers of $t$, so they cannot share a common $t^{k}$ factor.
-        \textbf{Not homogeneous.}
+  \item $D_1 = 5 > 0$, $D_2 = 20 - 1 = 19 > 0$. \textbf{PD.}
 
-  \item
+  \item $\grad f = (4x-4,\,6y+6) = (0,0) \Rightarrow x=1,\,y=-1$. Hessian
+        $\Hess = \begin{pmatrix}4&0\\0&6\end{pmatrix}$: $D_1=4>0$,
+        $D_2=24>0$, \textbf{PD}, so $(1,-1)$ is a strict \textbf{local
+        minimum} with $f(1,-1) = 2+3-4-6+1 = -4$.
+
+  \item Chain rule: $f_x = 4(2x+y)^{3}\cdot2 = 8(2x+y)^{3}$,
+        $f_y = 4(2x+y)^{3}$. So $f_{xx} = 48(2x+y)^{2}$,
+        $f_{yy} = 12(2x+y)^{2}$, and
         \[
-          J=\begin{pmatrix}
-            1 & 1 & 0\\
-            0 & 1 & 1\\
-            1 & 0 & 1
+          f_{xy} = 24(2x+y)^{2} = f_{yx} . \; \checkmark
+        \]
+
+  \item $f_x = \mathrm{e}^{x+2y}$, $f_y = 2\mathrm{e}^{x+2y}$. So
+        $f_{xx} = \mathrm{e}^{x+2y}$, $f_{yy} = 4\mathrm{e}^{x+2y}$,
+        $f_{xy} = 2\mathrm{e}^{x+2y}$. Hessian
+        \[
+          \Hess = \mathrm{e}^{x+2y}\begin{pmatrix}1&2\\2&4\end{pmatrix} .
+        \]
+        (Note $\det\Hess = 0$: this is rank-1 PSD, consistent with $f$
+        being a function of the single combination $x+2y$.)
+
+  \item $D_1 = -3 < 0$, $D_2 = 6 - 1 = 5 > 0$. \textbf{ND.}
+
+  \item $\grad f = (-4x+8,\,-8y+8) = (0,0) \Rightarrow x=2,\,y=1$. Hessian
+        $\Hess = \begin{pmatrix}-4&0\\0&-8\end{pmatrix}$: $D_1=-4<0$,
+        $D_2=32>0$, \textbf{ND}, so $(2,1)$ is a strict \textbf{local
+        maximum} with $f(2,1) = -8-4+16+8-3 = 9$.
+
+  \item $f_x = y\ln y$, $f_y = x\ln y + x = x(\ln y + 1)$. So
+        $f_{xx} = 0$, $f_{yy} = x/y$, and
+        \[
+          f_{xy} = \ln y + 1 = f_{yx} . \; \checkmark
+        \]
+
+  \item $f_x = 3x^{2}y + y^{3}$, $f_y = x^{3} + 3xy^{2}$. So
+        $f_{xx} = 6xy$, $f_{yy} = 6xy$,
+        $f_{xy} = 3x^{2} + 3y^{2} = f_{yx}$. Hessian
+        \[
+          \Hess = \begin{pmatrix}
+            6xy & 3x^{2}+3y^{2} \\
+            3x^{2}+3y^{2} & 6xy
           \end{pmatrix} .
         \]
-        Expanding along the first row:
-        $\det J=1\cdot(1\cdot 1-1\cdot 0)-1\cdot(0\cdot 1-1\cdot 1)+0
-        =1-(-1)+0=2$.
 
-  \item Linear: $Q_{K}=a$, $Q_{L}=b$. $\dd{L}{K}=-a/b$. \textbf{MRTS}
-        $=a/b$ (constant, perfect substitutes).
+  \item $D_1 = 2 > 0$, $D_2 = 8 - 9 = -1 < 0$. \textbf{Indefinite
+        (saddle).}
 
-  \item $f_{x}=y+z$, $f_{y}=x+z$, $f_{z}=x+y$.
+  \item $\grad f = (2x-2y+2,\,-2x+6y-6) = (0,0)$. From the first:
+        $x = y-1$. Substitute: $-2(y-1)+6y-6 = 4y-4 = 0 \Rightarrow y=1$,
+        $x=0$. Hessian $\Hess = \begin{pmatrix}2&-2\\-2&6\end{pmatrix}$:
+        $D_1=2>0$, $D_2=12-4=8>0$, \textbf{PD}, so $(0,1)$ is a strict
+        \textbf{local minimum} with $f(0,1) = 0-0+3+0-6 = -3$.
+
+  \item $f_K = \tfrac12K^{-1/2}L^{1/2}$, $f_L = \tfrac12K^{1/2}L^{-1/2}$.
+        So
         \[
-          \mathrm{LHS}=x(y+z)+y(x+z)+z(x+y)=2(xy+yz+xz)=2f .
+          f_{KK} = -\tfrac14K^{-3/2}L^{1/2}, \quad
+          f_{LL} = -\tfrac14K^{1/2}L^{-3/2}, \quad
+          f_{KL} = \tfrac14K^{-1/2}L^{-1/2} = f_{LK} . \; \checkmark
         \]
-        \[
-          \mathrm{RHS}=2f .
-        \]
-        $\mathrm{LHS}=\mathrm{RHS}$. \checkmark
+
+  \item $\grad f = (3x^{2}-3,\,3y^{2}-3) = (0,0) \Rightarrow x^{2}=1,\,
+        y^{2}=1$, giving $(\pm1,\pm1)$. Hessian
+        $\Hess = \begin{pmatrix}6x&0\\0&6y\end{pmatrix}$, so $D_1=6x$,
+        $D_2=36xy$.
+        \begin{itemize}
+          \item $(1,1)$: $D_1=6>0$, $D_2=36>0$, \textbf{PD}: local
+                minimum, $f = 1+1-3-3 = -4$.
+          \item $(1,-1)$: $D_2=-36<0$, \textbf{saddle}.
+          \item $(-1,1)$: $D_2=-36<0$, \textbf{saddle}.
+          \item $(-1,-1)$: $D_1=-6<0$, $D_2=36>0$, \textbf{ND}: local
+                maximum, $f = -1-1+3+3 = 4$.
+        \end{itemize}
+
+  \item $D_1 = -5 < 0$, $D_2 = 15 > 0$. \textbf{ND}: at a critical point
+        this would mean a \textbf{strict local maximum.}
 \end{solutions}

@@ -1,0 +1,229 @@
+\chapter{Mixed Set B}
+
+Twenty problems, no order, no announced methods. Target time: 75 minutes.
+
+\section{Worked Example}
+
+Again the example is not one of the twenty. This one is a constrained
+optimisation --- the single most examined topic in the course --- worked
+with every check that the marker expects to see.
+
+\begin{worked}{Maximise $f(x,y)=\ln x+2\ln y$ subject to $x+y=12$, with $x,y>0$: solve, certify, and interpret the multiplier}
+\wstep{Step 1. Recognise the type before writing anything.}
+Two variables, one equality constraint, a differentiable objective: this is
+Lagrange. The constraint is linear and could be substituted instead --- keep
+that in reserve as the check.
+
+\wstep{Step 2. Set up and differentiate.}
+\[
+  \mathcal L=\ln x+2\ln y+\lambda(12-x-y),
+\]
+\[
+  \mathcal L_{x}=\frac1x-\lambda=0,
+  \qquad
+  \mathcal L_{y}=\frac2y-\lambda=0,
+  \qquad
+  x+y=12 .
+\]
+
+\wstep{Step 3. Eliminate $\lambda$.}
+\[
+  \frac1x=\frac2y
+  \quad\Longrightarrow\quad
+  y=2x .
+\]
+The optimal bundle puts twice as much into $y$ as into $x$ --- the ratio of
+the coefficients $2$ and $1$ in the objective, exactly as Cobb--Douglas
+shares behave, and $\ln$-linear objectives are Cobb--Douglas in disguise.
+
+\wstep{Step 4. Impose the constraint.}
+\[
+  x+2x=12
+  \quad\Longrightarrow\quad
+  \boxed{x^{*}=4,\quad y^{*}=8,\quad \lambda^{*}=\tfrac14 }
+\]
+\[
+  f^{*}=\ln4+2\ln8=\ln4+\ln64=\ln256\approx5.545 .
+\]
+
+\wstep{Step 5. Certify it with the bordered Hessian.}
+\[
+  \mathcal L_{xx}=-\frac{1}{x^{2}}=-\tfrac{1}{16},
+  \qquad
+  \mathcal L_{yy}=-\frac{2}{y^{2}}=-\tfrac{1}{32},
+  \qquad
+  \mathcal L_{xy}=0,
+  \qquad
+  g_{x}=g_{y}=1 .
+\]
+\[
+  \overline H=\begin{pmatrix}0&1&1\\1&-\tfrac{1}{16}&0\\1&0&-\tfrac{1}{32}\end{pmatrix},
+  \qquad
+  \det\overline H=\tfrac{1}{32}+\tfrac{1}{16}=\tfrac{3}{32}>0 ,
+\]
+which for $n=2$, $m=1$ means a constrained \textbf{maximum}. \checkmark
+
+\wstep{Step 6. Check again by substitution, which is available here.}
+$y=12-x$ gives $h(x)=\ln x+2\ln(12-x)$, so
+\[
+  h'(x)=\frac1x-\frac{2}{12-x}=0
+  \;\Longrightarrow\;
+  12-x=2x
+  \;\Longrightarrow\;
+  x=4 ,
+\]
+\[
+  h''(x)=-\frac{1}{x^{2}}-\frac{2}{(12-x)^{2}}<0\ \text{everywhere:\ concave, so the maximum is global.}
+\]
+\wtrap{Two independent routes to the same answer is the best use of spare
+examination time --- far better than re-reading the first one. And here the
+substitution route delivers something the bordered Hessian does not: a
+\emph{global} conclusion, because $h''<0$ on the whole feasible interval,
+not merely at the candidate point.}
+
+\wstep{Step 7. Verify the multiplier's meaning.}
+With a general budget $M$ in place of $12$: $x^{*}=M/3$, $y^{*}=2M/3$, so
+\[
+  V(M)=\ln\frac M3+2\ln\frac{2M}{3}=3\ln M+\text{constant},
+  \qquad
+  \dd{V}{M}=\frac3M .
+\]
+At $M=12$ this is $\tfrac14=\lambda^{*}$. \checkmark\ One more unit of budget
+raises the maximised objective by about $0.25$.
+
+\wstep{Step 8. The checks a marker looks for.}
+\begin{center}\footnotesize
+\begin{tabular}{ll}
+  \hline
+  check & here\\
+  \hline
+  constraint satisfied & $4+8=12$ \checkmark\\
+  domain respected & $x,y>0$ \checkmark\\
+  second-order condition & $\det\overline H>0$ \checkmark\\
+  multiplier sign & $\lambda>0$: relaxing helps \checkmark\\
+  interpretation stated & $\lambda=\partial V/\partial M$ \checkmark\\
+  \hline
+\end{tabular}
+\end{center}
+Every one of these is a line, and together they are usually worth more marks
+than the algebra that produced the numbers.
+\end{worked}
+
+\section{Problems}
+
+\begin{problems}
+  \item Simplify $\dfrac{x^{2}-4}{x^{2}-x-6}$ and state where the
+        simplification is valid.
+  \item Solve $\log_{2}x+\log_{2}(x-2)=3$.
+  \item Give the range of $f(x)=\dfrac{x^{2}+1}{x}$ on $x>0$.
+  \item Write a system of inequalities for the part of the elliptical disc
+        $\dfrac{x^{2}}{4}+\dfrac{y^{2}}{9}\le1$ lying in the second
+        quadrant.
+  \item Two functions have concentric circles as level curves. In one the
+        circles are equally spaced, in the other they crowd outwards. Which
+        is $\sqrt{x^{2}+y^{2}}$ and which is $x^{2}+y^{2}$?
+  \item Evaluate $\displaystyle\lim_{x\to0^{+}}x^{\sin x}$.
+  \item Evaluate $\displaystyle\lim_{x\to2}\frac{x^{3}-8}{x^{2}-4}$.
+  \item For $f(x)=\dfrac{\mathrm{e}^{x}}{x}$: give the domain, the
+        asymptotes, the monotonicity and any extremum.
+  \item Solve $2x+y=7$, \;$4x+2y=14$, and describe the solution set.
+  \item Compute
+        $\det\begin{pmatrix}1&2&0\\0&3&1\\2&0&4\end{pmatrix}$.
+  \item Solve $\begin{pmatrix}2&1\\1&3\end{pmatrix}
+        \mathbf{x}=\binom{5}{10}$.
+  \item Give $\grad f(1,2)$ for $f(x,y)=x^{2}y^{3}$.
+  \item Give the directional derivative of the same $f$ at $(1,2)$ in the
+        direction of $(3,4)^{T}$.
+  \item Use the total differential to estimate $f(1.1,1.9)$ for the same
+        $f$, and compare with the exact value.
+  \item Find $\dd{y}{x}$ at $(1,2)$ on the curve $x^{2}+xy+y^{2}=7$.
+  \item Minimise $2x+3y$ subject to $xy=54$, with $x,y>0$.
+  \item Maximise $\ln x+y$ subject to $x+y\le4$, $x>0$, $y\ge0$.
+  \item Maximise $4x+3y$ subject to $x+y\le10$, $2x+y\le16$, $x,y\ge0$.
+  \item What is $1000$ received in five years worth today at $6\%$ annual
+        interest?
+  \item Sum the series $3+\tfrac32+\tfrac34+\tfrac38+\cdots$.
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item \textbf{Factor and cancel.}
+        $\dfrac{(x-2)(x+2)}{(x-3)(x+2)}=\dfrac{x-2}{x-3}$, valid for
+        $x\neq-2$ and $x\neq3$. The point $x=-2$ remains excluded from the
+        domain even though the factor cancelled --- a hole, not a pole.
+  \item \textbf{Logarithm law, then check the domain.}
+        $\log_{2}\bigl(x(x-2)\bigr)=3\Rightarrow x^{2}-2x=8$, so
+        $x^{2}-2x-8=0$ and $x=4$ or $x=-2$. The domain requires $x>2$, so
+        $x=-2$ is rejected: \;$x=4$.
+  \item \textbf{Range via AM--GM (or calculus).}
+        $f(x)=x+\dfrac1x$, and for $x>0$, $x+1/x\ge2$ with equality at
+        $x=1$. As $x\to0^{+}$ and $x\to\infty$ the function grows without
+        bound, so $W=[2,\infty)$.
+  \item \textbf{Region.} $\dfrac{x^{2}}{4}+\dfrac{y^{2}}{9}\le1$,
+        \;$x\le0$, \;$y\ge0$.
+  \item \textbf{Contour spacing.} Equally spaced circles belong to the
+        \textbf{cone} $\sqrt{x^{2}+y^{2}}$, whose level $c$ has radius $c$.
+        Circles crowding outwards belong to the \textbf{paraboloid}
+        $x^{2}+y^{2}$, whose level $c$ has radius $\sqrt{c}$: the surface
+        steepens, so equal steps in height need ever smaller steps in
+        radius.
+  \item \textbf{Exponential form, take logs.}
+        $\ln y=\sin x\ln x$, and since $\sin x\sim x$ near $0$ this behaves
+        like $x\ln x\to0$. Hence the limit is $\mathrm{e}^{0}=1$.
+  \item \textbf{L'H\^opital (or factor).}
+        $\dfrac{3x^{2}}{2x}\to\dfrac{12}{4}=3$. Factoring gives the same:
+        $\dfrac{(x-2)(x^{2}+2x+4)}{(x-2)(x+2)}\to\dfrac{12}{4}$.
+  \item \textbf{Curve discussion.} Domain $\R\setminus\{0\}$. As
+        $x\to0^{+}$, $f\to+\infty$; as $x\to0^{-}$, $f\to-\infty$: a pole
+        at $x=0$. As $x\to-\infty$, $f\to0^{-}$, so $y=0$ is a horizontal
+        asymptote on the left only; as $x\to+\infty$, $f\to+\infty$. And
+        $f'=\dfrac{\mathrm{e}^{x}(x-1)}{x^{2}}$, negative for $x<1$
+        (excluding $0$) and positive for $x>1$: decreasing, then
+        increasing, with a local (and global, on $x>0$) minimum at
+        $(1,\mathrm{e})$.
+  \item \textbf{Elimination.} The second equation is exactly twice the
+        first, so it carries no information: one pivot, two unknowns.
+        \textbf{Infinitely many} solutions, $y=7-2x$ with $x$ free ---
+        the line itself.
+  \item \textbf{Cofactor expansion along the first row.}
+        $1\cdot(3\cdot4-1\cdot0)-2\cdot(0\cdot4-1\cdot2)+0
+        =12+4=\mathbf{16}$.
+  \item \textbf{Inverse or elimination.} $\det=6-1=5$, so
+        $\mathbf{x}=\dfrac15\begin{pmatrix}3&-1\\-1&2\end{pmatrix}
+        \binom{5}{10}=\dfrac15\binom{5}{15}=\binom{1}{3}$.
+        (Check: $2+3=5$ \checkmark, $1+9=10$ \checkmark.)
+  \item \textbf{Partial derivatives.} $f_{x}=2xy^{3}$ and
+        $f_{y}=3x^{2}y^{2}$, so at $(1,2)$:
+        $\grad f=(2\cdot8,\;3\cdot4)^{T}=(16,12)^{T}$.
+  \item \textbf{Directional derivative --- normalise first.}
+        $\|(3,4)\|=5$, so $\mathbf{u}=(0.6,0.8)^{T}$ and
+        $D_{\mathbf{u}}f=(16,12)\cdot(0.6,0.8)=9.6+9.6=\mathbf{19.2}$.
+  \item \textbf{Total differential.} $f(1,2)=1\cdot8=8$ and
+        $\mathrm{d}f=16\,\mathrm{d}x+12\,\mathrm{d}y
+        =16(0.1)+12(-0.1)=0.4$, so $f(1.1,1.9)\approx8.4$. Exactly
+        $1.1^{2}\cdot1.9^{3}=1.21\cdot6.859=8.299$; the linear estimate is
+        high by about $0.1$, the second-order error.
+  \item \textbf{Implicit differentiation.} $2x+y+xy'+2yy'=0$, so
+        $y'=-\dfrac{2x+y}{x+2y}$. At $(1,2)$ --- which does lie on the
+        curve, since $1+2+4=7$ --- this is
+        $-\dfrac{4}{5}$.
+  \item \textbf{Lagrange (cost minimisation).}
+        $2=\lambda y$ and $3=\lambda x$ give $\dfrac{x}{y}=\dfrac32$, so
+        $x=1.5y$. Then $1.5y^{2}=54$, $y^{2}=36$, $y=6$ and $x=9$. Minimal
+        cost $18+18=36$ --- the two expenditures are equal, as always for
+        a product constraint with linear costs.
+  \item \textbf{Kuhn--Tucker.} With
+        $\mathcal{L}=\ln x+y+\lambda(4-x-y)$: $1/x=\lambda$ and
+        $1=\lambda$, so $\lambda=1$ and $x=1$. The budget binds, so $y=3$,
+        which satisfies $y\ge0$. Optimum $(1,3)$ with value
+        $\ln1+3=3$.
+  \item \textbf{Linear programming.} The two constraints meet where
+        $x+y=10$ and $2x+y=16$, i.e. $(6,4)$. Vertices $(0,0)$, $(8,0)$,
+        $(6,4)$, $(0,10)$ give objective values $0$, $32$, $36$, $30$: the
+        maximum is $\mathbf{36}$ at $(6,4)$, where both constraints bind.
+  \item \textbf{Discounting.}
+        $\dfrac{1000}{1.06^{5}}=\dfrac{1000}{1.33823}\approx747.26$.
+  \item \textbf{Geometric series.} First term $a=3$, ratio
+        $r=\tfrac12$, so the sum is $\dfrac{3}{1-\tfrac12}=6$.
+\end{solutions}

@@ -131,6 +131,107 @@ Degeneracy is harmless for the theory but will require care in the simplex
 method.
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{Put the running example in standard form, list every basic solution, and match them to the corners of Chapter~2}
+\wstep{Step 1. Turn each inequality into an equation with a slack variable.}
+\[
+  2x_{1}+x_{2}\le100
+  \;\longrightarrow\;
+  2x_{1}+x_{2}+s_{1}=100,\qquad s_{1}\ge0 ,
+\]
+\[
+  x_{1}+x_{2}\le80
+  \;\longrightarrow\;
+  x_{1}+x_{2}+s_{2}=80,\qquad s_{2}\ge0 .
+\]
+The slack has a meaning: $s_{1}$ is \emph{unused machine hours}, $s_{2}$ is
+\emph{unused labour hours}. Keeping that in mind makes every later tableau
+readable.
+\wtrap{A ``$\le$'' constraint takes a slack \emph{added}; a ``$\ge$''
+constraint takes a surplus \emph{subtracted}, $ax\ge b\to ax-s=b$. Adding in
+both cases is the standard error, and it silently reverses the constraint.
+Slack and surplus variables are both required to be $\ge0$.}
+
+\wstep{Step 2. The system in matrix form.}
+\[
+  A=\begin{pmatrix}2&1&1&0\\1&1&0&1\end{pmatrix},
+  \qquad
+  \mathbf x=\begin{pmatrix}x_{1}\\x_{2}\\s_{1}\\s_{2}\end{pmatrix},
+  \qquad
+  \mathbf b=\begin{pmatrix}100\\80\end{pmatrix},
+\]
+\[
+  \max\ \mathbf c^{\!\top}\mathbf x
+  \quad\text{s.t.}\quad
+  A\mathbf x=\mathbf b,\ \mathbf x\ge\mathbf 0,
+  \qquad
+  \mathbf c=(40,30,0,0)^{\!\top}.
+\]
+Slack variables enter the objective with coefficient $0$: idle capacity
+earns nothing.
+
+\wstep{Step 3. Count the candidate bases.}
+$A$ is $2\times4$ with rank $2$, so a basis is any $2$ of the $4$ columns
+that are linearly independent:
+\[
+  \binom{4}{2}=6\ \text{candidate bases.}
+\]
+Set the other two variables (the \textbf{non-basic} ones) to zero and solve
+for the rest --- that is a \textbf{basic solution}. It is \emph{feasible}
+only if every basic variable also comes out $\ge0$.
+
+\wstep{Step 4. Enumerate all six.}
+\begin{center}\footnotesize
+\begin{tabular}{llll}
+  \hline
+  basis & solution $(x_{1},x_{2},s_{1},s_{2})$ & feasible? & corner\\
+  \hline
+  $\{s_{1},s_{2}\}$ & $(0,0,100,80)$ & yes & $(0,0)$\\
+  $\{x_{1},s_{2}\}$ & $(50,0,0,30)$ & yes & $(50,0)$\\
+  $\{x_{1},x_{2}\}$ & $(20,60,0,0)$ & yes & $(20,60)$\\
+  $\{x_{2},s_{1}\}$ & $(0,80,20,0)$ & yes & $(0,80)$\\
+  $\{x_{1},s_{1}\}$ & $(80,0,-60,0)$ & \textbf{no} & ---\\
+  $\{x_{2},s_{2}\}$ & $(0,100,0,-20)$ & \textbf{no} & ---\\
+  \hline
+\end{tabular}
+\end{center}
+Two sample computations. For $\{x_{1},s_{1}\}$: setting $x_{2}=s_{2}=0$, the
+labour row gives $x_{1}=80$, and the machine row then gives
+$s_{1}=100-160=-60<0$. For $\{x_{2},s_{2}\}$: the machine row gives
+$x_{2}=100$, and labour gives $s_{2}=80-100=-20<0$.
+
+\wstep{Step 5. Read the correspondence.}
+\[
+  \boxed{\text{basic \emph{feasible} solutions}\ \longleftrightarrow\ \text{corners of the feasible region.}}
+\]
+Four of the six bases are feasible, and the graph in Chapter~2 had exactly
+four corners --- the same four points. The infeasible pair are the
+intersections $(80,0)$ and $(0,100)$ that the graph showed lying outside the
+region.
+\wtrap{$\binom{n}{m}$ counts \emph{candidates}, not corners. Some bases are
+infeasible (negative variables) and some column pairs are not even
+independent, in which case no basic solution exists at all. The count is an
+upper bound --- but it does show why enumeration is hopeless at scale: a
+modest $50\times100$ problem has about $10^{29}$ candidate bases, which is
+the entire motivation for the simplex method.}
+
+\wstep{Step 6. Where the optimum must be.}
+Every corner is a basic feasible solution and vice versa, and the corner
+point theorem puts an optimum at a corner. So the simplex method can restrict
+itself to basic feasible solutions --- moving from one to an
+\emph{adjacent} better one --- and never look at the interior. That is
+Chapter~4.
+
+\wstep{Step 7. Degeneracy, defined here so it is recognisable later.}
+A basic feasible solution is \textbf{degenerate} if some \emph{basic}
+variable equals zero. None of the four above is: at $(20,60)$ the basic
+variables $x_{1},x_{2}$ are $20$ and $60$, both positive. Degeneracy means
+more than $m$ constraints pass through one corner, so several different
+bases describe the same point --- and the simplex method can then pivot
+without moving. Chapter~6 shows what that looks like in a tableau.
+\end{worked}
+
 \section{Practice Problems}
 
 Convert by hand, enumerate by hand, and keep the bookkeeping tidy: write

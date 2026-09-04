@@ -1,14 +1,15 @@
 \documentclass[11pt,a4paper,twoside,openright]{book}
 \input{preamble}
 
-% The compendium pulls every chapter from the seven volumes by reference:
+% The compendium pulls every chapter from the nine volumes by reference:
 % edit content in the volume trees, never here.
 
 \title{\Huge Basic Mathematics for Economics\\[0.4em]
   \LARGE A Training Compendium with Exercises and Worked Solutions\\[0.8em]
-  \large Algebra \(\cdot\) Matrix Algebra \(\cdot\) Analysis Foundations
-  \(\cdot\) Derivatives\\[0.2em]
-  \large Integration \(\cdot\) Optimization \(\cdot\) Linear Programming}
+  \large Algebra \(\cdot\) Functions \(\cdot\) Matrix Algebra
+  \(\cdot\) Analysis Foundations \(\cdot\) Derivatives\\[0.2em]
+  \large Integration \(\cdot\) Optimization \(\cdot\) Linear Programming
+  \(\cdot\) Mixed Problems}
 \author{}
 \date{}
 
@@ -19,16 +20,18 @@
 \chapter*{About this compendium}
 \addcontentsline{toc}{chapter}{About this compendium}
 
-This volume binds seven training sheets into one book, ordered as a single
-course of study. Parts~I--III drill the foundations: algebra, vector and
-matrix computation, and the groundwork of analysis (sequences, series,
-financial mathematics, limits and continuity). Parts~IV and~V cover
-calculus: derivatives in one and several variables, including Taylor
-approximation, the gradient, the Hessian and the Implicit Function Theorem,
-and then integration. Parts~VI and~VII are the payoff: static optimization,
-covering convexity, unconstrained problems, comparative statics, Lagrange
-and Kuhn--Tucker, and linear programming through the simplex method, duality
-and sensitivity analysis.
+This volume binds nine training sheets into one book, ordered as a single
+course of study. Parts~I--IV drill the foundations: the algebra of
+expressions; functions, their graphs, transformations and the regions they
+bound; vector and matrix computation; and the groundwork of analysis
+(sequences, series, financial mathematics, limits and continuity).
+Parts~V and~VI cover calculus: derivatives in one and several variables,
+including L'H\^opital's rule, the complete curve discussion, surfaces and
+level curves, Taylor approximation, the gradient, the Hessian and the
+Implicit Function Theorem, and then integration. Parts~VII and~VIII are the
+payoff: static optimization, covering convexity, unconstrained problems,
+comparative statics, Lagrange and Kuhn--Tucker, and linear programming
+through the simplex method, duality and sensitivity analysis.
 
 Every chapter follows the same discipline: \textbf{Core Rules} state the
 rules compactly; \textbf{Practice Problems} drill them; \textbf{Solutions}
@@ -36,10 +39,19 @@ work every problem through in full; most chapters close with
 \emph{additional problems} for a second pass. Work the problems before
 reading the solutions.
 
+Part~IX is different in kind: three \emph{mixed} sets that draw on the
+whole sequence without announcing which method each problem wants, since
+choosing the method is the skill an examination actually tests. The book
+closes with a formula summary and a German--English glossary, since the
+mathematics here is written in English while business and economics degrees
+across the German-speaking countries examine it in German.
+
 Each part also exists as a standalone volume; this compendium is assembled
 from the same chapter files, so the two presentations never diverge.
 
 \tableofcontents
+
+\input{studyguide}
 
 \mainmatter
 
@@ -53,9 +65,13 @@ from the same chapter files, so the two presentations never diverge.
 \input{../../algebra/tex/chapters/ch07}
 \input{../../algebra/tex/chapters/ch08}
 \input{../../algebra/tex/chapters/ch09}
-\input{../../algebra/tex/chapters/ch10}
-\input{../../algebra/tex/chapters/ch11}
-\input{../../algebra/tex/chapters/ch12}
+
+\part{Functions and Their Graphs}
+\input{../../functions/tex/chapters/ch01}
+\input{../../functions/tex/chapters/ch02}
+\input{../../functions/tex/chapters/ch03}
+\input{../../functions/tex/chapters/ch04}
+\input{../../functions/tex/chapters/ch05}
 
 \part{Matrix Algebra}
 \input{../../matrices/tex/chapters/ch01}
@@ -67,6 +83,7 @@ from the same chapter files, so the two presentations never diverge.
 \input{../../matrices/tex/chapters/ch07}
 \input{../../matrices/tex/chapters/ch08}
 \input{../../matrices/tex/chapters/ch09}
+\input{../../matrices/tex/chapters/ch10}
 
 \part{Foundations of Analysis}
 \input{../../foundations/tex/chapters/ch01}
@@ -86,6 +103,9 @@ from the same chapter files, so the two presentations never diverge.
 \input{../../derivatives/tex/chapters/ch09}
 \input{../../derivatives/tex/chapters/ch10}
 \input{../../derivatives/tex/chapters/ch11}
+\input{../../derivatives/tex/chapters/ch12}
+\input{../../derivatives/tex/chapters/ch13}
+\input{../../derivatives/tex/chapters/ch14}
 
 \part{Integration}
 \input{../../integrals/tex/chapters/ch01}
@@ -118,5 +138,14 @@ from the same chapter files, so the two presentations never diverge.
 \input{../../linprog/tex/chapters/ch06}
 \input{../../linprog/tex/chapters/ch07}
 \input{../../linprog/tex/chapters/ch08}
+
+\part{Mixed Problems}
+\input{../../mixed/tex/chapters/ch01}
+\input{../../mixed/tex/chapters/ch02}
+\input{../../mixed/tex/chapters/ch03}
+
+\backmatter
+\input{formulas}
+\input{glossary}
 
 \end{document}

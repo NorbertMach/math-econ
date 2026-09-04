@@ -147,6 +147,104 @@ evaluated at the same rate, choose the largest NPV. Undiscounted totals
 are meaningless: a euro in year~2 is not a euro today.
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{A $200{,}000$ EUR mortgage at $4\%$ nominal, compounded monthly, over $20$ years: find the monthly payment and the effective annual rate; then appraise a project paying $400$ for three years against an outlay of $1000$ at $10\%$}
+\wstep{Step 1. Convert the quoted rate to a \emph{per-period} rate.}
+``$4\%$ nominal, compounded monthly'' means $4\%$ divided into twelve equal
+pieces:
+\[
+  i=\frac{0.04}{12}=0.00\overline{3}\ \text{per month},
+  \qquad
+  n=20\times12=240\ \text{periods}.
+\]
+\wtrap{The rate and the number of periods must refer to the \emph{same}
+unit of time. Using $i=0.04$ with $n=240$, or $i=0.00\overline{3}$ with
+$n=20$, are the two ways this goes wrong, and both produce answers that look
+plausible. Write the units next to both numbers.}
+
+\wstep{Step 2. Recognise the cash-flow shape: an ordinary annuity.}
+The bank lends $P$ today against $240$ equal payments $R$ at the \emph{end}
+of each month. Present value of the payments $=$ amount lent:
+\[
+  P=R\cdot\frac{1-(1+i)^{-n}}{i}
+  \qquad\Longrightarrow\qquad
+  R=P\cdot\frac{i}{1-(1+i)^{-n}} .
+\]
+
+\wstep{Step 3. Evaluate the discount factor, carefully.}
+\[
+  (1+i)^{-240}=(1.00\overline{3})^{-240}=0.449927 ,
+  \qquad
+  1-(1+i)^{-n}=0.550073 .
+\]
+\[
+  R=200\,000\cdot\frac{0.00\overline{3}}{0.550073}
+   =\frac{666.667}{0.550073}
+   =\boxed{1{,}211.96\ \text{EUR per month}}
+\]
+\wtrap{Keep six significant figures until the last line. Rounding
+$(1+i)^{-240}$ to $0.45$ shifts the payment by about a euro a month --- 
+which over $240$ months is a few hundred euros, and in an examination is a
+wrong answer.}
+
+\wstep{Step 4. Check by running the formula backwards.}
+$1211.96\times\frac{1-(1.00\overline{3})^{-240}}{0.00\overline{3}}
+=199\,999.9$, which is $200{,}000$ EUR up to the rounding of the payment.
+\checkmark\ Total paid: $240\times1211.96=290{,}871$ EUR, so
+$90{,}871$ EUR is interest --- a useful reality check on the size of the
+answer.
+
+\wstep{Step 5. The effective annual rate: compounding is not addition.}
+Twelve months of $0.00\overline{3}$ do not give $4\%$, because interest
+earns interest:
+\[
+  \mathrm{EAR}=\Bigl(1+\frac{0.04}{12}\Bigr)^{12}-1=1.040742-1=\boxed{4.0742\%}
+\]
+The gap of $7.4$ basis points is the compounding effect. Continuous
+compounding is the limiting case, $\mathrm{e}^{0.04}-1=4.0811\%$, and it is
+an upper bound: no compounding frequency can beat it.
+\wtrap{Compare loans by EAR, never by nominal rate. And do not subtract the
+$1$ too early --- the ``$-1$'' converts a growth \emph{factor} into a
+\emph{rate}, and omitting it turns $4\%$ into $104\%$.}
+
+\wstep{Step 6. The project: discount every flow to today.}
+Outlay $1000$ now, then $400$ at the end of each of three years, at $r=10\%$:
+\[
+  \mathrm{NPV}=-1000+\frac{400}{1.1}+\frac{400}{1.1^{2}}+\frac{400}{1.1^{3}}
+  =-1000+363.64+330.58+300.53=\boxed{-5.26\ \text{EUR}}
+\]
+Negative, so \textbf{reject}. Note how close to zero it is: the project
+almost pays for itself, which is why the eye is a poor judge here and the
+arithmetic is not optional.
+\wtrap{The first flow is at $t=0$ and is \emph{not} discounted --- exponent
+$0$, not $1$. Discounting the outlay as well is the most common error in
+NPV, and it flatters every project.}
+
+\wstep{Step 7. Cross-check with the internal rate of return.}
+The IRR solves $\mathrm{NPV}(r)=0$; numerically $r^{*}\approx9.70\%$. Since
+$9.70\%<10\%$, the project earns less than the required return --- the same
+verdict as the NPV, reached independently.
+\[
+  \mathrm{NPV}>0 \iff \mathrm{IRR}>r
+  \quad\text{(for a conventional cash flow: one sign change).}
+\]
+\wtrap{That equivalence needs the ``one sign change'' proviso. A cash flow
+that turns negative again later can have several IRRs or none, and then only
+the NPV is meaningful. When the two criteria disagree, believe the NPV.}
+
+\wstep{Step 8. The three formulas this example used, in one place.}
+\[
+  \text{annuity PV}=R\,\frac{1-(1+i)^{-n}}{i},
+  \qquad
+  \text{annuity FV}=R\,\frac{(1+i)^{n}-1}{i},
+  \qquad
+  \text{perpetuity}=\frac{R}{i} .
+\]
+All three are geometric series from Chapter~2: the perpetuity is the
+infinite case, and letting $n\to\infty$ in the first indeed gives $R/i$.
+\end{worked}
+
 \section{Practice Problems}
 
 \begin{problems}
@@ -434,7 +532,9 @@ factors are carried at full precision.
         \[
           \mathrm{NPV}=-5000+2000\cdot\frac{1-0.7513148}{0.1}
                       =-5000+2000\cdot 2.4868520
-                      =-5000+4973.70=-26.30<0 :
+        \]
+        \[
+          \phantom{\mathrm{NPV}}=-5000+4973.70=-26.30<0 :
         \]
         reject the project. The undiscounted total $3\cdot 2000=6000$
         exceeds the outlay $5000$, but discounting at $10\%$ turns the

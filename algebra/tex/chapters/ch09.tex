@@ -1,85 +1,238 @@
-\chapter{Systems of Equations}
+\chapter{First-Order Conditions}
 
-Solve each system for all variables.
+This is the boss level. These problems mirror exactly what you encounter
+when solving constrained optimisation problems, maximising utility
+subject to a budget constraint with a Lagrangian, deriving Cobb--Douglas
+demand, or rearranging a Fisher equation. You must seamlessly combine
+exponent rules, fraction manipulation, and systems-solving.
+
+\section{Core Rules}
+
+\begin{rulebox}{Core Strategy}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Isolate, then exponentiate.} If the unknown is inside a
+        power $x^a$, isolate $x^a$ first, then raise both sides to the
+        $1/a$ power. \;(If $a < 0$, the inequality direction would flip:
+        but here we are working with equations.)
+  \item \textbf{Take logs to unbundle products of powers.} For
+        Cobb--Douglas $Y = A K^\alpha L^\beta$, taking logs gives
+        $\ln Y = \ln A + \alpha \ln K + \beta \ln L$, a linear equation
+        in the logs.
+  \item \textbf{Inside FOCs, eliminate $\lambda$.} The standard
+        manoeuvre is: solve each FOC for $\lambda$, set the expressions
+        equal, and you obtain the optimal ratio between the choice
+        variables. Substitute into the constraint to get the demand.
+\end{itemize}
+\end{rulebox}
+
+\section{Worked Example}
+
+\begin{worked}{The full first-order-condition workflow: maximise $U(x,y)=x^{\alpha}y^{1-\alpha}$ subject to $p_{x}x+p_{y}y=M$, then isolate $K$ in $r=\alpha AK^{\alpha-1}L^{\beta}$}
+\wstep{Step 1. Write the Lagrangian and differentiate.}
+\[
+  \mathcal{L}=x^{\alpha}y^{1-\alpha}+\lambda\bigl(M-p_{x}x-p_{y}y\bigr).
+\]
+\[
+  \mathcal{L}_{x}=\alpha x^{\alpha-1}y^{1-\alpha}-\lambda p_{x}=0,\qquad
+  \mathcal{L}_{y}=(1-\alpha)x^{\alpha}y^{-\alpha}-\lambda p_{y}=0,\qquad
+  p_{x}x+p_{y}y=M .
+\]
+\wtrap{$\partial(x^{\alpha}y^{1-\alpha})/\partial y=(1-\alpha)x^{\alpha}y^{-\alpha}$:
+the exponent drops by one, so $1-\alpha$ becomes $-\alpha$, not
+$1-\alpha-1=-\alpha$ written as $-(\alpha)$ by accident on the wrong factor.
+Bring the exponent down as a coefficient \emph{and} reduce it by one, on the
+variable being differentiated only.}
+
+\wstep{Step 2. Divide the conditions to remove $\lambda$.}
+\[
+  \frac{\alpha x^{\alpha-1}y^{1-\alpha}}{(1-\alpha)x^{\alpha}y^{-\alpha}}
+  =\frac{p_{x}}{p_{y}} .
+\]
+This is the whole reason the multiplier is tolerable: it appears linearly in
+both conditions and cancels in one stroke.
+
+\wstep{Step 3. Simplify the left side with the exponent laws --- slowly.}
+Subtract exponents base by base:
+\[
+  x^{(\alpha-1)-\alpha}=x^{-1},\qquad
+  y^{(1-\alpha)-(-\alpha)}=y^{1-\alpha+\alpha}=y^{1} .
+\]
+So the ratio collapses to
+\[
+  \frac{\alpha}{1-\alpha}\cdot\frac{y}{x}=\frac{p_{x}}{p_{y}} .
+\]
+\wtrap{$(1-\alpha)-(-\alpha)=1$. Double negatives in the exponent
+subtraction are where this calculation dies. Write the subtraction with
+brackets every time; the reward is that the messy powers vanish completely
+and only $y/x$ survives.}
+
+\wstep{Step 4. Recognise what has been produced.}
+The equation says
+\[
+  \underbrace{\frac{\alpha y}{(1-\alpha)x}}_{\text{MRS}}=\frac{p_{x}}{p_{y}} :
+\]
+marginal rate of substitution equals the price ratio. Every constrained
+consumer problem passes through this line, whatever the utility function.
+
+\wstep{Step 5. Combine with the constraint.}
+Cross-multiplying gives $\alpha p_{y}y=(1-\alpha)p_{x}x$, hence
+$p_{y}y=\frac{1-\alpha}{\alpha}p_{x}x$. Substituting into
+$p_{x}x+p_{y}y=M$:
+\[
+  p_{x}x\Bigl(1+\frac{1-\alpha}{\alpha}\Bigr)=M
+  \;\Longrightarrow\;
+  \frac{p_{x}x}{\alpha}=M
+  \;\Longrightarrow\;
+  \boxed{\;x^{*}=\frac{\alpha M}{p_{x}},\qquad y^{*}=\frac{(1-\alpha)M}{p_{y}}\;}
+\]
+
+\wstep{Step 6. Check before believing it.}
+The budget is exactly exhausted, $\alpha M+(1-\alpha)M=M$. \checkmark\ Both
+demands are positive for $0<\alpha<1$ and $M>0$. \checkmark\ The exponent
+$\alpha$ is the \emph{expenditure share} on $x$ --- a fact worth memorising,
+because it lets you write down Cobb--Douglas demands without repeating this
+derivation.
+
+\wstep{Step 7. A different task with the same skill: isolate $K$ in $r=\alpha AK^{\alpha-1}L^{\beta}$.}
+Group everything that is not $K$ on the other side:
+\[
+  K^{\alpha-1}=\frac{r}{\alpha A L^{\beta}} .
+\]
+Now raise both sides to the power $1/(\alpha-1)$:
+\[
+  K=\Bigl(\frac{r}{\alpha AL^{\beta}}\Bigr)^{\!1/(\alpha-1)}
+   =\Bigl(\frac{\alpha AL^{\beta}}{r}\Bigr)^{\!1/(1-\alpha)} ,
+\]
+the second form obtained by using $z^{-1/(1-\alpha)}=(1/z)^{1/(1-\alpha)}$,
+since $\alpha-1=-(1-\alpha)$.
+\wtrap{With $0<\alpha<1$ the exponent $\alpha-1$ is \textbf{negative}, so
+$1/(\alpha-1)$ is negative too and the fraction must be inverted. Leaving
+the answer as $(r/\alpha AL^{\beta})^{1/(\alpha-1)}$ is correct but conceals
+the economics; the second form shows capital demand \emph{falling} in the
+interest rate, which is what you would be asked to comment on.}
+
+\wstep{Step 8. The pattern to carry away.}
+Every problem in this chapter is the same three moves: \emph{isolate the
+power}, \emph{invert the exponent}, \emph{fix the sign}. When a multiplier
+is present, one move comes first: \emph{divide the conditions to kill
+$\lambda$}.
+\end{worked}
 
 \section{Practice Problems}
 
+Isolate the specified variable or solve the system.
+
 \begin{problems}
-  \item \textbf{[Part A: Linear $2\times 2$ and economic models, 1--10.]}
-        $3x+2y=16,\ x-y=-3$
-  \item $4x+3y=17,\ 2x-y=1$
-  \item $0.5x+0.3y=5.2,\ x+y=12$
-  \item Equilibrium: $Q_{d}=80-2P,\ Q_{s}=-10+3P$
-  \item IS-LM: $Y=600-200r,\ Y=400+200r$
-  \item Break-even: $C=12+3Q,\ R=5Q$, find break-even $Q$.
-  \item $2x+3y=6,\ 4x+6y=15$
-  \item $x-y=4,\ 3x-3y=12$
-  \item $5x-3y=1,\ 2x+y=7$
-  \item Capital--labour: $L=2K,\ wL+rK=C$ with $w=3,\,r=4,\,C=50$
-  \item \textbf{[Part B: Non-linear $2\times 2$, 11--15.]}
-        $y=x^{2}-4,\ y=-x^{2}+4$
-  \item $xy=18,\ x-y=3$
-  \item $x^{2}+y^{2}=20,\ x=2y$
-  \item $y=\mathrm{e}^{x},\ y=\mathrm{e}^{2-x}$
-  \item $\sqrt{x}+y=4,\ y=x-2$ (check for extraneous roots)
-  \item \textbf{[Part C: Lagrangian-style systems, 16--22.]}
-        Cobb--Douglas: $\dfrac{\alpha}{x}=\lambda p_{x},\
-        \dfrac{1-\alpha}{y}=\lambda p_{y},\ p_{x}x+p_{y}y=I$, solve
-        for $x,y$.
-  \item CES capital--labour ratio: $\alpha K^{\rho-1}=\lambda r,\
-        (1-\alpha)L^{\rho-1}=\lambda w$, find $K/L$.
-  \item $2x=\lambda,\ \lambda=4y,\ 3x+y=14$
-  \item $\lambda y=6,\ \lambda x=4,\ xy=24$ ($\lambda>0$)
-  \item $4=\lambda K,\ 1=\lambda L,\ K+L=10$
-  \item Quasi-linear: $1=\lambda p_{x},\ \dfrac{1}{y}=\lambda p_{y},\
-        p_{x}x+p_{y}y=I$, solve for $x,y$.
-  \item Simplex: $\alpha x^{\alpha-1}y^{1-\alpha}=\lambda,\
-        (1-\alpha)x^{\alpha}y^{-\alpha}=\lambda,\ x+y=1$
-  \item \textbf{[Part D: Linear $3\times 3$, 23--30.]}
-        $x+y-z=2,\ 2x-y+z=4,\ -x+y+2z=1$
-  \item $x+y+z=12,\ 2x+3y-z=13,\ x-y+2z=9$
-  \item $x+y+z=2,\ 2x-y-z=1,\ x+2y-z=-3$
-  \item $x+y+z=60,\ y=2x,\ z=x+y$
-  \item $x+2y+3z=11,\ 4x+y+2z=17,\ 3x+5y+z=16$
-  \item $x-y=1,\ y-z=1,\ x+y+z=6$
-  \item $x+y+z=3,\ x+2y-z=1,\ -x+y+2z=0$
-  \item $2x+y-z=2,\ x-2y+z=0,\ 3x+y+2z=6$
+  \item Isolate $K$: \quad $Y = A K^{\alpha} L^{1 - \alpha}$
+  \item Isolate $C$: \quad $U = \dfrac{C^{1 - \gamma}}{1 - \gamma}$
+  \item Solve for $\lambda$: \quad $U_x - \lambda \, p_x = 0$
+  \item Isolate $x$: \quad $\dfrac{\alpha \, x^{\alpha - 1} y^{\beta}}%
+        {\beta \, x^{\alpha} y^{\beta - 1}} = \dfrac{p_x}{p_y}$
+  \item Isolate $r$: \quad $PV = \dfrac{FV}{(1 + r)^{t}}$
+  \item Isolate $w$: \quad $L = \left( \dfrac{w}{A} \right)^{-1/\gamma}$
+  \item Solve for $x$ in terms of $M, p_x, \alpha, \beta$: \\
+        \quad (1) $\dfrac{\alpha y}{\beta x} = \dfrac{p_x}{p_y}$
+        \;and\; (2) $p_x x + p_y y = M$
+  \item Isolate $\pi^e$ (Fisher equation): \quad $i = r + \pi^e$
+  \item Isolate $K$: \quad $r = \alpha A K^{\alpha - 1} L^{\beta}$
+  \item Isolate $L$: \quad $w = (1 - \alpha) A K^{\alpha} L^{-\alpha}$
+  \item Solve for $y$: \quad $\ln(y) = \beta_0 + \beta_1 \ln(x)$
+  \item Isolate $I$: \quad $S = I + NCO$
+  \item Isolate $p$: \quad $MR = p \left(1 + \dfrac{1}{\varepsilon_d}\right)$
+  \item Isolate $Y$ (Keynesian Cross): \quad
+        $Y = C_0 + c (Y - T) + I + G$
+  \item Isolate $x$: \quad $p = a - b x$
+  \item Isolate $Y$ (LM curve): \quad $\dfrac{M}{P} = L(Y, i)$
+        \;with $L(Y, i) = k Y - h i$
+  \item Solve for $K$ and $L$: \;(1) $2 K = L$ and
+        (2) $K^{0.5} L^{0.5} = 10$
+  \item Isolate $t$: \quad $A = P \, \mathrm{e}^{r t}$
+  \item Solve for $\lambda$: \;(1) $y = \lambda \, p_x$,
+        \;(2) $x = \lambda \, p_y$, \;(3) $x y = 100$
+  \item Isolate $w$: \quad $\dfrac{w}{r} = \dfrac{M P_L}{M P_K}$, where
+        $M P_L = \beta \dfrac{Q}{L}$ and $M P_K = \alpha \dfrac{Q}{K}$
 \end{problems}
 
 \section{Solutions}
 
 \begin{solutions}
-  \item $x=2,\ y=5$
-  \item $x=2,\ y=3$
-  \item $x=8,\ y=4$
-  \item $P=18,\ Q=44$
-  \item $r=\tfrac12,\ Y=500$
-  \item $Q=6$
-  \item No solution (parallel lines).
-  \item Infinitely many solutions (same line).
-  \item $x=2,\ y=3$
-  \item $K=5,\ L=10$
-  \item $(2,0)$ and $(-2,0)$
-  \item $(6,3)$ and $(-3,-6)$
-  \item $(4,2)$ and $(-4,-2)$
-  \item $(1,\mathrm{e})$
-  \item $(4,2)$ only; $(9,7)$ is extraneous because
-        $\sqrt{9}=3\neq 6-9$.
-  \item $x=\dfrac{\alpha I}{p_{x}},\ y=\dfrac{(1-\alpha)I}{p_{y}},\
-        \lambda=\dfrac{1}{I}$
-  \item $\dfrac{K}{L}=\left(\dfrac{(1-\alpha)r}{\alpha w}\right)^{1/(\rho-1)}$
-  \item $x=4,\ y=2,\ \lambda=8$
-  \item $\lambda=1,\ x=4,\ y=6$
-  \item $\lambda=\tfrac12,\ K=8,\ L=2$
-  \item $\lambda=\dfrac{1}{p_{x}},\ y=\dfrac{p_{x}}{p_{y}},\
-        x=\dfrac{I}{p_{x}}-1$
-  \item $x=\alpha,\ y=1-\alpha$
-  \item $(2,1,1)$
-  \item $(3,4,5)$
-  \item $(1,-1,2)$
-  \item $x=10,\ y=20,\ z=30$
-  \item $(3,1,2)$
-  \item $(3,2,1)$
-  \item $(2,0,1)$
-  \item $(1,1,1)$
+  \item $K = \left( \dfrac{Y}{A L^{1 - \alpha}} \right)^{1/\alpha}$
+  \item $C = \bigl[ U (1 - \gamma) \bigr]^{1 / (1 - \gamma)}$
+  \item $\lambda = \dfrac{U_x}{p_x}$
+  \item $x = \dfrac{\alpha \, p_y \, y}{\beta \, p_x}$
+  \item $r = \left( \dfrac{FV}{PV} \right)^{1/t} - 1$
+  \item $w = A \, L^{-\gamma}$
+  \item $x = \dfrac{\alpha \, M}{(\alpha + \beta) \, p_x}$
+        \;(classic Cobb--Douglas demand)
+  \item $\pi^e = i - r$
+  \item $K = \left( \dfrac{r}{\alpha A L^{\beta}} \right)^{1 / (\alpha - 1)}$
+  \item $L = \left( \dfrac{w}{(1 - \alpha) A K^{\alpha}} \right)^{-1/\alpha}$
+  \item $y = \mathrm{e}^{\beta_0} \, x^{\beta_1}$
+  \item $I = S - NCO$
+  \item $p = \dfrac{MR}{1 + 1 / \varepsilon_d}$
+  \item $Y = \dfrac{C_0 - c T + I + G}{1 - c}$ \;(Keynesian multiplier)
+  \item $x = \dfrac{a - p}{b}$
+  \item $Y = \dfrac{M / P + h i}{k}$
+  \item $K = \sqrt{50} \approx 7.07$, \;$L = 2 \sqrt{50} \approx 14.14$
+  \item $t = \dfrac{\ln(A / P)}{r}$
+  \item $\lambda = \dfrac{10}{\sqrt{p_x \, p_y}}$
+  \item $w = \dfrac{\beta \, K \, r}{\alpha \, L}$
+\end{solutions}
+
+\section{Additional Problems}
+
+Isolate the specified variable or solve the system.
+
+\begin{problems}
+  \item Isolate $L$: \quad $Y = A K^{\alpha} L^{1 - \alpha}$
+  \item Isolate $t$: \quad $FV = PV (1 + r)^{t}$
+  \item Solve for $\lambda$: \quad $U_y - \lambda \, p_y = 0$
+  \item Isolate $K$: \quad $w = \beta A K^{\alpha} L^{\beta - 1}$
+  \item Solve for $y$ in terms of $M, p_y, \alpha, \beta$ given
+        Cobb--Douglas FOCs: \\
+        \quad (1) $\dfrac{\alpha y}{\beta x} = \dfrac{p_x}{p_y}$
+        \;and\; (2) $p_x x + p_y y = M$
+  \item Isolate $r$: \quad $i = (1 + r)(1 + \pi^e) - 1$
+  \item Solve for $x$: \quad $\ln(x) = a + b \ln(p)$
+  \item Isolate $Y$: \quad $Y = C_0 + c Y + I_0 - d \, i + G$
+  \item Isolate $K$: \quad $Q = (a K^{\rho} + b L^{\rho})^{1/\rho}$
+        \;(CES, isolate $K$ given $Q, L, a, b, \rho$)
+  \item Isolate $\sigma$: \quad $\text{Var}(X) = \sigma^2$
+        \;(express $\sigma$ assuming $\sigma > 0$)
+  \item Solve for $K, L$: \;(1) $\alpha K^{\alpha - 1} L^{\beta} = r$ and
+        (2) $\beta K^{\alpha} L^{\beta - 1} = w$
+        \;(express the ratio $K / L$)
+  \item Isolate $g$: \quad $r = g + \delta$ \;(Ramsey rule, simple form)
+  \item Isolate $P$: \quad $\dfrac{M}{P} = k Y - h i$
+        \;(LM curve, real money)
+  \item Solve for $\lambda$: \;(1) $2 x = \lambda \, p_x$,
+        \;(2) $2 y = \lambda \, p_y$, \;(3) $p_x x + p_y y = M$
+  \item Isolate $T$: \quad
+        $Y = \dfrac{1}{1 - c} \bigl(C_0 - c T + I + G\bigr)$
+\end{problems}
+
+\section{Additional Solutions}
+
+\begin{solutions}
+  \item $L = \left( \dfrac{Y}{A K^{\alpha}} \right)^{1 / (1 - \alpha)}$
+  \item $t = \dfrac{\ln(FV / PV)}{\ln(1 + r)}$
+  \item $\lambda = \dfrac{U_y}{p_y}$
+  \item $K = \left( \dfrac{w}{\beta A L^{\beta - 1}} \right)^{1/\alpha}$
+  \item $y = \dfrac{\beta M}{(\alpha + \beta) \, p_y}$
+        \;(classic Cobb--Douglas demand for $y$)
+  \item $r = \dfrac{1 + i}{1 + \pi^e} - 1$
+  \item $x = \mathrm{e}^{a} p^{b}$
+  \item $Y = \dfrac{C_0 + I_0 - d \, i + G}{1 - c}$
+  \item $K = \left( \dfrac{Q^{\rho} - b L^{\rho}}{a} \right)^{1/\rho}$
+  \item $\sigma = \sqrt{\text{Var}(X)}$
+  \item Dividing the two FOCs:
+        $\dfrac{\alpha L}{\beta K} = \dfrac{r}{w}$, hence
+        $\dfrac{K}{L} = \dfrac{\alpha w}{\beta r}$
+  \item $g = r - \delta$
+  \item $P = \dfrac{M}{k Y - h i}$
+  \item From the FOCs, $x = \lambda p_x / 2$ and $y = \lambda p_y / 2$.
+        Substituting into the constraint gives
+        $\lambda (p_x^2 + p_y^2) / 2 = M$, so
+        $\lambda = \dfrac{2 M}{p_x^2 + p_y^2}$.
+  \item $T = \dfrac{1}{c} \bigl(C_0 + I + G - (1 - c) Y\bigr)$
 \end{solutions}

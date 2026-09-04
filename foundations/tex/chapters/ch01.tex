@@ -120,6 +120,100 @@ beats every power. A useful consequence: $n^{k}q^{n}\to 0$ whenever
 $|q|<1$, geometric decay swallows polynomial growth.
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{Evaluate $\lim\dfrac{2n^{3}-5n}{3n^{3}+n^{2}+1}$ and $\lim\dfrac{n^{2}}{2^{n}}$, then show that $a_{n+1}=\tfrac12 a_{n}+3$, $a_{1}=1$, converges and find its limit}
+\wstep{Step 1. A ratio of polynomials: divide by the highest power present.}
+Both numerator and denominator blow up, so the expression is $\infty/\infty$
+and says nothing as it stands. Divide top and bottom by $n^{3}$ --- the
+highest power occurring \emph{anywhere}:
+\[
+  \frac{2n^{3}-5n}{3n^{3}+n^{2}+1}
+  =\frac{2-\dfrac{5}{n^{2}}}{3+\dfrac1n+\dfrac{1}{n^{3}}}
+  \xrightarrow[n\to\infty]{}\frac{2-0}{3+0+0}=\boxed{\tfrac23}.
+\]
+Every term with an $n$ in the denominator vanishes; only the leading
+coefficients survive.
+\wtrap{This works because the degrees are \emph{equal}. If the numerator had
+lower degree the limit would be $0$; if higher, the sequence would diverge.
+``Ratio of leading coefficients'' is not a universal rule --- it is the rule
+for the equal-degree case, and checking the degrees takes one glance.}
+
+\wstep{Step 2. A polynomial against an exponential: no algebra will do it.}
+Dividing by $n^{2}$ turns $n^{2}/2^{n}$ into $1/(2^{n}/n^{2})$, which is no
+better. What settles it is the \textbf{growth hierarchy}:
+\[
+  \ln n \;\ll\; n^{p} \;\ll\; a^{n} \;\ll\; n! \;\ll\; n^{n}
+  \qquad (p>0,\ a>1),
+\]
+where $\ll$ means the quotient of the left by the right tends to $0$. An
+exponential beats every power, so
+\[
+  \lim_{n\to\infty}\frac{n^{2}}{2^{n}}=\boxed{0}.
+\]
+A numerical spot-check: at $n=10$ the value is $100/1024\approx0.098$; at
+$n=20$, $400/1\,048\,576\approx0.0004$. The collapse is fast.
+\wtrap{Memorise the hierarchy rather than re-deriving it each time. It also
+runs the other way: $2^{n}/n^{2}\to\infty$, $\ln n/n\to0$, and
+$n!/2^{n}\to\infty$. In Volume~5 the same hierarchy reappears as the reason
+L'H\^opital terminates.}
+
+\wstep{Step 3. The recursion: find the candidate limit first.}
+\emph{If} $a_{n}\to L$, then $a_{n+1}\to L$ as well, and both sides of the
+recursion converge to the same thing:
+\[
+  L=\tfrac12L+3 \;\Longrightarrow\; \tfrac12L=3 \;\Longrightarrow\; L=6 .
+\]
+\wtrap{This calculation is conditional. It says what the limit \emph{must}
+be if one exists --- nothing more. The recursion $a_{n+1}=2a_{n}$ with
+$a_{1}=1$ yields the same style of equation, $L=2L$, hence $L=0$, which is
+absurd for a sequence marching off to infinity. You must establish
+convergence separately, and that is what Steps~4 and~5 are for.}
+
+\wstep{Step 4. Show the sequence is increasing.}
+Compute the first terms: $a_{1}=1$, $a_{2}=3.5$, $a_{3}=4.75$,
+$a_{4}=5.375$. To prove it in general,
+\[
+  a_{n+1}-a_{n}=\Bigl(\tfrac12a_{n}+3\Bigr)-a_{n}=3-\tfrac12a_{n}
+  =\tfrac12\bigl(6-a_{n}\bigr),
+\]
+which is positive exactly while $a_{n}<6$.
+
+\wstep{Step 5. Show it is bounded above by $6$.}
+By induction. It holds at $n=1$ since $1<6$. And if $a_{n}<6$ then
+\[
+  a_{n+1}=\tfrac12a_{n}+3<\tfrac12\cdot6+3=6 .
+\]
+So $a_{n}<6$ for every $n$, and by Step~4 the sequence increases at every
+step.
+
+\wstep{Step 6. Invoke the monotone convergence principle.}
+An increasing sequence bounded above converges. Convergence is now
+\emph{established}, so the conditional calculation of Step~3 becomes
+unconditional:
+\[
+  \boxed{a_{n}\uparrow 6}
+\]
+Notice how the bound and the limit are the same number --- that is typical,
+and it is why the induction in Step~5 worked so smoothly: $6$ is the fixed
+point of the map, so the interval $(-\infty,6)$ is preserved by it.
+
+\wstep{Step 7. The explicit formula, as a check.}
+Solving the recursion directly, $a_{n}=6-5\bigl(\tfrac12\bigr)^{n-1}$. Test:
+$a_{1}=6-5=1$ \checkmark, $a_{2}=6-2.5=3.5$ \checkmark,
+$a_{4}=6-0.625=5.375$ \checkmark. The term $\bigl(\tfrac12\bigr)^{n-1}\to0$,
+confirming the limit $6$ and showing the convergence is geometric --- the
+gap to the limit halves each period.
+
+\wstep{Step 8. Why economists care.}
+This is the adjustment path of any linear difference equation
+$a_{n+1}=\alpha a_{n}+\beta$: a capital stock with depreciation and constant
+investment, an adaptive-expectations price, a cobweb model. The steady state
+is $\beta/(1-\alpha)$ --- here $3/(1-\tfrac12)=6$ --- and the system
+converges to it precisely when $|\alpha|<1$. With $|\alpha|>1$ it diverges,
+and with $\alpha<0$ it oscillates on the way.
+\end{worked}
+
 \section{Practice Problems}
 
 Compute the limit of each sequence or show that it diverges; where
@@ -271,6 +365,9 @@ indicated, also decide monotonicity and boundedness.
         \[
           a_{n+1}-a_{n}=\frac{n+1}{n+2}-\frac{n}{n+1}
           =\frac{(n+1)^{2}-n(n+2)}{(n+1)(n+2)}
+        \]
+        \[
+          \phantom{a_{n+1}-a_{n}}
           =\frac{n^{2}+2n+1-n^{2}-2n}{(n+1)(n+2)}
           =\frac{1}{(n+1)(n+2)}>0 ,
         \]
@@ -294,8 +391,8 @@ indicated, also decide monotonicity and boundedness.
 
   \item First terms:
         \[
-          a_{2}=1.02\cdot 1000+100=1020+100=1120 ,\qquad
-          a_{3}=1.02\cdot 1120+100=1142.40+100=1242.40 .
+          a_{2}=1.02\cdot 1000+100=1120 ,\qquad
+          a_{3}=1.02\cdot 1120+100=1242.40 .
         \]
         \textbf{Fixed point:} a constant solution $a^{*}$ would satisfy
         $a^{*}=1.02\,a^{*}+100$, i.e.\ $-0.02\,a^{*}=100$, so

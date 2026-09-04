@@ -52,6 +52,103 @@ $(-1)^{i + j} M_{ij}$ is the cofactor $C_{ij}$.
 \end{itemize}
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{Compute $\det M$ for $M=\begin{pmatrix}2&-1&3\\0&4&1\\5&2&-2\end{pmatrix}$ three ways, and settle what $\det$ does to $2M$ and to $M+N$}
+\wstep{Step 1. Sarrus' rule, written out in full.}
+For a $3\times3$ matrix only, copy the first two columns to the right and
+take the three ``down-right'' products minus the three ``down-left'' ones:
+\[
+  \det M=\bigl[2\cdot4\cdot(-2)+(-1)\cdot1\cdot5+3\cdot0\cdot2\bigr]
+        -\bigl[5\cdot4\cdot3+2\cdot1\cdot2+(-2)\cdot0\cdot(-1)\bigr]
+\]
+\[
+  =\bigl[-16-5+0\bigr]-\bigl[60+4+0\bigr]=-21-64=\boxed{-85} .
+\]
+\wtrap{Sarrus works for $3\times3$ and \textbf{for nothing else}. There is no
+$4\times4$ version, and inventing one is a guaranteed zero. For larger
+matrices use cofactor expansion or row reduction.}
+
+\wstep{Step 2. Cofactor expansion --- and choose the line with the zero in it.}
+Expanding along the \emph{first column}, whose middle entry is $0$, kills
+one of the three terms before it is written:
+\[
+  \det M=+2\begin{vmatrix}4&1\\2&-2\end{vmatrix}
+        -0\begin{vmatrix}-1&3\\2&-2\end{vmatrix}
+        +5\begin{vmatrix}-1&3\\4&1\end{vmatrix} .
+\]
+\[
+  =2\bigl(4(-2)-1\cdot2\bigr)+5\bigl((-1)(1)-3\cdot4\bigr)
+  =2(-10)+5(-13)=-20-65=-85 . \checkmark
+\]
+\wtrap{The signs alternate as
+$\left(\begin{smallmatrix}+&-&+\\-&+&-\\+&-&+\end{smallmatrix}\right)$, starting from
+$+$ at the top left --- the sign is $(-1)^{i+j}$ and belongs to the
+\emph{position}, not to the entry. And each minor deletes the entry's whole
+row \emph{and} whole column.}
+
+\wstep{Step 3. Row reduction, which is what a computer does.}
+$R_{3}\to R_{3}-\tfrac52R_{1}$ leaves the determinant unchanged:
+\[
+  \begin{pmatrix}2&-1&3\\0&4&1\\5&2&-2\end{pmatrix}
+  \longrightarrow
+  \begin{pmatrix}2&-1&3\\0&4&1\\0&\tfrac92&-\tfrac{19}{2}\end{pmatrix}
+  \xrightarrow{\;R_{3}\to R_{3}-\tfrac98R_{2}\;}
+  \begin{pmatrix}2&-1&3\\0&4&1\\0&0&-\tfrac{85}{8}\end{pmatrix}
+\]
+The determinant of a triangular matrix is the product of its diagonal:
+$2\cdot4\cdot(-\tfrac{85}{8})=-85$. \checkmark\ Three methods, one answer.
+
+\wstep{Step 4. What row operations do to a determinant.}
+\begin{center}\footnotesize
+\begin{tabular}{ll}
+  \hline
+  operation & effect on $\det$\\
+  \hline
+  add a multiple of one row to another & unchanged\\
+  swap two rows & sign flips\\
+  multiply a row by $c$ & multiplied by $c$\\
+  \hline
+\end{tabular}
+\end{center}
+Only the first is free; the other two must be recorded and undone at the
+end.
+
+\wstep{Step 5. Scaling the whole matrix: the factor is not what it looks like.}
+Multiplying $M$ by $2$ multiplies \emph{every one of the three rows} by $2$,
+so by the table above
+\[
+  \det(2M)=2^{3}\det M=8\cdot(-85)=-680 ,
+\]
+and in general $\det(cA)=c^{n}\det A$ for an $n\times n$ matrix.
+\wtrap{$\det(2M)\neq2\det M$. The exponent is the \emph{size} of the matrix,
+and this appears constantly in eigenvalue and definiteness work where a
+matrix is rescaled.}
+
+\wstep{Step 6. And addition: there is no rule at all.}
+\[
+  \det(A+B)\neq\det A+\det B .
+\]
+One counterexample settles it: $A=B=I_{2}$ gives $\det(A+B)=\det(2I)=4$
+while $\det A+\det B=1+1=2$. By contrast the product \emph{does} behave:
+\[
+  \det(AB)=\det A\cdot\det B,
+  \qquad
+  \det(A^{-1})=\frac{1}{\det A},
+  \qquad
+  \det(A^{\!\top})=\det A .
+\]
+
+\wstep{Step 7. What the number $-85$ is for.}
+It is non-zero, so $M$ is invertible, its rows are linearly independent,
+$M\mathbf x=\mathbf b$ has exactly one solution for every $\mathbf b$, and
+no eigenvalue is $0$. Every one of those statements is equivalent to
+$\det M\neq0$; the determinant is a single number that decides all of them
+at once. Its \emph{sign} and \emph{size} matter separately too: $|\det M|$
+is the volume scaling factor of the map $\mathbf x\mapsto M\mathbf x$, and
+the sign says whether orientation is reversed.
+\end{worked}
+
 \section{Practice Problems}
 
 Evaluate each determinant, or answer the structural question posed.

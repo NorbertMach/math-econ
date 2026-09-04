@@ -3,6 +3,145 @@
 Solve each. Mind the sign when multiplying by a negative or by an
 expression of unknown sign.
 
+\section{Core Rules}
+
+\begin{rulebox}{The one rule that separates inequalities from equations}
+Adding or subtracting anything is safe. Multiplying or dividing by a
+\textbf{positive} number is safe. Multiplying or dividing by a
+\textbf{negative} number \textbf{reverses} the inequality:
+\[
+  -2x<6\quad\Longrightarrow\quad x>-3 .
+\]
+Consequently you may never multiply by an expression whose sign is unknown.
+$x+1$, $x-2$, $x$ itself: all change sign. Multiplying an inequality by
+$x+1$ is not a step, it is two steps with two different answers.
+\end{rulebox}
+
+\begin{rulebox}{Rational and quadratic inequalities: the sign table}
+Bring everything to one side, so the question becomes ``where is this
+expression $\le0$?'', and factor:
+\[
+  \frac{P(x)}{Q(x)}\le0 .
+\]
+Mark on the number line every zero of $P$ (candidate solutions, included for
+$\le$) and every zero of $Q$ (poles, \textbf{always excluded}). These points
+cut the line into intervals, and the expression keeps one sign on each
+interval, so testing a single convenient point per interval settles it.
+\end{rulebox}
+
+\begin{rulebox}{Absolute value: distance, and the two standard shapes}
+$|x|$ is the distance from $x$ to $0$; $|x-a|$ is the distance from $x$
+to~$a$. Formally $|x|=x$ for $x\ge0$ and $|x|=-x$ for $x<0$. For $a>0$:
+\[
+  |X|<a \iff -a<X<a
+  \qquad\text{(one interval, an ``and'')},
+\]
+\[
+  |X|>a \iff X<-a\ \text{ or }\ X>a
+  \qquad\text{(two rays, an ``or'')}.
+\]
+$|X|=a$ splits into $X=a$ or $X=-a$; $|X|=0$ only at $X=0$; $|X|<0$ never.
+\end{rulebox}
+
+\begin{rulebox}{Two absolute values, and the triangle inequality}
+$|A|\le|B|$ with both sides non-negative may be \textbf{squared}:
+$A^{2}\le B^{2}$, which is a quadratic inequality. Squaring is legitimate
+here only because both sides are known to be $\ge0$. Finally, for all real
+$a,b$,
+\[
+  |a+b|\le|a|+|b| ,
+\]
+with equality exactly when $a$ and $b$ have the same sign (or one is zero).
+The reverse inequality is false, and so is equality in general.
+\end{rulebox}
+
+\section{Worked Examples}
+
+\begin{worked}{(a) Solve $\dfrac{3}{x+1}\le 2$}
+\wstep{Step 1. Do \emph{not} multiply by $x+1$.}
+The obvious move gives $3\le2(x+1)$, hence $x\ge\tfrac12$. It is wrong,
+because $x+1$ is negative for $x<-1$ and multiplying by it would flip the
+sign. Test $x=-2$ in the original: $3/(-1)=-3\le2$. \checkmark\ So $x=-2$
+solves the inequality but is missing from that answer.
+
+\wstep{Step 2. Move everything to one side instead.}
+\[
+  \frac{3}{x+1}-2\le0
+  \;\Longrightarrow\;
+  \frac{3-2(x+1)}{x+1}\le0
+  \;\Longrightarrow\;
+  \frac{1-2x}{x+1}\le0 .
+\]
+No sign assumption was made, because nothing was multiplied.
+
+\wstep{Step 3. Locate the critical points.}
+The numerator vanishes at $x=\tfrac12$; the denominator vanishes at $x=-1$.
+These split the line into $(-\infty,-1)$, $(-1,\tfrac12)$,
+$(\tfrac12,\infty)$.
+
+\wstep{Step 4. Test one point in each interval.}
+\begin{center}\footnotesize
+\begin{tabular}{lccc}
+  \hline
+  interval & test $x$ & $\dfrac{1-2x}{x+1}$ & sign\\
+  \hline
+  $(-\infty,-1)$ & $-2$ & $5/(-1)$ & $-$ \\
+  $(-1,\tfrac12)$ & $0$ & $1/1$ & $+$ \\
+  $(\tfrac12,\infty)$ & $1$ & $-1/2$ & $-$ \\
+  \hline
+\end{tabular}
+\end{center}
+
+\wstep{Step 5. Collect, and decide the endpoints separately.}
+We need ``$\le0$'', so the two negative intervals qualify. At $x=\tfrac12$
+the expression is $0$, and $0\le0$, so $\tfrac12$ is \emph{included}. At
+$x=-1$ the expression is undefined, so $-1$ is \emph{excluded}:
+\[
+  \boxed{x<-1\quad\text{or}\quad x\ge\tfrac12}
+\]
+\wtrap{Zeros of the numerator are included when the inequality is weak;
+zeros of the denominator are excluded always. Treating both alike is the
+standard slip, and it is the difference between a bracket and a parenthesis
+in the answer.}
+\end{worked}
+
+\begin{worked}{(b) Solve $|2x-1|\le|x+4|$}
+\wstep{Step 1. Both sides are non-negative, so squaring is safe.}
+An absolute value is never negative, so $|A|\le|B|$ and $A^{2}\le B^{2}$ say
+the same thing. This avoids the four-case analysis entirely.
+\[
+  (2x-1)^{2}\le(x+4)^{2} .
+\]
+\wtrap{Squaring is only legitimate because \emph{both} sides are known
+non-negative. Squaring $2x-1\le x+4$ would be invalid --- the left side can
+be negative, and squaring would reverse the comparison.}
+
+\wstep{Step 2. Expand and collect on one side.}
+\[
+  4x^{2}-4x+1\le x^{2}+8x+16
+  \;\Longrightarrow\;
+  3x^{2}-12x-15\le0
+  \;\Longrightarrow\;
+  x^{2}-4x-5\le0 ,
+\]
+dividing by the positive number $3$, which does not flip anything.
+
+\wstep{Step 3. Factor and read the sign.}
+$x^{2}-4x-5=(x-5)(x+1)$. This upward parabola is $\le0$ exactly
+\emph{between} its roots:
+\[
+  \boxed{-1\le x\le 5}
+\]
+\wstep{Step 4. Check the ends and one interior point.}
+$x=-1$: $|-3|=3$, $|3|=3$, equal. \checkmark\quad
+$x=5$: $|9|=9$, $|9|=9$, equal. \checkmark\quad
+$x=0$: $|-1|=1\le|4|=4$. \checkmark\quad
+$x=6$: $|11|=11\le|10|=10$ is false, correctly outside.
+\wtrap{An upward parabola is negative \emph{between} its roots and positive
+outside; a downward one is the reverse. Reading this off the wrong way round
+turns the answer inside out, and the check in Step~4 catches it in seconds.}
+\end{worked}
+
 \section{Practice Problems}
 
 \begin{problems}

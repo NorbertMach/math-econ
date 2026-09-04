@@ -58,6 +58,101 @@ For any $r>0$,
 \]
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{Decide convergence of $\displaystyle\int_{1}^{\infty}\frac{\mathrm{d}x}{x^{p}}$ and $\displaystyle\int_{0}^{1}\frac{\mathrm{d}x}{x^{p}}$; then evaluate $\displaystyle\int_{0}^{\infty}\mathrm{e}^{-rt}\mathrm{d}t$ and $\displaystyle\int_{0}^{\infty}t\,\mathrm{e}^{-rt}\mathrm{d}t$}
+\wstep{Step 1. An improper integral is a limit, and must be written as one.}
+\[
+  \int_{1}^{\infty}\frac{\mathrm{d}x}{x^{p}}
+  :=\lim_{b\to\infty}\int_{1}^{b}x^{-p}\,\mathrm{d}x .
+\]
+\wtrap{Never substitute $\infty$ into an antiderivative. $\infty$ is not a
+number, and expressions like $\bigl[-\tfrac1x\bigr]_{1}^{\infty}$ are
+shorthand at best. Write the limit; it costs one symbol and it is what makes
+the answer defensible.}
+
+\wstep{Step 2. Evaluate for $p\neq1$.}
+\[
+  \int_{1}^{b}x^{-p}\mathrm{d}x=\Bigl[\frac{x^{1-p}}{1-p}\Bigr]_{1}^{b}
+  =\frac{b^{1-p}-1}{1-p} .
+\]
+As $b\to\infty$ the fate of $b^{1-p}$ decides everything:
+\[
+  p>1\;\Rightarrow\;1-p<0\;\Rightarrow\;b^{1-p}\to0
+  \;\Rightarrow\;\text{converges to }\frac{1}{p-1};
+\]
+\[
+  p<1\;\Rightarrow\;1-p>0\;\Rightarrow\;b^{1-p}\to\infty
+  \;\Rightarrow\;\text{diverges.}
+\]
+
+\wstep{Step 3. The excluded case, which is the borderline.}
+$p=1$ needs the logarithm:
+\[
+  \int_{1}^{b}\frac{\mathrm{d}x}{x}=\ln b\to\infty ,
+\]
+so it diverges too --- but only just. $\ln b$ grows without bound more
+slowly than any positive power, which is exactly why $p=1$ is the dividing
+line and belongs to the divergent side.
+\[
+  \boxed{\int_{1}^{\infty}x^{-p}\,\mathrm{d}x\ \text{converges}\iff p>1 .}
+\]
+
+\wstep{Step 4. Now the other end, where the answer reverses.}
+$\int_{0}^{1}x^{-p}\mathrm{d}x$ is improper at $0$ when $p>0$:
+\[
+  \lim_{\varepsilon\to0^{+}}\Bigl[\frac{x^{1-p}}{1-p}\Bigr]_{\varepsilon}^{1}
+  =\lim_{\varepsilon\to0^{+}}\frac{1-\varepsilon^{1-p}}{1-p} ,
+\]
+and $\varepsilon^{1-p}\to0$ requires $1-p>0$:
+\[
+  \boxed{\int_{0}^{1}x^{-p}\,\mathrm{d}x\ \text{converges}\iff p<1 .}
+\]
+\wtrap{The two criteria are \emph{opposite}, and confusing them is the
+chapter's signature error. At infinity the tail must be \emph{thin}, so a
+large $p$ helps; at zero the spike must be \emph{narrow}, so a small $p$
+helps. Note the consequence: $\int_{0}^{\infty}x^{-p}\mathrm{d}x$ diverges
+for \emph{every} $p$ --- no exponent works at both ends.}
+
+\wstep{Step 5. The economist's integral: the perpetuity.}
+\[
+  \int_{0}^{\infty}\mathrm{e}^{-rt}\mathrm{d}t
+  =\lim_{b\to\infty}\Bigl[-\frac{\mathrm{e}^{-rt}}{r}\Bigr]_{0}^{b}
+  =\lim_{b\to\infty}\frac{1-\mathrm{e}^{-rb}}{r}
+  =\boxed{\frac1r}\qquad (r>0).
+\]
+A unit flow received for ever, discounted continuously at $r$, is worth
+$1/r$ today. At $r=0$ the integral diverges --- an undiscounted perpetuity
+is infinitely valuable, which is why $r>0$ is not a technical assumption
+but the substance of the result.
+
+\wstep{Step 6. A growing flow: integrate by parts.}
+\[
+  \int_{0}^{\infty}t\,\mathrm{e}^{-rt}\mathrm{d}t
+  =\Bigl[-\frac{t\mathrm{e}^{-rt}}{r}\Bigr]_{0}^{\infty}
+   +\frac1r\int_{0}^{\infty}\mathrm{e}^{-rt}\mathrm{d}t
+  =0+\frac{1}{r}\cdot\frac1r=\boxed{\frac{1}{r^{2}}}
+\]
+The boundary term vanishes because $t\mathrm{e}^{-rt}\to0$: the exponential
+beats the linear factor, by the growth hierarchy of Volume~4.
+\wtrap{Always check that the boundary term vanishes rather than assuming it.
+Here it does, and the whole calculation depends on it. In
+$\int_{1}^{\infty}\frac{\ln x}{x}\mathrm{d}x$ the analogous term does not,
+and the integral diverges.}
+
+\wstep{Step 7. Comparison, when you only need a verdict.}
+$\int_{1}^{\infty}\frac{\mathrm{d}x}{x^{3}+1}$ has no pleasant
+antiderivative, but
+\[
+  0<\frac{1}{x^{3}+1}<\frac{1}{x^{3}}
+  \quad\text{and}\quad
+  \int_{1}^{\infty}\frac{\mathrm{d}x}{x^{3}}\ \text{converges}\ (p=3>1),
+\]
+so the smaller integral converges too. Comparison decides convergence
+without evaluating anything --- and for the question ``does this present
+value exist?'' that is usually all that is wanted.
+\end{worked}
+
 \section{Practice Problems}
 
 Decide whether each integral converges; if it does, evaluate it.

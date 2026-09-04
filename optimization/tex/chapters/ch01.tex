@@ -171,6 +171,96 @@ $[a,b]$ the global optima exist by Weierstrass and lie among the
 evaluate $f$ at each and compare.
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{Turn a story into a problem and solve it: a firm faces inverse demand $p=120-2q$ and total cost $C(q)=200+20q+\tfrac12q^{2}$}
+\wstep{Step 1. Identify the four components before writing any calculus.}
+\begin{center}\footnotesize
+\begin{tabular}{ll}
+  \hline
+  component & here\\
+  \hline
+  choice variable & $q$, the quantity produced\\
+  objective & profit $\pi(q)=\text{revenue}-\text{cost}$, to be maximised\\
+  constraints & $q\ge0$ (and implicitly $q$ finite)\\
+  parameters & the numbers $120$, $2$, $200$, $20$, $\tfrac12$\\
+  \hline
+\end{tabular}
+\end{center}
+\wtrap{The price $p$ is \emph{not} a choice variable here --- it is
+determined by $q$ through the demand curve. Treating both as free gives two
+first-order conditions and an unsolvable or wrong system. Decide what the
+firm actually chooses, and substitute everything else out.}
+
+\wstep{Step 2. Build the objective explicitly.}
+\[
+  R(q)=p\cdot q=(120-2q)q=120q-2q^{2} ,
+\]
+\[
+  \pi(q)=R(q)-C(q)=120q-2q^{2}-\Bigl(200+20q+\tfrac12q^{2}\Bigr)
+        =100q-\tfrac52q^{2}-200 .
+\]
+
+\wstep{Step 3. First-order condition.}
+\[
+  \pi'(q)=100-5q=0
+  \quad\Longrightarrow\quad
+  q^{*}=20 .
+\]
+Equivalently $MR=MC$: $MR=120-4q$ and $MC=20+q$, equal when
+$120-4q=20+q$, i.e.\ $q=20$. \checkmark\ The two routes are the same
+equation rearranged, and having both is a free check.
+
+\wstep{Step 4. Second-order condition --- do not skip it.}
+\[
+  \pi''(q)=-5<0 ,
+\]
+so the critical point is a maximum, and since $\pi''<0$ \emph{everywhere},
+$\pi$ is strictly concave and the maximum is \textbf{global}. That last
+sentence is what upgrades a candidate into an answer.
+\wtrap{A first-order condition finds points where the function is flat ---
+maxima, minima and inflections alike. Reporting $q^{*}=20$ without checking
+$\pi''$ is an incomplete solution, and on a cubic cost function it can be
+the wrong one.}
+
+\wstep{Step 5. Check the constraint you were about to ignore.}
+$q^{*}=20>0$, so $q\ge0$ is slack and the interior solution stands. Then
+\[
+  p^{*}=120-40=80,
+  \qquad
+  \pi^{*}=100(20)-\tfrac52(400)-200=2000-1000-200=800 .
+\]
+
+\wstep{Step 6. Should the firm produce at all?}
+Profit is $800>0$, so yes. But note what happens if the fixed cost were
+$1200$ instead of $200$: $q^{*}$ would be \textbf{unchanged} at $20$, since
+a constant does not affect $\pi'$, while profit would become $-200$ and the
+firm should shut down.
+\wtrap{Fixed costs never move the optimal quantity; they only decide whether
+to operate. The first-order condition cannot see them, so the shutdown
+question must be asked separately --- comparing the optimised profit against
+the alternative of producing nothing.}
+
+\wstep{Step 7. Local, global, existence --- the three questions behind every problem in this volume.}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.25ex]
+  \item \textbf{Does an optimum exist?} Weierstrass guarantees it on a
+        closed bounded feasible set with a continuous objective. Here the
+        set $q\ge0$ is unbounded, so existence came instead from
+        $\pi\to-\infty$ as $q\to\infty$.
+  \item \textbf{Is the candidate a maximum?} The second-order condition.
+  \item \textbf{Is it global?} Concavity of the objective on a convex
+        feasible set --- exactly the content of Chapters~2 and~3.
+\end{itemize}
+
+\wstep{Step 8. The same skeleton, constrained.}
+A consumer maximising $U(x,y)$ subject to $p_{x}x+p_{y}y\le M$ has the
+identical structure: two choice variables instead of one, and an inequality
+constraint that will bind (more is better, so the budget is spent). The only
+new machinery is the multiplier of Chapter~7. Everything else --- identify
+the choice variables, build the objective, first order, second order, check
+the constraints --- is what you have just done.
+\end{worked}
+
 \section{Practice Problems}
 
 Problems 1--9 drill formulation, classification, and existence; problems
@@ -427,7 +517,9 @@ constrained or unconstrained maximisation or minimisation.
         endpoints. FOC: $f'(x)=3x^{2}-12=0 \Rightarrow x=\pm 2$, both
         interior. Evaluate all four candidates:
         \[
-          f(-3)=-27+36=9, \quad f(-2)=-8+24=16, \quad
+          f(-3)=-27+36=9, \quad f(-2)=-8+24=16,
+        \]
+        \[
           f(2)=8-24=-16, \quad f(5)=125-60=65 .
         \]
         Global maximum at the \emph{boundary} point $x^{*}=5$ with

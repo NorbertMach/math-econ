@@ -163,6 +163,124 @@ For a max LP in $\le$ form solved with slack variables $s_{1},\dots,s_{m}$:
 \end{itemize}
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{Dualise the running example, solve the dual, and verify strong duality and complementary slackness}
+\wstep{Step 1. Write the primal in the standard maximum form.}
+\[
+  \begin{array}{lrcrcl}
+    \max & 40x_{1} & + & 30x_{2}\\
+    \text{s.t.} & 2x_{1} & + & x_{2} & \le & 100\\
+                & x_{1} & + & x_{2} & \le & 80\\
+                & \multicolumn{5}{l}{x_{1},x_{2}\ge0}
+  \end{array}
+\]
+
+\wstep{Step 2. Transpose everything.}
+The dual has \textbf{one variable per primal constraint} and \textbf{one
+constraint per primal variable}. Right-hand sides and objective
+coefficients swap places, and the matrix is transposed:
+\[
+  \begin{array}{lrcrcl}
+    \min & 100y_{1} & + & 80y_{2}\\
+    \text{s.t.} & 2y_{1} & + & y_{2} & \ge & 40 \quad(\text{from }x_{1})\\
+                & y_{1} & + & y_{2} & \ge & 30 \quad(\text{from }x_{2})\\
+                & \multicolumn{5}{l}{y_{1},y_{2}\ge0}
+  \end{array}
+\]
+\wtrap{Everything flips: max becomes min, $\le$ becomes $\ge$, the objective
+coefficients $(40,30)$ become right-hand sides, and the right-hand sides
+$(100,80)$ become objective coefficients. The one thing that does not flip
+is the sign restriction $y\ge0$, which comes from the primal's $\le$
+constraints. Build the dual by transposing the whole tableau of numbers, not
+by translating the words.}
+
+\wstep{Step 3. Read the dual's meaning before solving it.}
+$y_{i}$ is a price per unit of resource~$i$. The first dual constraint says:
+the resources consumed by one unit of product~1 must be valued at no less
+than the $40$ euros that unit earns. The dual minimises the total imputed
+value of the endowment subject to no product being undervalued --- it is the
+problem of an accountant pricing the firm's resources, and the primal is the
+problem of the production manager using them.
+
+\wstep{Step 4. Solve the dual.}
+Both primal variables are positive at the optimum, so (by Step~7 below) both
+dual constraints hold with equality:
+\[
+  2y_{1}+y_{2}=40,\qquad y_{1}+y_{2}=30
+  \;\Longrightarrow\;
+  y_{1}=10,\ y_{2}=20 .
+\]
+Both are $\ge0$ \checkmark, and the dual objective is
+\[
+  100(10)+80(20)=1000+1600=2600 .
+\]
+
+\wstep{Step 5. Strong duality, verified.}
+\[
+  \boxed{z^{*}_{\text{primal}}=2600=w^{*}_{\text{dual}} .}
+\]
+The two problems have the \emph{same} optimal value. And these are exactly
+the numbers standing in the $z$-row of the end tableau in Chapter~5 --- 
+solving the primal by simplex solves the dual for free.
+
+\wstep{Step 6. Weak duality, and what it is for.}
+For \emph{any} feasible $\mathbf x$ and \emph{any} feasible $\mathbf y$,
+\[
+  \mathbf c^{\!\top}\mathbf x\le\mathbf b^{\!\top}\mathbf y .
+\]
+Every feasible dual solution therefore certifies an \textbf{upper bound} on
+the primal, and every feasible primal solution a \textbf{lower bound} on the
+dual. Take $\mathbf y=(15,15)$: it satisfies $2(15)+15=45\ge40$ and
+$15+15=30\ge30$, so it is dual-feasible, and it bounds the primal by
+\[
+  100(15)+80(15)=2700 .
+\]
+Take the primal point $(0,80)$: feasible, worth $2400$. So without solving
+anything we know the optimum lies in $[2400,2700]$ --- and the true value
+$2600$ does. \checkmark
+\wtrap{The bound runs one way only. If a feasible dual value ever came out
+\emph{below} a feasible primal value, one of the two points is not actually
+feasible or the arithmetic is wrong --- weak duality makes that
+impossible. This is the cheapest error check in the volume: evaluate both
+objectives and confirm the primal value is the smaller.}
+
+\wstep{Step 7. Complementary slackness, term by term.}
+At the optimum, for each pair:
+\[
+  y_{i}\cdot(\text{slack in primal constraint }i)=0,
+  \qquad
+  x_{j}\cdot(\text{surplus in dual constraint }j)=0 .
+\]
+\begin{center}\footnotesize
+\begin{tabular}{lll}
+  \hline
+  pair & values & product\\
+  \hline
+  $y_{1}=10$, machine slack $=0$ & $10\times0$ & $0$ \checkmark\\
+  $y_{2}=20$, labour slack $=0$ & $20\times0$ & $0$ \checkmark\\
+  $x_{1}=20$, dual surplus $2(10)+20-40=0$ & $20\times0$ & $0$ \checkmark\\
+  $x_{2}=60$, dual surplus $10+20-30=0$ & $60\times0$ & $0$ \checkmark\\
+  \hline
+\end{tabular}
+\end{center}
+In words: \emph{a resource with spare capacity is free, and a product that
+is made must break even at shadow prices}.
+
+\wstep{Step 8. Use complementary slackness as a solution method.}
+Given the primal solution $(20,60)$, both variables are positive, so both
+dual constraints must be tight --- which is exactly how Step~4 solved a
+two-variable dual with no simplex at all. This works in reverse too: given a
+claimed optimal $\mathbf y$, the tight dual constraints identify which
+$x_{j}$ may be non-zero, and the binding primal constraints then pin them
+down.
+\wtrap{Complementary slackness certifies a \emph{pair}. A primal solution
+alone, or a dual solution alone, proves nothing; the two together, feasible
+and complementary, prove both are optimal. That is the cheapest correctness
+proof available in this volume --- and the only one that does not require
+re-running the algorithm.}
+\end{worked}
+
 \section{Practice Problems}
 
 \begin{problems}

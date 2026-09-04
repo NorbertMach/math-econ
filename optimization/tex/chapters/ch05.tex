@@ -67,6 +67,103 @@ This is why a local check delivers a global verdict for concave profit and
 convex cost specifications.
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{A two-product monopolist: maximise $\pi(q_{1},q_{2})=90q_{1}-2q_{1}^{2}+60q_{2}-q_{2}^{2}-q_{1}q_{2}$}
+\wstep{Step 1. First-order conditions: the gradient vanishes.}
+\[
+  \pd{\pi}{q_{1}}=90-4q_{1}-q_{2}=0,
+  \qquad
+  \pd{\pi}{q_{2}}=60-2q_{2}-q_{1}=0 .
+\]
+Note that each condition involves \emph{both} variables --- the cross term
+$-q_{1}q_{2}$ links the two markets, so they cannot be optimised separately.
+\wtrap{With a cross term present, maximising over $q_{1}$ with $q_{2}$ held
+at some guess, and then over $q_{2}$, does not converge to the optimum in
+one pass. The two conditions form a \emph{system} and must be solved
+simultaneously.}
+
+\wstep{Step 2. Solve the system.}
+The second equation gives $q_{1}=60-2q_{2}$. Substituting into the first:
+\[
+  90-4(60-2q_{2})-q_{2}=0
+  \;\Longrightarrow\;
+  90-240+8q_{2}-q_{2}=0
+  \;\Longrightarrow\;
+  7q_{2}=150 ,
+\]
+\[
+  q_{2}^{*}=\tfrac{150}{7}\approx21.43,
+  \qquad
+  q_{1}^{*}=60-\tfrac{300}{7}=\tfrac{120}{7}\approx17.14 .
+\]
+Check in the first condition: $90-4(120/7)-150/7=90-480/7-150/7
+=90-630/7=90-90=0$. \checkmark
+
+\wstep{Step 3. Second-order condition: build the Hessian.}
+\[
+  \pi_{11}=-4,\qquad \pi_{22}=-2,\qquad \pi_{12}=\pi_{21}=-1,
+  \qquad
+  \Hess\pi=\begin{pmatrix}-4&-1\\-1&-2\end{pmatrix}.
+\]
+\[
+  D_{1}=-4<0,
+  \qquad
+  D_{2}=\det=8-1=7>0 .
+\]
+Alternating signs starting negative: \textbf{negative definite}, so the
+critical point is a strict local maximum.
+\wtrap{For a \emph{maximum} the leading principal minors must alternate
+$-,+,-,\dots$ For a minimum they must all be positive. Requiring ``all
+minors negative'' is the standard misremembering, and it rejects every
+genuine maximum.}
+
+\wstep{Step 4. Upgrade to a global statement.}
+The Hessian is \emph{constant} --- $\pi$ is a quadratic --- so it is
+negative definite at every point, meaning $\pi$ is strictly concave on all
+of $\R^{2}$. A strictly concave function has at most one critical point and
+it is the global maximum:
+\[
+  \boxed{(q_{1}^{*},q_{2}^{*})=\Bigl(\tfrac{120}{7},\tfrac{150}{7}\Bigr),
+         \qquad \pi^{*}=\tfrac{69\,300}{49}\approx1414.3 .}
+\]
+\wtrap{This upgrade is available only because the Hessian is negative
+definite \emph{everywhere}, not merely at the critical point. For a
+non-quadratic objective, definiteness at one point gives a local result and
+nothing more.}
+
+\wstep{Step 5. Sanity-check the answer against the economics.}
+Both quantities are positive, so the implicit constraints $q_{i}\ge0$ are
+slack. \checkmark\ The cross term is negative, so the goods are
+substitutes in production or demand; that is why each optimal quantity is
+lower than it would be if the other market did not exist. Setting $q_{2}=0$
+in the first condition would give $q_{1}=22.5$, above the joint optimum
+$17.14$ --- exactly the interaction the model was built to capture.
+
+\wstep{Step 6. The procedure, and the shape of the failure modes.}
+\begin{center}\footnotesize
+\begin{tabular}{ll}
+  \hline
+  step & what can go wrong\\
+  \hline
+  1. solve $\grad\pi=\mathbf 0$ & solving the equations one at a time\\
+  2. build $\Hess\pi$ at each solution & mis-signed cross partials\\
+  3. classify by minors & wrong sign pattern for a maximum\\
+  4. check non-negativity & an ``optimum'' with $q_{i}<0$\\
+  5. global? & claiming global from a local test\\
+  \hline
+\end{tabular}
+\end{center}
+
+\wstep{Step 7. What happens with three or more variables.}
+The pattern extends: $\grad f=\mathbf 0$ is $n$ equations in $n$ unknowns,
+and the classification uses the $n$ leading principal minors
+$D_{1},\dots,D_{n}$ --- all positive for a minimum, alternating
+$-,+,-,\dots$ for a maximum, and any other pattern with all $D_{i}\neq0$
+means a saddle. When some $D_{i}=0$ the test is silent and you must argue
+directly, as in Volume~5.
+\end{worked}
+
 \section{Practice Problems}
 
 For each function, locate all critical points and classify them using the

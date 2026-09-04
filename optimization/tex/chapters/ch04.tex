@@ -56,6 +56,102 @@ The SOC reads $\pi''(q^*) < 0$, equivalently $MC'(q^*) > MR'(q^*)$ at the
 optimum.
 \end{rulebox}
 
+\section{Worked Example}
+
+\begin{worked}{With $C(q)=q^{3}-9q^{2}+30q$: minimise average cost, verify that $MC$ cuts $AC$ at its minimum, and find the maximum of $\pi=15q-C(q)$ on $[0,6]$}
+\wstep{Step 1. Write the two cost concepts down separately.}
+\[
+  AC(q)=\frac{C(q)}{q}=q^{2}-9q+30
+  \quad(q>0),
+  \qquad
+  MC(q)=C'(q)=3q^{2}-18q+30 .
+\]
+\wtrap{$AC$ is $C$ \emph{divided} by $q$; $MC$ is $C$ \emph{differentiated}.
+They are different operations on the same function and they almost never
+coincide. Dividing the marginal cost by $q$, or differentiating the average
+cost and calling it marginal, are both common and both wrong.}
+
+\wstep{Step 2. Minimise average cost.}
+\[
+  AC'(q)=2q-9=0
+  \quad\Longrightarrow\quad
+  q^{*}=4.5,
+  \qquad
+  AC''=2>0\ \text{(minimum, and globally so).}
+\]
+\[
+  AC(4.5)=20.25-40.5+30=9.75 .
+\]
+
+\wstep{Step 3. Check the classical relation.}
+\[
+  MC(4.5)=3(20.25)-18(4.5)+30=60.75-81+30=9.75=AC(4.5). \checkmark
+\]
+Marginal cost passes through average cost exactly at the latter's minimum.
+That is not a numerical accident; it follows from the quotient rule:
+\[
+  AC'(q)=\frac{\mathrm{d}}{\mathrm{d}q}\frac{C}{q}
+  =\frac{C'q-C}{q^{2}}=\frac{MC-AC}{q} ,
+\]
+so $AC'=0$ exactly when $MC=AC$. And the sign is readable too: when
+$MC<AC$ the average falls, when $MC>AC$ it rises --- one more unit below the
+current average pulls the average down.
+
+\wstep{Step 4. Now the profit problem, on a closed interval.}
+\[
+  \pi(q)=15q-C(q)=15q-q^{3}+9q^{2}-30q=-q^{3}+9q^{2}-15q .
+\]
+\[
+  \pi'(q)=-3q^{2}+18q-15=-3\bigl(q^{2}-6q+5\bigr)=-3(q-1)(q-5) .
+\]
+Critical points $q=1$ and $q=5$, both inside $[0,6]$.
+
+\wstep{Step 5. Classify them.}
+$\pi''(q)=-6q+18$, so
+\[
+  \pi''(1)=12>0:\ \text{local \emph{minimum}};
+  \qquad
+  \pi''(5)=-12<0:\ \text{local maximum.}
+\]
+\wtrap{Do not assume the first critical point you find is the maximum.
+Here $q=1$ is a local \emph{minimum} of profit --- output too small to cover
+the rising part of the cost curve --- and reporting it would be a
+catastrophic answer to a maximisation question. Classify every critical
+point.}
+
+\wstep{Step 6. On a closed interval, compare all candidates including the endpoints.}
+\begin{center}\footnotesize
+\begin{tabular}{lcccc}
+  \hline
+  $q$ & $0$ & $1$ & $5$ & $6$\\
+  \hline
+  $\pi(q)$ & $0$ & $-7$ & $25$ & $18$\\
+  \hline
+\end{tabular}
+\end{center}
+\[
+  \boxed{\text{global maximum } \pi=25 \text{ at } q=5;
+         \qquad \text{global minimum } \pi=-7 \text{ at } q=1 .}
+\]
+\wtrap{Endpoints are candidates too, and the derivative says nothing about
+them --- $\pi'(0)=-15\neq0$ and $\pi'(6)=-15\neq0$, yet both are perfectly
+legitimate competitors. On a closed bounded interval the recipe is: all
+interior critical points \emph{plus} both endpoints, evaluate, compare. That
+is the whole method, and it needs no second-order test at all.}
+
+\wstep{Step 7. Local versus global, stated carefully.}
+$q=5$ beat every competitor on $[0,6]$, so it is the global maximum
+\emph{there}. Extend the interval to $[0,10]$ and nothing changes
+($\pi(10)=-250$). But extend it to $q\in[0,\infty)$ and there is still no
+problem, because $\pi\to-\infty$. It is only when the objective fails to
+turn around that an unbounded domain has no maximiser.
+\wtrap{``Local maximum'' is a statement about a neighbourhood; ``global
+maximum'' is a statement about the entire feasible set. The second-order
+condition can only ever establish the first. The second needs either a
+comparison of all candidates (as in Step~6), or concavity on a convex
+feasible set.}
+\end{worked}
+
 \section{Practice Problems}
 
 For each function below, locate the critical point(s), classify them via

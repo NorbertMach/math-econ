@@ -1,643 +1,830 @@
-\chapter{Multivariable Chain Rule and Total Differential}
+\chapter{Functions of Several Variables: Surfaces and Level Curves}
 
-When several inputs move at once, the total differential bundles the partial
-derivatives into one linear approximation, and the multivariable chain rule
-pipes that approximation through any composed function. Together they
-generate the marginal rate of substitution along an indifference curve, the
-marginal rate of technical substitution along an isoquant, and (as a
-preview) the envelope theorem along an optimal value function.
+A function of one variable is understood by looking at its graph. For a
+function of two variables there are two pictures, and both are needed. The
+\textbf{graph} is a surface in space: mountains, valleys, passes. The
+\textbf{contour map} is what a cartographer draws instead --- the level
+curves of that landscape, projected flat onto the plane. Economics almost
+never draws the surface. It draws the contour map and gives the curves
+names: isoquants, indifference curves, iso-profit lines.
+
+The reason to spend a chapter on pictures before computing anything is that
+most of multivariable calculus is easier to see than to calculate. Whether a
+critical point is a maximum, a minimum or a saddle is visible at a glance in
+a contour map. So is whether a function is convex, whether its upper contour
+sets are convex, and where it is steep. And the geometry is not decoration:
+the Lagrange method is the statement that two families of level curves touch
+without crossing, and Kuhn--Tucker is a statement about which boundary of a
+shaded region binds.
+
+This chapter therefore does two things. It sets up domains, graphs, level
+curves and the sub- and superlevel sets, with the vocabulary in both the
+German and the English forms; and it drills reading properties off a picture
+in both directions --- picture to property, and formula to picture.
 
 \section{Core Rules}
 
-\begin{rulebox}{Total Differential}
-If $z=f(x,y)$ is differentiable at $(x,y)$, the \textbf{total differential}
-is
-\[
-  \mathrm{d}z \;=\; f_{x}(x,y)\,\mathrm{d}x \;+\; f_{y}(x,y)\,\mathrm{d}y .
-\]
-
-\textbf{Interpretation.} $\mathrm{d}z$ is the best linear estimate of the
-actual change $\Delta z$ when $x$ and $y$ shift by $\mathrm{d}x$ and
-$\mathrm{d}y$. In economics, $\mathrm{d}U \approx MU_{x}\,\mathrm{d}x +
-MU_{y}\,\mathrm{d}y$ tells how utility responds to a small basket change;
-$\mathrm{d}Q \approx MP_{K}\,\mathrm{d}K + MP_{L}\,\mathrm{d}L$ does the same
-for output.
-
-For $n$ inputs, $z=f(x_{1},\ldots,x_{n})$:
-\[
-  \mathrm{d}z \;=\; \sum_{i=1}^{n} \pd{f}{x_{i}}\,\mathrm{d}x_{i} .
-\]
+\begin{rulebox}{Functions of two variables: domain, graph, range}
+A function $f\colon D\to\R$ with $D\subseteq\R^{2}$ assigns a number
+$f(x,y)$ to each point of a \textbf{region} $D$ in the plane.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item The \textbf{domain} $D$ is now a subset of the plane, not of the
+        line, and the same three obstructions decide it: no zero
+        denominator, no negative radicand under an even root, no
+        non-positive argument in a logarithm. So
+        $f(x,y)=\sqrt{9-x^{2}-y^{2}}$ has $D=\{(x,y):x^{2}+y^{2}\le9\}$, a
+        closed disc, and $f(x,y)=\ln(x+y)$ has the open half-plane
+        $x+y>0$.
+  \item The \textbf{graph} is the surface
+        $\{(x,y,f(x,y)) : (x,y)\in D\}$ in $\R^{3}$: above each point of
+        the domain, a single height.
+  \item The \textbf{range} is the set of heights attained, exactly as
+        before.
+\end{itemize}
+Economic domains are usually the non-negative quadrant $K,L\ge0$, and often
+its interior.
 \end{rulebox}
 
-\begin{rulebox}{Chain Rule, Single Driver $t$}
-If $z=f(x,y)$ with $x=x(t)$ and $y=y(t)$,
+\begin{rulebox}{Level curves and the contour map}
+For $c\in\R$ the \textbf{level set} \de{(Niveaumenge, Niveaulinie)} is
 \[
-  \dd{z}{t} \;=\; f_{x}\,\dd{x}{t} \;+\; f_{y}\,\dd{y}{t} .
+  N_{c}=\{(x,y)\in D : f(x,y)=c\} ,
 \]
+the set of points at height $c$. Drawing $N_{c}$ for several equally spaced
+values of $c$ gives the \textbf{contour map}. To compute one, set
+$f(x,y)=c$ and solve for $y$ --- the level set is a curve in the plane, and
+often a familiar one.
+
+Reading a contour map:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Contours cannot cross}, since a point has one height ---
+        with one exception: at a \textbf{saddle} the level curve through
+        the saddle point crosses itself.
+  \item \textbf{Spacing is steepness.} Contours crowded together mean the
+        surface rises fast; widely spaced contours mean gentle ground.
+        Steepest ascent runs perpendicular to the contours.
+  \item \textbf{Closed nested loops} shrinking to a point mark a
+        \textbf{peak} or a \textbf{basin}; which one is decided by whether
+        the labels increase or decrease inwards.
+  \item A contour that \textbf{pinches and crosses} marks a saddle: two
+        directions of ascent and two of descent alternate around it.
+\end{itemize}
 \end{rulebox}
 
-\begin{rulebox}{Chain Rule, Two Drivers $s,t$}
-If $z=f(x,y)$ with $x=x(s,t)$, $y=y(s,t)$,
+\begin{rulebox}{Sub- and superlevel sets}
+Two \emph{solid} sets accompany each level curve:
 \[
-  \pd{z}{s} \;=\; f_{x}\,\pd{x}{s} + f_{y}\,\pd{y}{s},\qquad
-  \pd{z}{t} \;=\; f_{x}\,\pd{x}{t} + f_{y}\,\pd{y}{t} .
+  W(c)=\{(x,y): f(x,y)\le c\},
+  \qquad
+  B(c)=\{(x,y): f(x,y)\ge c\} .
 \]
+$W(c)$ is the \textbf{sublevel set} \de{(Subniveaumenge, untere
+Konturmenge)}, $B(c)$ the \textbf{superlevel set} \de{(Superniveaumenge,
+obere Konturmenge)}. Written through a point $P$ rather than a level,
+$W(P)=W(f(P))$ and $B(P)=B(f(P))$: everything at most as high as $P$, and
+everything at least as high. The same sets appear in the optimization
+volume as $L_{c}$ and $U_{c}$ --- lower and upper contour set --- and in
+consumer theory $B(P)$ is the \emph{better set} of the bundle $P$.
+
+The link to curvature, drilled later and worth seeing now:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item $f$ convex $\Longrightarrow$ every $W(c)$ is convex;
+  \item $f$ concave $\Longrightarrow$ every $B(c)$ is convex;
+  \item every $B(c)$ convex is the \emph{definition} of
+        \textbf{quasiconcave}, which is weaker: $f(x,y)=xy$ on the positive
+        quadrant is quasiconcave but not concave.
+\end{itemize}
 \end{rulebox}
 
-\begin{rulebox}{Level Sets, MRS, MRTS}
-On a level curve $f(x,y)=c$ the total differential is zero:
-\[
-  f_{x}\,\mathrm{d}x + f_{y}\,\mathrm{d}y = 0
-  \;\Longrightarrow\;
-  \dd{y}{x}\bigg|_{f=c} = -\frac{f_{x}}{f_{y}} .
-\]
-For a utility $U(x,y)$, the (signed) slope $-U_{x}/U_{y}$ is minus the
-\textbf{MRS}; for a production function $Q(K,L)$, $-Q_{K}/Q_{L}$ is minus
-the \textbf{MRTS}. We will state explicitly which sign convention we use in
-each problem.
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-3.2, xmax=3.2, ymin=-3.2, ymax=3.2,
+      xtick={-2,2}, ytick={-2,2}, title={$W(4)$ for $f=x^{2}+y^{2}$}]
+    \addplot[draw=none, name path=up, domain=-2:2, samples=201]{sqrt(4-x^2)};
+    \addplot[draw=none, name path=lo, domain=-2:2, samples=201]{-sqrt(4-x^2)};
+    \region{up}{lo}{}
+    \addplot[domain=0:360, samples=181]({2*cos(x)},{2*sin(x)});
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-0.4, xmax=8.4, ymin=-0.4, ymax=8.4,
+      xtick={2,4,6,8}, ytick={2,4,6,8}, title={$B(4)$ for $f=xy$, $x,y>0$}]
+    \addplot[draw=none, name path=hyp, domain=0.5:8, samples=201]{4/x};
+    \addplot[draw=none, name path=top, domain=0.5:8, samples=2]{8.4};
+    \region{hyp}{top}{}
+    \addplot[domain=0.5:8, samples=201]{4/x};
+  \end{axis}
+\end{tikzpicture}
+\gcap{A sublevel set of a convex function and a superlevel set of a
+quasiconcave one. Both are convex sets; the second is the \emph{better set}
+of a Cobb--Douglas bundle.}
+\end{gallery}
+
+\begin{rulebox}{The standard shapes}
+Six surfaces cover most of what appears in exercises, and each has a
+signature contour map.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Plane} $f=ax+by+c$: contours are \emph{parallel straight
+        lines}, equally spaced. A budget line is one of them.
+  \item \textbf{Paraboloid} $f=x^{2}+y^{2}$: a bowl; contours are
+        concentric circles of radius $\sqrt{c}$, so they get
+        \emph{closer together} outwards --- the bowl steepens.
+  \item \textbf{Cone} $f=\sqrt{x^{2}+y^{2}}$: contours are concentric
+        circles of radius $c$, \emph{equally spaced} --- constant slope.
+  \item \textbf{Saddle} $f=x^{2}-y^{2}$: contours are hyperbolas; the level
+        $c=0$ degenerates into the crossing pair $y=\pm x$.
+  \item \textbf{Rotated saddle} $f=xy$: hyperbolas again, but with the
+        \emph{axes} as asymptotes. Restricted to the positive quadrant this
+        is the Cobb--Douglas picture.
+  \item \textbf{Parabolic cylinder} $f=x^{2}$: the surface is a trough,
+        constant in $y$; contours are \emph{pairs of vertical lines}
+        $x=\pm\sqrt{c}$.
+\end{itemize}
+Circles alone do not identify the surface --- bowl, cone and dome all have
+circular contours. The \emph{spacing} and the direction in which the labels
+grow settle it.
 \end{rulebox}
+
+\begin{rulebox}{Reading curvature off the picture}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Convex} (bowl-shaped): every chord drawn between two points
+        of the surface lies \emph{above} it; no part of the surface bulges
+        over a chord. All sublevel sets are convex.
+  \item \textbf{Concave} (dome-shaped): every chord lies \emph{below} the
+        surface. All superlevel sets are convex.
+  \item \textbf{Neither}: a saddle. Some chords lie above, some below.
+  \item \textbf{Quasiconcave without being concave}: the superlevel sets
+        are still convex --- nested ``better sets'' bulging towards the
+        origin --- while the surface itself is not a dome. The Cobb--Douglas
+        hill is the standard example.
+  \item A \textbf{linear} function is both convex and concave, and both
+        quasiconvex and quasiconcave.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Economic readings}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item An \textbf{isoquant} is a level curve of a production function:
+        all input combinations yielding the same output. An
+        \textbf{indifference curve} is a level curve of utility.
+  \item The slope of a level curve is the \textbf{marginal rate of
+        substitution}, computed implicitly as $-f_{x}/f_{y}$
+        (Chapter~5). Convex-to-the-origin level curves mean a diminishing
+        rate of substitution.
+  \item A \textbf{budget set} $\{p_{x}x+p_{y}y\le M,\ x,y\ge0\}$ is the
+        sublevel set of a linear function intersected with the quadrant ---
+        a triangle, and convex.
+  \item The consumer's problem is to reach the highest indifference curve
+        that still touches the budget triangle: the contour map plus the
+        shaded set is the whole picture.
+\end{itemize}
+\end{rulebox}
+
+\section{Worked Example}
+
+\begin{worked}{Read the topography of $f(x,y)=x^{2}+4y^{2}$ and of $g(x,y)=x^{2}-y^{2}$: level curves, sub- and superlevel sets, and the surfaces}
+\wstep{Step 1. A level curve is what you get by \emph{fixing the height}.}
+Set $f(x,y)=c$ and solve for the curve in the plane:
+\[
+  x^{2}+4y^{2}=c .
+\]
+For $c>0$ divide by $c$ to reach the standard form of an ellipse:
+\[
+  \frac{x^{2}}{c}+\frac{y^{2}}{c/4}=1,
+  \qquad\text{semi-axes } \sqrt c \text{ and } \tfrac{\sqrt c}{2} .
+\]
+So the contour map is a family of concentric ellipses, twice as wide as they
+are tall. For $c=0$ the level ``curve'' collapses to the single point
+$(0,0)$; for $c<0$ it is empty, since $f\ge0$ always.
+\wtrap{Check which values of $c$ occur before drawing. Level sets can be
+empty, a single point, or several disconnected pieces --- $x^{2}+4y^{2}=-1$
+has no solutions, and a level set of $x^{2}-y^{2}$ has two branches.}
+
+\wstep{Step 2. Spacing carries the steepness.}
+The contours for $c=1,2,3,4$ have semi-axes $1,\sqrt2,\sqrt3,2$ in $x$. The
+gaps shrink as you move out --- $1,\ 0.41,\ 0.32,\ 0.27$ --- so the surface
+gets \emph{steeper} away from the origin. Contours that crowd together mean
+a steep slope; contours far apart mean a plateau. That is the one skill a
+contour map is for.
+
+\wstep{Step 3. Sub- and superlevel sets.}
+\[
+  \{f\le c\}=\text{the filled ellipse: convex},
+  \qquad
+  \{f\ge c\}=\text{everything outside it: not convex.}
+\]
+$f$ is a convex function, so its \textbf{sub}level sets are convex. For a
+concave function such as a utility $U$, it is the \textbf{super}level sets
+$\{U\ge\bar u\}$ --- the ``at least as good as'' sets --- that are convex,
+and that is precisely the convexity of preferences.
+\wtrap{Convex function and convex set are different words. Match them
+carefully: convex function $\Rightarrow$ sublevel sets convex; concave
+function $\Rightarrow$ superlevel sets convex. The direction is chosen by
+the inequality, not by the word ``convex''.}
+
+\wstep{Step 4. The surface itself.}
+$z=x^{2}+4y^{2}$ is an \textbf{elliptic paraboloid}: a bowl, with its
+minimum at the origin, rising in every direction, steeper along $y$ than
+along $x$ (the coefficient $4$ against $1$).
+
+\wstep{Step 5. Now $g(x,y)=x^{2}-y^{2}$, where the sign flips.}
+\[
+  g=c:\quad x^{2}-y^{2}=c ,
+\]
+a family of \textbf{hyperbolas} --- opening left--right for $c>0$, up--down
+for $c<0$. The level set $c=0$ degenerates into the \emph{pair of lines}
+$y=\pm x$, which is where the two families change over.
+
+\wstep{Step 6. Two pictures, side by side.}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[contouraxis, width=5.2cm, height=5.2cm, xmin=-2.6, xmax=2.6,
+             ymin=-2.6, ymax=2.6, title={$x^{2}+4y^{2}=c$}]
+  \foreach \c in {0.5,1,2,3,4} {
+    \addplot[domain=0:360, samples=161, variable=\t]
+      ({sqrt(\c)*cos(\t)}, {sqrt(\c)/2*sin(\t)});
+  }
+\end{axis}
+\end{tikzpicture}
+\hfill
+\begin{tikzpicture}
+\begin{axis}[contouraxis, width=5.2cm, height=5.2cm, xmin=-2.6, xmax=2.6,
+             ymin=-2.6, ymax=2.6, title={$x^{2}-y^{2}=c$}]
+  \foreach \c in {0.5,2} {
+    \addplot[domain=-1.6:1.6, samples=121] ({sqrt(\c)*cosh(x)}, {sqrt(\c)*sinh(x)});
+    \addplot[domain=-1.6:1.6, samples=121] ({-sqrt(\c)*cosh(x)}, {sqrt(\c)*sinh(x)});
+    \addplot[domain=-1.6:1.6, samples=121] ({sqrt(\c)*sinh(x)}, {sqrt(\c)*cosh(x)});
+    \addplot[domain=-1.6:1.6, samples=121] ({sqrt(\c)*sinh(x)}, {-sqrt(\c)*cosh(x)});
+  }
+  \addplot[gray!60, thin, samples=2, domain=-2.6:2.6, forget plot] {x};
+  \addplot[gray!60, thin, samples=2, domain=-2.6:2.6, forget plot] {-x};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[surfaxis, title={$z=x^{2}+4y^{2}$}]
+  \addplot3[surf, domain=-2:2, y domain=-1:1] {x^2+4*y^2};
+\end{axis}
+\end{tikzpicture}
+\hfill
+\begin{tikzpicture}
+\begin{axis}[surfaxis, title={$z=x^{2}-y^{2}$}]
+  \addplot3[surf, domain=-2:2, y domain=-2:2] {x^2-y^2};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\wstep{Step 7. Read the origin off each map.}
+For $f$ the contours \emph{close around} the origin, so it is a minimum: go
+any direction and you climb. For $g$ the contours \emph{cross} at the
+origin, and the crossing is the signature of a \textbf{saddle}: along the
+$x$-axis $g=x^{2}$ rises, along the $y$-axis $g=-y^{2}$ falls. The point is
+a minimum in one direction and a maximum in another, so it is neither.
+\wtrap{Closed loops shrinking to a point mean an extremum; crossing curves
+mean a saddle. Checking only one direction --- for instance only along the
+axes of $g$ where the answers disagree --- is exactly how a saddle gets
+misreported as an optimum in Volume~7.}
+
+\wstep{Step 8. The economic vocabulary.}
+Level curves of a utility function are \textbf{indifference curves}; of a
+production function, \textbf{isoquants}; of a cost function,
+\textbf{isocost lines}. Their slope is the marginal rate of substitution,
+computed in Chapter~5 by implicit differentiation, and the standard
+``convex to the origin'' shape is exactly the convexity of the superlevel
+sets in Step~3.
+\end{worked}
 
 \section{Practice Problems}
 
+State the domain of each function as a region in the plane, in problems
+1--8, and describe it in words.
+
 \begin{problems}
-  \item Compute $\mathrm{d}z$ for $z=4x^{2}-5xy+2y^{2}$.
-  \item Find $\dd{z}{t}$ for $z=x^{2}-y^{2}$ with $x=2t+1$, $y=t^{2}$.
-  \item For $U(x,y)=x^{2}+4y=c$, find $\dd{y}{x}$ and state the unsigned
-        MRS.
-  \item Compute $\pd{z}{s}$ and $\pd{z}{t}$ for $z=x^{2}-3y$ with
-        $x=s+2t$, $y=2s-t$.
-  \item Compute $\mathrm{d}z$ for $z=x^{4}y^{-2}$.
-  \item Find $\dd{z}{t}$ for $z=\mathrm{e}^{xy}$ with $x=\sin t$,
-        $y=\cos t$.
-  \item For the isoquant $Q(K,L)=K^{0.4}L^{0.6}=Q_{0}$, find $\dd{L}{K}$
-        and the unsigned MRTS.
-  \item Compute $\mathrm{d}z$ for $z=\ln(3x+2y)$.
-  \item Compute $\pd{z}{s}$ and $\pd{z}{t}$ for $z=\mathrm{e}^{x}\cos y$
-        with $x=st$, $y=s+t$.
-  \item Find $\dd{z}{t}$ for $z=x^{2}y$ with $x=\ln t$, $y=t^{3}$.
-  \item For $U(x,y)=x^{2/3}y^{1/3}=c$, find $\dd{y}{x}$ and the unsigned
-        MRS.
-  \item Compute $\mathrm{d}z$ for $z=\mathrm{e}^{x^{2}+y}$.
-  \item Find $\dd{z}{t}$ for $z=\sqrt{x+y^{2}}$ with $x=t^{2}$, $y=t$.
-  \item Compute $\pd{z}{s}$ and $\pd{z}{t}$ for $z=\ln(x^{2}+y^{2})$ with
-        $x=s/t$, $y=t/s$.
-  \item For $U(x,y)=\sqrt{x}+\sqrt{y}=c$, find $\dd{y}{x}$ and the unsigned
-        MRS.
-  \item Compute $\mathrm{d}z$ for $z=\dfrac{x+y}{x-y}$.
-  \item Find $\dd{z}{t}$ for $z=\arctan(y/x)$ with $x=\mathrm{e}^{t}$,
-        $y=\mathrm{e}^{2t}$.
-  \item For $Q(K,L)=(aK^{1/2}+bL^{1/2})^{2}=Q_{0}$ (with $a,b>0$), find
-        $\dd{L}{K}$ and the unsigned MRTS.
-  \item Compute $\pd{z}{s}$ and $\pd{z}{t}$ for $z=x^{1/2}y^{1/2}$ with
-        $x=s^{2}+t^{2}$, $y=st$.
-  \item Compute $\mathrm{d}z$ for $z=x\sin y+y\cos x$.
-  \item For $U(x,y)=\ln(x+1)+\ln(y+1)=c$, find $\dd{y}{x}$ and the
-        unsigned MRS.
-  \item Find $\dd{z}{t}$ for $z=x\ln y$ with $x=t^{2}+1$, $y=\mathrm{e}^{t}$.
-  \item Compute $\mathrm{d}z$ for $z=x^{3}\mathrm{e}^{2y}$.
-  \item Find $\dd{z}{t}$ for $z=x^{2}+y^{2}$ with $x=\cos t$, $y=\sin t$,
-        and verify the result.
-  \item For $U(x,y)=x+y^{2}=c$, find $\dd{y}{x}$ and state where the
-        result is well-defined.
-  \item Compute $\pd{z}{s}$ and $\pd{z}{t}$ for $z=xy^{2}$ with $x=s+t$,
-        $y=s-t$.
-  \item Compute $\mathrm{d}z$ for $z=\arctan(xy)$.
-  \item Find $\dd{z}{t}$ for $z=\ln(x^{2}+y^{2})$ with $x=t$, $y=t^{2}$.
-  \item For the isoquant $Q(K,L)=AK^{\alpha}L^{\beta}=Q_{0}$ (general
-        Cobb--Douglas with $\alpha,\beta>0$), derive the MRTS in terms of
-        $\alpha,\beta,K,L$.
-  \item Compute $\mathrm{d}z$ for $z=\dfrac{x^{2}}{y}+\dfrac{y^{2}}{x}$.
-  \item For $U(x,y)=\mathrm{e}^{x}+\mathrm{e}^{y}=c$, find $\dd{y}{x}$ and
-        the unsigned MRS.
-  \item Find $\dd{z}{t}$ for $z=\mathrm{e}^{x}\sin y$ with $x=2t$,
-        $y=t^{2}$.
-  \item Compute $\pd{z}{s}$ and $\pd{z}{t}$ for $z=x^{2}y-y^{3}$ with
-        $x=s/t$, $y=st$.
-  \item Compute $\mathrm{d}z$ for $z=(x+y)\mathrm{e}^{x-y}$.
-  \item For the indifference curve $U(x,y)=\alpha\ln x+\beta\ln y=c$ (with
-        $\alpha,\beta>0$), find $\dd{y}{x}$ and the MRS.
-  \item Find $\dd{z}{t}$ for $z=\sqrt{xy}$ with $x=t^{3}$, $y=t$.
-  \item Compute $\mathrm{d}z$ for $z=\ln(x^{2}+y^{2}+1)$.
-  \item Compute $\pd{z}{s}$ and $\pd{z}{t}$ for $z=\mathrm{e}^{xy}$ with
-        $x=s+t$, $y=s-t$.
-  \item For $Q(K,L)=K+2\sqrt{KL}+L=Q_{0}$ (a perfect-square form), find
-        the MRTS.
-  \item Find $\dd{z}{t}$ for $z=\cos(xy)$ with $x=t$, $y=1/t$ (for $t>0$).
-        Verify by direct substitution.
-  \item For the indifference curve $U(x,y)=xy+x+y=c$, find $\dd{y}{x}$
-        and the unsigned MRS.
-  \item Use the total differential of $V(P,Y)=Y/P$ (real income) to
-        approximate $\mathrm{d}V$ when $\mathrm{d}P=0.02P$ and
-        $\mathrm{d}Y=0.03Y$. Interpret.
-  \item Compute $\pd{z}{s}$ and $\pd{z}{t}$ for $z=x^{2}+2xy$ with
-        $x=s\cos t$, $y=s\sin t$.
-  \item For $U(x_{1},x_{2},x_{3})=x_{1}+2x_{2}+3x_{3}=c$, find
-        $\pd{x_{3}}{x_{1}}$ and $\pd{x_{3}}{x_{2}}$ along the level set,
-        and interpret as marginal rates of substitution.
+  \item $f(x,y)=\sqrt{16-x^{2}-y^{2}}$
+  \item $f(x,y)=\ln(x-y)$
+  \item $f(x,y)=\dfrac{1}{x^{2}+y^{2}-1}$
+  \item $f(x,y)=\dfrac{xy}{x-y}$
+  \item $f(x,y)=\sqrt{x}+\sqrt{y}$
+  \item $f(x,y)=\ln\bigl(xy\bigr)$
+  \item $f(x,y)=\sqrt{x^{2}+y^{2}-4}$
+  \item $f(K,L)=K^{0.4}L^{0.6}$, and state the economic domain too.
+\end{problems}
+
+In problems 9--20, give the level set $N_{c}$ for the stated level, solved
+for $y$ where possible, and name the curve.
+
+\begin{problems}[resume]
+  \item $f(x,y)=x+2y$, \;$c=4$.
+  \item $f(x,y)=x^{2}+y^{2}$, \;$c=9$.
+  \item $f(x,y)=x^{2}+y^{2}$, \;$c=0$.
+  \item $f(x,y)=x^{2}+4y^{2}$, \;$c=4$.
+  \item $f(x,y)=xy$, \;$c=6$.
+  \item $f(x,y)=x^{2}-y^{2}$, \;$c=0$.
+  \item $f(x,y)=x^{2}-y^{2}$, \;$c=4$.
+  \item $f(x,y)=y-x^{2}$, \;$c=2$.
+  \item $f(x,y)=\sqrt{x^{2}+y^{2}}$, \;$c=3$.
+  \item $f(x,y)=\mathrm{e}^{x+y}$, \;$c=1$.
+  \item $f(K,L)=\sqrt{KL}$, \;$c=10$.
+  \item $f(x,y)=2x+3y$, \;$c=12$; and say what this curve is called when
+        $f$ is a cost.
+\end{problems}
+
+Problems 21--28 refer to the contour map below, which shows the level
+curves of $f(x,y)=x^{3}-3x+y^{2}$ at the levels $c=-1,0,2,4$, together with
+six marked points.
+
+\begin{gallery}
+\hspace*{\fill}%
+\begin{tikzpicture}
+  \begin{axis}[contouraxis, width=8.2cm, height=8.2cm,
+      xmin=-2.6, xmax=2.6, ymin=-3.2, ymax=3.2,
+      xtick={-2,-1,1,2}, ytick={-2,-1,1,2}]
+    % c = 4
+    \addplot[domain=-2.2:2.196, samples=201]{ sqrt(4-x^3+3*x)};
+    \addplot[domain=-2.2:2.196, samples=201]{-sqrt(4-x^3+3*x)};
+    % c = 2 (through the saddle at (-1,0))
+    \addplot[domain=-2.2:2, samples=201]{ sqrt(2-x^3+3*x)};
+    \addplot[domain=-2.2:2, samples=201]{-sqrt(2-x^3+3*x)};
+    % c = 0, two pieces
+    \addplot[domain=-2.2:-1.7321, samples=101]{ sqrt(-x^3+3*x)};
+    \addplot[domain=-2.2:-1.7321, samples=101]{-sqrt(-x^3+3*x)};
+    \addplot[domain=0:1.7321, samples=101]{ sqrt(-x^3+3*x)};
+    \addplot[domain=0:1.7321, samples=101]{-sqrt(-x^3+3*x)};
+    % c = -1, two pieces
+    \addplot[domain=-2.2:-1.8794, samples=61]{ sqrt(-1-x^3+3*x)};
+    \addplot[domain=-2.2:-1.8794, samples=61]{-sqrt(-1-x^3+3*x)};
+    \addplot[domain=0.3473:1.5321, samples=101]{ sqrt(-1-x^3+3*x)};
+    \addplot[domain=0.3473:1.5321, samples=101]{-sqrt(-1-x^3+3*x)};
+    % marked points
+    \addplot[only marks, mark=*, mark size=1.4pt, black, forget plot]
+      coordinates {(0,0) (1,0) (-1,0) (2,1) (0,2) (-2,1)};
+    \node[font=\tiny, anchor=north east] at (axis cs:-0.06,-0.12) {$P_{1}$};
+    \node[font=\tiny, anchor=north west] at (axis cs:1.08,-0.12) {$P_{2}$};
+    \node[font=\tiny, anchor=south east] at (axis cs:-1.12,0.12) {$P_{3}$};
+    \node[font=\tiny, anchor=south west] at (axis cs:2.05,1.05) {$P_{4}$};
+    \node[font=\tiny, anchor=south west] at (axis cs:0.05,2.05) {$P_{5}$};
+    \node[font=\tiny, anchor=south east] at (axis cs:-2.05,1.05) {$P_{6}$};
+  \end{axis}
+\end{tikzpicture}%
+\hspace*{\fill}
+\gcap{Level curves of $f(x,y)=x^{3}-3x+y^{2}$ at $c=-1,0,2,4$.}
+\end{gallery}
+
+\begin{problems}[resume]
+  \item Give $f(P_{i})$ for all six marked points
+        $P_{1}=(0,0)$, $P_{2}=(1,0)$, $P_{3}=(-1,0)$, $P_{4}=(2,1)$,
+        $P_{5}=(0,2)$, $P_{6}=(-2,1)$.
+  \item Which of the six points lie on one and the same level curve?
+  \item One of the drawn contours crosses itself. At which point, and what
+        does that tell you about the surface there?
+  \item One of the drawn contours has shrunk to a single point. Which
+        level, which point, and what feature of the surface is it?
+  \item From the picture alone, name the two critical points of $f$ and
+        classify each as a local maximum, a local minimum, or a saddle.
+  \item Confirm the previous answer by computation: solve
+        $f_{x}=f_{y}=0$.
+  \item Is the sublevel set $W(-1)$ connected? Answer from the picture and
+        explain what the two pieces mean.
+  \item Moving away from $P_{2}$, in which direction does $f$ increase
+        fastest? Answer qualitatively from the contours, then check with
+        $\grad f$ at a nearby point, say $(1.5,0.5)$.
+\end{problems}
+
+\begin{problems}[resume]
+  \item Match each surface (a)--(f) below to its contour map (1)--(6).
+  \item For each of the six functions in the previous problem, say whether
+        it is convex, concave, both, or neither on all of $\R^{2}$.
+\end{problems}
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[surfaxis, title={(a)}]
+    \addplot3[surf, domain=-2:2, y domain=-2:2]{x+y};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[surfaxis, title={(b)}, z post scale=1.2]
+    \addplot3[surf, domain=-2:2, y domain=-2:2]{x^2+y^2};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[surfaxis, title={(c)}, z post scale=1.2]
+    \addplot3[surf, domain=-2:2, y domain=-2:2]{sqrt(x^2+y^2)};
+  \end{axis}
+\end{tikzpicture}
+\end{gallery}
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[surfaxis, title={(d)}, z post scale=1.2]
+    \addplot3[surf, domain=-2:2, y domain=-2:2]{x^2-y^2};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[surfaxis, title={(e)}, z post scale=1.2, view={105}{32}]
+    \addplot3[surf, domain=-2:2, y domain=-2:2]{x*y};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[surfaxis, title={(f)}, z post scale=1.2]
+    \addplot3[surf, domain=-2:2, y domain=-2:2]{x^2};
+  \end{axis}
+\end{tikzpicture}
+\end{gallery}
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[contouraxis, xmin=-2.4, xmax=2.4, ymin=-2.4, ymax=2.4,
+      xtick={-2,2}, ytick={-2,2}, title={(1)}]
+    \foreach \c in {-2,-1,0,1,2} { \addplot[domain=-2.3:2.3]{\c-x}; }
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[contouraxis, xmin=-2.4, xmax=2.4, ymin=-2.4, ymax=2.4,
+      xtick={-2,2}, ytick={-2,2}, title={(2)}]
+    \foreach \r in {0.25,0.5,0.75,1,1.25,1.5,1.75,2} {
+      \addplot[domain=0:360, samples=121]({\r*cos(x)},{\r*sin(x)}); }
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[contouraxis, xmin=-2.4, xmax=2.4, ymin=-2.4, ymax=2.4,
+      xtick={-2,2}, ytick={-2,2}, title={(3)}]
+    \foreach \r in {0.707,1,1.225,1.414,1.581,1.732,1.871,2} {
+      \addplot[domain=0:360, samples=121]({\r*cos(x)},{\r*sin(x)}); }
+  \end{axis}
+\end{tikzpicture}
+\end{gallery}
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[contouraxis, xmin=-2.4, xmax=2.4, ymin=-2.4, ymax=2.4,
+      xtick={-2,2}, ytick={-2,2}, title={(4)}]
+    \addplot[domain=-2.3:2.3]{x};
+    \addplot[domain=-2.3:2.3]{-x};
+    \foreach \s in {1,-1} {
+      \addplot[domain=-1.4:1.4, samples=81]({\s*cosh(x)},{sinh(x)});
+      \addplot[domain=-1.4:1.4, samples=81]({sinh(x)},{\s*cosh(x)}); }
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[contouraxis, xmin=-2.4, xmax=2.4, ymin=-2.4, ymax=2.4,
+      xtick={-2,2}, ytick={-2,2}, title={(5)}]
+    \foreach \c in {1,2} {
+      \addplot[domain=0.42:2.3, samples=101]{\c/x};
+      \addplot[domain=-2.3:-0.42, samples=101]{\c/x};
+      \addplot[domain=0.42:2.3, samples=101]{-\c/x};
+      \addplot[domain=-2.3:-0.42, samples=101]{-\c/x}; }
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[contouraxis, xmin=-2.4, xmax=2.4, ymin=-2.4, ymax=2.4,
+      xtick={-2,2}, ytick={-2,2}, title={(6)}]
+    \foreach \v in {-2,-1.414,-1,1,1.414,2} {
+      \addplot[samples=2] coordinates {(\v,-2.3) (\v,2.3)}; }
+  \end{axis}
+\end{tikzpicture}
+\end{gallery}
+
+In problems 31--38, describe the stated sub- or superlevel set as a region,
+and say whether it is convex.
+
+\begin{problems}[resume]
+  \item $W(4)$ for $f(x,y)=x^{2}+y^{2}$.
+  \item $B(4)$ for $f(x,y)=x^{2}+y^{2}$.
+  \item $W(6)$ for $f(x,y)=2x+3y$.
+  \item $B(4)$ for $f(x,y)=xy$ restricted to $x,y>0$.
+  \item $W(0)$ for $f(x,y)=x^{2}-y^{2}$.
+  \item $B(1)$ for $f(x,y)=\sqrt{x^{2}+y^{2}}$.
+  \item $W(P)$ for $f(x,y)=x^{2}+y^{2}$ with $P=(3,4)$.
+  \item $B(P)$ for $f(K,L)=\sqrt{KL}$ with $P=(4,9)$, on $K,L>0$.
+\end{problems}
+
+\begin{problems}[resume]
+  \item Sketch the level sets $W(2)$, $B(2)$, $W(-1)$ and $B(-1)$ of the
+        one-variable function $g(x)=x^{3}-3x$ as subsets of the $x$-axis,
+        and say which of the four are convex sets.
+  \item Explain why for a function of one variable a level set
+        $W(c)$ is convex exactly when it is an interval.
+  \item A firm's isoquants are the curves $KL=\bar Q$. Sketch three of them
+        for $\bar Q=1,4,9$ on $K,L>0$, and say whether the isoquants get
+        closer together or further apart as output rises along the ray
+        $K=L$.
+  \item For the budget set $\{2x+5y\le100,\ x,y\ge0\}$: give the two
+        intercepts, sketch the set, and say why it is convex.
+  \item The indifference curves of $U(x,y)=xy$ and the budget line
+        $2x+5y=100$ are drawn on the same axes. Describe, in words and
+        without computing, the geometric condition that locates the optimal
+        bundle.
+  \item Two contour maps show circles as level curves. In the first the
+        circles are equally spaced; in the second they crowd together
+        outwards. Which is the cone and which the paraboloid, and why?
+  \item A contour map has no closed loops and no crossings anywhere, only
+        parallel straight lines. What can be said about the function?
 \end{problems}
 
 \section{Solutions}
 
 \begin{solutions}
-  \item $f_{x}=8x-5y$, $f_{y}=-5x+4y$.
-        \[
-          \mathrm{d}z \;=\; (8x-5y)\,\mathrm{d}x+(-5x+4y)\,\mathrm{d}y .
-        \]
-
-  \item $f_{x}=2x$, $f_{y}=-2y$, $\dd{x}{t}=2$, $\dd{y}{t}=2t$.
-        \[
-          \dd{z}{t}=2x\cdot 2+(-2y)\cdot 2t=4(2t+1)-4t^{3}=8t+4-4t^{3} .
-        \]
-        \textbf{Check.} $z=(2t+1)^{2}-t^{4}$, $\dd{z}{t}=8t+4-4t^{3}$.
-        \checkmark
-
-  \item $U_{x}=2x$, $U_{y}=4$. Signed slope $\dd{y}{x}=-2x/4=-x/2$.
-        \textbf{MRS} $=x/2$.
-
-  \item $f_{x}=2x$, $f_{y}=-3$; $x_{s}=1$, $x_{t}=2$, $y_{s}=2$,
-        $y_{t}=-1$.
-        \[
-          \pd{z}{s}=2x(1)+(-3)(2)=2(s+2t)-6,\qquad
-          \pd{z}{t}=2x(2)+(-3)(-1)=4(s+2t)+3 .
-        \]
-
-  \item $f_{x}=4x^{3}y^{-2}$, $f_{y}=-2x^{4}y^{-3}$.
-        \[
-          \mathrm{d}z \;=\; \frac{4x^{3}}{y^{2}}\,\mathrm{d}x
-            -\frac{2x^{4}}{y^{3}}\,\mathrm{d}y .
-        \]
-
-  \item $f_{x}=y\mathrm{e}^{xy}$, $f_{y}=x\mathrm{e}^{xy}$;
-        $\dd{x}{t}=\cos t$, $\dd{y}{t}=-\sin t$.
-        \[
-          \dd{z}{t}=\mathrm{e}^{xy}(y\cos t-x\sin t)
-            =\mathrm{e}^{\sin t\cos t}(\cos^{2}t-\sin^{2}t)
-            =\mathrm{e}^{\sin t\cos t}\cos(2t) .
-        \]
-
-  \item $Q_{K}=0.4K^{-0.6}L^{0.6}$, $Q_{L}=0.6K^{0.4}L^{-0.4}$.
-        \[
-          \frac{Q_{K}}{Q_{L}}=\frac{0.4}{0.6}\cdot\frac{L}{K}
-            =\frac{2}{3}\,\frac{L}{K} .
-        \]
-        $\dd{L}{K}=-\tfrac{2}{3}L/K$. \textbf{MRTS} $=\tfrac{2}{3}L/K$.
-
-  \item $f_{x}=3/(3x+2y)$, $f_{y}=2/(3x+2y)$.
-        \[
-          \mathrm{d}z \;=\; \frac{3\,\mathrm{d}x+2\,\mathrm{d}y}{3x+2y} .
-        \]
-
-  \item $f_{x}=\mathrm{e}^{x}\cos y$, $f_{y}=-\mathrm{e}^{x}\sin y$;
-        $x_{s}=t$, $x_{t}=s$, $y_{s}=y_{t}=1$.
-        \[
-          \pd{z}{s}=\mathrm{e}^{st}\bigl(t\cos(s+t)-\sin(s+t)\bigr),\qquad
-          \pd{z}{t}=\mathrm{e}^{st}\bigl(s\cos(s+t)-\sin(s+t)\bigr) .
-        \]
-
-  \item $f_{x}=2xy$, $f_{y}=x^{2}$; $\dd{x}{t}=1/t$, $\dd{y}{t}=3t^{2}$.
-        \[
-          \dd{z}{t}=2xy\cdot\frac{1}{t}+x^{2}\cdot 3t^{2}
-            =\frac{2(\ln t)t^{3}}{t}+3t^{2}(\ln t)^{2}
-            =2t^{2}\ln t+3t^{2}(\ln t)^{2} .
-        \]
-
-  \item $U_{x}=\tfrac{2}{3}x^{-1/3}y^{1/3}$,
-        $U_{y}=\tfrac{1}{3}x^{2/3}y^{-2/3}$.
-        \[
-          \frac{U_{x}}{U_{y}}=2\,\frac{y}{x} .
-        \]
-        $\dd{y}{x}=-2y/x$. \textbf{MRS} $=2y/x$.
-
-  \item $f_{x}=2x\mathrm{e}^{x^{2}+y}$, $f_{y}=\mathrm{e}^{x^{2}+y}$.
-        \[
-          \mathrm{d}z \;=\; \mathrm{e}^{x^{2}+y}(2x\,\mathrm{d}x+\mathrm{d}y) .
-        \]
-
-  \item $f_{x}=1/(2\sqrt{x+y^{2}})$, $f_{y}=y/\sqrt{x+y^{2}}$;
-        $\dd{x}{t}=2t$, $\dd{y}{t}=1$.
-        \[
-          \dd{z}{t}=\frac{2t}{2\sqrt{x+y^{2}}}+\frac{y}{\sqrt{x+y^{2}}}
-            =\frac{t+y}{\sqrt{x+y^{2}}}=\frac{2t}{\sqrt{2t^{2}}}
-            =\frac{\sqrt{2}\,t}{|t|} .
-        \]
-        For $t>0$: $\dd{z}{t}=\sqrt{2}$. (Indeed $z=\sqrt{2}\,|t|$.)
-
-  \item $f_{x}=2x/(x^{2}+y^{2})$, $f_{y}=2y/(x^{2}+y^{2})$;
-        $x_{s}=1/t$, $x_{t}=-s/t^{2}$, $y_{s}=-t/s^{2}$, $y_{t}=1/s$.
-        \[
-          \pd{z}{s}=\frac{2}{x^{2}+y^{2}}\Bigl(\frac{x}{t}-\frac{yt}{s^{2}}\Bigr)
-            =\frac{2}{x^{2}+y^{2}}\Bigl(\frac{s}{t^{2}}-\frac{t^{2}}{s^{3}}\Bigr) .
-        \]
-        \[
-          \pd{z}{t}=\frac{2}{x^{2}+y^{2}}\Bigl(\frac{t}{s^{2}}-\frac{s^{2}}{t^{3}}\Bigr) .
-        \]
-
-  \item $U_{x}=1/(2\sqrt{x})$, $U_{y}=1/(2\sqrt{y})$.
-        \[
-          \frac{U_{x}}{U_{y}}=\sqrt{\frac{y}{x}} .
-        \]
-        $\dd{y}{x}=-\sqrt{y/x}$. \textbf{MRS} $=\sqrt{y/x}$.
-
-  \item Quotient rule.
-        \[
-          f_{x}=\frac{(x-y)-(x+y)}{(x-y)^{2}}=\frac{-2y}{(x-y)^{2}},\qquad
-          f_{y}=\frac{(x-y)+(x+y)}{(x-y)^{2}}=\frac{2x}{(x-y)^{2}} .
-        \]
-        \[
-          \mathrm{d}z \;=\; \frac{-2y\,\mathrm{d}x+2x\,\mathrm{d}y}{(x-y)^{2}} .
-        \]
-
-  \item Let $u=y/x$. $f_{x}=-y/(x^{2}+y^{2})$, $f_{y}=x/(x^{2}+y^{2})$;
-        $\dd{x}{t}=\mathrm{e}^{t}$, $\dd{y}{t}=2\mathrm{e}^{2t}$.
-        \[
-          \dd{z}{t}=\frac{-y\mathrm{e}^{t}+2x\mathrm{e}^{2t}}{x^{2}+y^{2}} .
-        \]
-        Substitute $x=\mathrm{e}^{t}$, $y=\mathrm{e}^{2t}$,
-        $x^{2}+y^{2}=\mathrm{e}^{2t}(1+\mathrm{e}^{2t})$:
-        \[
-          \dd{z}{t}=\frac{-\mathrm{e}^{3t}+2\mathrm{e}^{3t}}
-            {\mathrm{e}^{2t}(1+\mathrm{e}^{2t})}
-            =\frac{\mathrm{e}^{t}}{1+\mathrm{e}^{2t}} .
-        \]
-
-  \item Let $A=aK^{1/2}+bL^{1/2}$, $Q=A^{2}$. $Q_{K}=2A\cdot(a/2)K^{-1/2}
-        =aAK^{-1/2}$, $Q_{L}=bAL^{-1/2}$.
-        \[
-          \frac{Q_{K}}{Q_{L}}=\frac{a}{b}\sqrt{\frac{L}{K}} .
-        \]
-        $\dd{L}{K}=-(a/b)\sqrt{L/K}$. \textbf{MRTS} $=(a/b)\sqrt{L/K}$.
-
-  \item $f_{x}=\tfrac12\sqrt{y/x}$, $f_{y}=\tfrac12\sqrt{x/y}$;
-        $x_{s}=2s$, $x_{t}=2t$, $y_{s}=t$, $y_{t}=s$.
-        \[
-          \pd{z}{s}=s\sqrt{\frac{y}{x}}+\frac{t}{2}\sqrt{\frac{x}{y}},\qquad
-          \pd{z}{t}=t\sqrt{\frac{y}{x}}+\frac{s}{2}\sqrt{\frac{x}{y}} .
-        \]
-
-  \item $f_{x}=\sin y-y\sin x$, $f_{y}=x\cos y+\cos x$.
-        \[
-          \mathrm{d}z \;=\; (\sin y-y\sin x)\,\mathrm{d}x
-            +(x\cos y+\cos x)\,\mathrm{d}y .
-        \]
-
-  \item $U_{x}=1/(x+1)$, $U_{y}=1/(y+1)$.
-        \[
-          \frac{U_{x}}{U_{y}}=\frac{y+1}{x+1} .
-        \]
-        $\dd{y}{x}=-(y+1)/(x+1)$. \textbf{MRS} $=(y+1)/(x+1)$.
-
-  \item $f_{x}=\ln y$, $f_{y}=x/y$; $\dd{x}{t}=2t$, $\dd{y}{t}=\mathrm{e}^{t}$.
-        \[
-          \dd{z}{t}=(\ln y)(2t)+\frac{x}{y}\mathrm{e}^{t}
-            =t(2t)+\frac{(t^{2}+1)\mathrm{e}^{t}}{\mathrm{e}^{t}}
-            =3t^{2}+1 .
-        \]
-        \textbf{Check.} $z=(t^{2}+1)t=t^{3}+t$, $\dd{z}{t}=3t^{2}+1$.
-        \checkmark
-
-  \item $f_{x}=3x^{2}\mathrm{e}^{2y}$, $f_{y}=2x^{3}\mathrm{e}^{2y}$.
-        \[
-          \mathrm{d}z \;=\; x^{2}\mathrm{e}^{2y}(3\,\mathrm{d}x+2x\,\mathrm{d}y) .
-        \]
-
-  \item $f_{x}=2x$, $f_{y}=2y$; $\dd{x}{t}=-\sin t$, $\dd{y}{t}=\cos t$.
-        \[
-          \dd{z}{t}=2x(-\sin t)+2y(\cos t)=-2\cos t\sin t+2\sin t\cos t=0 .
-        \]
-        \textbf{Check.} $z=\cos^{2}t+\sin^{2}t=1$, so $\dd{z}{t}=0$.
-        \checkmark
-
-  \item $U_{x}=1$, $U_{y}=2y$. Signed slope: $\dd{y}{x}=-1/(2y)$,
-        well-defined for $y\neq 0$. The MRS in the usual sense is
-        $1/(2y)$.
-
-  \item $f_{x}=y^{2}$, $f_{y}=2xy$; $x_{s}=1$, $x_{t}=1$, $y_{s}=1$,
-        $y_{t}=-1$.
-        \[
-          \pd{z}{s}=y^{2}(1)+2xy(1)=y^{2}+2xy=(s-t)^{2}+2(s+t)(s-t) .
-        \]
-        Simplify: $(s-t)^{2}+2(s^{2}-t^{2})=s^{2}-2st+t^{2}+2s^{2}-2t^{2}
-          =3s^{2}-2st-t^{2}$.
-        \[
-          \pd{z}{t}=y^{2}(1)+2xy(-1)=y^{2}-2xy=(s-t)^{2}-2(s+t)(s-t)
-            =-s^{2}-2st+3t^{2} .
-        \]
-
-  \item $f_{x}=y/(1+x^{2}y^{2})$, $f_{y}=x/(1+x^{2}y^{2})$.
-        \[
-          \mathrm{d}z \;=\; \frac{y\,\mathrm{d}x+x\,\mathrm{d}y}{1+x^{2}y^{2}} .
-        \]
-
-  \item $f_{x}=2x/(x^{2}+y^{2})$, $f_{y}=2y/(x^{2}+y^{2})$;
-        $\dd{x}{t}=1$, $\dd{y}{t}=2t$.
-        \[
-          \dd{z}{t}=\frac{2x+2y(2t)}{x^{2}+y^{2}}
-            =\frac{2t+4t^{3}}{t^{2}+t^{4}}
-            =\frac{2t(1+2t^{2})}{t^{2}(1+t^{2})}
-            =\frac{2(1+2t^{2})}{t(1+t^{2})} .
-        \]
-
-  \item $Q_{K}=A\alpha K^{\alpha-1}L^{\beta}$,
-        $Q_{L}=A\beta K^{\alpha}L^{\beta-1}$.
-        \[
-          \frac{Q_{K}}{Q_{L}}=\frac{\alpha}{\beta}\cdot\frac{L}{K} .
-        \]
-        $\dd{L}{K}=-(\alpha/\beta)(L/K)$.
-        \textbf{MRTS} $=(\alpha/\beta)(L/K)$.
-
-  \item $f_{x}=2x/y-y^{2}/x^{2}$, $f_{y}=-x^{2}/y^{2}+2y/x$.
-        \[
-          \mathrm{d}z \;=\; \Bigl(\frac{2x}{y}-\frac{y^{2}}{x^{2}}\Bigr)\mathrm{d}x
-            +\Bigl(\frac{2y}{x}-\frac{x^{2}}{y^{2}}\Bigr)\mathrm{d}y .
-        \]
-
-  \item $U_{x}=\mathrm{e}^{x}$, $U_{y}=\mathrm{e}^{y}$.
-        \[
-          \frac{U_{x}}{U_{y}}=\mathrm{e}^{x-y} .
-        \]
-        $\dd{y}{x}=-\mathrm{e}^{x-y}$. \textbf{MRS} $=\mathrm{e}^{x-y}$.
-
-  \item $f_{x}=\mathrm{e}^{x}\sin y$, $f_{y}=\mathrm{e}^{x}\cos y$;
-        $\dd{x}{t}=2$, $\dd{y}{t}=2t$.
-        \[
-          \dd{z}{t}=2\mathrm{e}^{x}\sin y+2t\mathrm{e}^{x}\cos y
-            =2\mathrm{e}^{2t}(\sin t^{2}+t\cos t^{2}) .
-        \]
-
-  \item $f_{x}=2xy$, $f_{y}=x^{2}-3y^{2}$; $x_{s}=1/t$, $x_{t}=-s/t^{2}$,
-        $y_{s}=t$, $y_{t}=s$. Note $xy=(s/t)(st)=s^{2}$.
-        \[
-          \pd{z}{s}=2xy\cdot\frac{1}{t}+(x^{2}-3y^{2})\cdot t
-            =\frac{2s^{2}}{t}+t\Bigl(\frac{s^{2}}{t^{2}}-3s^{2}t^{2}\Bigr)
-            =\frac{2s^{2}}{t}+\frac{s^{2}}{t}-3s^{2}t^{3}
-            =\frac{3s^{2}}{t}-3s^{2}t^{3} .
-        \]
-        \[
-          \pd{z}{t}=2xy\cdot\Bigl(-\frac{s}{t^{2}}\Bigr)+(x^{2}-3y^{2})\cdot s
-            =-\frac{2s^{3}}{t^{2}}+s\Bigl(\frac{s^{2}}{t^{2}}-3s^{2}t^{2}\Bigr)
-            =-\frac{s^{3}}{t^{2}}-3s^{3}t^{2} .
-        \]
-        \textbf{Check.} $z=(s/t)^{2}(st)-(st)^{3}=s^{3}/t-s^{3}t^{3}$. Then
-        $\pd{z}{s}=3s^{2}/t-3s^{2}t^{3}$ and
-        $\pd{z}{t}=-s^{3}/t^{2}-3s^{3}t^{2}$. \checkmark
-
-  \item Product rule: $f_{x}=\mathrm{e}^{x-y}+(x+y)\mathrm{e}^{x-y}
-        =(1+x+y)\mathrm{e}^{x-y}$, and
-        $f_{y}=\mathrm{e}^{x-y}-(x+y)\mathrm{e}^{x-y}=(1-x-y)\mathrm{e}^{x-y}$.
-        \[
-          \mathrm{d}z \;=\; \mathrm{e}^{x-y}\bigl((1+x+y)\,\mathrm{d}x
-            +(1-x-y)\,\mathrm{d}y\bigr) .
-        \]
-
-  \item $U_{x}=\alpha/x$, $U_{y}=\beta/y$.
-        \[
-          \frac{U_{x}}{U_{y}}=\frac{\alpha}{\beta}\cdot\frac{y}{x} .
-        \]
-        $\dd{y}{x}=-(\alpha/\beta)(y/x)$.
-        \textbf{MRS} $=(\alpha/\beta)(y/x)$. (Standard log-Cobb-Douglas.)
-
-  \item $f_{x}=\tfrac12\sqrt{y/x}$, $f_{y}=\tfrac12\sqrt{x/y}$;
-        $\dd{x}{t}=3t^{2}$, $\dd{y}{t}=1$.
-        \[
-          \dd{z}{t}=\frac{3t^{2}}{2}\sqrt{\frac{y}{x}}
-            +\frac{1}{2}\sqrt{\frac{x}{y}} .
-        \]
-        Substitute $y/x=1/t^{2}$, so $\sqrt{y/x}=1/t$ (for $t>0$), and
-        $\sqrt{x/y}=t$:
-        \[
-          \dd{z}{t}=\frac{3t^{2}}{2}\cdot\frac{1}{t}+\frac{t}{2}
-            =\frac{3t}{2}+\frac{t}{2}=2t .
-        \]
-        \textbf{Check.} $z=\sqrt{t^{3}\cdot t}=\sqrt{t^{4}}=t^{2}$,
-        $\dd{z}{t}=2t$. \checkmark
-
-  \item $f_{x}=2x/(x^{2}+y^{2}+1)$, $f_{y}=2y/(x^{2}+y^{2}+1)$.
-        \[
-          \mathrm{d}z \;=\; \frac{2x\,\mathrm{d}x+2y\,\mathrm{d}y}{x^{2}+y^{2}+1} .
-        \]
-
-  \item $f_{x}=y\mathrm{e}^{xy}$, $f_{y}=x\mathrm{e}^{xy}$; $x_{s}=1$,
-        $x_{t}=1$, $y_{s}=1$, $y_{t}=-1$.
-        \[
-          \pd{z}{s}=y\mathrm{e}^{xy}+x\mathrm{e}^{xy}=(x+y)\mathrm{e}^{xy}
-            =2s\,\mathrm{e}^{s^{2}-t^{2}} .
-        \]
-        \[
-          \pd{z}{t}=y\mathrm{e}^{xy}-x\mathrm{e}^{xy}=(y-x)\mathrm{e}^{xy}
-            =-2t\,\mathrm{e}^{s^{2}-t^{2}} .
-        \]
-
-  \item Note $Q=(\sqrt{K}+\sqrt{L})^{2}$. So $Q_{K}=2(\sqrt{K}+\sqrt{L})
-        \cdot\dfrac{1}{2\sqrt{K}}=(\sqrt{K}+\sqrt{L})/\sqrt{K}$, and
-        $Q_{L}=(\sqrt{K}+\sqrt{L})/\sqrt{L}$.
-        \[
-          \frac{Q_{K}}{Q_{L}}=\frac{\sqrt{L}}{\sqrt{K}}=\sqrt{\frac{L}{K}} .
-        \]
-        $\dd{L}{K}=-\sqrt{L/K}$. \textbf{MRTS} $=\sqrt{L/K}$.
-
-  \item $f_{x}=-y\sin(xy)$, $f_{y}=-x\sin(xy)$; $\dd{x}{t}=1$,
-        $\dd{y}{t}=-1/t^{2}$.
-        \[
-          \dd{z}{t}=-y\sin(xy)+\bigl(-x\sin(xy)\bigr)\Bigl(-\frac{1}{t^{2}}\Bigr)
-            =-\sin(xy)\Bigl(y-\frac{x}{t^{2}}\Bigr) .
-        \]
-        With $x=t$, $y=1/t$: $xy=1$, and $y-x/t^{2}=1/t-1/t=0$. Hence
-        $\dd{z}{t}=0$. \textbf{Check.} $z=\cos(xy)=\cos 1$ is constant.
-        \checkmark
-
-  \item $U_{x}=y+1$, $U_{y}=x+1$.
-        \[
-          \frac{U_{x}}{U_{y}}=\frac{y+1}{x+1} .
-        \]
-        $\dd{y}{x}=-(y+1)/(x+1)$. \textbf{MRS} $=(y+1)/(x+1)$.
-
-  \item $V_{P}=-Y/P^{2}$, $V_{Y}=1/P$.
-        \[
-          \mathrm{d}V \;=\; -\frac{Y}{P^{2}}\,\mathrm{d}P+\frac{1}{P}\,\mathrm{d}Y
-            =\frac{V}{1}\Bigl(-\frac{\mathrm{d}P}{P}+\frac{\mathrm{d}Y}{Y}\Bigr)\cdot 1
-        \]
-        since $V=Y/P$, we have $-Y\,\mathrm{d}P/P^{2}=-V\,\mathrm{d}P/P$
-        and $\mathrm{d}Y/P=V\,\mathrm{d}Y/Y$. So
-        \[
-          \frac{\mathrm{d}V}{V} \;=\; \frac{\mathrm{d}Y}{Y}-\frac{\mathrm{d}P}{P}
-            \;=\; 0.03-0.02 \;=\; 0.01 .
-        \]
-        Real income rises by about $1\%$. Interpretation: nominal income
-        growth less inflation gives real income growth (log-linearised).
-
-  \item $f_{x}=2x+2y$, $f_{y}=2x$; $x_{s}=\cos t$, $x_{t}=-s\sin t$,
-        $y_{s}=\sin t$, $y_{t}=s\cos t$.
-        \[
-          \pd{z}{s}=(2x+2y)\cos t+2x\sin t .
-        \]
-        Substitute $x=s\cos t$, $y=s\sin t$: $2x+2y=2s(\cos t+\sin t)$,
-        so
-        \[
-          \pd{z}{s}=2s(\cos t+\sin t)\cos t+2s\cos t\sin t
-            =2s\cos^{2}t+4s\sin t\cos t
-            =2s(\cos^{2}t+2\sin t\cos t) .
-        \]
-        \[
-          \pd{z}{t}=(2x+2y)(-s\sin t)+2x(s\cos t)
-            =-2s^{2}(\cos t+\sin t)\sin t+2s^{2}\cos^{2}t .
-        \]
-        Expanding: $-2s^{2}(\cos t\sin t+\sin^{2}t)+2s^{2}\cos^{2}t
-          =2s^{2}(\cos^{2}t-\sin^{2}t-\sin t\cos t)
-          =2s^{2}\bigl(\cos 2t-\tfrac12\sin 2t\bigr)$.
-
-  \item On $U=c$, $\mathrm{d}U=\mathrm{d}x_{1}+2\,\mathrm{d}x_{2}
-        +3\,\mathrm{d}x_{3}=0$. Solve for $\mathrm{d}x_{3}$:
-        \[
-          \mathrm{d}x_{3}=-\tfrac13\,\mathrm{d}x_{1}-\tfrac23\,\mathrm{d}x_{2}
-          \;\Longrightarrow\;
-          \pd{x_{3}}{x_{1}}\bigg|_{U=c}=-\tfrac13,\qquad
-          \pd{x_{3}}{x_{2}}\bigg|_{U=c}=-\tfrac23 .
-        \]
-        Unsigned MRSes: $1/3$ (between $x_{3}$ and $x_{1}$) and $2/3$
-        (between $x_{3}$ and $x_{2}$).
+  \item $16-x^{2}-y^{2}\ge0\iff x^{2}+y^{2}\le16$: the closed disc of
+        radius $4$ about the origin.
+  \item $x-y>0$: the open half-plane strictly below the line $y=x$.
+  \item $x^{2}+y^{2}\neq1$: the whole plane except the unit circle.
+  \item $x\neq y$: the plane without the line $y=x$.
+  \item $x\ge0$ and $y\ge0$: the closed non-negative quadrant.
+  \item $xy>0$: the open first and third quadrants (the axes excluded).
+  \item $x^{2}+y^{2}\ge4$: everything outside or on the circle of radius
+        $2$ --- the complement of an open disc.
+  \item The exponents are not integers, so $K\ge0$ and $L\ge0$: the closed
+        non-negative quadrant. Economically the same set, usually taken
+        open ($K,L>0$) so that marginal products exist.
+  \item $y=\dfrac{4-x}{2}=2-\tfrac12x$: a straight line of slope
+        $-\tfrac12$. All level sets are parallel lines.
+  \item $x^{2}+y^{2}=9$, i.e. $y=\pm\sqrt{9-x^{2}}$: the circle of radius
+        $3$.
+  \item $x^{2}+y^{2}=0$ forces $x=y=0$: the level set is the single point
+        $(0,0)$, the bottom of the bowl.
+  \item $\dfrac{x^{2}}{4}+y^{2}=1$, so $y=\pm\sqrt{1-x^{2}/4}$: an ellipse
+        with semi-axes $2$ and $1$.
+  \item $y=6/x$: a hyperbola in the first and third quadrants, with both
+        axes as asymptotes.
+  \item $x^{2}=y^{2}\iff y=\pm x$: the \emph{two crossing lines} through
+        the origin. This degenerate level is the signature of a saddle.
+  \item $x^{2}-y^{2}=4$, so $y=\pm\sqrt{x^{2}-4}$, defined for
+        $|x|\ge2$: a hyperbola opening left and right.
+  \item $y=x^{2}+2$: a parabola, the standard parabola shifted up by $2$.
+        All level sets are vertical translates of it.
+  \item $\sqrt{x^{2}+y^{2}}=3\iff x^{2}+y^{2}=9$: the circle of radius
+        $3$. Note that for the cone the radius equals $c$, not
+        $\sqrt{c}$.
+  \item $\mathrm{e}^{x+y}=1\iff x+y=0$, so $y=-x$: a straight line. Every
+        level set of $\mathrm{e}^{x+y}$ is a line $x+y=\ln c$, defined only
+        for $c>0$.
+  \item $\sqrt{KL}=10\iff KL=100\iff L=100/K$: a hyperbola --- the
+        isoquant for output $10$.
+  \item $y=\dfrac{12-2x}{3}=4-\tfrac23x$: a straight line. For a cost
+        function this is an \textbf{isocost line}; the analogous level
+        curve of a budget constraint is the budget line.
+  \item $f(x,y)=x^{3}-3x+y^{2}$ gives
+        $f(P_{1})=0$, \;$f(P_{2})=1-3+0=-2$, \;$f(P_{3})=-1+3+0=2$,
+        \;$f(P_{4})=8-6+1=3$, \;$f(P_{5})=0-0+4=4$,
+        \;$f(P_{6})=-8+6+1=-1$.
+  \item None of them share a level: the six values
+        $0,-2,2,3,4,-1$ are distinct. $P_{3}$ lies on the drawn contour
+        $c=2$, $P_{5}$ on $c=4$ and $P_{6}$ on $c=-1$; $P_{1}$, $P_{2}$ and
+        $P_{4}$ lie between drawn contours.
+  \item The contour $c=2$ crosses itself at $P_{3}=(-1,0)$. A
+        self-crossing level curve marks a \textbf{saddle point}: from
+        $(-1,0)$ the surface rises in two opposite directions and falls in
+        the two others.
+  \item The level $c=-2$ is a single point, $(1,0)$. Nested contours
+        shrinking to a point mark a \textbf{local extremum}; since the
+        levels decrease inwards, it is a local \emph{minimum}, with value
+        $-2$.
+  \item From the picture: a local minimum at $(1,0)$ (contours closing in
+        on it) and a saddle at $(-1,0)$ (the crossing contour). There is no
+        local maximum --- no contours close in on a point with the labels
+        increasing inwards.
+  \item $f_{x}=3x^{2}-3=0\Rightarrow x=\pm1$; $f_{y}=2y=0\Rightarrow y=0$.
+        Critical points $(1,0)$ and $(-1,0)$. With $f_{xx}=6x$,
+        $f_{yy}=2$, $f_{xy}=0$: at $(1,0)$ the determinant is $12>0$ with
+        $f_{xx}>0$, a local minimum; at $(-1,0)$ it is $-12<0$, a saddle.
+  \item No: $W(-1)$ has two pieces --- a small oval around the minimum
+        $(1,0)$ and an unbounded piece on the far left. A sublevel set of a
+        non-convex function may fall apart into components, which is
+        exactly what convexity of $f$ would forbid.
+  \item Away from $P_{2}=(1,0)$ the contours are closed ovals around it, so
+        $f$ increases in \emph{every} direction, fastest where the ovals
+        are most tightly packed --- to the right. Checking,
+        $\grad f=(3x^{2}-3,\,2y)$, so at $(1.5,0.5)$,
+        $\grad f=(3.75,\,1)$: pointing right and slightly up, and
+        perpendicular to the contour there.
+  \item (a)$\to$(1) plane, parallel lines. \;(b)$\to$(3) paraboloid:
+        circles of radius $\sqrt{c}$, crowding outwards.
+        \;(c)$\to$(2) cone: circles of radius $c$, equally spaced.
+        \;(d)$\to$(4) saddle $x^{2}-y^{2}$: hyperbolas with the diagonals
+        $y=\pm x$ as the degenerate level. \;(e)$\to$(5) $xy$: hyperbolas
+        with the \emph{axes} as asymptotes. \;(f)$\to$(6) parabolic
+        cylinder: pairs of vertical lines.
+  \item (a) linear, hence \textbf{both} convex and concave. (b) convex (a
+        bowl). (c) convex (a cone opening upwards; not differentiable at
+        the origin, but still convex). (d) neither --- a saddle.
+        (e) neither on $\R^{2}$; on the positive quadrant it is
+        quasiconcave. (f) convex: $x^{2}$ is convex and adding no
+        $y$-dependence preserves it.
+  \item The closed disc $x^{2}+y^{2}\le4$ of radius $2$. Convex.
+  \item The complement of the open disc, $x^{2}+y^{2}\ge4$: everything
+        outside the circle. \textbf{Not} convex --- the segment joining
+        $(-2,0)$ to $(2,0)$ passes through the origin, which is not in the
+        set.
+  \item The half-plane $2x+3y\le6$, bounded by the line through $(3,0)$ and
+        $(0,2)$. Convex: every half-plane is.
+  \item $\{(x,y): x,y>0,\ xy\ge4\}$, the region on the far side of the
+        hyperbola $y=4/x$. Convex --- this is precisely the statement that
+        $xy$ is quasiconcave on the quadrant.
+  \item $x^{2}-y^{2}\le0\iff|y|\ge|x|$: the two opposite ``vertical'' sectors
+        between the lines $y=\pm x$. Not convex: $(0,1)$ and $(0,-1)$ lie
+        in it, but the midpoint $(0,0)$ is on the boundary and points just
+        off the segment leave the set --- more simply, the set is not even
+        connected in the way a convex set must be, since joining
+        $(0,1)$ to $(1,2)$ stays inside but joining $(0,1)$ to $(0,-1)$
+        passes through the pinch at the origin only.
+  \item $\sqrt{x^{2}+y^{2}}\ge1$: everything outside or on the unit circle.
+        Not convex, for the same reason as problem 32.
+  \item $f(P)=9+16=25$, so $W(P)=\{x^{2}+y^{2}\le25\}$, the closed disc of
+        radius $5$ through $P$. Convex.
+  \item $f(P)=\sqrt{36}=6$, so
+        $B(P)=\{(K,L):K,L>0,\ \sqrt{KL}\ge6\}=\{KL\ge36\}$: the region
+        beyond the isoquant $L=36/K$. Convex.
+  \item $g(x)=x^{3}-3x$ has $g(2)=2$, $g(-1)=2$, $g(1)=-2$, $g(-2)=-2$.
+        $W(2)=\{x\le2\}$ minus nothing --- solving $x^{3}-3x\le2$ gives
+        $(x+1)^{2}(x-2)\le0$, i.e. $x\le2$: the ray $(-\infty,2]$,
+        \textbf{convex}. $B(2)=[2,\infty)\cup\{-1\}$: the ray from $2$
+        \emph{plus the isolated point} $x=-1$, \textbf{not convex}.
+        $W(-1)$: solving $x^{3}-3x\le-1$ gives
+        $(-\infty,-1.879]\cup[0.347,1.532]$, two intervals, \textbf{not
+        convex}. $B(-1)=[-1.879,0.347]\cup[1.532,\infty)$, also two
+        pieces, \textbf{not convex}.
+  \item In $\R^{1}$ a set is convex exactly when it contains the whole
+        segment between any two of its points, and a subset of the line
+        with that property is precisely an interval (possibly unbounded or
+        empty). So ``convex'' and ``interval'' are the same statement one
+        dimension down --- which is why the one-variable picture is the
+        right place to first meet the definition.
+  \item $L=\bar Q/K$: three hyperbola branches, $L=1/K$, $L=4/K$ and
+        $L=9/K$. Along the ray $K=L$ they cut it at
+        $K=1,2,3$: the isoquants for equally spaced \emph{square roots} of
+        output, so for equally spaced output levels they move
+        \emph{further apart}. Rising output requires ever larger input
+        increases --- diminishing returns along the ray.
+  \item Intercepts $(50,0)$ and $(0,20)$. The set is the triangle with
+        vertices $(0,0)$, $(50,0)$, $(0,20)$. It is convex because it is an
+        intersection of three half-planes ($2x+5y\le100$, $x\ge0$,
+        $y\ge0$), and any intersection of convex sets is convex.
+  \item The optimum is where the budget line is \textbf{tangent} to an
+        indifference curve: the highest curve of the family that still
+        touches the triangle touches it at exactly one point, and there the
+        two curves have the same slope. Crossing would mean a higher curve
+        is still reachable; missing the set entirely means the bundle is
+        unaffordable.
+  \item Equally spaced circles are the \textbf{cone}
+        $\sqrt{x^{2}+y^{2}}$, whose level $c$ is a circle of radius $c$ ---
+        constant slope, so equal height steps need equal horizontal steps.
+        Circles crowding outwards are the \textbf{paraboloid}
+        $x^{2}+y^{2}$, level $c$ having radius $\sqrt{c}$: the surface gets
+        steeper, so equal height steps need ever smaller horizontal steps.
+  \item Parallel straight contours, equally spaced or not, mean the
+        function depends on the two variables only through one linear
+        combination: $f(x,y)=h(ax+by)$ for some one-variable $h$. If the
+        spacing is also constant, $h$ is linear and the surface is a plane.
+        There are no critical points of extremum type anywhere.
 \end{solutions}
 
 \section{Additional Problems}
 
 \begin{problems}
-  \item Compute $\mathrm{d}z$ for $z=3x^{2}+2xy-5y^{2}$.
-  \item Find $\dd{z}{t}$ for $z=x^{2}+2y$ with $x=3t+1$, $y=t^{2}-1$.
-  \item For $U(x,y)=x^{2}+y^{2}=c$, find $\dd{y}{x}$ and the unsigned MRS.
-  \item Compute $\pd{z}{s}$ and $\pd{z}{t}$ for $z=x^{2}+y^{2}$ with
-        $x=s+t$, $y=s-t$.
-  \item Compute $\mathrm{d}z$ for $z=x^{3}\sqrt{y}$.
-  \item Find $\dd{z}{t}$ for $z=\ln(x^{2}+y^{2})$ with $x=\mathrm{e}^{t}$,
-        $y=\mathrm{e}^{-t}$.
-  \item For the isoquant $Q(K,L)=K^{0.3}L^{0.7}=Q_{0}$, find $\dd{L}{K}$
-        and the unsigned MRTS.
-  \item Compute $\mathrm{d}z$ for $z=\mathrm{e}^{xy}$.
-  \item Compute $\pd{z}{s}$ and $\pd{z}{t}$ for $z=xy^{2}$ with
-        $x=s^{2}+t$, $y=s-t^{2}$.
-  \item For $U(x,y)=\sqrt{xy}=c$, find $\dd{y}{x}$ and the unsigned MRS.
-  \item Find $\dd{z}{t}$ for $z=\mathrm{e}^{x+y}$ with $x=\sin t$,
-        $y=\cos t$.
-  \item Compute $\mathrm{d}z$ for $z=\dfrac{x}{x+y}$.
-  \item For $U(x,y)=x+\ln y=c$, find $\dd{y}{x}$ and the unsigned MRS.
-  \item Find $\dd{z}{t}$ for $z=x^{2}y-y^{3}$ with $x=t^{2}$, $y=2t$.
-  \item Use the total differential of $W(P,Q)=PQ$ (total revenue) to
-        approximate $\mathrm{d}W$ when $\mathrm{d}P=0.01P$ and
-        $\mathrm{d}Q=-0.005Q$. Interpret.
+  \item Domain of $f(x,y)=\dfrac{\sqrt{y-x^{2}}}{x}$, as a region.
+  \item Domain of $f(x,y)=\ln(4-x^{2}-y^{2})$, as a region.
+  \item Domain and range of $f(x,y)=\mathrm{e}^{-(x^{2}+y^{2})}$.
+  \item Level set of $f(x,y)=x^{2}+y^{2}-4x$ at $c=0$; name and locate the
+        curve.
+  \item Level set of $f(x,y)=x^{2}+y^{2}-4x$ at $c=-4$.
+  \item Level set of $f(x,y)=y\,\mathrm{e}^{x}$ at $c=1$.
+  \item Level set of $f(x,y)=\dfrac{y}{x}$ at $c=2$, and why the origin is
+        excluded.
+  \item Level sets of $f(x,y)=\max(x,y)$ at $c=1$: sketch and describe.
+  \item For $f(x,y)=x^{2}+4y^{2}$, sketch the contours $c=4,16,36$ and say
+        whether they crowd inwards or outwards.
+  \item For $f(x,y)=x-y^{2}$, give the contours at $c=-1,0,1$ and describe
+        the family.
+  \item Give a function whose level curves are concentric circles that
+        crowd \emph{inwards} towards the origin.
+  \item Give a function of two variables whose level sets are all straight
+        lines through the origin.
+  \item $W(1)$ and $B(1)$ for $f(x,y)=|x|+|y|$: describe both and say which
+        is convex.
+  \item $W(0)$ for $f(x,y)=xy$ on all of $\R^{2}$: describe it and decide
+        convexity.
+  \item $B(2)$ for $f(x,y)=x+y$: describe it and decide convexity.
+  \item $W(4)$ for $f(x,y)=x^{2}$: describe it and decide convexity.
+  \item For $f(x,y)=x^{2}+y^{2}$ and $P=(1,2)$, give $W(P)$ and $B(P)$ and
+        the level curve through $P$.
+  \item A function has convex sublevel sets \emph{and} convex superlevel
+        sets at every level. What kind of function can it be? Give an
+        example.
+  \item Sketch the surface $f(x,y)=4-x^{2}-y^{2}$ in words, give its
+        contours, and classify it as convex or concave.
+  \item Two functions have exactly the same family of level curves but
+        different surfaces. Give such a pair and explain how the contour
+        maps can nevertheless be told apart.
+  \item Classify $f(x,y)=x^{2}+y^{2}$, $g(x,y)=-x^{2}-y^{2}$,
+        $h(x,y)=x^{2}-y^{2}$ and $k(x,y)=3x-2y$ as convex, concave, both or
+        neither.
+  \item Which of the four functions in the previous problem are
+        quasiconcave?
+  \item The isoquants of a production function are straight lines with
+        slope $-1$. What does that say about substitutability of the two
+        inputs, and give such a production function.
+  \item An indifference map consists of circles centred at $(4,4)$, with
+        utility \emph{increasing} inwards. Interpret the point $(4,4)$
+        economically and say why such preferences are unusual.
+  \item On the contour map of problem 21, a walker starts at $P_{6}=(-2,1)$
+        and always walks perpendicular to the contours, downhill. Describe
+        where they end up and why the answer is not the minimum at
+        $(1,0)$.
 \end{problems}
 
 \section{Additional Solutions}
 
 \begin{solutions}
-  \item $f_{x}=6x+2y$, $f_{y}=2x-10y$.
-        \[
-          \mathrm{d}z \;=\; (6x+2y)\,\mathrm{d}x+(2x-10y)\,\mathrm{d}y .
-        \]
-
-  \item $f_{x}=2x$, $f_{y}=2$; $\dd{x}{t}=3$, $\dd{y}{t}=2t$.
-        \[
-          \dd{z}{t} \;=\; 2x\cdot 3+2\cdot 2t \;=\; 6(3t+1)+4t
-            \;=\; 22t+6 .
-        \]
-        \textbf{Check.} $z=(3t+1)^{2}+2(t^{2}-1)=9t^{2}+6t+1+2t^{2}-2
-        =11t^{2}+6t-1$, $\dd{z}{t}=22t+6$. \checkmark
-
-  \item $U_{x}=2x$, $U_{y}=2y$. Signed slope: $\dd{y}{x}=-x/y$.
-        \textbf{MRS} $=x/y$ (unsigned).
-
-  \item $f_{x}=2x$, $f_{y}=2y$; $x_{s}=1$, $x_{t}=1$, $y_{s}=1$,
-        $y_{t}=-1$.
-        \[
-          \pd{z}{s}=2x+2y=2(s+t)+2(s-t)=4s .
-        \]
-        \[
-          \pd{z}{t}=2x-2y=2(s+t)-2(s-t)=4t .
-        \]
-        \textbf{Check.} $z=(s+t)^{2}+(s-t)^{2}=2(s^{2}+t^{2})$,
-        $\pd{z}{s}=4s$, $\pd{z}{t}=4t$. \checkmark
-
-  \item $f_{x}=3x^{2}\sqrt{y}$, $f_{y}=\dfrac{x^{3}}{2\sqrt{y}}$.
-        \[
-          \mathrm{d}z \;=\; 3x^{2}\sqrt{y}\,\mathrm{d}x
-            +\frac{x^{3}}{2\sqrt{y}}\,\mathrm{d}y .
-        \]
-
-  \item $f_{x}=2x/(x^{2}+y^{2})$, $f_{y}=2y/(x^{2}+y^{2})$;
-        $\dd{x}{t}=\mathrm{e}^{t}$, $\dd{y}{t}=-\mathrm{e}^{-t}$. With
-        $x=\mathrm{e}^{t}$, $y=\mathrm{e}^{-t}$,
-        $x^{2}+y^{2}=\mathrm{e}^{2t}+\mathrm{e}^{-2t}$.
-        \[
-          \dd{z}{t} \;=\;
-            \frac{2\mathrm{e}^{t}\cdot\mathrm{e}^{t}
-              +2\mathrm{e}^{-t}\cdot(-\mathrm{e}^{-t})}
-              {\mathrm{e}^{2t}+\mathrm{e}^{-2t}}
-          \;=\; \frac{2\mathrm{e}^{2t}-2\mathrm{e}^{-2t}}
-              {\mathrm{e}^{2t}+\mathrm{e}^{-2t}}
-          \;=\; \frac{2(\mathrm{e}^{2t}-\mathrm{e}^{-2t})}
-              {\mathrm{e}^{2t}+\mathrm{e}^{-2t}}
-          =2\tanh(2t) .
-        \]
-
-  \item $Q_{K}=0.3K^{-0.7}L^{0.7}$, $Q_{L}=0.7K^{0.3}L^{-0.3}$.
-        \[
-          \frac{Q_{K}}{Q_{L}}=\frac{0.3}{0.7}\cdot\frac{L}{K}
-            =\frac{3}{7}\cdot\frac{L}{K} .
-        \]
-        $\dd{L}{K}=-(3/7)(L/K)$. \textbf{MRTS} $=(3/7)(L/K)$.
-
-  \item $f_{x}=y\mathrm{e}^{xy}$, $f_{y}=x\mathrm{e}^{xy}$.
-        \[
-          \mathrm{d}z \;=\; \mathrm{e}^{xy}(y\,\mathrm{d}x+x\,\mathrm{d}y) .
-        \]
-
-  \item $f_{x}=y^{2}$, $f_{y}=2xy$; $x_{s}=2s$, $x_{t}=1$, $y_{s}=1$,
-        $y_{t}=-2t$.
-        \[
-          \pd{z}{s}=y^{2}\cdot 2s+2xy\cdot 1=2sy^{2}+2xy .
-        \]
-        \[
-          \pd{z}{t}=y^{2}\cdot 1+2xy\cdot(-2t)=y^{2}-4txy .
-        \]
-
-  \item $U_{x}=\tfrac{1}{2}\sqrt{y/x}$, $U_{y}=\tfrac{1}{2}\sqrt{x/y}$.
-        \[
-          \frac{U_{x}}{U_{y}}=\sqrt{\frac{y/x}{x/y}}=\frac{y}{x} .
-        \]
-        $\dd{y}{x}=-y/x$. \textbf{MRS} $=y/x$.
-
-  \item $f_{x}=f_{y}=\mathrm{e}^{x+y}$; $\dd{x}{t}=\cos t$,
-        $\dd{y}{t}=-\sin t$.
-        \[
-          \dd{z}{t}=\mathrm{e}^{x+y}(\cos t-\sin t)
-            =\mathrm{e}^{\sin t+\cos t}(\cos t-\sin t) .
-        \]
-
-  \item Quotient rule with $u=x$, $v=x+y$:
-        \[
-          f_{x}=\frac{(x+y)-x}{(x+y)^{2}}=\frac{y}{(x+y)^{2}},\qquad
-          f_{y}=\frac{-x}{(x+y)^{2}} .
-        \]
-        \[
-          \mathrm{d}z=\frac{y\,\mathrm{d}x-x\,\mathrm{d}y}{(x+y)^{2}} .
-        \]
-
-  \item $U_{x}=1$, $U_{y}=1/y$. $U_{x}/U_{y}=y$. Signed slope
-        $\dd{y}{x}=-y$. \textbf{MRS} $=y$.
-
-  \item $f_{x}=2xy$, $f_{y}=x^{2}-3y^{2}$; $\dd{x}{t}=2t$,
-        $\dd{y}{t}=2$.
-        \[
-          \dd{z}{t}=2xy\cdot 2t+(x^{2}-3y^{2})\cdot 2
-            =4t\cdot t^{2}\cdot 2t+2(t^{4}-3\cdot 4t^{2})
-            =8t^{4}+2t^{4}-24t^{2}=10t^{4}-24t^{2} .
-        \]
-        \textbf{Check.} $z=t^{4}\cdot 2t-8t^{3}=2t^{5}-8t^{3}$,
-        $\dd{z}{t}=10t^{4}-24t^{2}$. \checkmark
-
-  \item $W_{P}=Q$, $W_{Q}=P$.
-        \[
-          \mathrm{d}W=Q\,\mathrm{d}P+P\,\mathrm{d}Q
-            =W\!\left(\frac{\mathrm{d}P}{P}+\frac{\mathrm{d}Q}{Q}\right) .
-        \]
-        So $\mathrm{d}W/W=0.01+(-0.005)=0.005$, i.e.\ revenue rises by
-        about $0.5\%$. (Log-linear: revenue percent change is the sum of
-        price and quantity percent changes.)
+  \item $y-x^{2}\ge0$ and $x\neq0$: the region on or above the parabola
+        $y=x^{2}$, with the $y$-axis removed.
+  \item $4-x^{2}-y^{2}>0\iff x^{2}+y^{2}<4$: the \emph{open} disc of
+        radius $2$ (boundary excluded, because the logarithm needs a
+        strictly positive argument).
+  \item $D=\R^{2}$. The exponent $-(x^{2}+y^{2})$ runs over $(-\infty,0]$,
+        so the range is $(0,1]$ --- a bell-shaped hill with peak $1$ at the
+        origin.
+  \item $x^{2}-4x+y^{2}=0\iff(x-2)^{2}+y^{2}=4$: the circle of radius $2$
+        centred at $(2,0)$, passing through the origin.
+  \item $(x-2)^{2}+y^{2}=0$: the single point $(2,0)$ --- the minimum of
+        the shifted bowl, with value $-4$.
+  \item $y\,\mathrm{e}^{x}=1\iff y=\mathrm{e}^{-x}$: a decaying
+        exponential curve.
+  \item $y/x=2\iff y=2x$ with $x\neq0$: the line of slope $2$ through the
+        origin, \emph{minus} the origin itself, since $f$ is undefined
+        where $x=0$.
+  \item $\max(x,y)=1$ is the union of the ray $\{x=1,\ y\le1\}$ and the ray
+        $\{y=1,\ x\le1\}$: an L-shaped corner opening down-left, with its
+        vertex at $(1,1)$.
+  \item Ellipses $\dfrac{x^{2}}{c}+\dfrac{4y^{2}}{c}=1$ with semi-axes
+        $\sqrt{c}$ and $\sqrt{c}/2$: for $c=4,16,36$ the semi-axes are
+        $2,4,6$ and $1,2,3$. Equally spaced, in fact --- but for
+        \emph{equally spaced} levels the contours would crowd outwards, as
+        for any quadratic bowl.
+  \item $x=y^{2}+c$: parabolas opening to the right, the whole family being
+        horizontal translates of $x=y^{2}$ by $c$. For $c=-1,0,1$ the
+        vertices sit at $(-1,0)$, $(0,0)$, $(1,0)$.
+  \item Any function whose height grows ever more slowly with the radius,
+        for instance $f(x,y)=\sqrt[4]{x^{2}+y^{2}}$ or
+        $f(x,y)=\ln(x^{2}+y^{2})$: the level $c$ has radius growing faster
+        than linearly in $c$, so equal height steps take ever larger
+        radial steps and the contours thin out --- equivalently they crowd
+        towards the origin.
+  \item $f(x,y)=y/x$ (defined for $x\neq0$): the level $c$ is the punctured
+        line $y=cx$. Any function of the ratio $y/x$ alone has this
+        property; such functions are exactly the homogeneous functions of
+        degree $0$.
+  \item $W(1)=\{|x|+|y|\le1\}$ is the closed diamond (square rotated
+        $45^{\circ}$) with vertices $(\pm1,0)$, $(0,\pm1)$ --- convex.
+        $B(1)$ is everything outside it --- not convex.
+  \item $xy\le0$ is the union of the second and fourth quadrants. Not
+        convex: $(-1,1)$ and $(1,-1)$ both lie in it, but their midpoint
+        $(0,0)$ does lie in it too --- take instead $(-1,2)$ and $(2,-1)$,
+        whose midpoint $(0.5,0.5)$ has $xy>0$ and is outside.
+  \item $x+y\ge2$: a closed half-plane, convex.
+  \item $x^{2}\le4\iff-2\le x\le2$: the vertical strip between the lines
+        $x=-2$ and $x=2$, convex (an intersection of two half-planes).
+  \item $f(P)=1+4=5$: the level curve is the circle of radius $\sqrt5$,
+        $W(P)$ the closed disc of radius $\sqrt5$, and $B(P)$ everything
+        outside or on that circle.
+  \item If every sublevel \emph{and} every superlevel set is convex, the
+        function is both quasiconvex and quasiconcave. The level sets must
+        then be ``flat'': any function of the form $h(ax+by)$ with $h$
+        monotone qualifies, the simplest being a linear function
+        $f(x,y)=ax+by$.
+  \item A dome: the paraboloid turned upside down, with its peak of height
+        $4$ above the origin and falling away in every direction. Contours
+        are circles $x^{2}+y^{2}=4-c$ of radius $\sqrt{4-c}$, shrinking as
+        $c$ rises to $4$. The function is \textbf{concave}.
+  \item $f(x,y)=x^{2}+y^{2}$ and $g(x,y)=\sqrt{x^{2}+y^{2}}$ both have
+        concentric circles as level sets. The maps differ in the
+        \emph{labels}: for equally spaced levels $f$'s contours crowd
+        outwards while $g$'s stay equally spaced. A contour map without its
+        level labels does not determine the function.
+  \item $f$ convex; $g$ concave; $h$ neither (a saddle); $k$ linear, hence
+        both.
+  \item $f$: quasiconvex, not quasiconcave (its superlevel sets are
+        complements of discs). $g$: concave, hence quasiconcave. $h$:
+        neither. $k$: linear, hence both quasiconvex and quasiconcave.
+  \item Straight isoquants of slope $-1$ mean the marginal rate of
+        technical substitution is constant at $1$: the inputs are
+        \textbf{perfect substitutes}, one unit of either always replacing
+        one unit of the other. The production function is
+        $Q(K,L)=K+L$ (or any increasing function of $K+L$).
+  \item $(4,4)$ is a \textbf{bliss point}: a most-preferred bundle, beyond
+        which more of either good makes the consumer worse off. Standard
+        preferences are monotone --- more is better --- so utility should
+        increase without bound in the direction of both goods; circular
+        indifference curves with utility rising inwards describe satiation
+        instead.
+  \item Walking perpendicular to the contours downhill from $P_{6}=(-2,1)$
+        means following $-\grad f$. At $P_{6}$,
+        $\grad f=(3\cdot4-3,\,2)=(9,2)$, so the walker moves left and
+        slightly down --- into the region $x<-2$, where the contours of
+        \emph{lower} level continue without bound. The function
+        $x^{3}-3x+y^{2}$ tends to $-\infty$ as $x\to-\infty$, so the
+        descent never ends: the walker never reaches the local minimum at
+        $(1,0)$, because gradient descent finds a \emph{local} basin only
+        if it starts in one.
 \end{solutions}
