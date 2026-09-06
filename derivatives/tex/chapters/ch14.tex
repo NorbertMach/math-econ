@@ -1,11 +1,14 @@
-\chapter{Implicit Function Theorem, Jacobians, Homogeneous Functions, Euler's Theorem}
+\chapter{Inverse and Implicit Function Theorems, Jacobians, Homogeneity, Euler}
 
 When a relation between variables is given implicitly, the Implicit
 Function Theorem (IFT) extracts derivatives without solving for one
 variable in terms of the other, exactly the situation behind
 indifference curves and isoquants. The Jacobian generalises the derivative
 to vector-valued maps; its determinant is the local area / volume scaling
-factor. Homogeneous functions and Euler's theorem then give a clean
+factor, and the Inverse Function Theorem turns that determinant into a test
+for whether the map can be undone near a point --- and, when it can, gives
+the derivative of the inverse without ever computing the inverse.
+Homogeneous functions and Euler's theorem then give a clean
 structural identity that ties marginal products to total output,
 underpinning constant-returns-to-scale models.
 
@@ -72,9 +75,84 @@ is
     \partial f_{m}/\partial x_{1} & \cdots & \partial f_{m}/\partial x_{n}
   \end{pmatrix} \;\in\; \R^{m\times n} .
 \]
-For $m=n$, $\det J_{\mathbf{f}}$ is the local volume scaling factor;
-$|\det J|>0$ at $\mathbf{x}_{0}$ implies local invertibility (Inverse
-Function Theorem).
+For $m=n$, $\det J_{\mathbf{f}}$ is the local volume scaling factor. Whether
+it vanishes is exactly what decides local invertibility, which is the next
+three boxes.
+\end{rulebox}
+
+\begin{rulebox}{Inverse Function Theorem, one variable}
+Let $f$ be continuously differentiable near $x_{0}$ and set $y_{0}=f(x_{0})$.
+If
+\[
+  f'(x_{0})\neq0 ,
+\]
+then $f$ is invertible on some open interval around $x_{0}$, the inverse is
+differentiable at $y_{0}$, and
+\[
+  \boxed{\;\bigl(f^{-1}\bigr)'(y_{0})=\frac{1}{f'(x_{0})}
+        =\frac{1}{f'\bigl(f^{-1}(y_{0})\bigr)}\;}
+\]
+The formula is the chain rule read backwards. Differentiating the identity
+$f\bigl(f^{-1}(y)\bigr)=y$ gives
+$f'\bigl(f^{-1}(y)\bigr)\cdot\bigl(f^{-1}\bigr)'(y)=1$, and dividing
+finishes it --- which is legitimate precisely because $f'\neq0$.
+
+Note which point goes where: the derivative of the \emph{inverse} is
+evaluated at $y_{0}$, the derivative of $f$ at $x_{0}$. Geometrically the
+graph of $f^{-1}$ is the graph of $f$ mirrored in $y=x$, and mirroring turns
+a slope into its reciprocal --- a vertical tangent for $f$ becoming a
+horizontal one for $f^{-1}$, which is why $f'=0$ has to be excluded.
+
+The derivatives of $\arcsin$, $\arccos$ and $\arctan$ in Chapter~30 are this
+rule applied to $\sin$, $\cos$ and $\tan$; nothing else is needed to get
+them.
+\end{rulebox}
+
+\begin{rulebox}{Inverse Function Theorem, several variables}
+Let $\mathbf{f}:\R^{n}\to\R^{n}$ be continuously differentiable near
+$\mathbf{x}_{0}$ and set $\mathbf{y}_{0}=\mathbf{f}(\mathbf{x}_{0})$. If
+\[
+  \det J_{\mathbf{f}}(\mathbf{x}_{0})\neq0 ,
+\]
+then $\mathbf{f}$ maps some open neighbourhood of $\mathbf{x}_{0}$
+one-to-one onto an open neighbourhood of $\mathbf{y}_{0}$, the local inverse
+is continuously differentiable, and its Jacobian is the \textbf{matrix
+inverse} of the original:
+\[
+  \boxed{\;J_{\mathbf{f}^{-1}}(\mathbf{y}_{0})
+        =\bigl[J_{\mathbf{f}}(\mathbf{x}_{0})\bigr]^{-1}\;}
+\]
+For $n=1$ the matrix is $1\times1$ and this is the previous box.
+The condition $\det J\neq0$ is the exact analogue of $f'\neq0$: it says the
+linear approximation at the point is invertible, and the theorem promises
+that the map itself inherits that property nearby.
+
+Note that the two named theorems of this chapter are the same statement
+twice. Applying the Implicit Function Theorem to
+$\mathbf{F}(\mathbf{x},\mathbf{y})=\mathbf{f}(\mathbf{x})-\mathbf{y}$
+--- solving for $\mathbf{x}$ in terms of $\mathbf{y}$ --- has the condition
+$\det J_{\mathbf{f}}\neq0$ and delivers exactly the inverse.
+\end{rulebox}
+
+\begin{rulebox}{Local, and only local}
+Both theorems are \textbf{local}, and both directions of the obvious
+over-reading are false.
+
+\emph{A non-vanishing derivative everywhere does not give a global
+inverse.} The map
+$\mathbf{f}(x,y)=(\mathrm{e}^{x}\cos y,\ \mathrm{e}^{x}\sin y)$ has
+$\det J=\mathrm{e}^{2x}>0$ at every point, yet
+$\mathbf{f}(x,y)=\mathbf{f}(x,y+2\pi)$: it is invertible near each point and
+nowhere invertible globally.
+
+\emph{A vanishing derivative does not rule out an inverse.} $f(x)=x^{3}$ has
+$f'(0)=0$, and is nevertheless a bijection of $\R$. What fails is not
+invertibility but \emph{differentiability of the inverse}: $f^{-1}(y)=
+y^{1/3}$ has a vertical tangent at $0$, exactly as the reciprocal formula
+predicts.
+
+So the condition is sufficient for a local inverse, necessary for a
+\emph{differentiable} one, and silent about global behaviour.
 \end{rulebox}
 
 \begin{rulebox}{Homogeneous Functions}
@@ -97,7 +175,7 @@ compute the LHS $xf_{x}+yf_{y}$ and the RHS $kf$ \emph{separately}, then
 check that they agree.
 \end{rulebox}
 
-\section{Worked Example}
+\section{Worked Examples}
 
 \begin{worked}{$F(x,y)=x^{2}y+y^{3}-10=0$ at $(1,2)$: does it define $y(x)$, and what is $y'$? Then verify Euler's theorem on $f(K,L)=K^{0.3}L^{0.7}$}
 \wstep{Step 1. Check the point lies on the curve.}
@@ -197,6 +275,113 @@ Nothing is left over and nothing is missing. With increasing returns
 ($r>1$) the factor payments would exceed output, which is why perfect
 competition and increasing returns cannot coexist --- a theorem of this
 chapter, not a modelling assumption.
+\end{worked}
+
+\begin{worked}{The inverse theorem both ways: $f(x)=x^{5}+2x+1$ at $y=4$, and $\mathbf{f}(x,y)=(x^{2}-y^{2},\,2xy)$ at $(1,1)$}
+\wstep{Step 1. One variable: check the hypothesis before anything else.}
+\[
+  f(x)=x^{5}+2x+1,
+  \qquad
+  f'(x)=5x^{4}+2\ \ge 2>0\quad\text{for every }x .
+\]
+The derivative never vanishes, so $f$ is strictly increasing and invertible
+on all of $\R$, and its inverse is differentiable everywhere.
+
+\wstep{Step 2. Locate the point --- in the \emph{domain}.}
+We are asked about $y=4$, so we need the $x$ with $f(x)=4$:
+\[
+  x^{5}+2x+1=4
+  \quad\Longrightarrow\quad
+  x=1\ \ (1+2+1=4). \checkmark
+\]
+\wtrap{The formula needs $x_{0}=f^{-1}(y_{0})$, not $y_{0}$. Substituting
+$4$ into $f'$ gives $5\cdot4^{4}+2=1282$ and the wrong answer $1/1282$.
+Find the pre-image first; in an examination it is always a value you can
+guess and verify, because no one can invert a quintic either.}
+
+\wstep{Step 3. Apply the formula.}
+\[
+  \bigl(f^{-1}\bigr)'(4)=\frac{1}{f'(1)}=\frac{1}{5+2}=\boxed{\tfrac17}
+\]
+Note what was \emph{not} done: $f^{-1}$ was never computed. It cannot be ---
+a general quintic has no closed-form root --- and that is exactly the point
+of the theorem. It hands you a derivative of a function you cannot write
+down.
+
+\wstep{Step 4. Sanity-check it numerically.}
+$f(1.01)=1.01^{5}+2.02+1\approx4.0710$, so a step of $0.0710$ in $y$ answers
+to a step of $0.01$ in $x$:
+\[
+  \frac{\Delta x}{\Delta y}\approx\frac{0.01}{0.0710}\approx0.141
+  \approx\tfrac17=0.1429 . \checkmark
+\]
+
+\wstep{Step 5. Several variables: build the Jacobian.}
+For $\mathbf{f}(x,y)=(x^{2}-y^{2},\ 2xy)$,
+\[
+  J_{\mathbf{f}}=\begin{pmatrix}2x&-2y\\ 2y&2x\end{pmatrix},
+  \qquad
+  \det J_{\mathbf{f}}=4x^{2}+4y^{2}=4(x^{2}+y^{2}).
+\]
+This vanishes only at the origin, so the theorem applies at every other
+point.
+
+\wstep{Step 6. Evaluate at $(1,1)$ and invert the matrix.}
+$\mathbf{f}(1,1)=(1-1,\,2)=(0,2)$, and
+\[
+  J_{\mathbf{f}}(1,1)=\begin{pmatrix}2&-2\\2&2\end{pmatrix},
+  \qquad
+  \det=4+4=8\neq0 .
+\]
+So a local inverse exists near $(0,2)$, and its Jacobian is the matrix
+inverse:
+\[
+  J_{\mathbf{f}^{-1}}(0,2)
+  =\begin{pmatrix}2&-2\\2&2\end{pmatrix}^{-1}
+  =\frac18\begin{pmatrix}2&2\\-2&2\end{pmatrix}
+  =\boxed{\begin{pmatrix}1/4&1/4\\-1/4&1/4\end{pmatrix}}
+\]
+Check by multiplying: $\begin{pmatrix}2&-2\\2&2\end{pmatrix}
+\begin{pmatrix}1/4&1/4\\-1/4&1/4\end{pmatrix}
+=\begin{pmatrix}1&0\\0&1\end{pmatrix}$. \checkmark
+\wtrap{Invert the \emph{matrix}; do not take reciprocals entry by entry.
+$\bigl[J\bigr]^{-1}$ is a matrix inverse, and the $2\times2$ rule swaps the
+diagonal and negates the off-diagonal before dividing by the determinant.
+Entrywise reciprocals would give $\begin{pmatrix}1/2&-1/2\\1/2&1/2
+\end{pmatrix}$, which is not the inverse of anything relevant.}
+
+\wstep{Step 7. Now show the inverse is only local.}
+$\det J\neq0$ holds at every point except the origin, which invites the
+conclusion that $\mathbf{f}$ is invertible on $\R^{2}\setminus\{0\}$. It is
+not:
+\[
+  \mathbf{f}(-1,-1)=\bigl((-1)^{2}-(-1)^{2},\ 2(-1)(-1)\bigr)=(0,2)
+  =\mathbf{f}(1,1).
+\]
+Two different points share an image, so no global inverse exists. In general
+$\mathbf{f}(-x,-y)=\mathbf{f}(x,y)$: the map is two-to-one everywhere.
+\wtrap{``$\det J\neq0$ everywhere'' gives a local inverse \emph{at each
+point} and says nothing about fitting them together into one function. This
+is the chapter's sharpest trap, and the map above is the standard
+counterexample --- it is squaring, in disguise, and squaring is two-to-one.}
+
+\wstep{Step 8. What the two halves have in common.}
+\begin{center}\footnotesize
+\begin{tabular}{lll}
+  \hline
+   & one variable & several variables\\
+  \hline
+  hypothesis & $f'(x_{0})\neq0$ & $\det J(\mathbf{x}_{0})\neq0$\\
+  conclusion & local inverse, differentiable & the same\\
+  derivative & $1/f'(x_{0})$ & $\bigl[J(\mathbf{x}_{0})\bigr]^{-1}$\\
+  evaluated at & $y_{0}=f(x_{0})$ & $\mathbf{y}_{0}=\mathbf{f}(\mathbf{x}_{0})$\\
+  says nothing about & global behaviour & global behaviour\\
+  \hline
+\end{tabular}
+\end{center}
+The right-hand column is the left-hand one with ``non-zero number''
+replaced by ``invertible matrix'' --- which is what $\det\neq0$ means, and
+why Volume~3 had to come first.
 \end{worked}
 
 \section{Practice Problems}
@@ -312,6 +497,43 @@ chapter, not a modelling assumption.
   \item Compute the Jacobian and Jacobian determinant of
         $\mathbf{f}(x,y,z)=(x+y+z,\;xy+yz+zx,\;xyz)$, and explain the link
         to elementary symmetric polynomials.
+  \item Show that $f(x)=x^{5}+2x+1$ is invertible on $\R$, and compute
+        $\bigl(f^{-1}\bigr)'(4)$ without inverting $f$.
+  \item For $f(x)=x^{3}+3x-2$, compute $\bigl(f^{-1}\bigr)'(2)$.
+  \item For $f(x)=\mathrm{e}^{x}+x$, compute $\bigl(f^{-1}\bigr)'(1)$.
+  \item For $f(x)=x+\ln x$ on $x>0$, compute $\bigl(f^{-1}\bigr)'(1)$.
+  \item Derive $\bigl(f^{-1}\bigr)'(y)=1/f'\bigl(f^{-1}(y)\bigr)$ by
+        differentiating the identity $f\bigl(f^{-1}(y)\bigr)=y$.
+  \item $f(x)=x^{3}$ is a bijection of $\R$, yet $f'(0)=0$. Which
+        conclusion of the Inverse Function Theorem fails at $0$, and which
+        survives?
+  \item Where does the Inverse Function Theorem apply to $f(x)=x^{2}$, and
+        what is the largest interval containing $x=2$ on which $f$ is
+        invertible?
+  \item Give an interval containing $\pi/3$ on which $\sin$ is invertible,
+        and compute $\bigl(\sin^{-1}\bigr)'\bigl(\tfrac{\sqrt3}{2}\bigr)$
+        two ways: by the theorem, and from the known derivative of
+        $\arcsin$.
+  \item For $\mathbf{f}(x,y)=(x+y,\;x-y)$: compute $J$ and $\det J$, invert
+        the map explicitly, and check that $J_{\mathbf{f}^{-1}}=J^{-1}$.
+  \item For $\mathbf{f}(x,y)=(x^{2}-y^{2},\;2xy)$, compute $\det J$ at
+        $(1,2)$ and say whether a local inverse exists there.
+  \item Show that the map of the previous problem is \emph{not} globally
+        injective, despite $\det J\neq0$ off the origin.
+  \item For $\mathbf{f}(x,y)=(\mathrm{e}^{x}\cos y,\;\mathrm{e}^{x}\sin y)$,
+        compute $\det J$ and reconcile ``non-zero everywhere'' with the fact
+        that $\mathbf{f}$ is not injective.
+  \item For the polar map
+        $\mathbf{f}(r,\theta)=(r\cos\theta,\;r\sin\theta)$, give $\det J$
+        and the set of points where the theorem gives nothing.
+  \item For $\mathbf{f}(x,y)=(x+y^{3},\;y+x^{3})$, verify the hypothesis at
+        the origin and give $J_{\mathbf{f}^{-1}}$ there.
+  \item For $\mathbf{f}(x,y,z)=(x,\;x+y,\;x+y+z)$: compute $\det J$, write
+        the inverse map explicitly, and confirm
+        $J_{\mathbf{f}^{-1}}=J^{-1}$.
+  \item A demand system $\mathbf{q}=\mathbf{f}(\mathbf{p})$ has
+        $\det J_{\mathbf{f}}(\mathbf{p}_{0})\neq0$. What does the Inverse
+        Function Theorem permit an economist to say, and what does it not?
 \end{problems}
 
 \section{Solutions}
@@ -795,6 +1017,92 @@ chapter, not a modelling assumption.
         at points with repeated coordinates, consistent with the fact
         that an unordered triple $\{x,y,z\}$ has a unique sorted
         representative.
+  \item $f'(x)=5x^{4}+2\ge2>0$ for all $x$, so $f$ is strictly increasing,
+        hence injective, and the theorem applies everywhere. Solve
+        $x^{5}+2x+1=4$: $x=1$ works ($1+2+1=4$), and monotonicity makes it
+        the only root. So
+        $\bigl(f^{-1}\bigr)'(4)=1/f'(1)=1/7$.
+  \item $f(1)=1+3-2=2$, and $f'(x)=3x^{2}+3$, so $f'(1)=6$ and
+        $\bigl(f^{-1}\bigr)'(2)=\tfrac16$. ($f'>0$ everywhere, so the
+        inverse is global.)
+  \item $f(0)=1+0=1$, and $f'(x)=\mathrm{e}^{x}+1$, so $f'(0)=2$ and
+        $\bigl(f^{-1}\bigr)'(1)=\tfrac12$.
+  \item $f(1)=1+\ln1=1$, and $f'(x)=1+1/x$, so $f'(1)=2$ and
+        $\bigl(f^{-1}\bigr)'(1)=\tfrac12$.
+  \item Differentiate both sides with respect to $y$. The left side is a
+        composite, so the chain rule gives
+        $f'\bigl(f^{-1}(y)\bigr)\cdot\bigl(f^{-1}\bigr)'(y)$; the right side
+        gives $1$. Hence
+        $\bigl(f^{-1}\bigr)'(y)=1/f'\bigl(f^{-1}(y)\bigr)$, the division
+        being legitimate exactly when $f'\neq0$ there.
+  \item Invertibility survives: $x^{3}$ is strictly increasing and onto, so
+        $f^{-1}(y)=y^{1/3}$ exists globally. What fails is
+        \emph{differentiability of the inverse at $0$}:
+        $\bigl(y^{1/3}\bigr)'=\tfrac13y^{-2/3}\to\infty$ as $y\to0$. The
+        hypothesis $f'\neq0$ is sufficient for a differentiable local
+        inverse, not necessary for an inverse.
+  \item $f'(x)=2x\neq0$ for $x\neq0$, so the theorem applies at every point
+        except the origin. Around $x=2$ the largest interval of
+        injectivity is $(0,\infty)$: on it $f$ is strictly increasing, while
+        any interval containing $0$ in its interior contains a pair
+        $\pm a$ with equal images.
+  \item On $(-\pi/2,\pi/2)$ the sine is strictly increasing, and
+        $\pi/3$ lies inside. By the theorem, with
+        $\sin(\pi/3)=\sqrt3/2$ and $\cos(\pi/3)=\tfrac12$,
+        \[
+          \bigl(\sin^{-1}\bigr)'\Bigl(\tfrac{\sqrt3}{2}\Bigr)
+          =\frac{1}{\cos(\pi/3)}=2 .
+        \]
+        Directly: $\arcsin'(y)=1/\sqrt{1-y^{2}}
+        =1/\sqrt{1-\tfrac34}=1/\tfrac12=2$. \checkmark
+  \item $J=\begin{pmatrix}1&1\\1&-1\end{pmatrix}$, $\det J=-2\neq0$
+        everywhere. Solving $u=x+y$, $v=x-y$ gives
+        $x=\tfrac{u+v}{2}$, $y=\tfrac{u-v}{2}$, so
+        $J_{\mathbf{f}^{-1}}
+        =\begin{pmatrix}1/2&1/2\\1/2&-1/2\end{pmatrix}$, which is indeed
+        $J^{-1}=-\tfrac12\begin{pmatrix}-1&-1\\-1&1\end{pmatrix}$.
+        \checkmark\ The map is linear with $\det\neq0$, so here local and
+        global invertibility coincide.
+  \item $J=\begin{pmatrix}2x&-2y\\2y&2x\end{pmatrix}$ and
+        $\det J=4(x^{2}+y^{2})$, so at $(1,2)$ it is $4\cdot5=20\neq0$: a
+        differentiable local inverse exists near
+        $\mathbf{f}(1,2)=(-3,4)$.
+  \item $\mathbf{f}(-x,-y)=\bigl((-x)^{2}-(-y)^{2},\,2(-x)(-y)\bigr)
+        =(x^{2}-y^{2},\,2xy)=\mathbf{f}(x,y)$, so every point and its
+        negative share an image --- for instance
+        $\mathbf{f}(1,1)=\mathbf{f}(-1,-1)=(0,2)$. The map is two-to-one,
+        and no global inverse exists. Local invertibility at every point
+        does not assemble into global invertibility.
+  \item $J=\mathrm{e}^{x}\begin{pmatrix}\cos y&-\sin y\\
+        \sin y&\cos y\end{pmatrix}$, so
+        $\det J=\mathrm{e}^{2x}(\cos^{2}y+\sin^{2}y)=\mathrm{e}^{2x}>0$
+        everywhere. Yet $\mathbf{f}(x,y+2\pi)=\mathbf{f}(x,y)$. There is no
+        contradiction: the theorem promises an inverse on \emph{some
+        neighbourhood} of each point, and those neighbourhoods (width less
+        than $2\pi$ in $y$) never join up into one.
+  \item $J=\begin{pmatrix}\cos\theta&-r\sin\theta\\
+        \sin\theta&r\cos\theta\end{pmatrix}$, so $\det J=r$. The theorem
+        says nothing on the line $r=0$ --- the origin, where every $\theta$
+        gives the same point and the map is infinitely many-to-one.
+  \item $J=\begin{pmatrix}1&3y^{2}\\3x^{2}&1\end{pmatrix}$, which at
+        $(0,0)$ is the identity, with $\det=1\neq0$. Hence a local inverse
+        exists near $\mathbf{f}(0,0)=(0,0)$ and
+        $J_{\mathbf{f}^{-1}}(0,0)=I^{-1}=I$.
+  \item $J=\begin{pmatrix}1&0&0\\1&1&0\\1&1&1\end{pmatrix}$, lower
+        triangular, so $\det J=1\neq0$. From $u=x$, $v=x+y$, $w=x+y+z$:
+        $x=u$, $y=v-u$, $z=w-v$, giving
+        $J_{\mathbf{f}^{-1}}=\begin{pmatrix}1&0&0\\-1&1&0\\
+        0&-1&1\end{pmatrix}$. Multiplying the two matrices returns $I$.
+        \checkmark
+  \item It permits: near $\mathbf{p}_{0}$ the system can in principle be
+        solved for prices in terms of quantities, the inverse demand
+        $\mathbf{p}(\mathbf{q})$ is differentiable, and its derivative
+        matrix is $\bigl[J_{\mathbf{f}}\bigr]^{-1}$ --- so the price
+        responses can be computed from the quantity responses without ever
+        solving the system. It does not permit: any claim that the same
+        quantities cannot arise from a different price vector elsewhere.
+        Global identification is a separate question, and $\det J\neq0$ is
+        no evidence for it.
 \end{solutions}
 
 \section{Additional Problems}
@@ -824,6 +1132,24 @@ chapter, not a modelling assumption.
   \item For $Q(K,L)=aK+bL$ ($a,b>0$), find the MRTS.
   \item Verify Euler's theorem for $f(x,y,z)=xy+yz+xz$ (degree $2$,
         three-variable).
+  \item For $f(x)=x^{7}+x^{3}+x$, compute $\bigl(f^{-1}\bigr)'(3)$.
+  \item For $f(x)=2x+\sin x$, compute $\bigl(f^{-1}\bigr)'(0)$.
+  \item For $f(x)=\ln x+x^{2}$ on $x>0$, compute $\bigl(f^{-1}\bigr)'(1)$.
+  \item For $f(x)=\tan x$ on $(-\pi/2,\pi/2)$, compute
+        $\bigl(f^{-1}\bigr)'(1)$ and check it against $\arctan'$.
+  \item For $\mathbf{f}(x,y)=(2x+3y,\;x+2y)$, give $\det J$ and
+        $J_{\mathbf{f}^{-1}}$, and say why the inverse is global here.
+  \item For $\mathbf{f}(x,y)=(x^{3},\;y^{3})$: where does $\det J$ vanish,
+        and is the map invertible there anyway?
+  \item For $\mathbf{f}(x,y)=(x+\mathrm{e}^{y},\;y+\mathrm{e}^{x})$,
+        evaluate $\det J$ at the origin and say what the theorem concludes.
+  \item Let $\mathbf{f}(\mathbf{x})=A\mathbf{x}$ with $A$ an $n\times n$
+        matrix. Show that $\det J$ is constant, and that local and global
+        invertibility coincide.
+  \item For $\mathbf{f}(x,y)=(x^{2}+y^{2},\;x^{2}-y^{2})$ on $x,y>0$,
+        compute $\det J$ and decide local invertibility.
+  \item State in one sentence each what $f'(x_{0})\neq0$ and
+        $\det J(\mathbf{x}_{0})\neq0$ do and do not guarantee.
 \end{problems}
 
 \section{Additional Solutions}
@@ -927,4 +1253,51 @@ chapter, not a modelling assumption.
           \mathrm{RHS}=2f .
         \]
         $\mathrm{LHS}=\mathrm{RHS}$. \checkmark
+  \item $f(1)=1+1+1=3$ and $f'(x)=7x^{6}+3x^{2}+1$, so $f'(1)=11$ and
+        $\bigl(f^{-1}\bigr)'(3)=\tfrac{1}{11}$. ($f'>0$ everywhere, so the
+        pre-image is unique.)
+  \item $f(0)=0$ and $f'(x)=2+\cos x\ge1>0$, so $f'(0)=3$ and
+        $\bigl(f^{-1}\bigr)'(0)=\tfrac13$.
+  \item $f(1)=\ln1+1=1$ and $f'(x)=1/x+2x$, so $f'(1)=3$ and
+        $\bigl(f^{-1}\bigr)'(1)=\tfrac13$.
+  \item $\tan(\pi/4)=1$ and $f'(x)=1/\cos^{2}x$, so
+        $f'(\pi/4)=1/(\sqrt2/2)^{2}=2$ and
+        $\bigl(f^{-1}\bigr)'(1)=\tfrac12$. Directly:
+        $\arctan'(1)=1/(1+1^{2})=\tfrac12$. \checkmark
+  \item $J=\begin{pmatrix}2&3\\1&2\end{pmatrix}$ is constant with
+        $\det J=4-3=1\neq0$, and
+        $J_{\mathbf{f}^{-1}}=J^{-1}
+        =\begin{pmatrix}2&-3\\-1&2\end{pmatrix}$. The map is linear, so the
+        local inverse supplied by the theorem is the global one:
+        $\mathbf{x}=A^{-1}\mathbf{y}$ is defined on all of $\R^{2}$.
+  \item $J=\begin{pmatrix}3x^{2}&0\\0&3y^{2}\end{pmatrix}$ and
+        $\det J=9x^{2}y^{2}$, which vanishes on both axes. The map is
+        nevertheless a bijection of $\R^{2}$, with inverse
+        $(u,v)\mapsto(u^{1/3},v^{1/3})$ --- but that inverse is not
+        differentiable where $\det J=0$. Same lesson as $x^{3}$ in one
+        variable.
+  \item $J=\begin{pmatrix}1&\mathrm{e}^{y}\\ \mathrm{e}^{x}&1\end{pmatrix}$,
+        so at $(0,0)$ it is
+        $\begin{pmatrix}1&1\\1&1\end{pmatrix}$ with $\det J=0$. The theorem
+        concludes \textbf{nothing}: its hypothesis fails, and that is not
+        the same as showing no local inverse exists. A separate argument
+        would be needed either way.
+  \item Each component of $A\mathbf{x}$ is linear, so
+        $\partial(A\mathbf{x})_{i}/\partial x_{j}=a_{ij}$ and $J=A$ at every
+        point --- constant, with $\det J=\det A$. If $\det A\neq0$ then
+        $\mathbf{x}=A^{-1}\mathbf{y}$ inverts the map on all of $\R^{n}$; if
+        $\det A=0$ then $A$ has a non-trivial null space and the map is not
+        injective anywhere. So for linear maps the local condition is
+        already global.
+  \item $J=\begin{pmatrix}2x&2y\\2x&-2y\end{pmatrix}$ and
+        $\det J=-4xy-4xy=-8xy$, which is non-zero throughout $x,y>0$. So a
+        differentiable local inverse exists at every point of the open
+        quadrant.
+  \item $f'(x_{0})\neq0$ guarantees an interval around $x_{0}$ on which $f$
+        is invertible with a differentiable inverse of derivative
+        $1/f'(x_{0})$; it does not guarantee that $f$ is injective anywhere
+        beyond that interval. $\det J(\mathbf{x}_{0})\neq0$ guarantees the
+        same locally in $n$ dimensions, with the inverse's Jacobian equal to
+        $\bigl[J(\mathbf{x}_{0})\bigr]^{-1}$; it likewise says nothing about
+        global injectivity.
 \end{solutions}

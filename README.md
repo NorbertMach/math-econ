@@ -19,15 +19,15 @@ the later volumes assumes you can already picture a function.
 | 2 | Functions and Their Graphs: domain and range, the standard graphs, transformations and inverses, regions in the plane, trigonometry | 5 | 350 | 57 |
 | 3 | Matrix Algebra: vectors, determinants, Gaussian elimination, inverses, eigenvalues, definiteness | 10 | 512 | 90 |
 | 4 | Foundations of Analysis: sequences, series, financial mathematics, limits & continuity | 4 | 120 | 44 |
-| 5 | Derivatives & Partial Derivatives: differentiation rules, L'Hôpital, curve discussion, surfaces and level curves, gradient, Hessian, Implicit Function Theorem | 14 | 949 | 175 |
+| 5 | Derivatives & Partial Derivatives: differentiation rules, L'Hôpital, curve discussion, surfaces and level curves, gradient, Hessian, inverse and implicit function theorems | 14 | 975 | 180 |
 | 6 | Integration: substitution, parts, partial fractions, improper and double integrals | 8 | 345 | 71 |
 | 7 | Static Optimization: convexity, Lagrange, Kuhn–Tucker | 10 | 352 | 105 |
 | 8 | Linear Programming: simplex, duality, sensitivity | 8 | 182 | 102 |
 | 9 | Mixed Problems: three cross-chapter sets, no method announced | 3 | 60 | 18 |
-|   | **Total** | **71** | **3145** | **713** |
+|   | **Total** | **71** | **3171** | **718** |
 
 The compendium, *Basic Mathematics for Economics*, binds all nine volumes
-into one 709-page book, in the same order. It opens with **How to Work This
+into one 713-page book, in the same order. It opens with **How to Work This
 Book** — a diagnostic and a ten-stage study plan that reorders the material
 into the sequence a business or economics mathematics course actually needs
 it in, with a mastery
