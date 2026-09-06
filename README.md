@@ -34,6 +34,32 @@ it in, with a mastery
 test for each stage — and closes with a formula summary and a German–English
 glossary. Every problem has a fully worked solution.
 
+## Reading it on an e-reader
+
+Two extra editions build from the same sources, so neither can drift out of
+step with the print layout.
+
+**Kindle PDF** — `make kindle` in any volume's `tex/` directory produces
+`<volume>-kindle.pdf`: a 90 x 122 mm page, sized so one page fills a 6-inch
+screen edge to edge with no zooming or panning. Nothing reflows, because
+nothing needs to: the page *is* the display. Every equation, pgfplots figure
+and rule box is identical to the A4 edition, and any display too wide for the
+narrower measure is scaled to fit automatically. The trade-off is that the
+font size is fixed at build time.
+
+**EPUB** — `python3 tools/ebook/latex2epub.py <volume>` writes
+`ebook/<volume>.epub`. This one genuinely reflows and follows the reader's
+font size. About 78% of the inline mathematics is transcribed to real HTML
+text (italic variables, sub- and superscripts, Unicode symbols); the
+remaining structural mathematics, every display and every figure are
+rendered to SVG by LaTeX itself. Those images are typographically exact but
+fixed in size, so they do not grow with the surrounding text.
+
+The classifier deciding between the two paths is deliberately conservative:
+anything it does not recognise with certainty becomes an image, because a
+slightly large image is a cosmetic problem and a mistranscribed formula is a
+wrong book.
+
 ## A look inside
 
 | | |

@@ -1,4 +1,11 @@
-\documentclass[11pt,a4paper,twoside,openright]{book}
+% Two editions from one source. The Kindle edition is selected by defining
+% \KindleEdition before the class is read, which the Makefile does on the
+% command line:  pdflatex "\def\KindleEdition{}\input{main.tex}"
+\ifdefined\KindleEdition
+  \documentclass[10pt,oneside]{book}
+\else
+  \documentclass[11pt,a4paper,twoside,openright]{book}
+\fi
 \input{preamble}
 
 \title{\Huge Static Optimization\\[0.4em]
