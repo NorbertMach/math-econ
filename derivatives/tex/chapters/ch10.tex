@@ -117,6 +117,66 @@ The vector of all first-order partial derivatives is
 \]
 \end{rulebox}
 
+\begin{rulebox}{Gradient and derivative: column and row}
+The gradient is a \textbf{column} vector. The \textbf{derivative} of
+$f\colon\R^{n}\to\R$ at $\mathbf{x}$, written $Df(\mathbf{x})$, is the same
+list of partials arranged as a $1\times n$ \textbf{row}:
+\[
+  Df(\mathbf{x})=\bigl(f_{x_1}(\mathbf{x})\ \ f_{x_2}(\mathbf{x})\ \ \cdots\ \
+  f_{x_n}(\mathbf{x})\bigr)=\grad f(\mathbf{x})^{T} .
+\]
+Same numbers, different shape. The row is the form that multiplies a column
+of changes $\mathbf{h}$:
+$Df(\mathbf{x})\,\mathbf{h}=\grad f(\mathbf{x})\cdot\mathbf{h}
+=\sum_{i}f_{x_i}h_{i}$, which is the total differential of Chapter~12 and
+the linear part of the tangent plane below. In Chapter~13 these rows are
+stacked into the Jacobian matrix.
+\end{rulebox}
+
+\begin{rulebox}{Functions of $n$ variables written with sums}
+Many economic functions are sums over goods, periods or inputs. To
+differentiate with respect to one fixed variable $x_{k}$, ask which terms of
+the sum contain $x_{k}$; every other term is a constant and drops out.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{One function of each variable.} For
+        $f=\sum_{i=1}^{n}g(x_{i})$ only the term $i=k$ survives:
+        \[
+          \pd{f}{x_{k}}=g'(x_{k}) .
+        \]
+        So $\sum_{i}x_{i}^{3}$ has $\partial f/\partial x_{k}=3x_{k}^{2}$.
+  \item \textbf{The index inside the term.} $\sum_{i=1}^{n}x_{i}^{\,i}
+        =x_{1}+x_{2}^{2}+\cdots+x_{n}^{n}$: the term containing $x_{k}$ is
+        $x_{k}^{k}$, so $\partial f/\partial x_{k}=k\,x_{k}^{k-1}$.
+        Likewise $\sum_{j=1}^{n}j/x_{j}^{4}=\sum_{j}j\,x_{j}^{-4}$ gives
+        $\partial f/\partial x_{k}=-4k\,x_{k}^{-5}=-4k/x_{k}^{5}$.
+  \item \textbf{The sum inside a function.} For $f=\bigl(\sum_{i}x_{i}\bigr)^{2}$
+        use the chain rule; the inner derivative is
+        $\partial\bigl(\sum_{i}x_{i}\bigr)/\partial x_{k}=1$, so
+        $\partial f/\partial x_{k}=2\sum_{i=1}^{n}x_{i}$, the same for
+        every $k$.
+  \item \textbf{Products.} $f=\prod_{i}x_{i}$ gives
+        $\partial f/\partial x_{k}=\prod_{i\neq k}x_{i}$: the product with
+        the factor $x_{k}$ left out.
+\end{itemize}
+The summation index is a dummy and the differentiation variable is fixed:
+call them by different letters ($i$ and $k$). Writing
+$\partial/\partial x_{i}$ of a sum over $i$ is the standard source of
+confusion.
+\end{rulebox}
+
+\begin{rulebox}{Exponentials to another base}
+For $a>0$, $a^{x}=\mathrm{e}^{x\ln a}$, so
+\[
+  \frac{\mathrm{d}}{\mathrm{d}x}\,a^{x}=a^{x}\ln a,
+  \qquad
+  \pd{}{x}\,a^{g(x,y)}=a^{g(x,y)}\ln a\cdot g_{x}(x,y) .
+\]
+For example $\partial(2^{xy})/\partial x=y\,2^{xy}\ln2$. Keep the three
+shapes apart: $x^{a}$ (variable base, power rule), $a^{x}$ (variable
+exponent, factor $\ln a$), and $x^{y}$ (both, written as
+$\mathrm{e}^{y\ln x}$).
+\end{rulebox}
+
 \begin{gallery}
 \begin{tikzpicture}
   \begin{axis}[surfaxis, title={$f(K,L)=\sqrt{KL}$, sliced at $L=2$},
@@ -210,7 +270,150 @@ normalise first: $\mathbf{u}=\mathbf{v}/\|\mathbf{v}\|$. Forgetting this is
 the single most common error in directional-derivative problems.
 \end{rulebox}
 
-\section{Worked Example}
+\begin{rulebox}{Differentiability in several variables}
+Let $D\subseteq\R^{n}$ be open and $\mathbf{x}_{0}\in D$. The function $f$
+is \textbf{differentiable} \de{(differenzierbar)} at $\mathbf{x}_{0}$ if
+there is a vector $\mathbf{a}$ with
+\[
+  f(\mathbf{x}_{0}+\mathbf{h})=f(\mathbf{x}_{0})+\mathbf{a}\cdot\mathbf{h}
+  +r(\mathbf{h}),
+  \qquad
+  \frac{r(\mathbf{h})}{\|\mathbf{h}\|}\to0\ \text{ as }\ \mathbf{h}\to\mathbf{0}.
+\]
+Near $\mathbf{x}_{0}$, $f$ is a linear function plus an error that vanishes
+faster than the distance. For $n=2$ the graph of the linear part is a plane,
+so differentiability says that the surface has a \textbf{tangent plane} at
+the point: zoom in far enough and the surface looks flat.
+
+If $f$ is differentiable at $\mathbf{x}_{0}$, then
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item $f$ is continuous at $\mathbf{x}_{0}$;
+  \item every partial derivative exists there, and
+        $\mathbf{a}=\grad f(\mathbf{x}_{0})$ (take
+        $\mathbf{h}=t\mathbf{e}_{k}$ and divide by $t$);
+  \item every directional derivative exists and equals
+        $\grad f(\mathbf{x}_{0})\cdot\mathbf{u}$.
+\end{itemize}
+\textbf{Sufficient criterion.} If all partials exist on an open
+neighbourhood of $\mathbf{x}_{0}$ and are continuous there ($f$ is
+$C^{1}$, \emph{continuously differentiable}), then $f$ is differentiable at
+$\mathbf{x}_{0}$. Polynomials, exponentials, logarithms of positive
+expressions, roots of positive expressions, quotients with non-zero
+denominator, and all their sums, products and compositions are $C^{1}$ on
+the open set where their formulas apply.
+
+\textbf{Partials alone are not enough.} Take
+$f(x,y)=\dfrac{xy}{x^{2}+y^{2}}$ with $f(0,0)=0$. On both axes $f=0$, so
+$f_{x}(0,0)=f_{y}(0,0)=0$. But on the diagonal $y=x$,
+$f=x^{2}/(2x^{2})=\tfrac12$ for every $x\neq0$. So $f$ is not even
+continuous at the origin, and therefore not differentiable: the partials
+see only two directions out of infinitely many.
+\end{rulebox}
+
+\begin{rulebox}{Where differentiability fails, and finding the set}
+Compute the partials by the rules. The formulas are valid on the open set
+where the rules applied; the points where a formula breaks down (a zero
+denominator, a zero radicand, the kink of an absolute value or a minimum)
+are the suspects, and each suspect is settled by the difference quotient.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Cone apex.} $f=\sqrt{(x-a)^{2}+(y-b)^{2}}$ has
+        $f_{x}=(x-a)/f$, undefined at $(a,b)$. Directly,
+        $f(a+h,b)-f(a,b)=\sqrt{h^{2}}=|h|$, and $|h|/h=\pm1$ has no limit:
+        $f_{x}(a,b)$ does not exist, nor does $f_{y}(a,b)$. The same
+        happens for the elliptic cone $\sqrt{4(x-a)^{2}+y^{2}}$ at $(a,0)$,
+        with quotient $2|h|/h$. For the root of a sum of squares of
+        \emph{linear} expressions, such as these cones, $f$ is
+        differentiable exactly where the radicand is non-zero, and the
+        graph has a sharp tip (or crease) where it vanishes. With higher
+        powers under the root this can change: $\sqrt{x^{4}+y^{4}}$ is
+        differentiable even at the origin, where its radicand is $0$.
+  \item \textbf{$|x|+|y|$.} $f_{x}=1$ for $x>0$ and $-1$ for $x<0$; at
+        $x=0$ the quotient is $|h|/h$ again. So $f_{x}$ fails on the whole
+        $y$-axis and $f_{y}$ on the whole $x$-axis, and $f$ is
+        differentiable exactly off the axes. The graph is an upside-down
+        square pyramid, creased along both axes.
+  \item \textbf{$\min\{ax,by\}$} with $a,b>0$. Where $ax<by$, $f=ax$;
+        where $ax>by$, $f=by$. On the kink line $ax=by$ (in the quadrant
+        $x,y>0$ of economics, a ray from the origin), raising $x$ leaves
+        $f$ at $by$ (slope $0$) while lowering $x$ lowers $f$ at rate $a$:
+        the one-sided slopes differ, so $f_{x}$ does not exist there, and
+        nor does $f_{y}$. The graph is a roof whose ridge lies above that
+        line.
+\end{itemize}
+A breaking formula is a warning, not a verdict: the partial may still
+exist at that point, and only the difference quotient decides. And partials
+that exist at a point still do not guarantee differentiability; continuity
+of the partials near the point does.
+\end{rulebox}
+
+\begin{rulebox}{Proving differentiability from the definition}
+When the $C^{1}$ criterion is not available, or a proof is asked for,
+work with the remainder directly. At a point $\mathbf{x}^{*}$:
+\begin{enumerate}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Candidate.} Compute $\grad f(\mathbf{x}^{*})$; it is the
+        only possible linear part. If a partial does not exist, stop: $f$
+        is not differentiable.
+  \item \textbf{Remainder.}
+        $r(\mathbf{h})=f(\mathbf{x}^{*}+\mathbf{h})-f(\mathbf{x}^{*})
+        -\grad f(\mathbf{x}^{*})\cdot\mathbf{h}$, expanded and simplified.
+        For a polynomial, every term left over contains at least two
+        factors $h_{i}$.
+  \item \textbf{Estimate.} Show $|r(\mathbf{h})|/\|\mathbf{h}\|\to0$ with
+        the standard inequalities
+        \[
+          |h_{i}|\le\|\mathbf{h}\|,\qquad
+          \frac{h_{i}^{2}}{\|\mathbf{h}\|}\le\|\mathbf{h}\|,\qquad
+          \frac{|h_{1}h_{2}|}{\|\mathbf{h}\|}\le\tfrac12\|\mathbf{h}\| ,
+        \]
+        and, for a product of three factors $h_{i}$, a bound
+        $\|\mathbf{h}\|^{2}$.
+  \item \textbf{Transcendental factors.} Replace them by their linear part
+        plus a remainder: $\mathrm{e}^{t}=1+t+R(t)$ with $|R(t)|\le2t^{2}$
+        for $|t|\le1$, and $\ln(1+t)=t+R(t)$ with $|R(t)|\le2t^{2}$ for
+        $|t|\le\tfrac12$ (both from the Lagrange remainder of Chapter~4).
+        The quadratic bound on $R$ is what makes $R/\|\mathbf{h}\|\to0$.
+\end{enumerate}
+\textbf{Roots at the origin.} For $f=(x^{2}+y^{2})^{p}$ with $p>0$,
+$f(\mathbf{h})=\|\mathbf{h}\|^{2p}$. The difference quotient on an axis is
+$|h|^{2p}/h$: it tends to $0$ if $2p>1$, and has no limit if $2p\le1$. So
+$f$ is differentiable at the origin exactly when $p>\tfrac12$; the cone
+$p=\tfrac12$ is the borderline case, and $p=\tfrac13$ is worse than a cone.
+\end{rulebox}
+
+\begin{rulebox}{Tangent plane and linearisation}
+If $f$ is differentiable at $P=(x_{0},y_{0})$, the \textbf{tangent plane}
+\de{(Tangentialebene)} to its graph at $(x_{0},y_{0},f(P))$ is
+\[
+  z=f(P)+f_{x}(P)\,(x-x_{0})+f_{y}(P)\,(y-y_{0}) .
+\]
+In $n$ variables, with $P=\mathbf{p}=(p_{1},\ldots,p_{n})$, the
+\textbf{tangent hyperplane} is
+\[
+  z=f(\mathbf{p})+\grad f(\mathbf{p})\cdot(\mathbf{x}-\mathbf{p})
+   =f(\mathbf{p})+\sum_{i=1}^{n}f_{x_i}(\mathbf{p})\,(x_{i}-p_{i}) .
+\]
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item The right-hand side is the \textbf{linearisation} $L(\mathbf{x})$
+        of $f$ at $\mathbf{p}$, the multivariable version of the tangent
+        line $f(a)+f'(a)(x-a)$ of Chapter~6. With
+        $\mathrm{d}x_{i}=x_{i}-p_{i}$ it reads $L=f(\mathbf{p})+\mathrm{d}f$:
+        the old value plus the total differential.
+  \item The partials are evaluated \emph{at the point} $\mathbf{p}$; they
+        are numbers, which is what makes the result a plane.
+  \item For a point $Q$ near $P$, $f(Q)\approx L(Q)$. The difference
+        $f(Q)-L(Q)$ is the remainder $r(\mathbf{h})$ of the definition, so
+        comparing the two numbers measures how good the approximation is.
+        For $f$ with continuous second partials it is at most of the order
+        $\|Q-P\|^{2}$: halve the step and the error falls to about a
+        quarter, or even less.
+  \item Equivalently, $f_{x}(P)(x-x_{0})+f_{y}(P)(y-y_{0})-(z-f(P))=0$: the
+        vector $(f_{x}(P),\,f_{y}(P),\,-1)$ is normal to the plane.
+\end{itemize}
+Where $f$ is not differentiable there is no tangent plane: a cone has none
+at its apex.
+\end{rulebox}
+
+\section{Worked Examples}
 
 \begin{worked}{For $f(x,y)=x^{3}y^{2}+\mathrm{e}^{2x}\ln y$, compute both partials and the gradient at $(1,1)$; then read the marginal products of $Q=10K^{0.3}L^{0.7}$}
 \wstep{Step 1. Differentiating in $x$ means freezing $y$ --- literally.}
@@ -301,6 +504,118 @@ exponents summing to $1$ behaves the way it does.
 diminishing marginal product. But that is diminishing \emph{marginal},
 not diminishing total --- output still increases. Confusing the two is the
 most common misreading of a partial derivative in economics.}
+\end{worked}
+
+\begin{worked}{Find the tangent plane of $f(x,y)=x\ln(x+2y)$ at $P=(1,0)$, and test it at the nearby point $Q=(1.1,\,0.05)$}
+\wstep{Step 1. Make sure there is a plane to find.}
+The domain is the open half-plane $x+2y>0$, and $P$ lies in it since
+$1+0>0$. On that half-plane $f$ is a polynomial times the logarithm of a
+positive linear expression, so its partials exist and are continuous: $f$
+is $C^{1}$, hence differentiable at $P$, and the tangent plane exists.
+
+\wstep{Step 2. The height at $P$.}
+$f(1,0)=1\cdot\ln1=0$. The plane touches the surface at $(1,0,0)$.
+
+\wstep{Step 3. The two partials, then their values at $P$.}
+In $x$ the function is a product of $x$ and $\ln(x+2y)$:
+\[
+  f_{x}=\ln(x+2y)+x\cdot\frac{1}{x+2y} .
+\]
+In $y$ the factor $x$ is a constant, and the chain rule supplies the inner
+derivative $2$:
+\[
+  f_{y}=\frac{2x}{x+2y} .
+\]
+At $P$: $f_{x}(1,0)=\ln1+\tfrac11=1$ and $f_{y}(1,0)=\tfrac21=2$.
+\wtrap{$x$ appears twice in $f$, once as a factor and once inside the
+logarithm, so $f_{x}$ needs the product rule. Writing $f_{x}=x/(x+2y)$
+alone loses the term $\ln(x+2y)$; here it happens to vanish at $P$, which
+hides the error until the next point.}
+
+\wstep{Step 4. Assemble the plane.}
+\[
+  z=f(P)+f_{x}(P)(x-1)+f_{y}(P)(y-0)=0+1\cdot(x-1)+2y=x+2y-1 .
+\]
+\wtrap{The partials go in as \emph{numbers} evaluated at $P$. Leaving them
+as functions of $x$ and $y$ gives a curved surface, not a plane.}
+
+\wstep{Step 5. Compare at $Q$.}
+\[
+  f(Q)=1.1\cdot\ln(1.1+0.1)=1.1\ln1.2\approx0.200554,
+  \qquad
+  L(Q)=1.1+0.1-1=0.200000 .
+\]
+The plane misses by about $0.000554$, while $f$ itself changed by about
+$0.2$: the error is under $0.3\%$ of the change. The step has length
+$\|Q-P\|=\sqrt{0.1^{2}+0.05^{2}}\approx0.112$. The error is far below that
+length, and even below its square $0.0125$, as the rule box predicts: the
+remainder vanishes faster than the distance.
+
+\wstep{Step 6. The same number as a total differential.}
+With $\mathrm{d}x=0.1$ and $\mathrm{d}y=0.05$,
+\[
+  \mathrm{d}f=f_{x}(P)\,\mathrm{d}x+f_{y}(P)\,\mathrm{d}y=0.1+0.1=0.2,
+\]
+and $L(Q)=f(P)+\mathrm{d}f=0.2$. \checkmark\ The tangent plane and the
+total differential are one idea written two ways.
+\end{worked}
+
+\begin{worked}{Prove from the definition that $f(x,y)=x^{2}y$ is differentiable at every point; then decide at the origin for $(x^{2}+y^{2})^{1/3}$ and $(x^{2}+y^{2})^{2/3}$}
+\wstep{Step 1. The candidate for the linear part.}
+Fix a point $(a,b)$. If $f$ is differentiable there, the linear part must
+be $\grad f(a,b)\cdot\mathbf{h}$, so compute the partials:
+$f_{x}=2xy$, $f_{y}=x^{2}$, hence $\grad f(a,b)=(2ab,\,a^{2})$.
+
+\wstep{Step 2. Form the remainder and let everything cancel that can.}
+With $\mathbf{h}=(h_{1},h_{2})$,
+\[
+  f(a+h_{1},b+h_{2})=(a^{2}+2ah_{1}+h_{1}^{2})(b+h_{2})
+  =a^{2}b+a^{2}h_{2}+2abh_{1}+2ah_{1}h_{2}+bh_{1}^{2}+h_{1}^{2}h_{2} .
+\]
+Subtract $f(a,b)=a^{2}b$ and the linear part $2abh_{1}+a^{2}h_{2}$:
+\[
+  r(\mathbf{h})=2a\,h_{1}h_{2}+b\,h_{1}^{2}+h_{1}^{2}h_{2} .
+\]
+Every surviving term contains at least \emph{two} factors $h_{i}$. That is
+the sign that the candidate was right.
+
+\wstep{Step 3. Bound the quotient by something that tends to $0$.}
+Use $|h_{i}|\le\|\mathbf{h}\|$ and $|h_{1}h_{2}|\le\tfrac12\|\mathbf{h}\|^{2}$
+(from $(|h_{1}|-|h_{2}|)^{2}\ge0$):
+\[
+  \frac{|r(\mathbf{h})|}{\|\mathbf{h}\|}
+  \le\frac{2|a|\cdot\tfrac12\|\mathbf{h}\|^{2}+|b|\,\|\mathbf{h}\|^{2}
+          +\|\mathbf{h}\|^{3}}{\|\mathbf{h}\|}
+  =(|a|+|b|)\,\|\mathbf{h}\|+\|\mathbf{h}\|^{2}\;\longrightarrow\;0 .
+\]
+So $f$ is differentiable at $(a,b)$, for every $(a,b)$, with derivative
+$(2ab,\,a^{2})$.
+\wtrap{Checking $r/\|\mathbf{h}\|\to0$ along the axes, or along every
+line, is not a proof: the bound must hold for \emph{all} small $\mathbf{h}$
+at once. The bound may depend on the fixed point $(a,b)$, but only through
+constants.}
+
+\wstep{Step 4. A root at the origin: $g=(x^{2}+y^{2})^{1/3}$.}
+First the partials, from the difference quotient:
+\[
+  \frac{g(h,0)-g(0,0)}{h}=\frac{(h^{2})^{1/3}}{h}
+  =\frac{|h|^{2/3}}{h}=\pm|h|^{-1/3},
+\]
+which is unbounded as $h\to0$. So $g_{x}(0,0)$ does not exist (nor, by
+symmetry, $g_{y}(0,0)$), and $g$ is \textbf{not differentiable} at the
+origin, although it is continuous there. Its graph has a tip even sharper
+than a cone's.
+
+\wstep{Step 5. A higher power: $k=(x^{2}+y^{2})^{2/3}$.}
+Now $\dfrac{k(h,0)-k(0,0)}{h}=\dfrac{|h|^{4/3}}{h}=\pm|h|^{1/3}\to0$, so both
+partials are $0$ and the candidate linear part is $0$. The remainder is
+$r(\mathbf{h})=k(\mathbf{h})=\|\mathbf{h}\|^{4/3}$, and
+\[
+  \frac{|r(\mathbf{h})|}{\|\mathbf{h}\|}=\|\mathbf{h}\|^{1/3}\to0 .
+\]
+So $k$ \textbf{is} differentiable at the origin, with the tangent plane
+$z=0$. In general $(x^{2}+y^{2})^{p}=\|\mathbf{h}\|^{2p}$ at the origin, and
+the verdict depends only on whether $2p>1$.
 \end{worked}
 
 \section{Practice Problems}
@@ -806,6 +1121,123 @@ most common misreading of a partial derivative in economics.}
         answer.
 \end{problems}
 
+In problems 22--29, for each function: state the domain; compute the
+partials and the set on which they exist; decide, with a justification,
+where $f$ is differentiable; and describe the graph near the points where
+differentiability fails.
+
+\begin{problems}[resume]
+  \item $f(x,y)=\sqrt{(x-1)^{2}+(y+2)^{2}}$.
+  \item $f(x,y)=\sqrt{4x^{2}+(y-3)^{2}}$.
+  \item $f(x,y)=|x-2|+|y|$.
+  \item $f(x,y)=\min\{2x,\,5y\}$ on $x,y>0$.
+  \item $f(x,y)=\dfrac{3xy}{2x^{2}+y^{2}}$ for $(x,y)\neq(0,0)$, with
+        $f(0,0)=0$. Also decide whether $f$ is continuous at the origin.
+  \item $f(x,y)=\sqrt{x^{4}+y^{4}}$. The formula for $f_{x}$ breaks down
+        at the origin; decide what really happens there.
+  \item $f(x,y)=\sqrt{9-x^{2}-y^{2}}$.
+  \item $f(x,y)=|x-y|$.
+\end{problems}
+
+In problems 30--37, find the tangent plane of $f$ at $P$ (the tangent
+hyperplane, for three variables), then evaluate both $f$ and the plane at
+the nearby point $Q$ and compare. Give both values to six decimals.
+
+\begin{problems}[resume]
+  \item $f(x,y)=\ln(2x+y^{2})$, \;$P=(0,1)$, \;$Q=(0.05,\,0.98)$.
+  \item $f(x,y)=\mathrm{e}^{x-2y}$, \;$P=(2,1)$, \;$Q=(2.1,\,1.02)$.
+  \item $f(x,y)=xy^{2}\,\mathrm{e}^{x-1}$, \;$P=(1,2)$,
+        \;$Q=(0.98,\,2.03)$.
+  \item $f(x,y)=\dfrac{x+y}{x-y}$, \;$P=(3,1)$, \;$Q=(3.1,\,0.9)$.
+  \item $F(K,L)=K^{1/4}L^{3/4}$, \;$P=(16,1)$, \;$Q=(16.5,\,1.1)$; read
+        the plane as an output estimate.
+  \item $f(x,y,z)=\ln(x+2y+3z)$, \;$P=(2,-1,\tfrac13)$,
+        \;$Q=(2.02,\,-0.99,\,0.35)$.
+  \item $f(x,y,z)=x\,\mathrm{e}^{yz}$, \;$P=(2,0,5)$,
+        \;$Q=(2.05,\,0.01,\,4.9)$.
+  \item $f(x,y,z)=\dfrac{xy}{z}$, \;$P=(2,3,6)$, \;$Q=(2.1,\,2.9,\,6.2)$.
+\end{problems}
+
+In problems 38--46, compute the partial derivatives, and give the gradient
+(a column) and the derivative (a row) at the stated point.
+
+\begin{problems}[resume]
+  \item $f(x_{1},\ldots,x_{n})=\sum_{i=1}^{n}\ln(1+x_{i}^{2})$, at
+        $(1,1,\ldots,1)$.
+  \item $f(x_{1},\ldots,x_{n})=\Bigl(\sum_{i=1}^{n}x_{i}\Bigr)^{3}$; then
+        for $n=4$ at $(1,2,3,4)$.
+  \item $f(x_{1},\ldots,x_{n})=\sum_{i=1}^{n}x_{i}^{\,i+1}$, at
+        $(1,1,\ldots,1)$; then for $n=3$ at $(2,1,-1)$.
+  \item $f(x_{1},\ldots,x_{n})=\sum_{j=1}^{n}\dfrac{j^{2}}{x_{j}^{3}}$ with
+        all $x_{j}>0$, at $(1,1,\ldots,1)$.
+  \item $f(x_{1},\ldots,x_{n})=\sum_{i=1}^{n}x_{i}^{2}
+        -\dfrac1n\Bigl(\sum_{i=1}^{n}x_{i}\Bigr)^{2}$; show that the
+        gradient vanishes exactly when all $x_{i}$ are equal, then evaluate
+        for $n=3$ at $(1,2,6)$.
+  \item $f(x,y,z)=y^{2}\ln(x^{2}+3yz)$, at $P=(1,1,1)$.
+  \item $f(x,y,z)=x^{3}\,\mathrm{e}^{y^{2}-2xz}$, at $P=(1,0,1)$.
+  \item $f(x,y)=2^{x}3^{y}+5^{xy}$, at $(1,1)$.
+  \item $f(x_{1},\ldots,x_{n})=\sum_{i=1}^{n}3^{\,i x_{i}}$, at
+        $(0,0,\ldots,0)$.
+\end{problems}
+
+In problems 47--52, decide differentiability directly from the definition,
+by forming the remainder and estimating it, as in the third worked example.
+
+\begin{problems}[resume]
+  \item $f(x,y)=3xy$, at every point $(a,b)$.
+  \item $f(x,y)=x^{2}+y^{2}$, first at the origin, then at every point.
+  \item $f(x,y)=xy^{2}$, at every point $(a,b)$.
+  \item $f(x,y)=y\,\mathrm{e}^{3x}$, at every point $(a,b)$.
+  \item At the origin: (a) $f(x,y)=(x^{2}+4y^{2})^{1/3}$;
+        (b) $g(x,y)=(x^{2}+y^{2})^{3/4}$.
+  \item $f(x,y)=|xy|$: at the origin, and at the point $(2,0)$.
+\end{problems}
+
+In problems 53--54, $f(0,0)=0$. Show with the difference quotient that both
+partials exist at the origin and are $0$; compute the limit along every
+straight line through the origin and along the stated parabola; and decide
+continuity and differentiability at the origin.
+
+\begin{problems}[resume]
+  \item $f(x,y)=\dfrac{x^{2}y}{x^{4}+y^{2}}$ for $(x,y)\neq(0,0)$; parabola
+        $y=x^{2}$.
+  \item $f(x,y)=\dfrac{2xy^{2}}{x^{2}+y^{4}}$ for $(x,y)\neq(0,0)$;
+        parabola $x=y^{2}$.
+\end{problems}
+
+Problems 55--56 refer to the three surfaces below, each drawn over a square
+around its special point.
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[surfaxis, title={(a)}, z post scale=1.1]
+    \addplot3[surf, domain=-1:3, y domain=-2:2]{(x-1)^2+2*y^2};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[surfaxis, title={(b)}, z post scale=1.1]
+    \addplot3[surf, domain=-1:3, y domain=-2:2]{sqrt((x-1)^2+4*y^2)};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[surfaxis, title={(c)}, z post scale=1.1]
+    \addplot3[surf, domain=-2:2, y domain=-2:2]{2-abs(x)-abs(y)};
+  \end{axis}
+\end{tikzpicture}
+\end{gallery}
+
+\begin{problems}[resume]
+  \item For each surface (a)--(c), say from the picture alone where the
+        function is differentiable and where it is not, and why.
+  \item Surface (b) has its tip above the point $(1,0)$, and its contours
+        are ellipses twice as long in $x$ as in $y$. Which of the formulas
+        $(x-1)^{2}+4y^{2}$, $\sqrt{(x-1)^{2}+4y^{2}}$ and
+        $\sqrt{4(x-1)^{2}+y^{2}}$ can it be the graph of? Confirm the
+        verdict of the previous problem for that formula with the
+        difference quotient at $(1,0)$.
+\end{problems}
+
 \section{Additional Solutions}
 
 \begin{solutions}
@@ -944,4 +1376,450 @@ most common misreading of a partial derivative in economics.}
         does not apply: and indeed no maximiser exists:
         $u(t,t)=t\to\infty$ as $t\to\infty$, so $u$ is unbounded above
         on $Q$.
+
+  \item \textbf{Domain:} the radicand is a sum of squares, never
+        negative, so $D=\R^{2}$. \textbf{Partials:} where the radicand is
+        positive, i.e.\ for $(x,y)\neq(1,-2)$, the chain rule gives
+        \[
+          f_{x}=\frac{x-1}{\sqrt{(x-1)^{2}+(y+2)^{2}}},\qquad
+          f_{y}=\frac{y+2}{\sqrt{(x-1)^{2}+(y+2)^{2}}} .
+        \]
+        At $(1,-2)$ use the quotient:
+        $\bigl(f(1+h,-2)-f(1,-2)\bigr)/h=\sqrt{h^{2}}/h=|h|/h$, which is $1$
+        for $h>0$ and $-1$ for $h<0$, so it has no limit. $f_{x}(1,-2)$
+        does not exist, and in the same way neither does $f_{y}(1,-2)$. The
+        partials exist exactly on $\R^{2}\setminus\{(1,-2)\}$.
+        \textbf{Differentiability:} on that open set the partials are
+        continuous ($f$ is $C^{1}$), so $f$ is differentiable there. At
+        $(1,-2)$ it is not, since differentiability would force the
+        partials to exist. Note that $f$ \emph{is} continuous at $(1,-2)$:
+        continuity is not enough. \textbf{Graph:} a circular cone with its
+        vertex at $(1,-2,0)$, opening upwards with slope $1$ in every
+        direction; the contours are circles of radius $c$ about $(1,-2)$.
+        At the sharp tip there is no tangent plane.
+
+  \item \textbf{Domain:} $\R^{2}$, the radicand being a sum of squares.
+        \textbf{Partials:} for $(x,y)\neq(0,3)$,
+        \[
+          f_{x}=\frac{4x}{\sqrt{4x^{2}+(y-3)^{2}}},\qquad
+          f_{y}=\frac{y-3}{\sqrt{4x^{2}+(y-3)^{2}}} .
+        \]
+        At $(0,3)$: $f(h,3)-f(0,3)=\sqrt{4h^{2}}=2|h|$, so the quotient
+        $2|h|/h=\pm2$ has no limit; and $f(0,3+h)-f(0,3)=|h|$ gives
+        $\pm1$. Neither partial exists at $(0,3)$; both exist everywhere
+        else. \textbf{Differentiability:} $C^{1}$, hence differentiable, on
+        $\R^{2}\setminus\{(0,3)\}$; not differentiable at $(0,3)$.
+        \textbf{Graph:} an elliptic cone with apex $(0,3,0)$. The contours
+        $4x^{2}+(y-3)^{2}=c^{2}$ are ellipses about $(0,3)$ with semi-axes
+        $c/2$ in the $x$-direction and $c$ in the $y$-direction: slope $2$
+        across $x$, slope $1$ along $y$, and a sharp point at the apex.
+
+  \item \textbf{Domain:} $\R^{2}$. \textbf{Partials:} for $x\neq2$,
+        $f_{x}=1$ if $x>2$ and $f_{x}=-1$ if $x<2$; at a point $(2,y_{0})$,
+        $\bigl(f(2+h,y_{0})-f(2,y_{0})\bigr)/h=|h|/h=\pm1$, so $f_{x}$ does
+        not exist anywhere on the line $x=2$. Likewise $f_{y}=\pm1$ (the
+        sign of $y$) for $y\neq0$, and $f_{y}$ does not exist on the line
+        $y=0$. Both partials exist exactly off the two lines $x=2$ and
+        $y=0$. \textbf{Differentiability:} off the two lines $f$ is, near
+        each point, one of the four linear functions $\pm(x-2)\pm y$, so it
+        is differentiable there; on the lines it is not, since a partial
+        is missing. \textbf{Graph:} an upside-down square pyramid with its
+        vertex at $(2,0,0)$; the contours $|x-2|+|y|=c$ are diamonds with
+        corners $(2\pm c,0)$ and $(2,\pm c)$, and the surface is creased
+        above the lines $x=2$ and $y=0$.
+
+  \item \textbf{Domain:} the open quadrant $x,y>0$, as given.
+        \textbf{Partials:} where $2x<5y$ (above the ray
+        $y=\tfrac25x$), $f=2x$, so $f_{x}=2$, $f_{y}=0$. Where $2x>5y$,
+        $f=5y$, so $f_{x}=0$, $f_{y}=5$. On the ray, at $(x_{0},y_{0})$ with
+        $2x_{0}=5y_{0}$:
+        \[
+          f(x_{0}+h,y_{0})-f(x_{0},y_{0})=\min\{2x_{0}+2h,\,5y_{0}\}-5y_{0}
+          =\min\{2h,\,0\},
+        \]
+        so the quotient is $0$ for $h>0$ and $2$ for $h<0$: no limit, no
+        $f_{x}$. Similarly $f(x_{0},y_{0}+k)-f(x_{0},y_{0})=\min\{0,5k\}$
+        gives one-sided slopes $0$ and $5$: no $f_{y}$. The partials exist
+        exactly off the ray $y=\tfrac25x$. \textbf{Differentiability:}
+        differentiable off the ray (locally linear), not on it.
+        \textbf{Graph:} two planes, $z=2x$ and $z=5y$, meeting in a ridge
+        above the ray: a roof. The contours are L-shaped corners, the level
+        $c$ having its corner at $(c/2,\,c/5)$ on the ray, which is the
+        Leontief isoquant picture.
+
+  \item \textbf{Domain:} the denominator $2x^{2}+y^{2}$ vanishes only at
+        the origin, where $f$ is defined separately, so $D=\R^{2}$.
+        \textbf{Partials off the origin}, quotient rule with
+        $N=2x^{2}+y^{2}$:
+        \[
+          f_{x}=\frac{3y\,N-3xy\cdot4x}{N^{2}}
+               =\frac{3y\,(y^{2}-2x^{2})}{(2x^{2}+y^{2})^{2}},\qquad
+          f_{y}=\frac{3x\,N-3xy\cdot2y}{N^{2}}
+               =\frac{3x\,(2x^{2}-y^{2})}{(2x^{2}+y^{2})^{2}} .
+        \]
+        \textbf{At the origin}, from the definition: $f(h,0)=0$ and
+        $f(0,h)=0$ for all $h$, so both quotients are $0$ and
+        $f_{x}(0,0)=f_{y}(0,0)=0$. The partials exist \emph{everywhere}.
+        \textbf{Continuity:} on the line $y=mx$, $x\neq0$,
+        \[
+          f(x,mx)=\frac{3mx^{2}}{(2+m^{2})x^{2}}=\frac{3m}{2+m^{2}},
+        \]
+        a constant that depends on $m$; on $y=x$ it is $1\neq f(0,0)$. So
+        $f$ is not continuous at the origin, and hence not differentiable
+        there, even though both partials exist. Away from the origin it is
+        $C^{1}$ and differentiable. \textbf{Graph:} each ray from the origin
+        carries its own constant height $3m/(2+m^{2})$, ranging between
+        $-\tfrac{3\sqrt2}{4}$ and $\tfrac{3\sqrt2}{4}$ (attained at
+        $m=\mp\sqrt2$); all these heights meet above the origin, so the
+        surface is a twisted sheet torn at that point.
+
+  \item \textbf{Domain:} $\R^{2}$. \textbf{Partials} off the origin:
+        $f_{x}=\dfrac{2x^{3}}{\sqrt{x^{4}+y^{4}}}$,
+        $f_{y}=\dfrac{2y^{3}}{\sqrt{x^{4}+y^{4}}}$. At the origin the
+        formula fails, so use the quotient:
+        $f(h,0)=\sqrt{h^{4}}=h^{2}$, and $h^{2}/h=h\to0$. So
+        $f_{x}(0,0)=0$, and likewise $f_{y}(0,0)=0$: the partials exist
+        everywhere, despite the broken formula. \textbf{Differentiability
+        at the origin:} with $\mathbf{a}=\mathbf{0}$ the remainder is
+        $r(\mathbf{h})=\sqrt{h_{1}^{4}+h_{2}^{4}}$. Since
+        $h_{1}^{4}+h_{2}^{4}\le(h_{1}^{2}+h_{2}^{2})^{2}$ (the missing
+        cross term $2h_{1}^{2}h_{2}^{2}$ is non-negative),
+        \[
+          0\le\frac{r(\mathbf{h})}{\|\mathbf{h}\|}
+          \le\frac{h_{1}^{2}+h_{2}^{2}}{\|\mathbf{h}\|}=\|\mathbf{h}\|\to0 .
+        \]
+        So $f$ is differentiable at the origin with tangent plane $z=0$,
+        and, being $C^{1}$ elsewhere, differentiable on all of $\R^{2}$.
+        \textbf{Graph:} a bowl with a flat bottom at the origin; its
+        contours $x^{4}+y^{4}=c^{2}$ are rounded squares. Nothing fails.
+
+  \item \textbf{Domain:} $9-x^{2}-y^{2}\ge0$, the closed disc of radius $3$.
+        \textbf{Partials:} for $x^{2}+y^{2}<9$,
+        \[
+          f_{x}=\frac{-x}{\sqrt{9-x^{2}-y^{2}}},\qquad
+          f_{y}=\frac{-y}{\sqrt{9-x^{2}-y^{2}}},
+        \]
+        continuous on the open disc. On the boundary circle the radicand
+        is $0$, the formulas divide by $0$, and, more basically, the points
+        are not interior: every neighbourhood of a boundary point contains
+        points outside the disc, where $f$ is not defined, so the two-sided
+        difference quotients needed for the partials do not exist. \textbf{Differentiability:}
+        $f$ is differentiable exactly on the open disc $x^{2}+y^{2}<9$.
+        \textbf{Graph:} the upper hemisphere of radius $3$. Its tangent
+        plane is horizontal at the top $(0,0,3)$, tilts more and more
+        steeply outwards, and becomes vertical at the rim, where
+        $\|\grad f\|\to\infty$.
+
+  \item \textbf{Domain:} $\R^{2}$. \textbf{Partials:} where $x>y$,
+        $f=x-y$, so $f_{x}=1$, $f_{y}=-1$; where $x<y$, $f=y-x$, so
+        $f_{x}=-1$, $f_{y}=1$. At a point $(x_{0},x_{0})$ of the diagonal,
+        $f(x_{0}+h,x_{0})-f(x_{0},x_{0})=|h|$, and $|h|/h=\pm1$ has no limit;
+        the same holds in $y$. The partials exist exactly off the line
+        $y=x$. \textbf{Differentiability:} differentiable off $y=x$, not on
+        it, although $f$ is continuous everywhere. \textbf{Graph:} a
+        V-shaped valley whose crease, at height $0$, runs along the line
+        $y=x$; the contours are pairs of parallel lines $y=x\pm c$, the
+        tilted-trough picture of Chapter~9 with a sharp floor.
+
+  \item $f(P)=\ln(0+1)=0$. Chain rule:
+        $f_{x}=\dfrac{2}{2x+y^{2}}$, $f_{y}=\dfrac{2y}{2x+y^{2}}$, so at
+        $P$ (denominator $1$): $f_{x}=2$, $f_{y}=2$. Tangent plane:
+        \[
+          z=0+2(x-0)+2(y-1)=2x+2y-2 .
+        \]
+        At $Q$: $f(Q)=\ln(0.1+0.9604)=\ln1.0604\approx0.058646$, and
+        $L(Q)=0.1+1.96-2=0.060000$. The plane overestimates by about
+        $0.001354$.
+
+  \item $f(P)=\mathrm{e}^{0}=1$. $f_{x}=\mathrm{e}^{x-2y}$,
+        $f_{y}=-2\mathrm{e}^{x-2y}$, so at $P$: $f_{x}=1$, $f_{y}=-2$.
+        Tangent plane:
+        \[
+          z=1+(x-2)-2(y-1)=x-2y+1 .
+        \]
+        At $Q$: $f(Q)=\mathrm{e}^{2.1-2.04}=\mathrm{e}^{0.06}\approx1.061837$,
+        and $L(Q)=2.1-2.04+1=1.060000$. The plane underestimates by about
+        $0.001837$: the exponential is convex, so it lies above all its
+        tangent planes.
+
+  \item $f(P)=1\cdot4\cdot\mathrm{e}^{0}=4$. Product rule in $x$, where
+        both $x$ and $\mathrm{e}^{x-1}$ depend on $x$:
+        \[
+          f_{x}=y^{2}\mathrm{e}^{x-1}+xy^{2}\mathrm{e}^{x-1}
+               =y^{2}\mathrm{e}^{x-1}(1+x),\qquad
+          f_{y}=2xy\,\mathrm{e}^{x-1} .
+        \]
+        At $P$: $f_{x}=4\cdot1\cdot2=8$, $f_{y}=2\cdot1\cdot2\cdot1=4$.
+        Tangent plane:
+        \[
+          z=4+8(x-1)+4(y-2) .
+        \]
+        At $Q$: $f(Q)=0.98\cdot2.03^{2}\cdot\mathrm{e}^{-0.02}
+        =0.98\cdot4.1209\cdot0.980199\approx3.958515$, and
+        $L(Q)=4-0.16+0.12=3.960000$. The plane is off by about
+        $0.001485$.
+
+  \item $f(P)=\dfrac{4}{2}=2$. Quotient rule with denominator $(x-y)^{2}$:
+        \[
+          f_{x}=\frac{(x-y)-(x+y)}{(x-y)^{2}}=\frac{-2y}{(x-y)^{2}},\qquad
+          f_{y}=\frac{(x-y)+(x+y)}{(x-y)^{2}}=\frac{2x}{(x-y)^{2}} .
+        \]
+        At $P$: $f_{x}=-\tfrac24=-\tfrac12$, $f_{y}=\tfrac64=\tfrac32$.
+        Tangent plane:
+        \[
+          z=2-\tfrac12(x-3)+\tfrac32(y-1) .
+        \]
+        At $Q$: $f(Q)=\dfrac{4.0}{2.2}\approx1.818182$, and
+        $L(Q)=2-0.05-0.15=1.800000$. The error, about $0.018182$, is
+        several times larger than in the neighbouring problems. The step
+        keeps $x+y=4$ but moves the denominator $x-y$ from $2$ to $2.2$,
+        and along that direction $f=4/(x-y)$ is strongly curved. The plane
+        is a local approximation, and its quality depends on the curvature
+        as much as on the length of the step.
+
+  \item $F(P)=16^{1/4}\cdot1=2$.
+        $F_{K}=\tfrac14K^{-3/4}L^{3/4}$, $F_{L}=\tfrac34K^{1/4}L^{-1/4}$; at
+        $P$: $F_{K}=\tfrac14\cdot\tfrac18=\tfrac1{32}$ and
+        $F_{L}=\tfrac34\cdot2=\tfrac32$. Tangent plane:
+        \[
+          z=2+\tfrac1{32}(K-16)+\tfrac32(L-1) .
+        \]
+        Economically: output $2$ plus marginal product times input change,
+        for each input. At $Q$: $L(Q)=2+\tfrac{0.5}{32}+\tfrac32\cdot0.1
+        =2+0.015625+0.15=2.165625$, while
+        $F(Q)=16.5^{1/4}\cdot1.1^{3/4}\approx2.164789$. The estimate is
+        high by about $0.000836$: with exponents summing to $1$ this
+        Cobb--Douglas function is concave, so its graph lies below every
+        tangent plane.
+
+  \item $f(P)=\ln(2-2+1)=\ln1=0$. With $s=x+2y+3z$:
+        $f_{x}=\tfrac1s$, $f_{y}=\tfrac2s$, $f_{z}=\tfrac3s$, and $s=1$ at
+        $P$, so $\grad f(P)=(1,2,3)^{T}$. Tangent hyperplane:
+        \[
+          w=0+(x-2)+2(y+1)+3\bigl(z-\tfrac13\bigr)=x+2y+3z-1 .
+        \]
+        At $Q$: $s=2.02-1.98+1.05=1.09$, so $f(Q)=\ln1.09\approx0.086178$,
+        and $L(Q)=1.09-1=0.090000$. The hyperplane overestimates by about
+        $0.003822$, since $\ln$ is concave.
+
+  \item $f(P)=2\mathrm{e}^{0}=2$. $f_{x}=\mathrm{e}^{yz}$,
+        $f_{y}=xz\,\mathrm{e}^{yz}$, $f_{z}=xy\,\mathrm{e}^{yz}$; at $P$:
+        $f_{x}=1$, $f_{y}=2\cdot5=10$, $f_{z}=2\cdot0=0$. Tangent
+        hyperplane:
+        \[
+          w=2+(x-2)+10(y-0)+0\cdot(z-5)=x+10y .
+        \]
+        The change in $z$ does not enter at all, because $f_{z}(P)=0$. At
+        $Q$: $f(Q)=2.05\,\mathrm{e}^{0.049}\approx2.152952$, and
+        $L(Q)=2.05+0.1=2.150000$; error about $0.002952$.
+
+  \item $f(P)=\tfrac66=1$. $f_{x}=\tfrac yz$, $f_{y}=\tfrac xz$,
+        $f_{z}=-\tfrac{xy}{z^{2}}$; at $P$: $f_{x}=\tfrac12$,
+        $f_{y}=\tfrac13$, $f_{z}=-\tfrac6{36}=-\tfrac16$. Tangent
+        hyperplane:
+        \[
+          w=1+\tfrac12(x-2)+\tfrac13(y-3)-\tfrac16(z-6) .
+        \]
+        At $Q$: $L(Q)=1+0.05-0.033333-0.033333=0.983333$, and
+        $f(Q)=\dfrac{2.1\cdot2.9}{6.2}=\dfrac{6.09}{6.2}\approx0.982258$;
+        error about $0.001075$.
+
+  \item Only the term $i=k$ contains $x_{k}$, so
+        \[
+          \pd{f}{x_{k}}=\frac{2x_{k}}{1+x_{k}^{2}},\qquad k=1,\ldots,n .
+        \]
+        At $(1,\ldots,1)$ every partial is $\tfrac22=1$:
+        $\grad f=(1,1,\ldots,1)^{T}$ and $Df=(1\ \ 1\ \ \cdots\ \ 1)$.
+
+  \item Chain rule with inner function $s=\sum_{i}x_{i}$, whose partial in
+        $x_{k}$ is $1$:
+        \[
+          \pd{f}{x_{k}}=3\Bigl(\sum_{i=1}^{n}x_{i}\Bigr)^{2}\cdot1 ,
+        \]
+        the same for every $k$. For $n=4$ at $(1,2,3,4)$: $s=10$, so each
+        partial is $300$, $\grad f=(300,300,300,300)^{T}$ and
+        $Df=(300\ \ 300\ \ 300\ \ 300)$.
+
+  \item The term containing $x_{k}$ is $x_{k}^{k+1}$, so
+        $\pd{f}{x_{k}}=(k+1)\,x_{k}^{k}$. At $(1,\ldots,1)$:
+        $\grad f=(2,3,\ldots,n+1)^{T}$, $Df=(2\ \ 3\ \ \cdots\ \ n+1)$. For
+        $n=3$, $f=x_{1}^{2}+x_{2}^{3}+x_{3}^{4}$ with partials
+        $2x_{1},\,3x_{2}^{2},\,4x_{3}^{3}$; at $(2,1,-1)$:
+        $\grad f=(4,3,-4)^{T}$ and $Df=(4\ \ 3\ \ {-4})$.
+
+  \item Write $f=\sum_{j}j^{2}x_{j}^{-3}$. The term with $j=k$ gives
+        \[
+          \pd{f}{x_{k}}=k^{2}\cdot(-3)x_{k}^{-4}=-\frac{3k^{2}}{x_{k}^{4}} .
+        \]
+        At $(1,\ldots,1)$: $\grad f=-3\,(1,4,9,\ldots,n^{2})^{T}$ and
+        $Df=(-3\ \ {-12}\ \ {-27}\ \ \cdots\ \ {-3n^{2}})$.
+
+  \item The first sum contributes $2x_{k}$; the second term, by the chain
+        rule as in problem 39, contributes
+        $-\tfrac1n\cdot2\sum_{i}x_{i}$. With the mean
+        $\bar x=\tfrac1n\sum_{i}x_{i}$:
+        \[
+          \pd{f}{x_{k}}=2x_{k}-\frac2n\sum_{i=1}^{n}x_{i}=2\,(x_{k}-\bar x) .
+        \]
+        The gradient is zero exactly when $x_{k}=\bar x$ for every $k$,
+        i.e.\ when all $x_{i}$ are equal. For $n=3$ at $(1,2,6)$:
+        $\bar x=3$, so $\grad f=(-4,-2,6)^{T}$ and $Df=(-4\ \ {-2}\ \ 6)$.
+        (The components always add up to $0$.)
+
+  \item With $s=x^{2}+3yz$: $f_{x}=y^{2}\cdot\dfrac{2x}{s}$, since
+        $y^{2}$ is a constant factor; $f_{y}$ needs the product rule,
+        because $y$ appears in both factors:
+        \[
+          f_{y}=2y\ln s+y^{2}\cdot\frac{3z}{s};
+        \]
+        and $f_{z}=y^{2}\cdot\dfrac{3y}{s}=\dfrac{3y^{3}}{s}$. At
+        $P=(1,1,1)$, $s=4$:
+        \[
+          f_{x}=\tfrac24=\tfrac12,\qquad
+          f_{y}=2\ln4+\tfrac34\approx3.522589,\qquad
+          f_{z}=\tfrac34 .
+        \]
+        So $\grad f(P)=\bigl(\tfrac12,\ 2\ln4+\tfrac34,\ \tfrac34\bigr)^{T}$
+        and $Df(P)=\bigl(\tfrac12\ \ \ 2\ln4+\tfrac34\ \ \ \tfrac34\bigr)$.
+
+  \item Write $E=\mathrm{e}^{y^{2}-2xz}$. In $x$ both factors move, so
+        product and chain rule:
+        \[
+          f_{x}=3x^{2}E+x^{3}E\cdot(-2z)=x^{2}(3-2xz)\,E .
+        \]
+        In $y$ and $z$ only the exponential moves:
+        $f_{y}=x^{3}E\cdot2y=2x^{3}y\,E$ and
+        $f_{z}=x^{3}E\cdot(-2x)=-2x^{4}E$. At $P=(1,0,1)$,
+        $E=\mathrm{e}^{-2}$:
+        $f_{x}=1\cdot(3-2)\mathrm{e}^{-2}=\mathrm{e}^{-2}$, $f_{y}=0$,
+        $f_{z}=-2\mathrm{e}^{-2}$. So
+        $\grad f(P)=\mathrm{e}^{-2}(1,0,-2)^{T}\approx(0.135335,\,0,\,-0.270671)^{T}$
+        and $Df(P)=\mathrm{e}^{-2}(1\ \ 0\ \ {-2})$.
+
+  \item Use $\partial a^{g}/\partial x=a^{g}\ln a\cdot g_{x}$. In the first
+        term $3^{y}$ is a constant factor; in the second the exponent $xy$
+        has $x$-derivative $y$:
+        \[
+          f_{x}=2^{x}3^{y}\ln2+y\,5^{xy}\ln5,\qquad
+          f_{y}=2^{x}3^{y}\ln3+x\,5^{xy}\ln5 .
+        \]
+        At $(1,1)$, $2^{x}3^{y}=6$ and $5^{xy}=5$:
+        \[
+          \grad f(1,1)=\begin{pmatrix}6\ln2+5\ln5\\6\ln3+5\ln5\end{pmatrix}
+          \approx\begin{pmatrix}12.206073\\14.638863\end{pmatrix},
+        \]
+        and $Df(1,1)$ is the same pair written as a row.
+
+  \item Only the term $i=k$ contains $x_{k}$, and its exponent $kx_{k}$ has
+        derivative $k$:
+        \[
+          \pd{f}{x_{k}}=3^{\,kx_{k}}\ln3\cdot k=k\ln3\cdot3^{\,kx_{k}} .
+        \]
+        At the origin every $3^{0}=1$, so
+        $\grad f=\ln3\,(1,2,\ldots,n)^{T}$ and
+        $Df=\ln3\,(1\ \ 2\ \ \cdots\ \ n)$.
+
+  \item Candidate: $f_{x}=3y$, $f_{y}=3x$, so $\grad f(a,b)=(3b,3a)$.
+        Remainder:
+        \[
+          r(\mathbf{h})=3(a+h_{1})(b+h_{2})-3ab-3bh_{1}-3ah_{2}=3h_{1}h_{2} .
+        \]
+        Estimate:
+        $\dfrac{|r(\mathbf{h})|}{\|\mathbf{h}\|}\le\dfrac{3\cdot\frac12
+        \|\mathbf{h}\|^{2}}{\|\mathbf{h}\|}=\tfrac32\|\mathbf{h}\|\to0$.
+        So $f$ is differentiable at every point, with derivative
+        $(3b,\,3a)$.
+  \item At the origin $\grad f=(0,0)$ and
+        $r(\mathbf{h})=h_{1}^{2}+h_{2}^{2}=\|\mathbf{h}\|^{2}$, so
+        $|r|/\|\mathbf{h}\|=\|\mathbf{h}\|\to0$: differentiable, with tangent
+        plane $z=0$. At $(a,b)$: $\grad f=(2a,2b)$ and
+        \[
+          r(\mathbf{h})=(a+h_{1})^{2}+(b+h_{2})^{2}-a^{2}-b^{2}-2ah_{1}-2bh_{2}
+          =h_{1}^{2}+h_{2}^{2},
+        \]
+        the same remainder, so the same estimate works everywhere.
+  \item Candidate: $f_{x}=y^{2}$, $f_{y}=2xy$, so $\grad f(a,b)=(b^{2},2ab)$.
+        Expand $(a+h_{1})(b^{2}+2bh_{2}+h_{2}^{2})
+        =ab^{2}+2abh_{2}+ah_{2}^{2}+b^{2}h_{1}+2bh_{1}h_{2}+h_{1}h_{2}^{2}$
+        and subtract $ab^{2}+b^{2}h_{1}+2abh_{2}$:
+        \[
+          r(\mathbf{h})=a\,h_{2}^{2}+2b\,h_{1}h_{2}+h_{1}h_{2}^{2} .
+        \]
+        Estimate:
+        $\dfrac{|r|}{\|\mathbf{h}\|}\le|a|\,\|\mathbf{h}\|
+        +|b|\,\|\mathbf{h}\|+\|\mathbf{h}\|^{2}\to0$. Differentiable
+        everywhere, derivative $(b^{2},\,2ab)$.
+  \item Candidate: $f_{x}=3y\mathrm{e}^{3x}$, $f_{y}=\mathrm{e}^{3x}$, so
+        $\grad f(a,b)=\mathrm{e}^{3a}(3b,\,1)$. Write
+        $\mathrm{e}^{3(a+h_{1})}=\mathrm{e}^{3a}\bigl(1+3h_{1}+R(3h_{1})\bigr)$:
+        \[
+          f(a+h_{1},b+h_{2})=\mathrm{e}^{3a}(b+h_{2})\bigl(1+3h_{1}+R\bigr)
+          =\mathrm{e}^{3a}\bigl(b+3bh_{1}+h_{2}+3h_{1}h_{2}+(b+h_{2})R\bigr).
+        \]
+        Subtracting $b\mathrm{e}^{3a}$ and $\mathrm{e}^{3a}(3bh_{1}+h_{2})$
+        leaves
+        \[
+          r(\mathbf{h})=\mathrm{e}^{3a}\bigl(3h_{1}h_{2}+(b+h_{2})\,R(3h_{1})\bigr).
+        \]
+        For $\|\mathbf{h}\|\le\tfrac13$ we have $|3h_{1}|\le1$, so
+        $|R(3h_{1})|\le2\cdot9h_{1}^{2}\le18\|\mathbf{h}\|^{2}$, and
+        \[
+          \frac{|r|}{\|\mathbf{h}\|}\le\mathrm{e}^{3a}\Bigl(\tfrac32
+          \|\mathbf{h}\|+18\bigl(|b|+\|\mathbf{h}\|\bigr)\|\mathbf{h}\|\Bigr)
+          \to0 .
+        \]
+        Differentiable at every point.
+  \item (a) On the $x$-axis $f(h,0)=(h^{2})^{1/3}=|h|^{2/3}$, so the
+        difference quotient $|h|^{2/3}/h=\pm|h|^{-1/3}$ is unbounded:
+        $f_{x}(0,0)$ does not exist (likewise $f_{y}$, with quotient
+        $\pm4^{1/3}|h|^{-1/3}$). Not differentiable.
+        (b) $g(\mathbf{h})=\|\mathbf{h}\|^{3/2}$. On an axis the quotient is
+        $|h|^{3/2}/h=\pm|h|^{1/2}\to0$, so both partials are $0$. Then
+        $r(\mathbf{h})=\|\mathbf{h}\|^{3/2}$ and
+        $|r|/\|\mathbf{h}\|=\|\mathbf{h}\|^{1/2}\to0$: differentiable, with
+        tangent plane $z=0$. The exponents decide: $2p=\tfrac23<1$ fails,
+        $2p=\tfrac32>1$ works.
+  \item \emph{Origin.} $f=0$ on both axes, so both partials are $0$. The
+        remainder is $r(\mathbf{h})=|h_{1}h_{2}|\le\tfrac12\|\mathbf{h}\|^{2}$,
+        so $|r|/\|\mathbf{h}\|\le\tfrac12\|\mathbf{h}\|\to0$: differentiable,
+        with tangent plane $z=0$. \emph{At $(2,0)$.}
+        $f(2,h)-f(2,0)=|2h|=2|h|$, and the quotient $2|h|/h=\pm2$ has no
+        limit: $f_{y}(2,0)$ does not exist, so $f$ is not differentiable
+        there. The graph is creased along both axes, except at the origin,
+        where the two creases flatten out.
+  \item \emph{Partials.} $f(h,0)=0$ and $f(0,h)=0$ for $h\neq0$, so both
+        difference quotients are $0/h=0$: $f_{x}(0,0)=f_{y}(0,0)=0$.
+        \emph{Lines.} On the $y$-axis $f=0$. On $y=mx$, $x\neq0$:
+        \[
+          f(x,mx)=\frac{mx^{3}}{x^{4}+m^{2}x^{2}}=\frac{mx}{x^{2}+m^{2}}
+          \;\longrightarrow\;0\quad(x\to0),
+        \]
+        for $m\neq0$, and $f=0$ for $m=0$. Every straight line gives $0$.
+        \emph{Parabola.} On $y=x^{2}$: $f=\dfrac{x^{4}}{x^{4}+x^{4}}=\tfrac12$
+        for every $x\neq0$. So $f$ has no limit at the origin and is
+        \textbf{not continuous} there, hence \textbf{not differentiable},
+        although both partials exist and every line agrees.
+  \item \emph{Partials.} $f=0$ on both axes, so $f_{x}(0,0)=f_{y}(0,0)=0$.
+        \emph{Lines.} On $y=mx$:
+        $f=\dfrac{2m^{2}x^{3}}{x^{2}+m^{4}x^{4}}=\dfrac{2m^{2}x}{1+m^{4}x^{2}}
+        \to0$; on $x=0$, $f=0$. \emph{Parabola.} On $x=y^{2}$:
+        $f=\dfrac{2y^{4}}{y^{4}+y^{4}}=1$ for $y\neq0$. Not continuous at the
+        origin, hence not differentiable.
+  \item (a) A smooth bowl, with no edges, creases or tips anywhere: it has a
+        tangent plane at every point (horizontal at the bottom), so the
+        function is differentiable everywhere. (b) A cone with a sharp tip:
+        differentiable everywhere except at the tip, where every vertical
+        cut through the tip is a V and no plane fits. (c) A pyramid whose
+        four flat faces meet along two creases running over the axes:
+        differentiable on the faces, not on the two creases (including
+        the top point).
+  \item The bowl $(x-1)^{2}+4y^{2}$ has no tip, so it is out. The level
+        $c>0$ of $\sqrt{(x-1)^{2}+4y^{2}}$ is
+        $\dfrac{(x-1)^{2}}{c^{2}}+\dfrac{y^{2}}{(c/2)^{2}}=1$, semi-axes $c$
+        in $x$ and $c/2$ in $y$: twice as long in $x$, as in the picture.
+        The third formula has semi-axes $c/2$ in $x$ and $c$ in $y$, the
+        wrong way round. So (b) is $\sqrt{(x-1)^{2}+4y^{2}}$. At $(1,0)$:
+        $f(1+h,0)-f(1,0)=\sqrt{h^{2}}=|h|$, and $|h|/h=\pm1$ has no limit;
+        likewise $f(1,h)-f(1,0)=2|h|$. Neither partial exists, so $f$ is
+        not differentiable at the tip, as the picture said.
 \end{solutions}

@@ -103,6 +103,39 @@ versus $0.5\%$ at $x=0.1$. Rule of thumb: expand around a base point
 close to where you evaluate, and use the remainder bound to check.
 \end{rulebox}
 
+\begin{rulebox}{Composite functions at a point $a\neq0$}
+For $f(x)=\mathrm{e}^{g(x)}$, $\sqrt{g(x)}$ or $\ln g(x)$ the higher
+derivatives come from repeated chain and product rules. Two habits keep the
+work short.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Differentiate the short form.} For $f=\mathrm{e}^{g}$,
+        write $f'=g'f$ and differentiate \emph{that} with the product rule:
+        \[
+          f''=(g''+g'^{2})f,\qquad
+          f'''=(g'''+3g'g''+g'^{3})f .
+        \]
+        Then evaluate everything at $a$ and divide by $k!$; the powers are
+        powers of $(x-a)$, never of $x$.
+  \item \textbf{Substitute into a known series.} Put $u=x-a$ and rewrite
+        $g$ in $u$. For $f(x)=\mathrm{e}^{x^{2}-4x}$ at $a=2$:
+        $x^{2}-4x=u^{2}-4$, so
+        \[
+          f=\mathrm{e}^{-4}\,\mathrm{e}^{u^{2}}
+           =\mathrm{e}^{-4}\Bigl(1+u^{2}+\frac{u^{4}}{2}+\frac{u^{6}}{6}
+            +\cdots\Bigr),
+        \]
+        using $\mathrm{e}^{c+w}=\mathrm{e}^{c}\mathrm{e}^{w}$ and the
+        exponential series with $w=u^{2}$. The two methods must agree, so
+        each checks the other.
+\end{itemize}
+\textbf{What ``the first $n$ terms'' means.} $T_{3}$ always has the four
+\emph{slots} $(x-a)^{0},\ldots,(x-a)^{3}$, but some coefficients can vanish.
+Above, $T_{3}=\mathrm{e}^{-4}\bigl(1+(x-2)^{2}\bigr)$ has only two non-zero
+terms, while the first four \emph{non-zero} terms run up to $(x-2)^{6}$.
+Say which one is meant; when a task asks for ``the first four terms'' and
+coefficients vanish, give $T_{3}$ and add the non-zero terms beyond it.
+\end{rulebox}
+
 \section{Worked Example}
 
 \begin{worked}{Expand $\ln(1+x)$ to third order about $0$, bound the error at $x=0.5$, and read the economics off the second-order term}
@@ -506,6 +539,23 @@ formula and a Taylor expansion are the same computation twice.
         $|x-a|$.
 \end{problems}
 
+Problems 11--15 expand composite functions about a point $a\neq0$. Give the
+first four terms, that is $T_{3}$, and where coefficients vanish also say
+what the first four \emph{non-zero} terms are.
+
+\begin{problems}[resume]
+  \item $f(x)=\mathrm{e}^{x^{2}}$ at $a=1$, by derivatives and again by
+        substitution; then approximate $\mathrm{e}^{1.21}$ (true value
+        $3.353485$).
+  \item $f(x)=\sqrt{1+x^{2}}$ at $a=1$; then approximate $\sqrt{2.21}$
+        (true value $1.486607$).
+  \item $f(x)=\ln(1+x^{2})$ at $a=1$; then approximate $\ln(2.44)$ (true
+        value $0.891998$).
+  \item $f(x)=\mathrm{e}^{x^{2}+x}$ at $a=-1$, by derivatives and again by
+        substitution.
+  \item $f(x)=\mathrm{e}^{6x-x^{2}-9}$ at $a=3$.
+\end{problems}
+
 \section{Additional Solutions}
 
 \begin{solutions}
@@ -605,4 +655,99 @@ formula and a Taylor expansion are the same computation twice.
           |f(x)-T_{2}(x)|\leq\frac{|f'''(\xi)|}{6}\,|x-a|^{3}
             \leq\frac{M}{6}\,|x-a|^{3} .
         \]
+
+  \item \emph{By derivatives.} With $g=x^{2}$, $g'=2x$, $g''=2$,
+        $g'''=0$:
+        \[
+          f'=2x\,f,\qquad f''=(2+4x^{2})f,\qquad
+          f'''=(0+3\cdot2x\cdot2+8x^{3})f=(12x+8x^{3})f .
+        \]
+        At $a=1$: $f(1)=\mathrm{e}$, $f'(1)=2\mathrm{e}$,
+        $f''(1)=6\mathrm{e}$, $f'''(1)=20\mathrm{e}$. Divide by $k!$:
+        \[
+          T_{3}(x)=\mathrm{e}\Bigl(1+2(x-1)+3(x-1)^{2}
+                   +\tfrac{10}{3}(x-1)^{3}\Bigr) .
+        \]
+        \emph{By substitution.} With $u=x-1$, $x^{2}=1+2u+u^{2}$, so
+        $f=\mathrm{e}\cdot\mathrm{e}^{w}$ with $w=2u+u^{2}$. Keep powers up
+        to $u^{3}$:
+        \[
+          \mathrm{e}^{w}=1+w+\tfrac{w^{2}}{2}+\tfrac{w^{3}}{6}+\cdots
+          =1+(2u+u^{2})+\tfrac12(4u^{2}+4u^{3})+\tfrac16(8u^{3})+\cdots
+          =1+2u+3u^{2}+\tfrac{10}{3}u^{3}+\cdots,
+        \]
+        the same polynomial. At $x=1.1$, $u=0.1$:
+        $T_{3}=\mathrm{e}(1+0.2+0.03+0.003333)=\mathrm{e}\cdot1.233333
+        \approx3.352548$, against the true $3.353485$ (error about
+        $9\cdot10^{-4}$). All four coefficients are non-zero here.
+
+  \item $f=(1+x^{2})^{1/2}$, $f'=\dfrac{x}{f}$. Quotient rule on that
+        short form:
+        \[
+          f''=\frac{f-xf'}{f^{2}}=\frac{f-x^{2}/f}{f^{2}}
+             =\frac{(1+x^{2})-x^{2}}{f^{3}}=(1+x^{2})^{-3/2},
+          \qquad
+          f'''=-3x(1+x^{2})^{-5/2} .
+        \]
+        At $a=1$: $f=\sqrt2$, $f'=\tfrac{1}{\sqrt2}$,
+        $f''=\tfrac{1}{2\sqrt2}$, $f'''=-\tfrac{3}{4\sqrt2}$. Divide by
+        $1,1,2,6$:
+        \[
+          T_{3}(x)=\sqrt2+\frac{x-1}{\sqrt2}+\frac{(x-1)^{2}}{4\sqrt2}
+                   -\frac{(x-1)^{3}}{8\sqrt2}
+                  =\sqrt2\Bigl(1+\tfrac{x-1}{2}+\tfrac{(x-1)^{2}}{8}
+                   -\tfrac{(x-1)^{3}}{16}\Bigr) .
+        \]
+        At $x=1.1$: $\sqrt2(1+0.05+0.00125-0.0000625)=\sqrt2\cdot1.0511875
+        \approx1.486604$, against $1.486607$.
+
+  \item $f'=\dfrac{2x}{1+x^{2}}$,
+        $f''=\dfrac{2(1+x^{2})-2x\cdot2x}{(1+x^{2})^{2}}
+        =\dfrac{2-2x^{2}}{(1+x^{2})^{2}}$, and
+        \[
+          f'''=\frac{-4x(1+x^{2})^{2}-(2-2x^{2})\cdot2(1+x^{2})\cdot2x}
+                {(1+x^{2})^{4}}
+              =\frac{-4x(1+x^{2})-8x(1-x^{2})}{(1+x^{2})^{3}}
+              =\frac{4x^{3}-12x}{(1+x^{2})^{3}} .
+        \]
+        At $a=1$: $f=\ln2$, $f'=1$, $f''=0$, $f'''=-8/8=-1$. So
+        \[
+          T_{3}(x)=\ln2+(x-1)-\tfrac16(x-1)^{3} ,
+        \]
+        with an empty $(x-1)^{2}$ slot: $x=1$ is the inflection point of
+        $f$. Continuing the same way gives the coefficient $\tfrac18$ of
+        $(x-1)^{4}$, so the first four non-zero terms are
+        $\ln2+(x-1)-\tfrac16(x-1)^{3}+\tfrac18(x-1)^{4}$. At $x=1.2$:
+        $T_{3}=0.693147+0.2-0.001333=0.891814$, against $0.891998$; adding
+        the fourth non-zero term, $0.0002$, gives $0.892014$.
+
+  \item \emph{By derivatives.} $g=x^{2}+x$, $g'=2x+1$, $g''=2$,
+        $g'''=0$. At $a=-1$: $g=0$, $g'=-1$, so $f(-1)=1$ and
+        \[
+          f'=g'f=-1,\quad f''=(g''+g'^{2})f=3,\quad
+          f'''=(g'''+3g'g''+g'^{3})f=0-6-1=-7 .
+        \]
+        \[
+          T_{3}(x)=1-(x+1)+\tfrac32(x+1)^{2}-\tfrac76(x+1)^{3} .
+        \]
+        \emph{By substitution.} $u=x+1$, $x=u-1$, so
+        $x^{2}+x=u^{2}-2u+1+u-1=u^{2}-u$ and
+        \begin{align*}
+          \mathrm{e}^{u^{2}-u}&=1+(u^{2}-u)+\tfrac12(u^{2}-u)^{2}
+            +\tfrac16(u^{2}-u)^{3}+\cdots\\
+          &=1-u+u^{2}+\tfrac12(u^{2}-2u^{3})-\tfrac16u^{3}+\cdots
+          =1-u+\tfrac32u^{2}-\tfrac76u^{3}+\cdots \checkmark
+        \end{align*}
+
+  \item Complete the square in the exponent:
+        $6x-x^{2}-9=-(x-3)^{2}$, so with $u=x-3$,
+        $f=\mathrm{e}^{-u^{2}}=1-u^{2}+\tfrac{u^{4}}{2}-\tfrac{u^{6}}{6}
+        +\cdots$ (the exponential series with $w=-u^{2}$). Hence
+        \[
+          T_{3}(x)=1-(x-3)^{2},
+        \]
+        two non-zero terms only, and the first four non-zero terms are
+        $1-(x-3)^{2}+\tfrac12(x-3)^{4}-\tfrac16(x-3)^{6}$. The derivative
+        route agrees: $f'=-2uf$ and $f'''$ both vanish at $u=0$, and
+        $f''(3)=-2$, giving $-2/2!=-1$.
 \end{solutions}

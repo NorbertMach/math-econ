@@ -53,6 +53,61 @@ For semidefiniteness one must check \emph{all} principal minors, not just
 the leading ones; the simple form above does not extend.
 \end{rulebox}
 
+\begin{rulebox}{Leading minors: the other sign patterns}
+Suppose \emph{every} leading minor is non-zero, $D_{1}, D_{2}, \dots, D_{n}
+\neq 0$. Then $A$ is invertible and exactly one of three things holds:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+    \item all $D_{k} > 0$: positive definite;
+    \item signs $-, +, -, \dots$ (that is, $(-1)^{k} D_{k} > 0$): negative definite;
+    \item \textbf{any other pattern}: indefinite. For $n = 3$, for example,
+          $D_{1} < 0,\ D_{2} > 0,\ D_{3} > 0$ or $D_{1} > 0,\ D_{2} > 0,\ D_{3} < 0$.
+\end{itemize}
+A negative principal minor of \emph{even} order settles the question at
+once, even when other minors vanish: psd and nsd both need every
+even-order principal minor to be $\ge 0$. For example, if $D_{2} < 0$ (or
+any $2 \times 2$ principal minor is negative), the form is already
+indefinite on the plane of those two coordinates, so $A$ is indefinite
+whatever the remaining minors are.
+\end{rulebox}
+
+\begin{rulebox}{Diagonal shortcuts}
+The diagonal entry $a_{ii} = e_{i}^{T} A e_{i}$ is the value of the form at
+the $i$-th unit vector. Hence, before computing any determinant:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+    \item pd needs \emph{all} $a_{ii} > 0$, nd needs all $a_{ii} < 0$
+          (psd needs all $a_{ii} \ge 0$, nsd all $a_{ii} \le 0$);
+    \item two diagonal entries of \textbf{opposite signs} $\Rightarrow$ indefinite;
+    \item a \textbf{zero} diagonal entry $a_{ii} = 0$ with some $a_{ij} \neq 0$
+          in its row $\Rightarrow$ indefinite, because the $2 \times 2$
+          principal minor on rows and columns $i, j$ equals
+          $0 \cdot a_{jj} - a_{ij}^{2} < 0$;
+    \item a diagonal matrix: the diagonal entries are the eigenvalues, read
+          the verdict off their signs.
+\end{itemize}
+The conditions in the first bullet are only necessary: all $a_{ii} > 0$
+does \emph{not} make $A$ positive definite.
+\end{rulebox}
+
+\begin{rulebox}{Semidefiniteness: all seven principal minors ($3 \times 3$)}
+When some leading minor is $0$, Sylvester's test stops. For a symmetric
+$3 \times 3$ matrix list \emph{all} principal minors (delete the same rows
+and columns):
+\[
+\underbrace{a_{11},\ a_{22},\ a_{33}}_{\text{order }1},\qquad
+\underbrace{M_{12},\ M_{13},\ M_{23}}_{\text{order }2},\qquad
+\underbrace{\det A}_{\text{order }3},
+\]
+where $M_{ij} = a_{ii} a_{jj} - a_{ij}^{2}$ keeps rows and columns $i$ and $j$.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+    \item psd $\Leftrightarrow$ all seven are $\ge 0$;
+    \item nsd $\Leftrightarrow$ the three of order $1$ are $\le 0$, the three of
+          order $2$ are $\ge 0$, and $\det A \le 0$;
+    \item neither $\Rightarrow$ indefinite.
+\end{itemize}
+A good order of work: scan the diagonal (shortcuts), then the leading
+minors $D_{1}, D_{2}, D_{3}$; only if one of them is $0$, check all seven.
+\end{rulebox}
+
 \begin{rulebox}{The $2 \times 2$ case}
 For $A = \bigl(\begin{smallmatrix} a & b \\ b & c \end{smallmatrix}\bigr)$:
 \begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
@@ -73,7 +128,7 @@ $x^{*}$ (i.e.\ $\grad f(x^{*}) = 0$):
 \end{itemize}
 \end{rulebox}
 
-\section{Worked Example}
+\section{Worked Examples}
 
 \begin{worked}{Write $Q(x,y)=2x^{2}-2xy+2y^{2}$ in matrix form and classify it by both criteria; then classify $x^{2}+4xy+y^{2}$ and $x^{2}+2xy+y^{2}$}
 \wstep{Step 1. Build the matrix --- and halve the cross terms.}
@@ -172,6 +227,48 @@ trough --- which is exactly the trio of pictures the second-order conditions
 have to distinguish.
 \end{worked}
 
+\begin{worked}{Classify $A=\begin{pmatrix}-2&1&1\\1&-2&1\\1&1&-2\end{pmatrix}$, naming the rule used at each stage}
+\wstep{Step 1. Scan the diagonal first.}
+All three diagonal entries equal $-2<0$. No shortcut fires: there are no
+opposite signs and no zero on the diagonal. The diagonal only tells us
+what is still possible, namely nd or nsd (or indefinite); pd and psd are
+already ruled out, since $Q(e_{1})=a_{11}=-2<0$.
+
+\wstep{Step 2. Leading minors (Sylvester).}
+\[
+  D_{1}=-2<0,\qquad
+  D_{2}=\begin{vmatrix}-2&1\\1&-2\end{vmatrix}=4-1=3>0,
+\]
+and, expanding along the first row,
+\[
+  D_{3}=\det A=-2\,(4-1)-1\,(-2-1)+1\,(1+2)=-6+3+3=0 .
+\]
+The pattern starts $-,+$ as negative definiteness requires, but
+$D_{3}=0$, not $<0$. So $A$ is \textbf{not} negative definite, and since a
+leading minor vanishes the test says nothing more.
+\wtrap{Do not report ``indefinite'' because the pattern $-,+,0$ is not the
+alternating one. The rule for other patterns applies only when all
+leading minors are non-zero. A zero minor sends us to the full check.}
+
+\wstep{Step 3. All seven principal minors.}
+Order $1$: $a_{11}=a_{22}=a_{33}=-2\le0$. Order $2$: by symmetry
+$M_{12}=M_{13}=M_{23}=(-2)(-2)-1^{2}=3\ge0$. Order $3$: $\det A=0\le0$.
+Odd orders $\le0$, even orders $\ge0$: the matrix is
+\[
+  \boxed{\text{negative semidefinite, not negative definite.}}
+\]
+
+\wstep{Step 4. Confirm: a zero direction and a sum of squares.}
+Every row sums to $0$, so $A\,(1,1,1)^{T}=0$ and $Q(1,1,1)=0$ with
+$(1,1,1)\neq0$: definiteness fails, as the zero determinant said. Writing
+out the form,
+\[
+  Q=-2x^{2}-2y^{2}-2z^{2}+2xy+2xz+2yz
+   =-\bigl[(x-y)^{2}+(y-z)^{2}+(z-x)^{2}\bigr]\le0 ,
+\]
+which shows the semidefiniteness directly. (The eigenvalues are $0,-3,-3$.)
+\end{worked}
+
 \section{Practice Problems}
 
 \begin{problems}
@@ -200,6 +297,13 @@ have to distinguish.
     \item For the same $\Sigma$ with $\rho = 1$, is $\Sigma$ pd or just psd? Justify.
     \item Compute $Q(1, 2) = x^{T} A x$ for $A = \bigl(\begin{smallmatrix} 1 & 2 \\ 2 & 3 \end{smallmatrix}\bigr)$.
     \item For which $\alpha$ is the Hessian of $f(x, y) = \alpha x^{2} - 2 x y + y^{2}$ pd?
+    \item Classify $A = \begin{pmatrix} 3 & 1 & -1 \\ 1 & 2 & 0 \\ -1 & 0 & 4 \end{pmatrix}$ and name the rule you use.
+    \item Classify $A = \begin{pmatrix} -3 & 1 & 1 \\ 1 & -2 & 0 \\ 1 & 0 & -4 \end{pmatrix}$ and name the rule you use.
+    \item Classify $A = \begin{pmatrix} -1 & 0 & 2 \\ 0 & -1 & 2 \\ 2 & 2 & -1 \end{pmatrix}$ and name the rule you use. Then exhibit vectors on which $Q$ takes both signs.
+    \item Classify $A = \begin{pmatrix} 1 & 3 & 0 \\ 3 & 2 & 1 \\ 0 & 1 & 5 \end{pmatrix}$ with as little computation as possible.
+    \item Classify $A = \begin{pmatrix} 4 & 1 & 2 \\ 1 & -1 & 0 \\ 2 & 0 & 3 \end{pmatrix}$ without computing a single determinant.
+    \item Classify $A = \begin{pmatrix} 1 & -1 & 2 \\ -1 & 5 & -2 \\ 2 & -2 & 4 \end{pmatrix}$. If it is semidefinite, find a non-zero $x$ with $x^{T} A x = 0$.
+    \item Classify $A = \begin{pmatrix} -1 & 2 & -1 \\ 2 & -5 & 1 \\ -1 & 1 & -2 \end{pmatrix}$. If it is semidefinite, find a non-zero $x$ with $x^{T} A x = 0$.
 \end{problems}
 
 \section{Solutions}
@@ -230,6 +334,29 @@ have to distinguish.
     \item With $\rho = 1$: $D_{2} = 4 - 1 = 3 > 0$, so $\Sigma$ is pd (eigenvalues are roots of $\lambda^{2} - 5\lambda + 3 = 0$, both positive).
     \item $x^{T} A x = (1, 2)\bigl(\begin{smallmatrix} 1 & 2 \\ 2 & 3 \end{smallmatrix}\bigr)\bigl(\begin{smallmatrix} 1 \\ 2 \end{smallmatrix}\bigr) = (1, 2)\bigl(\begin{smallmatrix} 5 \\ 8 \end{smallmatrix}\bigr) = 5 + 16 = 21$.
     \item Hessian $H = \bigl(\begin{smallmatrix} 2 \alpha & -2 \\ -2 & 2 \end{smallmatrix}\bigr)$. pd $\Leftrightarrow$ $2 \alpha > 0$ and $4 \alpha - 4 > 0$, i.e.\ $\alpha > 1$.
+    \item Diagonal $3, 2, 4$: all positive, so pd is still possible (no shortcut decides). Leading minors (Sylvester): $D_{1} = 3$, $D_{2} = 3 \cdot 2 - 1^{2} = 5$, and expanding along row 1,
+          $D_{3} = 3\,(2 \cdot 4 - 0) - 1\,(1 \cdot 4 - 0 \cdot (-1)) + (-1)\,(1 \cdot 0 - 2 \cdot (-1)) = 24 - 4 - 2 = 18$.
+          All three $> 0$: positive definite by Sylvester's criterion.
+    \item Diagonal $-3, -2, -4$: all negative, so nd is still possible. Leading minors: $D_{1} = -3$, $D_{2} = 6 - 1 = 5$, and
+          $D_{3} = -3\,(8 - 0) - 1\,(-4 - 0) + 1\,(0 - (-2)) = -24 + 4 + 2 = -18$.
+          Signs $-, +, -$ alternate starting negative: negative definite by Sylvester's criterion.
+    \item Diagonal $-1, -1, -1$: no shortcut. Leading minors: $D_{1} = -1$, $D_{2} = 1 - 0 = 1$, and
+          $D_{3} = -1\,(1 - 4) - 0 + 2\,(0 \cdot 2 - (-1) \cdot 2) = 3 + 4 = 7$.
+          All three are non-zero and the pattern $-, +, +$ is neither all positive nor alternating, so $A$ is indefinite (rule for the other sign patterns).
+          Witnesses: $Q(1, 0, 0) = a_{11} = -1 < 0$, while $Q(1, 1, 1)$ is the sum of all nine entries, $-1 + 0 + 2 + 0 - 1 + 2 + 2 + 2 - 1 = 5 > 0$.
+    \item Diagonal $1, 2, 5$: no shortcut. Leading minors: $D_{1} = 1 > 0$, $D_{2} = 1 \cdot 2 - 3^{2} = -7 < 0$. A negative minor of even order means indefinite; $D_{3}$ is not needed (it equals $-36$).
+          Witnesses: $Q(1, 0, 0) = 1 > 0$ and $Q(3, -2, 0) = 9 - 36 + 8 = -19 < 0$.
+    \item Diagonal shortcut: $a_{11} = 4 > 0$ and $a_{22} = -1 < 0$ have opposite signs, so $A$ is indefinite. Indeed $Q(e_{1}) = 4 > 0$ and $Q(e_{2}) = -1 < 0$. No determinant is needed.
+    \item Diagonal $1, 5, 4$: no shortcut. Leading minors: $D_{1} = 1$, $D_{2} = 5 - 1 = 4$,
+          $D_{3} = 1\,(20 - 4) - (-1)\,(-4 + 4) + 2\,(2 - 10) = 16 - 0 - 16 = 0$.
+          A zero leading minor: not pd, and Sylvester stops. All seven principal minors: order 1: $1, 5, 4$; order 2: $M_{12} = 5 - 1 = 4$, $M_{13} = 4 - 4 = 0$, $M_{23} = 20 - 4 = 16$; order 3: $\det A = 0$. All seven $\ge 0$: positive semidefinite, not pd.
+          Zero direction: solve $A x = 0$. The third row is twice the first, so only rows 1 and 2 count: $x_{1} - x_{2} + 2 x_{3} = 0$ and $-x_{1} + 5 x_{2} - 2 x_{3} = 0$. Adding them gives $4 x_{2} = 0$, so $x_{2} = 0$ and $x_{1} = -2 x_{3}$. With $x_{3} = -1$: $x = (2, 0, -1)$, and $Q(2, 0, -1) = 0$.
+          (Check: $Q = (x - y + 2z)^{2} + 4 y^{2} \ge 0$.)
+    \item Diagonal $-1, -5, -2$: no shortcut. Leading minors: $D_{1} = -1$, $D_{2} = 5 - 4 = 1$,
+          $D_{3} = -1\,(10 - 1) - 2\,(-4 + 1) + (-1)\,(2 - 5) = -9 + 6 + 3 = 0$.
+          Not nd (needs $D_{3} < 0$), and Sylvester stops. All seven principal minors: order 1: $-1, -5, -2$, all $\le 0$; order 2: $M_{12} = 5 - 4 = 1$, $M_{13} = 2 - 1 = 1$, $M_{23} = 10 - 1 = 9$, all $\ge 0$; order 3: $\det A = 0 \le 0$. Negative semidefinite, not nd.
+          Zero direction: from rows 1 and 3, $-x_{1} + 2 x_{2} - x_{3} = 0$ and $-x_{1} + x_{2} - 2 x_{3} = 0$; subtracting gives $x_{2} = -x_{3}$, then $x_{1} = -3 x_{3}$. With $x_{3} = -1$: $x = (3, 1, -1)$, and row 2 checks: $6 - 5 - 1 = 0$. So $Q(3, 1, -1) = 0$.
+          (Check: $Q = -(x - 2y + z)^{2} - (y + z)^{2} \le 0$.)
 \end{solutions}
 
 \section{Additional Problems}
@@ -260,6 +387,12 @@ have to distinguish.
     \item Compute $Q(2, -1) = x^{T} A x$ for $A = \bigl(\begin{smallmatrix} 3 & 1 \\ 1 & 2 \end{smallmatrix}\bigr)$.
     \item For which $\alpha$ is the Hessian of $f(x, y) = x^{2} + 2 \alpha x y + 4 y^{2}$ pd?
     \item Determine whether $Q(x, y, z) = x^{2} + y^{2} + z^{2} + 2 x y$ is pd, psd, or indefinite.
+    \item Classify $A = \begin{pmatrix} 2 & 1 & 3 \\ 1 & 0 & 0 \\ 3 & 0 & 4 \end{pmatrix}$ by a diagonal shortcut, and give a vector $x$ with $x^{T} A x < 0$.
+    \item Classify $A = \begin{pmatrix} 1 & 2 & -1 \\ 2 & 4 & -2 \\ -1 & -2 & 1 \end{pmatrix}$ and write $Q(x, y, z)$ as a single square.
+    \item Classify $A = \begin{pmatrix} -2 & 0 & 1 \\ 0 & 0 & 0 \\ 1 & 0 & -3 \end{pmatrix}$. Does the zero on the diagonal make it indefinite?
+    \item Classify $A = \begin{pmatrix} 1 & 1 & 0 \\ 1 & 1 & 1 \\ 0 & 1 & 1 \end{pmatrix}$. Its second leading minor is $0$: what does the full check give?
+    \item True or false (justify): a symmetric $3 \times 3$ matrix whose diagonal entries are all positive is positive definite.
+    \item For which $t$ is $A = \begin{pmatrix} 1 & 0 & t \\ 0 & 2 & 0 \\ t & 0 & 4 \end{pmatrix}$ positive definite, positive semidefinite but not pd, or indefinite?
 \end{problems}
 
 \section{Additional Solutions}
@@ -290,4 +423,18 @@ have to distinguish.
     \item $A \bigl(\begin{smallmatrix} 2 \\ -1 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 6 - 1 \\ 2 - 2 \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 5 \\ 0 \end{smallmatrix}\bigr)$. $(2, -1) \cdot (5, 0) = 10$. So $Q = 10$.
     \item $H = \bigl(\begin{smallmatrix} 2 & 2 \alpha \\ 2 \alpha & 8 \end{smallmatrix}\bigr)$. pd iff $2 > 0$ (OK) and $16 - 4 \alpha^{2} > 0 \Leftrightarrow |\alpha| < 2$.
     \item $A = \begin{pmatrix} 1 & 1 & 0 \\ 1 & 1 & 0 \\ 0 & 0 & 1 \end{pmatrix}$. Eigenvalues: from $2 \times 2$ block $\bigl(\begin{smallmatrix} 1 & 1 \\ 1 & 1 \end{smallmatrix}\bigr)$ we get $0, 2$; from $1 \times 1$ block, $1$. So eigenvalues $\{0, 1, 2\}$. All $\ge 0$, one zero: psd but not pd. Verify: $Q = (x + y)^{2} + z^{2} \ge 0$, with $Q = 0$ at $(1, -1, 0) \neq 0$.
+    \item Diagonal shortcut: $a_{22} = 0$ while $a_{21} = 1 \neq 0$ in the same row, so $A$ is indefinite. The witness is the $2 \times 2$ principal minor on rows and columns $1, 2$: $M_{12} = 2 \cdot 0 - 1^{2} = -1 < 0$.
+          On the plane $z = 0$ the form is $Q(x, y, 0) = 2 x^{2} + 2 x y$. At $(1, 0, 0)$ it is $2 > 0$; at $(1, -2, 0)$ it is $2 - 4 = -2 < 0$.
+    \item Diagonal $1, 4, 1$: no shortcut. Leading minors: $D_{1} = 1$, $D_{2} = 4 - 4 = 0$, so Sylvester stops (and pd is excluded). All seven principal minors: order 1: $1, 4, 1$; order 2: $M_{12} = 4 - 4 = 0$, $M_{13} = 1 - 1 = 0$, $M_{23} = 4 - 4 = 0$; order 3: $\det A = 0$ (all rows are multiples of $(1, 2, -1)$). All seven $\ge 0$: positive semidefinite, not pd.
+          Single square: $Q = x^{2} + 4 y^{2} + z^{2} + 4 x y - 2 x z - 4 y z = (x + 2 y - z)^{2}$, which vanishes on the whole plane $x + 2y - z = 0$, for example at $(2, -1, 0)$.
+    \item The zero diagonal entry $a_{22} = 0$ sits in a row that is entirely zero, so the shortcut does \emph{not} apply. Leading minors: $D_{1} = -2$, $D_{2} = 0$, $D_{3} = 0$ (zero row); Sylvester stops. All seven principal minors: order 1: $-2, 0, -3$, all $\le 0$; order 2: $M_{12} = 0$, $M_{13} = 6 - 1 = 5$, $M_{23} = 0$, all $\ge 0$; order 3: $\det A = 0 \le 0$. Negative semidefinite, not nd.
+          Indeed $Q = -2 x^{2} + 2 x z - 3 z^{2}$ does not involve $y$; it is negative definite in $(x, z)$ (since $-2 < 0$, $M_{13} = 5 > 0$) and zero along $(0, 1, 0)$.
+    \item Diagonal $1, 1, 1$: no shortcut. Leading minors: $D_{1} = 1$, $D_{2} = 1 - 1 = 0$, $D_{3} = 1\,(1 - 1) - 1\,(1 - 0) + 0 = -1$. With a zero leading minor go to the full check: order 1: $1, 1, 1$; order 2: $M_{12} = 0$, $M_{13} = 1$, $M_{23} = 0$; order 3: $\det A = -1$.
+          Not psd ($\det A < 0$) and not nsd (diagonal positive): indefinite.
+          Witnesses: $Q(1, 0, 0) = 1 > 0$ and $Q(1, -1, 1) = 1 + 1 + 1 - 2 - 2 + 0 = -1 < 0$.
+    \item False. Positive diagonal entries are necessary for pd but not sufficient. Counterexample: $A = \begin{pmatrix} 2 & 0 & 3 \\ 0 & 1 & 0 \\ 3 & 0 & 2 \end{pmatrix}$ has diagonal $2, 1, 2$, yet the principal minor $M_{13} = 4 - 9 = -5 < 0$, so it is indefinite: $Q(1, 0, -1) = 2 + 2 - 6 = -2 < 0$.
+    \item Principal minors: order 1: $1, 2, 4$, all positive; order 2: $M_{12} = 2$, $M_{13} = 4 - t^{2}$, $M_{23} = 8$; order 3, expanding along the middle row: $\det A = 2\,(4 - t^{2})$. The leading minors are $D_{1} = 1$, $D_{2} = 2$, $D_{3} = 2\,(4 - t^{2})$.
+          pd (Sylvester): $D_{3} > 0 \Leftrightarrow |t| < 2$.
+          psd but not pd: all seven $\ge 0$ needs $4 - t^{2} \ge 0$, and not pd forces $4 - t^{2} = 0$, so $t = \pm 2$. (At $t = 2$: $Q = (x + 2z)^{2} + 2 y^{2}$.)
+          Indefinite: $|t| > 2$, where $M_{13} < 0$ (a negative minor of even order).
 \end{solutions}

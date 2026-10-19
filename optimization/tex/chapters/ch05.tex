@@ -58,6 +58,17 @@ For $f : \R^n \to \R$ let $D_1, D_2, \dots, D_n$ be the leading principal
 minors of $H_f(\mathbf{x}^*)$. Then $H_f(\mathbf{x}^*)$ is PD iff
 $D_k > 0$ for all $k = 1, \dots, n$, and ND iff the signs alternate
 starting negative: $D_1 < 0$, $D_2 > 0$, $D_3 < 0$, \dots
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item If all $D_k\neq0$ but the signs fit \emph{neither} pattern, $H$ is
+        \textbf{indefinite} and $\mathbf{x}^*$ is a \textbf{saddle point}.
+        (In particular $D_{2k}<0$ for some $k$ always means a saddle.)
+  \item If some $D_k=0$ with $k<n$ but $\det H\neq0$, $H$ cannot be
+        definite (that needs every $D_k\neq0$), and a non-singular matrix
+        that is not definite is indefinite: again a \textbf{saddle}. A
+        negative $2\times2$ principal minor, or two diagonal entries of
+        opposite sign, shows the same at a glance.
+  \item If $\det H=0$, the test is silent: argue directly (box below).
+\end{itemize}
 \end{rulebox}
 
 \begin{rulebox}{Global optima via concavity and convexity}
@@ -65,6 +76,86 @@ If $H_f$ is ND \emph{everywhere}, $f$ is strictly concave on $\R^n$ and any
 critical point is the unique global maximum. Analogously for PD and minima.
 This is why a local check delivers a global verdict for concave profit and
 convex cost specifications.
+\end{rulebox}
+
+\begin{rulebox}{Singular Hessian: compare function values}
+When $\det H_f(\mathbf{x}^*)=0$ the second-order test is silent and the
+point must be classified directly, by comparing $f$ near $\mathbf{x}^*$
+with $f(\mathbf{x}^*)$.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Restrict to lines or curves.} Study
+        $\varphi(t)=f(\mathbf{x}^*+t\mathbf{h})$, especially along a null
+        direction $\mathbf{h}$ of the Hessian ($H\mathbf{h}=\mathbf{0}$).
+        If some restriction takes values both above and below
+        $f(\mathbf{x}^*)$ arbitrarily close to $t=0$ (a $t^{3}$-type term),
+        $\mathbf{x}^*$ is a \textbf{saddle point}. If two lines give a
+        strict local minimum and a strict local maximum, it is a saddle as
+        well.
+  \item \textbf{Sign of $f-f(\mathbf{x}^*)$.} If
+        $f(\mathbf{x})-f(\mathbf{x}^*)\ge0$ near $\mathbf{x}^*$, e.g.\ a sum
+        of even powers, the point is a local minimum (strict if equality
+        holds only at $\mathbf{x}^*$); $\le0$ gives a local maximum.
+  \item \textbf{Non-isolated critical points.} The FOC may hold on a whole
+        line or curve. Classify each point separately by the sign of
+        $f-f(\mathbf{x}^*)$ on a small neighbourhood; such extrema are never
+        strict.
+\end{itemize}
+A minimum along every line through $\mathbf{x}^*$ does \emph{not} by itself
+prove a local minimum in general, so prefer the sign argument whenever $f$
+can be written as a sum of signed terms.
+\end{rulebox}
+
+\begin{rulebox}{Quadratic functions in matrix form}
+Let $A$ be a symmetric $n\times n$ matrix, $\mathbf{b}\in\R^{n}$, $c\in\R$,
+and $f(\mathbf{x})=\mathbf{x}^{T}A\mathbf{x}+\mathbf{b}^{T}\mathbf{x}+c$.
+In sum notation $f=\sum_{i}\sum_{j}a_{ij}x_ix_j+\sum_ib_ix_i+c$, and
+differentiating with respect to $x_k$ hits the double sum once as $x_i$ and
+once as $x_j$:
+\[
+  \pd{f}{x_k}=\sum_{j}a_{kj}x_j+\sum_{i}a_{ik}x_i+b_k
+  =2(A\mathbf{x})_k+b_k ,
+\]
+using $a_{ik}=a_{ki}$. Hence
+\[
+  \grad f(\mathbf{x})=2A\mathbf{x}+\mathbf{b},\qquad H_f=2A\ \text{(constant)},
+  \qquad
+  \mathbf{x}^*=-\tfrac12A^{-1}\mathbf{b},\qquad
+  f(\mathbf{x}^*)=c-\tfrac14\,\mathbf{b}^{T}A^{-1}\mathbf{b}
+\]
+when $A$ is invertible. The definiteness of $A$ classifies $\mathbf{x}^*$
+\emph{globally}: PD, unique global minimum; ND, unique global maximum;
+indefinite, saddle point. If $A$ is singular there is either no critical
+point or a whole line (plane) of them. Remember the halving: a term
+$\gamma x_ix_j$ ($i\neq j$) puts $\gamma/2$ into both $a_{ij}$ and $a_{ji}$.
+\end{rulebox}
+
+\begin{rulebox}{Least squares: the regression line by calculus}
+Given data $(x_1,y_1),\dots,(x_n,y_n)$, not all $x_i$ equal, the line
+$y=b_0+b_1x$ minimises the sum of squared residuals
+\[
+  S(b_0,b_1)=\sum_{i=1}^{n}\bigl(y_i-b_0-b_1x_i\bigr)^{2},
+\]
+a function of the two unknowns $b_0,b_1$; the data are constants.
+Setting $\pd{S}{b_0}=-2\sum(y_i-b_0-b_1x_i)=0$ and
+$\pd{S}{b_1}=-2\sum x_i(y_i-b_0-b_1x_i)=0$ gives the \emph{normal equations}
+\[
+  n\,b_0+\Bigl(\sum x_i\Bigr)b_1=\sum y_i,\qquad
+  \Bigl(\sum x_i\Bigr)b_0+\Bigl(\sum x_i^{2}\Bigr)b_1=\sum x_iy_i ,
+\]
+with solution
+\[
+  b_1=\frac{S_{xy}}{S_{xx}},\qquad b_0=\bar y-b_1\bar x,\qquad
+  S_{xx}=\sum(x_i-\bar x)^{2},\quad S_{xy}=\sum(x_i-\bar x)(y_i-\bar y).
+\]
+The Hessian is constant,
+$H_S=2\begin{pmatrix}n&\sum x_i\\\sum x_i&\sum x_i^{2}\end{pmatrix}$, with
+$D_1=2n>0$ and $D_2=4\bigl(n\sum x_i^{2}-(\sum x_i)^{2}\bigr)=4nS_{xx}>0$:
+$S$ is strictly convex and the critical point is the unique global minimum.
+In matrix form ($X$ with rows $(1,x_i)$) the normal equations read
+$X^{T}X\,\mathbf{b}=X^{T}\mathbf{y}$, so $\mathbf{b}=(X^{T}X)^{-1}X^{T}\mathbf{y}$,
+the formula of Volume~3, and $H_S=2X^{T}X$. Residuals are squared so that
+positive and negative errors cannot cancel, large errors weigh more, and $S$
+is differentiable (absolute values would leave kinks).
 \end{rulebox}
 
 \section{Worked Example}
@@ -182,7 +273,7 @@ Hessian.
     \item $f(x, y) = \mathrm{e}^{x^2 + y^2}$ (locate the critical point and classify).
     \item A firm uses two inputs $x, y$ to produce output $Q = 10 x + 14 y - x^2 - y^2 - x y$. Find the input combination maximising $Q$ (interpret as profit with normalised prices).
     \item $f(x, y) = x^3 + y^3 - 3 x - 12 y + 7$. Locate and classify all critical points.
-    \item $f(x, y) = x^2 y - x y^2 + x y$. Find one critical point with $x, y > 0$ and classify it.
+    \item $f(x, y) = x^2 y - x y^2 + x y$. Find all critical points and classify each. Does any of them have $x, y > 0$?
     \item A monopolist sells two substitute goods with demands $q_1 = 12 - 2 p_1 + p_2$ and $q_2 = 18 + p_1 - 2 p_2$ (so revenues depend on chosen prices). Marginal cost is zero. Maximise total revenue over $(p_1, p_2)$.
     \item Minimise $f(x, y) = x^2 + 4 y^2 + 2 x y - 6 x + 4$.
     \item Show $f(x,y) = x^2 + y^2 + xy$ is strictly convex; find its unique minimum.
@@ -216,7 +307,7 @@ Hessian.
         \item $(-1, 2)$: $D_2 = -72 < 0$, \textbf{saddle}.
         \item $(-1, -2)$: $D_1 = -6, D_2 = 72$, ND $\Rightarrow$ \textbf{max}.
     \end{itemize}
-    \item $f_x = 2 x y - y^2 + y = y(2 x - y + 1)$; $f_y = x^2 - 2 x y + x = x(x - 2 y + 1)$. Look for $x, y > 0$: then $2 x - y + 1 = 0$ and $x - 2 y + 1 = 0$. Subtract: $x + y = 0$, impossible for both positive. Reconsider; from system $y = 2 x + 1$, $x = 2 y - 1 = 2(2 x + 1) - 1 = 4 x + 1 \Rightarrow x = -1/3$. So in fact no critical point has $x, y > 0$; the critical points lie on the axes (where $x = 0$ or $y = 0$) plus the interior point $(-1/3, 1/3)$. (Worth flagging: the algebra shows the problem has no positive-interior critical point.) Classify $(-1/3, 1/3)$: $H = \begin{pmatrix} 2 y & 2 x - 2 y + 1 \\ 2 x - 2 y + 1 & -2 x \end{pmatrix}$. At the point: $2 y = 2/3$, $-2 x = 2/3$, $2 x - 2 y + 1 = -2/3 - 2/3 + 1 = -1/3$. $D_1 = 2/3 > 0$; $D_2 = (2/3)(2/3) - (1/3)^2 = 4/9 - 1/9 = 3/9 > 0$, PD $\Rightarrow$ \textbf{min}.
+    \item $f_x = 2 x y - y^2 + y = y(2 x - y + 1)$; $f_y = x^2 - 2 x y + x = x(x - 2 y + 1)$. Each product is zero when one factor is, giving four cases. $y = 0$, $x = 0$: $(0, 0)$. $y = 0$, $x - 2y + 1 = 0$: $x = -1$, so $(-1, 0)$. $x = 0$, $2x - y + 1 = 0$: $y = 1$, so $(0, 1)$. Both brackets zero: $y = 2x + 1$ and $x = 2y - 1 = 4x + 1$, so $x = -\tfrac13$, $y = \tfrac13$. Hessian: $H = \begin{pmatrix} 2 y & 2 x - 2 y + 1 \\ 2 x - 2 y + 1 & -2 x \end{pmatrix}$. At $(0,0)$: $H = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$, $D_2 = -1 < 0$, \textbf{saddle}. At $(-1,0)$: $H = \begin{pmatrix} 0 & -1 \\ -1 & 2 \end{pmatrix}$, $D_2 = -1 < 0$, \textbf{saddle}. At $(0,1)$: $H = \begin{pmatrix} 2 & -1 \\ -1 & 0 \end{pmatrix}$, $D_2 = -1 < 0$, \textbf{saddle}. At $(-\tfrac13, \tfrac13)$: $2y = \tfrac23$, $-2x = \tfrac23$, $2x - 2y + 1 = -\tfrac13$; $D_1 = \tfrac23 > 0$, $D_2 = \tfrac49 - \tfrac19 = \tfrac13 > 0$, PD $\Rightarrow$ local \textbf{min}, $f(-\tfrac13, \tfrac13) = -\tfrac1{27}$. No critical point has $x, y > 0$: there both brackets would have to vanish, and subtracting them gives $x + y = 0$, impossible for positive $x, y$.
     \item $R = p_1 q_1 + p_2 q_2 = p_1(12 - 2 p_1 + p_2) + p_2(18 + p_1 - 2 p_2) = 12 p_1 + 18 p_2 - 2 p_1^2 - 2 p_2^2 + 2 p_1 p_2$. FOC: $R_{p_1} = 12 - 4 p_1 + 2 p_2 = 0$, $R_{p_2} = 18 - 4 p_2 + 2 p_1 = 0$. Multiply (1) by 2 and add to (2): $24 + 18 - 8 p_1 + 4 p_2 + 2 p_1 - 4 p_2 = 42 - 6 p_1 = 0 \Rightarrow p_1^* = 7$. Then from (1), $2 p_2 = 4 p_1 - 12 = 16 \Rightarrow p_2^* = 8$. $H = \begin{pmatrix} -4 & 2 \\ 2 & -4 \end{pmatrix}$, $D_1 = -4, D_2 = 16 - 4 = 12 > 0$, ND $\Rightarrow$ \textbf{max}.
     \item $f_x = 2 x + 2 y - 6 = 0$, $f_y = 8 y + 2 x = 0$. From (2): $x = -4 y$. Sub: $-8 y + 2 y - 6 = -6 y - 6 = 0 \Rightarrow y^* = -1$, $x^* = 4$. $H = \begin{pmatrix} 2 & 2 \\ 2 & 8 \end{pmatrix}$, $D_1 = 2 > 0$, $D_2 = 16 - 4 = 12 > 0$, PD $\Rightarrow$ \textbf{min}. $f^* = 16 + 4 - 8 - 24 + 4 = -8$.
     \item $H = \begin{pmatrix} 2 & 1 \\ 1 & 2 \end{pmatrix}$, $\det = 3 > 0$, leading $2 > 0$: PD everywhere, strict convex. FOC: $2x + y = 0, x + 2y = 0 \Rightarrow x = y = 0$. Min at origin.
@@ -228,8 +319,10 @@ Hessian.
 
 \section{Additional Problems}
 
-For each function, locate all critical points and classify them using the
-Hessian.
+For Problems 1--10, locate all critical points of each function and
+classify them using the Hessian. Problems 11--26 add singular Hessians,
+quadratic functions in matrix form, three and four variables, least squares,
+and an interdependent demand system.
 
 \begin{problems}
     \item $f(x, y) = x^2 + y^2 + 2 x - 4 y + 7$.
@@ -242,6 +335,23 @@ Hessian.
     \item A firm uses two inputs $x, y$ to produce $Q = 12 x + 8 y - 2 x^2 - y^2 - 2 x y$. Maximise.
     \item $f(x, y) = x^4 + y^4 - 4 x y$. Locate and classify all critical points.
     \item A monopolist sells two goods with demands $q_1 = 20 - p_1$ and $q_2 = 15 - p_2$ (independent demands). Total cost $C(q_1, q_2) = 2 q_1^2 + q_1 q_2 + q_2^2$. Maximise profit over $(q_1, q_2)$.
+
+    \item $f(x, y) = (x - 1)^3 - 3 (x - 1)(y + 2)^2$. Find the critical point, show that the Hessian test is silent, and classify it by restricting $f$ to a line.
+    \item $f(x, y) = (x + 1)^2 + (y - 2)^4$. Classify the critical point although the Hessian there is singular.
+    \item $f(x, y) = (x + 3)^2 + y^4 + 2 y^3$. Find both critical points and classify them; for the one with a singular Hessian, use the sign of $y^3$.
+    \item $f(x, y) = x^2 y^3$. Show that the critical points fill both coordinate axes and classify every one of them.
+    \item Compare $g(x, y) = (x + y)^2 + x^4$ and $h(x, y) = (x + y)^2 - x^4$ at the origin: same Hessian, different verdicts. Find the null direction of the Hessian and use it.
+    \item (Matrix form, $n = 2$.) For symmetric $A = \begin{pmatrix} a & c \\ c & d \end{pmatrix}$ and $\mathbf{b} = (b_1, b_2)^T$, expand $f = \mathbf{x}^T A \mathbf{x} + \mathbf{b}^T \mathbf{x}$ and verify $\grad f = 2 A \mathbf{x} + \mathbf{b}$. Then minimise $f = 2 x_1^2 + 2 x_1 x_2 + 3 x_2^2 - 4 x_1 + 2 x_2$ with the matrix formula.
+    \item Write $f(x, y, z) = -2 x^2 + 2 x y - 3 y^2 + 2 y z - 2 z^2 + 2 x + 4 z$ as $\mathbf{x}^T A \mathbf{x} + \mathbf{b}^T \mathbf{x}$, show that $A$ is negative definite, and find the global maximiser and the maximum by $\mathbf{x}^* = -\tfrac12 A^{-1} \mathbf{b}$.
+    \item Write $f(x, y) = x^2 + 4 x y + y^2 + 2 x - 4 y$ in matrix form, find its critical point with the matrix formula, and classify it.
+    \item $f(x, y, z) = x^3 + y^3 + z^3 - 3 x - 12 y - 27 z$. Find all eight critical points and classify each. Is any of them a global extremum?
+    \item (a) Classify the critical point of $f(x, y, z) = x^2 + y^2 - 2 y + \ln(1 + z^2)$ and show it is a global minimum although $f$ is not convex. (b) Do the same for $g(x, y, z) = x^2 + y^2 - 2 y - \ln(1 + z^2)$.
+    \item Minimise $f(w, x, y, z) = w^2 + 2 w x + 2 x^2 + y^2 - 2 y z + 3 z^2 - 4 w - 2 x - 4 z + 7$, (a) by completing squares, (b) by the leading principal minors of the $4 \times 4$ Hessian.
+    \item $f(x, y, z) = x^3 - 3 x z + y^2 + z^2$. Find and classify both critical points. (At one of them $D_1 = 0$: what decides?)
+    \item (Least squares, numeric.) Fit $y = b_0 + b_1 x$ to the points $(1, 2)$, $(2, 3)$, $(3, 7)$ by minimising $S(b_0, b_1)$: write $S$, solve the normal equations, check the Hessian, compute the minimal $S$, and cross-check with $(X^T X)^{-1} X^T \mathbf{y}$.
+    \item (Least squares, general.) Derive the normal equations and $b_1 = S_{xy}/S_{xx}$, $b_0 = \bar y - b_1 \bar x$, and prove that the Hessian is positive definite using the identity $n \sum x_i^2 - (\sum x_i)^2 = n \sum (x_i - \bar x)^2$. What happens if all $x_i$ are equal?
+    \item (Line through the origin.) Minimise $S(b) = \sum (y_i - b x_i)^2$ over $b$, show the minimiser is $b^* = \sum x_i y_i / \sum x_i^2$, and evaluate it for the data of Additional Problem~23.
+    \item (Interdependent demand.) A firm sells two substitutes with demand system $q_1 = 50 - 2 p_1 + p_2$, $q_2 = 40 + p_1 - 3 p_2$ and costs $C = 2 q_1 + 4 q_2$. (a) Write the system as $\mathbf{q} = \mathbf{a} + B \mathbf{p}$ and invert it to $\mathbf{p} = B^{-1} (\mathbf{q} - \mathbf{a})$. (b) Maximise profit in the quantities. (c) Maximise profit in the prices and confirm the same optimum.
 \end{problems}
 
 \section{Additional Solutions}
@@ -257,4 +367,30 @@ Hessian.
     \item $Q_x = 12 - 4 x - 2 y = 0$; $Q_y = 8 - 2 y - 2 x = 0 \Rightarrow x + y = 4$. From (1): $2 x + y = 6$. Subtract: $x = 2$, $y = 2$. $H = \begin{pmatrix} -4 & -2 \\ -2 & -2 \end{pmatrix}$, $D_1 = -4, D_2 = 8 - 4 = 4$, ND $\Rightarrow$ \textbf{max}. $Q^* = 24 + 16 - 8 - 4 - 8 = 20$.
     \item $f_x = 4 x^3 - 4 y = 0 \Rightarrow y = x^3$; $f_y = 4 y^3 - 4 x = 0 \Rightarrow x = y^3 = x^9 \Rightarrow x(x^8 - 1) = 0 \Rightarrow x = 0, \pm 1$. Points: $(0, 0), (1, 1), (-1, -1)$. $H = \begin{pmatrix} 12 x^2 & -4 \\ -4 & 12 y^2 \end{pmatrix}$. At $(0, 0)$: $D_2 = 0 - 16 = -16 < 0$, \textbf{saddle}. At $(1, 1)$ and $(-1, -1)$: $D_1 = 12, D_2 = 144 - 16 = 128 > 0$, PD $\Rightarrow$ \textbf{min}, value $1 + 1 - 4 = -2$.
     \item $p_1 = 20 - q_1$, $p_2 = 15 - q_2$. $R = (20 - q_1) q_1 + (15 - q_2) q_2 = 20 q_1 - q_1^2 + 15 q_2 - q_2^2$. $\pi = R - C = 20 q_1 - 3 q_1^2 + 15 q_2 - 2 q_2^2 - q_1 q_2$. FOCs: $\pi_{q_1} = 20 - 6 q_1 - q_2 = 0$; $\pi_{q_2} = 15 - 4 q_2 - q_1 = 0$. From (1): $q_2 = 20 - 6 q_1$. Sub: $15 - 4(20 - 6 q_1) - q_1 = 15 - 80 + 24 q_1 - q_1 = -65 + 23 q_1 = 0 \Rightarrow q_1^* = 65/23$, $q_2^* = 20 - 390/23 = (460 - 390)/23 = 70/23$. $H = \begin{pmatrix} -6 & -1 \\ -1 & -4 \end{pmatrix}$, $D_1 = -6 < 0$, $D_2 = 24 - 1 = 23 > 0$, ND $\Rightarrow$ \textbf{max}.
+
+    \item Put $u = x - 1$, $v = y + 2$, so $f = u^3 - 3 u v^2$. $f_x = 3 u^2 - 3 v^2$, $f_y = -6 u v$. From $u v = 0$ and $u^2 = v^2$: $u = v = 0$, the single critical point $(1, -2)$. Second partials: $f_{xx} = 6 u$, $f_{xy} = -6 v$, $f_{yy} = -6 u$, all $0$ at the point: $H = 0$, \textbf{test silent}. Along the line $y = -2$ ($v = 0$): $f = u^3$, negative for $u < 0$ and positive for $u > 0$, while $f(1, -2) = 0$. Values on both sides arbitrarily close: \textbf{saddle point} (a ``monkey saddle'').
+    \item $f_x = 2 (x + 1)$, $f_y = 4 (y - 2)^3$: critical point $(-1, 2)$. $H = \operatorname{diag}(2, 12 (y - 2)^2) = \operatorname{diag}(2, 0)$ there, $\det = 0$, silent. But $f(x, y) - f(-1, 2) = (x + 1)^2 + (y - 2)^4 \geq 0$ with equality only at $(-1, 2)$: \textbf{strict global minimum}, value $0$.
+    \item $f_x = 2 (x + 3)$, $f_y = 4 y^3 + 6 y^2 = 2 y^2 (2 y + 3)$. Critical points: $(-3, 0)$ and $(-3, -\tfrac32)$. $H = \operatorname{diag}(2, 12 y^2 + 12 y)$. At $(-3, -\tfrac32)$: $f_{yy} = 27 - 18 = 9$, $H = \operatorname{diag}(2, 9)$ PD, \textbf{strict local minimum}, value $\tfrac{81}{16} - \tfrac{108}{16} = -\tfrac{27}{16}$. It is global: $f \ge \min_y (y^4 + 2 y^3) = -\tfrac{27}{16}$. At $(-3, 0)$: $H = \operatorname{diag}(2, 0)$, silent. On the line $x = -3$, $f = y^3 (y + 2)$; near $y = 0$ the factor $y + 2 \approx 2 > 0$, so $f$ has the sign of $y^3$: negative for small $y < 0$, positive for small $y > 0$, while $f(-3, 0) = 0$. \textbf{Saddle point}.
+    \item $f_x = 2 x y^3$ and $f_y = 3 x^2 y^2$ both vanish iff $x = 0$ or $y = 0$: every point of both axes is critical, and $f = 0$ there. $H = \begin{pmatrix} 2 y^3 & 6 x y^2 \\ 6 x y^2 & 6 x^2 y \end{pmatrix}$ is singular on both axes, so classify by the sign of $f = x^2 y^3$ (the sign of $y$ wherever $x \ne 0$):
+    \begin{itemize}
+        \item $(0, b)$ with $b > 0$: nearby $y > 0$, so $f \ge 0 = f(0, b)$: \textbf{local minimum} (not strict, $f = 0$ along the $y$-axis).
+        \item $(0, b)$ with $b < 0$: nearby $f \le 0$: \textbf{local maximum} (not strict).
+        \item $(a, 0)$ with $a \ne 0$, and the origin: in every neighbourhood $f$ takes both signs (points just above and below the $x$-axis with $x \neq 0$): \textbf{neither}, saddle-type points.
+    \end{itemize}
+    \item Both have $\grad = \mathbf{0}$ only at the origin (from $g_y = 2 (x + y) = 0$ and then $g_x = \pm 4 x^3 = 0$), and both have $H(0,0) = \begin{pmatrix} 2 & 2 \\ 2 & 2 \end{pmatrix}$, $\det = 0$, with null direction $\mathbf{h} = (1, -1)$. $g$: $g = (x + y)^2 + x^4 \ge 0$, and $= 0$ only if $x = 0$ and $y = -x = 0$: \textbf{strict minimum}. $h$: along the null direction $h(t, -t) = -t^4 < 0$, along the $x$-axis $h(t, 0) = t^2 - t^4 > 0$ for small $t \ne 0$: \textbf{saddle}. The quartic term only matters along the null direction, and its sign decides.
+    \item $\mathbf{x}^T A \mathbf{x} = a x_1^2 + 2 c x_1 x_2 + d x_2^2$, so $f_{x_1} = 2 a x_1 + 2 c x_2 + b_1$ and $f_{x_2} = 2 c x_1 + 2 d x_2 + b_2$, which is $2 A \mathbf{x} + \mathbf{b}$. \checkmark\ Now $A = \begin{pmatrix} 2 & 1 \\ 1 & 3 \end{pmatrix}$ (half of the cross coefficient $2$ in each corner), $\mathbf{b} = (-4, 2)^T$. $D_1 = 2$, $D_2 = 5$: PD, so a unique global minimum. $A^{-1} = \tfrac15 \begin{pmatrix} 3 & -1 \\ -1 & 2 \end{pmatrix}$, $A^{-1} \mathbf{b} = \tfrac15 (-14, 8)^T$, so
+    \[\mathbf{x}^* = -\tfrac12 A^{-1} \mathbf{b} = \bigl(\tfrac75, -\tfrac45\bigr), \qquad f(\mathbf{x}^*) = -\tfrac14 \mathbf{b}^T A^{-1} \mathbf{b} = -\tfrac14 \cdot \tfrac{56 + 16}{5} = -\tfrac{18}{5}.\]
+    Check: $f_{x_1} = 4 \cdot \tfrac75 + 2 \cdot (-\tfrac45) - 4 = 0$, $f_{x_2} = 2 \cdot \tfrac75 + 6 \cdot (-\tfrac45) + 2 = 0$.
+    \item $A = \begin{pmatrix} -2 & 1 & 0 \\ 1 & -3 & 1 \\ 0 & 1 & -2 \end{pmatrix}$, $\mathbf{b} = (2, 0, 4)^T$. Leading minors: $D_1 = -2$, $D_2 = 6 - 1 = 5$, $D_3 = -2 (6 - 1) - 1 (-2 - 0) = -8$. Pattern $(-, +, -)$: \textbf{ND}, so $H = 2 A$ is ND and the critical point is the unique \textbf{global maximum}. Solving $2 A \mathbf{x} = -\mathbf{b}$, i.e.\ $-4 x + 2 y = -2$, $2 x - 6 y + 2 z = 0$, $2 y - 4 z = -4$: from the first $y = 2 x - 1$, from the third $z = \tfrac{y + 2}{2} = x + \tfrac12$; the second gives $2 x - 12 x + 6 + 2 x + 1 = 0$, so $x = \tfrac78$, $y = \tfrac34$, $z = \tfrac{11}{8}$. Maximum $f(\mathbf{x}^*) = \tfrac12 \mathbf{b}^T \mathbf{x}^* = \tfrac12 \bigl(\tfrac74 + \tfrac{11}{2}\bigr) = \tfrac{29}{8}$ (at the critical point $\mathbf{x}^T A \mathbf{x} = -\tfrac12 \mathbf{b}^T \mathbf{x}$, so $f = \tfrac12 \mathbf{b}^T \mathbf{x}^*$).
+    \item $A = \begin{pmatrix} 1 & 2 \\ 2 & 1 \end{pmatrix}$, $\mathbf{b} = (2, -4)^T$. $\det A = -3$, $A^{-1} = -\tfrac13 \begin{pmatrix} 1 & -2 \\ -2 & 1 \end{pmatrix}$, $A^{-1} \mathbf{b} = -\tfrac13 (10, -8)^T$, so $\mathbf{x}^* = -\tfrac12 A^{-1} \mathbf{b} = \bigl(\tfrac53, -\tfrac43\bigr)$. Check: $f_x = 2 x + 4 y + 2 = \tfrac{10 - 16 + 6}{3} = 0$, $f_y = 4 x + 2 y - 4 = \tfrac{20 - 8 - 12}{3} = 0$. $\det A < 0$: $A$ is indefinite, \textbf{saddle point}, value $-\tfrac14 \mathbf{b}^T A^{-1} \mathbf{b} = \tfrac{13}{3}$.
+    \item $f_x = 3 x^2 - 3$, $f_y = 3 y^2 - 12$, $f_z = 3 z^2 - 27$: $x = \pm 1$, $y = \pm 2$, $z = \pm 3$, eight points. $H = \operatorname{diag}(6 x, 6 y, 6 z)$, so the signs of $H$'s diagonal are the signs of the coordinates. All positive, $(1, 2, 3)$: PD, \textbf{local minimum}, $f = 1 + 8 + 27 - 3 - 24 - 81 = -72$. All negative, $(-1, -2, -3)$: ND, \textbf{local maximum}, $f = 72$. The six points with mixed signs: diagonal entries of both signs, \textbf{saddles}. Neither extremum is global: $f(t, 0, 0) = t^3 - 3 t$ is unbounded in both directions.
+    \item (a) $f_x = 2 x$, $f_y = 2 y - 2$, $f_z = \tfrac{2 z}{1 + z^2}$: only $(0, 1, 0)$. $f_{zz} = \tfrac{2 (1 - z^2)}{(1 + z^2)^2}$, so $H = \operatorname{diag}(2, 2, 2)$ there, PD, strict local minimum, $f = -1$. Global: $f = x^2 + (y - 1)^2 - 1 + \ln(1 + z^2) \ge -1$, with equality only at $(0, 1, 0)$. Yet $f$ is not convex, since $f_{zz} < 0$ for $|z| > 1$: a global minimum by a direct argument, not by convexity. (b) Same critical point, $H = \operatorname{diag}(2, 2, -2)$: indefinite, \textbf{saddle}; $g$ has no minimum at all ($-\ln(1 + z^2) \to -\infty$).
+    \item (a) Group the terms: $f = (w + x - 2)^2 + (x + 1)^2 + (y - z)^2 + 2 (z - 1)^2$. (Expand: $w^2 + 2 w x + x^2 - 4 w - 4 x + 4$, plus $x^2 + 2 x + 1$, plus $y^2 - 2 y z + z^2$, plus $2 z^2 - 4 z + 2$: the given $f$, constant $7$.) A sum of squares, zero exactly when $x = -1$, $w = 2 - x = 3$, $z = 1$, $y = z = 1$: \textbf{strict global minimum} $0$ at $(3, -1, 1, 1)$. (b) $H = \begin{pmatrix} 2 & 2 & 0 & 0 \\ 2 & 4 & 0 & 0 \\ 0 & 0 & 2 & -2 \\ 0 & 0 & -2 & 6 \end{pmatrix}$, block diagonal. $D_1 = 2$, $D_2 = 8 - 4 = 4$, $D_3 = 4 \cdot 2 = 8$, $D_4 = 4 \cdot (12 - 4) = 32$: all positive, PD at every point, $f$ strictly convex, and the critical point (from $\grad f = 0$, the same point) is the unique global minimum.
+    \item $f_x = 3 x^2 - 3 z$, $f_y = 2 y$, $f_z = -3 x + 2 z$. So $y = 0$, $z = x^2$, and $-3 x + 2 x^2 = 0$: $x = 0$ or $x = \tfrac32$. Points $(0, 0, 0)$ and $(\tfrac32, 0, \tfrac94)$. $H = \begin{pmatrix} 6 x & 0 & -3 \\ 0 & 2 & 0 \\ -3 & 0 & 2 \end{pmatrix}$. At the origin $D_1 = 0$, so the leading-minor pattern cannot be definite; $\det H = 0 \cdot 4 - 0 + (-3)(0 + 6) = -18 \ne 0$, and the principal minor $\det \begin{pmatrix} 0 & -3 \\ -3 & 2 \end{pmatrix} = -9 < 0$: indefinite, \textbf{saddle}. At $(\tfrac32, 0, \tfrac94)$: $D_1 = 9$, $D_2 = 18$, $D_3 = 9 \cdot 4 + (-3)(0 + 6) = 18$, all positive: \textbf{strict local minimum}, $f = \tfrac{27}{8} - \tfrac{81}{8} + \tfrac{81}{16} = -\tfrac{27}{16}$.
+    \item $S = (2 - b_0 - b_1)^2 + (3 - b_0 - 2 b_1)^2 + (7 - b_0 - 3 b_1)^2$. Sums: $n = 3$, $\sum x = 6$, $\sum y = 12$, $\sum x^2 = 14$, $\sum x y = 2 + 6 + 21 = 29$. Normal equations: $3 b_0 + 6 b_1 = 12$, $6 b_0 + 14 b_1 = 29$. Twice the first from the second: $2 b_1 = 5$, so $b_1 = \tfrac52$, $b_0 = 4 - 5 = -1$. (Check: $\bar x = 2$, $\bar y = 4$, $S_{xx} = 14 - 12 = 2$, $S_{xy} = 29 - 24 = 5$, $b_1 = \tfrac52$.) $H_S = 2 \begin{pmatrix} 3 & 6 \\ 6 & 14 \end{pmatrix}$: $D_1 = 6$, $D_2 = 4 (42 - 36) = 24 > 0$, PD, global minimum. Residuals $2 - 1.5 = 0.5$, $3 - 4 = -1$, $7 - 6.5 = 0.5$: $S_{\min} = 0.25 + 1 + 0.25 = 1.5$. Matrix route: $X^T X = \begin{pmatrix} 3 & 6 \\ 6 & 14 \end{pmatrix}$, $X^T \mathbf{y} = (12, 29)^T$, $(X^T X)^{-1} = \tfrac16 \begin{pmatrix} 14 & -6 \\ -6 & 3 \end{pmatrix}$, and $\tfrac16 (168 - 174, -72 + 87)^T = (-1, \tfrac52)^T$. \checkmark
+    \item $\pd{S}{b_0} = -2 \sum (y_i - b_0 - b_1 x_i) = 0$ gives $n b_0 + b_1 \sum x_i = \sum y_i$, i.e.\ $b_0 = \bar y - b_1 \bar x$. $\pd{S}{b_1} = -2 \sum x_i (y_i - b_0 - b_1 x_i) = 0$ gives $b_0 \sum x_i + b_1 \sum x_i^2 = \sum x_i y_i$. Substituting $b_0$: $b_1 \bigl(\sum x_i^2 - n \bar x^2\bigr) = \sum x_i y_i - n \bar x \bar y$, and the brackets are $S_{xx}$ and $S_{xy}$ (expand $\sum (x_i - \bar x)^2 = \sum x_i^2 - 2 \bar x \sum x_i + n \bar x^2 = \sum x_i^2 - n \bar x^2$, likewise for $S_{xy}$). So $b_1 = S_{xy}/S_{xx}$. Hessian: $S_{b_0 b_0} = 2 n$, $S_{b_0 b_1} = 2 \sum x_i$, $S_{b_1 b_1} = 2 \sum x_i^2$; $D_1 = 2 n > 0$ and $D_2 = 4 \bigl(n \sum x_i^2 - (\sum x_i)^2\bigr) = 4 n \bigl(\sum x_i^2 - n \bar x^2\bigr) = 4 n S_{xx}$. $S_{xx} > 0$ unless all $x_i$ coincide: PD, $S$ strictly convex, unique global minimum. If all $x_i = \bar x$, then $S_{xx} = 0$, $\det H_S = 0$, and every line through $(\bar x, \bar y)$ fits equally well: the slope is not identified.
+    \item $S'(b) = -2 \sum x_i (y_i - b x_i) = 0$ gives $b \sum x_i^2 = \sum x_i y_i$, so $b^* = \sum x_i y_i / \sum x_i^2$. $S''(b) = 2 \sum x_i^2 > 0$ (some $x_i \ne 0$): strictly convex, global minimum. For the data of Additional Problem~23: $b^* = \tfrac{29}{14} \approx 2.071$. (Forcing the line through the origin changes the slope from $2.5$.)
+    \item (a) $\mathbf{a} = (50, 40)^T$, $B = \begin{pmatrix} -2 & 1 \\ 1 & -3 \end{pmatrix}$, $\det B = 5$, $B^{-1} = \tfrac15 \begin{pmatrix} -3 & -1 \\ -1 & -2 \end{pmatrix}$. So
+    \[p_1 = 38 - \tfrac35 q_1 - \tfrac15 q_2, \qquad p_2 = 26 - \tfrac15 q_1 - \tfrac25 q_2.\]
+    (b) $\pi(q) = p_1 q_1 + p_2 q_2 - 2 q_1 - 4 q_2 = 36 q_1 + 22 q_2 - \tfrac35 q_1^2 - \tfrac25 q_1 q_2 - \tfrac25 q_2^2$. FOC: $36 - \tfrac65 q_1 - \tfrac25 q_2 = 0$, $22 - \tfrac25 q_1 - \tfrac45 q_2 = 0$. From the second $q_1 = 55 - 2 q_2$; substituting, $36 - 66 + \tfrac{12}{5} q_2 - \tfrac25 q_2 = 0$, so $q_2^* = 15$, $q_1^* = 25$. $H = \begin{pmatrix} -6/5 & -2/5 \\ -2/5 & -4/5 \end{pmatrix}$, $D_1 < 0$, $D_2 = \tfrac{24 - 4}{25} = \tfrac45 > 0$: ND, global maximum. Prices $p_1 = 38 - 15 - 3 = 20$, $p_2 = 26 - 5 - 6 = 15$; profit $900 + 330 - 375 - 150 - 90 = 615$. (c) $\pi(p) = (p_1 - 2)(50 - 2 p_1 + p_2) + (p_2 - 4)(40 + p_1 - 3 p_2)$. $\pi_{p_1} = 50 - 4 p_1 + 2 p_2 = 0$ and $\pi_{p_2} = 50 + 2 p_1 - 6 p_2 = 0$. From the first $p_2 = 2 p_1 - 25$; then $50 + 2 p_1 - 12 p_1 + 150 = 0$, $p_1^* = 20$, $p_2^* = 15$. $H = \begin{pmatrix} -4 & 2 \\ 2 & -6 \end{pmatrix}$, $D_2 = 20 > 0$: ND. Demands $q_1 = 50 - 40 + 15 = 25$, $q_2 = 40 + 20 - 45 = 15$, profit $615$: the \textbf{same optimum}. The two formulations differ by the invertible change of variables $\mathbf{p} \leftrightarrow \mathbf{q}$, which maps critical points to critical points.
 \end{solutions}

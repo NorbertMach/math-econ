@@ -94,6 +94,118 @@ $\grad f(\mathbf{x}_0)=\mathbf{0}$. Then evaluate $\Hess_f(\mathbf{x}_0)$:
 \end{itemize}
 \end{rulebox}
 
+\begin{rulebox}{Critical points: domain first, then factor}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Restricted domain.} With $\ln x$, $\ln(x+y)$ or $\sqrt{y}$ in
+        the formula, the domain is a half-plane or similar. Sketch it
+        first. Solve the first-order conditions algebraically, then
+        \emph{discard every solution outside the domain} (such as $x=-2$
+        when $x>0$ is required) before computing any Hessian.
+  \item \textbf{Exponential factors.} In
+        $f_{x}=\mathrm{e}^{g(x,y)}\cdot p(x,y)$ the factor
+        $\mathrm{e}^{g}$ is never $0$, so $f_{x}=0\iff p=0$. Factor it out,
+        then solve the polynomial system.
+  \item \textbf{Products equal to zero} split into cases: $2y\,\mathrm{e}^{x}=0$
+        forces $y=0$; $y(1-x)=0$ gives $y=0$ \emph{or} $x=1$. Combine each
+        case of the first equation with each case of the second, and check
+        that each combination really solves both.
+  \item \textbf{The Hessian keeps the exponentials.} Evaluate them at each
+        point. Since $\mathrm{e}^{g}>0$, a common factor $\mathrm{e}^{g(P)}$
+        does not change the signs of $D_{1}$ and $D_{2}$.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{What the Hessian can and cannot tell}
+\textbf{Necessary conditions.} If $f$ is $C^{2}$ and has a local extremum
+at an interior point $\mathbf{x}^{*}$, then $\grad f(\mathbf{x}^{*})=\mathbf{0}$
+and
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item at a local \textbf{minimum}, $\Hess f(\mathbf{x}^{*})$ is
+        \textbf{positive semidefinite} (PSD): $\mathbf{v}^{T}H\mathbf{v}\ge0$
+        for all $\mathbf{v}$;
+  \item at a local \textbf{maximum}, it is \textbf{negative semidefinite}
+        (NSD).
+\end{itemize}
+Not definite, only semidefinite: $-x^{4}-y^{4}$ has a strict maximum at the
+origin with $H=0$. Read backwards: an \emph{indefinite} Hessian rules out
+both, which is why it proves a saddle; a PSD Hessian that is not the zero
+matrix rules out a maximum but leaves a minimum or a saddle open. At a
+saddle point $H$ is neither PD nor ND, and it may be indefinite or
+singular: the monkey saddle $x^{3}-3xy^{2}$ has $H=0$ at its saddle.
+\de{(notwendige Bedingung zweiter Ordnung)}
+
+\textbf{Settling the singular case directly.}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item Compare $f(\mathbf{x}^{*}+\mathbf{h})$ with $f(\mathbf{x}^{*})$:
+        $x^{2}+y^{4}\ge0=f(0,0)$, so the origin is a minimum.
+  \item Restrict $f$ to lines through $\mathbf{x}^{*}$: $x^{2}+y^{3}$ on the
+        line $x=0$ is $y^{3}$, which takes both signs, so the origin is
+        neither. One line with a sign change is enough to rule out an
+        extremum; to prove one, every direction must be covered.
+\end{itemize}
+\textbf{Non-isolated critical points.} A function of one combination, such
+as $f(x,y)=g(x-y)$, is constant along every line $x-y=t$. If $g'(t_{0})=0$,
+the whole line $x-y=t_{0}$ is critical, $H=g''(t_{0})\begin{pmatrix}1&-1\\-1&1
+\end{pmatrix}$ is singular at each of its points, and the verdict is
+inherited from $g$: a minimum of $g$ gives non-strict minima of $f$ along
+the line; a point where $g$ has no extremum gives none for $f$.
+\end{rulebox}
+
+\begin{rulebox}{Monotonicity and marginal returns in each variable}
+On a region where $f_{x}>0$, $f$ is \textbf{increasing in $x$} (for each
+fixed $y$); where $f_{x}<0$, decreasing. The second partial says how that
+rate develops:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item $f_{xx}<0$: \textbf{diminishing marginal returns} in $x$
+        \de{(abnehmende Grenzzuwächse)}, each further unit of $x$ adds
+        less;
+  \item $f_{xx}>0$: increasing marginal returns; $f_{xx}=0$: constant.
+\end{itemize}
+To see it, draw the \textbf{partial functions} $\psi_{1}(x)=f(x,c)$ for two
+or three fixed values $c$ of $y$, and $\psi_{2}(y)=f(c,y)$ for fixed $x=c$.
+Increasing means rising curves, diminishing marginal returns means concave
+curves.
+
+\textbf{Diminishing in every variable is not concavity.} The conditions
+$f_{x_{i}x_{i}}<0$ concern only the diagonal of the Hessian; concavity needs
+the whole matrix to be NSD. For $f=x^{3/5}y^{2/3}$ both $f_{xx}<0$ and
+$f_{yy}<0$, but $\det H<0$ (below), so $f$ is not concave: along the ray
+$x=y=t$ it equals $t^{19/15}$, a convex curve.
+
+\textbf{Cobb--Douglas in output-ratio form.} For $Y=AL^{\alpha}K^{\beta}$
+on $L,K>0$, every derivative is a multiple of $Y$:
+\[
+  Y_{L}=\frac{\alpha Y}{L},\quad
+  Y_{LL}=\frac{\alpha(\alpha-1)Y}{L^{2}},\quad
+  Y_{LK}=\frac{\alpha\beta Y}{LK},\quad
+  \det\Hess Y=\frac{\alpha\beta(1-\alpha-\beta)\,Y^{2}}{L^{2}K^{2}} .
+\]
+Since $Y_{L}>0$ and $Y_{K}>0$ throughout, the gradient never vanishes and
+there are \textbf{no interior extrema}. Taking logarithms,
+$\ln Y=\ln A+\alpha\ln L+\beta\ln K$: a $1\%$ rise in $L$ raises $Y$ by
+about $\alpha\%$.
+\end{rulebox}
+
+\begin{rulebox}{Hessians in vector and sum notation}
+For $\mathbf{x}\in\R^{n}$ and a constant $n\times n$ matrix $A$:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item $f=\mathbf{x}^{T}A\mathbf{x}=\sum_{i,j}a_{ij}x_{i}x_{j}$ has
+        $\grad f=(A+A^{T})\mathbf{x}$ and $\Hess f=A+A^{T}$, which is $2A$
+        when $A$ is symmetric. A non-symmetric $A$ enters only through its
+        symmetric part.
+  \item $f=\mathbf{x}^{T}\mathbf{x}=\sum_{i}x_{i}^{2}$ has $\grad f=2\mathbf{x}$
+        and $\Hess f=2I_{n}$.
+  \item A \textbf{separable sum} $f=\sum_{i}g_{i}(x_{i})$ has the
+        \textbf{diagonal} Hessian $\operatorname{diag}\bigl(g_{1}''(x_{1}),
+        \ldots,g_{n}''(x_{n})\bigr)$: no term contains two different
+        variables, so every mixed partial is $0$. It is PD exactly when all
+        $g_{i}''>0$.
+  \item A linear $f=\sum_{i}a_{i}x_{i}=\mathbf{a}^{T}\mathbf{x}$ has the zero
+        Hessian; adding it to a function changes the gradient, never the
+        curvature.
+\end{itemize}
+\end{rulebox}
+
 \section{Worked Example}
 
 \begin{worked}{Find and classify every critical point of $f(x,y)=x^{3}-3xy+y^{3}$}
@@ -722,6 +834,89 @@ difference between finding a candidate and having an answer.
         what it implies if $H$ is the Hessian at a critical point.
 \end{problems}
 
+In problems 16--18, sketch the domain, solve the first-order conditions,
+discard candidates outside the domain, and classify the rest.
+
+\begin{problems}[resume]
+  \item $f(x,y)=x^{2}+xy+y^{2}-6\ln x$.
+  \item $f(x,y)=x^{2}+2xy+4\ln y$.
+  \item $f(x,y)=\ln(x+y)-x^{2}-y^{2}$.
+\end{problems}
+
+In problems 19--22, find and classify all critical points.
+
+\begin{problems}[resume]
+  \item $f(x,y)=\mathrm{e}^{x}(y^{2}-x^{2})$.
+  \item $f(x,y)=xy\,\mathrm{e}^{-(x+y)}$.
+  \item $f(x,y)=(x+y)\,\mathrm{e}^{-x^{2}-y^{2}}$.
+  \item $f(x,y)=3\,\mathrm{e}^{-(x+1)^{2}-4y^{2}}$.
+\end{problems}
+
+In problems 23--26, on $x,y>0$: decide in which variables $f$ is
+increasing or decreasing, give the signs of $f_{xx}$ and $f_{yy}$ with their
+reading as marginal returns, and sketch $\psi_{1}(x)=f(x,c)$ and
+$\psi_{2}(y)=f(c,y)$ for two values of $c$.
+
+\begin{problems}[resume]
+  \item $f(x,y)=(xy)^{0.4}$.
+  \item $f(x,y)=\ln(x+2)\,\mathrm{e}^{-y}$.
+  \item $f(x,y)=y\,\mathrm{e}^{x^{2}/2}$.
+  \item $f(x,y)=x^{3/5}y^{2/3}$; show also that $f$ has diminishing
+        marginal returns in both variables but is not concave.
+  \item For $Y=5L^{0.6}K^{0.3}$ on $L,K>0$: write $Y_{L}$, $Y_{K}$,
+        $Y_{LL}$, $Y_{KK}$ and $Y_{LK}$ as multiples of $Y$; use them for
+        the Hessian determinant and decide concavity; explain why $Y$ has
+        no interior extremum; and use $\ln Y$ to estimate the effect of a
+        $1\%$ rise in $L$, checking the estimate at $L=K=1$.
+\end{problems}
+
+In problems 28--31 the Hessian test is silent at some critical point.
+Settle each case directly.
+
+\begin{problems}[resume]
+  \item $f(x,y)=x^{2}+y^{4}$.
+  \item $f(x,y)=x^{2}+y^{3}$, and compare with the previous problem.
+  \item $f(x,y)=(x-y)^{4}-4(x-y)^{3}$: find \emph{all} critical points,
+        the Hessian at each, and the nature of each.
+  \item $f(x,y)=x^{3}-3xy^{2}$ (the monkey saddle).
+  \item True or false? Justify each answer with a reason or a
+        counterexample. (a) At an interior local maximum the Hessian is
+        negative definite. (b) If $\grad f(P)=\mathbf{0}$ and $\Hess f(P)$ is
+        PSD, then $P$ is a local minimum. (c) If $\grad f(P)=\mathbf{0}$ and
+        $\Hess f(P)$ is indefinite, then $P$ is a saddle point. (d) At a
+        saddle point the Hessian is indefinite. (e) On a contour map, at a
+        point ringed by closed loops whose labels increase inwards, the
+        gradient is zero and the Hessian is NSD. (f) If $\Hess f(P)$ is PSD
+        and not the zero matrix, $P$ is not a local maximum.
+\end{problems}
+
+In problems 33--36 use the vector and sum rules for the Hessian.
+
+\begin{problems}[resume]
+  \item $f(\mathbf{x})=\mathbf{x}^{T}A\mathbf{x}$ with
+        $A=\begin{pmatrix}1&2\\0&3\end{pmatrix}$: compute the gradient and
+        the Hessian twice, by expanding $f$ and by the rule, and decide
+        definiteness.
+  \item $f(\mathbf{x})=\sum_{i=1}^{n}\bigl(i\,x_{i}^{2}-\ln x_{i}\bigr)$ on
+        $x_{i}>0$: the gradient, the Hessian, its definiteness, and the
+        critical point.
+  \item $f(\mathbf{x})=\mathbf{x}^{T}A\mathbf{x}+\mathbf{b}^{T}\mathbf{x}$
+        with $A=\begin{pmatrix}1&1&0\\3&2&0\\0&4&1\end{pmatrix}$ and
+        $\mathbf{b}=(1,0,-1)^{T}$: the Hessian, its definiteness, and the
+        nature of the critical point.
+  \item The Hessians of $g(\mathbf{x})=\mathbf{x}^{T}\mathbf{x}
+        +\sum_{i=1}^{n}a_{i}x_{i}$ and of
+        $h(\mathbf{x})=\bigl(\sum_{i=1}^{n}x_{i}\bigr)^{2}$, with their
+        definiteness.
+  \item Use two contour maps of Chapter~9. (a) On the map of practice
+        problems 21--28 there, $f=x^{3}-3x+y^{2}$: what does the picture alone say
+        about $\grad f$ and the Hessian at $P_{2}=(1,0)$ and at
+        $P_{3}=(-1,0)$? Then compute both Hessians. (b) On the map of
+        Additional problems 44--46 there, with two peaks and a pass: what
+        can be said about the Hessian at a peak and at the pass, without a
+        formula?
+\end{problems}
+
 \section{Additional Solutions}
 
 \begin{solutions}
@@ -814,4 +1009,240 @@ difference between finding a candidate and having an answer.
 
   \item $D_1 = -5 < 0$, $D_2 = 15 > 0$. \textbf{ND}: at a critical point
         this would mean a \textbf{strict local maximum.}
+
+  \item Domain $D=\{(x,y):x>0\}$, the open right half-plane.
+        $f_{x}=2x+y-\dfrac6x$, $f_{y}=x+2y$. From $f_{y}=0$: $y=-x/2$. Then
+        $2x-\tfrac x2=\tfrac6x$, i.e.\ $\tfrac32x^{2}=6$, $x^{2}=4$:
+        $x=2$ or $x=-2$, and $x=-2$ lies outside $D$. The only candidate is
+        $(2,-1)$. Hessian:
+        $f_{xx}=2+\dfrac{6}{x^{2}}=\tfrac72$, $f_{xy}=1$, $f_{yy}=2$, so
+        $D_{1}=\tfrac72>0$, $D_{2}=7-1=6>0$: PD, a strict local minimum
+        with $f(2,-1)=4-2+1-6\ln2=3-6\ln2\approx-1.159$.
+  \item Domain $\{y>0\}$, the open upper half-plane. $f_{x}=2x+2y=0$
+        gives $x=-y$; $f_{y}=2x+\dfrac4y=0$ then gives $-2y+\dfrac4y=0$,
+        $y^{2}=2$, so $y=\sqrt2$ (the root $-\sqrt2$ is outside the
+        domain) and $x=-\sqrt2$. Hessian: $f_{xx}=2$, $f_{xy}=2$,
+        $f_{yy}=-\dfrac{4}{y^{2}}=-2$, so $D_{2}=-4-4=-8<0$: the point
+        $(-\sqrt2,\sqrt2)$ is a \textbf{saddle}, with value
+        $2-4+4\ln\sqrt2=2\ln2-2$.
+  \item Domain $\{x+y>0\}$, the open half-plane above the line $y=-x$.
+        $f_{x}=\dfrac{1}{x+y}-2x$, $f_{y}=\dfrac{1}{x+y}-2y$. Subtracting,
+        $2x=2y$, so $x=y$, and then $\dfrac{1}{2x}=2x$, $x^{2}=\tfrac14$,
+        $x=\pm\tfrac12$. The point $(-\tfrac12,-\tfrac12)$ has $x+y=-1$:
+        outside the domain, discarded. At $(\tfrac12,\tfrac12)$, with
+        $x+y=1$: $f_{xx}=-\dfrac{1}{(x+y)^{2}}-2=-3$,
+        $f_{xy}=-\dfrac{1}{(x+y)^{2}}=-1$, $f_{yy}=-3$; $D_{1}=-3<0$,
+        $D_{2}=9-1=8>0$: ND, a strict local maximum with
+        $f=\ln1-\tfrac12=-\tfrac12$.
+  \item Product rule: $f_{x}=\mathrm{e}^{x}(y^{2}-x^{2})-2x\mathrm{e}^{x}
+        =\mathrm{e}^{x}(y^{2}-x^{2}-2x)$ and $f_{y}=2y\,\mathrm{e}^{x}$.
+        Since $\mathrm{e}^{x}\neq0$, $f_{y}=0$ forces $y=0$; then $f_{x}=0$
+        becomes $-x^{2}-2x=-x(x+2)=0$: $x=0$ or $x=-2$. Hessian:
+        \[
+          f_{xx}=\mathrm{e}^{x}(y^{2}-x^{2}-4x-2),\quad
+          f_{xy}=2y\,\mathrm{e}^{x},\quad f_{yy}=2\mathrm{e}^{x} .
+        \]
+        At $(0,0)$: $\begin{pmatrix}-2&0\\0&2\end{pmatrix}$, $D_{2}=-4<0$:
+        saddle. At $(-2,0)$: $\mathrm{e}^{-2}\begin{pmatrix}2&0\\0&2
+        \end{pmatrix}$, PD: strict local minimum,
+        $f(-2,0)=-4\mathrm{e}^{-2}\approx-0.541$.
+  \item $f_{x}=y\,\mathrm{e}^{-(x+y)}-xy\,\mathrm{e}^{-(x+y)}
+        =y(1-x)\mathrm{e}^{-(x+y)}$ and, by symmetry,
+        $f_{y}=x(1-y)\mathrm{e}^{-(x+y)}$. Cases: $f_{x}=0$ means $y=0$ or
+        $x=1$; $f_{y}=0$ means $x=0$ or $y=1$. The four combinations:
+        $y=0,x=0$ gives $(0,0)$; $y=0,y=1$ is impossible; $x=1,x=0$ is
+        impossible; $x=1,y=1$ gives $(1,1)$. Hessian:
+        \[
+          f_{xx}=y(x-2)\mathrm{e}^{-(x+y)},\quad
+          f_{xy}=(1-x)(1-y)\mathrm{e}^{-(x+y)},\quad
+          f_{yy}=x(y-2)\mathrm{e}^{-(x+y)} .
+        \]
+        At $(0,0)$: $\begin{pmatrix}0&1\\1&0\end{pmatrix}$, $D_{2}=-1$:
+        saddle. At $(1,1)$: $\mathrm{e}^{-2}\begin{pmatrix}-1&0\\0&-1
+        \end{pmatrix}$, ND: strict local maximum, $f(1,1)=\mathrm{e}^{-2}$.
+  \item With $r=x^{2}+y^{2}$ and $s=x+y$:
+        $f_{x}=\mathrm{e}^{-r}(1-2xs)$, $f_{y}=\mathrm{e}^{-r}(1-2ys)$.
+        Both zero means $2xs=1=2ys$; then $s\neq0$, so $x=y$, and
+        $2x\cdot2x=1$ gives $x=\pm\tfrac12$: the points
+        $(\tfrac12,\tfrac12)$ and $(-\tfrac12,-\tfrac12)$. Differentiating
+        once more,
+        \[
+          f_{xx}=\mathrm{e}^{-r}\bigl[-2x(1-2xs)-2s-2x\bigr],\quad
+          f_{xy}=\mathrm{e}^{-r}\bigl[-2y(1-2xs)-2x\bigr],
+        \]
+        and $f_{yy}$ with $x,y$ swapped. At both points $1-2xs=0$. At
+        $(\tfrac12,\tfrac12)$ ($s=1$): $H=\mathrm{e}^{-1/2}
+        \begin{pmatrix}-3&-1\\-1&-3\end{pmatrix}$, $D_{1}<0$, $D_{2}>0$:
+        maximum, $f=\mathrm{e}^{-1/2}\approx0.607$. At
+        $(-\tfrac12,-\tfrac12)$ ($s=-1$): $H=\mathrm{e}^{-1/2}
+        \begin{pmatrix}3&1\\1&3\end{pmatrix}$, PD: minimum,
+        $f=-\mathrm{e}^{-1/2}$.
+  \item $f_{x}=-2(x+1)f$ and $f_{y}=-8yf$, and $f>0$ everywhere, so the
+        only critical point is $(-1,0)$. Differentiating the short forms,
+        $f_{xx}=\bigl(-2+4(x+1)^{2}\bigr)f$, $f_{xy}=16(x+1)y\,f$,
+        $f_{yy}=(-8+64y^{2})f$. At $(-1,0)$, where $f=3$:
+        $H=\begin{pmatrix}-6&0\\0&-24\end{pmatrix}$, ND: a maximum, and
+        a global one, since the exponent is never positive: $f\le3$.
+  \item $f_{x}=0.4\,x^{-0.6}y^{0.4}>0$ and, by symmetry, $f_{y}>0$:
+        increasing in both. $f_{xx}=-0.24\,x^{-1.6}y^{0.4}<0$ and
+        $f_{yy}<0$: diminishing marginal returns in both. (The cross
+        partial $f_{xy}=0.16\,(xy)^{-0.6}>0$: more $y$ raises the marginal
+        product of $x$.) $\psi_{1}(x)=c^{0.4}x^{0.4}$: for $c=1$ the curve
+        $x^{0.4}$, for $c=2$ the same curve stretched by $2^{0.4}\approx1.32$;
+        both rise from the origin and bend down. $\psi_{2}$ looks the same.
+  \item $f_{x}=\dfrac{\mathrm{e}^{-y}}{x+2}>0$: increasing in $x$;
+        $f_{xx}=-\dfrac{\mathrm{e}^{-y}}{(x+2)^{2}}<0$: diminishing marginal
+        returns in $x$. $f_{y}=-\ln(x+2)\,\mathrm{e}^{-y}<0$ (as
+        $\ln(x+2)>\ln2>0$): decreasing in $y$; $f_{yy}=\ln(x+2)\,
+        \mathrm{e}^{-y}>0$: the negative marginal effect of $y$ shrinks in
+        size, so the decline flattens out. $\psi_{1}(x)=\mathrm{e}^{-c}
+        \ln(x+2)$ for $c=1,2$: concave rising log curves, the second lower.
+        $\psi_{2}(y)=\ln(c+2)\,\mathrm{e}^{-y}$ for $c=1,3$: convex decaying
+        curves starting at $\ln3\approx1.10$ and $\ln5\approx1.61$.
+  \item $f_{x}=xy\,\mathrm{e}^{x^{2}/2}>0$ and
+        $f_{xx}=y(1+x^{2})\mathrm{e}^{x^{2}/2}>0$: increasing in $x$ with
+        \emph{increasing} marginal returns. $f_{y}=\mathrm{e}^{x^{2}/2}>0$
+        and $f_{yy}=0$: increasing in $y$ with constant marginal returns,
+        since $f$ is linear in $y$. $\psi_{1}(x)=c\,\mathrm{e}^{x^{2}/2}$:
+        convex curves starting at height $c$ and bending up;
+        $\psi_{2}(y)=\mathrm{e}^{c^{2}/2}y$: straight lines through the
+        origin, steeper for larger $c$ (slopes $\mathrm{e}^{1/2}\approx1.65$
+        for $c=1$ and $\mathrm{e}^{2}\approx7.39$ for $c=2$).
+  \item $f_{x}=\tfrac35x^{-2/5}y^{2/3}>0$, $f_{y}=\tfrac23x^{3/5}y^{-1/3}>0$:
+        increasing in both.
+        $f_{xx}=-\tfrac{6}{25}x^{-7/5}y^{2/3}<0$,
+        $f_{yy}=-\tfrac29x^{3/5}y^{-4/3}<0$: diminishing marginal returns in
+        both. But $f_{xy}=\tfrac25x^{-2/5}y^{-1/3}$, and
+        \[
+          \det H=\tfrac{6}{25}\cdot\tfrac29\,x^{-4/5}y^{-2/3}
+                 -\tfrac{4}{25}\,x^{-4/5}y^{-2/3}
+                =\Bigl(\tfrac{4}{75}-\tfrac{12}{75}\Bigr)x^{-4/5}y^{-2/3}
+                =-\tfrac{8}{75}\,x^{-4/5}y^{-2/3}<0 .
+        \]
+        The Hessian is indefinite, so $f$ is \textbf{not concave}: the
+        exponents add up to $\tfrac{19}{15}>1$ (increasing returns to
+        scale), and along $x=y=t$, $f=t^{19/15}$ is convex.
+        $\psi_{1}(x)=c^{2/3}x^{3/5}$ and $\psi_{2}(y)=c^{3/5}y^{2/3}$ are
+        concave rising curves.
+  \item With $\alpha=0.6$, $\beta=0.3$:
+        $Y_{L}=\dfrac{0.6Y}{L}$, $Y_{K}=\dfrac{0.3Y}{K}$,
+        $Y_{LL}=\dfrac{0.6(-0.4)Y}{L^{2}}=-\dfrac{0.24Y}{L^{2}}$,
+        $Y_{KK}=-\dfrac{0.21Y}{K^{2}}$, $Y_{LK}=\dfrac{0.18Y}{LK}$. Then
+        \[
+          \det H=\frac{(0.24\cdot0.21-0.18^{2})Y^{2}}{L^{2}K^{2}}
+                =\frac{0.018\,Y^{2}}{L^{2}K^{2}}>0,
+        \]
+        matching $\alpha\beta(1-\alpha-\beta)=0.18\cdot0.1$. With
+        $Y_{LL}<0$ the Hessian is ND at every point: $Y$ is concave on the
+        open quadrant. $Y_{L}=0.6Y/L>0$ everywhere, so the gradient never
+        vanishes and there is no interior extremum (output can always be
+        raised by adding labour). $\ln Y=\ln5+0.6\ln L+0.3\ln K$, so
+        $\Delta\ln Y\approx0.6\cdot\Delta\ln L\approx0.6\cdot0.01$: about
+        $0.6\%$. Check: $Y(1,1)=5$, $Y(1.01,1)=5\cdot1.01^{0.6}\approx
+        5.02994$, a rise of $0.599\%$.
+  \item $\grad f=(2x,4y^{3})=\mathbf{0}$ only at the origin.
+        $H=\begin{pmatrix}2&0\\0&12y^{2}\end{pmatrix}=\begin{pmatrix}2&0\\
+        0&0\end{pmatrix}$ there: PSD and singular, $D_{2}=0$, the test is
+        silent (it only rules out a maximum). Directly:
+        $f(x,y)=x^{2}+y^{4}\ge0=f(0,0)$, with equality only at the origin.
+        A strict (indeed global) minimum.
+  \item $\grad f=(2x,3y^{2})=\mathbf{0}$ only at the origin, and
+        $H=\begin{pmatrix}2&0\\0&6y\end{pmatrix}=\begin{pmatrix}2&0\\0&0
+        \end{pmatrix}$: \emph{exactly the same Hessian} as in the previous
+        problem. But on the line $x=0$, $f(0,y)=y^{3}$ is positive for
+        $y>0$ and negative for $y<0$: arbitrarily close to the origin $f$
+        is above and below $f(0,0)=0$. No extremum. Same Hessian, opposite
+        verdicts: a singular Hessian decides nothing.
+  \item Put $t=x-y$ and $g(t)=t^{4}-4t^{3}$. Then $f_{x}=g'(t)$,
+        $f_{y}=-g'(t)$, and $g'(t)=4t^{3}-12t^{2}=4t^{2}(t-3)$. So
+        \emph{every} point with $t=0$ or $t=3$ is critical: the two whole
+        lines $y=x$ and $y=x-3$. The Hessian is
+        $g''(t)\begin{pmatrix}1&-1\\-1&1\end{pmatrix}$ with
+        $g''=12t^{2}-24t$, singular everywhere.
+        \begin{itemize}[leftmargin=1.2em,itemsep=0.2ex]
+          \item On $y=x-3$: $g''(3)=36$, so $H$ is PSD and singular.
+                $g'$ changes from $-$ to $+$ at $t=3$, so $g$ has its global
+                minimum $g(3)=81-108=-27$ there. Hence $f\ge-27$ everywhere,
+                with equality along the whole line: every point of the line
+                is a \emph{non-strict} minimum.
+          \item On $y=x$: $H=0$. Near $t=0$, $g(t)=t^{3}(t-4)$ has the sign
+                of $-t^{3}$: it changes sign, so arbitrarily close to any
+                point of the line $f$ takes values above and below $0$.
+                These points are not extrema.
+        \end{itemize}
+  \item $\grad f=(3x^{2}-3y^{2},\,-6xy)$: $xy=0$ and $x^{2}=y^{2}$ give
+        only the origin. $f_{xx}=6x$, $f_{xy}=-6y$, $f_{yy}=-6x$, so
+        $H(0,0)=0$: the test says nothing. On the $x$-axis $f=x^{3}$, which
+        changes sign: no extremum, the origin is a saddle point. In polar
+        form $f=r^{3}\cos3\theta$: going once round the origin $f$ changes
+        sign six times, three valleys and three ridges, hence the name.
+        This saddle has a zero, not an indefinite, Hessian.
+  \item (a) False: the Hessian at a maximum is only NSD;
+        $-x^{4}-y^{4}$ has a strict maximum at the origin with $H=0$.
+        (b) False: $x^{2}+y^{3}$ (problem 29) has a PSD Hessian at its
+        critical point, which is no extremum. (c) True: an indefinite
+        Hessian gives directions of strictly positive and strictly negative
+        curvature, and that is a saddle. (d) False: the monkey saddle
+        (problem 31) has $H=0$. What is true is that at a saddle the
+        Hessian is neither PD nor ND. (e) True: such a point is a local
+        maximum, so $\grad f=\mathbf{0}$ and, by the necessary condition,
+        $H$ is NSD; the map cannot tell whether $H$ is ND or singular.
+        (f) True: a local maximum would force $H$ to be NSD; being PSD as
+        well, $H$ would be $0$, which is excluded.
+  \item Expanding, $f=x_{1}^{2}+2x_{1}x_{2}+3x_{2}^{2}$ (the entry $0$
+        contributes nothing), so $\grad f=(2x_{1}+2x_{2},\,2x_{1}+6x_{2})$
+        and $H=\begin{pmatrix}2&2\\2&6\end{pmatrix}$. By the rule,
+        $A+A^{T}=\begin{pmatrix}1&2\\0&3\end{pmatrix}+\begin{pmatrix}1&0\\2&3
+        \end{pmatrix}=\begin{pmatrix}2&2\\2&6\end{pmatrix}$ and
+        $(A+A^{T})\mathbf{x}$ is the gradient above. \checkmark\ Note that
+        $2A=\begin{pmatrix}2&4\\0&6\end{pmatrix}$ would be wrong, since $A$
+        is not symmetric. $D_{1}=2>0$, $D_{2}=12-4=8>0$: PD, so $f$ is
+        strictly convex with its minimum at the origin.
+  \item The term containing $x_{k}$ is $kx_{k}^{2}-\ln x_{k}$, so
+        $\dfrac{\partial f}{\partial x_{k}}=2kx_{k}-\dfrac1{x_{k}}$ and
+        $\dfrac{\partial^{2}f}{\partial x_{k}^{2}}=2k+\dfrac{1}{x_{k}^{2}}$,
+        while every mixed partial is $0$:
+        \[
+          \Hess f=\operatorname{diag}\Bigl(2+\tfrac{1}{x_{1}^{2}},\;
+          4+\tfrac{1}{x_{2}^{2}},\;\ldots,\;2n+\tfrac{1}{x_{n}^{2}}\Bigr),
+        \]
+        with positive diagonal: PD at every point, so $f$ is strictly
+        convex. The gradient vanishes when $2kx_{k}^{2}=1$, i.e.
+        $x_{k}=1/\sqrt{2k}$ (the positive root), the unique and global
+        minimiser.
+  \item $\Hess f=A+A^{T}=\begin{pmatrix}2&4&0\\4&4&4\\0&4&2\end{pmatrix}$
+        (the linear part adds nothing). $D_{1}=2>0$ but
+        $D_{2}=8-16=-8<0$: indefinite. The critical point solves
+        $(A+A^{T})\mathbf{x}=-\mathbf{b}$:
+        \[
+          2x_{1}+4x_{2}=-1,\qquad 4x_{1}+4x_{2}+4x_{3}=0,\qquad
+          4x_{2}+2x_{3}=1 .
+        \]
+        From the first and third, $x_{1}=-\tfrac12-2x_{2}$ and
+        $x_{3}=\tfrac12-2x_{2}$; the second becomes
+        $-2-8x_{2}+4x_{2}+2-8x_{2}=-12x_{2}=0$. So
+        $\mathbf{x}^{*}=(-\tfrac12,0,\tfrac12)$, a saddle point, since the
+        Hessian is indefinite (and constant).
+  \item $g$: $\Hess g=2I_{n}$, PD; the linear sum adds nothing to the
+        Hessian, so $g$ is strictly convex. $h$: every partial is
+        $\partial h/\partial x_{k}=2\sum_{i}x_{i}$, and differentiating again
+        in any $x_{j}$ gives $2$. So $\Hess h=2J$, the matrix with every
+        entry $2$; equivalently $h=\mathbf{x}^{T}J\mathbf{x}$ with $J$ the
+        all-ones matrix. For $\mathbf{v}\neq\mathbf{0}$,
+        $\mathbf{v}^{T}(2J)\mathbf{v}=2\bigl(\sum_{i}v_{i}\bigr)^{2}\ge0$,
+        with equality for $\mathbf{v}=(1,-1,0,\ldots,0)$: PSD but not PD
+        (for $n\ge2$). $h$ is convex, not strictly.
+  \item (a) $P_{2}$ is ringed by closed contours with labels decreasing
+        inwards, a local minimum: so $\grad f(P_{2})=\mathbf{0}$ and, by the
+        necessary condition, $\Hess f(P_{2})$ is PSD; the picture cannot say
+        whether it is PD. At $P_{3}$ a contour crosses itself, a saddle:
+        $\grad f(P_{3})=\mathbf{0}$ and $\Hess f(P_{3})$ is neither PD nor
+        ND. Computed: $\Hess f=\begin{pmatrix}6x&0\\0&2\end{pmatrix}$, so
+        $\Hess f(P_{2})=\begin{pmatrix}6&0\\0&2\end{pmatrix}$ (PD, more than
+        the picture promised) and $\Hess f(P_{3})=\begin{pmatrix}-6&0\\0&2
+        \end{pmatrix}$ (indefinite). (b) At each peak the gradient is zero
+        and the Hessian is NSD (perhaps ND, perhaps singular). At the pass
+        the gradient is zero and the Hessian is neither PD nor ND; the
+        picture alone cannot distinguish an indefinite from a singular
+        Hessian there.
 \end{solutions}

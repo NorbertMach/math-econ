@@ -23,9 +23,51 @@ equalities:
   Ax+Is=b,\qquad x,s\ge 0 .
 \]
 A slack measures the unused capacity of its constraint: $s_i=0$ exactly
-when constraint $i$ binds. If some $b_i<0$, first multiply that row by
-$-1$ (which flips the inequality); mixed $\ge$ or $=$ constraints need the
-two-phase or Big-M method and are not treated here.
+when constraint $i$ binds. The plain simplex method starts at the origin
+$x=0$, $s=b$, so it needs every $b_i\ge 0$ in the $\le$ form. A $\ge$ row
+with a negative right-hand side is harmless: multiplying by $-1$ turns
+$x_1-3x_2\ge -8$ into $-x_1+3x_2\le 8$. A $\le$ row with a negative
+right-hand side cannot be repaired that way: multiplying by $-1$ makes the
+right-hand side positive but turns the row into a $\ge$ row, and the origin
+stays infeasible. Such rows, $\ge$ rows with positive right-hand side, and
+$=$ rows with nonzero right-hand side need the two-phase method (its phase
+one is used in Chapter~6) and are not treated here.
+\end{rulebox}
+
+\begin{rulebox}{Is it a standard maximum problem? The origin test}
+First write the objective as a maximum ($\min C$ becomes $\max\,(-C)$).
+Then plug in $x=0$:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item if the origin satisfies \emph{every} constraint, the LP can be
+        written as a standard maximum problem: flip each $\ge$ row by
+        $-1$ (its right-hand side was $\le 0$, so it becomes $\ge 0$); an
+        equality row then has $b_i=0$ and splits into two $\le$ rows with
+        right-hand side $0$;
+  \item if the origin violates some constraint (for instance
+        $x_1\ge 4$, or $x_1+x_2\le -2$, or $x_1+x_2=5$), it cannot: the
+        slack basis would contain a negative value, and phase one is
+        needed.
+\end{itemize}
+A shortcut that sometimes avoids phase one: drop the offending rows, solve
+the remaining standard problem by the plain simplex method, and check the
+dropped rows at its optimum. If they hold, that point is optimal for the
+original LP too, because the relaxed feasible set contains the original one.
+\end{rulebox}
+
+\begin{rulebox}{The simplex path in the picture}
+For two decision variables every tableau is a corner of the sketched
+feasible region: read $(x_1,x_2)$ off the tableau (a nonbasic $x_j$ is $0$).
+The two nonbasic variables name the two lines that meet at that corner:
+$x_j=0$ is an axis, $s_i=0$ is the boundary line of constraint $i$. Each
+pivot swaps one nonbasic variable for another, so it moves along an edge
+to an \emph{adjacent} corner, and the sequence of corners is the
+\emph{simplex path}. The most-negative rule picks the edge along which $z$
+rises fastest per unit of the entering variable, a local choice that says
+nothing about the length of the route, so the path need not be the one
+with the fewest pivots. A $0$ in the final $z$-row under a nonbasic column
+means one more pivot slides along an optimal edge to a second optimal
+corner (provided the column has a positive entry and the ratio is not
+$0$; with no positive entry the optimal edge is an unbounded ray).
 \end{rulebox}
 
 \begin{rulebox}{The initial tableau}
@@ -764,6 +806,39 @@ every tableau and every row operation.
         $2x_1+x_2\le 6$.
   \item Solve $\max z=4x_1+3x_2$ s.t.\ $2x_1+x_2\le 10$, $x_1+x_2\le 6$,
         $x_1+2x_2\le 10$.
+  \item Decide for each LP whether it can be written as a standard maximum
+        problem (so that the plain simplex method can start at the
+        origin). If yes, write it in that form; if no, say which
+        constraint prevents it.
+        (a)~$\max z=2x_1+3x_2$ s.t.\ $x_1+x_2\le 6$, $x_1\ge 2$.
+        (b)~$\max z=x_1+4x_2$ s.t.\ $2x_1+x_2\le 10$, $x_1-2x_2\ge -6$.
+        (c)~$\max z=3x_1+x_2$ s.t.\ $x_1+x_2\le 8$, $x_1-x_2\le -2$.
+        (d)~$\min C=x_1-2x_2$ s.t.\ $x_1+3x_2\le 9$, $2x_1-x_2\ge -4$.
+        (e)~$\max z=2x_1+x_2$ s.t.\ $x_1+x_2=5$, $x_1\le 4$.
+        (f)~$\max z=x_1+x_2$ s.t.\ $x_1+2x_2\le 8$, $x_2-x_1\ge 0$.
+  \item True or false (justify): ``If a constraint of a maximum problem
+        reads $x_1-x_2\le -1$, multiplying it by $-1$ gives
+        $-x_1+x_2\ge 1$ with a positive right-hand side, so the problem is
+        a standard maximum problem and the slack basis is a valid
+        start.'' Illustrate with the initial tableau of
+        $\max z=2x_1+x_2$ s.t.\ $x_1-x_2\le -1$, $x_1+x_2\le 5$.
+  \item The LP $\max z=3x_1+2x_2$ s.t.\ $x_1+x_2\le 6$, $2x_1+x_2\le 10$,
+        $x_1+x_2\ge 2$ is not a standard maximum problem. (a)~Which row is
+        to blame? (b)~Drop that row and solve the remaining LP by the
+        simplex method. (c)~Show that the optimum of (b) is optimal for
+        the original LP. (d)~Name the corner reached by each tableau and
+        describe the simplex path in a sketch of the feasible region.
+  \item Solve $\max z=3x_1+4x_2$ s.t.\ $x_1+x_2\le 6$, $x_1+2x_2\le 8$,
+        $x_1\le 5$ by the simplex method. Sketch the feasible region, list
+        its corners, and mark the corner belonging to each tableau and the
+        path the method takes. Which path would the method have taken if
+        $x_1$ had been chosen to enter first?
+  \item Solve $\max z=2x_1+2x_2$ s.t.\ $x_1+x_2\le 5$, $x_1\le 3$,
+        $x_2\le 4$ by the simplex method (break the tie in the first
+        $z$-row by taking the leftmost column). Mark the simplex path in a
+        sketch, show that the final tableau signals multiple optima,
+        perform the extra pivot, and describe the whole set of optimal
+        solutions in the sketch.
 \end{problems}
 
 \section{Additional Solutions}
@@ -963,4 +1038,322 @@ every tableau and every row operation.
         Optimal: $x_1^{*}=4$, $x_2^{*}=2$, $z^{*}=22$; $s_3=2$, so
         constraints 1 and 2 bind ($8+2=10$, $4+2=6$) while constraint 3
         keeps $2$ units of slack ($4+4=8\le 10$).
+
+  \item Apply the origin test to each LP.
+        \begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+          \item[(a)] \textbf{No.} At $x=0$ the row $x_1\ge 2$ reads
+                $0\ge 2$, false. Flipping it gives $-x_1\le -2$, a $\le$
+                row with negative right-hand side: the slack would start
+                at $-2$.
+          \item[(b)] \textbf{Yes.} The origin satisfies both rows
+                ($0\le 10$, $0\ge -6$). Multiplying the $\ge$ row by $-1$:
+                \[
+                  \max z=x_1+4x_2\quad\text{s.t.}\quad
+                  2x_1+x_2\le 10,\quad -x_1+2x_2\le 6,\quad x_1,x_2\ge 0 .
+                \]
+          \item[(c)] \textbf{No.} At $x=0$ the second row reads $0\le -2$,
+                false. Multiplying by $-1$ gives $-x_1+x_2\ge 2$: the
+                right-hand side is now positive, but the row is of type
+                $\ge$, so it needs a surplus and an artificial variable.
+          \item[(d)] \textbf{Yes.} Maximise $-C=-x_1+2x_2$; the origin
+                satisfies $0\le 9$ and $0\ge -4$; flipping the second row:
+                \[
+                  \max\,(-C)=-x_1+2x_2\quad\text{s.t.}\quad
+                  x_1+3x_2\le 9,\quad -2x_1+x_2\le 4,\quad x_1,x_2\ge 0,
+                \]
+                and afterwards $C^{*}=-\max(-C)$.
+          \item[(e)] \textbf{No.} The equality $x_1+x_2=5$ fails at the
+                origin. Splitting it gives $x_1+x_2\le 5$ and
+                $-x_1-x_2\le -5$, and the second piece has a negative
+                right-hand side.
+          \item[(f)] \textbf{Yes.} The origin satisfies $0\ge 0$. Flipped,
+                $x_2-x_1\ge 0$ becomes $x_1-x_2\le 0$, a $\le$ row with
+                right-hand side $0$, which is allowed:
+                \[
+                  \max z=x_1+x_2\quad\text{s.t.}\quad
+                  x_1+2x_2\le 8,\quad x_1-x_2\le 0,\quad x_1,x_2\ge 0 .
+                \]
+        \end{itemize}
+
+  \item \textbf{False.} Multiplying by $-1$ makes the right-hand side
+        positive but changes the type of the row: $-x_1+x_2\ge 1$ is a
+        $\ge$ row, which has a surplus variable (column $-e_1$) and no
+        ready-made basic column. Kept as a $\le$ row, it has a slack, but
+        then the starting tableau is
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $s_1$ & $1$ & $-1$ & $1$ & $0$ & $-1$\\
+        $s_2$ & $1$ & $1$ & $0$ & $1$ & $5$\\
+        \hline
+        $z$ & $-2$ & $-1$ & $0$ & $0$ & $0$\\
+        \end{tabular}
+        \end{center}
+        and its basic solution $x=0$, $s_1=-1$, $s_2=5$ is infeasible
+        ($s_1<0$): the origin violates $x_1-x_2\le -1$. Either way the
+        plain simplex method has no feasible start, and phase one is
+        needed. (The LP itself is feasible, for example $(0,1)$ satisfies
+        both rows; it is just not a standard maximum problem.)
+
+  \item (a)~The row $x_1+x_2\ge 2$: at the origin it reads $0\ge 2$,
+        false, so the origin is infeasible.
+
+        (b)~Drop it and solve $\max z=3x_1+2x_2$ s.t.\ $x_1+x_2\le 6$,
+        $2x_1+x_2\le 10$:
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $s_1$ & $1$ & $1$ & $1$ & $0$ & $6$\\
+        $s_2$ & $2$ & $1$ & $0$ & $1$ & $10$\\
+        \hline
+        $z$ & $-3$ & $-2$ & $0$ & $0$ & $0$\\
+        \end{tabular}
+        \end{center}
+        \emph{Iteration 1.} Pivot column $x_1$ ($-3$). Ratios: $6/1=6$,
+        $10/2=5$; pivot row $R_2$, $s_2$ leaves, pivot element $2$. Row
+        operations: $R_2\to R_2/2$; then $R_1\to R_1-R_2$,
+        $R_z\to R_z+3R_2$.
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $s_1$ & $0$ & $\tfrac{1}{2}$ & $1$ & $-\tfrac{1}{2}$ & $1$\\
+        $x_1$ & $1$ & $\tfrac{1}{2}$ & $0$ & $\tfrac{1}{2}$ & $5$\\
+        \hline
+        $z$ & $0$ & $-\tfrac{1}{2}$ & $0$ & $\tfrac{3}{2}$ & $15$\\
+        \end{tabular}
+        \end{center}
+        \emph{Iteration 2.} Pivot column $x_2$ ($-\tfrac12$). Ratios:
+        $R_1$: $1\big/\tfrac12=2$; $R_2$: $5\big/\tfrac12=10$; pivot row
+        $R_1$, $s_1$ leaves, pivot element $\tfrac12$. Row operations:
+        $R_1\to 2R_1$; then $R_2\to R_2-\tfrac12 R_1$,
+        $R_z\to R_z+\tfrac12 R_1$.
+        \begin{center}
+        \begin{tabular}{c|cccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & RHS\\
+        \hline
+        $x_2$ & $0$ & $1$ & $2$ & $-1$ & $2$\\
+        $x_1$ & $1$ & $0$ & $-1$ & $1$ & $4$\\
+        \hline
+        $z$ & $0$ & $0$ & $1$ & $1$ & $16$\\
+        \end{tabular}
+        \end{center}
+        No negative $z$-row entry: optimal, $x^{*}=(4,2)$, $z^{*}=16$.
+
+        (c)~At $(4,2)$ the dropped row holds: $4+2=6\ge 2$. Every point
+        feasible for the original LP is feasible for the relaxed LP, so
+        it has $z\le 16$; and $(4,2)$ itself is feasible for the original.
+        Hence $(4,2)$ with $z^{*}=16$ is optimal for the original LP.
+
+        (d)~The relaxed region has corners $(0,0)$, $(5,0)$, $(4,2)$,
+        $(0,6)$; the original region is the same quadrilateral with the
+        corner triangle below the line $x_1+x_2=2$ cut off. The tableaus
+        sit at $(0,0)$ (nonbasic $x_1,x_2$: the two axes), $(5,0)$
+        (nonbasic $x_2,s_2$: the $x_1$-axis and the line $2x_1+x_2=10$)
+        and $(4,2)$ (nonbasic $s_1,s_2$: the two resource lines). The path
+        is $(0,0)\to(5,0)\to(4,2)$, along the $x_1$-axis and then up the
+        line $2x_1+x_2=10$. Its starting corner is not feasible for the
+        original LP; that does no harm, since the run only has to be
+        feasible for the relaxed problem.
+
+  \item Initial tableau:
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $s_3$ & RHS\\
+        \hline
+        $s_1$ & $1$ & $1$ & $1$ & $0$ & $0$ & $6$\\
+        $s_2$ & $1$ & $2$ & $0$ & $1$ & $0$ & $8$\\
+        $s_3$ & $1$ & $0$ & $0$ & $0$ & $1$ & $5$\\
+        \hline
+        $z$ & $-3$ & $-4$ & $0$ & $0$ & $0$ & $0$\\
+        \end{tabular}
+        \end{center}
+        Corner $(0,0)$, $z=0$.
+
+        \emph{Iteration 1.} Pivot column $x_2$ ($-4$). Ratios: $6/1=6$,
+        $8/2=4$, $R_3$ skipped (entry $0$); pivot row $R_2$, $s_2$
+        leaves, pivot element $2$. Row operations: $R_2\to R_2/2$; then
+        $R_1\to R_1-R_2$, $R_z\to R_z+4R_2$; $R_3$ unchanged.
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $s_3$ & RHS\\
+        \hline
+        $s_1$ & $\tfrac{1}{2}$ & $0$ & $1$ & $-\tfrac{1}{2}$ & $0$ & $2$\\
+        $x_2$ & $\tfrac{1}{2}$ & $1$ & $0$ & $\tfrac{1}{2}$ & $0$ & $4$\\
+        $s_3$ & $1$ & $0$ & $0$ & $0$ & $1$ & $5$\\
+        \hline
+        $z$ & $-1$ & $0$ & $0$ & $2$ & $0$ & $16$\\
+        \end{tabular}
+        \end{center}
+        Corner $(0,4)$, $z=16$ (nonbasic $x_1$ and $s_2$: the $x_2$-axis
+        meets the line $x_1+2x_2=8$).
+
+        \emph{Iteration 2.} Pivot column $x_1$ ($-1$). Ratios:
+        $R_1$: $2\big/\tfrac12=4$; $R_2$: $4\big/\tfrac12=8$; $R_3$:
+        $5/1=5$; pivot row $R_1$, $s_1$ leaves, pivot element $\tfrac12$.
+        Row operations: $R_1\to 2R_1$; then $R_2\to R_2-\tfrac12R_1$,
+        $R_3\to R_3-R_1$, $R_z\to R_z+R_1$.
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $s_3$ & RHS\\
+        \hline
+        $x_1$ & $1$ & $0$ & $2$ & $-1$ & $0$ & $4$\\
+        $x_2$ & $0$ & $1$ & $-1$ & $1$ & $0$ & $2$\\
+        $s_3$ & $0$ & $0$ & $-2$ & $1$ & $1$ & $1$\\
+        \hline
+        $z$ & $0$ & $0$ & $2$ & $1$ & $0$ & $20$\\
+        \end{tabular}
+        \end{center}
+        Optimal: $x^{*}=(4,2)$, $z^{*}=20$, $s_3=1$ (constraint 3 has one
+        unit of slack). Check: $4+2=6$, $4+4=8$, $4\le 5$;
+        $z=12+8=20$.
+
+        The feasible region has the corners $(0,0)$, $(5,0)$, $(5,1)$,
+        $(4,2)$, $(0,4)$. The path is $(0,0)\to(0,4)\to(4,2)$: up the
+        $x_2$-axis, then along the line $x_1+2x_2=8$. Had $x_1$ entered
+        first, the ratios $6,8,5$ would have sent $s_3$ out, and the run
+        would have visited $(0,0)\to(5,0)\to(5,1)\to(4,2)$: three pivots
+        instead of two, the long way round the region.
+        \begin{gallery}
+        \hfill
+        \begin{tikzpicture}
+          \begin{axis}[geoaxis, xmin=-0.6, xmax=7.2, ymin=-0.6, ymax=7.2,
+              xtick={2,4,6}, ytick={2,4,6},
+              xlabel={$x_1$}, ylabel={$x_2$},
+              title={simplex path}]
+            \addplot[draw=none, name path=lowA, domain=0:4, samples=2]{0};
+            \addplot[draw=none, name path=upA, domain=0:4, samples=2]{(8-x)/2};
+            \region{lowA}{upA}{}
+            \addplot[draw=none, name path=lowB, domain=4:5, samples=2]{0};
+            \addplot[draw=none, name path=upB, domain=4:5, samples=2]{6-x};
+            \region{lowB}{upB}{}
+            \addplot[domain=-0.4:7, samples=2]{6-x};
+            \addplot[domain=-0.4:7, samples=2]{(8-x)/2};
+            \addplot[samples=2] coordinates {(5,-0.4) (5,7)};
+            \draw[-{Stealth[length=5pt]}, black, thick]
+              (axis cs:0,0) -- (axis cs:0,4);
+            \draw[-{Stealth[length=5pt]}, black, thick]
+              (axis cs:0,4) -- (axis cs:4,2);
+            \addplot[only marks, mark=*, mark size=1.4pt, black, forget plot]
+              coordinates {(0,0) (5,0) (5,1) (4,2) (0,4)};
+            \node[font=\tiny, anchor=south west] at (axis cs:4.05,2.1) {$(4,2)$};
+            \node[font=\tiny, anchor=south west] at (axis cs:0.1,4.1) {$(0,4)$};
+          \end{axis}
+        \end{tikzpicture}
+        \hfill\null
+        \gcap{The feasible region of $x_1+x_2\le 6$, $x_1+2x_2\le 8$,
+        $x_1\le 5$ and the simplex path $(0,0)\to(0,4)\to(4,2)$.}
+        \end{gallery}
+
+  \item Initial tableau:
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $s_3$ & RHS\\
+        \hline
+        $s_1$ & $1$ & $1$ & $1$ & $0$ & $0$ & $5$\\
+        $s_2$ & $1$ & $0$ & $0$ & $1$ & $0$ & $3$\\
+        $s_3$ & $0$ & $1$ & $0$ & $0$ & $1$ & $4$\\
+        \hline
+        $z$ & $-2$ & $-2$ & $0$ & $0$ & $0$ & $0$\\
+        \end{tabular}
+        \end{center}
+        Corner $(0,0)$.
+
+        \emph{Iteration 1.} Tie between $x_1$ and $x_2$; take $x_1$.
+        Ratios: $5/1=5$, $3/1=3$, $R_3$ skipped; pivot row $R_2$, $s_2$
+        leaves, pivot element $1$. Row operations: relabel $s_2\to x_1$;
+        $R_1\to R_1-R_2$; $R_z\to R_z+2R_2$; $R_3$ unchanged.
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $s_3$ & RHS\\
+        \hline
+        $s_1$ & $0$ & $1$ & $1$ & $-1$ & $0$ & $2$\\
+        $x_1$ & $1$ & $0$ & $0$ & $1$ & $0$ & $3$\\
+        $s_3$ & $0$ & $1$ & $0$ & $0$ & $1$ & $4$\\
+        \hline
+        $z$ & $0$ & $-2$ & $0$ & $2$ & $0$ & $6$\\
+        \end{tabular}
+        \end{center}
+        Corner $(3,0)$, $z=6$.
+
+        \emph{Iteration 2.} Pivot column $x_2$ ($-2$). Ratios: $R_1$:
+        $2/1=2$; $R_3$: $4/1=4$; $R_2$ skipped; pivot row $R_1$, $s_1$
+        leaves, pivot element $1$. Row operations: relabel $s_1\to x_2$;
+        $R_3\to R_3-R_1$; $R_z\to R_z+2R_1$; $R_2$ unchanged.
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $s_3$ & RHS\\
+        \hline
+        $x_2$ & $0$ & $1$ & $1$ & $-1$ & $0$ & $2$\\
+        $x_1$ & $1$ & $0$ & $0$ & $1$ & $0$ & $3$\\
+        $s_3$ & $0$ & $0$ & $-1$ & $1$ & $1$ & $2$\\
+        \hline
+        $z$ & $0$ & $0$ & $2$ & $0$ & $0$ & $10$\\
+        \end{tabular}
+        \end{center}
+        Optimal (no negative entry): $x^{*}=(3,2)$, $z^{*}=10$. But the
+        nonbasic $s_2$ has $z$-row entry $0$: multiple optima.
+
+        \emph{Extra pivot.} Bring $s_2$ in. Column $s_2$: $-1$, $1$, $1$.
+        Ratios: $R_2$: $3/1=3$; $R_3$: $2/1=2$; $R_1$ skipped. Pivot row
+        $R_3$, $s_3$ leaves, pivot element $1$. Row operations: relabel
+        $s_3\to s_2$; $R_1\to R_1+R_3$; $R_2\to R_2-R_3$; $R_z$ unchanged
+        (entry $0$).
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $s_3$ & RHS\\
+        \hline
+        $x_2$ & $0$ & $1$ & $0$ & $0$ & $1$ & $4$\\
+        $x_1$ & $1$ & $0$ & $1$ & $0$ & $-1$ & $1$\\
+        $s_2$ & $0$ & $0$ & $-1$ & $1$ & $1$ & $2$\\
+        \hline
+        $z$ & $0$ & $0$ & $2$ & $0$ & $0$ & $10$\\
+        \end{tabular}
+        \end{center}
+        Second optimal corner $(1,4)$ with $z=2+8=10$.
+
+        The region has corners $(0,0)$, $(3,0)$, $(3,2)$, $(1,4)$,
+        $(0,4)$. The path is $(0,0)\to(3,0)\to(3,2)$, and the extra pivot
+        slides along the edge $x_1+x_2=5$ to $(1,4)$. The objective
+        $2x_1+2x_2$ is parallel to that edge, so the whole segment is
+        optimal:
+        \[
+          x^{*}=\lambda(3,2)+(1-\lambda)(1,4),\qquad 0\le\lambda\le 1,
+          \qquad z^{*}=10 .
+        \]
+        \begin{gallery}
+        \hfill
+        \begin{tikzpicture}
+          \begin{axis}[geoaxis, xmin=-0.6, xmax=6.2, ymin=-0.6, ymax=6.2,
+              xtick={1,2,3,4,5}, ytick={1,2,3,4,5},
+              xlabel={$x_1$}, ylabel={$x_2$},
+              title={path and optimal edge}]
+            \addplot[draw=none, name path=lowA, domain=0:1, samples=2]{0};
+            \addplot[draw=none, name path=upA, domain=0:1, samples=2]{4};
+            \region{lowA}{upA}{}
+            \addplot[draw=none, name path=lowB, domain=1:3, samples=2]{0};
+            \addplot[draw=none, name path=upB, domain=1:3, samples=2]{5-x};
+            \region{lowB}{upB}{}
+            \addplot[domain=-0.4:6, samples=2]{5-x};
+            \addplot[domain=-0.4:6, samples=2]{4};
+            \addplot[samples=2] coordinates {(3,-0.4) (3,6)};
+            \addplot[accent, line width=2pt, domain=1:3, samples=2]{5-x};
+            \draw[-{Stealth[length=5pt]}, black, thick]
+              (axis cs:0,0) -- (axis cs:3,0);
+            \draw[-{Stealth[length=5pt]}, black, thick]
+              (axis cs:3,0) -- (axis cs:3,2);
+            \draw[-{Stealth[length=5pt]}, black, thick, dashed]
+              (axis cs:3,2) -- (axis cs:1,4);
+            \addplot[only marks, mark=*, mark size=1.4pt, black, forget plot]
+              coordinates {(0,0) (3,0) (3,2) (1,4) (0,4)};
+            \node[font=\tiny, anchor=west] at (axis cs:3.1,2.1) {$(3,2)$};
+            \node[font=\tiny, anchor=south west] at (axis cs:1.05,4.1) {$(1,4)$};
+          \end{axis}
+        \end{tikzpicture}
+        \hfill\null
+        \gcap{The path $(0,0)\to(3,0)\to(3,2)$; the dashed arrow is the
+        extra pivot along the optimal edge (thick) to $(1,4)$.}
+        \end{gallery}
 \end{solutions}

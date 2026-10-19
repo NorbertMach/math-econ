@@ -101,21 +101,68 @@ as above:
 \det \overline{H} \;<\; 0 \;\Rightarrow\; \mathbf{x}^* \text{ is a
 (constrained) local \textbf{minimum}}.
 \]
-(Signs reverse if you adopt the alternative bordering convention; pick one
-and apply it consistently. The rule above uses $\overline{H}$ with
-$g_x, g_y$ in the border, the second matrix above.)
+(The two bordered matrices above have the same determinant: negating
+the first row and the first column multiplies it by $(-1)^{2}=1$. So this
+sign rule does not depend on whether $g$ or $-g$ is written in the border.
+What matters is the inner block $\mathcal{L}_{ij}=f_{ij}-\lambda g_{ij}$,
+and, for the leading-minor test of the next box, that the border rows and
+columns come \emph{first}.)
 \end{rulebox}
 
 \begin{rulebox}{General $n$, $m$ constraints}
-The bordered Hessian is $(n + m) \times (n + m)$. Classification uses the
-signs of the last $n - m$ leading principal minors:
+\textbf{Building the matrix.} With $\mathcal{L}=f+\sum_i\lambda_i(c_i-g_i)$
+evaluated at the candidate $(\mathbf{x}^*,\boldsymbol{\lambda}^*)$, the
+bordered Hessian is the $(m+n)\times(m+n)$ matrix
+\[
+  \overline{H}=\begin{pmatrix} 0_{m\times m} & J\\ J^{T} & \Hess_{\mathbf{x}}\mathcal{L}\end{pmatrix},
+  \qquad J=\Bigl(\pd{g_i}{x_j}\Bigr)_{m\times n},\quad
+  (\Hess_{\mathbf{x}}\mathcal{L})_{jk}=f_{x_jx_k}-\sum_i\lambda_i^*\,(g_i)_{x_jx_k}:
+\]
+a zero block, the constraint Jacobian as border, and the Hessian of the
+Lagrangian inside. A nonlinear constraint contributes
+$-\lambda_i^*(g_i)_{x_jx_k}$ to the inner block; a linear one contributes
+nothing.
+
+\textbf{Which minors.} Let $\overline{H}_k$ be the leading principal minor
+of order $k$. Check the last $n-m$ of them, i.e.\ the orders
+$k=2m+1,\ 2m+2,\ \dots,\ m+n$ (the first checked order is always odd).
 \begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
-  \item Local \textbf{max}: signs alternate as
-        $(-1)^{m + 1}, (-1)^{m + 2}, \dots, (-1)^n$.
-  \item Local \textbf{min}: signs are all $(-1)^m$.
+  \item Local \textbf{max}: $\overline{H}_k$ has the sign $(-1)^{k-m}$,
+        so the signs alternate and the largest one, $\overline{H}_{m+n}=\det\overline{H}$,
+        has the sign of $(-1)^{n}$.
+  \item Local \textbf{min}: all of them have the sign of $(-1)^{m}$.
+  \item All checked minors \emph{non-zero} but fitting neither pattern:
+        the tangent-plane quadratic form is indefinite, a
+        \textbf{saddle point} on the constraint set.
+  \item Some checked minor \emph{zero}: the test is
+        \textbf{inconclusive}; argue directly (substitution, comparison of
+        values).
 \end{itemize}
-For $m = 1, n = 2$ this reduces to a single minor (the determinant) with
-the signs above.
+\begin{center}\footnotesize
+\begin{tabular}{cccll}
+  \hline
+  $n$ & $m$ & orders checked & max & min\\
+  \hline
+  $2$ & $1$ & $3$ & $+$ & $-$\\
+  $3$ & $1$ & $3,4$ & $+,-$ & $-,-$\\
+  $4$ & $1$ & $3,4,5$ & $+,-,+$ & $-,-,-$\\
+  $3$ & $2$ & $5$ & $-$ & $+$\\
+  $4$ & $2$ & $5,6$ & $-,+$ & $+,+$\\
+  $5$ & $2$ & $5,6,7$ & $-,+,-$ & $+,+,+$\\
+  \hline
+\end{tabular}
+\end{center}
+\textbf{Reading backwards.} Given the orders of the checked minors, the
+largest is $m+n$ and their number is $n-m$; this fixes $n$ and $m$, and then
+the table row gives the verdict.
+
+\textbf{Shortcut for a diagonal inner block.} If
+$D=\Hess_{\mathbf{x}}\mathcal{L}$ is diagonal and invertible, the minor
+using the first $k$ variables is
+$\overline{H}_{m+k}=\det D_k\cdot\det\bigl(-J_kD_k^{-1}J_k^{T}\bigr)$,
+where $D_k$ and $J_k$ keep the first $k$ variables. For $m=1$ with border
+row $\mathbf{b}$ and $D=d\,I$ this is
+$\overline{H}_{1+k}=-d^{\,k-1}\sum_{j\le k}b_j^{2}$.
 \end{rulebox}
 
 \begin{rulebox}{Computing $\det \overline{H}$ for the $3 \times 3$ case}
@@ -138,7 +185,62 @@ $g_x = p_x, g_y = p_y$. Then
 so the critical point is a constrained \textbf{maximum}, as expected.
 \end{rulebox}
 
-\section{Worked Example}
+\begin{rulebox}{Global optimality with equality constraints}
+The bordered Hessian is local. Four routes give a \emph{global} verdict.
+\begin{enumerate}[label=(\alph*),leftmargin=1.8em,itemsep=0.3ex]
+  \item \textbf{Concave Lagrangian.} If $(\mathbf{x}^*,\boldsymbol{\lambda}^*)$
+        satisfies the FOCs and $\mathbf{x}\mapsto\mathcal{L}(\mathbf{x},\boldsymbol{\lambda}^*)$
+        is concave on a convex domain, then $\mathbf{x}^*$ is a
+        \textbf{global maximum} on the constraint set: for every feasible
+        $\mathbf{x}$ the constraint terms vanish, so
+        $f(\mathbf{x})=\mathcal{L}(\mathbf{x},\boldsymbol{\lambda}^*)
+        \le\mathcal{L}(\mathbf{x}^*,\boldsymbol{\lambda}^*)=f(\mathbf{x}^*)$.
+        Convex Lagrangian: global minimum. \emph{Sign subtlety:} the
+        Hessian of $\mathcal{L}$ is
+        $\Hess f-\sum\lambda_i^*\Hess g_i$, so with a nonlinear constraint its
+        curvature depends on the \emph{sign} of $\lambda_i^*$, and each
+        critical point is judged with its own multiplier. Example:
+        $xy$ on $x^{2}+y^{2}=2$ has $\mathcal{L}$-Hessian
+        $\begin{pmatrix}-2\lambda&1\\1&-2\lambda\end{pmatrix}$; at
+        $(1,1)$ and $(-1,-1)$, $\lambda=\tfrac12$ makes it NSD (global
+        maxima), at $(1,-1)$ and $(-1,1)$, $\lambda=-\tfrac12$ makes it PSD
+        (global minima). With linear constraints the Hessian of
+        $\mathcal{L}$ is just $\Hess f$.
+  \item \textbf{Quasiconcave objective.} If $f$ is quasiconcave, the
+        constraints are linear (or, with $\lambda^*\ge0$, the constraint
+        function $g$ is quasiconvex, so that $\{g\le c\}$ is convex), and
+        $\grad f(\mathbf{x}^*)\neq\mathbf{0}$, a Lagrange point is a global
+        maximum; strictly quasiconcave $f$ makes it unique. This covers
+        every Cobb--Douglas utility on a budget line, concave or not.
+  \item \textbf{Picture.} If the upper contour set $B(P)=\{f\ge f(P)\}$
+        meets the constraint set only in points with value $f(P)$, then $P$
+        is a global maximum; $W(P)$ for a minimum.
+  \item \textbf{Substitution or Weierstrass.} Substituting the constraint
+        may give a concave (convex) function of fewer variables. On a
+        compact constraint set (a circle, a sphere, an ellipse) a maximum
+        and a minimum exist, so the best and worst critical values are
+        global.
+\end{enumerate}
+\textbf{Counter-cases.} A Lagrange point need not be a maximum at all:
+$x^{2}+y^{2}$ on the line $x+2y=5$ has the single critical point $(1,2)$,
+which is the global \emph{minimum}; no maximum exists. Each route is
+sufficient, not necessary: $xy$ on $x+y=2$ has an indefinite
+$\mathcal{L}$-Hessian, so route (a) fails, yet $(1,1)$ is the global
+maximum by substitution (route (d)).
+\end{rulebox}
+
+\begin{rulebox}{Substitution into several variables}
+If $m$ of the constraints can be solved for $m$ of the variables, substitute
+them to obtain $\hat f$ in the remaining $n-m$ variables, an
+\emph{unconstrained} problem. Solve $\grad\hat f=\mathbf{0}$ and classify
+with the Hessian of $\hat f$ (leading minors, or convexity near the point).
+The two routes must agree: the bordered-Hessian minors and the Hessian of
+$\hat f$ describe the same quadratic form on the tangent space. Substitution
+loses the multipliers (recover them from any FOC afterwards) and needs the
+solved-out expressions to be valid on the whole region considered.
+\end{rulebox}
+
+\section{Worked Examples}
 
 \begin{worked}{Maximise $f(x,y)=xy$ subject to $x+y=10$: solve it, certify it with the bordered Hessian, and see the same test reject the minimisation reading}
 \wstep{Step 1. Solve with the Lagrangian.}
@@ -248,6 +350,55 @@ decides. Each constraint brings its own multiplier and its own border row
 and column, and the constraint qualification becomes the requirement that
 the constraint gradients be \emph{linearly independent} at the candidate
 point --- a rank condition, checked with the tools of Volume~3.
+\end{worked}
+
+
+\begin{worked}{Three variables, one nonlinear constraint: extremise $f=x+2y+2z$ on the sphere $x^{2}+y^{2}+z^{2}=9$ with the $4\times4$ bordered Hessian}
+\wstep{Step 1. FOCs.} $\mathcal{L}=x+2y+2z+\lambda(9-x^{2}-y^{2}-z^{2})$:
+\[
+  1=2\lambda x,\qquad 2=2\lambda y,\qquad 2=2\lambda z .
+\]
+So $x=\tfrac1{2\lambda}$, $y=z=\tfrac1\lambda$, and the constraint gives
+$\tfrac{1}{4\lambda^{2}}+\tfrac{2}{\lambda^{2}}=\tfrac{9}{4\lambda^{2}}=9$,
+$\lambda=\pm\tfrac12$.
+
+\wstep{Step 2. Two candidates, each with its own multiplier.}
+$\lambda=\tfrac12$: $P_+=(1,2,2)$, $f=9$. $\lambda=-\tfrac12$:
+$P_-=(-1,-2,-2)$, $f=-9$.
+
+\wstep{Step 3. Build the matrix.} Border: $\grad g=(2x,2y,2z)$. Inner block:
+$\mathcal{L}_{jj}=0-2\lambda$, off-diagonal $0$. At $P_+$:
+\[
+  \overline{H}=\begin{pmatrix}0&2&4&4\\2&-1&0&0\\4&0&-1&0\\4&0&0&-1\end{pmatrix}.
+\]
+\wtrap{The inner block is the Hessian of $\mathcal{L}$, not of $f$. Here
+$\Hess f=0$, and forgetting the term $-\lambda\Hess g$ would leave a zero
+inner block and a meaningless test.}
+
+\wstep{Step 4. Which minors.} $n=3$, $m=1$: orders $2m+1=3$ to $m+n=4$.
+Max needs $(+,-)$, min needs $(-,-)$.
+
+\wstep{Step 5. Evaluate at $P_+$.}
+\[
+  \overline{H}_3=\det\begin{pmatrix}0&2&4\\2&-1&0\\4&0&-1\end{pmatrix}
+  =-2(-2-0)+4(0+4)=20>0 ,
+\]
+and by the diagonal shortcut ($D=-I$, $\mathbf{b}=(2,4,4)$)
+$\overline{H}_4=-(-1)^{2}(4+16+16)=-36<0$. Pattern $(+,-)$:
+\textbf{local maximum}.
+
+\wstep{Step 6. Evaluate at $P_-$.} Now $D=+I$, $\mathbf{b}=(-2,-4,-4)$:
+$\overline{H}_3=-(4+16)=-20$, $\overline{H}_4=-36$. Pattern $(-,-)$:
+\textbf{local minimum}.
+
+\wstep{Step 7. Global, and the multipliers.} The sphere is compact, so $f$
+attains a maximum and a minimum on it, and they must be among the
+candidates: $9$ at $P_+$ is the global maximum, $-9$ at $P_-$ the global
+minimum. Route (a) agrees: the $\mathcal{L}$-Hessian $-2\lambda I$ is ND for
+$\lambda=\tfrac12$ and PD for $\lambda=-\tfrac12$. As shadow prices,
+enlarging the squared radius from $9$ to $9.5$ raises the maximum by about
+$\tfrac12\cdot0.5=0.25$ (exactly $3\sqrt{9.5}-9\approx0.247$) and lowers the
+minimum by about $0.25$.
 \end{worked}
 
 \section{Practice Problems}
@@ -608,7 +759,11 @@ $\det \overline{H}$, and classify.
 \section{Additional Problems}
 
 For Problems 11--20, locate the constrained critical point, build the
-bordered Hessian, evaluate $\det \overline{H}$, and classify.
+bordered Hessian, evaluate $\det \overline{H}$, and classify. Problems 21--26
+use larger bordered Hessians, 27--33 drill the sign patterns in both
+directions, 34--40 ask for global verdicts and for problems with several
+critical points, and 41--48 cover substitution, $n$ variables and shadow
+prices with several constraints.
 
 \begin{problems}
   \item Minimise $f(x, y, z) = x^2 + y^2 + z^2$ subject to
@@ -652,6 +807,108 @@ bordered Hessian, evaluate $\det \overline{H}$, and classify.
         $(4, 9)$).
   \item $\max Q = K^{2/3} L^{1/3}$ s.t.\ $r K + w L = TC$ (verify a
         constrained maximum).
+
+  \item ($n=3$, $m=1$.) Minimise $f=x^{2}+y^{2}+z^{2}$ subject to
+        $x+2y+2z=18$. Find the critical point and $\lambda^*$, build the
+        $4\times4$ bordered Hessian, and classify with $\overline{H}_3$ and
+        $\overline{H}_4$.
+  \item ($n=3$, $m=1$, nonlinear.) Show that $P=(2,2,2)$ is a critical
+        point of $f=xyz$ subject to $xy+yz+zx=12$ and compute $\lambda$.
+        Build the bordered Hessian (the constraint's second derivatives
+        enter the inner block) and classify $P$.
+  \item ($n=4$, $m=2$.) Minimise $f=x_1^{2}+x_2^{2}+x_3^{2}+x_4^{2}$
+        subject to $x_1+x_2+x_3+x_4=4$ and $x_1-x_2+x_3-x_4=2$. Find the
+        critical point and both multipliers, and classify with the minors of
+        orders $5$ and $6$ of the $6\times6$ bordered Hessian.
+  \item ($n=3$, $m=2$, nonlinear.) Find the highest and the lowest point
+        of the circle cut from the sphere $x^{2}+y^{2}+z^{2}=9$ by the plane
+        $x+y+z=3$, i.e.\ extremise $f=z$. Classify each critical point with
+        the single minor of order $5$.
+  \item ($n=5$, $m=2$.) Show that $\mathbf{x}^*=(1,1,1,1,1)$ minimises
+        $\sum_{i=1}^{5}x_i^{2}$ subject to $\sum_{i=1}^{5}x_i=5$ and
+        $\sum_{i=1}^{5}i\,x_i=15$: find the multipliers and check the minors
+        of orders $5$, $6$, $7$ with the diagonal shortcut.
+  \item ($n=4$, $m=1$, nonlinear.) Extremise
+        $f=x_1+x_2+x_3+x_4$ on $\sum x_i^{2}=4$. Classify both critical
+        points with the minors of orders $3$, $4$, $5$.
+  \item (Sign patterns, forward.) For $(n,m)=(3,1)$, $(4,2)$, $(5,2)$ and
+        $(6,3)$ list the orders of the leading principal minors that are
+        checked and the sign patterns required for a maximum and for a
+        minimum.
+  \item (Backward.) In a problem the minors of orders $5$, $6$, $7$ are
+        checked and all three are positive. Find $n$ and $m$ and the
+        verdict.
+  \item (Backward.) The minors of orders $9$ and $10$ are checked. Find $n$
+        and $m$, and the verdict if their signs are (a) $(-,+)$,
+        (b) $(+,-)$, (c) $(+,+)$.
+  \item (Backward.) Only one minor is checked, of order $5$, and it is
+        negative. Find $n$, $m$ and the verdict.
+  \item (Backward.) The minors of orders $3$, $4$, $5$ are checked, with
+        values $-2$, $-7$ and $0$. Find $n$, $m$ and the verdict.
+  \item (Backward.) The minors of orders $3$, $4$, $5$, $6$ are checked,
+        with signs $(+,-,+,-)$. Find $n$, $m$ and the verdict. What would
+        the signs $(-,-,-,-)$ mean?
+  \item (Backward.) (a) The minors of orders $7$ and $8$ are checked and
+        both are positive: find $n$, $m$, verdict. (b) Someone reports
+        that ``the minors of orders $4$ and $5$ were checked''. Why is that
+        impossible?
+  \item (Global via the Lagrangian.) Find all four critical points of
+        $f=xy$ on $x^{2}+y^{2}=8$ with their multipliers, and use the
+        curvature of $\mathcal{L}(\cdot,\lambda^*)$ at each multiplier to
+        identify the global maxima and minima.
+  \item Maximise $U=x^{1/2}y^{1/4}$ subject to $x+2y=12$ ($x,y>0$) and
+        show that the optimum is global by route (a).
+  \item Maximise $U=x^{2}y^{2}$ subject to $2x+y=8$, $x,y>0$. Show that the
+        Lagrangian is not concave, and prove globality by route (b).
+  \item Minimise $f=x+y$ subject to $xy=4$, $x,y>0$. Show that route (a)
+        fails, and prove globality with the lower contour set $W(P)$
+        (route (c)).
+  \item Find the critical point of $f=x^{2}+y^{2}$ on the line $x+2y=5$.
+        Is it a maximum? Prove your answer with route (a) and explain why no
+        maximum exists.
+  \item Find all critical points of $f=x^{2}+2y^{2}$ on the circle
+        $x^{2}+y^{2}=4$, with their multipliers; classify each by its own
+        bordered Hessian; rank them as global maxima and minima; and
+        estimate each critical value for the circle $x^{2}+y^{2}=4.2$ using
+        its multiplier.
+  \item Find all six critical points of $f=x^{2}y$ on $x^{2}+y^{2}=3$ with
+        their multipliers, classify each with its bordered Hessian, and
+        name the global maxima and minima. Which critical points are local
+        extrema without being global? Estimate the maximal value for the
+        constraint $x^{2}+y^{2}=3.3$ and compare with the exact value.
+  \item Minimise $f=x^{2}+y^{2}+z^{2}$ subject to $x+y+z=6$ in two ways:
+        (a) substitute $z$ and classify with the Hessian of $\hat f(x,y)$;
+        (b) use the $4\times4$ bordered Hessian. Compare.
+  \item Minimise $f=x_1^{2}+x_2^{2}+x_3^{2}+x_4^{2}$ subject to
+        $x_1+x_2=4$ and $x_3+2x_4=5$, (a) by substituting both constraints,
+        (b) with the $6\times6$ bordered Hessian.
+  \item Maximise $f=\ln x+\ln y+\ln z$ subject to $x+y+z=9$, (a) by
+        substituting $z$ and using the Hessian of $\hat f(x,y)$, (b) with
+        the bordered Hessian.
+  \item ($n$ variables.) Maximise $\prod_{i=1}^{n}x_i$ subject to
+        $\sum_{i=1}^{n}x_i=1$, $x_i>0$. Show that the optimum is global and
+        deduce the inequality between the geometric and the arithmetic
+        mean.
+  \item (Sum notation.) Minimise $f=\sum_{i=1}^{6}x_i^{2}$ subject to
+        \[
+          \sum_{k=1}^{3}x_{2k-1}=3
+          \qquad\text{and}\qquad
+          \sum_{k=1}^{3}(-1)^{k}x_{2k}=6 .
+        \]
+        Expand the constraints first. Find the optimum and both
+        multipliers, and check the multipliers against the value function.
+  \item Minimise $\sum_{i=1}^{n}a_ix_i^{2}$ ($a_i>0$) subject to
+        $\sum_{i=1}^{n}x_i=1$. (With uncorrelated assets of variances $a_i$
+        this is the minimum-variance portfolio.)
+  \item (Shadow prices, two constraints.) For $\min x^{2}+y^{2}+z^{2}$
+        s.t.\ $x+y+z=c_1$, $x-y+2z=c_2$ at $(c_1,c_2)=(6,4)$: find the
+        optimum and both multipliers; estimate the change of the minimum
+        when (a) $c_1$ rises to $6.3$, (b) $c_2$ rises to $4.5$; re-solve
+        exactly and compare.
+  \item Maximise $f=\ln x+2\ln y+\ln z$ subject to $x+y+z=8$ and $y+z=5$.
+        Estimate with the multipliers the new optimal value when (a) $c_2$
+        rises from $5$ to $5.5$, (b) $c_1$ falls from $8$ to $7.5$, and
+        compare with the exact values.
 \end{problems}
 
 \section{Additional Solutions}
@@ -861,4 +1118,275 @@ bordered Hessian, evaluate $\det \overline{H}$, and classify.
         The middle term is positive ($\mathcal{L}_{KL} > 0$), and the
         last two are positive (minus times negative). So
         $\det \overline{H} > 0$: \textbf{max}. \checkmark
+
+  \item $\mathcal{L}=x^{2}+y^{2}+z^{2}+\lambda(18-x-2y-2z)$: $2x=\lambda$,
+        $2y=2\lambda$, $2z=2\lambda$, so $x=\tfrac\lambda2$, $y=z=\lambda$,
+        and $\tfrac{9\lambda}{2}=18$: $\lambda^*=4$, $(x,y,z)=(2,4,4)$,
+        $f=36$. Inner block $2I$ (linear constraint), border $(1,2,2)$:
+        \[
+          \overline{H}=\begin{pmatrix}0&1&2&2\\1&2&0&0\\2&0&2&0\\2&0&0&2\end{pmatrix},\quad
+          \overline{H}_3=\det\begin{pmatrix}0&1&2\\1&2&0\\2&0&2\end{pmatrix}=-2-8=-10,
+        \]
+        and by the shortcut $\overline{H}_4=-2^{2}(1+4+4)=-36$. Pattern
+        $(-,-)$ for $n=3$, $m=1$: \textbf{local minimum}, in fact global
+        ($\mathcal{L}$ has Hessian $2I$, convex).
+  \item $\grad f=(yz,xz,xy)=(4,4,4)$ and $\grad g=(y+z,x+z,x+y)=(4,4,4)$
+        at $P$, so $\grad f=\lambda\grad g$ with $\lambda=1$, and
+        $g(P)=4+4+4=12$: $P$ is a critical point. Inner block:
+        $\mathcal{L}_{xx}=0-\lambda\cdot0=0$ (likewise $yy$, $zz$),
+        $\mathcal{L}_{xy}=f_{xy}-\lambda g_{xy}=z-1=1$ (likewise the other
+        pairs). So
+        \[
+          \overline{H}=\begin{pmatrix}0&4&4&4\\4&0&1&1\\4&1&0&1\\4&1&1&0\end{pmatrix},\qquad
+          \overline{H}_3=\det\begin{pmatrix}0&4&4\\4&0&1\\4&1&0\end{pmatrix}=16+16=32 .
+        \]
+        For $\overline{H}_4$ subtract row~2 from rows~3 and~4, giving rows
+        $(0,1,-1,0)$ and $(0,1,0,-1)$; expanding along the first column,
+        $\overline{H}_4=-4\det\begin{pmatrix}4&4&4\\1&-1&0\\1&0&-1\end{pmatrix}=-4\cdot12=-48$.
+        Pattern $(+,-)$: \textbf{local maximum}, $f(P)=8$ (the cube is the
+        box of largest volume with surface $2\cdot12=24$).
+  \item $\mathcal{L}=\sum x_i^{2}+\lambda_1(4-\sum x_i)+\lambda_2(2-x_1+x_2-x_3+x_4)$:
+        $2x_i=\lambda_1+\lambda_2$ for odd $i$, $\lambda_1-\lambda_2$ for even
+        $i$. So $x_1=x_3=a$, $x_2=x_4=b$ with $2a+2b=4$, $2a-2b=2$:
+        $a=\tfrac32$, $b=\tfrac12$, $\lambda_1=a+b=2$, $\lambda_2=a-b=1$,
+        $f=5$. Inner block $D=2I$, $J=\begin{pmatrix}1&1&1&1\\1&-1&1&-1\end{pmatrix}$.
+        Shortcut ($m=2$): $\overline{H}_{2+k}=2^{k}\det\bigl(\tfrac12J_kJ_k^{T}\bigr)
+        =2^{k-2}\det(J_kJ_k^{T})$. $k=3$: $J_3J_3^{T}=\begin{pmatrix}3&1\\1&3\end{pmatrix}$,
+        $\overline{H}_5=2\cdot8=16$. $k=4$: $JJ^{T}=4I$, $\overline{H}_6=4\cdot16=64$.
+        Pattern $(+,+)$ for $(4,2)$: \textbf{minimum}.
+  \item $\mathcal{L}=z+\lambda_1(9-x^{2}-y^{2}-z^{2})+\lambda_2(3-x-y-z)$:
+        $-2\lambda_1x-\lambda_2=0$, $-2\lambda_1y-\lambda_2=0$,
+        $1-2\lambda_1z-\lambda_2=0$. The first two give
+        $\lambda_1(x-y)=0$; $\lambda_1=0$ would force $\lambda_2=0$ and
+        $1=0$, so $x=y$. Then $z=3-2x$ and $2x^{2}+(3-2x)^{2}=9$, i.e.\
+        $6x^{2}-12x=0$: $x=0$ or $x=2$.
+        \begin{itemize}
+          \item $(0,0,3)$: $\lambda_2=0$, $\lambda_1=\tfrac16$. Inner block
+                $-2\lambda_1I=-\tfrac13I$, $J=\begin{pmatrix}0&0&6\\1&1&1\end{pmatrix}$,
+                $JJ^{T}=\begin{pmatrix}36&6\\6&3\end{pmatrix}$, $\det=72$.
+                $\overline{H}_5=(-\tfrac13)^{3}\det(3JJ^{T})=-\tfrac1{27}\cdot9\cdot72=-24<0$:
+                for $(3,2)$ the max sign is $-$, a \textbf{maximum}, $z=3$.
+          \item $(2,2,-1)$: $\lambda_2=-4\lambda_1$ and $1+2\lambda_1+4\lambda_1=0$,
+                so $\lambda_1=-\tfrac16$, $\lambda_2=\tfrac23$. Inner block
+                $+\tfrac13I$, $J=\begin{pmatrix}4&4&-2\\1&1&1\end{pmatrix}$,
+                again $JJ^{T}=\begin{pmatrix}36&6\\6&3\end{pmatrix}$:
+                $\overline{H}_5=\tfrac1{27}\cdot9\cdot72=24>0$: \textbf{minimum},
+                $z=-1$.
+        \end{itemize}
+        The circle is compact, so these are the highest and lowest points.
+  \item $2x_i=\lambda_1+i\lambda_2$: at $\mathbf{x}^*=\mathbf{1}$ this holds
+        with $\lambda_1=2$, $\lambda_2=0$, and both constraints are met
+        ($5$ and $1+2+3+4+5=15$). The second multiplier is zero: the second
+        constraint happens to be satisfied by the solution of the first
+        alone. With $D=2I$ and $J$ rows $(1,1,1,1,1)$, $(1,2,3,4,5)$,
+        $\overline{H}_{2+k}=2^{k-2}\det(J_kJ_k^{T})$:
+        $k=3$: $\det\begin{pmatrix}3&6\\6&14\end{pmatrix}=6$, $\overline{H}_5=12$;
+        $k=4$: $\det\begin{pmatrix}4&10\\10&30\end{pmatrix}=20$, $\overline{H}_6=80$;
+        $k=5$: $\det\begin{pmatrix}5&15\\15&55\end{pmatrix}=50$, $\overline{H}_7=400$.
+        All positive, the pattern for a minimum with $m=2$. (Global as
+        well: convex objective, linear constraints.)
+  \item $1=2\lambda x_i$ for all $i$: $x_i=\tfrac{1}{2\lambda}$,
+        $\tfrac{4}{4\lambda^{2}}=4$, $\lambda=\pm\tfrac12$: $\pm(1,1,1,1)$ with
+        $f=\pm4$. Inner block $-2\lambda I=dI$, border
+        $\mathbf{b}=(2x_i)=\pm(2,2,2,2)$, so
+        $\overline{H}_{1+k}=-d^{\,k-1}\cdot4k$.
+        $\lambda=\tfrac12$ ($d=-1$): $\overline{H}_3=8$,
+        $\overline{H}_4=-12$, $\overline{H}_5=16$, pattern $(+,-,+)$:
+        \textbf{maximum}. $\lambda=-\tfrac12$ ($d=1$): $-8,-12,-16$, all
+        negative: \textbf{minimum}. (Global: the sphere is compact.)
+  \item Orders $2m+1,\dots,m+n$; max sign $(-1)^{k-m}$, min sign $(-1)^{m}$.
+        \begin{center}\footnotesize
+        \begin{tabular}{cccc}
+          \hline
+          $(n,m)$ & orders & max & min\\
+          \hline
+          $(3,1)$ & $3,4$ & $+,-$ & $-,-$\\
+          $(4,2)$ & $5,6$ & $-,+$ & $+,+$\\
+          $(5,2)$ & $5,6,7$ & $-,+,-$ & $+,+,+$\\
+          $(6,3)$ & $7,8,9$ & $+,-,+$ & $-,-,-$\\
+          \hline
+        \end{tabular}
+        \end{center}
+  \item Largest order $m+n=7$, number of minors $n-m=3$: $n=5$, $m=2$. The
+        min pattern is $(-1)^{2}=+$ throughout: \textbf{local minimum}.
+  \item $m+n=10$, $n-m=2$: $n=6$, $m=4$. Max: order $9$ sign
+        $(-1)^{5}=-$, order $10$ sign $+$. Min: both $(-1)^{4}=+$.
+        (a) $(-,+)$: \textbf{maximum}. (b) $(+,-)$: both non-zero, neither
+        pattern: \textbf{saddle point}. (c) $(+,+)$: \textbf{minimum}.
+  \item $m+n=5$, $n-m=1$: $n=3$, $m=2$. Max sign $(-1)^{5-2}=-$, min sign
+        $+$: \textbf{maximum}.
+  \item $m+n=5$, $n-m=3$: $n=4$, $m=1$. A checked minor vanishes: the test
+        is \textbf{inconclusive}, although the first two fit the minimum
+        pattern $(-,-,-)$. A direct argument is needed.
+  \item $m+n=6$, $n-m=4$: $n=5$, $m=1$. Max needs signs $(-1)^{k-1}$ for
+        $k=3,4,5,6$, i.e.\ $(+,-,+,-)$: \textbf{maximum}. The signs
+        $(-,-,-,-)$ would be the minimum pattern $(-1)^{1}$.
+  \item (a) $m+n=8$, $n-m=2$: $n=5$, $m=3$. Max: $(+,-)$; min: $(-,-)$.
+        $(+,+)$ is neither and both are non-zero: \textbf{saddle}.
+        (b) The first checked order is $2m+1$, always odd. From orders
+        $4,5$ one would get $m+n=5$ and $n-m=2$, so $2m=3$: impossible.
+  \item $\mathcal{L}=xy+\lambda(8-x^{2}-y^{2})$: $y=2\lambda x$,
+        $x=2\lambda y$, so $x=4\lambda^{2}x$; $x=0$ would force $y=0$, off
+        the circle, hence $\lambda=\pm\tfrac12$. $\lambda=\tfrac12$: $y=x$,
+        points $(2,2)$, $(-2,-2)$, $f=4$. $\lambda=-\tfrac12$: $y=-x$,
+        points $(2,-2)$, $(-2,2)$, $f=-4$. The Hessian of
+        $\mathcal{L}(\cdot,\lambda)$ is
+        $\begin{pmatrix}-2\lambda&1\\1&-2\lambda\end{pmatrix}$. For
+        $\lambda=\tfrac12$: $\begin{pmatrix}-1&1\\1&-1\end{pmatrix}$,
+        diagonal $\le0$, $\det=0$, NSD: $\mathcal{L}$ concave, so $(2,2)$ and
+        $(-2,-2)$ are \textbf{global maxima}. For $\lambda=-\tfrac12$: PSD,
+        $\mathcal{L}$ convex, $(2,-2)$ and $(-2,2)$ are \textbf{global
+        minima}. Each point is judged with its own multiplier.
+  \item Exponents $\tfrac12$, $\tfrac14$ (sum $\tfrac34$): expenditure
+        shares $\tfrac23$, $\tfrac13$, so $x^*=8$, $2y^*=4$, $y^*=2$,
+        $U^*=\sqrt8\cdot2^{1/4}\approx3.364$,
+        $\lambda^*=\tfrac34U^*/12\approx0.210$. The constraint is linear, so
+        $\Hess\mathcal{L}=\Hess U$, and $U$ is concave on $\R^{2}_{++}$
+        (Cobb--Douglas with exponent sum $<1$, Chapter~3). Route (a):
+        \textbf{global maximum}.
+  \item Equal exponents: $2x=4$, $y=4$, so $(2,4)$, $U^*=64$;
+        $U_x=2xy^{2}=64=2\lambda$, $\lambda^*=32$. $\Hess\mathcal{L}=\Hess U
+        =\begin{pmatrix}2y^{2}&4xy\\4xy&2x^{2}\end{pmatrix}
+        =\begin{pmatrix}32&32\\32&8\end{pmatrix}$ at the point, $\det<0$:
+        indefinite, route (a) fails. Route (b): $U=\exp(2\ln x+2\ln y)$ is
+        an increasing transform of a concave function, hence (strictly)
+        quasiconcave on $\R^{2}_{++}$; the constraint is linear and
+        $\grad U\neq\mathbf{0}$: $(2,4)$ is the \textbf{unique global
+        maximum}.
+  \item $\mathcal{L}=x+y+\lambda(4-xy)$: $1=\lambda y$, $1=\lambda x$, so
+        $x=y=2$, $\lambda^*=\tfrac12$. $\Hess\mathcal{L}
+        =\begin{pmatrix}0&-\tfrac12\\-\tfrac12&0\end{pmatrix}$, indefinite:
+        route (a) fails. Route (c): $W(P)=\{x+y\le4\}$. On the branch
+        $y=4/x$, $x+\tfrac4x\ge4$ because $x^{2}-4x+4=(x-2)^{2}\ge0$, with
+        equality only at $x=2$. So $W(P)$ meets the constraint curve only at
+        $P$: $(2,2)$ is the \textbf{global minimum}, $f=4$.
+  \item $\mathcal{L}=x^{2}+y^{2}+\lambda(5-x-2y)$: $2x=\lambda$,
+        $2y=2\lambda$, so $y=2x$, $5x=5$: $(1,2)$, $\lambda=2$, $f=5$.
+        $\Hess\mathcal{L}=2I$ is PSD, $\mathcal{L}$ is convex, so $(1,2)$ is
+        the \textbf{global minimum}, not a maximum. No maximum exists: along
+        the line, $f(5-2t,t)=(5-2t)^{2}+t^{2}\to\infty$. The only Lagrange
+        point being a minimum is the signal; Weierstrass does not apply on
+        an unbounded line.
+  \item $\mathcal{L}=x^{2}+2y^{2}+\lambda(4-x^{2}-y^{2})$:
+        $2x(1-\lambda)=0$, $2y(2-\lambda)=0$. Either $\lambda=1$, then
+        $y=0$: $(\pm2,0)$, $f=4$; or $\lambda=2$, then $x=0$: $(0,\pm2)$,
+        $f=8$. With $\det\overline{H}=2g_xg_y\mathcal{L}_{xy}
+        -g_x^{2}\mathcal{L}_{yy}-g_y^{2}\mathcal{L}_{xx}$, $g=(2x,2y)$,
+        $\mathcal{L}_{xx}=2-2\lambda$, $\mathcal{L}_{yy}=4-2\lambda$,
+        $\mathcal{L}_{xy}=0$: at $(\pm2,0)$, $-16\cdot2=-32<0$,
+        \textbf{minimum}; at $(0,\pm2)$, $-16\cdot(2-4)=32>0$,
+        \textbf{maximum}. The circle is compact: global max $8$ at
+        $(0,\pm2)$, global min $4$ at $(\pm2,0)$. For $c=4.2$: min
+        $\approx4+1\cdot0.2=4.2$, max $\approx8+2\cdot0.2=8.4$; exactly the
+        values are $c$ and $2c$, so here the estimates are exact.
+  \item $\mathcal{L}=x^{2}y+\lambda(3-x^{2}-y^{2})$: $2xy=2\lambda x$,
+        $x^{2}=2\lambda y$. If $x=0$: $y=\pm\sqrt3$, $\lambda=0$, $f=0$. If
+        $x\neq0$: $\lambda=y$, $x^{2}=2y^{2}$, $3y^{2}=3$: $(\pm\sqrt2,1)$
+        with $\lambda=1$, $f=2$, and $(\pm\sqrt2,-1)$ with $\lambda=-1$,
+        $f=-2$. Here $\mathcal{L}_{xx}=2y-2\lambda$,
+        $\mathcal{L}_{yy}=-2\lambda$, $\mathcal{L}_{xy}=2x$, and
+        \[
+          \det\overline{H}=2(2x)(2y)(2x)-4x^{2}(-2\lambda)-4y^{2}(2y-2\lambda)
+          =16x^{2}y+8\lambda x^{2}-8y^{3}+8\lambda y^{2}.
+        \]
+        $(\pm\sqrt2,1)$: $32+16-8+8=48>0$, max. $(\pm\sqrt2,-1)$:
+        $-32-16+8-8=-48<0$, min. $(0,\sqrt3)$: $-24\sqrt3<0$, local min.
+        $(0,-\sqrt3)$: $24\sqrt3>0$, local max. By Weierstrass the global
+        maximum $2$ is at $(\pm\sqrt2,1)$ and the global minimum $-2$ at
+        $(\pm\sqrt2,-1)$; the points $(0,\pm\sqrt3)$ with value $0$ are
+        local extrema only (near $(0,\sqrt3)$, $y>0$ gives $x^{2}y\ge0$).
+        Estimate: $2+\lambda\cdot0.3=2.3$. Exactly, the maximum on
+        $x^{2}+y^{2}=c$ is at $y=\sqrt{c/3}$, $x^{2}=\tfrac{2c}3$, value
+        $2(c/3)^{3/2}=2\cdot1.1^{3/2}\approx2.307$.
+  \item (a) $\hat f=x^{2}+y^{2}+(6-x-y)^{2}$:
+        $\hat f_x=4x+2y-12=0$, $\hat f_y=2x+4y-12=0$, so $x=y=2$, $z=2$.
+        $\Hess\hat f=\begin{pmatrix}4&2\\2&4\end{pmatrix}$, $D_1=4$,
+        $D_2=12$: PD everywhere, $\hat f$ strictly convex, a global minimum,
+        $f=12$. (b) $\lambda=2x=4$, inner block $2I$, border $(1,1,1)$:
+        $\overline{H}_3=-2\cdot2=-4$, $\overline{H}_4=-4\cdot3=-12$:
+        $(-,-)$, minimum. Both routes agree (and $\lambda$ is recovered from
+        $2x=\lambda$).
+  \item (a) $x_2=4-x_1$, $x_3=5-2x_4$:
+        $\hat f=x_1^{2}+(4-x_1)^{2}+(5-2x_4)^{2}+x_4^{2}$.
+        $\hat f_{x_1}=4x_1-8=0$, $\hat f_{x_4}=10x_4-20=0$: $x_1=2$,
+        $x_4=2$, hence $\mathbf{x}^*=(2,2,1,2)$, $f=13$.
+        $\Hess\hat f=\operatorname{diag}(4,10)$, PD: global minimum.
+        (b) Multipliers from $2x_1=\lambda_1$, $2x_3=\lambda_2$:
+        $\lambda_1=4$, $\lambda_2=2$ (check $2x_4=2\lambda_2=4$). $D=2I$,
+        $J=\begin{pmatrix}1&1&0&0\\0&0&1&2\end{pmatrix}$:
+        $\overline{H}_5=2\det\begin{pmatrix}2&0\\0&1\end{pmatrix}=4$,
+        $\overline{H}_6=4\det\begin{pmatrix}2&0\\0&5\end{pmatrix}=40$.
+        $(+,+)$: minimum, as in (a).
+  \item (a) $\hat f=\ln x+\ln y+\ln(9-x-y)$: $\tfrac1x=\tfrac1{9-x-y}$ and
+        $\tfrac1y=\tfrac1{9-x-y}$, so $x=y=z=3$. At $(3,3)$:
+        $\hat f_{xx}=-\tfrac1{x^{2}}-\tfrac1{z^{2}}=-\tfrac29$,
+        $\hat f_{yy}=-\tfrac29$, $\hat f_{xy}=-\tfrac1{z^{2}}=-\tfrac19$;
+        $D_1<0$, $D_2=\tfrac4{81}-\tfrac1{81}=\tfrac1{27}>0$: ND, maximum
+        (global: $\hat f$ is a sum of logarithms of affine functions,
+        concave on its domain). (b) $\lambda=\tfrac1x=\tfrac13$, inner block
+        $-\tfrac19I$, border $(1,1,1)$: $\overline{H}_3=-(-\tfrac19)\cdot2
+        =\tfrac29$, $\overline{H}_4=-\tfrac1{81}\cdot3=-\tfrac1{27}$:
+        $(+,-)$, maximum. Agreed.
+  \item Maximise $\sum\ln x_i$ instead (same maximiser, $\ln$ increasing):
+        $\tfrac1{x_i}=\lambda$ for all $i$, so all $x_i$ are equal,
+        $x_i^*=\tfrac1n$, $\lambda=n$, maximal product $n^{-n}$. Global:
+        $\sum\ln x_i$ is strictly concave and the constraint is linear, so
+        $\mathcal{L}$ is concave (route (a)); the maximiser is unique. For
+        positive $y_1,\dots,y_n$ with arithmetic mean $\bar y$ put
+        $x_i=\tfrac{y_i}{n\bar y}$, so $\sum x_i=1$ and
+        $\prod x_i\le n^{-n}$, i.e.\ $\prod y_i\le\bar y^{\,n}$:
+        $\bigl(\prod y_i\bigr)^{1/n}\le\bar y$, with equality iff all $y_i$
+        are equal.
+  \item Expanded: $x_1+x_3+x_5=3$ and $-x_2+x_4-x_6=6$.
+        $\mathcal{L}=\sum x_i^{2}+\lambda_1(3-x_1-x_3-x_5)+\lambda_2(6+x_2-x_4+x_6)$.
+        Odd $i$: $2x_i=\lambda_1$; even: $2x_2=-\lambda_2$,
+        $2x_4=\lambda_2$, $2x_6=-\lambda_2$. Constraints:
+        $\tfrac32\lambda_1=3$, $\tfrac32\lambda_2=6$, so $\lambda_1=2$,
+        $\lambda_2=4$ and $\mathbf{x}^*=(1,-2,1,2,1,-2)$, $f=3+12=15$, a
+        global minimum (convex objective, linear constraints). For general
+        right-hand sides $c_1,c_2$ the same steps give $x_{\text{odd}}=c_1/3$,
+        $|x_{\text{even}}|=c_2/3$, so $V=\tfrac{c_1^{2}}3+\tfrac{c_2^{2}}3$ and
+        $\pd{V}{c_1}=\tfrac{2c_1}3=2=\lambda_1$,
+        $\pd{V}{c_2}=\tfrac{2c_2}3=4=\lambda_2$. \checkmark
+  \item $2a_ix_i=\lambda$, so $x_i=\tfrac{\lambda}{2a_i}$; the constraint
+        gives $\tfrac\lambda2S=1$ with $S=\sum_j\tfrac1{a_j}$. Hence
+        \[
+          x_i^*=\frac{1/a_i}{S},\qquad \lambda^*=\frac2S,\qquad
+          \min=\sum_ia_i\frac{1}{a_i^{2}S^{2}}=\frac1S .
+        \]
+        Global (convex objective, linear constraint). Each asset is held in
+        proportion to the inverse of its variance; e.g.\ $a=(1,2,4)$ gives
+        $S=\tfrac74$, $\mathbf{x}^*=(\tfrac47,\tfrac27,\tfrac17)$ and minimal
+        variance $\tfrac47$.
+  \item $\mathcal{L}=x^{2}+y^{2}+z^{2}+\lambda_1(c_1-x-y-z)+\lambda_2(c_2-x+y-2z)$:
+        $2x=\lambda_1+\lambda_2$, $2y=\lambda_1-\lambda_2$,
+        $2z=\lambda_1+2\lambda_2$. Into the constraints:
+        $3\lambda_1+2\lambda_2=2c_1$, $\lambda_1+3\lambda_2=c_2$, so
+        $\lambda_1=\tfrac{6c_1-2c_2}{7}$, $\lambda_2=\tfrac{3c_2-2c_1}{7}$. At
+        $(6,4)$: $\lambda_1=4$, $\lambda_2=0$, $\mathbf{x}^*=(2,2,2)$, $V=12$.
+        (a) $\Delta V\approx4\cdot0.3=1.2$. Exactly at $(6.3,4)$:
+        $\lambda_1\approx4.2571$, $\lambda_2\approx-0.0857$,
+        $\mathbf{x}^*\approx(2.0857,\,2.1714,\,2.0429)$, $V\approx13.2386$,
+        $\Delta V\approx1.2386$. (b) $\Delta V\approx0\cdot0.5=0$. Exactly
+        at $(6,4.5)$: $\lambda_1=\tfrac{27}7$, $\lambda_2=\tfrac3{14}$,
+        $\mathbf{x}^*\approx(2.0357,\,1.8214,\,2.1429)$, $V\approx12.0536$,
+        $\Delta V=\tfrac3{56}\approx0.054$. The zero multiplier predicts no
+        first-order change; what remains is second order. (In general
+        $V=\tfrac{6c_1^{2}-4c_1c_2+3c_2^{2}}{14}$.)
+  \item $\mathcal{L}=\ln x+2\ln y+\ln z+\lambda_1(c_1-x-y-z)+\lambda_2(c_2-y-z)$:
+        $\tfrac1x=\lambda_1$, $\tfrac2y=\lambda_1+\lambda_2=\tfrac1z$. So
+        $y=2z$, $x=c_1-c_2$, $y=\tfrac{2c_2}3$, $z=\tfrac{c_2}3$. At
+        $(8,5)$: $\mathbf{x}^*=(3,\tfrac{10}3,\tfrac53)$,
+        $\lambda_1=\tfrac13$, $\lambda_2=\tfrac35-\tfrac13=\tfrac4{15}$.
+        $V(c_1,c_2)=\ln(c_1-c_2)+2\ln\tfrac{2c_2}{3}+\ln\tfrac{c_2}{3}$,
+        so $V(8,5)=\ln3+2\ln\tfrac{10}3+\ln\tfrac53\approx4.0174$.
+        (a) $\Delta V\approx\tfrac4{15}\cdot0.5\approx0.133$, new value
+        $\approx4.151$. Exactly:
+        $\ln\tfrac{2.5}{3}+3\ln1.1\approx-0.1823+0.2859=0.1036$, new value
+        $\approx4.121$.
+        (b) $\Delta V\approx-\tfrac13\cdot0.5\approx-0.167$, new value
+        $\approx3.851$. Exactly: $\ln\tfrac{2.5}{3}\approx-0.1823$, new value
+        $\approx3.835$. The estimates have the right size
+        and sign; $V$ is concave in $(c_1,c_2)$ here, so the linear estimate
+        overstates gains and understates losses.
 \end{solutions}

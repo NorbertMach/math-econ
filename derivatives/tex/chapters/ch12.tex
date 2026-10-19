@@ -615,6 +615,20 @@ with $J$ the Jacobian of Chapter~13 --- the same rule, written once.
         $\mathrm{d}Q=-0.005Q$. Interpret.
 \end{problems}
 
+In problems 16--18, approximate the change $\Delta f$ by the total
+differential $\mathrm{d}f$ at the point $P$, then compute the exact change
+and compare.
+
+\begin{problems}[resume]
+  \item $Q(x,y,z)=4\sqrt{x^{2}+yz}$ at $P=(3,2,8)$, with
+        $\mathrm{d}x=0.1$, $\mathrm{d}y=-0.2$, $\mathrm{d}z=0.3$.
+  \item $Y(x,y,z)=2\sqrt{xy+z^{2}}$ at $P=(2,8,3)$, with
+        $\mathrm{d}x=0.05$, $\mathrm{d}y=0.1$, $\mathrm{d}z=-0.05$.
+  \item $f(x,y)=\ln(x^{2}y)-xy$ at $P=(1,2)$, with
+        $\mathrm{d}x=\mathrm{d}y=0.1$; explain why the approximation is
+        poorer here.
+\end{problems}
+
 \section{Additional Solutions}
 
 \begin{solutions}
@@ -731,4 +745,43 @@ with $J$ the Jacobian of Chapter~13 --- the same rule, written once.
         So $\mathrm{d}W/W=0.01+(-0.005)=0.005$, i.e.\ revenue rises by
         about $0.5\%$. (Log-linear: revenue percent change is the sum of
         price and quantity percent changes.)
+
+  \item At $P$: $x^{2}+yz=9+16=25$, so $Q(P)=4\cdot5=20$. Partials, by
+        the chain rule with $w=x^{2}+yz$:
+        \[
+          Q_{x}=\frac{4\cdot2x}{2\sqrt w}=\frac{4x}{\sqrt w}=\frac{12}{5},\quad
+          Q_{y}=\frac{2z}{\sqrt w}=\frac{16}{5},\quad
+          Q_{z}=\frac{2y}{\sqrt w}=\frac45 .
+        \]
+        \[
+          \mathrm{d}Q=2.4(0.1)+3.2(-0.2)+0.8(0.3)=0.24-0.64+0.24=-0.16 .
+        \]
+        Exact: $Q(3.1,1.8,8.3)=4\sqrt{9.61+14.94}=4\sqrt{24.55}
+        \approx19.819183$, so $\Delta Q\approx-0.180817$. The differential
+        gets the sign and the size about right; the error $0.021$ comes
+        from the curvature of the root.
+  \item At $P$: $xy+z^{2}=16+9=25$, $Y(P)=10$. With $w=xy+z^{2}$:
+        \[
+          Y_{x}=\frac{y}{\sqrt w}=\frac85,\quad Y_{y}=\frac{x}{\sqrt w}=\frac25,
+          \quad Y_{z}=\frac{2z}{\sqrt w}=\frac65 .
+        \]
+        \[
+          \mathrm{d}Y=1.6(0.05)+0.4(0.1)+1.2(-0.05)=0.08+0.04-0.06=0.06 .
+        \]
+        Exact: $Y(2.05,8.1,2.95)=2\sqrt{16.605+8.7025}=2\sqrt{25.3075}
+        \approx10.061312$, so $\Delta Y\approx0.061312$: the error is about
+        $0.0013$, two percent of the change.
+  \item $f(P)=\ln2-2\approx-1.306853$. $f=2\ln x+\ln y-xy$, so
+        $f_{x}=\dfrac2x-y=0$ and $f_{y}=\dfrac1y-x=-\tfrac12$ at $P$.
+        \[
+          \mathrm{d}f=0\cdot0.1-\tfrac12\cdot0.1=-0.05 .
+        \]
+        Exact: $f(1.1,2.1)=\ln(1.21\cdot2.1)-2.31=\ln2.541-2.31\approx
+        -1.377442$, so $\Delta f\approx-0.070589$. The differential misses
+        by $0.02$, about $30\%$ of the change. At $P$ the slope in the
+        $x$-direction is $0$, so the linear term sees nothing of the
+        $x$-step, while the curvature, with $f_{xx}=-2/x^{2}=-2$,
+        $f_{xy}=-1$ and $f_{yy}=-1/y^{2}=-\tfrac14$, contributes about
+        $\tfrac12\bigl(-2(0.01)+2(-1)(0.01)-\tfrac14(0.01)\bigr)\approx-0.021$:
+        indeed $-0.05-0.021\approx-0.071$.
 \end{solutions}

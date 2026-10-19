@@ -580,6 +580,18 @@ Simplify where natural.
         $\Pi'(q)$)
 \end{problems}
 
+In problems 16--18 the letters $a$, $b$, $c$ are fixed positive constants
+and $x$ is the only variable. Treat a letter exactly as you would treat the
+number it stands for.
+
+\begin{problems}[resume]
+  \item $f(x)=\sqrt{\dfrac{ax+b}{c-x}}$ \quad on the interval where
+        $ax+b>0$ and $x<c$
+  \item $g(x)=\sqrt[3]{\dfrac{4-ax}{x+b}}$ \quad for $x\neq-b$,
+        $x\neq4/a$
+  \item $h(x)=x^{2}(a-bx)^{3}$
+\end{problems}
+
 \section{Additional Solutions}
 
 \begin{solutions}
@@ -650,4 +662,46 @@ Simplify where natural.
           \Pi'(q)=28-0.6q .
         \]
         Marginal profit is zero at $q^{*}=28/0.6\approx 46.67$.
+
+  \item The variable is $x$; $a,b,c$ are numbers. Write
+        $f=u^{1/2}$ with the inner quotient $u=\dfrac{ax+b}{c-x}$. Quotient
+        rule for $u$, with numerator derivative $a$ and denominator
+        derivative $-1$:
+        \[
+          u'=\frac{a(c-x)-(ax+b)(-1)}{(c-x)^{2}}
+            =\frac{ac-ax+ax+b}{(c-x)^{2}}=\frac{ac+b}{(c-x)^{2}} .
+        \]
+        The $x$-terms cancel, which is the typical gift of a
+        linear-over-linear quotient. Chain rule:
+        \[
+          f'(x)=\frac{1}{2}u^{-1/2}u'
+               =\frac{ac+b}{2(c-x)^{2}}\sqrt{\frac{c-x}{ax+b}}
+               =\frac{ac+b}{2\,(c-x)^{3/2}\,(ax+b)^{1/2}} .
+        \]
+        Since $ac+b>0$, $f$ is increasing on its whole interval.
+
+  \item Inner quotient $u=\dfrac{4-ax}{x+b}$, with numerator derivative
+        $-a$ and denominator derivative $1$:
+        \[
+          u'=\frac{-a(x+b)-(4-ax)\cdot1}{(x+b)^{2}}
+            =\frac{-ax-ab-4+ax}{(x+b)^{2}}=-\frac{ab+4}{(x+b)^{2}} .
+        \]
+        Then $g=u^{1/3}$ and $g'=\tfrac13u^{-2/3}u'$:
+        \[
+          g'(x)=-\frac{ab+4}{3(x+b)^{2}}
+                \left(\frac{x+b}{4-ax}\right)^{2/3} .
+        \]
+        At $x=4/a$ the quotient is $0$ and $u^{-2/3}$ blows up: the cube
+        root has a vertical tangent there, so that point is excluded.
+
+  \item Product rule with $u=x^{2}$, $v=(a-bx)^{3}$, $u'=2x$, and by the
+        chain rule $v'=3(a-bx)^{2}\cdot(-b)$; the inner derivative is $-b$,
+        not $1$.
+        \[
+          h'(x)=2x(a-bx)^{3}-3bx^{2}(a-bx)^{2}
+               =x(a-bx)^{2}\bigl[2(a-bx)-3bx\bigr]
+               =x(a-bx)^{2}(2a-5bx) .
+        \]
+        The factored form shows the critical points at once: $x=0$,
+        $x=a/b$ and $x=2a/(5b)$.
 \end{solutions}

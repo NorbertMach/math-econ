@@ -24,8 +24,9 @@ function $y=g(x)$ satisfying $F(x,g(x))=0$, and
 \end{rulebox}
 
 \begin{rulebox}{What the condition $F_{y}\neq0$ rules out}
-The theorem is local and its hypothesis is sharp. Where $F_{y}=0$ the
-conclusion genuinely fails, and the failure is visible in the picture of the
+The theorem is local, and its hypothesis is \emph{sufficient}. Where
+$F_{y}=0$ the theorem gives no conclusion. In the typical cases the
+conclusion really fails, and the failure is visible in the picture of the
 curve $F=0$ (Chapter~5):
 \begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
   \item $F_{y}=0$, $F_{x}\neq0$: a \textbf{vertical tangent}. No $y(x)$
@@ -43,6 +44,24 @@ well-defined tangent, exactly where $\grad F\neq\mathbf{0}$. This is the
 same gradient condition that reappears as the \emph{constraint
 qualification} in the Lagrange and Kuhn--Tucker chapters, where it rules out
 precisely these kinks and crossings in the constraint set.
+
+\textbf{Sufficient, not necessary.} A failed hypothesis does not by itself
+prove that no $y(x)$ exists; it only means the theorem is silent, and the
+question must be settled by looking at the level set directly.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item $F=y^{3}-x$ at $(0,0)$: $F_{y}=3y^{2}=0$, yet $y=x^{1/3}$ solves
+        the equation for every $x$. It is continuous but not differentiable
+        at $0$ (vertical tangent), which is all the theorem's failure
+        reflects.
+  \item $F=(y-x)^{3}$ at $(0,0)$: $\grad F=\mathbf{0}$, yet the level set
+        $F=0$ is the line $y=x$, a perfectly smooth $y(x)$.
+  \item $F=x^{2}+y^{2}$ at $(0,0)$, a minimum of $F$: the level set $F=0$ is
+        the single point, and neither $y(x)$ nor $x(y)$ exists on any
+        interval.
+  \item If $F$ itself is not $C^{1}$ (it contains $|x|$ or $\sqrt[3]{x}$,
+        say), the theorem does not apply at all, but a function $y(x)$ may
+        still exist, possibly with a kink or a cusp.
+\end{itemize}
 \end{rulebox}
 
 \begin{rulebox}{IFT, Multivariate}
@@ -51,6 +70,46 @@ $y=g(x_{1},\ldots,x_{n})$ locally and
 \[
   \pd{y}{x_{i}} \;=\; -\frac{F_{x_{i}}}{F_{y}} .
 \]
+\textbf{Which variable can be solved for?} The roles are interchangeable.
+At a point of $F(x,y,z)=0$, test the three partials separately:
+$F_{z}\neq0$ gives $z(x,y)$, $F_{y}\neq0$ gives $y(x,z)$, $F_{x}\neq0$ gives
+$x(y,z)$, each with the analogous quotient formula. A level set $f=c$ is the
+case $F=f-c$, and the condition set for, say, $z(x,y)$ is
+$\{f=c,\ f_{z}\neq0\}$.
+\end{rulebox}
+
+\begin{rulebox}{IFT for systems of equations}
+Let $\mathbf{F}\colon\R^{n+m}\to\R^{m}$ be $C^{1}$; write the variables as
+$(\mathbf{x},\mathbf{y})$ with $\mathbf{x}\in\R^{n}$ (independent) and
+$\mathbf{y}\in\R^{m}$ (to be solved for), $m$ equations for $m$ unknowns.
+Split the Jacobian into the two blocks
+\[
+  \frac{\partial\mathbf{F}}{\partial\mathbf{x}}\ \ (m\times n),\qquad
+  \frac{\partial\mathbf{F}}{\partial\mathbf{y}}\ \ (m\times m) .
+\]
+If $\mathbf{F}(\mathbf{x}_{0},\mathbf{y}_{0})=\mathbf{0}$ and
+$\det\dfrac{\partial\mathbf{F}}{\partial\mathbf{y}}(\mathbf{x}_{0},
+\mathbf{y}_{0})\neq0$, then near the point the system defines a $C^{1}$ map
+$\mathbf{y}=\mathbf{G}(\mathbf{x})$ with
+$\mathbf{F}(\mathbf{x},\mathbf{G}(\mathbf{x}))=\mathbf{0}$, and
+\[
+  \boxed{\;J_{\mathbf{G}}(\mathbf{x}_{0})
+  =-\Bigl[\frac{\partial\mathbf{F}}{\partial\mathbf{y}}\Bigr]^{-1}
+   \frac{\partial\mathbf{F}}{\partial\mathbf{x}}\;}\qquad(m\times n).
+\]
+For $m=1$ this is $-F_{x_{i}}/F_{y}$ again. The formula comes from
+differentiating $\mathbf{F}(\mathbf{x},\mathbf{G}(\mathbf{x}))=\mathbf{0}$
+with the chain rule:
+$\partial\mathbf{F}/\partial\mathbf{x}+(\partial\mathbf{F}/\partial\mathbf{y})
+J_{\mathbf{G}}=0$.
+
+\textbf{Linear systems.} For $A\mathbf{z}=\mathbf{b}$ with an $m\times(n+m)$
+matrix $A$, the Jacobian is $A$ itself. A set of $m$ variables can be solved
+for in terms of the others exactly when the $m\times m$ minor of $A$ formed
+by their columns is non-zero, and then
+$J_{\mathbf{G}}=-A_{\mathrm{dep}}^{-1}A_{\mathrm{indep}}$, globally. Which
+variables play which role is a choice: check the minor for the choice you
+want.
 \end{rulebox}
 
 \begin{rulebox}{MRS and MRTS via IFT}
@@ -153,6 +212,41 @@ predicts.
 
 So the condition is sufficient for a local inverse, necessary for a
 \emph{differentiable} one, and silent about global behaviour.
+\end{rulebox}
+
+\begin{rulebox}{Computing a local inverse explicitly}
+Many maps met in exercises are \textbf{triangular}: one component involves
+one variable only, the next adds a second, and so on. Then the inverse can
+be written down.
+\begin{enumerate}[leftmargin=1.6em,itemsep=0.3ex]
+  \item Set $\mathbf{F}(\mathbf{x})=\mathbf{u}$ and solve the simplest
+        equation first, then substitute.
+  \item Where a square or another even power is undone, \textbf{choose the
+        branch that contains the given point}: $s^{2}=w$ near $s_{0}<0$
+        means $s=-\sqrt{w}$.
+  \item State the \textbf{local domain} of the inverse: every root needs a
+        non-negative radicand, every logarithm a positive argument, every
+        denominator a non-zero value.
+  \item Check $\mathbf{G}(\mathbf{F}(\mathbf{x}_{0}))=\mathbf{x}_{0}$, then
+        differentiate $\mathbf{G}$ at $\mathbf{u}_{0}=\mathbf{F}(\mathbf{x}_{0})$
+        and compare with $\bigl[J_{\mathbf{F}}(\mathbf{x}_{0})\bigr]^{-1}$.
+        They must agree.
+\end{enumerate}
+The points with $\det J_{\mathbf{F}}=0$ are where the theorem gives
+nothing; for a fold such as $(x,y)\mapsto(x^{2},y)$ that is exactly where
+two branches meet and no local inverse exists.
+
+\textbf{Non-square maps have no differentiable inverse.} For
+$\mathbf{F}\colon\R^{n}\to\R^{m}$ with a differentiable inverse
+$\mathbf{G}$, the chain rule applied to $\mathbf{G}\circ\mathbf{F}=\mathrm{id}$
+and $\mathbf{F}\circ\mathbf{G}=\mathrm{id}$ gives $J_{\mathbf{G}}J_{\mathbf{F}}
+=I_{n}$ and $J_{\mathbf{F}}J_{\mathbf{G}}=I_{m}$; a product of an $n\times m$
+and an $m\times n$ matrix has rank at most $\min(m,n)$, so $m=n$. Concretely,
+a map $\R^{3}\to\R$ such as
+$x+2y-z$ is onto but sends whole planes to one value (not injective), while
+a curve $\R\to\R^{3}$ can be injective but its image is only a curve (not
+onto). For a global inverse of a square map, also check that the image is
+the whole stated codomain.
 \end{rulebox}
 
 \begin{rulebox}{Homogeneous Functions}
@@ -382,6 +476,101 @@ counterexample --- it is squaring, in disguise, and squaring is two-to-one.}
 The right-hand column is the left-hand one with ``non-zero number''
 replaced by ``invertible matrix'' --- which is what $\det\neq0$ means, and
 why Volume~3 had to come first.
+\end{worked}
+
+\begin{worked}{A system of two equations in four unknowns: $xy-u=0$, $x+y-v=0$ near $(x,y,u,v)=(1,2,2,3)$. Solve for $(x,y)$ in terms of $(u,v)$}
+\wstep{Step 1. Check the point.}
+$1\cdot2-2=0$ and $1+2-3=0$. \checkmark\ Two equations, so two variables
+can be solved for: $\mathbf{y}=(x,y)$ dependent, $\mathbf{x}=(u,v)$
+independent.
+
+\wstep{Step 2. The two blocks of the Jacobian.}
+With $\mathbf{F}=(xy-u,\;x+y-v)$:
+\[
+  \frac{\partial\mathbf{F}}{\partial(x,y)}=\begin{pmatrix}y&x\\1&1
+  \end{pmatrix}=\begin{pmatrix}2&1\\1&1\end{pmatrix},\qquad
+  \frac{\partial\mathbf{F}}{\partial(u,v)}=\begin{pmatrix}-1&0\\0&-1
+  \end{pmatrix} .
+\]
+$\det\dfrac{\partial\mathbf{F}}{\partial(x,y)}=y-x=1\neq0$: the theorem
+applies, and $(x,y)=\mathbf{G}(u,v)$ exists near $(u,v)=(2,3)$.
+
+\wstep{Step 3. The Jacobian of $\mathbf{G}$ from the formula.}
+\[
+  J_{\mathbf{G}}=-\begin{pmatrix}2&1\\1&1\end{pmatrix}^{-1}
+  \begin{pmatrix}-1&0\\0&-1\end{pmatrix}
+  =\begin{pmatrix}2&1\\1&1\end{pmatrix}^{-1}
+  =\begin{pmatrix}1&-1\\-1&2\end{pmatrix} .
+\]
+So $x_{u}=1$, $x_{v}=-1$, $y_{u}=-1$, $y_{v}=2$.
+
+\wstep{Step 4. Here the system can also be solved explicitly.}
+$x$ and $y$ have sum $v$ and product $u$, so they are the roots of
+$t^{2}-vt+u=0$:
+\[
+  x=\frac{v-\sqrt{v^{2}-4u}}{2},\qquad y=\frac{v+\sqrt{v^{2}-4u}}{2},
+\]
+the branch with $x<y$, which contains the point ($\frac{3-1}{2}=1$,
+$\frac{3+1}{2}=2$). Differentiating, with $\sqrt{v^{2}-4u}=1$ at $(2,3)$:
+\begin{gather*}
+  x_{u}=\frac{1}{\sqrt{v^{2}-4u}}=1,\qquad
+  x_{v}=\frac12\Bigl(1-\frac{v}{\sqrt{v^{2}-4u}}\Bigr)=-1,\\
+  y_{u}=-\frac{1}{\sqrt{v^{2}-4u}}=-1,\qquad
+  y_{v}=\frac12\Bigl(1+\frac{v}{\sqrt{v^{2}-4u}}\Bigr)=2 .
+\end{gather*}
+The same matrix. \checkmark
+\wtrap{The determinant $y-x$ vanishes exactly when $x=y$, i.e.\ when
+$v^{2}=4u$ and the two roots merge. There the two branches meet, the
+square root has a vertical tangent, and no differentiable $\mathbf{G}$
+exists: the theorem's condition marks precisely the trouble spot.}
+
+\wstep{Step 5. Linear version: which pairs can be solved for?}
+For the linear system $x_{1}+2x_{2}-x_{3}+x_{4}=3$,
+$2x_{1}+4x_{2}+x_{3}-x_{4}=0$ the coefficient matrix has the columns
+$(1,2)$, $(2,4)$, $(-1,1)$, $(1,-1)$. The pair $(x_{1},x_{2})$ has the
+minor $\det\begin{pmatrix}1&2\\2&4\end{pmatrix}=0$: it \emph{cannot} be
+solved for, since only the combination $x_{1}+2x_{2}$ ever appears. The pair
+$(x_{1},x_{3})$ has $\det\begin{pmatrix}1&-1\\2&1\end{pmatrix}=3\neq0$, so
+$(x_{1},x_{3})$ is a function of $(x_{2},x_{4})$, everywhere. The pair
+$(x_{3},x_{4})$ again fails, with minor $(-1)(-1)-(1)(1)=0$.
+\end{worked}
+
+\begin{worked}{Invert $\mathbf{F}(x,y)=(x^{2}-y,\;\mathrm{e}^{y})$ near $P=(-1,0)$ and check $J_{\mathbf{F}^{-1}}(\mathbf{F}(P))=J_{\mathbf{F}}(P)^{-1}$}
+\wstep{Step 1. The theorem first.}
+$J_{\mathbf{F}}=\begin{pmatrix}2x&-1\\0&\mathrm{e}^{y}\end{pmatrix}$,
+$\det J_{\mathbf{F}}=2x\,\mathrm{e}^{y}$, which is $-2\neq0$ at $P$. A local
+inverse exists near $\mathbf{F}(P)=(1-0,\;\mathrm{e}^{0})=(1,1)$. It fails
+to exist near points with $x=0$: there $(x,y)$ and $(-x,y)$ collide.
+
+\wstep{Step 2. Solve the triangular system.}
+Set $u=x^{2}-y$, $v=\mathrm{e}^{y}$. The second equation involves $y$ only:
+$y=\ln v$, which needs $v>0$. Then $x^{2}=u+y=u+\ln v$, and since $P$ has
+$x=-1<0$, take the negative root:
+\[
+  \mathbf{G}(u,v)=\bigl(-\sqrt{u+\ln v},\;\ln v\bigr),
+  \qquad v>0,\ u+\ln v>0 .
+\]
+\wtrap{The positive root $+\sqrt{u+\ln v}$ inverts $\mathbf{F}$ near
+$(1,0)$, not near $(-1,0)$. Always test the branch on the given point.}
+
+\wstep{Step 3. Check that $\mathbf{G}$ undoes $\mathbf{F}$ at the point.}
+$\mathbf{G}(1,1)=\bigl(-\sqrt{1+0},\;0\bigr)=(-1,0)=P$. \checkmark
+
+\wstep{Step 4. Differentiate the inverse at $(1,1)$.}
+\[
+  J_{\mathbf{G}}=\begin{pmatrix}
+    -\dfrac{1}{2\sqrt{u+\ln v}}&-\dfrac{1}{2v\sqrt{u+\ln v}}\\[1.4ex]
+    0&\dfrac1v\end{pmatrix}
+  =\begin{pmatrix}-\tfrac12&-\tfrac12\\0&1\end{pmatrix}
+  \ \text{at }(1,1).
+\]
+
+\wstep{Step 5. Compare with the matrix inverse.}
+$J_{\mathbf{F}}(P)=\begin{pmatrix}-2&-1\\0&1\end{pmatrix}$ has inverse
+$\dfrac{1}{-2}\begin{pmatrix}1&1\\0&-2\end{pmatrix}
+=\begin{pmatrix}-\tfrac12&-\tfrac12\\0&1\end{pmatrix}$, the same matrix.
+\checkmark\ The theorem would have given $J_{\mathbf{G}}(1,1)$ without
+Step 2; the explicit inverse also tells us how far the inverse reaches.
 \end{worked}
 
 \section{Practice Problems}
@@ -1152,6 +1341,112 @@ why Volume~3 had to come first.
         $\det J(\mathbf{x}_{0})\neq0$ do and do not guarantee.
 \end{problems}
 
+Problems 26--29: the implicit function theorem for systems.
+
+\begin{problems}[resume]
+  \item For the linear system $x_{1}-x_{2}+2x_{3}+x_{4}=1$,
+        $2x_{1}-2x_{2}+x_{3}-x_{4}=5$, decide for each of the six pairs of
+        variables whether it can be solved for in terms of the other two.
+        For the pair $(x_{3},x_{4})$ give
+        $J_{\mathbf{G}}=-A_{\mathrm{dep}}^{-1}A_{\mathrm{indep}}$ and check it
+        by solving the system.
+  \item The system $u+v^{2}-x=0$, $\sin u+v-y=0$ holds at
+        $(x,y,u,v)=(1,1,0,1)$. Show that it defines $(u,v)$ as a function
+        of $(x,y)$ near $(1,1)$, and find all four partial derivatives
+        $u_{x},u_{y},v_{x},v_{y}$ there. Check one row by implicit
+        differentiation.
+  \item Two markets clear when $a-3p_{1}+p_{2}=0$ and $b+p_{1}-3p_{2}=0$,
+        where $a,b$ are demand shifters. At $a=10$, $b=5$, find the prices,
+        the Jacobian of $(p_{1},p_{2})$ with respect to $(a,b)$ by the
+        theorem, and confirm by solving. Interpret $\partial p_{2}/\partial a$.
+  \item The system $x^{2}+y^{2}-z=0$, $x+y-zw=0$ holds at
+        $P=(x,y,z,w)=(1,1,2,1)$. Which pairs of variables can be solved for
+        near $P$ according to the theorem? For $(z,w)$ as functions of
+        $(x,y)$, give the Jacobian by the theorem and by solving explicitly.
+\end{problems}
+
+Problems 30--34: invert the map explicitly near the given point, state the
+local domain of the inverse, check $\mathbf{G}(\mathbf{F}(P))=P$, and verify
+$J_{\mathbf{G}}(\mathbf{F}(P))=J_{\mathbf{F}}(P)^{-1}$. Say where no local
+inverse exists.
+
+\begin{problems}[resume]
+  \item $\mathbf{F}(s,t)=(3s,\;s^{2}+t^{2})$ near $P=(1,-2)$.
+  \item $\mathbf{F}(x,y)=(xy,\;y^{2})$ near $P=(2,-1)$.
+  \item $\mathbf{F}(x,y)=(\ln x+y,\;y^{3})$ on $x>0$, near $P=(1,1)$; say
+        also what happens on the line $y=0$.
+  \item $\mathbf{F}(x,y,z)=(x,\;x+y^{2},\;z\,\mathrm{e}^{x})$ near
+        $P=(0,2,1)$.
+  \item $\mathbf{F}(x,y)=(x^{2}-y^{2},\;x+y)$ near $P=(2,1)$.
+\end{problems}
+
+Problems 35--37: nonlinear maps $\R^{3}\to\R^{3}$. Evaluate the Jacobian at
+the given points, decide at each whether the inverse function theorem
+guarantees a local inverse, and where it does, give
+$J_{\mathbf{F}^{-1}}(\mathbf{F}(Q))$.
+
+\begin{problems}[resume]
+  \item $\mathbf{F}(x,y,z)=(x+yz,\;\mathrm{e}^{y},\;xz^{2})$ at
+        $Q_{1}=(1,0,1)$ and $Q_{2}=(1,2,1)$.
+  \item $\mathbf{F}(x,y,z)=(z^{3}+z,\;\mathrm{e}^{2x},\;y^{3}+3y)$ at
+        $Q=(0,1,1)$; is $\mathbf{F}$ even globally invertible, and onto
+        what?
+  \item $\mathbf{F}(x,y,z)=(x+2y,\;3x+y^{2},\;z\,\mathrm{e}^{z})$ at
+        $Q_{1}=(0,1,0)$ and $Q_{2}=(1,3,0)$.
+\end{problems}
+
+Problems 38--40: one equation in three unknowns.
+
+\begin{problems}[resume]
+  \item $x^{2}-2x+yz+z^{2}=5$ at $P=(1,1,2)$: which of $x(y,z)$,
+        $y(x,z)$, $z(x,y)$ does the theorem guarantee? Give the partials of
+        $y(x,z)$ at $P$ and check them against the explicit solution. Why
+        does $x(y,z)$ really fail?
+  \item On the level set $x^{1/2}y^{1/4}z^{1/4}=2$ in the open positive
+        octant, near $P=(2,1,4)$: show that $z(x,y)$ exists at every point
+        of the level set, give $\grad z$ at $(2,1)$ by the theorem, and
+        compare with the explicit $z(x,y)$.
+  \item On the hyperboloid $x^{2}+y^{2}-z^{2}=1$: describe the set of
+        points near which $y(x,z)$ exists by the theorem, and the set for
+        $z(x,y)$. What does the surface look like at the excluded points?
+\end{problems}
+
+Problems 41--45: the hypotheses fail, and yet.
+
+\begin{problems}[resume]
+  \item $\mathbf{F}(x,y)=\bigl((x-1)^{3},\;x+y\bigr)$: find all points
+        with $\det J=0$, and show by computing the inverse that $\mathbf{F}$
+        is nevertheless a bijection of $\R^{2}$. What fails at those points?
+  \item $\mathbf{F}(s,t)=\bigl((2s-t)^{3},\;s+t\bigr)$: the same
+        questions.
+  \item (a) $y^{3}-x^{2}=0$ near the origin: is the theorem applicable,
+        and does a function $y(x)$ exist? A function $x(y)$? (b)
+        $y+\sqrt[3]{|x|}-2=0$ near $(0,2)$: the same questions.
+  \item For each equation at the origin, decide whether the theorem
+        guarantees $y(x)$, and whether $y(x)$ exists anyway:
+        (a) $(y-2x)^{3}=0$; (b) $x^{2}+4y^{2}=0$; (c) $y^{5}-x=0$;
+        (d) $x^{2}-y^{2}=0$; (e) $y^{2}-x=0$.
+  \item On the contour map of $f(x,y)=x^{3}-3x+y^{2}$ in Chapter~9
+        (practice problems 21--28), consider the level curve through each of
+        $P_{1}=(0,0)$, $P_{2}=(1,0)$ and $P_{3}=(-1,0)$. At each point, does
+        it define $y(x)$ or $x(y)$ nearby? Answer from the picture, then
+        confirm with $\grad f$ and the factorised equation.
+\end{problems}
+
+Problems 46--47: global questions.
+
+\begin{problems}[resume]
+  \item (a) Show that $f\colon\R^{3}\to\R$, $f(x,y,z)=x+2y-z$, is onto but
+        not injective. (b) Show that $\mathbf{r}\colon\R\to\R^{3}$,
+        $\mathbf{r}(t)=(t,\;t^{3},\;\mathrm{e}^{t})$, is injective but not
+        onto. (c) Explain why no map between $\R^{3}$ and $\R$ can have a
+        differentiable inverse.
+  \item Show that $\mathbf{F}(x,y,z)=\bigl(xy,\;y/x,\;\ln z+x\bigr)$ maps
+        the open octant $x,y,z>0$ one-to-one onto
+        $\{u>0\}\times\{v>0\}\times\R$: find the inverse explicitly,
+        check that its image is the octant, and compute $\det J_{\mathbf{F}}$.
+\end{problems}
+
 \section{Additional Solutions}
 
 \begin{solutions}
@@ -1300,4 +1595,319 @@ why Volume~3 had to come first.
         same locally in $n$ dimensions, with the inverse's Jacobian equal to
         $\bigl[J(\mathbf{x}_{0})\bigr]^{-1}$; it likewise says nothing about
         global injectivity.
+
+  \item The coefficient matrix has the columns $c_{1}=(1,2)$,
+        $c_{2}=(-1,-2)$, $c_{3}=(2,1)$, $c_{4}=(1,-1)$. The minors:
+        \[
+          (x_{1},x_{2})\colon0,\quad(x_{1},x_{3})\colon-3,\quad
+          (x_{1},x_{4})\colon-3,\quad(x_{2},x_{3})\colon3,\quad
+          (x_{2},x_{4})\colon3,\quad(x_{3},x_{4})\colon-3 .
+        \]
+        Every pair except $(x_{1},x_{2})$ can be solved for; $x_{1}$ and
+        $x_{2}$ enter only as $x_{1}-x_{2}$. For $(x_{3},x_{4})$:
+        $A_{\mathrm{dep}}=\begin{pmatrix}2&1\\1&-1\end{pmatrix}$,
+        $A_{\mathrm{indep}}=\begin{pmatrix}1&-1\\2&-2\end{pmatrix}$,
+        $A_{\mathrm{dep}}^{-1}=\tfrac{1}{-3}\begin{pmatrix}-1&-1\\-1&2
+        \end{pmatrix}$, and
+        \[
+          J_{\mathbf{G}}=-A_{\mathrm{dep}}^{-1}A_{\mathrm{indep}}
+          =-\begin{pmatrix}1&-1\\-1&1\end{pmatrix}
+          =\begin{pmatrix}-1&1\\1&-1\end{pmatrix} .
+        \]
+        Check: adding the equations after writing them as
+        $2x_{3}+x_{4}=1-x_{1}+x_{2}$ and $x_{3}-x_{4}=5-2x_{1}+2x_{2}$ gives
+        $3x_{3}=6-3x_{1}+3x_{2}$, so $x_{3}=2-x_{1}+x_{2}$ and
+        $x_{4}=x_{3}-5+2x_{1}-2x_{2}=-3+x_{1}-x_{2}$. The partials are
+        $(-1,1)$ and $(1,-1)$. \checkmark
+  \item With $\mathbf{F}=(u+v^{2}-x,\;\sin u+v-y)$:
+        $\dfrac{\partial\mathbf{F}}{\partial(u,v)}=\begin{pmatrix}1&2v\\
+        \cos u&1\end{pmatrix}=\begin{pmatrix}1&2\\1&1\end{pmatrix}$ at the
+        point, with determinant $1-2=-1\neq0$; and
+        $\dfrac{\partial\mathbf{F}}{\partial(x,y)}=-I$. So $(u,v)$ is a
+        function of $(x,y)$ near $(1,1)$ and
+        \[
+          J=-\begin{pmatrix}1&2\\1&1\end{pmatrix}^{-1}(-I)
+           =\begin{pmatrix}1&2\\1&1\end{pmatrix}^{-1}
+           =\begin{pmatrix}-1&2\\1&-1\end{pmatrix}:
+        \]
+        $u_{x}=-1$, $u_{y}=2$, $v_{x}=1$, $v_{y}=-1$. Check: differentiating
+        both equations in $x$ gives $u_{x}+2vv_{x}=1$ and
+        $\cos u\,u_{x}+v_{x}=0$, i.e.\ $u_{x}+2v_{x}=1$, $u_{x}+v_{x}=0$,
+        so $v_{x}=1$, $u_{x}=-1$. \checkmark
+  \item Prices: $3p_{1}-p_{2}=10$, $-p_{1}+3p_{2}=5$, so
+        $p_{1}=\tfrac{35}{8}=4.375$, $p_{2}=\tfrac{25}{8}=3.125$. With
+        $\mathbf{E}=(a-3p_{1}+p_{2},\;b+p_{1}-3p_{2})$:
+        $\dfrac{\partial\mathbf{E}}{\partial(p_{1},p_{2})}=
+        \begin{pmatrix}-3&1\\1&-3\end{pmatrix}$, determinant $8$, and
+        $\dfrac{\partial\mathbf{E}}{\partial(a,b)}=I$. Hence
+        \[
+          \frac{\partial(p_{1},p_{2})}{\partial(a,b)}
+          =-\begin{pmatrix}-3&1\\1&-3\end{pmatrix}^{-1}
+          =-\frac18\begin{pmatrix}-3&-1\\-1&-3\end{pmatrix}
+          =\frac18\begin{pmatrix}3&1\\1&3\end{pmatrix} .
+        \]
+        Solving the linear system in general: $p_{1}=\tfrac{3a+b}{8}$,
+        $p_{2}=\tfrac{a+3b}{8}$, the same derivatives. \checkmark\
+        $\partial p_{2}/\partial a=\tfrac18>0$: more demand in market~1
+        raises $p_{1}$, which spills over into market~2 and raises $p_{2}$
+        as well, by a third as much.
+  \item The Jacobian at $P$:
+        \[
+          J_{\mathbf{F}}=\begin{pmatrix}2x&2y&-1&0\\1&1&-w&-z\end{pmatrix}
+          =\begin{pmatrix}2&2&-1&0\\1&1&-1&-2\end{pmatrix} .
+        \]
+        Minors: $(x,y)$: $2-2=0$; $(x,z)$: $-2+1=-1$; $(x,w)$: $-4$;
+        $(y,z)$: $-1$; $(y,w)$: $-4$; $(z,w)$: $2$. Every pair except
+        $(x,y)$ is guaranteed. For $(z,w)$:
+        \[
+          J=-\begin{pmatrix}-1&0\\-1&-2\end{pmatrix}^{-1}
+            \begin{pmatrix}2&2\\1&1\end{pmatrix}
+           =-\begin{pmatrix}-1&0\\\tfrac12&-\tfrac12\end{pmatrix}
+            \begin{pmatrix}2&2\\1&1\end{pmatrix}
+           =\begin{pmatrix}2&2\\-\tfrac12&-\tfrac12\end{pmatrix} .
+        \]
+        Explicitly $z=x^{2}+y^{2}$ and $w=\dfrac{x+y}{x^{2}+y^{2}}$:
+        $z_{x}=2x=2$, $z_{y}=2$,
+        $w_{x}=\dfrac{(x^{2}+y^{2})-(x+y)2x}{(x^{2}+y^{2})^{2}}
+        =\dfrac{2-4}{4}=-\tfrac12$, and $w_{y}=-\tfrac12$ by symmetry.
+        \checkmark
+  \item $\mathbf{F}(P)=(3,\;1+4)=(3,5)$. Solve $u=3s$, $v=s^{2}+t^{2}$:
+        $s=u/3$ and $t^{2}=v-u^{2}/9$; since $t=-2<0$ at $P$,
+        \[
+          \mathbf{G}(u,v)=\Bigl(\frac u3,\;-\sqrt{v-\tfrac{u^{2}}{9}}\Bigr),
+          \qquad v>\tfrac{u^{2}}{9} .
+        \]
+        $\mathbf{G}(3,5)=(1,-\sqrt4)=(1,-2)$. \checkmark\ At $(3,5)$, where
+        the root is $2$: $s_{u}=\tfrac13$, $s_{v}=0$,
+        $t_{u}=\dfrac{u/9}{\sqrt{v-u^{2}/9}}=\tfrac16$,
+        $t_{v}=-\dfrac{1}{2\sqrt{v-u^{2}/9}}=-\tfrac14$. And
+        $J_{\mathbf{F}}(P)=\begin{pmatrix}3&0\\2s&2t\end{pmatrix}
+        =\begin{pmatrix}3&0\\2&-4\end{pmatrix}$ has inverse
+        $\tfrac{1}{-12}\begin{pmatrix}-4&0\\-2&3\end{pmatrix}
+        =\begin{pmatrix}\tfrac13&0\\\tfrac16&-\tfrac14\end{pmatrix}$.
+        \checkmark\ $\det J=6t$: no local inverse on the line $t=0$, where
+        $(s,t)$ and $(s,-t)$ have the same image.
+  \item $\mathbf{F}(P)=(-2,1)$. From $v=y^{2}$ with $y=-1<0$:
+        $y=-\sqrt v$; then $x=u/y=-u/\sqrt v$. So
+        $\mathbf{G}(u,v)=\bigl(-u/\sqrt v,\;-\sqrt v\bigr)$ for $v>0$, and
+        $\mathbf{G}(-2,1)=(2,-1)$. \checkmark\ At $(-2,1)$:
+        \[
+          J_{\mathbf{G}}=\begin{pmatrix}-v^{-1/2}&\tfrac12uv^{-3/2}\\
+          0&-\tfrac12v^{-1/2}\end{pmatrix}
+          =\begin{pmatrix}-1&-1\\0&-\tfrac12\end{pmatrix},
+        \]
+        while $J_{\mathbf{F}}(P)=\begin{pmatrix}y&x\\0&2y\end{pmatrix}
+        =\begin{pmatrix}-1&2\\0&-2\end{pmatrix}$ has inverse
+        $\tfrac12\begin{pmatrix}-2&-2\\0&-1\end{pmatrix}$, the same.
+        \checkmark\ $\det J=2y^{2}$ vanishes on the whole $x$-axis, which
+        $\mathbf{F}$ collapses to the single point $(0,0)$: no local inverse
+        there.
+  \item $\mathbf{F}(P)=(0+1,\;1)=(1,1)$. From $v=y^{3}$: $y=v^{1/3}$ (no
+        branch choice, the cube root is unique); then $\ln x=u-v^{1/3}$:
+        \[
+          \mathbf{G}(u,v)=\bigl(\mathrm{e}^{\,u-v^{1/3}},\;v^{1/3}\bigr),
+        \]
+        defined on all of $\R^{2}$: $\mathbf{F}$ is a global bijection from
+        $\{x>0\}$ onto $\R^{2}$. $\mathbf{G}(1,1)=(\mathrm{e}^{0},1)=(1,1)$.
+        \checkmark\ At $(1,1)$:
+        $J_{\mathbf{G}}=\begin{pmatrix}\mathrm{e}^{u-v^{1/3}}&
+        -\tfrac13v^{-2/3}\mathrm{e}^{u-v^{1/3}}\\0&\tfrac13v^{-2/3}
+        \end{pmatrix}=\begin{pmatrix}1&-\tfrac13\\0&\tfrac13\end{pmatrix}$,
+        and $J_{\mathbf{F}}(P)=\begin{pmatrix}1/x&1\\0&3y^{2}\end{pmatrix}
+        =\begin{pmatrix}1&1\\0&3\end{pmatrix}$ has inverse
+        $\tfrac13\begin{pmatrix}3&-1\\0&1\end{pmatrix}$, the same.
+        \checkmark\ On $y=0$, $\det J=3y^{2}/x=0$ and the theorem is silent;
+        the inverse still exists there, but $v^{1/3}$ is not differentiable
+        at $v=0$.
+  \item $\mathbf{F}(P)=(0,\;0+4,\;1\cdot1)=(0,4,1)$. Triangular: $x=u$;
+        $y^{2}=v-u$, and $y=2>0$, so $y=\sqrt{v-u}$; $z=w\,\mathrm{e}^{-u}$.
+        \[
+          \mathbf{G}(u,v,w)=\bigl(u,\;\sqrt{v-u},\;w\,\mathrm{e}^{-u}\bigr),
+          \qquad v>u .
+        \]
+        $\mathbf{G}(0,4,1)=(0,2,1)$. \checkmark\ At $(0,4,1)$:
+        \[
+          J_{\mathbf{G}}=\begin{pmatrix}1&0&0\\-\tfrac{1}{2\sqrt{v-u}}&
+          \tfrac{1}{2\sqrt{v-u}}&0\\-w\mathrm{e}^{-u}&0&\mathrm{e}^{-u}
+          \end{pmatrix}
+          =\begin{pmatrix}1&0&0\\-\tfrac14&\tfrac14&0\\-1&0&1\end{pmatrix} .
+        \]
+        $J_{\mathbf{F}}(P)=\begin{pmatrix}1&0&0\\1&2y&0\\z\mathrm{e}^{x}&0&
+        \mathrm{e}^{x}\end{pmatrix}=\begin{pmatrix}1&0&0\\1&4&0\\1&0&1
+        \end{pmatrix}$, and multiplying shows
+        $J_{\mathbf{F}}(P)J_{\mathbf{G}}=I$. \checkmark\
+        $\det J_{\mathbf{F}}=2y\,\mathrm{e}^{x}$: no local inverse where
+        $y=0$.
+  \item $\mathbf{F}(P)=(4-1,\;3)=(3,3)$. Since $x^{2}-y^{2}=(x-y)(x+y)$,
+        $u=(x-y)v$, so for $v\neq0$: $x-y=u/v$ and $x+y=v$, giving
+        \[
+          \mathbf{G}(u,v)=\Bigl(\frac12\Bigl(v+\frac uv\Bigr),\;
+          \frac12\Bigl(v-\frac uv\Bigr)\Bigr),\qquad v\neq0 .
+        \]
+        $\mathbf{G}(3,3)=(2,1)$. \checkmark\ At $(3,3)$: $x_{u}=\tfrac{1}{2v}=
+        \tfrac16$, $x_{v}=\tfrac12\bigl(1-\tfrac{u}{v^{2}}\bigr)=\tfrac13$,
+        $y_{u}=-\tfrac16$, $y_{v}=\tfrac12\bigl(1+\tfrac{u}{v^{2}}\bigr)
+        =\tfrac23$. $J_{\mathbf{F}}(P)=\begin{pmatrix}2x&-2y\\1&1\end{pmatrix}
+        =\begin{pmatrix}4&-2\\1&1\end{pmatrix}$, determinant $6$, inverse
+        $\tfrac16\begin{pmatrix}1&2\\-1&4\end{pmatrix}$, the same.
+        \checkmark\ $\det J=2(x+y)$: on the line $x+y=0$ every point is
+        sent to $(0,0)$, so there is no local inverse there.
+  \item $J_{\mathbf{F}}=\begin{pmatrix}1&z&y\\0&\mathrm{e}^{y}&0\\z^{2}&0&2xz
+        \end{pmatrix}$, with $\det J=z\,\mathrm{e}^{y}(2x-yz)$ (expand along
+        the second row).
+        At $Q_{1}=(1,0,1)$: $J=\begin{pmatrix}1&1&0\\0&1&0\\1&0&2
+        \end{pmatrix}$, $\det J=2\neq0$, so a local inverse exists near
+        $\mathbf{F}(Q_{1})=(1,1,1)$, with
+        \[
+          J_{\mathbf{F}^{-1}}(1,1,1)=J^{-1}=\begin{pmatrix}1&-1&0\\0&1&0\\
+          -\tfrac12&\tfrac12&\tfrac12\end{pmatrix}
+        \]
+        (check: $J\,J^{-1}=I$). At $Q_{2}=(1,2,1)$: $\det J=\mathrm{e}^{2}
+        (2-2)=0$, and the theorem gives no conclusion.
+  \item $J_{\mathbf{F}}=\begin{pmatrix}0&0&3z^{2}+1\\2\mathrm{e}^{2x}&0&0\\
+        0&3y^{2}+3&0\end{pmatrix}$, each row with a single entry: a
+        permutation pattern. At $Q=(0,1,1)$:
+        $J=\begin{pmatrix}0&0&4\\2&0&0\\0&6&0\end{pmatrix}$,
+        $\det J=4\cdot(2\cdot6)=48\neq0$. $J$ sends $(h_{1},h_{2},h_{3})$ to
+        $(4h_{3},\,2h_{1},\,6h_{2})$; undoing it,
+        \[
+          J_{\mathbf{F}^{-1}}(\mathbf{F}(Q))=J^{-1}=\begin{pmatrix}0&\tfrac12&0\\
+          0&0&\tfrac16\\\tfrac14&0&0\end{pmatrix},\qquad
+          \mathbf{F}(Q)=(2,1,4) .
+        \]
+        Globally: each component is a strictly increasing function of one
+        variable, $z^{3}+z$ and $y^{3}+3y$ onto $\R$ and $\mathrm{e}^{2x}$
+        onto $(0,\infty)$. So $\mathbf{F}$ is a bijection of $\R^{3}$ onto
+        $\R\times(0,\infty)\times\R$.
+  \item $J_{\mathbf{F}}=\begin{pmatrix}1&2&0\\3&2y&0\\0&0&(1+z)\mathrm{e}^{z}
+        \end{pmatrix}$, block diagonal, with
+        $\det J=(2y-6)(1+z)\mathrm{e}^{z}$. At $Q_{1}=(0,1,0)$: $\det J=-4$,
+        so a local inverse exists near $\mathbf{F}(Q_{1})=(2,1,0)$. Invert
+        block by block:
+        \[
+          \begin{pmatrix}1&2\\3&2\end{pmatrix}^{-1}
+          =\frac{1}{-4}\begin{pmatrix}2&-2\\-3&1\end{pmatrix},\qquad
+          J_{\mathbf{F}^{-1}}(2,1,0)=\begin{pmatrix}-\tfrac12&\tfrac12&0\\
+          \tfrac34&-\tfrac14&0\\0&0&1\end{pmatrix} .
+        \]
+        At $Q_{2}=(1,3,0)$: $\det J=(6-6)\cdot1=0$: no conclusion.
+  \item $F=x^{2}-2x+yz+z^{2}-5$: $F_{x}=2x-2=0$, $F_{y}=z=2$,
+        $F_{z}=y+2z=5$ at $P$. So $y(x,z)$ and $z(x,y)$ are guaranteed,
+        $x(y,z)$ is not. $y_{x}=-F_{x}/F_{y}=0$, $y_{z}=-F_{z}/F_{y}=-\tfrac52$.
+        Explicitly $y=\dfrac{5-x^{2}+2x-z^{2}}{z}$, so
+        $y_{x}=\dfrac{2-2x}{z}=0$ and
+        \[
+          y_{z}=\frac{-2z\cdot z-(5-x^{2}+2x-z^{2})}{z^{2}}
+               =\frac{-8-2}{4}=-\frac52 \quad\text{at }(1,2). \checkmark
+        \]
+        For $x$: $(x-1)^{2}=6-yz-z^{2}$, which is $0$ at $P$. For nearby
+        $(y,z)$ with $yz+z^{2}>6$ there is no solution, for $yz+z^{2}<6$
+        there are two, $x=1\pm\sqrt{6-yz-z^{2}}$: no function $x(y,z)$.
+  \item $f(P)=\sqrt2\cdot1\cdot4^{1/4}=2$. \checkmark\
+        $f_{z}=\tfrac14f/z>0$ at every point of the octant, so $z(x,y)$
+        exists near every point of the level set. With $f_{x}=\tfrac12f/x$,
+        $f_{y}=\tfrac14f/y$:
+        \[
+          z_{x}=-\frac{f_{x}}{f_{z}}=-\frac{2z}{x}=-4,\qquad
+          z_{y}=-\frac{f_{y}}{f_{z}}=-\frac{z}{y}=-4 .
+        \]
+        Explicitly $z^{1/4}=2x^{-1/2}y^{-1/4}$, so $z=\dfrac{16}{x^{2}y}$:
+        $z_{x}=-\dfrac{32}{x^{3}y}=-4$, $z_{y}=-\dfrac{16}{x^{2}y^{2}}=-4$.
+        \checkmark
+  \item $F=x^{2}+y^{2}-z^{2}-1$, $\grad F=(2x,2y,-2z)$, which never
+        vanishes on the surface (the origin is not on it).
+        $y(x,z)$ is guaranteed near every point with $y\neq0$; the excluded
+        points form the hyperbola $x^{2}-z^{2}=1$ in the plane $y=0$, where
+        the two halves $y=\pm\sqrt{1+z^{2}-x^{2}}$ meet and the surface is
+        vertical in the $y$-direction. $z(x,y)$ is guaranteed near every
+        point with $z\neq0$; the excluded points form the waist circle
+        $x^{2}+y^{2}=1$, $z=0$, where the upper and lower sheets
+        $z=\pm\sqrt{x^{2}+y^{2}-1}$ meet. At every point at least one of
+        $x$, $y$, $z$ can be solved for.
+  \item $J=\begin{pmatrix}3(x-1)^{2}&0\\1&1\end{pmatrix}$,
+        $\det J=3(x-1)^{2}$, zero on the whole line $x=1$. Yet
+        $u=(x-1)^{3}$ gives $x=1+u^{1/3}$ (cube roots are unique), and
+        $y=v-x=v-1-u^{1/3}$: an inverse defined on all of $\R^{2}$, so
+        $\mathbf{F}$ is a bijection. What fails on $x=1$ (that is, at
+        $u=0$) is differentiability of the inverse: $u^{1/3}$ has a
+        vertical tangent at $0$.
+  \item $J=\begin{pmatrix}6(2s-t)^{2}&-3(2s-t)^{2}\\1&1\end{pmatrix}$,
+        $\det J=9(2s-t)^{2}$, zero on the line $t=2s$. With $u^{1/3}=2s-t$
+        and $v=s+t$: $3s=u^{1/3}+v$, so
+        \[
+          s=\frac{v+u^{1/3}}{3},\qquad t=\frac{2v-u^{1/3}}{3},
+        \]
+        a global inverse; check $2s-t=u^{1/3}$ and $s+t=v$. \checkmark\
+        Again only the differentiability of the inverse is lost, at $u=0$.
+  \item (a) $F=y^{3}-x^{2}$ has $\grad F=(-2x,3y^{2})=\mathbf{0}$ at the
+        origin: the theorem does not apply. Still, $y^{3}=x^{2}$ has the
+        unique solution $y=x^{2/3}$ for every $x$: a continuous function
+        with a cusp at $0$, where $y'=\tfrac23x^{-1/3}$ blows up. $x(y)$
+        does not exist: $x=\pm y^{3/2}$ gives two values for $y>0$ and none
+        for $y<0$. (b) The left side contains $\sqrt[3]{|x|}$, which is not
+        differentiable at $x=0$: it is not $C^{1}$ and the theorem cannot
+        even be applied. But $y=2-\sqrt[3]{|x|}$ solves the equation for
+        every $x$, a function with a cusp (pointing up) at $0$.
+  \item Case by case:
+        \begin{itemize}[leftmargin=1.2em,itemsep=0.2ex]
+          \item[(a)] $\grad F=(-6(y-2x)^{2},\,3(y-2x)^{2})=\mathbf{0}$: not
+                guaranteed. But $F=0\iff y=2x$: a smooth $y(x)$ exists.
+          \item[(b)] $\grad F=\mathbf{0}$ (a minimum of $F$): not
+                guaranteed, and the level set is the single point
+                $(0,0)$; no $y(x)$ on any interval.
+          \item[(c)] $F_{y}=5y^{4}=0$: not guaranteed. But $y=x^{1/5}$
+                solves it for all $x$, continuous, not differentiable at
+                $0$.
+          \item[(d)] $\grad F=\mathbf{0}$: not guaranteed. The level set is
+                the crossing pair $y=\pm x$: every $x\neq0$ has two values
+                of $y$, so the curve is not the graph of one function near
+                the origin.
+          \item[(e)] $F_{y}=2y=0$ but $F_{x}=-1\neq0$: $y(x)$ is not
+                guaranteed and indeed does not exist ($x<0$ has no $y$,
+                $x>0$ has two), while $x(y)=y^{2}$ does.
+        \end{itemize}
+  \item $\grad f=(3x^{2}-3,\;2y)$.
+        \begin{itemize}[leftmargin=1.2em,itemsep=0.2ex]
+          \item $P_{1}$, level $0$: the curve has a vertical tangent, and
+                $\grad f=(-3,0)$: $f_{y}=0$, $f_{x}\neq0$. So $x(y)$ exists,
+                $y(x)$ does not. Indeed $y^{2}=x(3-x^{2})$ has two
+                solutions for small $x>0$ and none for $x<0$.
+          \item $P_{2}$, level $-2$: the curve has shrunk to a point,
+                $\grad f=\mathbf{0}$. The equation is
+                $y^{2}=-(x-1)^{2}(x+2)$, whose right side is negative near
+                $x=1$ except at $x=1$: the level set near $P_{2}$ is just
+                $P_{2}$, and neither function exists.
+          \item $P_{3}$, level $2$: the curve crosses itself,
+                $\grad f=\mathbf{0}$. The equation is
+                $y^{2}=(x+1)^{2}(2-x)$, i.e.\ $y=\pm(x+1)\sqrt{2-x}$: two
+                branches with slopes $\pm\sqrt3$ cross at $P_{3}$, and
+                neither $y(x)$ nor $x(y)$ describes the curve there.
+        \end{itemize}
+  \item (a) $f(t,0,0)=t$ takes every real value: onto. But
+        $f(2,0,0)=f(0,1,0)=2$: not injective; in fact each value is taken on
+        a whole plane. (b) The first component $t$ already determines $t$,
+        so $\mathbf{r}$ is injective. Its image is a curve; for instance
+        $(0,0,0)$ is missed because the third component $\mathrm{e}^{t}$ is
+        never $0$. Not onto. (c) A differentiable inverse $\mathbf{G}$ would
+        give $J_{\mathbf{G}}J_{\mathbf{F}}=I_{3}$, with $J_{\mathbf{F}}$ of
+        shape $1\times3$ and $J_{\mathbf{G}}$ of shape $3\times1$ (or the
+        other way round). Their product has rank at most $1$, so it cannot
+        be $I_{3}$.
+  \item Set $u=xy$, $v=y/x$, $w=\ln z+x$. Then $uv=y^{2}$ and
+        $u/v=x^{2}$, and with $x,y>0$:
+        \[
+          x=\sqrt{u/v},\qquad y=\sqrt{uv},\qquad
+          z=\mathrm{e}^{\,w-\sqrt{u/v}} .
+        \]
+        For $x,y,z>0$ the image has $u>0$, $v>0$, $w\in\R$; conversely
+        every such $(u,v,w)$ gives, by these formulas, a point with
+        $x,y,z>0$ that maps to it, and the formulas leave no choice. So
+        $\mathbf{F}$ is a bijection of the octant onto
+        $\{u>0\}\times\{v>0\}\times\R$. Jacobian:
+        \[
+          J_{\mathbf{F}}=\begin{pmatrix}y&x&0\\-y/x^{2}&1/x&0\\1&0&1/z
+          \end{pmatrix},\qquad
+          \det J_{\mathbf{F}}=\frac1z\Bigl(\frac yx+\frac{xy}{x^{2}}\Bigr)
+          =\frac{2y}{xz}>0 .
+        \]
 \end{solutions}

@@ -64,6 +64,26 @@ In consumer theory with $f = U(x, y)$ (utility) and $g = p_x x + p_y y$
 \underbrace{\frac{U_x}{U_y}}_{\text{MRS}} \;=\; \frac{p_x}{p_y},
 \]
 the textbook equality of marginal rate of substitution and price ratio.
+
+\textbf{Marginal rate of transformation.} For a general, possibly
+nonlinear, constraint $g(x,y)=c$ (a production possibility frontier, an
+opportunity curve) the slope of the constraint curve is
+$\dd{y}{x}=-g_x/g_y$, and its absolute value
+\[
+  \text{MRT}=\frac{g_x}{g_y}
+  \qquad\text{\de{Grenzrate der Transformation}}
+\]
+is the \emph{marginal rate of transformation}: how many units of $y$ must
+be given up for one more unit of $x$ along the constraint. The tangency
+condition is then the \textbf{economic optimality principle}
+\[
+  \text{MRS}=\frac{f_x}{f_y}=\frac{g_x}{g_y}=\text{MRT}:
+\]
+at the optimum the rate at which the decision maker is \emph{willing} to
+trade $y$ for $x$ equals the rate at which technology or the market
+\emph{allows} the trade. If MRS $>$ MRT (with $f_y>0$), moving along
+the constraint towards more $x$ raises $f$, and conversely. With a linear budget the MRT
+is the price ratio $p_x/p_y$.
 \end{rulebox}
 
 \begin{rulebox}{Identifying the constraint constant}
@@ -133,6 +153,117 @@ always works when the solve-out is global and smooth. But beware:
 \end{itemize}
 Rule of thumb: substitution for quick checks in two variables; Lagrange as
 the systematic method.
+\end{rulebox}
+
+\begin{rulebox}{Graphical solution}
+For two variables the Lagrange problem can be solved, or at least
+understood, in a picture:
+\begin{enumerate}[leftmargin=1.8em,itemsep=0.3ex]
+  \item Draw the constraint curve $g(x,y)=c$ and several level curves
+        $f(x,y)=k$.
+  \item Move the level $k$ in the improving direction (the direction of
+        $\grad f$ for a maximum). The optimum is the last level curve that
+        still meets the constraint; there the two curves \emph{touch}.
+  \item At the touching point $P$ the gradients are parallel,
+        $\grad f(P)=\lambda\grad g(P)$, and the ratio of their lengths is
+        $|\lambda|=\|\grad f(P)\|/\|\grad g(P)\|$. Same direction:
+        $\lambda>0$; opposite directions: $\lambda<0$.
+  \item The level of the curve through a critical point \emph{is} the
+        critical value $f(P)$. Comparing the levels through all critical
+        points tells maximum from minimum; on a closed bounded constraint
+        curve (circle, ellipse) both exist by Weierstrass.
+\end{enumerate}
+A level curve that crosses the constraint instead of touching it is never
+optimal: moving along the constraint on one side raises $f$, on the other
+side lowers it.
+\end{rulebox}
+
+\begin{gallery}
+\hspace*{\fill}%
+\begin{tikzpicture}
+  \begin{axis}[contouraxis, width=7.4cm, height=5.4cm,
+      xmin=0, xmax=8.6, ymin=0, ymax=5.2, xtick={2,4,6,8}, ytick={1,2,3,4}]
+    \foreach \k in {4,8,12} {
+      \addplot[domain=\k/5.1:8.6]{\k/x}; }
+    \addplot[black, thick, domain=0:8.4, samples=2]{4-x/2};
+    \draw[-{Stealth[length=4pt]}, black, thick] (axis cs:4,2) -- (axis cs:4.8,3.6);
+    \draw[-{Stealth[length=4pt]}, black, dashed, thick] (axis cs:4,2) -- (axis cs:4.4,2.8);
+    \addplot[only marks, mark=*, mark size=1.4pt, black, forget plot]
+      coordinates {(4,2)};
+    \node[font=\tiny, anchor=north east] at (axis cs:3.95,1.95) {$P$};
+    \node[font=\tiny, anchor=west] at (axis cs:4.85,3.6) {$\grad f$};
+    \node[font=\tiny, anchor=west] at (axis cs:4.45,2.75) {$\grad g$};
+    \node[font=\tiny, anchor=south] at (axis cs:7.6,0.5) {$xy=4$};
+    \node[font=\tiny, anchor=south] at (axis cs:7.6,1.55) {$xy=12$};
+  \end{axis}
+\end{tikzpicture}%
+\hspace*{\fill}
+\gcap{Maximise $f=xy$ on the line $x+2y=8$ (black): level curves
+$xy=4,8,12$, the tangency point $P=(4,2)$ on the level $8$, and both
+gradients at $P$ (drawn at $40\%$ length). Additional Problem~31 refers to
+this figure.}
+\end{gallery}
+
+\begin{rulebox}{Writing the budget as an equality; existence; model critique}
+Economic constraints usually read ``spend \emph{at most} $M$'', i.e.\
+$p_xx+p_yy\le M$. Three questions belong to every such problem.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Why may the inequality be written as an equality?} If the
+        objective is strictly increasing in at least one good with a
+        positive price (no satiation), any bundle that leaves money unspent
+        can be improved by buying more of that good. So the budget binds at
+        the optimum and the Lagrange method applies to $p_xx+p_yy=M$. With
+        a satiation point inside the budget set this fails, and the
+        equality form produces a wrong answer with $\lambda^*<0$.
+  \item \textbf{Does an optimum exist?} With $p_x,p_y,M>0$ the budget set
+        $\{p_xx+p_yy\le M,\ x,y\ge0\}$ is closed and bounded (a triangle);
+        a continuous objective attains its maximum there (Weierstrass,
+        Chapter~1). A zero price or a missing sign restriction makes the
+        set unbounded, and existence must be argued separately.
+  \item \textbf{What is unrealistic?} Typical idealisations: goods and
+        inputs perfectly divisible; prices independent of the quantity
+        bought; no fixed or set-up costs; every unit of budget usable;
+        smooth substitution between inputs; no satiation. Naming them is
+        part of a complete answer.
+\end{itemize}
+Finally, check the \textbf{domain}: a Lagrange or substitution candidate
+can fall outside the meaningful region (a negative quantity or length).
+Then the optimum lies on the boundary of the domain, and the substitution
+route with the domain stated explicitly, plus a sketch of the
+one-variable function, finds it.
+\end{rulebox}
+
+\begin{rulebox}{Mean--variance portfolio choice}
+Invest the share $x$ of wealth in asset $A$ and $1-x$ in asset $B$, with
+expected returns $\mu_A,\mu_B$, variances $\sigma_A^{2},\sigma_B^{2}$ and
+covariance $\sigma_{AB}$. The portfolio has
+\[
+  \mu=x\mu_A+(1-x)\mu_B,\qquad
+  \sigma^{2}=x^{2}\sigma_A^{2}+(1-x)^{2}\sigma_B^{2}+2x(1-x)\sigma_{AB}.
+\]
+\begin{enumerate}[leftmargin=1.8em,itemsep=0.3ex]
+  \item \textbf{Opportunity curve.} Eliminate
+        $x=\dfrac{\mu-\mu_B}{\mu_A-\mu_B}$: the attainable pairs satisfy
+        $\sigma^{2}=a\mu^{2}+b\mu+c$ with $a>0$, a parabola in the
+        $(\mu,\sigma^{2})$ plane. Its vertex is the minimum-variance
+        portfolio; only the branch above it is efficient.
+  \item \textbf{Preferences.} The investor maximises $\Phi(\mu,\sigma)$,
+        increasing in $\mu$ and decreasing in risk, e.g.\
+        $\mu-k\sigma^{2}$, $\mu-k\sigma$ or $\mu-k(\mu^{2}+\sigma^{2})$,
+        subject to the opportunity curve. Use the variables $(\mu,s)$ with
+        $s=\sigma^{2}$ when $\Phi$ contains $\sigma^{2}$; when it contains
+        $\sigma$, use $(\mu,\sigma)$ and the constraint
+        $\sigma^{2}=a\mu^{2}+b\mu+c$, or differentiate
+        $\sigma=\sqrt{a\mu^{2}+b\mu+c}$ by the chain rule.
+  \item \textbf{Back out the portfolio.} From $\mu^*$ get $x^*$, then the
+        money amounts $x^*W$ and $(1-x^*)W$ for wealth $W$.
+  \item \textbf{MRS $=$ MRT in the $(\mu,\sigma)$ plane.} The slope
+        $\mathrm{d}\mu/\mathrm{d}\sigma$ of the indifference curve through
+        the optimum equals that of the opportunity curve.
+  \item \textbf{Global.} Substituting the constraint into $\Phi$ usually
+        gives a concave function of $\mu$ (a concave $\Phi$ minus a convex
+        risk term), so the critical point is the global maximum.
+\end{enumerate}
 \end{rulebox}
 
 \section{Worked Example}
@@ -438,6 +569,79 @@ constrained problem for $(x^*, y^*)$ and $\lambda^*$.
         to be fenced, with the fence costing $30$ per metre on three sides
         and $50$ per metre on the fourth. Minimise the cost by Lagrange,
         and give the dimensions.
+
+  \item (MRS $=$ MRT, nonlinear frontier.) An economy can produce the
+        combinations on the frontier $x^{2}+2y^{2}=24$ ($x,y>0$), and
+        welfare is $U=xy$. Find the optimum and $\lambda^*$, and compute
+        both the MRS and the MRT there.
+  \item Maximise $U=x^{2}y$ subject to $2x+3y=30$. Compute the MRS and the
+        MRT at the optimum and explain why here MRT is a price ratio.
+  \item A planner maximises $W=\ln x+2\ln y$ on the transformation curve
+        $x^{2}+y^{2}=100$ ($x,y>0$). Find the optimum, $\lambda^*$, and
+        check MRS $=$ MRT numerically.
+  \item (Graphical, see the figure in the Core Rules.) For
+        $\max xy$ s.t.\ $x+2y=8$: read the optimum and the optimal value off
+        the figure, explain why the level curves $xy=4$ and $xy=12$ are not
+        optimal, and relate the lengths of the two gradient arrows at $P$
+        to $\lambda^*$. Confirm with the Lagrange method.
+  \item Sketch the circle $x^{2}+y^{2}=25$ and the level lines of
+        $f=3x+4y$. Read off the maximum and the minimum of $f$ on the
+        circle, then find both points and their multipliers by Lagrange.
+        How do the gradients at the two points tell max from min?
+  \item Minimise $f=x^{2}+y^{2}$ on the hyperbola $xy=4$: sketch the level
+        circles and the hyperbola, read off the solution(s), and confirm
+        with Lagrange. Is there a maximum?
+  \item Find the critical points of $f=x^{2}+y^{2}$ on the circle
+        $(x-3)^{2}+(y-4)^{2}=4$ by a sketch (level circles centred at the
+        origin) and by Lagrange. What are the levels of the level curves
+        through the two points, and what do they mean? Interpret the signs
+        of the two multipliers.
+  \item A consumer with $U=x^{0.3}y^{0.7}$ faces $3x+2y\le60$,
+        $x,y\ge0$. (a) Why may the budget be written as an equality?
+        (b) Why does an optimum exist? (c) Solve.
+  \item A firm with $Q=K^{1/2}L^{1/2}$ may spend at most $80$ on inputs,
+        $4K+L\le80$. (a) Justify the equality form and existence.
+        (b) Solve. (c) Name three features of this model that are
+        unrealistic.
+  \item A consumer with $U=-(x-4)^{2}-(y-3)^{2}$ faces $x+y\le10$.
+        (a) Solve the problem with the budget as an equality by Lagrange.
+        (b) Explain why that answer is wrong, find the true optimum, and
+        say what the sign of $\lambda$ in (a) signals.
+  \item A consumer with $U=x+y$ faces prices $p_x=2$, $p_y=0$ (good $y$ is
+        free) and income $10$. Does an optimum exist? What does the Lagrange
+        system $\grad U=\lambda\grad g$ do here?
+  \item (Opportunity curve.) Asset $A$ has expected return $10\%$ and
+        standard deviation $20\%$, asset $B$ has $4\%$ and $10\%$, and the
+        covariance is $40$ (in $\%^{2}$, correlation $0.2$). (a) Express
+        $\sigma^{2}$ in terms of the share $x$ in $A$. (b) Eliminate $x$ to
+        get $\sigma^{2}$ as a function of $\mu$. (c) Find the
+        minimum-variance portfolio and compare its risk with $\sigma_B$.
+  \item (Continuation.) The investor maximises $\Phi=\mu-0.01\,\sigma^{2}$
+        on the opportunity curve of Additional Problem~39. (a) Solve by Lagrange in
+        the variables $(\mu,s)$, $s=\sigma^{2}$. (b) Find the share in each
+        asset and the amounts for a wealth of $70\,000$. (c) Show
+        MRS $=$ MRT in the $(\mu,\sigma)$ plane. (d) Argue that the optimum
+        is global.
+  \item An opportunity curve is $\sigma^{2}=\mu^{2}-8\mu+25$ (in $\%$ and
+        $\%^{2}$). Maximise $\Phi=\mu-\tfrac54\sigma$ by Lagrange in the
+        variables $(\mu,\sigma)$ with $\sigma>0$, and show the optimum is
+        global. Why must the coefficient of $\sigma$ exceed $1$ here?
+  \item With the opportunity curve of Additional Problem~39, maximise the
+        quadratic-utility criterion $\Phi=\mu-\tfrac{1}{100}(\mu^{2}+\sigma^{2})$
+        and give the share in asset $A$.
+  \item Assets $A$ ($\mu_A=12$, $\sigma_A=15$) and $B$ ($\mu_B=6$,
+        $\sigma_B=8$) have covariance $\sigma_{AB}=-24$. Find
+        $\sigma^{2}(x)$, the opportunity curve $\sigma^{2}(\mu)$, and the
+        minimum-variance portfolio. Why is its risk below both $\sigma_A$
+        and $\sigma_B$?
+  \item (Candidate outside the domain.) Redo the cable problem
+        (Additional Problem~25) with road cable at $90$ per metre instead of $60$.
+        (a) Show that the tangency condition gives a negative road length.
+        (b) Use the substitution route on $x\in[0,400]$ to find the true
+        optimum, and sketch $C(x)$.
+  \item A consumer with $U=x+2\ln y$ faces $x+y=M$, $x\ge0$, $y>0$.
+        (a) Solve by Lagrange for general $M$. (b) For $M=1.5$ the answer is
+        infeasible: find the optimum on the domain by substitution.
 \end{problems}
 
 \section{Additional Solutions}
@@ -574,4 +778,185 @@ constrained problem for $(x^*, y^*)$ and $\lambda^*$.
         $b=\tfrac43a$. Then $a\cdot\tfrac43a=800$ gives $a^{2}=600$,
         $a=10\sqrt6\approx24.5$ and $b=\tfrac43a\approx32.7$. The minimal
         cost is $80a+60b=80\cdot24.49+60\cdot32.66\approx3919$.
+
+  \item $\mathcal{L}=xy+\lambda(24-x^{2}-2y^{2})$: $y=2\lambda x$,
+        $x=4\lambda y$. Dividing, $\tfrac{y}{x}=\tfrac{x}{2y}$, so
+        $x^{2}=2y^{2}$; the constraint gives $4y^{2}=24$, $y^*=\sqrt6$,
+        $x^*=2\sqrt3$, $\lambda^*=\tfrac{y}{2x}=\tfrac{\sqrt2}{4}\approx0.354$,
+        $U^*=6\sqrt2\approx8.49$. MRS $=\tfrac{U_x}{U_y}=\tfrac{y}{x}
+        =\tfrac{\sqrt6}{2\sqrt3}=\tfrac1{\sqrt2}$; MRT $=\tfrac{g_x}{g_y}
+        =\tfrac{2x}{4y}=\tfrac{2\sqrt3}{2\sqrt6}=\tfrac1{\sqrt2}\approx0.707$.
+        Equal, as the optimality principle demands: one more unit of $x$
+        costs $0.707$ units of $y$ on the frontier, and is worth exactly
+        that much to the planner.
+  \item Cobb--Douglas with exponents $2$ and $1$: expenditure shares
+        $\tfrac23$ and $\tfrac13$, so $2x=20$, $x^*=10$, and $3y=10$,
+        $y^*=\tfrac{10}{3}$. MRS $=\tfrac{2xy}{x^{2}}=\tfrac{2y}{x}
+        =\tfrac{2}{3}$; MRT $=\tfrac{g_x}{g_y}=\tfrac23$. The constraint is
+        linear, its slope is constant and equals the price ratio
+        $p_x/p_y$: the market transforms $y$ into $x$ at a fixed rate.
+        ($\lambda^*=U_x/2=xy=\tfrac{100}{3}$.)
+  \item $\mathcal{L}=\ln x+2\ln y+\lambda(100-x^{2}-y^{2})$:
+        $\tfrac1x=2\lambda x$, $\tfrac2y=2\lambda y$, so
+        $\lambda=\tfrac{1}{2x^{2}}=\tfrac{1}{y^{2}}$ and $y^{2}=2x^{2}$.
+        Then $3x^{2}=100$: $x^*=\tfrac{10}{\sqrt3}\approx5.774$,
+        $y^*=10\sqrt{2/3}\approx8.165$, $\lambda^*=\tfrac{3}{200}=0.015$.
+        MRS $=\tfrac{1/x}{2/y}=\tfrac{y}{2x}=\tfrac{\sqrt2}{2}\approx0.707$;
+        MRT $=\tfrac{2x}{2y}=\tfrac{x}{y}=\tfrac1{\sqrt2}\approx0.707$.
+        \checkmark
+  \item From the figure: the level curve $xy=8$ touches the line at
+        $P=(4,2)$, so $x^*=4$, $y^*=2$, $f^*=8$. The curve $xy=4$
+        \emph{crosses} the line twice: between the crossings the line runs
+        above it, where $xy>4$, so $4$ is not the best level. The curve
+        $xy=12$ misses the line altogether: no feasible point reaches it.
+        At $P$, $\grad f=(y,x)=(2,4)$ and $\grad g=(1,2)$: parallel, same
+        direction, and $\|\grad f\|/\|\grad g\|=\sqrt{20}/\sqrt5=2$.
+        Lagrange: $y=\lambda$, $x=2\lambda$, $4\lambda=8$, so $\lambda^*=2$,
+        the length ratio.
+  \item Level lines $3x+4y=k$ are parallel with normal $(3,4)$; the
+        highest one touching the circle is $k=25$, the lowest $k=-25$ (the
+        distance from the origin to the line is $|k|/5$, which must equal
+        the radius $5$). Lagrange: $3=2\lambda x$, $4=2\lambda y$, so
+        $(x,y)=\tfrac1{2\lambda}(3,4)$; the constraint gives
+        $\tfrac{25}{4\lambda^{2}}=25$, $\lambda=\pm\tfrac12$. $\lambda=\tfrac12$:
+        $(3,4)$, $f=25$, \textbf{maximum}. $\lambda=-\tfrac12$: $(-3,-4)$,
+        $f=-25$, \textbf{minimum}. At $(3,4)$, $\grad f=(3,4)$ and
+        $\grad g=(6,8)$ point the same way; at $(-3,-4)$,
+        $\grad g=(-6,-8)$ points against $\grad f$. In both cases the
+        length ratio is $5/10=|\lambda|$.
+  \item The level sets are circles $x^{2}+y^{2}=r^{2}$; shrink $r$ until the
+        circle just touches the hyperbola. By symmetry this happens on the
+        diagonal: at $(2,2)$ and $(-2,-2)$, radius $\sqrt8$.
+        $\mathcal{L}=x^{2}+y^{2}+\lambda(4-xy)$: $2x=\lambda y$,
+        $2y=\lambda x$, so $x^{2}=y^{2}$, and $xy=4$ forces $x=y=\pm2$,
+        $\lambda^*=2$, $f^*=8$. On the branch $x,y>0$ the solution is
+        $(2,2)$; on the whole hyperbola both points are minima.
+        \textbf{No maximum}: $(t,4/t)$ gives $f\to\infty$ as $t\to\infty$;
+        the constraint set is unbounded, Weierstrass does not apply.
+  \item The level circles $x^{2}+y^{2}=r^{2}$ first touch the constraint
+        circle (centre $(3,4)$, radius $2$, centre at distance $5$ from the
+        origin) at radius $5-2=3$ and last at radius $5+2=7$, on the ray
+        through $(3,4)$: the points $\tfrac35(3,4)=(\tfrac95,\tfrac{12}5)$
+        and $\tfrac75(3,4)=(\tfrac{21}5,\tfrac{28}5)$. Lagrange with
+        $\mathcal{L}=f+\lambda\bigl(4-(x-3)^{2}-(y-4)^{2}\bigr)$:
+        $x=\lambda(x-3)$, $y=\lambda(y-4)$, so $\tfrac{x}{x-3}=\tfrac{y}{y-4}$,
+        i.e.\ $y=\tfrac43x$, and the constraint gives the same two points,
+        with $\lambda=\tfrac{x}{x-3}=-\tfrac32$ and $\tfrac72$. The levels
+        are $9$ and $49$: the \textbf{minimum and maximum values} of $f$ on
+        the circle (both exist, the circle is compact). The multiplier is
+        $\mathrm{d}V/\mathrm{d}c$ with $c$ the squared radius: enlarging the
+        circle lowers the minimum ($\lambda=-\tfrac32<0$) and raises the
+        maximum ($\lambda=\tfrac72>0$).
+  \item (a) $U$ is strictly increasing in both goods on $x,y>0$ and both
+        prices are positive, so unspent money could always buy more
+        utility: the budget binds, $3x+2y=60$. (b) The budget set is a
+        closed bounded triangle and $U$ is continuous: Weierstrass.
+        (c) Shares $0.3$ and $0.7$: $x^*=\tfrac{0.3\cdot60}{3}=6$,
+        $y^*=\tfrac{0.7\cdot60}{2}=21$, $U^*=6^{0.3}21^{0.7}\approx14.42$,
+        $\lambda^*=U^*/60\approx0.240$.
+  \item (a) $Q$ is strictly increasing in $K$ and $L$, input prices are
+        positive: unspent budget could buy more output, so $4K+L=80$; the
+        feasible set is a compact triangle and $Q$ is continuous, so an
+        optimum exists. (b) Equal cost shares: $4K=40$, $L=40$, so
+        $K^*=10$, $L^*=40$, $Q^*=20$. (c) For example: inputs are perfectly
+        divisible; input prices do not change with the quantity bought; no
+        fixed costs, so producing anything at all is free of set-up cost;
+        output can be sold without limit; the whole budget is usable at
+        once.
+  \item (a) $\mathcal{L}=-(x-4)^{2}-(y-3)^{2}+\lambda(10-x-y)$:
+        $-2(x-4)=\lambda=-2(y-3)$, so $x=y+1$, and $x+y=10$ gives
+        $(5.5,\,4.5)$, $\lambda=-3$, $U=-4.5$. (b) $U$ is not increasing: it
+        has a satiation point $(4,3)$ costing $7<10$. There $U=0>-4.5$, so
+        the true optimum is $(4,3)$ with $3$ units of budget unspent. The
+        negative multiplier says that \emph{relaxing} the equality would
+        lower $U$, i.e.\ the constraint should not bind; the equality form
+        is justified only without satiation.
+  \item The budget set $\{2x\le10,\ x,y\ge0\}$ is unbounded in the $y$
+        direction, so $U=x+y$ is unbounded on it: \textbf{no optimum}.
+        Lagrange: $\grad U=(1,1)$ and $\grad g=(2,0)$ would need $1=2\lambda$
+        and $1=0$, impossible. The system has no solution, consistent with
+        the absence of an optimum; Weierstrass fails because the set is not
+        bounded.
+  \item (a) $\sigma^{2}=400x^{2}+100(1-x)^{2}+80x(1-x)=420x^{2}-120x+100$.
+        (b) $\mu=4+6x$, so $x=\tfrac{\mu-4}{6}$ and
+        \[
+          \sigma^{2}=\tfrac{35}{3}(\mu-4)^{2}-20(\mu-4)+100
+          =\frac{35\mu^{2}-340\mu+1100}{3}.
+        \]
+        (c) $\tfrac{\mathrm{d}\sigma^{2}}{\mathrm{d}x}=840x-120=0$:
+        $x=\tfrac17$, $\mu=4+\tfrac67=\tfrac{34}{7}\approx4.86$,
+        $\sigma^{2}=\tfrac{420}{49}-\tfrac{120}{7}+100=\tfrac{640}{7}\approx91.4$,
+        $\sigma\approx9.56<\sigma_B=10$: mixing in a little of the riskier
+        asset \emph{lowers} risk, because the correlation is below
+        $\sigma_B/\sigma_A=0.5$.
+  \item (a) With $s=\sigma^{2}$ and
+        $\mathcal{L}=\mu-0.01s-\lambda\bigl(s-\tfrac{35\mu^{2}-340\mu+1100}{3}\bigr)$:
+        $\mathcal{L}_s=-0.01-\lambda=0$, so $\lambda=-0.01$;
+        $\mathcal{L}_\mu=1+\lambda\,\tfrac{70\mu-340}{3}=0$ gives
+        $70\mu-340=300$, $\mu^*=\tfrac{64}{7}\approx9.14\%$, and
+        $s^*=\tfrac{2140}{7}\approx305.7$, $\sigma^*\approx17.48\%$,
+        $\Phi^*=\tfrac{213}{35}\approx6.09$.
+        (b) $x^*=\tfrac{\mu^*-4}{6}=\tfrac67$: $60\,000$ in $A$, $10\,000$ in
+        $B$.
+        (c) Indifference curve $\mu-0.01\sigma^{2}=\text{const}$:
+        $\tfrac{\mathrm{d}\mu}{\mathrm{d}\sigma}=0.02\sigma$. Opportunity
+        curve: $2\sigma\,\mathrm{d}\sigma=\tfrac{70\mu-340}{3}\mathrm{d}\mu
+        =100\,\mathrm{d}\mu$ at $\mu^*$, so
+        $\tfrac{\mathrm{d}\mu}{\mathrm{d}\sigma}=\tfrac{2\sigma}{100}
+        =0.02\sigma$. Equal ($\approx0.350$ at $\sigma^*$).
+        (d) On the curve $\Phi(\mu)=\mu-\tfrac{35\mu^{2}-340\mu+1100}{300}$,
+        a concave parabola: the critical point is the global maximum.
+  \item With $\mathcal{L}=\mu-\tfrac54\sigma-\lambda\bigl(\sigma^{2}-\mu^{2}+8\mu-25\bigr)$:
+        $\mathcal{L}_\mu=1+\lambda(2\mu-8)=0$ and
+        $\mathcal{L}_\sigma=-\tfrac54-2\lambda\sigma=0$, so
+        $\lambda=-\tfrac{5}{8\sigma}$ and then
+        $1=\tfrac{5(2\mu-8)}{8\sigma}$, i.e.\ $\sigma=\tfrac54(\mu-4)$.
+        The constraint: $\tfrac{25}{16}(\mu-4)^{2}=(\mu-4)^{2}+9$, so
+        $(\mu-4)^{2}=16$; $\sigma>0$ needs $\mu>4$: $\mu^*=8$, $\sigma^*=5$,
+        $\lambda^*=-\tfrac18$, $\Phi^*=8-\tfrac{25}{4}=\tfrac74$. Global: on
+        the efficient branch $\sigma(\mu)=\sqrt{(\mu-4)^{2}+9}$ is the length
+        of the vector $(\mu-4,3)$, a convex function of $\mu$, so
+        $\Phi(\mu)=\mu-\tfrac54\sigma(\mu)$ is concave. With a coefficient
+        $k\le1$, $\Phi'(\mu)=1-k\tfrac{\mu-4}{\sigma}>0$ for all $\mu$ (since
+        $\mu-4<\sigma$): $\Phi$ keeps rising and no optimum exists, because
+        far out the curve grows only like $\sigma\approx\mu-4$.
+  \item On the curve,
+        $\Phi(\mu)=\mu-\tfrac{\mu^{2}}{100}-\tfrac{35\mu^{2}-340\mu+1100}{300}$.
+        $\Phi'(\mu)=1-\tfrac{\mu}{50}-\tfrac{70\mu-340}{300}=0$; times $300$:
+        $300-6\mu-70\mu+340=0$, so $\mu^*=\tfrac{640}{76}=\tfrac{160}{19}
+        \approx8.42\%$. $\Phi''<0$: global maximum. Share
+        $x^*=\tfrac{160/19-4}{6}=\tfrac{14}{19}\approx0.737$ in $A$, with
+        $\sigma^{2}\approx239.6$. (The same answer by Lagrange in $(\mu,s)$,
+        with $\lambda=-\tfrac1{100}$.)
+  \item $\sigma^{2}(x)=225x^{2}+64(1-x)^{2}-48x(1-x)=337x^{2}-176x+64$.
+        With $\mu=6+6x$, $x=\tfrac{\mu-6}{6}$:
+        $\sigma^{2}=\tfrac{337}{36}\mu^{2}-\tfrac{425}{3}\mu+577$.
+        Minimum: $674x-176=0$, $x=\tfrac{88}{337}\approx0.261$,
+        $\mu\approx7.57$, $\sigma^{2}=\tfrac{13824}{337}\approx41.0$,
+        $\sigma\approx6.40$. Below $\sigma_B=8$ and $\sigma_A=15$: with a
+        negative covariance the two returns partly offset each other, so
+        the mix is safer than either asset alone.
+  \item (a) The tangency condition becomes
+        $\tfrac{400-x}{y}=\tfrac{90}{100}$ with $y=\sqrt{(400-x)^{2}+90000}$.
+        With $u=400-x$: $u^{2}=0.81(u^{2}+90000)$, $0.19u^{2}=72900$,
+        $u\approx619.4$, so $x\approx-219.4$: a \textbf{negative} road
+        length, outside the domain. (b)
+        $C(x)=90x+100\sqrt{(400-x)^{2}+90000}$ on $[0,400]$ has
+        \[
+          C'(x)=90-\frac{100(400-x)}{\sqrt{(400-x)^{2}+90000}}
+          \ \ge\ 90-100\cdot\frac{400}{500}=10>0,
+        \]
+        since the fraction is largest at $x=0$. $C$ is increasing on the
+        whole domain (its graph rises from $C(0)=50\,000$ to
+        $C(400)=36\,000+30\,000=66\,000$), so the optimum is the endpoint
+        $x^*=0$: lay the whole cable straight across, cost $50\,000$. Road
+        cable is now too expensive to be worth using.
+  \item (a) $\mathcal{L}=x+2\ln y+\lambda(M-x-y)$: $1=\lambda$,
+        $\tfrac2y=\lambda$, so $y^*=2$, $x^*=M-2$. (b) For $M=1.5$ this gives
+        $x=-0.5<0$, infeasible. Substitute $x=1.5-y$ on the domain
+        $0<y\le1.5$: $h(y)=1.5-y+2\ln y$, $h'(y)=-1+\tfrac2y>0$ for $y<2$, so
+        $h$ is increasing on the whole domain and the optimum is the
+        boundary $y^*=1.5$, $x^*=0$, $U^*=2\ln1.5\approx0.811$. A poor
+        consumer spends everything on the good with the high marginal
+        utility.
 \end{solutions}

@@ -571,6 +571,16 @@ variable).
   \item $f(x)=\mathrm{e}^{\cos x}$
 \end{problems}
 
+In problems 26--29 the letters $a$, $b$, $c$, $k$ are constants ($a>0$,
+$c>0$) and only $x$ (in problem 28, $t$) varies.
+
+\begin{problems}[resume]
+  \item $f(x)=x\ln(ax^{2}+c)$
+  \item $f(x)=\dfrac{\sin(2-bx)}{a^{kx}}$
+  \item $f(t)=\ln\sqrt{\dfrac{t+a}{t-a}}$ \quad for $t>a$
+  \item $f(x)=\mathrm{e}^{-ax}\sqrt{x^{2}+c}$
+\end{problems}
+
 \section{Additional Solutions}
 
 \begin{solutions}
@@ -655,4 +665,39 @@ variable).
 
   \item Chain: $f'(x)=\mathrm{e}^{\cos x}\cdot(-\sin x)
         =-\sin x\,\mathrm{e}^{\cos x}$.
+
+  \item Product rule with $u=x$ and $v=\ln(ax^{2}+c)$. The inner
+        derivative of $ax^{2}+c$ with respect to $x$ is $2ax$ (the constant
+        $c$ drops out):
+        \[
+          f'(x)=\ln(ax^{2}+c)+x\cdot\frac{2ax}{ax^{2}+c}
+               =\ln(ax^{2}+c)+\frac{2ax^{2}}{ax^{2}+c} .
+        \]
+
+  \item Rewrite the denominator as a factor:
+        $a^{-kx}=\mathrm{e}^{-kx\ln a}$, whose derivative is
+        $-k\ln a\cdot a^{-kx}$. The derivative of $\sin(2-bx)$ is
+        $-b\cos(2-bx)$. Product rule:
+        \[
+          f'(x)=-b\cos(2-bx)\,a^{-kx}-k\ln a\,\sin(2-bx)\,a^{-kx}
+               =-\frac{b\cos(2-bx)+k\ln a\,\sin(2-bx)}{a^{kx}} .
+        \]
+        Here $a$ is the base of an exponential in $x$, so it produces the
+        factor $\ln a$; a power $x^{a}$ would not.
+
+  \item Simplify before differentiating:
+        $f(t)=\tfrac12\bigl[\ln(t+a)-\ln(t-a)\bigr]$. Then
+        \[
+          f'(t)=\frac12\left(\frac{1}{t+a}-\frac{1}{t-a}\right)
+               =\frac12\cdot\frac{(t-a)-(t+a)}{t^{2}-a^{2}}
+               =-\frac{a}{t^{2}-a^{2}} .
+        \]
+
+  \item Product rule with $u=\mathrm{e}^{-ax}$, $u'=-a\mathrm{e}^{-ax}$, and
+        $v=(x^{2}+c)^{1/2}$, $v'=x/\sqrt{x^{2}+c}$:
+        \[
+          f'(x)=\mathrm{e}^{-ax}\left(-a\sqrt{x^{2}+c}
+                +\frac{x}{\sqrt{x^{2}+c}}\right)
+               =\mathrm{e}^{-ax}\,\frac{x-a(x^{2}+c)}{\sqrt{x^{2}+c}} .
+        \]
 \end{solutions}

@@ -163,6 +163,94 @@ For a max LP in $\le$ form solved with slack variables $s_{1},\dots,s_{m}$:
 \end{itemize}
 \end{rulebox}
 
+\begin{rulebox}{Dual slack variables}
+Writing the $j$-th dual constraint of the standard pair as an equation
+introduces a \emph{dual slack} (surplus)
+\[
+  t_{j} \;=\; (A^{\top}y)_{j}-c_{j}\;\ge 0,
+\]
+that is, the opportunity cost of the resources one unit of product~$j$
+uses, minus its margin.
+At the optimum $t_{j}$ is the $z$-row entry under $x_{j}$ in the end
+tableau, i.e.\ the absolute value of the reduced cost of Chapter~8, and
+complementary slackness reads $t_{j}\,x_{j}^{*}=0$. Hence a product that is
+made has $t_{j}=0$ (it exactly breaks even at shadow prices), and $t_{j}>0$
+means the product is not made: its margin would have to rise by more than
+$t_{j}$ before producing it pays.
+\end{rulebox}
+
+\begin{rulebox}{Complementary slackness with sign-restricted or free duals}
+The recipe is the same for every primal: a row with slack gets a zero dual
+variable, a positive primal variable turns its dual constraint into an
+equation. After solving, check each dual variable against the sign rules:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{max primal:} $\le$ row $y_{i}\ge 0$; $\ge$ row
+        $y_{i}\le 0$; $=$ row $y_{i}$ free. A binding minimum requirement
+        ($\ge$) has $y_{i}\le 0$: raising the requirement by one unit
+        \emph{lowers} $Z^{*}$ by $|y_{i}|$;
+  \item \textbf{min primal:} $\ge$ row $u_{i}\ge 0$ (a stricter requirement
+        raises the cost); $\le$ row $u_{i}\le 0$ (more capacity lowers the
+        cost); $=$ row $u_{i}$ free. In each case $u_{i}=\partial C^{*}/\partial b_{i}$.
+\end{itemize}
+Converting a row by $-1$ (for example $a^{\top}x\ge b$ into
+$-a^{\top}x\le -b$) flips the sign of its dual variable and nothing else:
+the converted row of a max problem has the price $-y_{i}\ge 0$. A dual
+value with the wrong sign means an error, or a wrong guess of the binding
+set.
+\end{rulebox}
+
+\begin{rulebox}{Solving the dual instead of the primal}
+Pick the smaller problem. A primal with $n\ge 3$ variables but only two
+constraints has a dual with two variables, which can be solved
+graphically:
+\begin{enumerate}[leftmargin=1.8em,itemsep=0.3ex]
+  \item draw the $n$ dual constraints $(A^{\top}y)_{j}\ge c_{j}$ in the
+        $(y_{1},y_{2})$-plane, find the optimal corner $y^{*}$ of
+        $\min b^{\top}y$ and the value $W^{*}$;
+  \item a dual constraint that is slack at $y^{*}$ forces $x_{j}^{*}=0$
+        (that product is not made);
+  \item each $y_{i}^{*}>0$ forces primal row $i$ to bind;
+  \item solve the resulting (usually $2\times2$) system for the remaining
+        $x_{j}$, check $x\ge 0$ and $Z^{*}=W^{*}$.
+\end{enumerate}
+Read-out: products made are those whose dual constraint binds; a resource
+with $y_{i}^{*}=0$ may be left over (compute its slack); a product not made
+needs a margin of at least $(A^{\top}y^{*})_{j}$, i.e.\ $t_{j}$ more than
+it has. Conversely, a min primal with $\ge$ rows and cost coefficients
+$c\ge 0$ has a dual $\max b^{\top}u$, $A^{\top}u\le c$, $u\ge 0$ that is a
+standard maximum problem: solve the dual by the plain
+simplex method, and read the primal optimum from the end $z$-row under the
+dual's slack columns, while the entries under the dual's own variables are
+the primal surpluses.
+\end{rulebox}
+
+\begin{rulebox}{LP duality and the Kuhn--Tucker conditions}
+For $\max c^{\top}x$ s.t.\ $Ax\le b$, $x\ge 0$ form the Lagrangian with one
+multiplier per resource row:
+\[
+  \mathcal{L}(x,y)=c^{\top}x+y^{\top}(b-Ax)
+  \;=\;b^{\top}y+x^{\top}(c-A^{\top}y).
+\]
+The Kuhn--Tucker conditions (with $x\ge 0$) are
+\[
+  \begin{aligned}
+    &\pd{\mathcal{L}}{x_{j}}=c_{j}-(A^{\top}y)_{j}\le 0,\quad x_{j}\ge 0,\quad
+     x_{j}\pd{\mathcal{L}}{x_{j}}=0,\\
+    &\pd{\mathcal{L}}{y_{i}}=b_{i}-(Ax)_{i}\ge 0,\quad y_{i}\ge 0,\quad
+     y_{i}\pd{\mathcal{L}}{y_{i}}=0 .
+  \end{aligned}
+\]
+Line by line: the first group is \emph{dual feasibility} $A^{\top}y\ge c$
+plus the complementary slackness $x_{j}t_{j}=0$; the second group is
+\emph{primal feasibility} plus $y_{i}s_{i}=0$. So the Kuhn--Tucker
+multipliers are exactly the dual variables, the multiplier of $x_{j}\ge 0$
+(in the version with explicit $\mu_{j}$) is the dual slack $t_{j}$, and the
+multiplier of a resource is its shadow price. Because the objective and the
+constraints are linear (hence concave and convex), the Kuhn--Tucker
+conditions are not only necessary but also sufficient: a pair $(x,y)$
+satisfying them is an optimal primal--dual pair.
+\end{rulebox}
+
 \section{Worked Example}
 
 \begin{worked}{Dualise the running example, solve the dual, and verify strong duality and complementary slackness}
@@ -721,6 +809,99 @@ re-running the algorithm.}
         with what net gain?
         (c)~What does it mean if a resource is offered at a price exactly
         equal to its shadow price?
+  \item A firm makes three products from machine hours and labour hours:
+        \[
+          \max\; Z=11x_{1}+14x_{2}+13x_{3}
+          \quad\text{s.t.}\quad
+          3x_{1}+2x_{2}+4x_{3}\le 60,\qquad
+          x_{1}+4x_{2}+x_{3}\le 60,\qquad x\ge 0 .
+        \]
+        (a)~Write the dual and solve it graphically.
+        (b)~Recover the primal optimum by complementary slackness and
+        verify $Z^{*}=W^{*}$.
+        (c)~Which products are made, which resources are left over, and
+        which margin would product~3 need before it is worth producing?
+        (d)~State the three dual slacks and interpret them.
+  \item For
+        \[
+          \max\; Z=4x_{1}+6x_{2}+5x_{3}
+          \quad\text{s.t.}\quad
+          \begin{array}{rcll}
+            x_{1}+2x_{2}+x_{3} &\le& 20 & \text{(resource A)}\\
+            3x_{1}+x_{2}+2x_{3} &\le& 90 & \text{(resource B)}\\
+            x &\ge& 0,
+          \end{array}
+        \]
+        solve the dual graphically, recover the primal optimum by
+        complementary slackness, and answer: which products are made, how
+        much of each resource is left over, and by how much would the
+        margin of each product not made have to rise?
+  \item A feed is mixed from two grains at minimum cost:
+        \[
+          \min\; C=3x_{1}+2x_{2}
+          \quad\text{s.t.}\quad
+          x_{1}+x_{2}\ge 4,\qquad x_{1}+3x_{2}\ge 4,\qquad
+          2x_{1}+x_{2}\ge 5,\qquad x\ge 0 .
+        \]
+        (a)~Write the dual and explain why it is a standard maximum
+        problem. (b)~Solve the dual by the simplex method (ties: leftmost
+        column). (c)~Read the optimal mix, the minimal cost, and the
+        surplus of each requirement off the end tableau. (d)~Confirm the
+        result by complementary slackness.
+  \item A firm solves
+        \[
+          \max\; Z=5x_{1}+4x_{2}
+          \quad\text{s.t.}\quad
+          \begin{array}{rcll}
+            x_{1}+x_{2} &\le& 10 & \text{(labour)}\\
+            2x_{1}+x_{2} &\le& 16 & \text{(machine)}\\
+            x_{2} &\ge& 6 & \text{(contract)}\\
+            x &\ge& 0,
+          \end{array}
+        \]
+        and finds the optimum $x^{*}=(4,6)$. (a)~Write the dual with the
+        general sign rules. (b)~Find $y^{*}$ by complementary slackness;
+        check the signs, dual feasibility and $W^{*}=Z^{*}$.
+        (c)~Interpret the dual value of the contract row, and confirm it by
+        re-solving with a contract of $7$ units. (d)~Which price does the
+        contract row carry if it is first written as $-x_{2}\le -6$?
+  \item The minimum problem
+        \[
+          \min\; C=2x_{1}+5x_{2}
+          \quad\text{s.t.}\quad
+          x_{1}+2x_{2}\ge 8,\qquad x_{1}\le 4,\qquad
+          x_{1}-3x_{2}\ge -10,\qquad x\ge 0
+        \]
+        has the optimum $x^{*}=(4,2)$. (a)~Write the dual with the
+        general sign rules. (b)~Find $u^{*}$ by complementary slackness
+        and check signs, feasibility and $W^{*}=C^{*}$. (c)~Interpret
+        $u_{1}^{*}$, $u_{2}^{*}$ and $u_{3}^{*}$, and confirm $u_{2}^{*}$
+        by re-solving with the capacity $x_{1}\le 5$.
+  \item (Kuhn--Tucker.) For the LP of Practice Problem~14,
+        $\max Z=3x_{1}+2x_{2}$ s.t.\ $x_{1}+x_{2}\le 4$,
+        $2x_{1}+x_{2}\le 6$, $x\ge 0$:
+        (a)~write the Lagrangian with multipliers $\lambda_{1},\lambda_{2}$;
+        (b)~list the Kuhn--Tucker conditions (with $x\ge 0$);
+        (c)~check them at $x=(2,2)$, $\lambda=(1,1)$;
+        (d)~explain which of the conditions are the dual constraints,
+        which are complementary slackness, and why here they are also
+        sufficient for optimality.
+  \item (Kuhn--Tucker with explicit sign multipliers.) For the LP of
+        Additional Problem~9 write the Lagrangian with multipliers
+        $\lambda_{1},\lambda_{2}$ for the resources and $\mu_{1},\mu_{2},
+        \mu_{3}$ for $x_{j}\ge 0$. Show that $x=(12,12,0)$,
+        $\lambda=(3,2)$, $\mu=(0,0,1)$ satisfy every Kuhn--Tucker condition,
+        and interpret $\mu_{3}$.
+  \item The LP of Additional Problem~10 has the dual slacks
+        $t=(1,4,0)$ at its optimum. True or false (justify):
+        (a)~raising the margin of product~2 from $6$ to $9$ makes it worth
+        producing;
+        (b)~raising the margin of product~1 from $4$ to $5.5$ makes it
+        worth producing;
+        (c)~product~3 has dual slack $0$, so its margin may fall by any
+        amount without changing the plan;
+        (d)~at the optimum each dual slack equals the absolute value of
+        the reduced cost of its variable.
 \end{problems}
 
 \section{Additional Solutions}
@@ -807,4 +988,334 @@ re-running the algorithm.}
         (c)~At a price equal to the shadow price the firm is exactly
         indifferent at the margin: the extra unit raises profit by
         precisely what it costs.
+
+  \item (a)~Two constraints give two dual variables, three products give
+        three dual constraints:
+        \[
+          \min\; W=60y_{1}+60y_{2}
+          \quad\text{s.t.}\quad
+          3y_{1}+y_{2}\ge 11,\qquad 2y_{1}+4y_{2}\ge 14,\qquad
+          4y_{1}+y_{2}\ge 13,\qquad y\ge 0 .
+        \]
+        In the $(y_{1},y_{2})$-plane the feasible set lies above the three
+        lines $y_{2}=11-3y_{1}$, $y_{2}=(7-y_{1})/2$ and $y_{2}=13-4y_{1}$.
+        Its corners: on the $y_{2}$-axis the binding line is the third
+        ($y_{2}\ge 13$), giving $(0,13)$; the third and first lines meet at
+        $4y_{1}+y_{2}=13$, $3y_{1}+y_{2}=11$, i.e.\ $(2,5)$ (and
+        $2\cdot2+4\cdot5=24\ge 14$); the first and second meet at
+        $3y_{1}+y_{2}=11$, $y_{1}+2y_{2}=7$, i.e.\ $(3,2)$ (and
+        $4\cdot3+2=14\ge 13$); the second meets the $y_{1}$-axis at
+        $(7,0)$. Values of $W=60(y_{1}+y_{2})$:
+        \[
+          W(0,13)=780,\quad W(2,5)=420,\quad W(3,2)=300,\quad W(7,0)=420 .
+        \]
+        The region is unbounded upwards, but $W$ grows there, so the
+        minimum sits at the corner $y^{*}=(3,2)$ with $W^{*}=300$.
+        \begin{gallery}
+        \hfill
+        \begin{tikzpicture}
+          \begin{axis}[geoaxis, xmin=-0.6, xmax=8.6, ymin=-0.8, ymax=14.6,
+              xtick={2,4,6,8}, ytick={2,4,6,8,10,12,14},
+              xlabel={$y_{1}$}, ylabel={$y_{2}$},
+              title={dual feasible set}]
+            \addplot[draw=none, name path=lA, domain=0:2, samples=2]{13-4*x};
+            \addplot[draw=none, name path=uA, domain=0:2, samples=2]{14.4};
+            \region{lA}{uA}{}
+            \addplot[draw=none, name path=lB, domain=2:3, samples=2]{11-3*x};
+            \addplot[draw=none, name path=uB, domain=2:3, samples=2]{14.4};
+            \region{lB}{uB}{}
+            \addplot[draw=none, name path=lC, domain=3:7, samples=2]{(7-x)/2};
+            \addplot[draw=none, name path=uC, domain=3:7, samples=2]{14.4};
+            \region{lC}{uC}{}
+            \addplot[draw=none, name path=lD, domain=7:8.4, samples=2]{0};
+            \addplot[draw=none, name path=uD, domain=7:8.4, samples=2]{14.4};
+            \region{lD}{uD}{}
+            \addplot[domain=0:4.2, samples=2]{11-3*x};
+            \addplot[domain=0:8.4, samples=2]{(7-x)/2};
+            \addplot[domain=0:3.5, samples=2]{13-4*x};
+            \addplot[gray, dashed, thin, domain=0:5, samples=2]{5-x};
+            \addplot[only marks, mark=*, mark size=1.4pt, black, forget plot]
+              coordinates {(0,13) (2,5) (3,2) (7,0)};
+            \node[font=\tiny, anchor=south west] at (axis cs:3.1,2.1) {$y^{*}=(3,2)$};
+            \node[font=\tiny, anchor=west] at (axis cs:2.15,5.2) {$(2,5)$};
+          \end{axis}
+        \end{tikzpicture}
+        \hfill\null
+        \gcap{The dual feasible set (shaded, unbounded upwards) and the
+        lowest iso-cost line $y_{1}+y_{2}=5$ (dashed) through $y^{*}=(3,2)$.}
+        \end{gallery}
+
+        (b)~At $y^{*}=(3,2)$ the third dual constraint is slack
+        ($4\cdot3+2=14>13$), so $x_{3}^{*}=0$. Both $y_{i}^{*}>0$, so both
+        primal rows bind:
+        \[
+          3x_{1}+2x_{2}=60,\qquad x_{1}+4x_{2}=60 .
+        \]
+        From the second, $x_{1}=60-4x_{2}$; substituting,
+        $180-12x_{2}+2x_{2}=60$, so $x_{2}=12$ and $x_{1}=12$. Both are
+        nonnegative, and
+        $Z^{*}=11\cdot12+14\cdot12=132+168=300=W^{*}$. $\checkmark$
+
+        (c)~Products $1$ and $2$ are made, $12$ units each; product~3 is
+        not made. Both resources are used up completely ($36+24=60$,
+        $12+48=60$), which fits their positive shadow prices: nothing is
+        left over. One unit of product~3 uses $4$ machine hours and $1$
+        labour hour, worth $4\cdot3+1\cdot2=14$ at shadow prices; its
+        margin $13$ must rise above $14$ before it is worth producing.
+
+        (d)~$t_{j}=(A^{\top}y^{*})_{j}-c_{j}$:
+        $t_{1}=11-11=0$, $t_{2}=14-14=0$, $t_{3}=14-13=1$. Products $1$
+        and $2$ break even exactly at shadow prices (and are made);
+        product~3 falls short by $1$ per unit, which is the margin
+        increase it needs.
+
+  \item The dual is
+        \[
+          \min\; W=20y_{1}+90y_{2}
+          \quad\text{s.t.}\quad
+          y_{1}+3y_{2}\ge 4,\qquad 2y_{1}+y_{2}\ge 6,\qquad
+          y_{1}+2y_{2}\ge 5,\qquad y\ge 0 .
+        \]
+        Corners of the feasible set: on the $y_{2}$-axis the binding line
+        is the second ($y_{2}\ge 6$), giving $(0,6)$; the second and third
+        lines meet at $2y_{1}+y_{2}=6$, $y_{1}+2y_{2}=5$, i.e.\
+        $(\tfrac73,\tfrac43)$ (and $\tfrac73+4=\tfrac{19}{3}\ge 4$); on the
+        $y_{1}$-axis the binding line is the third ($y_{1}\ge 5$), giving
+        $(5,0)$. (The first line is cut off everywhere: for example its
+        crossing with the second line, $(\tfrac{14}{5},\tfrac25)$, violates
+        the third.) Values:
+        \[
+          W(0,6)=540,\qquad W(\tfrac73,\tfrac43)=\tfrac{140}{3}+120
+          =\tfrac{500}{3},\qquad W(5,0)=100 .
+        \]
+        So $y^{*}=(5,0)$, $W^{*}=100$.
+
+        Complementary slackness: at $(5,0)$ the first dual constraint is
+        slack ($5>4$, $t_{1}=1$) and so is the second ($10>6$, $t_{2}=4$),
+        hence $x_{1}^{*}=x_{2}^{*}=0$. Since $y_{1}^{*}=5>0$, resource~A
+        binds: $x_{3}=20$. Since $y_{2}^{*}=0$, resource~B may have slack:
+        $2\cdot20=40\le 90$, slack $50$. So $x^{*}=(0,0,20)$ and
+        $Z^{*}=5\cdot20=100=W^{*}$. $\checkmark$
+
+        Only product~3 is made ($20$ units). Resource~A is used up;
+        $50$ units of resource~B are left over, which is why B's shadow
+        price is $0$. Product~1 would need a margin above
+        $1\cdot5=5$, i.e.\ $1$ more; product~2 above $2\cdot5=10$, i.e.\
+        $4$ more: exactly the dual slacks.
+
+  \item (a)~A min problem with $\ge$ rows and $x\ge 0$ has a max dual with
+        $\le$ rows and $u\ge 0$:
+        \[
+          \max\; W=4u_{1}+4u_{2}+5u_{3}
+          \quad\text{s.t.}\quad
+          u_{1}+u_{2}+2u_{3}\le 3,\qquad u_{1}+3u_{2}+u_{3}\le 2,\qquad
+          u\ge 0 .
+        \]
+        Its right-hand sides are the costs $3$ and $2$, both
+        nonnegative, so it is a standard maximum problem: the origin is
+        feasible and the slacks $t_{1},t_{2}$ form the first basis.
+
+        (b)~Initial tableau:
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $u_{1}$ & $u_{2}$ & $u_{3}$ & $t_{1}$ & $t_{2}$ & RHS\\
+        \hline
+        $t_{1}$ & $1$ & $1$ & $2$ & $1$ & $0$ & $3$\\
+        $t_{2}$ & $1$ & $3$ & $1$ & $0$ & $1$ & $2$\\
+        \hline
+        $W$ & $-4$ & $-4$ & $-5$ & $0$ & $0$ & $0$\\
+        \end{tabular}
+        \end{center}
+        \emph{Iteration 1.} Pivot column $u_{3}$ ($-5$). Ratios:
+        $3/2=1.5$, $2/1=2$; $t_{1}$ leaves, pivot element $2$. Row
+        operations: $R_{1}\to R_{1}/2$; then $R_{2}\to R_{2}-R_{1}$,
+        $R_{W}\to R_{W}+5R_{1}$.
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $u_{1}$ & $u_{2}$ & $u_{3}$ & $t_{1}$ & $t_{2}$ & RHS\\
+        \hline
+        $u_{3}$ & $\tfrac12$ & $\tfrac12$ & $1$ & $\tfrac12$ & $0$ & $\tfrac32$\\
+        $t_{2}$ & $\tfrac12$ & $\tfrac52$ & $0$ & $-\tfrac12$ & $1$ & $\tfrac12$\\
+        \hline
+        $W$ & $-\tfrac32$ & $-\tfrac32$ & $0$ & $\tfrac52$ & $0$ & $\tfrac{15}{2}$\\
+        \end{tabular}
+        \end{center}
+        \emph{Iteration 2.} Tie between $u_{1}$ and $u_{2}$; take $u_{1}$.
+        Ratios: $R_{1}$: $\tfrac32\big/\tfrac12=3$; $R_{2}$:
+        $\tfrac12\big/\tfrac12=1$; $t_{2}$ leaves, pivot element
+        $\tfrac12$. Row operations: $R_{2}\to 2R_{2}$; then
+        $R_{1}\to R_{1}-\tfrac12R_{2}$, $R_{W}\to R_{W}+\tfrac32R_{2}$.
+        \begin{center}
+        \begin{tabular}{c|ccccc|c}
+        Basis & $u_{1}$ & $u_{2}$ & $u_{3}$ & $t_{1}$ & $t_{2}$ & RHS\\
+        \hline
+        $u_{3}$ & $0$ & $-2$ & $1$ & $1$ & $-1$ & $1$\\
+        $u_{1}$ & $1$ & $5$ & $0$ & $-1$ & $2$ & $1$\\
+        \hline
+        $W$ & $0$ & $6$ & $0$ & $1$ & $3$ & $9$\\
+        \end{tabular}
+        \end{center}
+        No negative entry: optimal, $u^{*}=(1,0,1)$, $W^{*}=9$.
+
+        (c)~The primal optimum stands in the $W$-row under the dual's slack
+        columns: $x_{1}^{*}=1$ (under $t_{1}$), $x_{2}^{*}=3$ (under
+        $t_{2}$), with minimal cost $C^{*}=W^{*}=9$; check
+        $3\cdot1+2\cdot3=9$. The entries under $u_{1},u_{2},u_{3}$ are the
+        primal surpluses $0$, $6$, $0$: the first and third requirements
+        are met exactly ($1+3=4$, $2+3=5$), the second is over-fulfilled
+        by $6$ ($1+9=10\ge 4$).
+
+        (d)~Complementary slackness: the second requirement has surplus
+        $6$, so $u_{2}=0$; $x_{1},x_{2}>0$ make both dual constraints
+        equations: $u_{1}+2u_{3}=3$ and $u_{1}+u_{3}=2$, hence
+        $u_{3}=1$, $u_{1}=1$. Both nonnegative, and
+        $W=4+5=9=C^{*}$. $\checkmark$
+
+  \item (a)~Sign rules for a max primal: labour and machine ($\le$) give
+        $y_{1},y_{2}\ge 0$; the contract ($\ge$) gives $y_{3}\le 0$; the
+        variables $x_{1},x_{2}\ge 0$ give $\ge$ dual constraints:
+        \[
+          \min\; W=10y_{1}+16y_{2}+6y_{3}
+          \quad\text{s.t.}\quad
+          y_{1}+2y_{2}\ge 5,\qquad y_{1}+y_{2}+y_{3}\ge 4,
+        \]
+        with $y_{1},y_{2}\ge 0$, $y_{3}\le 0$.
+
+        (b)~At $x^{*}=(4,6)$: labour $4+6=10$ (binds), machine
+        $8+6=14<16$ (slack $2$, so $y_{2}=0$), contract $x_{2}=6$ (binds).
+        Both variables are positive, so both dual constraints are
+        equations:
+        \[
+          y_{1}+2\cdot0=5\;\Rightarrow\;y_{1}=5,\qquad
+          5+0+y_{3}=4\;\Rightarrow\;y_{3}=-1 .
+        \]
+        Signs: $y_{1}=5\ge 0$, $y_{2}=0$, $y_{3}=-1\le 0$, all as
+        required, and both dual constraints hold. Values:
+        $W=50+0-6=44$ and $Z^{*}=20+24=44$. $\checkmark$
+
+        (c)~$y_{3}=-1$: every additional unit the contract demands lowers
+        the maximal profit by $1$. Product~2 earns $4$ per unit but uses a
+        labour hour that is worth $y_{1}=5$ in product~1, so forcing one
+        more unit of it costs $5-4=1$. Check with a contract of $7$:
+        labour and contract binding give $x=(3,7)$, machine $6+7=13\le 16$,
+        and $Z=15+28=43=44-1$. $\checkmark$
+
+        (d)~Written as $-x_{2}\le -6$, the row is of type $\le$ and gets a
+        dual variable $\ge 0$; it is the old one with the sign flipped,
+        $+1$. Read: raising the right-hand side $-6$ by one unit (to $-5$,
+        a contract of $5$ units) raises $Z^{*}$ by $1$.
+
+  \item (a)~Sign rules for a min primal: the $\ge$ rows give
+        $u_{1},u_{3}\ge 0$, the $\le$ row gives $u_{2}\le 0$; the
+        variables $x_{j}\ge 0$ give $\le$ dual constraints:
+        \[
+          \max\; W=8u_{1}+4u_{2}-10u_{3}
+          \quad\text{s.t.}\quad
+          u_{1}+u_{2}+u_{3}\le 2,\qquad 2u_{1}-3u_{3}\le 5,
+        \]
+        with $u_{1}\ge 0$, $u_{2}\le 0$, $u_{3}\ge 0$.
+
+        (b)~At $x^{*}=(4,2)$: $4+4=8$ (binds), $x_{1}=4$ (binds),
+        $4-6=-2>-10$ (surplus $8$, so $u_{3}=0$). Both variables are
+        positive, so both dual constraints are equations:
+        \[
+          2u_{1}=5\;\Rightarrow\;u_{1}=\tfrac52,\qquad
+          \tfrac52+u_{2}=2\;\Rightarrow\;u_{2}=-\tfrac12 .
+        \]
+        Signs: $u_{1}\ge 0$, $u_{2}\le 0$, $u_{3}=0$, all as required.
+        Values: $W=8\cdot\tfrac52+4\cdot(-\tfrac12)-0=20-2=18$ and
+        $C^{*}=8+10=18$. $\checkmark$
+
+        (c)~$u_{1}=\tfrac52$: one more unit of the requirement raises the
+        minimal cost by $2.5$ (it is met at the margin by $x_{2}$, which
+        delivers $2$ units for $5$). $u_{2}=-\tfrac12$: one more unit of
+        capacity for input~1 lowers the cost by $0.5$, because a unit of
+        $x_{1}$ replaces half a unit of $x_{2}$: it saves $2.5$ and costs
+        $2$. $u_{3}=0$: the third row has surplus, so its (negative)
+        right-hand side is irrelevant at the margin. Check with
+        $x_{1}\le 5$: $x=(5,1.5)$ satisfies $5+3=8$ and $5-4.5\ge -10$,
+        and $C=10+7.5=17.5=18-0.5$. $\checkmark$
+
+  \item (a)~$\mathcal{L}=3x_{1}+2x_{2}+\lambda_{1}(4-x_{1}-x_{2})
+        +\lambda_{2}(6-2x_{1}-x_{2})$.
+
+        (b)~With $x\ge 0$:
+        \[
+          \begin{aligned}
+            &\pd{\mathcal{L}}{x_{1}}=3-\lambda_{1}-2\lambda_{2}\le 0,\quad
+             x_{1}\ge 0,\quad x_{1}(3-\lambda_{1}-2\lambda_{2})=0,\\
+            &\pd{\mathcal{L}}{x_{2}}=2-\lambda_{1}-\lambda_{2}\le 0,\quad
+             x_{2}\ge 0,\quad x_{2}(2-\lambda_{1}-\lambda_{2})=0,\\
+            &4-x_{1}-x_{2}\ge 0,\quad \lambda_{1}\ge 0,\quad
+             \lambda_{1}(4-x_{1}-x_{2})=0,\\
+            &6-2x_{1}-x_{2}\ge 0,\quad \lambda_{2}\ge 0,\quad
+             \lambda_{2}(6-2x_{1}-x_{2})=0 .
+          \end{aligned}
+        \]
+        (c)~At $x=(2,2)$, $\lambda=(1,1)$: $3-1-2=0$ and $2-1-1=0$ (so
+        both products vanish); $4-4=0$ and $6-6=0$ (both rows bind, so
+        both products vanish); all signs hold. Every condition is
+        satisfied, and $Z=6+4=10$.
+
+        (d)~$\partial\mathcal{L}/\partial x_{j}\le 0$ is
+        $\lambda_{1}+2\lambda_{2}\ge 3$, $\lambda_{1}+\lambda_{2}\ge 2$,
+        the dual constraints of Solution~1 with $\lambda$ in place of $y$;
+        $\lambda\ge 0$ is the dual sign condition; the rows
+        $\partial\mathcal{L}/\partial\lambda_{i}\ge 0$ are primal
+        feasibility; the four product conditions are complementary
+        slackness. So the multipliers are the dual solution
+        $y^{*}=(1,1)$, i.e.\ the shadow prices. The objective is linear
+        (concave) and the constraints are linear, so the Kuhn--Tucker
+        conditions are sufficient: $(2,2)$ is optimal, as Solution~14
+        found from the tableau.
+
+  \item With $x_{j}\ge 0$ written as $-x_{j}\le 0$ and multiplier
+        $\mu_{j}\ge 0$:
+        \[
+          \mathcal{L}=11x_{1}+14x_{2}+13x_{3}
+          +\lambda_{1}(60-3x_{1}-2x_{2}-4x_{3})
+          +\lambda_{2}(60-x_{1}-4x_{2}-x_{3})
+          +\mu_{1}x_{1}+\mu_{2}x_{2}+\mu_{3}x_{3} .
+        \]
+        Stationarity at $\lambda=(3,2)$, $\mu=(0,0,1)$:
+        \[
+          \begin{aligned}
+            \pd{\mathcal{L}}{x_{1}}&=11-3\lambda_{1}-\lambda_{2}+\mu_{1}
+              =11-9-2+0=0,\\
+            \pd{\mathcal{L}}{x_{2}}&=14-2\lambda_{1}-4\lambda_{2}+\mu_{2}
+              =14-6-8+0=0,\\
+            \pd{\mathcal{L}}{x_{3}}&=13-4\lambda_{1}-\lambda_{2}+\mu_{3}
+              =13-12-2+1=0 .
+          \end{aligned}
+        \]
+        Primal feasibility at $x=(12,12,0)$: $36+24=60\le 60$,
+        $12+48=60\le 60$, $x\ge 0$. Signs: $\lambda,\mu\ge 0$.
+        Complementary slackness: both rows bind, so
+        $\lambda_{i}(60-\dots)=0$; $\mu_{1}x_{1}=0\cdot12=0$,
+        $\mu_{2}x_{2}=0\cdot12=0$, $\mu_{3}x_{3}=1\cdot0=0$. All conditions
+        hold, so the point is optimal (with $Z=300$). Interpretation:
+        $\mu_{3}=(4\lambda_{1}+\lambda_{2})-13=1$ is the dual slack $t_{3}$
+        of Additional Solution~9: the multiplier of the sign constraint
+        $x_{3}\ge 0$ measures how much the profit would drop per unit if
+        product~3 were forced into the plan, i.e.\ the margin it lacks.
+
+  \item (a)~\textbf{False.} $t_{2}=4$: the margin must rise by more than
+        $4$, to above $10=2y_{1}^{*}$. At $9$ the product still uses
+        $2$ units of resource~A worth $10$ and earns only $9$.
+
+        (b)~\textbf{True.} $t_{1}=1$, and a rise of $1.5>1$ lifts the
+        margin to $5.5$, above the opportunity cost $1\cdot y_{1}^{*}=5$:
+        the product now prices out positive ($5.5-5=0.5>0$), so the
+        current plan is no longer optimal and product~1 enters.
+
+        (c)~\textbf{False.} $t_{3}=0$ only says that product~3 breaks even
+        at the current shadow prices, which it must, since it is made. Its
+        margin sets the price $y_{1}^{*}=c_{3}$; if $c_{3}$ falls below
+        $4$, product~1 earns more per unit of resource~A ($4$ against
+        $c_{3}$), and the plan switches to product~1.
+
+        (d)~\textbf{True.} The $z$-row entry under $x_{j}$ in the end
+        tableau is $(A^{\top}y^{*})_{j}-c_{j}=t_{j}$, and the reduced cost
+        is $c_{j}-(A^{\top}y^{*})_{j}=-t_{j}$; for basic variables both
+        are $0$.
 \end{solutions}

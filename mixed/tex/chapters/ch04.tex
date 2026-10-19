@@ -1,0 +1,730 @@
+\chapter{Mixed Set D: Full Investigations}
+
+The first three sets drill one skill per problem. This set does the
+opposite. Each problem hands you a single function of two variables and
+runs it through the whole chain of questions that a function of two
+variables invites: where it lives, what values it takes, where it can be
+differentiated, what its level curves look like, where its gradient
+points, what its Hessian says, whether it has critical points, which of
+its contour sets are convex, and finally a checklist of properties, each
+to be decided \emph{with a reason}.
+
+None of the steps is new. What is new is that they feed each other: the
+domain decides where the derivative may be taken, the Hessian decides
+concavity, concavity decides quasiconcavity, the domain and the range
+decide whether a maximum exists. A slip early in the chain propagates,
+and a good investigation catches it, because the later answers stop
+fitting together. Target time: twenty to twenty-five minutes per
+function. The solutions tag every step with the volume and chapter whose
+rule it uses, so that a weak link can be traced back and repaired.
+
+\section{The Investigation Chain}
+
+\begin{rulebox}{The chain, in order}
+\begin{enumerate}[label=\arabic*.,leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Domain.} Collect the obstructions (roots need a
+        nonnegative radicand, logarithms a positive argument,
+        denominators must not vanish), sketch the set, and say whether it
+        is closed, bounded and convex. (Vol.~2, Ch.~1 and Ch.~4;
+        Vol.~5, Ch.~10; Vol.~7, Ch.~2.)
+  \item \textbf{Range.} Find the smallest and largest values, or show that
+        there are none, and use continuity on a connected domain to fill
+        in everything between. (Vol.~2, Ch.~1; Vol.~5, Ch.~9.)
+  \item \textbf{Derivative.} Compute $f_{x}$, $f_{y}$ and say where they
+        exist and are continuous: on that open set $f$ is differentiable
+        (continuous partials are sufficient, not necessary). Where a
+        partial fails to exist, $f$ is not differentiable. Roots are the
+        usual offenders on the boundary. (Vol.~5, Ch.~10.)
+  \item \textbf{Level curves.} Solve $f(x,y)=c$ for one variable and
+        sketch several values of $c$. (Vol.~5, Ch.~9.)
+  \item \textbf{Gradient at a point.} Evaluate $\grad f$, draw it, check
+        that it is orthogonal to the level curve through the point, and
+        read it: it points in the direction of steepest ascent, and its
+        norm $\lVert\grad f\rVert$ is the slope in that direction.
+        (Vol.~5, Ch.~10 and Ch.~13.)
+  \item \textbf{Hessian.} Second partials, Young's theorem, and the
+        definiteness by Sylvester's criterion. (Vol.~5, Ch.~11.)
+  \item \textbf{Critical points.} Solve $\grad f=\mathbf{0}$ \emph{inside
+        the domain}, or explain why there is no solution; classify with the
+        Hessian. (Vol.~7, Ch.~5.)
+  \item \textbf{Contour sets.} Mark an upper set $\{f\ge c\}$ and a lower
+        set $\{f\le c\}$ and decide whether each is convex.
+        (Vol.~5, Ch.~9; Vol.~7, Ch.~2.)
+  \item \textbf{Checklist.} Concave, convex, quasiconcave, quasiconvex,
+        has a maximum, has a minimum, increasing, decreasing, epigraph
+        convex: each answered with a proof or a counterexample.
+        (Vol.~7, Ch.~1 and Ch.~3.)
+\end{enumerate}
+\end{rulebox}
+
+\begin{rulebox}{Three definitions the checklist needs}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Monotone in several variables.} Order points componentwise:
+        $(x,y)\le(x',y')$ means $x\le x'$ and $y\le y'$. Then $f$ is
+        \emph{increasing} \de{monoton wachsend} if
+        $(x,y)\le(x',y')\Rightarrow f(x,y)\le f(x',y')$, and
+        \emph{decreasing} if the inequality between the values is reversed.
+        On a convex domain with interior points, a continuous $f$ with
+        $f_{x}\ge0$ and $f_{y}\ge0$ at every interior point is increasing.
+        To refute it, exhibit two ordered points whose values are in the
+        wrong order.
+  \item \textbf{Epigraph and hypograph.} The \emph{epigraph}
+        \de{Epigraph} of $f$ is the set of points on or above its graph,
+        $\{(x,y,z): (x,y)\in D,\ z\ge f(x,y)\}$; the \emph{hypograph} is
+        the set on or below it. On a convex domain, the epigraph is a convex
+        set exactly when $f$ is convex, and the hypograph exactly when $f$
+        is concave. So the epigraph question is the convexity question
+        asked again, and the two answers must agree.
+  \item \textbf{Existence of extrema.} A continuous function on a closed
+        and bounded domain attains a maximum and a minimum (Weierstrass,
+        Vol.~7, Ch.~1). On an unbounded or open domain, look at the range
+        first: if $f$ grows without bound there is no maximum, and if the
+        infimum is approached but never reached there is no minimum.
+        Extrema on the boundary of the domain are not found by
+        $\grad f=\mathbf{0}$, and are often points where $f$ is not even
+        differentiable.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Shortcuts that keep the checklist consistent}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item Concave $\Rightarrow$ quasiconcave; convex $\Rightarrow$
+        quasiconvex. A function that is both concave and convex is affine.
+  \item A strictly increasing transform $F$ ($\ln$ of a positive $f$,
+        $\sqrt{\cdot}$ or a positive power of a nonnegative $f$) only
+        relabels the contour sets, $\{F(f)\ge F(c)\}=\{f\ge c\}$, so it
+        preserves quasiconcavity and quasiconvexity but not necessarily
+        concavity.
+  \item If $g$ is concave and $F$ is increasing and concave, $F\circ g$ is
+        concave: this is how $\sqrt{\text{concave}}$ and
+        $\ln(\text{concave})$ are handled without a Hessian.
+  \item One straight line in the domain along which $f$ is strictly convex
+        refutes concavity; one along which it is strictly concave refutes
+        convexity. Two points in a contour set whose midpoint is not in it
+        refute quasiconcavity or quasiconvexity.
+  \item Cobb--Douglas $x^{a}y^{b}$ ($a,b>0$) on $\R^{2}_{+}$: always
+        quasiconcave; concave iff $a+b\le1$; never convex.
+        (Vol.~7, Ch.~3.)
+\end{itemize}
+\end{rulebox}
+
+\section{Worked Example}
+
+\begin{worked}{Investigate $f(x,y)=\sqrt{8-2x^{2}-y^{2}}$ completely: domain, range, derivative, level curves, gradient at $(1,2)$, Hessian, critical points, contour sets, and the full property checklist}
+\wstep{Step 1. Domain (Vol.~2, Ch.~1; Vol.~2, Ch.~4).}
+The only obstruction is the root: $8-2x^{2}-y^{2}\ge0$, that is
+\[
+  D=\{(x,y): 2x^{2}+y^{2}\le8\}
+   =\Bigl\{\tfrac{x^{2}}{4}+\tfrac{y^{2}}{8}\le1\Bigr\},
+\]
+the filled ellipse with semi-axes $2$ along $x$ and $2\sqrt2$ along $y$,
+boundary included. It is \textbf{closed} (the inequality is weak),
+\textbf{bounded}, and \textbf{convex}: it is a lower contour set of the
+convex function $2x^{2}+y^{2}$ (Vol.~7, Ch.~2).
+\wtrap{Writing $2x^{2}+y^{2}<8$ loses the boundary. The root of zero is
+zero, so the boundary ellipse belongs to the domain, and it will carry the
+minimum.}
+
+\wstep{Step 2. Range (Vol.~2, Ch.~1).}
+The radicand is largest at the origin, where it equals $8$, and smallest
+($0$) on the boundary. Since $\sqrt{\cdot}$ is increasing,
+$0\le f\le\sqrt8=2\sqrt2$. $f$ is continuous on the connected set $D$, so
+every value in between is taken:
+\[
+  f(D)=[\,0,\,2\sqrt2\,].
+\]
+
+\wstep{Step 3. Derivative, and where it exists (Vol.~5, Ch.~10).}
+By the chain rule,
+\[
+  f_{x}=\frac{-4x}{2\sqrt{8-2x^{2}-y^{2}}}=-\frac{2x}{f},\qquad
+  f_{y}=\frac{-2y}{2\sqrt{8-2x^{2}-y^{2}}}=-\frac{y}{f}.
+\]
+Both are continuous wherever $f>0$, so $f$ is differentiable on the
+\textbf{interior} $2x^{2}+y^{2}<8$. On the boundary the formulas divide by
+zero, and the difference quotient confirms the failure: at $(2,0)$,
+$\bigl(f(2-h,0)-f(2,0)\bigr)/h=\sqrt{8h-2h^{2}}/h\to\infty$ as
+$h\to0^{+}$. The surface meets the plane $z=0$ vertically, like the edge
+of a dome.
+
+\wstep{Step 4. Level curves (Vol.~5, Ch.~9).}
+For $0\le c\le2\sqrt2$, $f=c$ means $2x^{2}+y^{2}=8-c^{2}$: concentric
+ellipses with the same shape as the boundary, shrinking to the origin as
+$c\to2\sqrt2$. The values $c=0,1,\sqrt2,2,\sqrt7$ give
+$2x^{2}+y^{2}=8,7,6,4,1$ (left panel below). The level $c=0$ is the
+boundary of the domain; the level $c=2\sqrt2$ is the single point
+$(0,0)$.
+
+\wstep{Step 5. Gradient at $(1,2)$ (Vol.~5, Ch.~10).}
+Here $f(1,2)=\sqrt{8-2-4}=\sqrt2$, so
+\[
+  \grad f(1,2)=\begin{pmatrix}-2/\sqrt2\\-2/\sqrt2\end{pmatrix}
+  =\begin{pmatrix}-\sqrt2\\-\sqrt2\end{pmatrix},
+  \qquad
+  \lVert\grad f(1,2)\rVert=\sqrt{2+2}=2 .
+\]
+\emph{Orthogonality.} The level curve through $(1,2)$ is
+$2x^{2}+y^{2}=6$; implicit differentiation gives
+$y'=-4x/(2y)=-1$ there, so a tangent direction is $(1,-1)$, and
+$(-\sqrt2)(1)+(-\sqrt2)(-1)=0$ \checkmark.
+\emph{Direction.} The gradient points into the ellipse, towards higher
+levels: the direction of steepest ascent. \emph{Norm.} $2$ is the slope of
+the surface in that direction, the largest directional derivative at
+$(1,2)$ (Vol.~5, Ch.~13). In every direction along the level curve the
+slope is $0$.
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[contouraxis, xmin=-3.2, xmax=3.2, ymin=-3.2, ymax=3.2,
+      xtick={-2,-1,1,2}, ytick={-2,-1,1,2},
+      title={domain, levels, $\grad f(1,2)$}]
+    \addplot[name path=top, draw=none, domain=-2:2]
+      {sqrt(max(8-2*x^2,0))};
+    \addplot[name path=bot, draw=none, domain=-2:2]
+      {-sqrt(max(8-2*x^2,0))};
+    \region{top}{bot}{}
+    \addplot[accent, line width=1pt, domain=0:360, samples=121]
+      ({2*cos(x)},{sqrt(8)*sin(x)});
+    \addplot[domain=0:360, samples=121]({sqrt(3.5)*cos(x)},{sqrt(7)*sin(x)});
+    \addplot[domain=0:360, samples=121]({sqrt(3)*cos(x)},{sqrt(6)*sin(x)});
+    \addplot[domain=0:360, samples=121]({sqrt(2)*cos(x)},{2*sin(x)});
+    \addplot[domain=0:360, samples=121]({sqrt(0.5)*cos(x)},{sin(x)});
+    \draw[dashed, gray!70!black, line width=0.5pt]
+      (axis cs:0.1,2.9) -- (axis cs:1.9,1.1);
+    \draw[-{Stealth[length=6pt,width=4pt]}, accent, line width=1pt]
+      (axis cs:1,2) -- (axis cs:-0.414,0.586);
+    \addplot[only marks, mark=*, mark size=1.2pt, black, forget plot]
+      coordinates {(1,2) (0,0)};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[contouraxis, xmin=-3.2, xmax=3.2, ymin=-3.2, ymax=3.2,
+      xtick={-2,-1,1,2}, ytick={-2,-1,1,2},
+      title={upper set $\{f\ge2\}$ (shaded)}]
+    \addplot[name path=itop, draw=none, domain=-1.4142:1.4142]
+      {sqrt(max(4-2*x^2,0))};
+    \addplot[name path=ibot, draw=none, domain=-1.4142:1.4142]
+      {-sqrt(max(4-2*x^2,0))};
+    \region{itop}{ibot}{}
+    \addplot[accent, line width=1pt, domain=0:360, samples=121]
+      ({2*cos(x)},{sqrt(8)*sin(x)});
+    \addplot[domain=0:360, samples=121]({sqrt(2)*cos(x)},{2*sin(x)});
+    \draw[gray!70!black, line width=0.5pt] (axis cs:0,2) -- (axis cs:0,-2);
+    \addplot[only marks, mark=*, mark size=1.2pt, black, forget plot]
+      coordinates {(0,2) (0,-2)};
+    \addplot[only marks, mark=o, mark size=1.6pt, black, forget plot]
+      coordinates {(0,0)};
+  \end{axis}
+\end{tikzpicture}
+\gcap{Left: the domain (shaded), its boundary $f=0$ (bold), the levels
+$f=1,\sqrt2,2,\sqrt7$, and the gradient at $(1,2)$, orthogonal to the
+dashed tangent of its level curve. Right: the upper set $\{f\ge2\}$ is a
+filled ellipse; the lower set $\{f\le2\}$ is the ring between the two
+curves, which contains $(0,\pm2)$ but not their midpoint.}
+\end{gallery}
+
+\wstep{Step 6. Hessian (Vol.~5, Ch.~11).}
+Differentiate $f_{x}=-2xf^{-1}$ and $f_{y}=-yf^{-1}$ once more, using
+$f_{x}$, $f_{y}$ from Step 3:
+\[
+  f_{xx}=-\frac{2}{f}+\frac{2x f_{x}}{f^{2}}
+        =-\frac{2f^{2}+4x^{2}}{f^{3}}
+        =-\frac{2(8-y^{2})}{f^{3}},\qquad
+  f_{yy}=-\frac{1}{f}+\frac{y f_{y}}{f^{2}}
+        =-\frac{8-2x^{2}}{f^{3}},
+\]
+\[
+  f_{xy}=\frac{2x f_{y}}{f^{2}}=-\frac{2xy}{f^{3}}
+  \quad(\text{equal to } f_{yx}\text{ by Young}).
+\]
+The determinant simplifies remarkably:
+\[
+  \det\Hess f=\frac{2(8-y^{2})(8-2x^{2})-4x^{2}y^{2}}{f^{6}}
+  =\frac{16(8-2x^{2}-y^{2})}{f^{6}}=\frac{16}{f^{4}}>0 .
+\]
+In the interior $y^{2}<8$, so $f_{xx}<0$: the Hessian is
+\textbf{negative definite} at every interior point. At $(1,2)$, with
+$f^{3}=2\sqrt2$:
+\[
+  \Hess f(1,2)=\begin{pmatrix}-2\sqrt2&-\sqrt2\\[2pt]-\sqrt2&-\tfrac32\sqrt2
+  \end{pmatrix},\qquad \det=6-2=4=\frac{16}{(\sqrt2)^{4}}\ \checkmark
+\]
+\wtrap{Do not expand $\det\Hess f$ with the roots still in it. Writing
+every entry over the common denominator $f^{3}$ and replacing $f^{2}$ by
+$8-2x^{2}-y^{2}$ is what makes the sign visible.}
+
+\wstep{Step 7. Critical points (Vol.~7, Ch.~5).}
+$f_{x}=0\iff x=0$ and $f_{y}=0\iff y=0$, so the only candidate is
+$(0,0)$, which lies in the interior. There
+$\Hess f(0,0)=\begin{pmatrix}-1/\sqrt2&0\\0&-1/(2\sqrt2)\end{pmatrix}$ is
+negative definite: a strict local maximum, with value $2\sqrt2$. The
+boundary points are not critical points; $f$ is not differentiable there.
+
+\wstep{Step 8. Contour sets (Vol.~5, Ch.~9; Vol.~7, Ch.~2).}
+Take $c=2$. The upper set $\{f\ge2\}=\{2x^{2}+y^{2}\le4\}$ is a filled
+ellipse: \textbf{convex}. The lower set
+$\{f\le2\}=\{4\le2x^{2}+y^{2}\le8\}$ is an elliptical ring: it contains
+$(0,2)$ and $(0,-2)$ but not their midpoint $(0,0)$, so it is
+\textbf{not convex} (right panel).
+
+\wstep{Step 9. The checklist, each with its reason.}
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \emph{Concave: yes.} The radicand $8-2x^{2}-y^{2}$ is concave and
+        $\sqrt{\cdot}$ is increasing and concave, so the composition is
+        concave on $D$ (Vol.~7, Ch.~3). Step 6 confirms it, even strictly,
+        on the interior.
+  \item \emph{Convex: no.} The Hessian is negative definite; concretely,
+        $f(0,0)=2\sqrt2$ lies above the chord value
+        $\tfrac12\bigl(f(-2,0)+f(2,0)\bigr)=0$.
+  \item \emph{Quasiconcave: yes}, because concave; every upper set is a
+        filled ellipse (Step 8).
+  \item \emph{Quasiconvex: no.} The lower set $\{f\le2\}$ is not convex
+        (Step 8).
+  \item \emph{Maximum: yes}, $2\sqrt2$ at $(0,0)$, unique; global because
+        $f$ is concave and $(0,0)$ is a critical point (Vol.~7, Ch.~5).
+  \item \emph{Minimum: yes}, $0$, attained at \emph{every} point of the
+        boundary ellipse. Weierstrass guarantees it (continuous on a closed
+        bounded set); the first-order condition could never find it, since
+        $f$ is not differentiable there.
+  \item \emph{Increasing: no.} $(0,0)\le(1,0)$ but
+        $f(1,0)=\sqrt6<2\sqrt2=f(0,0)$.
+  \item \emph{Decreasing: no.} $(-1,0)\le(0,0)$ but
+        $f(-1,0)=\sqrt6<f(0,0)$.
+  \item \emph{Epigraph convex: no}, since $f$ is not convex. Its
+        hypograph, the solid dome, is convex, matching concavity.
+\end{itemize}
+
+\wstep{Step 10. Do the answers fit together?}
+Concave with an interior critical point gives a global maximum
+\checkmark. Not quasiconvex, yet concave: a dome has convex upper sets and
+ring-shaped lower sets \checkmark. The range $[0,2\sqrt2]$ matches the
+maximum and minimum found \checkmark. Neither monotone, as one expects of
+a function that peaks in the middle of its domain \checkmark.
+\end{worked}
+
+\section{Problems}
+
+Each problem is one investigation. Work every part, and give a reason for
+every item of the checklist.
+
+\begin{problems}
+  \item Investigate $f(x,y)=\sqrt{6-x-y^{2}}$.
+        \begin{enumerate}[label=(\alph*),leftmargin=1.8em,itemsep=0.2ex]
+          \item Give and sketch the domain. Is it closed, bounded, convex?
+                What values does $f$ take?
+          \item Compute $f_{x}$ and $f_{y}$. Is $f$ differentiable on its
+                whole domain?
+          \item Describe and sketch the level curves.
+          \item Compute $\grad f(1,1)$, draw it, show that it is orthogonal
+                to the level curve through $(1,1)$, and state what its
+                direction and its norm mean.
+          \item Compute the Hessian and its definiteness.
+          \item Does $f$ have critical points?
+          \item Mark an upper and a lower contour set at level $2$. Which is
+                convex?
+          \item Decide, with reasons: concave, convex, quasiconcave,
+                quasiconvex, has a maximum, has a minimum, increasing,
+                decreasing, epigraph convex.
+        \end{enumerate}
+  \item Investigate the utility function
+        $u:\R^{2}_{++}\to\R$, $u(x,y)=\ln\bigl(x^{1/3}y^{1/2}\bigr)$, where
+        $\R^{2}_{++}=\{(x,y):x>0,\ y>0\}$.
+        \begin{enumerate}[label=(\alph*),leftmargin=1.8em,itemsep=0.2ex]
+          \item Rewrite $u$ as a sum. Describe the domain (closed? bounded?
+                convex?) and the range.
+          \item Describe and sketch the level curves. How do they compare
+                with those of $x^{1/3}y^{1/2}$?
+          \item Compute $\grad u(1,1)$, draw it, check orthogonality to the
+                level curve, and interpret direction and norm.
+          \item Compute the Hessian. Show that both marginal utilities are
+                diminishing, and give the definiteness.
+          \item Does $u$ have critical points?
+          \item Mark an upper and a lower contour set at level $0$. Which is
+                convex?
+          \item Decide, with reasons: concave, convex, quasiconcave,
+                quasiconvex, has a maximum, has a minimum, increasing,
+                decreasing, epigraph convex.
+        \end{enumerate}
+  \item Investigate the production function $f:\R^{2}_{+}\to\R$,
+        $f(x,y)=x^{3/4}y^{1/2}$.
+        \begin{enumerate}[label=(\alph*),leftmargin=1.8em,itemsep=0.2ex]
+          \item Name this type of function and its returns to scale. Give
+                the domain (closed? convex?) and the range.
+          \item Compute the derivative and say where it exists. Show that
+                both marginal products are diminishing.
+          \item Compute the Hessian and its definiteness. Does diminishing
+                marginal productivity make $f$ concave?
+          \item Sketch the level curves, and draw $\grad f(1,1)$; check
+                orthogonality and interpret direction and norm.
+          \item Does $f$ have critical points? Where does its minimum come
+                from?
+          \item Mark an upper and a lower contour set at level $1$. Which is
+                convex?
+          \item Decide, with reasons: concave, convex, quasiconcave,
+                quasiconvex, has a maximum, has a minimum, increasing,
+                decreasing, epigraph convex.
+        \end{enumerate}
+  \item Investigate $f:\R^{2}_{+}\to\R$, $f(x,y)=x^{1/3}y^{2/3}$.
+        \begin{enumerate}[label=(\alph*),leftmargin=1.8em,itemsep=0.2ex]
+          \item Name the function and its returns to scale; give domain and
+                range.
+          \item Compute the derivative and the Hessian, and the
+                definiteness. Which direction does the Hessian annihilate?
+          \item Sketch the level curves and draw $\grad f(1,8)$; check
+                orthogonality, interpret direction and norm, and verify
+                Euler's theorem at $(1,8)$.
+          \item Does $f$ have critical points?
+          \item Mark an upper and a lower contour set at level $4$. Which is
+                convex?
+          \item Decide, with reasons: concave, strictly concave, convex,
+                quasiconcave, quasiconvex, has a maximum, has a minimum,
+                increasing, decreasing, epigraph convex.
+        \end{enumerate}
+  \item Investigate $f(x,y)=\ln\bigl(4+x^{2}+y^{2}\bigr)$.
+        \begin{enumerate}[label=(\alph*),leftmargin=1.8em,itemsep=0.2ex]
+          \item Give the domain and the range.
+          \item Compute the gradient; where is $f$ differentiable?
+          \item Describe the level curves, compute $\grad f(1,1)$, and check
+                that it is orthogonal to the level curve through $(1,1)$.
+          \item Compute the Hessian, its determinant in general, and its
+                definiteness at $(0,0)$, $(1,1)$ and $(2,2)$.
+          \item Find and classify the critical points.
+          \item Mark the upper and lower contour sets at level $\ln8$.
+                Which is convex?
+          \item Decide, with reasons: concave, convex, quasiconcave,
+                quasiconvex, has a maximum, has a minimum, increasing,
+                decreasing, epigraph convex. On which disk centred at the
+                origin is $f$ convex?
+        \end{enumerate}
+\end{problems}
+
+\section{Solutions}
+
+\begin{solutions}
+  \item \textbf{Root of a concave expression on an unbounded closed domain.}
+        \begin{enumerate}[label=(\alph*),leftmargin=1.8em,itemsep=0.4ex]
+          \item \emph{Domain (Vol.~2, Ch.~1 and Ch.~4).} Radicand
+                $\ge0$: $D=\{x\le6-y^{2}\}$, the region on and to the left of
+                the parabola $x=6-y^{2}$ (vertex $(6,0)$, opening to the
+                left). Closed (weak inequality), unbounded (it contains the
+                whole ray $y=0$, $x\le6$), and convex: it is
+                the upper set $\{g\ge0\}$ of the concave function
+                $g=6-x-y^{2}$ (Vol.~7, Ch.~2). \emph{Range
+                (Vol.~2, Ch.~1):} $f=0$ on the parabola and
+                $f(x,0)=\sqrt{6-x}\to\infty$ as $x\to-\infty$; by
+                continuity $f(D)=[0,\infty)$.
+          \item \emph{Derivative (Vol.~5, Ch.~10).}
+                $f_{x}=\dfrac{-1}{2\sqrt{6-x-y^{2}}}=-\dfrac{1}{2f}$,
+                \;$f_{y}=\dfrac{-2y}{2f}=-\dfrac{y}{f}$, continuous where
+                $f>0$. So $f$ is differentiable on the interior
+                $x<6-y^{2}$ only. On the parabola the partials blow up:
+                at $(6,0)$, $\bigl(f(6-h,0)-0\bigr)/h=\sqrt h/h\to\infty$.
+          \item \emph{Level curves (Vol.~5, Ch.~9).} $f=c\ge0$ gives
+                $x=6-c^{2}-y^{2}$: copies of the boundary parabola, shifted
+                left by $c^{2}$. For $c=0,1,2,3$ the vertices sit at
+                $x=6,5,2,-3$; higher levels lie further left.
+          \item \emph{Gradient (Vol.~5, Ch.~10).} $f(1,1)=\sqrt4=2$, so
+                \[
+                  \grad f(1,1)=\begin{pmatrix}-1/4\\-1/2\end{pmatrix},\qquad
+                  \lVert\grad f(1,1)\rVert=\sqrt{\tfrac1{16}+\tfrac14}
+                  =\frac{\sqrt5}{4}\approx0.56 .
+                \]
+                The level curve through $(1,1)$ is $x=2-y^{2}$; there
+                $\mathrm{d}x/\mathrm{d}y=-2y=-2$, so
+                $\mathrm{d}y/\mathrm{d}x=-\tfrac12$ and $(2,-1)$ is a tangent
+                direction. $(-\tfrac14)(2)+(-\tfrac12)(-1)=0$ \checkmark.
+                The gradient points left and down, towards the inside of the
+                parabolas where the levels rise: steepest ascent, with slope
+                $\sqrt5/4$ in that direction (Vol.~5, Ch.~13).
+          \item \emph{Hessian (Vol.~5, Ch.~11).} From $f_{x}=-\tfrac12f^{-1}$
+                and $f_{y}=-yf^{-1}$:
+                \[
+                  f_{xx}=\tfrac12f^{-2}f_{x}=-\frac{1}{4f^{3}},\qquad
+                  f_{xy}=\tfrac12f^{-2}f_{y}=-\frac{y}{2f^{3}},
+                \]
+                \[
+                  f_{yy}=-\frac1f+\frac{yf_{y}}{f^{2}}
+                        =-\frac{f^{2}+y^{2}}{f^{3}}=-\frac{6-x}{f^{3}} .
+                \]
+                $\det\Hess f=\dfrac{(6-x)-y^{2}}{4f^{6}}
+                =\dfrac{f^{2}}{4f^{6}}=\dfrac{1}{4f^{4}}>0$ and
+                $f_{xx}<0$: \textbf{negative definite} on the interior. At
+                $(1,1)$: $\Hess f=\begin{pmatrix}-1/32&-1/16\\-1/16&-5/8
+                \end{pmatrix}$, $\det=\tfrac{5}{256}-\tfrac{1}{256}
+                =\tfrac1{64}=\tfrac{1}{4\cdot2^{4}}$ \checkmark.
+          \item \emph{Critical points (Vol.~7, Ch.~5).} None:
+                $f_{x}=-1/(2f)$ is never $0$. Moving left always raises $f$.
+          \item \emph{Contour sets (Vol.~5, Ch.~9; Vol.~7, Ch.~2).}
+                $\{f\ge2\}=\{x\le2-y^{2}\}$, the inside of a parabola:
+                \textbf{convex}. $\{f\le2\}=\{2-y^{2}\le x\le6-y^{2}\}$, a
+                curved band between two parabolas: it contains $(-2,2)$ and
+                $(-2,-2)$ (check: $-2\le-2\le2$) but not their midpoint
+                $(-2,0)$ (since $2\le-2$ fails). \textbf{Not convex.}
+          \item \emph{Checklist (Vol.~7, Ch.~1 and Ch.~3).}
+                \emph{Concave: yes}, $\sqrt{\cdot}$ increasing and concave
+                applied to the concave $6-x-y^{2}$ (and (e) confirms it).
+                \emph{Convex: no}, negative definite Hessian.
+                \emph{Quasiconcave: yes}, because concave.
+                \emph{Quasiconvex: no}, by the band in (g).
+                \emph{Maximum: no}, $f$ is unbounded above.
+                \emph{Minimum: yes}, $0$ on the whole parabola $x=6-y^{2}$,
+                boundary points where $f$ is not differentiable.
+                \emph{Increasing: no}, $f$ falls in $x$: $(0,0)\le(1,0)$
+                with $f(1,0)=\sqrt5<\sqrt6=f(0,0)$.
+                \emph{Decreasing: no}, $(0,-1)\le(0,0)$ with
+                $f(0,-1)=\sqrt5<\sqrt6=f(0,0)$.
+                \emph{Epigraph convex: no}, since $f$ is not convex (the
+                hypograph is).
+        \end{enumerate}
+  \item \textbf{Log-Cobb--Douglas.}
+        \begin{enumerate}[label=(\alph*),leftmargin=1.8em,itemsep=0.4ex]
+          \item \emph{Logarithm rules (Vol.~1, Ch.~2).}
+                $u=\tfrac13\ln x+\tfrac12\ln y$. \emph{Domain
+                (Vol.~5, Ch.~10):} the open quadrant $\R^{2}_{++}$, open
+                (not closed), unbounded, convex. \emph{Range:}
+                $u(t,1)=\tfrac13\ln t$ runs through all of $\R$ as $t$
+                runs through $(0,\infty)$, so $u(\R^{2}_{++})=\R$.
+          \item \emph{Level curves (Vol.~5, Ch.~9).}
+                $\tfrac13\ln x+\tfrac12\ln y=c\iff\ln y=2c-\tfrac23\ln x
+                \iff y=\mathrm{e}^{2c}x^{-2/3}$: decreasing, convex curves
+                asymptotic to both axes, moving outwards as $c$ grows. They
+                are exactly the level curves of $x^{1/3}y^{1/2}$, relabelled
+                ($u=\ln v$ with $v$ the Cobb--Douglas): an increasing
+                transform changes the labels, not the curves.
+          \item \emph{Gradient (Vol.~5, Ch.~10).} $u_{x}=\dfrac{1}{3x}$,
+                $u_{y}=\dfrac{1}{2y}$, so $\grad u(1,1)=(\tfrac13,\tfrac12)$
+                with norm $\sqrt{\tfrac19+\tfrac14}=\tfrac{\sqrt{13}}{6}
+                \approx0.60$. The level curve through $(1,1)$ is $u=0$, i.e.
+                $y=x^{-2/3}$, with slope $-\tfrac23$ at $x=1$ and tangent
+                direction $(3,-2)$; $\tfrac13\cdot3-\tfrac12\cdot2=0$
+                \checkmark. The gradient points up and to the right, the
+                direction in which utility rises fastest, at rate
+                $\sqrt{13}/6$.
+          \item \emph{Hessian (Vol.~5, Ch.~11).}
+                $\Hess u=\begin{pmatrix}-\frac{1}{3x^{2}}&0\\0&-\frac{1}{2y^{2}}
+                \end{pmatrix}$. $u_{xx}<0$ and $u_{yy}<0$: each marginal
+                utility $u_{x}=1/(3x)$, $u_{y}=1/(2y)$ falls as its own good
+                increases. Diagonal with negative entries: \textbf{negative
+                definite} everywhere.
+          \item \emph{Critical points (Vol.~7, Ch.~5).} None: $u_{x}=1/(3x)>0$.
+          \item \emph{Contour sets.} $u\le0\iff x^{1/3}y^{1/2}\le1\iff
+                x^{2}y^{3}\le1$. The upper set $\{u\ge0\}=\{y\ge x^{-2/3}\}$
+                lies above a convex curve: \textbf{convex}. The lower set is
+                not: $(8,\tfrac14)$ and $(\tfrac18,4)$ both satisfy
+                $x^{2}y^{3}=1$, but at the midpoint
+                $(\tfrac{65}{16},\tfrac{17}{8})$ the product is far above
+                $1$ (already $x^{2}>16$ and $y^{3}>8$).
+          \item \emph{Checklist (Vol.~7, Ch.~3).}
+                \emph{Concave: yes}, strictly, by the negative definite
+                Hessian (or as a positive sum of the concave $\ln x$,
+                $\ln y$).
+                \emph{Convex: no}, the Hessian is negative definite.
+                \emph{Quasiconcave: yes}, because concave.
+                \emph{Quasiconvex: no}, by (f).
+                \emph{Maximum: no}, $u(t,1)\to\infty$ as $t\to\infty$.
+                \emph{Minimum: no}, $u(t,1)\to-\infty$ as $t\to0^{+}$; the
+                open domain has no boundary to stop at.
+                \emph{Increasing: yes}, strictly: $u_{x}>0$, $u_{y}>0$ on a
+                convex domain.
+                \emph{Decreasing: no}, as it is strictly increasing.
+                \emph{Epigraph convex: no}, $u$ is not convex.
+        \end{enumerate}
+  \item \textbf{Cobb--Douglas with exponent sum above $1$.}
+        \begin{enumerate}[label=(\alph*),leftmargin=1.8em,itemsep=0.4ex]
+          \item \emph{Name (Vol.~5, Ch.~14).} A Cobb--Douglas function,
+                homogeneous of degree $\tfrac34+\tfrac12=\tfrac54>1$:
+                $f(tx,ty)=t^{5/4}f(x,y)$, \textbf{increasing returns to
+                scale}. Domain $\R^{2}_{+}$: closed, unbounded, convex.
+                Range $[0,\infty)$: $f=0$ on the axes and $f(t,t)=t^{5/4}$
+                is unbounded.
+          \item \emph{Derivative (Vol.~5, Ch.~10).}
+                \[
+                  f_{x}=\tfrac34x^{-1/4}y^{1/2},\qquad
+                  f_{y}=\tfrac12x^{3/4}y^{-1/2},
+                \]
+                continuous on the open quadrant $x,y>0$, so $f$ is
+                differentiable there. On the axis $x=0$ (with $y>0$) the
+                factor $x^{-1/4}$ is infinite, and likewise $y^{-1/2}$ on the
+                axis $y=0$ (with $x>0$): the partials do not exist there.
+                The origin is the exception: $f$ vanishes on both axes, so
+                $f_{x}(0,0)=f_{y}(0,0)=0$, and
+                $0\le f(h,k)\le\lVert(h,k)\rVert^{5/4}$ shows that $f$ is
+                differentiable there (from inside the quadrant) with zero
+                derivative. Second partials:
+                $f_{xx}=-\tfrac{3}{16}x^{-5/4}y^{1/2}<0$,
+                $f_{yy}=-\tfrac14x^{3/4}y^{-3/2}<0$: both marginal products
+                \textbf{diminish}.
+          \item \emph{Hessian (Vol.~5, Ch.~11).}
+                $f_{xy}=\tfrac38x^{-1/4}y^{-1/2}$, and
+                \[
+                  \det\Hess f=\tfrac{3}{64}x^{-1/2}y^{-1}
+                  -\tfrac{9}{64}x^{-1/2}y^{-1}
+                  =-\tfrac{3}{32}\,x^{-1/2}y^{-1}<0 :
+                \]
+                \textbf{indefinite} at every interior point, so $f$ is
+                neither concave nor convex. Diminishing marginal products
+                (negative diagonal) are \emph{not} enough for concavity;
+                the cross effect $f_{xy}$ is too strong. Along the diagonal
+                the function is $f(t,t)=t^{5/4}$, strictly convex in $t$,
+                which refutes concavity directly.
+          \item \emph{Level curves and gradient (Vol.~5, Ch.~9, Ch.~10).}
+                $x^{3/4}y^{1/2}=c$ gives $y=c^{2}x^{-3/2}$: decreasing convex
+                isoquants. $\grad f(1,1)=(\tfrac34,\tfrac12)$, norm
+                $\sqrt{\tfrac{9}{16}+\tfrac{4}{16}}=\tfrac{\sqrt{13}}{4}
+                \approx0.90$. The isoquant $y=x^{-3/2}$ through $(1,1)$ has
+                slope $-\tfrac32$, tangent $(2,-3)$, and
+                $\tfrac34\cdot2-\tfrac12\cdot3=0$ \checkmark. The gradient
+                points to the upper right, towards higher output, and
+                $\sqrt{13}/4$ is the output gain per unit step in that best
+                direction.
+          \item \emph{Critical points (Vol.~7, Ch.~5).} None in the
+                interior, since $f_{x}>0$. The minimum value $0$ is attained
+                on the two axes, boundary points of the domain, which the
+                first-order condition does not see. (At the corner $(0,0)$
+                the gradient from (b) does vanish, but the other minimizers
+                on the axes are points where the partials do not even
+                exist.)
+          \item \emph{Contour sets.} $\{f\ge1\}=\{y\ge x^{-3/2}\}$, the
+                region above a convex curve: \textbf{convex}. $\{f\le1\}$ is
+                not: $(4,\tfrac18)$ and $(\tfrac14,8)$ lie on $f=1$, but the
+                midpoint $(\tfrac{17}{8},\tfrac{65}{16})$ has
+                $f>1$ (both coordinates exceed $1$).
+          \item \emph{Checklist (Vol.~7, Ch.~3).}
+                \emph{Concave: no}, $f(t,t)=t^{5/4}$ is strictly convex.
+                \emph{Convex: no}, $f(t,1)=t^{3/4}$ is strictly concave.
+                \emph{Quasiconcave: yes}, all upper sets lie above convex
+                isoquants (Cobb--Douglas always is).
+                \emph{Quasiconvex: no}, by (f).
+                \emph{Maximum: no}, unbounded.
+                \emph{Minimum: yes}, $0$ on the axes.
+                \emph{Increasing: yes}: if $x\le x'$ and $y\le y'$ then
+                $x^{3/4}\le x'^{3/4}$ and $y^{1/2}\le y'^{1/2}$, and the
+                product of nonnegative factors grows.
+                \emph{Decreasing: no}, $f(0,0)=0<1=f(1,1)$.
+                \emph{Epigraph convex: no}, $f$ is not convex.
+        \end{enumerate}
+  \item \textbf{Cobb--Douglas with constant returns.}
+        \begin{enumerate}[label=(\alph*),leftmargin=1.8em,itemsep=0.4ex]
+          \item \emph{Name (Vol.~5, Ch.~14).} Cobb--Douglas, homogeneous of
+                degree $\tfrac13+\tfrac23=1$: \textbf{constant returns to
+                scale}. Domain $\R^{2}_{+}$ (closed, convex, unbounded),
+                range $[0,\infty)$, since $f(t,t)=t$.
+          \item \emph{Derivative and Hessian (Vol.~5, Ch.~10, Ch.~11).}
+                On $x,y>0$:
+                $f_{x}=\tfrac13x^{-2/3}y^{2/3}$,
+                $f_{y}=\tfrac23x^{1/3}y^{-1/3}$, and
+                \[
+                  \Hess f=\frac29\begin{pmatrix}
+                    -x^{-5/3}y^{2/3}& x^{-2/3}y^{-1/3}\\
+                    x^{-2/3}y^{-1/3}& -x^{1/3}y^{-4/3}\end{pmatrix},\qquad
+                  \det\Hess f=\tfrac{4}{81}x^{-4/3}y^{-2/3}
+                  -\tfrac{4}{81}x^{-4/3}y^{-2/3}=0 .
+                \]
+                Diagonal negative, determinant zero: \textbf{negative
+                semidefinite}, not definite. The null direction is the ray
+                itself: the first row times $(x,y)$ is
+                $\tfrac29\bigl(-x^{-2/3}y^{2/3}+x^{-2/3}y^{2/3}\bigr)=0$,
+                and likewise the second. Along a ray $f(tx,ty)=tf(x,y)$ is
+                linear, so it has no curvature there.
+          \item \emph{Level curves, gradient, Euler (Vol.~5, Ch.~9,
+                Ch.~10, Ch.~14).} $x^{1/3}y^{2/3}=c\iff y=c^{3/2}x^{-1/2}$.
+                $f(1,8)=1\cdot4=4$, so the isoquant is $y=8x^{-1/2}$, slope
+                $-4x^{-3/2}=-4$ at $x=1$. $\grad f(1,8)=
+                (\tfrac13\cdot4,\ \tfrac23\cdot\tfrac12)=(\tfrac43,\tfrac13)$,
+                norm $\tfrac{\sqrt{17}}{3}\approx1.37$; with tangent
+                $(1,-4)$: $\tfrac43-\tfrac43=0$ \checkmark. Steepest ascent
+                points mostly in the $x$ direction, because $x$ is the
+                scarce factor at $(1,8)$. Euler: $1\cdot\tfrac43+8\cdot
+                \tfrac13=4=f(1,8)$ \checkmark.
+          \item \emph{Critical points.} None in the interior ($f_{x}>0$);
+                the minimum $0$ sits on the axes.
+          \item \emph{Contour sets.} $\{f\ge4\}=\{y\ge8x^{-1/2}\}$:
+                \textbf{convex}. $\{f\le4\}$: $(16,2)$ and $(\tfrac14,16)$
+                lie on $f=4$, the midpoint $(\tfrac{65}{8},9)$ gives
+                $f=(\tfrac{65}{8})^{1/3}\cdot9^{2/3}\approx8.7>4$.
+                \textbf{Not convex.}
+          \item \emph{Checklist (Vol.~7, Ch.~3).}
+                \emph{Concave: yes}, the Hessian is negative semidefinite
+                on the interior, and concavity carries over to the axes by
+                continuity (Cobb--Douglas with $a+b\le1$).
+                \emph{Strictly concave: no}, $f(t,t)=t$ is linear along the
+                diagonal.
+                \emph{Convex: no}, $f(t,1)=t^{1/3}$ is strictly concave.
+                \emph{Quasiconcave: yes}, because concave.
+                \emph{Quasiconvex: no}, by (e).
+                \emph{Maximum: no}. \emph{Minimum: yes}, $0$ on the axes.
+                \emph{Increasing: yes}, as in Problem~3.
+                \emph{Decreasing: no}.
+                \emph{Epigraph convex: no}; the hypograph is convex.
+        \end{enumerate}
+  \item \textbf{Logarithm of a positive quadratic.}
+        \begin{enumerate}[label=(\alph*),leftmargin=1.8em,itemsep=0.4ex]
+          \item \emph{Domain and range (Vol.~2, Ch.~1).}
+                $q=4+x^{2}+y^{2}\ge4>0$ always, so $D=\R^{2}$. $q$ takes
+                every value in $[4,\infty)$ and $\ln$ is increasing, so
+                $f(\R^{2})=[\ln4,\infty)$.
+          \item \emph{Gradient (Vol.~5, Ch.~10).}
+                $\grad f=\Bigl(\dfrac{2x}{q},\dfrac{2y}{q}\Bigr)$,
+                continuous everywhere since $q\ne0$: differentiable on all
+                of $\R^{2}$.
+          \item \emph{Level curves and gradient (Vol.~5, Ch.~9).}
+                $f=c\iff x^{2}+y^{2}=\mathrm{e}^{c}-4$: circles about the
+                origin for $c>\ln4$, the origin itself for $c=\ln4$, empty
+                below. Through $(1,1)$ runs the circle $x^{2}+y^{2}=2$
+                (level $\ln6$). $\grad f(1,1)=(\tfrac26,\tfrac26)
+                =(\tfrac13,\tfrac13)$, norm $\tfrac{\sqrt2}{3}$; it is a
+                multiple of the radius vector $(1,1)$, and a radius is
+                orthogonal to a circle: tangent $(1,-1)$,
+                $\tfrac13-\tfrac13=0$ \checkmark. It points outwards,
+                towards larger circles and higher values.
+          \item \emph{Hessian (Vol.~5, Ch.~11).} Quotient rule:
+                \[
+                  f_{xx}=\frac{2(4-x^{2}+y^{2})}{q^{2}},\quad
+                  f_{yy}=\frac{2(4+x^{2}-y^{2})}{q^{2}},\quad
+                  f_{xy}=-\frac{4xy}{q^{2}},
+                \]
+                \[
+                  \det\Hess f=\frac{4\bigl[16-(x^{2}-y^{2})^{2}\bigr]
+                  -16x^{2}y^{2}}{q^{4}}
+                  =\frac{4\bigl[16-(x^{2}+y^{2})^{2}\bigr]}{q^{4}} .
+                \]
+                At $(0,0)$: $\Hess f=\mathrm{diag}(\tfrac12,\tfrac12)$,
+                positive definite. At $(1,1)$ ($q=6$):
+                $\begin{pmatrix}2/9&-1/9\\-1/9&2/9\end{pmatrix}$,
+                $\det=\tfrac{1}{27}>0$, $f_{xx}>0$: positive definite. At
+                $(2,2)$ ($q=12$):
+                $\begin{pmatrix}1/18&-1/9\\-1/9&1/18\end{pmatrix}$,
+                $\det=-\tfrac{1}{108}<0$: indefinite.
+          \item \emph{Critical points (Vol.~7, Ch.~5).} $2x/q=0$ and
+                $2y/q=0$ give only $(0,0)$; positive definite Hessian: strict
+                local minimum $\ln4$, and global, since $f\ge\ln4$ by (a).
+          \item \emph{Contour sets.} $\{f\le\ln8\}=\{x^{2}+y^{2}\le4\}$, a
+                disk: \textbf{convex}. $\{f\ge\ln8\}=\{x^{2}+y^{2}\ge4\}$,
+                the outside of the disk: it contains $(2,0)$ and $(-2,0)$
+                but not their midpoint $(0,0)$. \textbf{Not convex.}
+          \item \emph{Checklist (Vol.~7, Ch.~3).}
+                \emph{Concave: no}, the Hessian is positive definite at the
+                origin.
+                \emph{Convex: no}, it is indefinite at $(2,2)$; along the
+                $x$-axis $g(t)=\ln(4+t^{2})$ has
+                $g''(t)=\dfrac{2(4-t^{2})}{(4+t^{2})^{2}}<0$ for $|t|>2$.
+                \emph{Quasiconvex: yes}, every lower set is a disk (or
+                empty, or a point).
+                \emph{Quasiconcave: no}, by (f).
+                \emph{Maximum: no}, unbounded above.
+                \emph{Minimum: yes}, $\ln4$ at $(0,0)$.
+                \emph{Increasing: no}, $(-1,0)\le(0,0)$ but
+                $f(-1,0)=\ln5>\ln4=f(0,0)$.
+                \emph{Decreasing: no}, $(0,0)\le(1,0)$ but
+                $f(1,0)=\ln5>f(0,0)$.
+                \emph{Epigraph convex: no}, $f$ is not convex.
+                \emph{Convex on a disk:} the determinant is positive
+                exactly when $x^{2}+y^{2}<2^{2}$, and there
+                $f_{xx}=2(4-x^{2}+y^{2})/q^{2}>0$ because $x^{2}<4$. So $f$
+                is convex on the disk of radius $2$ (closed, by continuity),
+                and on no larger disk, since the determinant turns negative
+                just outside it. This is the typical shape of a
+                quasiconvex but not convex function: a bowl at the bottom
+                that flattens into a trumpet.
+        \end{enumerate}
+\end{solutions}

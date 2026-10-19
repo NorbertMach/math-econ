@@ -137,6 +137,73 @@ function $C(q)$, and they are worth knowing as results:
 \end{itemize}
 \end{rulebox}
 
+\begin{rulebox}{The logistic model}
+Adoption of a product, the response of sales to advertising, and the
+spread of a technology typically follow the \textbf{logistic curve}
+\de{(logistische Funktion)}
+\[
+  f(x)=\frac{G}{1+A\,\mathrm{e}^{-kGx}},\qquad G,A,k>0 .
+\]
+\begin{itemize}[leftmargin=1.6em,itemsep=0.4ex]
+  \item \textbf{Parameters.} $f(x)\to G$ as $x\to\infty$ and $f\to0$ as
+        $x\to-\infty$: $G$ is the \emph{saturation level}. The starting
+        value is $f(0)=G/(1+A)$, so $A=G/f(0)-1$. The constant $k$ sets the
+        speed.
+  \item \textbf{The differential equation.} Write $E=A\mathrm{e}^{-kGx}$.
+        Then $f'=\dfrac{G\cdot kGE}{(1+E)^{2}}$, while
+        $f\,(G-f)=\dfrac{G}{1+E}\cdot\dfrac{GE}{1+E}$. Hence
+        \[
+          f'=k\,f\,(G-f):
+        \]
+        growth is proportional both to the level reached and to the
+        distance still to go. To \emph{verify} that a given function
+        satisfies such an equation, compute both sides separately and
+        compare.
+  \item \textbf{The second derivative from the equation.} Differentiate
+        $f'=k(Gf-f^{2})$ with the chain rule, $f$ being a function of $x$:
+        \[
+          f''=k\,(Gf'-2ff')=k\,f'\,(G-2f) .
+        \]
+        Since $f'>0$, the sign of $f''$ is the sign of $G-2f$: the curve is
+        \textbf{convex while $f<G/2$} and \textbf{concave once $f>G/2$}.
+        The inflection is at the height $G/2$, i.e.\ where $E=1$, at
+        $x^{*}=\ln A/(kG)$.
+  \item \textbf{Greatest marginal effect.} The inflection is where $f'$ is
+        largest, since $(f')'=f''$ changes from $+$ to $-$ there. The
+        maximal rate is $f'(x^{*})=k\cdot\frac G2\cdot\frac G2=kG^{2}/4$.
+        For advertising this is the budget at which one more unit of spending
+        buys the most extra sales.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{The S-shaped production function}
+A production or yield function $f(x)$ of one input that is first convex,
+then concave, and finally falling, splits the input axis into regions
+with economic names:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.4ex]
+  \item \textbf{convex} ($f''>0$): \emph{increasing marginal returns}, each
+        extra unit adds more than the one before;
+  \item \textbf{concave and rising} ($f''<0<f'$): \emph{diminishing
+        marginal returns} \de{(abnehmende Grenzerträge)};
+  \item \textbf{falling} ($f'<0$): over-use; more input lowers output.
+\end{itemize}
+Three thresholds, always in this order:
+\begin{enumerate}[leftmargin=1.6em,itemsep=0.3ex]
+  \item the \textbf{inflection} point, where the marginal product $MP=f'$
+        is largest;
+  \item the maximum of the \textbf{average product} $AP=f(x)/x$. Since
+        $AP'=\dfrac{xf'-f}{x^{2}}=\dfrac{MP-AP}{x}$, it lies where
+        $MP=AP$, just as for average cost;
+  \item the maximum of \textbf{output}, where $MP=0$.
+\end{enumerate}
+\textbf{An input budget $x\le B$.} Maximising $f$ on $[0,B]$: if $B$ lies
+below the output peak $x_{\max}$, $f$ is still increasing on all of
+$[0,B]$ and the optimum is the \emph{corner} $x=B$; if $B\ge x_{\max}$ the
+optimum is the interior peak $x_{\max}$; without a budget it is
+$x_{\max}$. The same three cases hold for average product, with the peak
+of $AP$ in place of $x_{\max}$.
+\end{rulebox}
+
 \section{Worked Example}
 
 \begin{worked}{The complete discussion of $f(x)=\dfrac{x^{2}}{x-1}$}
@@ -606,6 +673,51 @@ their extrema and inflection points marked.}
         that marginal product equals average product there.
 \end{problems}
 
+Problems 26--29 concern the logistic model; problems 30--32 the S-shaped
+production function; problems 33--35 ask for the tangent at an inflection
+point.
+
+\begin{problems}[resume]
+  \item Sales respond to advertising spending $x$ (in thousand euros) as
+        $S(x)=\dfrac{60}{1+5\mathrm{e}^{-0.3x}}$. Give the saturation level
+        and the sales without advertising; verify that
+        $S'=0.005\,S\,(60-S)$; find $S''$ from that equation and the
+        regions of convexity and concavity; and find the budget at which
+        marginal sales are greatest, with that greatest value.
+  \item The share of households owning a new device after $t$ years is
+        $p(t)=\dfrac{1}{1+9\mathrm{e}^{-0.8t}}$. Verify that
+        $p'=0.8\,p\,(1-p)$, find $p''$ in terms of $p$ and $p'$, and say
+        when adoption is fastest and how fast it is then.
+  \item A quantity satisfies $y'=0.02\,y\,(50-y)$ with $y(0)=5$. Write
+        down the logistic function with these data, verify by
+        differentiation that it solves the equation, and find the
+        inflection point and the largest growth rate.
+  \item For the general logistic $f=G/(1+A\mathrm{e}^{-kGx})$, show that
+        $f''=k^{2}f(G-f)(G-2f)$, and show that the time needed to climb
+        from $10\%$ to $50\%$ of saturation is $\ln9/(kG)$, whatever $A$
+        is.
+  \item Output from $x$ units of labour is $f(x)=2x^{2}-\tfrac16x^{3}$ on
+        $[0,12]$. Find the regions of increasing and diminishing marginal
+        returns and of over-use, the three thresholds, and the optimal
+        input for output and for average product (a) without a budget,
+        (b) under the budget $x\le5$, (c) under $x\le10$.
+  \item The yield of a field with $x$ units of fertiliser is
+        $y(x)=40x^{2}\mathrm{e}^{-x/5}$, $x\ge0$. Find the inflection point
+        in the rising part, the maximum of average yield and the maximum
+        of yield, and the optimal input for yield and for average yield
+        under the budgets $x\le4$, $x\le7$ and $x\le12$.
+  \item Show for an S-shaped production function with $f(0)=0$, whose
+        marginal product first rises and then falls, that the three
+        thresholds always come in the order inflection, maximum of $AP$,
+        maximum of output.
+  \item Find the maximal domain of $f(x)=\dfrac{\sqrt{x}}{3-x}$, show that
+        it has exactly one inflection point, and give the tangent there.
+  \item Find both inflection points of $f(x)=\ln(1+x^{2})$, the tangents
+        there, and the point where the two tangents meet.
+  \item Give the tangent to $f(x)=x\mathrm{e}^{-x}$ at its inflection
+        point, and the point where it crosses the $x$-axis.
+\end{problems}
+
 \section{Additional Solutions}
 
 \begin{solutions}
@@ -706,4 +818,154 @@ their extrema and inflection points marked.}
         $AP=36$. And $MP=Q'=24L-3L^{2}$, so $MP(6)=144-108=36=AP$. The
         same tangency argument as for average cost applies, with the ray
         from the origin now touching the production curve.
+  \item Here $G=60$, $A=5$ and $kG=0.3$, so $k=0.005$. Saturation is
+        $60$; without advertising $S(0)=60/6=10$.
+        \emph{Verify the equation.} Put $E=5\mathrm{e}^{-0.3x}$, so
+        $E'=-0.3E$ and $S=60(1+E)^{-1}$:
+        \begin{align*}
+          S'&=-60(1+E)^{-2}\cdot(-0.3E)=\frac{18E}{(1+E)^{2}},\\
+          0.005\,S(60-S)&=0.005\cdot\frac{60}{1+E}\cdot\frac{60E}{1+E}
+          =\frac{18E}{(1+E)^{2}} .
+        \end{align*}
+        The two sides agree. \emph{Second derivative.} Differentiating
+        $S'=0.005(60S-S^{2})$ gives $S''=0.005\,S'(60-2S)$. As $S'>0$,
+        $S$ is convex while $S<30$ and concave once $S>30$.
+        \emph{Greatest marginal effect.} $S=30$ means $E=1$, i.e.
+        $\mathrm{e}^{-0.3x}=\tfrac15$, $x^{*}=\ln5/0.3\approx5.365$. There
+        $S'=0.005\cdot30\cdot30=4.5$: around a budget of $5{,}365$ euros
+        one more thousand euros of advertising buys about $4.5$ units of
+        sales, more than at any other budget.
+  \item With $E=9\mathrm{e}^{-0.8t}$, $E'=-0.8E$ and $p=(1+E)^{-1}$:
+        $p'=\dfrac{0.8E}{(1+E)^{2}}$ and
+        $0.8\,p(1-p)=0.8\cdot\dfrac{1}{1+E}\cdot\dfrac{E}{1+E}$, the same.
+        Differentiating $p'=0.8(p-p^{2})$:
+        \[
+          p''=0.8\,(p'-2pp')=0.8\,p'(1-2p) .
+        \]
+        Adoption is fastest where $p''$ changes sign, at $p=\tfrac12$: then
+        $E=1$, $t^{*}=\ln9/0.8\approx2.75$ years, and
+        $p'=0.8\cdot\tfrac12\cdot\tfrac12=0.2$, i.e.\ $20$ percentage
+        points per year. The start value is $p(0)=0.1$ and the saturation
+        level is $1$ (every household).
+  \item Compare with $f'=kf(G-f)$: $G=50$, $k=0.02$, $kG=1$, and
+        $A=G/y(0)-1=9$. So
+        \[
+          y(t)=\frac{50}{1+9\mathrm{e}^{-t}} .
+        \]
+        \emph{Check.} With $E=9\mathrm{e}^{-t}$, $E'=-E$:
+        $y'=\dfrac{50E}{(1+E)^{2}}$, and
+        $0.02\,y(50-y)=0.02\cdot\dfrac{50}{1+E}\cdot\dfrac{50E}{1+E}
+        =\dfrac{50E}{(1+E)^{2}}$. \checkmark\ Also $y(0)=50/10=5$.
+        The inflection is at $y=25$, where $E=1$: $t^{*}=\ln9\approx2.197$,
+        and the largest growth rate is $y'=0.02\cdot25\cdot25=12.5$.
+  \item From the box, $f''=kf'(G-2f)$ and $f'=kf(G-f)$; substituting the
+        second into the first gives $f''=k^{2}f(G-f)(G-2f)$. Since
+        $0<f<G$, the sign is that of $G-2f$.
+        With $E=A\mathrm{e}^{-kGx}$, $f=G/(1+E)$ equals $G/10$ when
+        $1+E=10$, i.e.\ $E=9$, and equals $G/2$ when $E=1$. Solving
+        $A\mathrm{e}^{-kGx}=9$ and $A\mathrm{e}^{-kGx}=1$:
+        \[
+          x_{10\%}=\frac{\ln A-\ln9}{kG},\qquad x_{50\%}=\frac{\ln A}{kG},
+          \qquad x_{50\%}-x_{10\%}=\frac{\ln9}{kG} .
+        \]
+        $A$ only shifts the curve in time; the shape, and so this
+        duration, depends on $kG$ alone.
+  \item $MP=f'=4x-\tfrac12x^{2}=\tfrac12x(8-x)$, $f''=4-x$.
+        \begin{itemize}[leftmargin=1.2em,itemsep=0.2ex]
+          \item Increasing marginal returns on $[0,4)$ ($f''>0$),
+                diminishing on $(4,8)$, over-use on $(8,12]$ ($f'<0$).
+          \item Inflection at $x=4$: the largest marginal product,
+                $MP(4)=16-8=8$.
+          \item $AP=2x-\tfrac16x^{2}$, $AP'=2-\tfrac13x=0$ at $x=6$, with
+                $AP(6)=6$ and $MP(6)=24-18=6=AP$. \checkmark
+          \item Output peak where $MP=0$: $x=8$, $f(8)=128-\tfrac{512}{6}
+                =\tfrac{128}{3}\approx42.67$.
+        \end{itemize}
+        (a) No budget: output is maximal at $x=8$, average product at
+        $x=6$. (b) $x\le5$: both peaks lie beyond $5$, so $f$ and $AP$ are
+        still increasing on $[0,5]$ and both optima are the corner $x=5$,
+        with $f(5)=\tfrac{175}{6}\approx29.17$ and $AP(5)=\tfrac{35}{6}
+        \approx5.83$. (c) $x\le10$: both peaks are affordable, so the
+        optima are the interior points $x=8$ and $x=6$ again.
+  \item Product rule:
+        $y'=80x\mathrm{e}^{-x/5}-8x^{2}\mathrm{e}^{-x/5}
+        =8x\,\mathrm{e}^{-x/5}(10-x)$, and once more
+        \[
+          y''=\mathrm{e}^{-x/5}\Bigl[(80-16x)-\tfrac15(80x-8x^{2})\Bigr]
+             =\tfrac85\,\mathrm{e}^{-x/5}\,(x^{2}-20x+50) .
+        \]
+        $y''=0$ at $x=10\pm5\sqrt2$. In the rising part ($x<10$) the
+        inflection is $x=10-5\sqrt2\approx2.93$, where marginal yield is
+        greatest, $y'\approx92.23$. (The second root, $17.07$, lies in the
+        falling part, where the curve flattens out towards $0$.)
+        Average yield $AP=40x\mathrm{e}^{-x/5}$ has
+        $AP'=40\mathrm{e}^{-x/5}(1-x/5)=0$ at $x=5$, with
+        $AP(5)=200/\mathrm{e}\approx73.58$, and indeed
+        $y'(5)=8\cdot5\cdot\mathrm{e}^{-1}\cdot5=200/\mathrm{e}=AP$.
+        Yield is largest at $x=10$, $y(10)=4000\mathrm{e}^{-2}\approx541.34$.
+        Budgets:
+        \begin{itemize}[leftmargin=1.2em,itemsep=0.2ex]
+          \item $x\le4$: both peaks ($5$ and $10$) lie beyond the budget:
+                corner $x=4$ for both, $y(4)\approx287.57$,
+                $AP(4)\approx71.89$.
+          \item $x\le7$: yield is still rising at $7$, so corner $x=7$,
+                $y(7)\approx483.33$; average yield peaks inside, at $x=5$.
+          \item $x\le12$: both interior, $x=10$ for yield and $x=5$ for
+                average yield.
+        \end{itemize}
+  \item Let $x_{I}$ be the inflection, where $MP$ is largest. By the mean
+        value theorem, $f(x)=f(x)-f(0)=f'(\xi)\,x$ for some $\xi\in(0,x)$,
+        so $AP(x)=MP(\xi)$. For $x\le x_{I}$, $MP$ is increasing on
+        $[0,x]$, hence $MP(\xi)<MP(x)$: $AP<MP$, and
+        $AP'=(MP-AP)/x>0$. So $AP$ is still rising at $x_{I}$, and its
+        maximum $x_{A}$ lies beyond $x_{I}$. At $x_{A}$, $MP=AP>0$, so
+        output is still rising there, and the output peak (where $MP=0$)
+        lies beyond $x_{A}$. Order: $x_{I}<x_{A}<x_{\max}$.
+  \item \emph{Domain.} $\sqrt{x}$ needs $x\ge0$ and the denominator needs
+        $x\neq3$: $D=[0,3)\cup(3,\infty)$.
+        \emph{First derivative.} Quotient rule:
+        \[
+          f'=\frac{\frac{1}{2\sqrt x}(3-x)+\sqrt x}{(3-x)^{2}}
+            =\frac{3-x+2x}{2\sqrt x\,(3-x)^{2}}
+            =\frac{x+3}{2\sqrt x\,(3-x)^{2}} .
+        \]
+        \emph{Second derivative.} With numerator $N=x+3$ and denominator
+        $M=2x^{1/2}(3-x)^{2}$,
+        $M'=x^{-1/2}(3-x)^{2}-4x^{1/2}(3-x)=x^{-1/2}(3-x)(3-5x)$, and
+        after multiplying numerator and denominator by $x^{1/2}$,
+        \[
+          f''=\frac{(3-x)\bigl[2x(3-x)-(x+3)(3-5x)\bigr]}
+                   {4x^{3/2}(3-x)^{4}}
+             =\frac{3\,(x^{2}+6x-3)}{4x^{3/2}(3-x)^{3}} .
+        \]
+        $x^{2}+6x-3=0$ at $x=-3\pm2\sqrt3$; only $x_{0}=2\sqrt3-3\approx
+        0.464102$ lies in $D$. On $(0,3)$ the denominator is positive and
+        the quadratic changes sign from $-$ to $+$ at $x_{0}$: concave,
+        then convex, so $x_{0}$ is an inflection. On $(3,\infty)$ the
+        quadratic is positive and $(3-x)^{3}<0$, so $f''<0$ throughout: no
+        second inflection (the sign change at the pole $x=3$ is not one).
+        \emph{Tangent.} $f(x_{0})=\sqrt{x_{0}}/(6-2\sqrt3)\approx0.268642$
+        and $f'(x_{0})=\dfrac{2\sqrt3}{2\sqrt{x_{0}}(6-2\sqrt3)^{2}}
+        \approx0.395358$, so
+        \[
+          y\approx0.268642+0.395358\,(x-0.464102)
+           \approx0.395358\,x+0.085156 .
+        \]
+  \item $f'=\dfrac{2x}{1+x^{2}}$ and
+        $f''=\dfrac{2(1+x^{2})-4x^{2}}{(1+x^{2})^{2}}
+        =\dfrac{2(1-x^{2})}{(1+x^{2})^{2}}$, positive for $|x|<1$ and
+        negative for $|x|>1$: inflections at $(\pm1,\ln2)$, with slopes
+        $f'(\pm1)=\pm1$. Tangents:
+        \[
+          y=\ln2+(x-1)=x-1+\ln2,\qquad y=\ln2-(x+1)=-x-1+\ln2 .
+        \]
+        Setting them equal gives $x=0$: they meet at
+        $(0,\ln2-1)\approx(0,-0.307)$, on the axis of symmetry.
+  \item $f'=(1-x)\mathrm{e}^{-x}$, $f''=(x-2)\mathrm{e}^{-x}$, which
+        changes sign at $x=2$: the inflection is $(2,2\mathrm{e}^{-2})$,
+        with slope $f'(2)=-\mathrm{e}^{-2}$. Tangent:
+        \[
+          y=2\mathrm{e}^{-2}-\mathrm{e}^{-2}(x-2)=\mathrm{e}^{-2}(4-x),
+        \]
+        which crosses the $x$-axis at $x=4$.
 \end{solutions}

@@ -79,6 +79,83 @@ shift of $6$.
 \quad\textbullet\quad reflection in the $y$-axis. The original is dashed.}
 \end{gallery}
 
+\begin{rulebox}{Rewrite first, then read: other bases, negative inner factors, higher powers}
+The four moves can be read off only once the formula has the shape
+$a\,f\bigl(b(x-c)\bigr)+d$ for a base function you know. Four rewritings
+get it there.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Exponentials with any base.} For $q>0$, $q\neq1$, the graph
+        of $q^{x}$ passes through $(0,1)$ and has the asymptote $y=0$; it
+        rises if $q>1$ and falls if $0<q<1$. Since $q^{-x}=(1/q)^{x}$, a
+        negative exponent is a reflection in the $y$-axis, turning a rising
+        exponential into a falling one. Collect everything into a single
+        base before sketching:
+        \[
+          \frac{a^{x}}{b^{x}}=\Bigl(\frac{a}{b}\Bigr)^{x},\qquad
+          a^{2x}=\bigl(a^{2}\bigr)^{x},\qquad
+          \text{e.g. }\ \frac{3^{2x}}{2^{x}}=\Bigl(\frac{9}{2}\Bigr)^{x}.
+        \]
+        Then $y=c\,q^{x}+d$ has domain $\R$, the horizontal asymptote
+        $y=d$, and range $(d,\infty)$ if $c>0$, $(-\infty,d)$ if $c<0$.
+  \item \textbf{A negative factor inside.} In $\sqrt{k-mx}$ with $m>0$,
+        factor out $-m$, not $m$:
+        \[
+          \sqrt{k-mx}=\sqrt{-m\Bigl(x-\frac{k}{m}\Bigr)} .
+        \]
+        The factor $-m$ is a reflection in the $y$-axis together with a
+        horizontal compression by $m$; then comes a shift \emph{right} by
+        $k/m$. The domain is $x\le k/m$: the curve starts at $x=k/m$ and
+        runs to the \emph{left}. The same factoring handles $\ln(k-mx)$,
+        with domain $x<k/m$ and the asymptote $x=k/m$.
+  \item \textbf{Logarithms with an inner factor.}
+        $c\ln(ax+b)+d=c\ln\bigl(a(x+\tfrac{b}{a})\bigr)+d$: domain
+        $ax+b>0$, vertical asymptote $x=-b/a$, range $\R$. For $a>0$ there
+        is a second reading, $c\ln a+c\ln\bigl(x+\tfrac{b}{a}\bigr)+d$: the
+        horizontal compression by $a$ is the same as a vertical shift by
+        $c\ln a$.
+  \item \textbf{Higher powers in a denominator.} $y=\dfrac{c}{(x-a)^{n}}+b$
+        has the asymptotes $x=a$ and $y=b$. For \emph{even} $n$ the
+        denominator is positive on both sides of the pole, so both branches
+        lie on the \emph{same} side of $y=b$ (above it if $c>0$, below if
+        $c<0$), and the range is $(b,\infty)$ or $(-\infty,b)$. For
+        \emph{odd} $n$ the denominator changes sign at $x=a$, the branches
+        lie on \emph{opposite} sides, as for $1/x$, and the range is
+        $\R\setminus\{b\}$.
+\end{itemize}
+Factor powers too: $(2x-6)^{2}=4(x-3)^{2}$, so
+$\dfrac{8}{(2x-6)^{2}}=\dfrac{2}{(x-3)^{2}}$, with the pole at $x=3$.
+\end{rulebox}
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[fnaxis, xmin=-3.4, xmax=3.4, ymin=-1.2, ymax=4.6,
+      xtick={-2,2}, ytick={2,4}, title={$y=2^{-x}=\bigl(\tfrac12\bigr)^{x}$}]
+    \addplot[gray!60, dashed, thin, domain=-3.2:2.1]{2^x};
+    \addplot[domain=-2.1:3.2]{2^(-x)};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[fnaxis, xmin=-3.4, xmax=4.4, ymin=-1.2, ymax=4.6,
+      xtick={-2,2,4}, ytick={2,4}, title={$y=\sqrt{4-2x}$}]
+    \addplot[gray!60, dashed, thin, samples=101, domain=0:4.2]{sqrt(x)};
+    \addplot[samples=201, domain=-3.2:2]{sqrt(4-2*x)};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[fnaxis, xmin=-2.4, xmax=3.4, ymin=-3.2, ymax=4.6,
+      xtick={-2,2}, ytick={-2,2,4},
+      title={$\tfrac{1}{(x-1)^{2}}$ and $\tfrac{1}{(x-1)^{3}}$}]
+    \addplot[samples=101, domain=-2.3:0.53]{1/(x-1)^2};
+    \addplot[samples=101, domain=1.47:3.3]{1/(x-1)^2};
+    \addplot[gray!60, dashed, thin, samples=101, domain=-2.3:0.31]{1/(x-1)^3};
+    \addplot[gray!60, dashed, thin, samples=101, domain=1.62:3.3]{1/(x-1)^3};
+  \end{axis}
+\end{tikzpicture}
+\gcap{A negative exponent reflects in the $y$-axis \quad\textbullet\quad
+$\sqrt{-2(x-2)}$ starts at $x=2$ and runs left \quad\textbullet\quad even
+power (solid): both branches above; odd power (dashed): opposite sides.}
+\end{gallery}
+
 \begin{rulebox}{Absolute values: two different operations}
 \begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
   \item $y=|f(x)|$ acts on the \textbf{output}: everything below the
@@ -516,6 +593,24 @@ In problems 34--39, find the inverse together with its domain and range.
         transformations of the graph.
 \end{problems}
 
+In problems 26--36, rewrite the formula first (single base, factored
+inside, factored power), then give the chain of moves from the base
+function, the maximal domain, the range and every asymptote.
+
+\begin{problems}[resume]
+  \item $y=3-2\cdot5^{-x}$
+  \item $y=1+3\cdot\bigl(\tfrac25\bigr)^{x}$
+  \item $y=\dfrac{12^{x}}{3^{x}}-2$
+  \item $y=4-\dfrac{2^{2x}}{8^{x}}$
+  \item $y=2\sqrt{6-2x}+1$
+  \item $y=2-\sqrt{5-x}$
+  \item $y=3\ln(2x+6)-1$
+  \item $y=1-2\ln(4-x)$
+  \item $y=\dfrac{2}{(x-1)^{2}}-3$
+  \item $y=1-\dfrac{1}{(x+2)^{3}}$
+  \item $y=\dfrac{4}{(2x-6)^{2}}+1$
+\end{problems}
+
 \section{Additional Solutions}
 
 \begin{solutions}
@@ -579,4 +674,68 @@ In problems 34--39, find the inverse together with its domain and range.
         line $20$ units up; lowering the unit cost from $3$ to $2.5$
         flattens it, a change of slope rather than a translation. Only the
         first is a shift of the graph.
+  \item Rewrite $5^{-x}=\bigl(\tfrac15\bigr)^{x}$. From $y=5^{x}$:
+        reflect in the $y$-axis (the graph now falls), stretch vertically by
+        $2$, reflect in the $x$-axis (it now rises again), shift up $3$.
+        $D=\R$. Since $2\cdot5^{-x}$ takes every value in $(0,\infty)$,
+        $-2\cdot5^{-x}$ takes every value in $(-\infty,0)$ and
+        $W=(-\infty,3)$. Horizontal asymptote $y=3$, approached from below
+        as $x\to\infty$; as $x\to-\infty$ the graph falls without bound.
+        Check: $y(0)=3-2=1$. Root: $5^{-x}=\tfrac32$, so
+        $x=-\dfrac{\ln1.5}{\ln5}\approx-0.25$.
+  \item The base $\tfrac25$ lies between $0$ and $1$, so $(\tfrac25)^{x}$
+        is a \emph{falling} exponential through $(0,1)$. Stretch vertically
+        by $3$, shift up $1$. $D=\R$, $W=(1,\infty)$, horizontal asymptote
+        $y=1$, approached from above as $x\to\infty$. $y(0)=1+3=4$.
+        (Equivalently $3\cdot(\tfrac52)^{-x}+1$: the rising exponential
+        $(\tfrac52)^{x}$ reflected in the $y$-axis.)
+  \item Rewrite $\dfrac{12^{x}}{3^{x}}=\Bigl(\dfrac{12}{3}\Bigr)^{x}=4^{x}$,
+        so $y=4^{x}-2$: the rising exponential $4^{x}$ shifted $2$ down.
+        $D=\R$, $W=(-2,\infty)$, horizontal asymptote $y=-2$ as
+        $x\to-\infty$. $y(0)=-1$; root $4^{x}=2$, i.e. $x=\tfrac12$.
+  \item Rewrite $2^{2x}=4^{x}$, so $\dfrac{2^{2x}}{8^{x}}
+        =\Bigl(\dfrac48\Bigr)^{x}=\bigl(\tfrac12\bigr)^{x}=2^{-x}$ and
+        $y=4-2^{-x}$. From $2^{x}$: reflect in the $y$-axis, reflect in the
+        $x$-axis, shift up $4$. $D=\R$, $W=(-\infty,4)$, horizontal
+        asymptote $y=4$ as $x\to\infty$. $y(0)=3$; root $2^{-x}=4=2^{2}$,
+        so $x=-2$.
+  \item Factor out $-2$: $6-2x=-2(x-3)$, so $y=2\sqrt{-2(x-3)}+1$. From
+        $\sqrt{x}$: reflect in the $y$-axis and compress horizontally by
+        $2$ (giving $\sqrt{-2x}$), shift right $3$, stretch vertically by
+        $2$, shift up $1$. Domain from $6-2x\ge0$: $D=(-\infty,3]$. The
+        curve starts at $(3,1)$ and rises to the left without bound, so
+        $W=[1,\infty)$; no asymptote. Check: $y(1)=2\sqrt4+1=5$.
+  \item Factor out $-1$: $y=-\sqrt{-(x-5)}+2$. From $\sqrt{x}$: reflect in
+        the $y$-axis, shift right $5$, reflect in the $x$-axis, shift up
+        $2$. $D=(-\infty,5]$, starting point $(5,2)$, from which the curve
+        falls to the left: $W=(-\infty,2]$. No asymptote. Root:
+        $\sqrt{5-x}=2$, so $x=1$.
+  \item Factor the inside: $2x+6=2(x+3)$, so $y=3\ln\bigl(2(x+3)\bigr)-1$.
+        From $\ln x$: compress horizontally by $2$, shift left $3$, stretch
+        vertically by $3$, shift down $1$. $D=(-3,\infty)$ from $2x+6>0$;
+        vertical asymptote $x=-3$; $W=\R$. Second reading:
+        $y=3\ln(x+3)+(3\ln2-1)$, i.e. $\ln(x+3)$ stretched by $3$ and
+        shifted up by $3\ln2-1\approx1.08$. Root: $\ln(2x+6)=\tfrac13$,
+        $x=\tfrac12\bigl(\mathrm{e}^{1/3}-6\bigr)\approx-2.30$.
+  \item Factor out $-1$: $y=-2\ln\bigl(-(x-4)\bigr)+1$. From $\ln x$:
+        reflect in the $y$-axis, shift right $4$, stretch vertically by
+        $2$, reflect in the $x$-axis, shift up $1$. $D=(-\infty,4)$ from
+        $4-x>0$; vertical asymptote $x=4$. As $x\to4^{-}$,
+        $\ln(4-x)\to-\infty$, so $y\to+\infty$; the two reflections together
+        leave an \emph{increasing} curve. $W=\R$. Root: $\ln(4-x)=\tfrac12$,
+        $x=4-\sqrt{\mathrm{e}}\approx2.35$.
+  \item Base $1/x^{2}$ (even power): stretch vertically by $2$, shift
+        right $1$, down $3$. $D=\R\setminus\{1\}$, vertical asymptote $x=1$,
+        horizontal asymptote $y=-3$. Since $\dfrac{2}{(x-1)^{2}}>0$ on both
+        sides, both branches lie above $y=-3$: $W=(-3,\infty)$. Roots:
+        $(x-1)^{2}=\tfrac23$, $x=1\pm\sqrt{2/3}\approx1\pm0.82$.
+  \item Base $1/x^{3}$ (odd power): reflect in the $x$-axis, shift left
+        $2$, up $1$. $D=\R\setminus\{-2\}$, asymptotes $x=-2$ and $y=1$.
+        For $x>-2$ the cube $(x+2)^{3}$ is positive and $y<1$; for $x<-2$
+        it is negative and $y>1$: the branches lie on opposite sides, and
+        $W=\R\setminus\{1\}$. Root: $(x+2)^{3}=1$, $x=-1$; $y(0)=\tfrac78$.
+  \item Factor the power: $(2x-6)^{2}=\bigl(2(x-3)\bigr)^{2}=4(x-3)^{2}$,
+        so $y=\dfrac{1}{(x-3)^{2}}+1$. Base $1/x^{2}$: shift right $3$, up
+        $1$. $D=\R\setminus\{3\}$, asymptotes $x=3$ and $y=1$, both branches
+        above $y=1$: $W=(1,\infty)$. No roots.
 \end{solutions}

@@ -35,6 +35,18 @@ inside ones in the opposite direction and by the reciprocal factor.
 \textbf{Inverse:} solve $y=f(x)$ for $x$; $D(f^{-1})=W(f)$; graph mirrored
 in $y=x$.
 
+\textbf{Shifted conics:} complete the square in $x$ and in $y$ until the
+right-hand side is $1$; the centre is $(u,v)$.
+\[
+  \frac{(x-u)^{2}}{a^{2}}+\frac{(y-v)^{2}}{b^{2}}=1\ \text{(ellipse)},\qquad
+  \pm\left(\frac{(x-u)^{2}}{a^{2}}-\frac{(y-v)^{2}}{b^{2}}\right)=1\
+  \text{(hyperbola)}
+\]
+with asymptotes $y-v=\pm\frac{b}{a}(x-u)$.
+With $+$ the hyperbola opens left and right, with $-$ up and down. A
+right-hand side $0$ or negative signals a degenerate case (a point, the
+empty set, a pair of lines).
+
 \section*{Matrix algebra}
 
 \[
@@ -57,6 +69,12 @@ parameters. \textbf{Rank--nullity:} $\mathrm{rk}(A)+\mathrm{null}(A)=n$.
 (positive definite), $<0$ (negative definite), mixed signs (indefinite).
 For $2\times2$: positive definite iff $a_{11}>0$ and $\det A>0$; negative
 definite iff $a_{11}<0$ and $\det A>0$.
+\textbf{Semidefinite:} positive semidefinite iff \emph{every} principal
+minor is $\ge0$ (seven of them for $3\times3$); negative semidefinite iff
+the odd-order ones are $\le0$ and the even-order ones $\ge0$. Leading
+minors all non-zero but neither all positive nor alternating: indefinite.
+A diagonal entry of each sign, or $a_{ii}=0$ with $a_{ij}\neq0$:
+indefinite.
 
 \section*{Sequences, series, financial mathematics}
 
@@ -123,6 +141,21 @@ $\grad f$ points in the direction of steepest ascent and is perpendicular
 to the level curve. \textbf{Euler} (degree $k$ homogeneous):
 $x f_{x}+y f_{y}=k f$.
 
+\textbf{Differentiability:} continuous partials on an open set make $f$
+differentiable there (sufficient, not necessary); differentiable implies
+continuous, with the partials existing and forming $\grad f$.
+\textbf{Tangent plane} (linearisation) at $\mathbf{p}$:
+\[
+  z=f(\mathbf{p})+\grad f(\mathbf{p})\cdot(\mathbf{x}-\mathbf{p}),\qquad
+  Df=(\grad f)^{T},\qquad
+  D(g\circ f)(\mathbf{x})=Dg\bigl(f(\mathbf{x})\bigr)\,Df(\mathbf{x})
+\]
+\textbf{Implicit and inverse functions:} $F(\mathbf{x},\mathbf{y})=\mathbf{0}$
+can be solved locally for $\mathbf{y}$ where
+$\det\bigl(\partial F/\partial\mathbf{y}\bigr)\neq0$; a map $F$ has a
+local differentiable inverse where $\det J_{F}\neq0$, and then
+$J_{F^{-1}}=J_{F}^{-1}$. Both conditions are sufficient, not necessary.
+
 \textbf{Critical points:} $\grad f=\mathbf{0}$; with
 $D=f_{xx}f_{yy}-f_{xy}^{2}$: $D>0$ and $f_{xx}>0$ minimum, $D>0$ and
 $f_{xx}<0$ maximum, $D<0$ saddle, $D=0$ inconclusive.
@@ -176,4 +209,7 @@ vertex. \textbf{Dual:} $\min\mathbf{b}^{T}\mathbf{y}$ s.t.
 $A^{T}\mathbf{y}\ge\mathbf{c}$, $\mathbf{y}\ge\mathbf{0}$; the optimal
 values agree, and $\mathbf{y}^{*}$ are the shadow prices of the
 constraints. \textbf{Complementary slackness:} a slack primal constraint
-has a zero dual variable, and conversely.
+has a zero dual variable, and conversely. \textbf{Kuhn--Tucker link:} for an
+LP the Kuhn--Tucker multipliers are exactly the dual variables, and the
+Kuhn--Tucker conditions are primal feasibility, dual feasibility and
+complementary slackness together.

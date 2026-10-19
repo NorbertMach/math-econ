@@ -24,7 +24,9 @@ Throughout, the primal is a maximisation in resource form:
 It has been solved: the optimal plan is $x^{*}$ with value $z^{*}$, and the
 optimal dual solution (shadow prices) is $y^{*}=(y_{1},\dots,y_{m})$.
 Sensitivity analysis asks how $x^{*}$ and $z^{*}$ react when a single piece
-of data (one $b_{i}$ or one $c_{j}$) is changed.
+of data (one $b_{i}$ or one $c_{j}$) is changed. Minimum problems and
+$\ge$ rows are handled by measuring every change as an \emph{improvement}
+of the objective; the boxes on the classic report layout below show how.
 \end{rulebox}
 
 \begin{rulebox}{Shadow price and RHS ranging}
@@ -112,6 +114,90 @@ The \textbf{constraint block} has one row per constraint:
 The entry \texttt{1E+30} is solver notation for $\infty$: no finite limit.
 \end{rulebox}
 
+\begin{rulebox}{The classic report layout: dual prices and sign conventions}
+Many solvers print a plain-text report instead of a spreadsheet. The
+objective counts as row~1, so the constraints are rows $2,3,\dots$
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \texttt{OBJECTIVE FUNCTION VALUE}: $z^{*}$, or $C^{*}$ for a
+        minimum problem.
+  \item \texttt{VALUE} and \texttt{REDUCED COST}: $x_{j}^{*}$, and the
+        amount by which the objective coefficient of $x_{j}$ would have to
+        \emph{improve} (rise in a max problem, fall in a min problem)
+        before $x_{j}$ becomes positive. It is printed as a nonnegative
+        number and is $0$ for basic variables.
+  \item \texttt{SLACK OR SURPLUS}: $b_{i}-a_{i}^{\top}x^{*}$ for a $\le$
+        row, $a_{i}^{\top}x^{*}-b_{i}$ for a $\ge$ row; never negative, and
+        $0$ exactly when the row binds.
+  \item \texttt{DUAL PRICES}: the \emph{improvement} of the objective per
+        unit increase of $b_{i}$, that is $\partial z^{*}/\partial b_{i}$
+        for a max problem and $-\partial C^{*}/\partial b_{i}$ for a min
+        problem.
+  \item \texttt{RANGES IN WHICH THE BASIS IS UNCHANGED}: current
+        coefficient or right-hand side with allowable increase and
+        decrease; \texttt{INFINITY} means no limit.
+\end{itemize}
+\textbf{Sign rule.} Because improvement is measured the same way for both
+senses, the sign of a dual price depends on the row type only: raising
+$b_{i}$ loosens a $\le$ row, so its dual price is $\ge 0$; it tightens a
+$\ge$ row, so its dual price is $\le 0$; an equality row can have either
+sign. Link to Chapter~7: for a max problem the dual price is $y_{i}$; for
+a min problem it is $-u_{i}$, where $u_{i}=\partial C^{*}/\partial b_{i}$
+is the dual variable of the min problem. Rewriting $\min C$ as
+$\max\,(-C)$ leaves every dual price and reduced cost unchanged and only
+flips the sign of the objective value.
+\end{rulebox}
+
+\begin{rulebox}{Filling the gaps in an incomplete report}
+\begin{enumerate}[leftmargin=1.8em,itemsep=0.3ex]
+  \item \textbf{Variables.} Reduced cost $>0$: the variable is nonbasic,
+        \texttt{VALUE} $=0$. Reduced cost $0$: normally basic (a
+        nonbasic variable with reduced cost $0$ signals alternative
+        optima). A nonbasic variable also shows a one-sided objective
+        range: the improving side equals its reduced cost, the other side
+        is \texttt{INFINITY}.
+  \item \textbf{Rows.} Slack $0$ or a nonzero dual price: the row binds. A
+        nonbinding row has dual price $0$ and a one-sided right-hand-side
+        range: \texttt{INFINITY} on its loosening side, and on the other
+        side its slack (allowable decrease of a $\le$ row) or surplus
+        (allowable increase of a $\ge$ row). The converse can fail, since
+        a binding row may also show \texttt{INFINITY} on one side; when
+        the slack is blank, count: a nondegenerate optimum has exactly as
+        many positive basic variables as there are rows.
+  \item \textbf{Primal.} Set the nonbasic variables to $0$, solve the
+        binding rows for the basic ones, then compute the missing slacks
+        and the objective value.
+  \item \textbf{Dual.} Write the dual of the LP as stated (sign rules of
+        Chapter~7). Nonbinding rows get dual value $0$; the dual
+        constraint of every basic variable becomes an equation. Solve, check
+        the signs, and check that the dual slack of each nonbasic variable
+        equals its printed reduced cost.
+  \item \textbf{Report and certify.} Convert to dual prices ($y_{i}$ for
+        max, $-u_{i}$ for min) and confirm $W^{*}=Z^{*}$: a feasible
+        primal--dual pair with equal values is optimal.
+\end{enumerate}
+\end{rulebox}
+
+\begin{rulebox}{Rebuilding the end tableau from a report}
+Bring the LP to maximum form with $\le$ rows ($\min C$ becomes
+$\max\,(-C)$, each $\ge$ row is multiplied by $-1$), with slack $s_{i}$ in
+row~$i$. Then:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{basis:} the variables with positive value and the slacks
+        of the rows with positive slack or surplus ($m$ in total; if fewer,
+        the optimum is degenerate and zero-valued basic variables complete
+        the basis);
+  \item \textbf{RHS column:} their values; bottom right: $z^{*}$ (for a
+        min problem $-C^{*}$);
+  \item \textbf{$z$-row:} under $x_{j}$ its reduced cost; under $s_{i}$
+        the dual price of row~$i$ in $\le$ form, which is the printed dual
+        price for an original $\le$ row and its negative for an original
+        $\ge$ row; $0$ under every basic variable;
+  \item \textbf{body:} the unit columns of the basic variables. The
+        remaining entries form $B^{-1}A$; the report does not contain
+        them, and they can be computed only from the model itself.
+\end{itemize}
+\end{rulebox}
+
 \begin{rulebox}{What-if questions without re-solving}
 Assume resource costs are already counted in the margins $c_{j}$. Then:
 \begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
@@ -142,7 +228,34 @@ remain valid. If the sum exceeds $1$ the rule is silent: the basis
 sufficient, not necessary.
 \end{rulebox}
 
-\section{Worked Example}
+\begin{rulebox}{Beyond the allowable range: what can still be said}
+Measure the objective as improvement ($z^{*}$ for a max problem, $-C^{*}$
+for a min problem). As a function of one right-hand side $b_{i}$, all
+other data fixed, the optimal improvement is piecewise linear and
+\emph{concave}: on the validity range its slope is the dual price $y_{i}$,
+and the slope can only fall as $b_{i}$ grows and only rise as $b_{i}$
+falls. So for a change that exceeds the allowable increase $I$ or decrease
+$D$:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item the part of the change inside the range is exact: $+y_{i}I$ for
+        the first $I$ units of an increase, $-y_{i}D$ for the first $D$
+        units of a decrease;
+  \item an increase by $\Delta>I$ improves the objective by \emph{at most}
+        $y_{i}\Delta$ in total: every unit beyond the range is worth at
+        most $y_{i}$;
+  \item a decrease by $\Delta>D$ worsens it by \emph{at least}
+        $y_{i}\Delta$: every unit beyond the range costs at least $y_{i}$
+        (and the LP may even become infeasible);
+  \item loosening a row never hurts, so for a $\le$ row an increase
+        beyond $I$ still yields at least the exact gain $y_{i}I$.
+\end{itemize}
+For an objective coefficient the old plan stays feasible, so
+$z^{*}+x_{j}^{*}\Delta c_{j}$ is always a \emph{lower} bound for the new
+maximum (and $C^{*}+x_{j}^{*}\Delta c_{j}$ an \emph{upper} bound for a new
+minimum), inside the range with equality, outside it as a bound.
+\end{rulebox}
+
+\section{Worked Examples}
 
 \begin{worked}{Sensitivity analysis on the running example: how far can $100$ machine hours and the profit $40$ move before the answer changes?}
 \wstep{Step 1. Recall what stays fixed.}
@@ -258,12 +371,185 @@ Every number in such a report has been derived by hand in this example. The
 report is not a black box --- it is this chapter, printed.
 \end{worked}
 
+\begin{worked}{Complete an incomplete classic-layout report for a minimum problem, certify it, and rebuild the end tableau}
+The LP and the solver's report, with the blanks still to be filled:
+\[
+  \min\; C=4x_{1}-2x_{2}-5x_{3}
+  \quad\text{s.t.}\quad
+  \begin{array}{rcrl}
+    x_{1}-x_{2} &\ge& -3 & \text{(row 2)}\\
+    x_{1}+2x_{2}+2x_{3} &\le& 12 & \text{(row 3)}\\
+    2x_{2}-x_{3} &\ge& -3 & \text{(row 4)}\\
+    x_{3} &\le& 10 & \text{(row 5)}\\
+    x_{1},x_{2},x_{3} &\ge& 0 .
+  \end{array}
+\]
+\begin{center}\footnotesize\ttfamily
+\begin{tabular}{lrr}
+\multicolumn{3}{l}{OBJECTIVE FUNCTION VALUE\quad 1)\ \underline{\hspace{3em}}}\\[3pt]
+VARIABLE & VALUE & REDUCED COST\\
+X1 & \underline{\hspace{3em}} & 6.000000\\
+X2 & \underline{\hspace{3em}} & 0.000000\\
+X3 & \underline{\hspace{3em}} & 0.000000\\[3pt]
+ROW & SLACK OR SURPLUS & DUAL PRICES\\
+2) & \underline{\hspace{3em}} & \underline{\hspace{3em}}\\
+3) & 0.000000 & \underline{\hspace{3em}}\\
+4) & 0.000000 & \underline{\hspace{3em}}\\
+5) & \underline{\hspace{3em}} & \underline{\hspace{3em}}\\
+\end{tabular}
+
+\medskip
+\begin{tabular}{lrrr}
+\multicolumn{4}{l}{OBJ COEFFICIENT RANGES}\\
+VARIABLE & CURRENT COEF & ALLOWABLE INCREASE & ALLOWABLE DECREASE\\
+X1 & 4.000000 & INFINITY & 6.000000\\
+X2 & $-$2.000000 & 12.000000 & 3.000000\\
+X3 & $-$5.000000 & 3.000000 & INFINITY\\[3pt]
+\multicolumn{4}{l}{RIGHTHAND SIDE RANGES}\\
+ROW & CURRENT RHS & ALLOWABLE INCREASE & ALLOWABLE DECREASE\\
+2 & $-$3.000000 & 2.000000 & INFINITY\\
+3 & 12.000000 & 12.000000 & 6.000000\\
+4 & $-$3.000000 & 6.000000 & 3.000000\\
+5 & 10.000000 & INFINITY & 5.000000\\
+\end{tabular}
+\end{center}
+
+\wstep{Step 1. Can the LP be read as a standard maximum problem?}
+Origin test: $0\ge -3$, $0\le 12$, $0\ge -3$, $0\le 10$ all hold. So it
+can: maximise $-C=-4x_{1}+2x_{2}+5x_{3}$ subject to $-x_{1}+x_{2}\le 3$,
+$x_{1}+2x_{2}+2x_{3}\le 12$, $-2x_{2}+x_{3}\le 3$, $x_{3}\le 10$. We need
+this form in Step~10.
+
+\wstep{Step 2. Fix what the columns mean before reading a single number.}
+This is a \emph{minimum} problem, so a dual price is the decrease of the
+cost per unit increase of the right-hand side, and a reduced cost is how far
+a cost coefficient must \emph{fall}. Expected signs: rows 3 and 5 ($\le$)
+can only have dual prices $\ge 0$, rows 2 and 4 ($\ge$) only $\le 0$.
+\wtrap{A negative dual price in this layout is not an error and not a
+``negative shadow price of a resource'': it is the normal sign of a
+binding $\ge$ row, in a max problem and in a min problem alike.}
+
+\wstep{Step 3. Which variables are basic?}
+X1 has reduced cost $6>0$, so it is nonbasic: $x_{1}^{*}=0$. Its objective
+range confirms it: decrease $6$ (the improving direction for a cost),
+increase \texttt{INFINITY}. X2 and X3 have reduced cost $0$ and two-sided
+ranges: basic.
+
+\wstep{Step 4. Which rows bind?}
+Rows 3 and 4 show slack $0$: binding. Rows 2 and 5 are blank, so count:
+four rows mean four basic variables, $x_{2}$ and $x_{3}$ are two of them,
+and (the optimum being nondegenerate) the other two are the slacks of
+rows 2 and 5, which are therefore nonbinding. Their ranges fit this:
+\texttt{INFINITY} on the loosening side, and on the other side the room
+left. Row~2 ($\ge$) has allowable increase $2$, so its surplus should be
+$2$; row~5 ($\le$) has allowable decrease $5$, so its slack should be $5$.
+Step~5 confirms both.
+
+\wstep{Step 5. Solve the primal.}
+With $x_{1}=0$ the binding rows read
+\[
+  2x_{2}+2x_{3}=12,\qquad 2x_{2}-x_{3}=-3 .
+\]
+Subtracting: $3x_{3}=15$, so $x_{3}=5$ and $x_{2}=1$. Then
+\[
+  \text{row 2: } 0-1-(-3)=2\ \text{(surplus)},\qquad
+  \text{row 5: } 10-5=5\ \text{(slack)},\qquad
+  C^{*}=0-2-25=-27 .
+\]
+Both values agree with the ranges. \checkmark
+
+\wstep{Step 6. Solve the dual by complementary slackness.}
+By the sign rules for a min problem, the $\ge$ rows get $u_{1},u_{3}\ge 0$
+and the $\le$ rows get $u_{2},u_{4}\le 0$:
+\[
+  \max\; W=-3u_{1}+12u_{2}-3u_{3}+10u_{4}
+  \quad\text{s.t.}\quad
+  \begin{array}{rcl}
+    u_{1}+u_{2} &\le& 4\\
+    -u_{1}+2u_{2}+2u_{3} &\le& -2\\
+    2u_{2}-u_{3}+u_{4} &\le& -5 .
+  \end{array}
+\]
+Rows 2 and 5 are slack, so $u_{1}=u_{4}=0$. $x_{2},x_{3}>0$ turn the
+second and third dual constraints into equations:
+\[
+  2u_{2}+2u_{3}=-2,\qquad 2u_{2}-u_{3}=-5
+  \quad\Longrightarrow\quad 3u_{3}=3,\; u_{3}=1,\; u_{2}=-2 .
+\]
+Signs: $u_{2}=-2\le 0$, $u_{3}=1\ge 0$. \checkmark\ The first dual
+constraint: $u_{1}+u_{2}=-2\le 4$, slack $6$, which is exactly the printed
+reduced cost of X1. \checkmark
+
+\wstep{Step 7. Fill in the report.}
+Dual price $=-u_{i}$ for a min problem:
+\begin{center}\footnotesize\ttfamily
+\begin{tabular}{lrr}
+\multicolumn{3}{l}{OBJECTIVE FUNCTION VALUE\quad 1)\ $-$27.00000}\\[3pt]
+VARIABLE & VALUE & REDUCED COST\\
+X1 & 0.000000 & 6.000000\\
+X2 & 1.000000 & 0.000000\\
+X3 & 5.000000 & 0.000000\\[3pt]
+ROW & SLACK OR SURPLUS & DUAL PRICES\\
+2) & 2.000000 & 0.000000\\
+3) & 0.000000 & 2.000000\\
+4) & 0.000000 & $-$1.000000\\
+5) & 5.000000 & 0.000000\\
+\end{tabular}
+\end{center}
+The signs follow the rule of Step~2: $+2$ on the $\le$ row~3, $-1$ on the
+$\ge$ row~4.
+
+\wstep{Step 8. Certify optimality.}
+$x^{*}=(0,1,5)$ satisfies every primal row, $u^{*}=(0,-2,1,0)$ every dual
+row and sign condition, and
+\[
+  W=-3\cdot0+12\cdot(-2)-3\cdot1+10\cdot0=-27=C^{*} .
+\]
+By weak duality no feasible plan costs less than $-27$, so both solutions
+are optimal.
+\wtrap{The certificate needs the dual of the LP \emph{as stated}. Taking
+the dual of the converted max form instead is fine too, but then all its
+variables are $\ge 0$ and equal the $z$-row entries of Step~10; mixing the
+two conventions is how sign errors creep in.}
+
+\wstep{Step 9. Interpret two numbers.}
+Reduced cost $6$ of X1: the cost coefficient $4$ would have to fall by more
+than $6$, below $-2$, before $x_{1}$ enters the plan; equivalently, forcing
+one unit of $x_{1}$ into the solution raises the minimal cost by $6$. Dual
+price $-1$ of row~4: raising its right-hand side from $-3$ to $-2$ raises
+the minimal cost by $1$, valid for $-6\le b_{4}\le 3$.
+
+\wstep{Step 10. Rebuild the end tableau.}
+In the max form of Step~1 with slacks $s_{1},\dots,s_{4}$ for rows 2--5,
+the basis consists of the positive variables $x_{2},x_{3}$ and the slacks of
+the nonbinding rows, $s_{1}=2$ and $s_{4}=5$. The $z$-row carries the
+reduced costs under the structural columns and, under $s_{i}$, the printed
+dual price for a $\le$ row or its negative for a $\ge$ row: $0$, $2$, $1$,
+$0$. Bottom right: $-C^{*}=27$. A dot marks an entry the report does not
+contain:
+\begin{center}\footnotesize
+\begin{tabular}{c|ccccccc|c}
+Basis & $x_{1}$ & $x_{2}$ & $x_{3}$ & $s_{1}$ & $s_{2}$ & $s_{3}$ & $s_{4}$ & RHS\\
+\hline
+$x_{2}$ & $\cdot$ & $1$ & $0$ & $0$ & $\cdot$ & $\cdot$ & $0$ & $1$\\
+$x_{3}$ & $\cdot$ & $0$ & $1$ & $0$ & $\cdot$ & $\cdot$ & $0$ & $5$\\
+$s_{1}$ & $\cdot$ & $0$ & $0$ & $1$ & $\cdot$ & $\cdot$ & $0$ & $2$\\
+$s_{4}$ & $\cdot$ & $0$ & $0$ & $0$ & $\cdot$ & $\cdot$ & $1$ & $5$\\
+\hline
+$z$ & $6$ & $0$ & $0$ & $0$ & $2$ & $1$ & $0$ & $27$\\
+\end{tabular}
+\end{center}
+Check: $z^{*}=\sum_{i}(\text{$z$-row under }s_{i})\cdot b_{i}$ with the
+$\le$-form right-hand sides $(3,12,3,10)$ gives
+$0\cdot3+2\cdot12+1\cdot3+0\cdot10=27$. \checkmark
+\end{worked}
+
 \section{Practice Problems}
 
 Three data sets are shared by the problems below.
 
 \medskip
-\noindent\textbf{Workshop LP (Problems 1--6).} A workshop makes two
+\noindent\textbf{Workshop LP (Problems 1--6 and 16).} A workshop makes two
 products with margins $4$ and $3$ per unit:
 \[
   \max\; z=4x_{1}+3x_{2}
@@ -299,7 +585,7 @@ with the final dictionary
 \]
 
 \medskip
-\noindent\textbf{Solver report (Problems 10--14).} A firm makes products
+\noindent\textbf{Solver report (Problems 10--15).} A firm makes products
 A and B with margins $30$ and $20$:
 \[
   \max\; z=30x_{A}+20x_{B}
@@ -388,9 +674,24 @@ Demand A & 20  & 0  & 40  & \texttt{1E+30} & 20\\
         each case: does the 100\%-rule certify the report's shadow prices,
         and if so, what is the new optimal profit?
   \item Margin changes, one at a time: (a)~the margin of B rises from
-        $20$ to $28$ (new plan and profit? (b)~the margin of A falls
-        from $30$ to $18$) what does the report tell you, and what is
+        $20$ to $28$: new plan and profit? (b)~the margin of A falls
+        from $30$ to $18$: what does the report tell you, and what is
         the new optimum (found by corner enumeration)?
+  \item (Beyond the range, solver report.) (a)~Machine hours rise from
+        $100$ to $130$, although the allowable increase is only $20$.
+        What does the report guarantee for the first $20$ hours, and which
+        lower and upper bound does it give for $z^{*}$ at $130$ hours?
+        Find the true optimum by corner enumeration. (b)~Machine hours fall
+        from $100$ to $70$ (allowable decrease $20$). Give the exact loss
+        of the first $20$ hours and a bound for $z^{*}$ at $70$ hours;
+        compare with the true optimum.
+  \item (Beyond the range, workshop LP.) Using the shadow prices of
+        Problem~2 and the ranges of Problem~3, bound $z^{*}$ without
+        re-solving, then compute the true value: (a)~assembly capacity
+        falls from $7$ to $3$; (b)~assembly capacity rises from $7$ to
+        $12$; (c)~machine capacity rises from $10$ to $16$. (d)~The margin
+        $c_{1}$ rises from $4$ to $7$, beyond its range of Problem~4:
+        which bound does the old plan give, and what is the new optimum?
 \end{problems}
 
 \section{Solutions}
@@ -600,6 +901,55 @@ Demand A & 20  & 0  & 40  & \texttt{1E+30} & 20\\
         \]
         New optimum $x=(0,80)$ with $z^{*}=1600$: product A is dropped
         entirely.
+
+  \item (a)~Machine hours have shadow price $10$ on $[80,120]$. The first
+        $20$ extra hours are exact: $z^{*}(120)=1800+10\cdot20=2000$.
+        Beyond $120$ every further hour is worth \emph{at most} $10$, and
+        extra capacity never hurts, so
+        \[
+          2000\;\le\; z^{*}(130)\;\le\; 2000+10\cdot 10=2100 .
+        \]
+        True optimum at $b_{1}=130$: the corners of $2x_{A}+x_{B}\le 130$,
+        $x_{A}+x_{B}\le 80$, $x_{A}\le 40$ are $(0,0)$, $(40,0)$, $(40,40)$
+        and $(0,80)$, worth $0$, $1200$, $2000$, $1600$. So
+        $z^{*}(130)=2000$ at $(40,40)$, using only $120$ machine hours: the
+        demand limit of A now binds and the last $10$ hours are worthless,
+        the bottom end of the bound.
+
+        (b)~The first $20$ hours lost cost exactly $10$ each:
+        $z^{*}(80)=1800-200=1600$. Every further hour lost costs
+        \emph{at least} $10$, so $z^{*}(70)\le 1600-100=1500$. True
+        optimum at $b_{1}=70$: corners $(0,0)$, $(35,0)$, $(0,70)$ (labour,
+        $70\le 80$, and demand no longer bind), worth $0$, $1050$, $1400$.
+        So $z^{*}(70)=1400\le 1500$: below $80$ hours a machine hour is
+        worth $20$ (it is all spent on B, which earns $20$ per machine
+        hour), twice the reported price.
+
+  \item The shadow prices are $y=(1,2)$, valid for $7\le b_{1}\le 14$ and
+        $5\le b_{2}\le 10$, with $z^{*}=24$.
+
+        (a)~The first $2$ hours of the decrease ($7\to 5$) cost exactly
+        $2\cdot2=4$, so $z^{*}(5)=20$; each of the remaining $2$ costs at
+        least $2$, so $z^{*}(3)\le 20-4=16$. True: with
+        $x_{1}+x_{2}\le 3$ the machine row ($2\cdot3=6\le 10$) is slack and
+        the best corner is $(3,0)$ with $z^{*}=12\le 16$.
+
+        (b)~The first $3$ hours ($7\to 10$) gain exactly $2\cdot3=6$:
+        $z^{*}(10)=30$. The remaining $2$ hours gain at most $2$ each, so
+        $30\le z^{*}(12)\le 34$. True: corners of $2x_{1}+x_{2}\le 10$,
+        $x_{1}+x_{2}\le 12$ are $(0,0)$, $(5,0)$, $(0,10)$, worth $0$,
+        $20$, $30$; $z^{*}(12)=30$, the lower end: assembly has gone slack.
+
+        (c)~The first $4$ machine hours ($10\to 14$) gain exactly
+        $1\cdot4=4$: $z^{*}(14)=28$. The remaining $2$ gain at most $1$
+        each: $28\le z^{*}(16)\le 30$. True: with $2x_{1}+x_{2}\le 16$ and
+        $x_{1}+x_{2}\le 7$ the corners are $(0,0)$, $(7,0)$, $(0,7)$, worth
+        $0$, $28$, $21$; $z^{*}(16)=28$.
+
+        (d)~The range of $c_{1}$ is $[3,6]$, so $7$ lies outside. The old
+        plan $(3,4)$ stays feasible and earns $7\cdot3+3\cdot4=33$, hence
+        $z^{*}\ge 33$. Corners: $(5,0)$ gives $35$, $(3,4)$ gives $33$,
+        $(0,7)$ gives $21$. New optimum $(5,0)$ with $z^{*}=35\ge 33$.
 \end{solutions}
 
 \section{Additional Problems}
@@ -641,6 +991,166 @@ Problems 1--5 refer to the LP
         premium of $2$? (b)~Both right-hand sides rise by $1$
         simultaneously: what does the 100\%-rule say, and what actually
         happens (check directly)?
+  \item A firm makes three products from machine hours (row~2) and labour
+        hours (row~4) and has promised a customer at least $7$ units of
+        product~2 (row~3):
+        \[
+          \max\; Z=6x_{1}+9x_{2}+7x_{3}
+          \quad\text{s.t.}\quad
+          \begin{array}{rcl}
+            2x_{1}+2x_{2}+x_{3} &\le& 20\\
+            x_{2} &\ge& 7\\
+            2x_{1}+x_{2}+2x_{3} &\le& 25\\
+            x &\ge& 0 .
+          \end{array}
+        \]
+        The solver report is incomplete:
+        \begin{center}\footnotesize\ttfamily
+        \begin{tabular}{lrr}
+        \multicolumn{3}{l}{OBJECTIVE FUNCTION VALUE\quad 1)\ \underline{\hspace{3em}}}\\[3pt]
+        VARIABLE & VALUE & REDUCED COST\\
+        X1 & \underline{\hspace{3em}} & 8.000000\\
+        X2 & \underline{\hspace{3em}} & 0.000000\\
+        X3 & \underline{\hspace{3em}} & 0.000000\\[3pt]
+        ROW & SLACK OR SURPLUS & DUAL PRICES\\
+        2) & 0.000000 & \underline{\hspace{3em}}\\
+        3) & 0.000000 & \underline{\hspace{3em}}\\
+        4) & \underline{\hspace{3em}} & \underline{\hspace{3em}}\\
+        \end{tabular}
+
+        \medskip
+        \begin{tabular}{lrrr}
+        \multicolumn{4}{l}{OBJ COEFFICIENT RANGES}\\
+        VARIABLE & CURRENT COEF & ALLOWABLE INCREASE & ALLOWABLE DECREASE\\
+        X1 & 6.000000 & 8.000000 & INFINITY\\
+        X2 & 9.000000 & 5.000000 & INFINITY\\
+        X3 & 7.000000 & INFINITY & 2.500000\\[3pt]
+        \multicolumn{4}{l}{RIGHTHAND SIDE RANGES}\\
+        ROW & CURRENT RHS & ALLOWABLE INCREASE & ALLOWABLE DECREASE\\
+        2 & 20.000000 & 3.000000 & 6.000000\\
+        3 & 7.000000 & 3.000000 & 2.000000\\
+        4 & 25.000000 & INFINITY & 6.000000\\
+        \end{tabular}
+        \end{center}
+        (a)~Fill in every blank, using the reduced costs, the slacks and
+        complementary slackness. (b)~Write the dual and certify
+        optimality. (c)~Interpret the dual price of row~3 and the reduced
+        cost of X1. (d)~X2 is basic, yet its allowable decrease is
+        \texttt{INFINITY}. Why?
+  \item The minimum problem
+        \[
+          \min\; C=-6x_{1}+4x_{2}+5x_{3}
+          \quad\text{s.t.}\quad
+          \begin{array}{rcll}
+            -2x_{1}+x_{2} &\ge& -4 & \text{(row 2)}\\
+            x_{1}+2x_{2}+x_{3} &\le& 28 & \text{(row 3)}\\
+            2x_{1}+2x_{3} &\ge& 8 & \text{(row 4)}\\
+            x &\ge& 0
+          \end{array}
+        \]
+        produced the incomplete report
+        \begin{center}\footnotesize\ttfamily
+        \begin{tabular}{lrr}
+        \multicolumn{3}{l}{OBJECTIVE FUNCTION VALUE\quad 1)\ \underline{\hspace{3em}}}\\[3pt]
+        VARIABLE & VALUE & REDUCED COST\\
+        X1 & \underline{\hspace{3em}} & 0.000000\\
+        X2 & \underline{\hspace{3em}} & 0.000000\\
+        X3 & \underline{\hspace{3em}} & 3.000000\\[3pt]
+        ROW & SLACK OR SURPLUS & DUAL PRICES\\
+        2) & 0.000000 & \underline{\hspace{3em}}\\
+        3) & \underline{\hspace{3em}} & \underline{\hspace{3em}}\\
+        4) & 0.000000 & \underline{\hspace{3em}}\\
+        \end{tabular}
+
+        \medskip
+        \begin{tabular}{lrrr}
+        \multicolumn{4}{l}{RIGHTHAND SIDE RANGES}\\
+        ROW & CURRENT RHS & ALLOWABLE INCREASE & ALLOWABLE DECREASE\\
+        2 & $-$4.000000 & 8.000000 & 4.000000\\
+        3 & 28.000000 & INFINITY & 16.000000\\
+        4 & 8.000000 & 6.400000 & 4.000000\\
+        \end{tabular}
+        \end{center}
+        (a)~Is the LP a standard maximum problem? (b)~Write the dual (sign
+        rules for a min problem). (c)~Fill in every blank and certify
+        optimality. (d)~What does the value $3$ in the column
+        \texttt{REDUCED COST} of X3 mean? (e)~How does the minimal cost
+        change if the right-hand side of row~2 rises from $-4$ to $2$, and
+        what can be said if that of row~4 rises from $8$ to $18$?
+  \item Rebuild the end tableau of Additional Problem~7 from the completed
+        report: (a)~as far as the report allows (basis, RHS column,
+        $z$-row), marking the entries it does not contain; (b)~then
+        complete the body from the model, by expressing the basic
+        variables through the nonbasic ones.
+  \item Rebuild the end tableau of the solver-report LP of Problems
+        10--15 (slacks $s_{1},s_{2},s_{3}$ for machine, labour, demand)
+        from its report alone, then complete the body using the end
+        tableau of the two-constraint running example (Chapter~4, worked
+        example, Step~6) and $s_{3}=40-x_{A}$.
+  \item The farm model with hired labour,
+        \[
+          \max\; Z=300x_{1}+420x_{2}-9h
+          \quad\text{s.t.}\quad
+          \begin{array}{rcll}
+            x_{1}+x_{2} &\le& 60 & \text{(land)}\\
+            8x_{1}+12x_{2}-h &\le& 400 & \text{(labour)}\\
+            h &\le& 240 & \text{(hiring cap)},
+          \end{array}
+        \]
+        $x_{1},x_{2},h\ge 0$, returns the report
+        \begin{center}\footnotesize\ttfamily
+        \begin{tabular}{lrr}
+        \multicolumn{3}{l}{OBJECTIVE FUNCTION VALUE\quad 1)\ 20640.00}\\[3pt]
+        VARIABLE & VALUE & REDUCED COST\\
+        X1 & 20.000000 & 0.000000\\
+        X2 & 40.000000 & 0.000000\\
+        H & 240.000000 & 0.000000\\[3pt]
+        ROW & SLACK OR SURPLUS & DUAL PRICES\\
+        2) & 0.000000 & 60.000000\\
+        3) & 0.000000 & 30.000000\\
+        4) & 0.000000 & 21.000000\\
+        \end{tabular}
+
+        \medskip
+        \begin{tabular}{lrrr}
+        \multicolumn{4}{l}{OBJ COEFFICIENT RANGES}\\
+        VARIABLE & CURRENT COEF & ALLOWABLE INCREASE & ALLOWABLE DECREASE\\
+        X1 & 300.0000 & 84.00000 & 20.00000\\
+        X2 & 420.0000 & 30.00000 & 84.00000\\
+        H & $-$9.000000 & INFINITY & 21.00000\\[3pt]
+        \multicolumn{4}{l}{RIGHTHAND SIDE RANGES}\\
+        ROW & CURRENT RHS & ALLOWABLE INCREASE & ALLOWABLE DECREASE\\
+        2 & 60.00000 & 20.00000 & 6.666667\\
+        3 & 400.0000 & 80.00000 & 160.0000\\
+        4 & 240.0000 & 80.00000 & 160.0000\\
+        \end{tabular}
+        \end{center}
+        (a)~Explain why the dual price of the labour row ($30$) exceeds the
+        wage ($9$), and show that $30=9+21$. (b)~Verify the three dual
+        prices by complementary slackness. (c)~A contractor offers extra
+        hours beyond the cap at $25$ per hour. Accept? How many hours are
+        covered by the report, and with what net gain? (d)~Up to which
+        hourly wage does the farm keep hiring all $240$ hours?
+  \item (Beyond the range, minimum problem.) For the LP of the second
+        worked example ($C^{*}=-27$, dual prices $2$ for row~3 and $-1$
+        for row~4, ranges as printed there) bound $C^{*}$ without
+        re-solving, then compare with the true values $-55$ and
+        $-\tfrac{90}{7}$ respectively: (a)~the right-hand side of row~3
+        rises from $12$ to $30$; (b)~the right-hand side of row~4 rises
+        from $-3$ to $6$. (c)~The cost coefficient of $x_{2}$ rises from
+        $-2$ to $12$: which bound does the old plan give? (The new minimum
+        is $-15$.)
+  \item True or false for the classic report layout (justify briefly):
+        (a)~a dual price is never negative;
+        (b)~in a minimum problem, a dual price of $3$ on a $\le$ row means
+        that one more unit of right-hand side lowers the minimal cost by
+        $3$;
+        (c)~a variable with value $0$ and reduced cost $0$ is certainly
+        basic;
+        (d)~rewriting $\min C$ as $\max\,(-C)$ changes the signs of all
+        dual prices;
+        (e)~a $\ge$ row with surplus $4$ has allowable increase $4$ and
+        allowable decrease \texttt{INFINITY}.
 \end{problems}
 
 \section{Additional Solutions}
@@ -717,4 +1227,215 @@ Problems 1--5 refer to the LP
         Lesson: the 100\%-rule is sufficient, not necessary: failing
         it does not prove the basis changes, it only withdraws the
         guarantee.
+
+  \item (a)~\emph{Variables.} X1 has reduced cost $8>0$: $x_{1}=0$. X2 and
+        X3 are basic. \emph{Rows.} Rows 2 and 3 bind (slack $0$). Three
+        rows mean three basic variables; besides $x_{2}$ and $x_{3}$ only
+        the slack of row~4 is left, so row~4 is nonbinding, as its
+        one-sided range ($\infty$, $6$) confirms.
+        \emph{Primal.} Row~3: $x_{2}=7$; row~2: $2\cdot0+14+x_{3}=20$, so
+        $x_{3}=6$. Row~4: $0+7+12=19$, slack $25-19=6$ (matching the
+        allowable decrease). $Z^{*}=63+42=105$.
+
+        \emph{Dual.} Sign rules for a max problem: rows 2 and 4 ($\le$)
+        give $y_{1},y_{3}\ge 0$, row~3 ($\ge$) gives $y_{2}\le 0$:
+        \[
+          \min\; W=20y_{1}+7y_{2}+25y_{3}
+          \quad\text{s.t.}\quad
+          2y_{1}+2y_{3}\ge 6,\qquad 2y_{1}+y_{2}+y_{3}\ge 9,\qquad
+          y_{1}+2y_{3}\ge 7 .
+        \]
+        Row~4 is slack: $y_{3}=0$. $x_{3}>0$: $y_{1}=7$. $x_{2}>0$:
+        $14+y_{2}=9$, so $y_{2}=-5$. Check X1: $2\cdot7=14\ge 6$ with
+        dual slack $8$, the printed reduced cost. \checkmark\ For a max
+        problem the dual prices are $y$: row~2 $7$, row~3 $-5$, row~4
+        $0$. Completed report: objective value $105$; values
+        $0$, $7$, $6$; slack or surplus $0$, $0$, $6$; dual prices $7$,
+        $-5$, $0$.
+
+        (b)~$x^{*}=(0,7,6)$ is primal feasible, $y^{*}=(7,-5,0)$ satisfies
+        all dual rows and signs, and $W=140-35+0=105=Z^{*}$: both are
+        optimal.
+
+        (c)~Dual price $-5$ of row~3: each additional unit promised to the
+        customer lowers the maximal profit by $5$ (valid for a promise
+        between $5$ and $10$ units). A unit of product~2 earns $9$ but uses
+        $2$ machine hours, which are worth $2\cdot7=14$ in product~3.
+        Reduced cost $8$ of X1: its margin would have to rise by more than
+        $8$, above $14$, before product~1 is made; at present its two
+        machine hours (worth $14$) earn only $6$.
+
+        (d)~$x_{2}$ sits at the contract minimum because the contract
+        forces it there, not because it is profitable. A lower margin only
+        makes product~2 less attractive, and the plan still produces the
+        contracted $7$ units and no more: the basis never changes, hence
+        \texttt{INFINITY}. An increase by more than $5$ (to above $14$,
+        i.e.\ $7$ per machine hour, like product~3) would make it worth
+        producing beyond the contract.
+
+  \item (a)~\textbf{No.} Origin test: row~4 reads $0\ge 8$, false, so the
+        origin is infeasible and the problem needs phase one. (Rows 2 and
+        3 alone would be harmless: row~2 becomes $2x_{1}-x_{2}\le 4$.)
+
+        (b)~Min problem: the $\ge$ rows 2 and 4 get $u_{1},u_{3}\ge 0$, the
+        $\le$ row~3 gets $u_{2}\le 0$; the dual constraints are $\le$:
+        \[
+          \max\; W=-4u_{1}+28u_{2}+8u_{3}
+          \quad\text{s.t.}\quad
+          -2u_{1}+u_{2}+2u_{3}\le -6,\qquad u_{1}+2u_{2}\le 4,\qquad
+          u_{2}+2u_{3}\le 5 .
+        \]
+        (c)~X3 has reduced cost $3>0$: $x_{3}=0$. Rows 2 and 4 bind:
+        $2x_{1}=8$, so $x_{1}=4$, and $-8+x_{2}=-4$, so $x_{2}=4$. Row~3:
+        $4+8=12$, slack $16$ (the allowable decrease). $C^{*}=-24+16=-8$.
+        Dual: row~3 slack gives $u_{2}=0$; $x_{2}>0$ gives $u_{1}=4$;
+        $x_{1}>0$ gives $-8+0+2u_{3}=-6$, so $u_{3}=1$. Signs fine; the
+        third dual constraint $0+2=2\le 5$ has slack $3$, the printed
+        reduced cost. \checkmark\ Dual prices $=-u$: row~2 $-4$, row~3
+        $0$, row~4 $-1$. Certificate: $W=-16+0+8=-8=C^{*}$.
+
+        (d)~The cost coefficient $5$ of $x_{3}$ would have to fall by more
+        than $3$, below $2$, before $x_{3}$ enters the plan; forcing one
+        unit of $x_{3}$ in raises the minimal cost by $3$. (A unit of
+        $x_{3}$ covers $2$ units of row~4, which are worth $2u_{3}=2$, and
+        costs $5$.)
+
+        (e)~Row~2: $-4\to 2$ is an increase of $6\le 8$, inside the range.
+        The dual price $-4$ means the cost rises by $4$ per unit:
+        $C^{*}=-8+24=16$ (new plan $x=(4,10,0)$ from the binding rows,
+        with row~3 at $4+20=24\le 28$). Row~4: $8\to 18$ is an increase of
+        $10$, beyond the allowable $6.4$. The first $6.4$ units cost exactly
+        $1$ each, giving $-8+6.4=-1.6$; each further unit costs \emph{at
+        least} $1$, so $C^{*}(18)\ge -1.6+3.6=2$ (if the LP is still
+        feasible). Re-solving gives $C^{*}=\tfrac{35}{4}=8.75$, consistent
+        with the bound.
+
+  \item (a)~$\le$ form: $2x_{1}+2x_{2}+x_{3}+s_{1}=20$,
+        $-x_{2}+s_{2}=-7$, $2x_{1}+x_{2}+2x_{3}+s_{3}=25$. Basis: $x_{2}=7$,
+        $x_{3}=6$ and the slack of row~4, $s_{3}=6$. $z$-row: reduced costs
+        $8,0,0$; under $s_{1}$ the dual price $7$ (a $\le$ row); under
+        $s_{2}$ the negative of $-5$, i.e.\ $5$ (an original $\ge$ row);
+        under $s_{3}$ $0$; bottom right $105$.
+        \begin{center}\footnotesize
+        \begin{tabular}{c|cccccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $x_{3}$ & $s_{1}$ & $s_{2}$ & $s_{3}$ & RHS\\
+        \hline
+        $x_{2}$ & $\cdot$ & $1$ & $0$ & $\cdot$ & $\cdot$ & $0$ & $7$\\
+        $x_{3}$ & $\cdot$ & $0$ & $1$ & $\cdot$ & $\cdot$ & $0$ & $6$\\
+        $s_{3}$ & $\cdot$ & $0$ & $0$ & $\cdot$ & $\cdot$ & $1$ & $6$\\
+        \hline
+        $z$ & $8$ & $0$ & $0$ & $7$ & $5$ & $0$ & $105$\\
+        \end{tabular}
+        \end{center}
+        (b)~From row~3: $x_{2}=7+s_{2}$. From row~2:
+        $x_{3}=20-2x_{1}-2x_{2}-s_{1}=6-2x_{1}-s_{1}-2s_{2}$. From row~4:
+        $s_{3}=25-2x_{1}-x_{2}-2x_{3}=6+2x_{1}+2s_{1}+3s_{2}$. Moving the
+        nonbasic terms to the left gives the rows of the tableau:
+        \begin{center}\footnotesize
+        \begin{tabular}{c|cccccc|c}
+        Basis & $x_{1}$ & $x_{2}$ & $x_{3}$ & $s_{1}$ & $s_{2}$ & $s_{3}$ & RHS\\
+        \hline
+        $x_{2}$ & $0$ & $1$ & $0$ & $0$ & $-1$ & $0$ & $7$\\
+        $x_{3}$ & $2$ & $0$ & $1$ & $1$ & $2$ & $0$ & $6$\\
+        $s_{3}$ & $-2$ & $0$ & $0$ & $-2$ & $-3$ & $1$ & $6$\\
+        \hline
+        $z$ & $8$ & $0$ & $0$ & $7$ & $5$ & $0$ & $105$\\
+        \end{tabular}
+        \end{center}
+        Check of the $z$-row: substituting into $z=6x_{1}+9x_{2}+7x_{3}$
+        gives $z=105-8x_{1}-7s_{1}-5s_{2}$, i.e.\ the entries $8,7,5$.
+        \checkmark
+
+  \item From the report: basis $x_{A}=20$, $x_{B}=60$ and the slack of the
+        demand row, $s_{3}=40-20=20$. The $z$-row holds the reduced costs
+        $0,0$, the shadow prices $10,10,0$ and $z^{*}=1800$. The
+        two-constraint end tableau supplies the rows of $x_{A}$ and
+        $x_{B}$ (the demand row does not involve $s_{1},s_{2}$ and is
+        nonbinding, so they are unchanged). Only its body carries over:
+        that example has the same two constraints but the margins $40$
+        and $30$, so its $z$-row ($10$, $20$, $2600$) does not apply here,
+        while the body $B^{-1}A$ depends on the constraints alone. From
+        $s_{3}=40-x_{A}=40-(20-s_{1}+s_{2})=20+s_{1}-s_{2}$ follows the
+        third row:
+        \begin{center}\footnotesize
+        \begin{tabular}{c|ccccc|c}
+        Basis & $x_{A}$ & $x_{B}$ & $s_{1}$ & $s_{2}$ & $s_{3}$ & RHS\\
+        \hline
+        $x_{A}$ & $1$ & $0$ & $1$ & $-1$ & $0$ & $20$\\
+        $x_{B}$ & $0$ & $1$ & $-1$ & $2$ & $0$ & $60$\\
+        $s_{3}$ & $0$ & $0$ & $-1$ & $1$ & $1$ & $20$\\
+        \hline
+        $z$ & $0$ & $0$ & $10$ & $10$ & $0$ & $1800$\\
+        \end{tabular}
+        \end{center}
+        From the report alone only the unit columns of $x_{A},x_{B},s_{3}$,
+        the RHS column and the $z$-row are known; the six entries under
+        $s_{1},s_{2}$ in the body need the model.
+
+  \item (a)~The hiring cap binds: the farm would like to hire more at
+        $9$ but cannot. One more \emph{own} hour therefore has the full
+        value of labour in production, $30$: it lets the farm move
+        $\tfrac14$ hectare from crop~1 to crop~2, which gains
+        $\tfrac14(420-300)=30$. Of that value, $9$ is what a hired hour
+        costs and $21$ is what the farm would net from one more hour of
+        hiring: the dual price of the cap. Hence $30=9+21$.
+
+        (b)~All three variables are basic, so all three dual constraints
+        bind:
+        \[
+          y_{1}+8y_{2}=300,\qquad y_{1}+12y_{2}=420,\qquad -y_{2}+y_{3}=-9 .
+        \]
+        Subtracting the first from the second, $4y_{2}=120$, so
+        $y_{2}=30$, $y_{1}=60$ and $y_{3}=21$. Check:
+        $60\cdot60+30\cdot400+21\cdot240=3600+12000+5040=20640=Z^{*}$.
+        \checkmark
+
+        (c)~Accept: an extra hour raises $Z^{*}$ by $30$ and costs $25$,
+        net $5$. The labour row's dual price holds for an increase of up to
+        $80$ hours, so the report covers $80$ hours with a net gain of
+        $80\cdot5=400$.
+
+        (d)~The objective coefficient of $h$ is $-9$ with allowable
+        decrease $21$: the plan, including all $240$ hired hours, stays
+        optimal for a wage up to $9+21=30$, the value of an hour of labour.
+
+  \item (a)~Row~3 ($\le$, dual price $2$, allowable increase $12$): the
+        first $12$ units are exact, $C^{*}(24)=-27-2\cdot12=-51$. Each of
+        the remaining $6$ units lowers the cost by \emph{at most} $2$, and
+        more capacity never raises it, so
+        \[
+          -63=-51-12\;\le\;C^{*}(30)\;\le\;-51 .
+        \]
+        The true value $-55$ lies inside.
+
+        (b)~Row~4 ($\ge$, dual price $-1$, allowable increase $6$): the
+        first $6$ units are exact, $C^{*}(3)=-27+6=-21$. Each of the
+        remaining $3$ units raises the cost by \emph{at least} $1$, so
+        $C^{*}(6)\ge -21+3=-18$. The true value
+        $-\tfrac{90}{7}\approx-12.86$ satisfies the bound.
+
+        (c)~The increase of $14$ exceeds the allowable increase $12$, so
+        the plan may change. The old plan $(0,1,5)$ stays feasible and now
+        costs $0+12-25=-13$, so $C^{*}\le -13$. The true minimum $-15$
+        respects the bound.
+
+  \item (a)~\textbf{False.} A binding $\ge$ row has a dual price
+        $\le 0$, as row~4 ($-1$) of the second worked example shows.
+
+        (b)~\textbf{True.} The dual price is the improvement per unit
+        increase of the right-hand side, and for a min problem improvement
+        means lower cost.
+
+        (c)~\textbf{False.} A nonbasic variable can have reduced cost $0$:
+        it can then be brought in without changing the objective value
+        (alternative optima). Value $0$ with reduced cost $0$ can also be a
+        degenerate basic variable; the report does not tell which.
+
+        (d)~\textbf{False.} Improvement is the same whichever way the
+        objective is written; dual prices and reduced costs are unchanged,
+        and only the objective value changes sign.
+
+        (e)~\textbf{True.} Raising the requirement by up to the surplus $4$
+        keeps the row nonbinding and the basis unchanged; lowering it only
+        loosens a row that already has room, without limit.
 \end{solutions}

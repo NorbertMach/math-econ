@@ -67,6 +67,19 @@ with $\grad f(\mathbf{x}_{0})\neq\mathbf{0}$:
 For output $Q(K,L)$, the gradient $(Q_{K},Q_{L})$ is the input adjustment
 that raises output fastest per unit of adjustment, and $|\grad Q|$ is that
 maximal marginal gain.
+
+\textbf{A fixed amount of adjustment.} If the change vector
+$(\mathrm{d}K,\mathrm{d}L)$ must have a given length $I$, output rises
+fastest when it points along the gradient:
+\[
+  \mathrm{d}K:\mathrm{d}L=Q_{K}:Q_{L},\qquad
+  (\mathrm{d}K,\mathrm{d}L)=\frac{I}{|\grad Q|}\,(Q_{K},Q_{L}),\qquad
+  \mathrm{d}Q\approx I\,|\grad Q| .
+\]
+A \emph{budget} $\mathrm{d}K+\mathrm{d}L=I$ with $\mathrm{d}K,\mathrm{d}L\ge0$ is
+a different constraint: the linear estimate $Q_{K}\mathrm{d}K+Q_{L}\mathrm{d}L$ is then largest at a
+corner, with everything spent on the input with the larger marginal
+product.
 \end{rulebox}
 
 \begin{rulebox}{Gradient and Level Curves}
@@ -81,6 +94,43 @@ to $(f_{y},-f_{x})$, consistent with the implicit slope
 $\dd{y}{x}=-f_{x}/f_{y}$ of the previous chapters. Economically: the
 marginal-utility vector $(U_{x},U_{y})$ is normal to the indifference
 curve, and $(Q_{K},Q_{L})$ is normal to the isoquant.
+\end{rulebox}
+
+\begin{rulebox}{Tangent lines: to a level curve, and to the graph}
+\textbf{Tangent to the level curve} $f(x,y)=c$ through
+$\mathbf{p}=(x_{0},y_{0})$, where $\grad f(\mathbf{p})\neq\mathbf{0}$. The
+gradient is a normal vector, so the tangent line is
+\[
+  \grad f(\mathbf{p})\cdot(\mathbf{x}-\mathbf{p})=0,
+  \qquad\text{i.e.}\qquad
+  f_{x}(\mathbf{p})(x-x_{0})+f_{y}(\mathbf{p})(y-y_{0})=0
+\]
+(normal form), or $\mathbf{x}=\mathbf{p}+t\mathbf{h}$ with
+$\mathbf{h}\perp\grad f(\mathbf{p})$, for instance
+$\mathbf{h}=(f_{y},-f_{x})$ (parametric form). Both describe the same
+line in the plane.
+
+\textbf{Tangent to the graph in a direction.} The vertical plane through
+$P=(x_{0},y_{0})$ along the unit vector $\mathbf{u}$ cuts the surface
+$z=f(x,y)$ in the curve $t\mapsto f(P+t\mathbf{u})$, whose slope at $t=0$
+is $D_{\mathbf{u}}f(P)$. That is the geometric meaning of the directional
+derivative: the slope of the surface in the direction $\mathbf{u}$. The
+tangent line to the surface in that direction is a line in $\R^{3}$:
+\[
+  (x,y,z)=\bigl(x_{0},\,y_{0},\,f(P)\bigr)
+          +t\,\bigl(u_{1},\,u_{2},\,D_{\mathbf{u}}f(P)\bigr),\qquad t\in\R .
+\]
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item $x$-direction ($\mathbf{u}=\mathbf{e}_{1}$):
+        $\bigl(x_{0}+t,\;y_{0},\;f(P)+t\,f_{x}(P)\bigr)$;
+        $y$-direction ($\mathbf{u}=\mathbf{e}_{2}$):
+        $\bigl(x_{0},\;y_{0}+t,\;f(P)+t\,f_{y}(P)\bigr)$.
+  \item For a direction vector $\mathbf{h}$ that is not normalised,
+        $\bigl(P+t\mathbf{h},\;f(P)+t\,\grad f(P)\cdot\mathbf{h}\bigr)$ is
+        the \emph{same} line, run through at a different speed. Only the
+        slope, rise per unit of horizontal distance, needs the unit vector.
+  \item All these lines lie in the tangent plane of Chapter~10.
+\end{itemize}
 \end{rulebox}
 
 \begin{rulebox}{Second Directional Derivative}
@@ -100,6 +150,38 @@ line through $\mathbf{x}_{0}$ in direction $\mathbf{u}$. Definiteness of
 the Hessian (Chapter 7) is exactly the statement that
 $D^{2}_{\mathbf{u}}f$ has one sign for \emph{every} direction
 $\mathbf{u}$.
+\end{rulebox}
+
+\begin{rulebox}{Curvature in a direction: computing it, and what it proves}
+\textbf{The profile method.} Without the Hessian: set
+$\varphi(t)=f(\mathbf{x}_{0}+t\mathbf{u})$, a function of one variable,
+and differentiate twice. Then $\varphi'(0)=D_{\mathbf{u}}f(\mathbf{x}_{0})$
+and $\varphi''(0)=D^{2}_{\mathbf{u}}f(\mathbf{x}_{0})$. Doing it both ways
+is a built-in check.
+
+\textbf{Non-unit directions.} For any $\mathbf{h}\neq\mathbf{0}$, with
+$\mathbf{u}=\mathbf{h}/|\mathbf{h}|$,
+\[
+  \mathbf{h}^{T}H\mathbf{h}=|\mathbf{h}|^{2}\,D^{2}_{\mathbf{u}}f,
+  \qquad
+  \grad f\cdot\mathbf{h}=|\mathbf{h}|\,D_{\mathbf{u}}f .
+\]
+For the \emph{sign} of the curvature, normalising is unnecessary; for the
+value of $D_{\mathbf{u}}f$ or $D^{2}_{\mathbf{u}}f$, divide by $|\mathbf{h}|$
+or $|\mathbf{h}|^{2}$.
+
+\textbf{Directional verdicts.} At $\mathbf{x}_{0}$, $f$ is
+\emph{convex in the direction $\mathbf{u}$} if $D^{2}_{\mathbf{u}}f>0$,
+\emph{concave in that direction} if $D^{2}_{\mathbf{u}}f<0$; the profile
+$\varphi$ bends up or down there. A value $0$ gives no verdict.
+
+\textbf{Refuting global convexity.} A convex $f$ has a PSD Hessian at
+\emph{every} point, so $D^{2}_{\mathbf{u}}f\ge0$ everywhere in every
+direction; a concave $f$ has $D^{2}_{\mathbf{u}}f\le0$ everywhere. Hence one
+point and direction with $D^{2}_{\mathbf{u}}f<0$ shows that $f$ is not
+convex, and one with $D^{2}_{\mathbf{v}}f>0$ (for example at a strict local
+minimum with PD Hessian) shows that $f$ is not concave. Both together prove
+that $f$ is \textbf{neither}.
 \end{rulebox}
 
 \begin{rulebox}{Vector-Valued Functions and the Jacobian Matrix}
@@ -124,6 +206,61 @@ It is the best linear approximation of $\mathbf{f}$ near $\mathbf{x}_{0}$:
 the matrix version of $f(x+h)\approx f(x)+f'(x)h$. Special cases: $m=1$
 gives the gradient as a $1\times n$ row; $n=1$ gives the velocity
 (tangent) column vector $\mathbf{r}'(t)$ of a curve.
+\end{rulebox}
+
+\begin{rulebox}{Differentiability of vector-valued maps}
+$\mathbf{f}\colon D\to\R^{m}$, $D\subseteq\R^{n}$ open, is
+\textbf{differentiable} at $\mathbf{x}_{0}$ if there is an $m\times n$
+matrix $J$ with
+\[
+  \mathbf{f}(\mathbf{x}_{0}+\mathbf{h})=\mathbf{f}(\mathbf{x}_{0})
+  +J\mathbf{h}+\mathbf{r}(\mathbf{h}),
+  \qquad
+  \frac{\|\mathbf{r}(\mathbf{h})\|}{\|\mathbf{h}\|}\to0\ \text{ as }
+  \mathbf{h}\to\mathbf{0} .
+\]
+The ``$\approx$'' of the Jacobian box is made exact by the remainder.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item The matrix $J$ is then unique and equals the Jacobian
+        $J_{\mathbf{f}}(\mathbf{x}_{0})$ of partial derivatives. It is
+        called the \textbf{derivative} (or total derivative,
+        \de{Ableitung, Jacobi-Matrix}) of $\mathbf{f}$ at $\mathbf{x}_{0}$.
+  \item $\mathbf{f}$ is differentiable exactly when every component
+        $f_{i}$ is: the remainder vector tends to $0$ faster than
+        $\|\mathbf{h}\|$ exactly when each of its entries does.
+  \item Existence of all partials is \emph{necessary} but not sufficient
+        (Chapter~10's $xy/(x^{2}+y^{2})$ is a single component that fails).
+        Continuous partials on an open set are sufficient: a $C^{1}$ map is
+        differentiable.
+  \item Geometry: for $n=m=1$ the linear part is the tangent line; for
+        $n=2$, $m=1$ it is the tangent plane; for a curve ($n=1$) it is the
+        tangent vector $\mathbf{r}'(t)$.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{The shape of a Jacobian, and which compositions exist}
+$J_{\mathbf{f}}$ has one \textbf{row per output} and one \textbf{column per
+input}: (number of outputs)$\times$(number of inputs).
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item A curve $\R\to\R^{m}$ gives an $m\times1$ column; a scalar function
+        $\R^{n}\to\R$ a $1\times n$ row; $\R^{3}\to\R^{2}$ a $2\times3$
+        (wide) matrix; $\R^{2}\to\R^{4}$ a $4\times2$ (tall) one.
+  \item \textbf{Linear and affine maps} have constant Jacobians:
+        $J(A\mathbf{x}+\mathbf{b})=A$ for an $m\times n$ matrix $A$;
+        $J(c\,\mathbf{x}-d\,\mathbf{a})=c\,I_{n}$; the identity map has
+        $J=I_{n}$; $J(\mathbf{a}^{T}\mathbf{x})=\mathbf{a}^{T}$.
+  \item \textbf{Patterns in $n$ dimensions.} If component $k$ depends on
+        $x_{k}$ alone, $f_{k}=g_{k}(x_{k})$, the Jacobian is diagonal,
+        $\operatorname{diag}\bigl(g_{1}'(x_{1}),\ldots,g_{n}'(x_{n})\bigr)$.
+\end{itemize}
+\textbf{Which composition exists.} $\mathbf{g}\circ\mathbf{f}$ means
+``first $\mathbf{f}$, then $\mathbf{g}$''; it is defined when the number of
+outputs of $\mathbf{f}$ equals the number of inputs of $\mathbf{g}$. With
+$\mathbf{f}\colon\R^{n}\to\R^{m}$ and $\mathbf{g}\colon\R^{m}\to\R^{p}$ the
+chain rule multiplies $(p\times m)(m\times n)$; the inner sizes must
+match, which is the same condition. Check it before computing anything:
+often only one of $\mathbf{g}\circ\mathbf{f}$ and $\mathbf{f}\circ\mathbf{g}$
+makes sense.
 \end{rulebox}
 
 \begin{rulebox}{Chain Rule in Matrix Form}
@@ -691,6 +828,171 @@ $1\times1$ case.
         and verify by expanding $y$ as a polynomial in $K$ and $L$.
 \end{problems}
 
+Problems 11--14: tangent lines to the graph of $f$ in a given direction.
+
+\begin{problems}[resume]
+  \item For $f(x,y)=x^{2}y+y^{3}$ at $P=(1,2)$, give the slope of the graph
+        and the tangent line to the graph in the $x$-direction, in the
+        $y$-direction, and in the direction of $\mathbf{v}=(3,-4)$.
+  \item For $f(x,y)=\ln(x^{2}+3y)$ at $P=(2,0)$, give the slope of the
+        graph in the direction of steepest ascent and the tangent line to
+        the graph in that direction.
+  \item For $f(x,y)=(x+y)\,\mathrm{e}^{x-y}$ at $P=(1,1)$, give the slope in
+        the direction from $P$ towards $Q=(3,2)$ and the tangent line in
+        that direction, once with the unit vector and once with
+        $\mathbf{h}=Q-P$. Show that both describe the same line.
+  \item For $Q(K,L)=4K^{1/2}L^{1/4}$ at $(16,16)$, give the tangent line to
+        the graph in the $L$-direction, read it as an output estimate for
+        $L=17$, and compare with the exact value.
+\end{problems}
+
+In problems 15--17, for the point $P$: (a) find the level $c=f(P)$; (b)
+solve the level curve $f=c$ explicitly; (c) compute $\grad f(P)$ and check
+that it is perpendicular to the tangent of the level curve; (d) give the
+tangent line to the level curve in normal and in parametric form; (e) give
+$D_{\mathbf{u}}f(P)$ in the direction of the gradient.
+
+\begin{problems}[resume]
+  \item $f(x,y)=\sqrt{2x^{2}+3y+1}$, \;$P=(1,2)$.
+  \item $f(x,y)=x^{1/3}y^{2/3}$ on $x,y>0$, \;$P=(1,8)$.
+  \item $f(x,y)=x\,\mathrm{e}^{y}+y$, \;$P=(2,0)$; solve the level curve
+        for $x$.
+\end{problems}
+
+Problems 18--20: differentiability of vector-valued maps.
+
+\begin{problems}[resume]
+  \item Explain why
+        $\mathbf{F}(x,y)=\bigl(x^{2}y,\;x-3y^{2},\;xy\bigr)$ is
+        differentiable at every point. Give $J_{\mathbf{F}}(1,1)$, and
+        compute the remainder vector $\mathbf{r}(\mathbf{h})$ at $(1,1)$
+        to show directly that $\|\mathbf{r}(\mathbf{h})\|/\|\mathbf{h}\|\to0$.
+  \item For $\mathbf{F}(x,y)=\bigl(\ln(3x^{2}+y^{4}),\;xy^{2},\;|y-1|\bigr)$,
+        give the domain, the set on which $\mathbf{F}$ is differentiable,
+        and the Jacobian there.
+  \item Answer in words: when is a map $\mathbf{f}\colon\R^{n}\to\R^{m}$
+        differentiable at $\mathbf{x}_{0}$; what is its derivative called
+        and what shape does it have; how is it related to the partial
+        derivatives of the components; and what is the geometric meaning
+        for $n=m=1$ and for $n=2$, $m=1$?
+\end{problems}
+
+Problems 21--26: Jacobians of all shapes.
+
+\begin{problems}[resume]
+  \item $\mathbf{r}(t)=\bigl(\ln(1+t^{2}),\;\mathrm{e}^{-2t},\;\cos3t,\;5\bigr)$:
+        the Jacobian, its shape, and its value at $t=0$.
+  \item $\mathbf{F}(x,y,z)=(xyz,\;x^{2}-z)$ at $(1,2,3)$, and
+        $g(x_{1},x_{2},x_{3},x_{4})=x_{1}x_{2}+x_{3}\mathrm{e}^{x_{4}}$ at
+        $(1,1,1,0)$: shapes and values of the Jacobians.
+  \item $\mathbf{F}(s,t)=\bigl(s+t,\;st,\;s^{2},\;\mathrm{e}^{s-t}\bigr)$:
+        the Jacobian, its shape, and its value at $(1,1)$.
+  \item Jacobians in $n$ dimensions: (a) the identity map
+        $\mathbf{F}(\mathbf{x})=\mathbf{x}$ on $\R^{n}$; (b) the map
+        $\mathbf{F}\colon\R^{n}\to\R^{n}$ with components
+        $F_{k}(\mathbf{x})=k\,\mathrm{e}^{x_{k}}$, that is
+        $(\mathrm{e}^{x_{1}},2\mathrm{e}^{x_{2}},\ldots,n\,\mathrm{e}^{x_{n}})$;
+        (c) the curve $\mathbf{r}\colon\R\to\R^{n}$ with components
+        $r_{k}(t)=t^{k}/k$, that is $(t,t^{2}/2,\ldots,t^{n}/n)$; (d)
+        $f(\mathbf{x})=\sum_{k=1}^{n}x_{k}^{k}/k$.
+  \item Jacobians of linear and affine maps: (a) $\mathbf{F}(\mathbf{x})=
+        A\mathbf{x}$ with $A=\begin{pmatrix}2&-1&0\\1&0&3\\0&4&-2
+        \end{pmatrix}$; (b) $\mathbf{F}(\mathbf{x})=3\mathbf{x}-2\mathbf{a}$
+        for a fixed $\mathbf{a}\in\R^{n}$; (c) $f(\mathbf{x})=
+        \mathbf{a}^{T}\mathbf{x}$; (d) $\mathbf{G}(\mathbf{x})=B\mathbf{x}
+        +\mathbf{c}$ with $B$ a $2\times3$ matrix.
+  \item Let $\mathbf{F}\colon\R^{3}\to\R^{2}$, $\mathbf{G}\colon\R^{2}\to
+        \R^{4}$, $H\colon\R^{4}\to\R$ and $\mathbf{K}\colon\R\to\R^{3}$.
+        Which of $\mathbf{G}\circ\mathbf{F}$, $\mathbf{F}\circ\mathbf{G}$,
+        $H\circ\mathbf{G}$, $\mathbf{G}\circ H$, $\mathbf{K}\circ H$,
+        $H\circ\mathbf{K}$, $\mathbf{F}\circ\mathbf{K}$,
+        $\mathbf{K}\circ\mathbf{F}$ and $H\circ\mathbf{G}\circ\mathbf{F}$
+        are defined, and what is the shape of the Jacobian of each one that
+        is?
+\end{problems}
+
+Problems 27--30: the matrix chain rule with rectangular Jacobians. Verify
+each result by composing first.
+
+\begin{problems}[resume]
+  \item $\mathbf{f}(x,y,z)=(x+yz,\;xz)$ and
+        $\mathbf{g}(u,v)=(u,\;v,\;uv,\;u-v)$: the Jacobian of
+        $\mathbf{g}\circ\mathbf{f}$ at $(1,2,1)$.
+  \item $g(x,y,z)=x+2y+z^{2}$ and $\mathbf{f}(s)=(s,\;s^{2},\;\mathrm{e}^{s})$:
+        say why both $\mathbf{f}\circ g$ and $g\circ\mathbf{f}$ exist; give
+        the Jacobian of $\mathbf{f}\circ g$ at $(1,0,0)$ and the derivative
+        of $g\circ\mathbf{f}$.
+  \item $\mathbf{f}(x,y)=(x,\;y,\;xy)$ and $\mathbf{g}(u,v,w)=(u+w,\;vw)$:
+        the Jacobian of $\mathbf{g}\circ\mathbf{f}$ at $(1,2)$ and of
+        $\mathbf{f}\circ\mathbf{g}$ at $(1,1,1)$.
+  \item $\mathbf{r}(t)=(\cos t,\;\sin t,\;t)$ and $F(x,y,z)=x^{2}+y^{2}+z^{2}$:
+        $\dd{}{t}F(\mathbf{r}(t))$ by the chain rule, simplified.
+\end{problems}
+
+In problems 31--33, compute $D_{\mathbf{u}}f(P)$ and $D^{2}_{\mathbf{u}}f(P)$
+for the direction of $\mathbf{h}$, both with the gradient and Hessian and
+with the profile $\varphi(t)=f(P+t\mathbf{h})$, and say whether $f$ is
+convex or concave in that direction at $P$.
+
+\begin{problems}[resume]
+  \item $f(x,y,z)=x\ln y+yz^{2}$, \;$P=(2,1,1)$, \;$\mathbf{h}=(1,2,-2)$.
+  \item $f(x,y,z)=x\,\mathrm{e}^{yz}$, \;$P=(1,0,2)$, \;$\mathbf{h}=(2,1,2)$.
+  \item $f(x,y,z)=xyz+\ln(xz)$, \;$P=(1,1,1)$, \;$\mathbf{h}=(1,-1,1)$.
+  \item Redo practice problem 15 ($f=x^{2}y$ at $(1,2)$) with the
+        \emph{unnormalised} $\mathbf{h}=(3,4)$: compute
+        $\grad f\cdot\mathbf{h}$, $\mathbf{h}^{T}H\mathbf{h}$, and the
+        profile derivatives $\varphi'(0)$, $\varphi''(0)$. Explain the
+        factors $5$ and $25$.
+\end{problems}
+
+In problems 35--37, give the directional verdicts asked for, then decide
+whether $f$ is convex, concave or neither on its whole domain.
+
+\begin{problems}[resume]
+  \item $f(x,y)=x^{3}-3x+y^{2}$: at $Q=(-1,1)$ in the direction of
+        $\mathbf{h}=(3,4)$, compute $D_{\mathbf{u}}f$ and
+        $D^{2}_{\mathbf{u}}f$; then use the point $(1,0)$.
+  \item $f(x,y)=x^{4}-4xy+y^{2}$: classify the critical points, then give
+        $D^{2}_{\mathbf{u}}f(0,0)$ for $\mathbf{u}=(1,1)/\sqrt2$ and for
+        $\mathbf{u}=(0,1)$.
+  \item $f(x,y)=x\ln y$ on $y>0$, at $P=(1,1)$: $D_{\mathbf{u}}f$ and
+        $D^{2}_{\mathbf{u}}f$ for $\mathbf{u}=(1,0)$, $(0,1)$ and
+        $(1,1)/\sqrt2$.
+\end{problems}
+
+Problems 38--40: statements to check. Justify every answer.
+
+\begin{problems}[resume]
+  \item True or false? (a) Walking along the contour line through $P$,
+        the rate of change of $f$ is $0$. (b) The direction of steepest
+        descent is $-\grad f(P)$. (c) If $\grad f(P)=\mathbf{0}$, then $P$
+        is a peak or a valley. (d) $|\grad f(P)|$ is the slope of the
+        steepest path through $P$. (e) The gradient at $P$ is tangent to
+        the level curve through $P$.
+  \item A hiker stands on a hillside with neither map nor formula. How can
+        she find the direction of the gradient, and how does the slope in
+        other directions compare with the slope in that one?
+  \item True or false? (a) For $f(x,y)$ of two variables: if
+        $D_{\mathbf{u}}f(P)=0$ for two non-parallel unit vectors $\mathbf{u}$, then $\grad f(P)=\mathbf{0}$. (b) If
+        $D_{\mathbf{u}}f(P)=3$, then $D_{-\mathbf{u}}f(P)=-3$. (c) A
+        function can have $D_{\mathbf{u}}f(P)=5$ for some unit vector
+        $\mathbf{u}$ while $|\grad f(P)|=4$.
+\end{problems}
+
+Problems 41--42: an input change vector of fixed length is to raise output
+as fast as possible.
+
+\begin{problems}[resume]
+  \item $Y=10K^{0.4}L^{0.6}$ at $K=32768$, $L=7776$ (so that
+        $K^{0.4}=64$, $L^{0.6}=216$). The change vector
+        $(\mathrm{d}K,\mathrm{d}L)$ has length $100$. Find the best ratio
+        $\mathrm{d}K:\mathrm{d}L$, the amounts, the estimated and the exact
+        rise in output; then compare with spending a budget
+        $\mathrm{d}K+\mathrm{d}L=100$.
+  \item $Y=\sqrt{KL}$ at $K=400$, $L=900$, with a change vector of length
+        $20$: the same questions.
+\end{problems}
+
 \section{Additional Solutions}
 
 \begin{solutions}
@@ -812,4 +1114,358 @@ $1\times1$ case.
         $y=(2K+L)(K+3L)=2K^{2}+7KL+3L^{2}$, so
         $\pd{y}{K}=4K+7L=11$ and $\pd{y}{L}=7K+6L=13$ at $(1,1)$.
         \checkmark
+
+  \item $f(P)=2+8=10$ and $\grad f=(2xy,\;x^{2}+3y^{2})=(4,13)$ at $P$.
+        \begin{itemize}[leftmargin=1.2em,itemsep=0.2ex]
+          \item $x$-direction: slope $f_{x}(P)=4$, line
+                $(1+t,\;2,\;10+4t)$.
+          \item $y$-direction: slope $f_{y}(P)=13$, line
+                $(1,\;2+t,\;10+13t)$.
+          \item $|\mathbf{v}|=5$, $\mathbf{u}=(\tfrac35,-\tfrac45)$,
+                $D_{\mathbf{u}}f=\tfrac{12}{5}-\tfrac{52}{5}=-8$: the
+                surface falls with slope $8$ that way. Line
+                $\bigl(1+\tfrac35t,\;2-\tfrac45t,\;10-8t\bigr)$.
+        \end{itemize}
+  \item $f(P)=\ln4$. With $w=x^{2}+3y$, $\grad f=\bigl(\tfrac{2x}{w},\,
+        \tfrac{3}{w}\bigr)=(1,\tfrac34)$ at $P$, where $w=4$. Steepest
+        ascent: $\mathbf{u}=\grad f/|\grad f|$ with $|\grad f|=\tfrac54$, so
+        $\mathbf{u}=(\tfrac45,\tfrac35)$ and the slope is
+        $D_{\mathbf{u}}f=|\grad f|=\tfrac54$. Tangent line:
+        \[
+          (x,y,z)=\bigl(2+\tfrac45t,\;\tfrac35t,\;\ln4+\tfrac54t\bigr) .
+        \]
+  \item $f(P)=2\mathrm{e}^{0}=2$. Product rule:
+        $f_{x}=\mathrm{e}^{x-y}(x+y+1)=3$,
+        $f_{y}=\mathrm{e}^{x-y}(1-x-y)=-1$ at $P$. $\mathbf{h}=Q-P=(2,1)$,
+        $|\mathbf{h}|=\sqrt5$, $\mathbf{u}=(2,1)/\sqrt5$:
+        \[
+          D_{\mathbf{u}}f=\frac{3\cdot2-1\cdot1}{\sqrt5}=\sqrt5\approx2.236 .
+        \]
+        With the unit vector:
+        $\bigl(1+\tfrac{2}{\sqrt5}t,\;1+\tfrac{1}{\sqrt5}t,\;2+\sqrt5\,t\bigr)$.
+        With $\mathbf{h}$, $\grad f\cdot\mathbf{h}=5$:
+        $(1+2s,\;1+s,\;2+5s)$. Putting $s=t/\sqrt5$ in the second gives the
+        first, so it is the same line; only the parameter runs at a
+        different speed.
+  \item $Q(16,16)=4\cdot4\cdot2=32$,
+        $Q_{L}=K^{1/2}L^{-3/4}=4\cdot\tfrac18=\tfrac12$. Tangent line in the
+        $L$-direction: $(16,\;16+t,\;32+\tfrac12t)$. At $L=17$ ($t=1$) it
+        gives $32.5$; exactly, $Q(16,17)=16\cdot17^{1/4}\approx32.4887$. The
+        slope $\tfrac12$ is the marginal product of labour, and the line
+        slightly overestimates because $Q$ is concave in $L$.
+  \item (a) $c=\sqrt{2+6+1}=3$. (b) $2x^{2}+3y+1=9$, so
+        $y=\dfrac{8-2x^{2}}{3}$, a downward parabola. Its slope at $x=1$ is
+        $y'=-\tfrac{4x}{3}=-\tfrac43$, tangent direction $(3,-4)$.
+        (c) $\grad f=\Bigl(\dfrac{2x}{f},\,\dfrac{3}{2f}\Bigr)=
+        \bigl(\tfrac23,\tfrac12\bigr)$, and
+        $\bigl(\tfrac23,\tfrac12\bigr)\cdot(3,-4)=2-2=0$. \checkmark\ (d)
+        Normal form: $\tfrac23(x-1)+\tfrac12(y-2)=0$, i.e.\
+        $4(x-1)+3(y-2)=0$, $y=2-\tfrac43(x-1)$. Parametric:
+        $(x,y)=(1,2)+t(3,-4)$. (e) $D_{\mathbf{u}}f=|\grad f|=
+        \sqrt{\tfrac49+\tfrac14}=\sqrt{\tfrac{25}{36}}=\tfrac56$.
+  \item (a) $c=1\cdot8^{2/3}=4$. (b) $y^{2/3}=4x^{-1/3}$, so
+        $y=8x^{-1/2}$; slope $y'=-4x^{-3/2}=-4$ at $x=1$, direction $(1,-4)$.
+        (c) $f_{x}=\tfrac13\dfrac fx=\tfrac43$,
+        $f_{y}=\tfrac23\dfrac fy=\tfrac23\cdot\tfrac48=\tfrac13$, and
+        $\bigl(\tfrac43,\tfrac13\bigr)\cdot(1,-4)=0$. \checkmark\ (d)
+        $\tfrac43(x-1)+\tfrac13(y-8)=0$, i.e.\ $y=12-4x$; parametric
+        $(1,8)+t(1,-4)$. (e) $|\grad f|=\sqrt{\tfrac{16}{9}+\tfrac19}=
+        \tfrac{\sqrt{17}}{3}\approx1.374$.
+  \item (a) $c=2\cdot1+0=2$. (b) $x\mathrm{e}^{y}=2-y$, so
+        $x=(2-y)\mathrm{e}^{-y}$. Then
+        $\dd{x}{y}=-\mathrm{e}^{-y}-(2-y)\mathrm{e}^{-y}=(y-3)\mathrm{e}^{-y}
+        =-3$ at $y=0$: tangent direction $(\mathrm{d}x,\mathrm{d}y)=(-3,1)$.
+        (c) $\grad f=(\mathrm{e}^{y},\;x\mathrm{e}^{y}+1)=(1,3)$, and
+        $(1,3)\cdot(-3,1)=0$. \checkmark\ (d) $(x-2)+3y=0$, i.e.\
+        $x=2-3y$; parametric $(2,0)+t(-3,1)$. (e) $|\grad f|=\sqrt{10}
+        \approx3.162$.
+  \item Each component is a polynomial, so its partials exist and are
+        continuous everywhere; a $C^{1}$ map is differentiable, and a map is
+        differentiable when each component is.
+        $J_{\mathbf{F}}=\begin{pmatrix}2xy&x^{2}\\1&-6y\\y&x\end{pmatrix}$,
+        and $J_{\mathbf{F}}(1,1)=\begin{pmatrix}2&1\\1&-6\\1&1\end{pmatrix}$.
+        Remainder at $(1,1)$, component by component, with
+        $\mathbf{F}(1,1)=(1,-2,1)$:
+        \begin{align*}
+          r_{1}&=(1+h_{1})^{2}(1+h_{2})-1-2h_{1}-h_{2}
+               =2h_{1}h_{2}+h_{1}^{2}+h_{1}^{2}h_{2},\\
+          r_{2}&=(1+h_{1})-3(1+h_{2})^{2}+2-h_{1}+6h_{2}=-3h_{2}^{2},\\
+          r_{3}&=(1+h_{1})(1+h_{2})-1-h_{1}-h_{2}=h_{1}h_{2} .
+        \end{align*}
+        Each is bounded by a constant times $\|\mathbf{h}\|^{2}$ (for
+        $\|\mathbf{h}\|\le1$), so
+        $\|\mathbf{r}\|\le C\|\mathbf{h}\|^{2}$ and
+        $\|\mathbf{r}\|/\|\mathbf{h}\|\to0$.
+  \item \emph{Domain.} $3x^{2}+y^{4}>0$ fails only at the origin: $D=\R^{2}
+        \setminus\{(0,0)\}$. \emph{Differentiability.} The first two
+        components are $C^{1}$ on $D$. The third, $|y-1|$, has
+        $\partial/\partial y$ equal to $+1$ above and $-1$ below the line
+        $y=1$, and on the line the quotient $|h|/h$ has no limit. So
+        $\mathbf{F}$ is differentiable exactly on
+        $\{(x,y)\neq(0,0):y\neq1\}$, with
+        \[
+          J_{\mathbf{F}}=\begin{pmatrix}
+            \dfrac{6x}{3x^{2}+y^{4}}&\dfrac{4y^{3}}{3x^{2}+y^{4}}\\[1.2ex]
+            y^{2}&2xy\\ 0&\operatorname{sign}(y-1)\end{pmatrix} .
+        \]
+  \item $\mathbf{f}$ is differentiable at $\mathbf{x}_{0}$ if
+        $\mathbf{f}(\mathbf{x}_{0}+\mathbf{h})=\mathbf{f}(\mathbf{x}_{0})
+        +J\mathbf{h}+\mathbf{r}(\mathbf{h})$ for a matrix $J$, with
+        $\|\mathbf{r}(\mathbf{h})\|/\|\mathbf{h}\|\to0$: near
+        $\mathbf{x}_{0}$ the map is a linear map plus an error that vanishes
+        faster than the step. The matrix is the derivative (total
+        derivative), the Jacobian matrix, of shape $m\times n$. Its entries
+        are the partials $\partial f_{i}/\partial x_{j}$; their existence is
+        necessary but not sufficient, while continuity of all of them is
+        sufficient, and $\mathbf{f}$ is differentiable exactly when each
+        component is. For $n=m=1$ the linear part is the tangent line of
+        the graph, for $n=2$, $m=1$ the tangent plane.
+  \item $J_{\mathbf{r}}(t)=\Bigl(\dfrac{2t}{1+t^{2}},\;-2\mathrm{e}^{-2t},
+        \;-3\sin3t,\;0\Bigr)^{T}$, a $4\times1$ column (four outputs, one
+        input); the constant component gives $0$. At $t=0$:
+        $(0,-2,0,0)^{T}$.
+  \item $J_{\mathbf{F}}=\begin{pmatrix}yz&xz&xy\\2x&0&-1\end{pmatrix}$,
+        $2\times3$; at $(1,2,3)$: $\begin{pmatrix}6&3&2\\2&0&-1\end{pmatrix}$.
+        $J_{g}=\bigl(x_{2}\ \ x_{1}\ \ \mathrm{e}^{x_{4}}\ \
+        x_{3}\mathrm{e}^{x_{4}}\bigr)$, a $1\times4$ row; at $(1,1,1,0)$:
+        $(1\ \ 1\ \ 1\ \ 1)$.
+  \item $J_{\mathbf{F}}=\begin{pmatrix}1&1\\t&s\\2s&0\\
+        \mathrm{e}^{s-t}&-\mathrm{e}^{s-t}\end{pmatrix}$, $4\times2$ (four
+        outputs, two inputs); at $(1,1)$:
+        $\begin{pmatrix}1&1\\1&1\\2&0\\1&-1\end{pmatrix}$.
+  \item (a) $F_{k}=x_{k}$, so $\partial F_{k}/\partial x_{j}$ is $1$ for
+        $j=k$ and $0$ otherwise: $J=I_{n}$. (b) $F_{k}=k\mathrm{e}^{x_{k}}$
+        depends on $x_{k}$ alone: $J=\operatorname{diag}\bigl(\mathrm{e}^{x_{1}},
+        2\mathrm{e}^{x_{2}},\ldots,n\,\mathrm{e}^{x_{n}}\bigr)$, $n\times n$.
+        (c) $r_{k}=t^{k}/k$ has $r_{k}'=t^{k-1}$: the $n\times1$ column
+        $(1,t,t^{2},\ldots,t^{n-1})^{T}$. (d) The term with $x_{k}$ is
+        $x_{k}^{k}/k$, with derivative $x_{k}^{k-1}$: the $1\times n$ row
+        $(1\ \ x_{2}\ \ x_{3}^{2}\ \ \cdots\ \ x_{n}^{n-1})$.
+  \item (a) Component $i$ is $\sum_{j}a_{ij}x_{j}$, with partials $a_{ij}$:
+        $J=A$ at every point. (b) Component $k$ is $3x_{k}-2a_{k}$:
+        $J=3I_{n}$, and the constant shift drops out. (c) $\partial f/
+        \partial x_{k}=a_{k}$: $J=\mathbf{a}^{T}$, a $1\times n$ row. (d)
+        $J=B$, $2\times3$, whatever $\mathbf{c}$ is.
+  \item Match outputs of the inner map with inputs of the outer map.
+        \begin{itemize}[leftmargin=1.2em,itemsep=0.2ex]
+          \item $\mathbf{G}\circ\mathbf{F}$: $2=2$, defined,
+                $\R^{3}\to\R^{4}$, $4\times3$. $\mathbf{F}\circ\mathbf{G}$:
+                $4\neq3$, undefined.
+          \item $H\circ\mathbf{G}$: $4=4$, defined, $\R^{2}\to\R$,
+                $1\times2$. $\mathbf{G}\circ H$: $1\neq2$, undefined.
+          \item $\mathbf{K}\circ H$: $1=1$, defined, $\R^{4}\to\R^{3}$,
+                $3\times4$. $H\circ\mathbf{K}$: $3\neq4$, undefined.
+          \item $\mathbf{F}\circ\mathbf{K}$: $3=3$, defined, $\R\to\R^{2}$,
+                $2\times1$. $\mathbf{K}\circ\mathbf{F}$: $2\neq1$,
+                undefined.
+          \item $H\circ\mathbf{G}\circ\mathbf{F}$: $\R^{3}\to\R^{2}\to\R^{4}
+                \to\R$, defined, $1\times3=(1\times4)(4\times2)(2\times3)$.
+        \end{itemize}
+  \item $\mathbf{f}(1,2,1)=(1+2,\;1)=(3,1)$.
+        $J_{\mathbf{f}}=\begin{pmatrix}1&z&y\\z&0&x\end{pmatrix}
+        =\begin{pmatrix}1&1&2\\1&0&1\end{pmatrix}$ and
+        $J_{\mathbf{g}}=\begin{pmatrix}1&0\\0&1\\v&u\\1&-1\end{pmatrix}
+        =\begin{pmatrix}1&0\\0&1\\1&3\\1&-1\end{pmatrix}$ at $(u,v)=(3,1)$.
+        \[
+          J_{\mathbf{g}\circ\mathbf{f}}=
+          \begin{pmatrix}1&0\\0&1\\1&3\\1&-1\end{pmatrix}
+          \begin{pmatrix}1&1&2\\1&0&1\end{pmatrix}
+          =\begin{pmatrix}1&1&2\\1&0&1\\4&1&5\\0&1&1\end{pmatrix},
+        \]
+        a $(4\times2)(2\times3)=4\times3$ product. \textbf{Check.}
+        $\mathbf{g}\circ\mathbf{f}=\bigl(x+yz,\;xz,\;x^{2}z+xyz^{2},\;
+        x+yz-xz\bigr)$; the third row is
+        $(2xz+yz^{2},\;xz^{2},\;x^{2}+2xyz)=(4,1,5)$ and the fourth
+        $(1-z,\;z,\;y-x)=(0,1,1)$ at $(1,2,1)$. \checkmark
+  \item $g\colon\R^{3}\to\R$ and $\mathbf{f}\colon\R\to\R^{3}$: in
+        $\mathbf{f}\circ g$ the one output of $g$ feeds the one input of
+        $\mathbf{f}$, and in $g\circ\mathbf{f}$ the three outputs of
+        $\mathbf{f}$ feed the three inputs of $g$. Both exist.
+        \emph{$\mathbf{f}\circ g\colon\R^{3}\to\R^{3}$.} The chain rule
+        gives a column times a row,
+        $J=\mathbf{f}'(g(\mathbf{x}))\,\grad g(\mathbf{x})^{T}$, a
+        rank-one $3\times3$ matrix. At $(1,0,0)$: $g=1$,
+        $\mathbf{f}'(1)=(1,\;2,\;\mathrm{e})^{T}$, $\grad g=(1,2,2z)=(1,2,0)$:
+        \[
+          J=\begin{pmatrix}1\\2\\\mathrm{e}\end{pmatrix}(1\ \ 2\ \ 0)
+           =\begin{pmatrix}1&2&0\\2&4&0\\\mathrm{e}&2\mathrm{e}&0\end{pmatrix} .
+        \]
+        Check: $\mathbf{f}(g)=(g,\;g^{2},\;\mathrm{e}^{g})$ has rows
+        $\grad g$, $2g\grad g$, $\mathrm{e}^{g}\grad g$. \checkmark\
+        \emph{$g\circ\mathbf{f}\colon\R\to\R$.}
+        $\grad g(\mathbf{f}(s))\cdot\mathbf{f}'(s)=(1,\;2,\;2\mathrm{e}^{s})
+        \cdot(1,\;2s,\;\mathrm{e}^{s})=1+4s+2\mathrm{e}^{2s}$. Check:
+        $g(\mathbf{f}(s))=s+2s^{2}+\mathrm{e}^{2s}$. \checkmark
+  \item \emph{$\mathbf{g}\circ\mathbf{f}\colon\R^{2}\to\R^{2}$} at $(1,2)$:
+        $\mathbf{f}(1,2)=(1,2,2)$,
+        $J_{\mathbf{f}}=\begin{pmatrix}1&0\\0&1\\y&x\end{pmatrix}
+        =\begin{pmatrix}1&0\\0&1\\2&1\end{pmatrix}$,
+        $J_{\mathbf{g}}=\begin{pmatrix}1&0&1\\0&w&v\end{pmatrix}
+        =\begin{pmatrix}1&0&1\\0&2&2\end{pmatrix}$, so
+        \[
+          J_{\mathbf{g}\circ\mathbf{f}}=\begin{pmatrix}1&0&1\\0&2&2\end{pmatrix}
+          \begin{pmatrix}1&0\\0&1\\2&1\end{pmatrix}
+          =\begin{pmatrix}3&1\\4&4\end{pmatrix} .
+        \]
+        Check: $\mathbf{g}(\mathbf{f}(x,y))=(x+xy,\;xy^{2})$, Jacobian
+        $\begin{pmatrix}1+y&x\\y^{2}&2xy\end{pmatrix}$, which is
+        $\begin{pmatrix}3&1\\4&4\end{pmatrix}$ at $(1,2)$. \checkmark\
+        \emph{$\mathbf{f}\circ\mathbf{g}\colon\R^{3}\to\R^{3}$} at
+        $(1,1,1)$: $\mathbf{g}(1,1,1)=(2,1)$, so
+        $J_{\mathbf{f}}(2,1)=\begin{pmatrix}1&0\\0&1\\1&2\end{pmatrix}$ and
+        $J_{\mathbf{g}}(1,1,1)=\begin{pmatrix}1&0&1\\0&1&1\end{pmatrix}$:
+        \[
+          J_{\mathbf{f}\circ\mathbf{g}}=\begin{pmatrix}1&0\\0&1\\1&2\end{pmatrix}
+          \begin{pmatrix}1&0&1\\0&1&1\end{pmatrix}
+          =\begin{pmatrix}1&0&1\\0&1&1\\1&2&3\end{pmatrix} .
+        \]
+        Check: $\mathbf{f}(\mathbf{g})=\bigl(u+w,\;vw,\;(u+w)vw\bigr)$; the
+        last row is $\bigl(vw,\;(u+w)w,\;vw+(u+w)v\bigr)=(1,2,3)$.
+        \checkmark
+  \item $\grad F=(2x,2y,2z)$ and $\mathbf{r}'(t)=(-\sin t,\cos t,1)$:
+        \[
+          \dd{}{t}F(\mathbf{r}(t))=2\cos t(-\sin t)+2\sin t\cos t+2t\cdot1
+          =2t .
+        \]
+        Check: $F(\mathbf{r}(t))=\cos^{2}t+\sin^{2}t+t^{2}=1+t^{2}$.
+        \checkmark
+  \item $|\mathbf{h}|=3$. $\grad f=(\ln y,\;x/y+z^{2},\;2yz)=(0,3,2)$, so
+        $\grad f\cdot\mathbf{h}=0+6-4=2$ and $D_{\mathbf{u}}f=\tfrac23$.
+        $H=\begin{pmatrix}0&1/y&0\\1/y&-x/y^{2}&2z\\0&2z&2y\end{pmatrix}
+        =\begin{pmatrix}0&1&0\\1&-2&2\\0&2&2\end{pmatrix}$ and
+        \[
+          \mathbf{h}^{T}H\mathbf{h}=2\cdot1\cdot(1)(2)-2\cdot4
+          +2\cdot2\cdot(2)(-2)+2\cdot4=4-8-16+8=-12,
+        \]
+        so $D^{2}_{\mathbf{u}}f=-\tfrac{12}{9}=-\tfrac43$. \emph{Profile.}
+        $\varphi(t)=(2+t)\ln(1+2t)+(1+2t)(1-2t)^{2}$, and
+        $(1+2t)(1-2t)^{2}=1-2t-4t^{2}+8t^{3}$. The log part has derivative
+        $\ln(1+2t)+\dfrac{2(2+t)}{1+2t}$, equal to $4$ at $0$, and second
+        derivative $\dfrac{2}{1+2t}+\dfrac{2(1+2t)-4(2+t)}{(1+2t)^{2}}$,
+        equal to $2-6=-4$. So $\varphi'(0)=4-2=2$ and
+        $\varphi''(0)=-4-8=-12$. \checkmark\ Concave in this direction.
+  \item $|\mathbf{h}|=3$. $\grad f=\mathrm{e}^{yz}(1,\;xz,\;xy)=(1,2,0)$;
+        $D_{\mathbf{u}}f=\tfrac{2+2+0}{3}=\tfrac43$. Second partials at $P$
+        ($\mathrm{e}^{yz}=1$): $f_{xx}=0$, $f_{xy}=z\mathrm{e}^{yz}=2$,
+        $f_{xz}=y\mathrm{e}^{yz}=0$, $f_{yy}=xz^{2}\mathrm{e}^{yz}=4$,
+        $f_{yz}=x(1+yz)\mathrm{e}^{yz}=1$, $f_{zz}=xy^{2}\mathrm{e}^{yz}=0$.
+        \[
+          \mathbf{h}^{T}H\mathbf{h}=2\cdot2\cdot(2)(1)+4\cdot1+2\cdot1\cdot(1)(2)
+          =8+4+4=16,\qquad D^{2}_{\mathbf{u}}f=\tfrac{16}{9} .
+        \]
+        \emph{Profile.} $\varphi(t)=(1+2t)\,\mathrm{e}^{t(2+2t)}
+        =(1+2t)\,\mathrm{e}^{2t+2t^{2}}$. With $E=\mathrm{e}^{2t+2t^{2}}$,
+        $E'=(2+4t)E$:
+        $\varphi'=\bigl(2+(1+2t)(2+4t)\bigr)E$, so $\varphi'(0)=4$, and
+        $\varphi''=\bigl(4+8t+4+8t\bigr)E+\bigl(2+(1+2t)(2+4t)\bigr)(2+4t)E$,
+        so $\varphi''(0)=8+4\cdot2=16$. \checkmark\ Convex in this direction.
+  \item $|\mathbf{h}|=\sqrt3$. $\grad f=(yz+\tfrac1x,\;xz,\;xy+\tfrac1z)
+        =(2,1,2)$, $\grad f\cdot\mathbf{h}=2-1+2=3$,
+        $D_{\mathbf{u}}f=3/\sqrt3=\sqrt3$.
+        $H=\begin{pmatrix}-1/x^{2}&z&y\\z&0&x\\y&x&-1/z^{2}\end{pmatrix}
+        =\begin{pmatrix}-1&1&1\\1&0&1\\1&1&-1\end{pmatrix}$, and
+        \[
+          \mathbf{h}^{T}H\mathbf{h}=-1+0-1+2\bigl[(1)(-1)+(1)(1)+(-1)(1)\bigr]
+          =-2-2=-4,\qquad D^{2}_{\mathbf{u}}f=-\tfrac43 .
+        \]
+        \emph{Profile.} $\varphi(t)=(1+t)(1-t)(1+t)+\ln\bigl((1+t)^{2}\bigr)
+        =1+t-t^{2}-t^{3}+2\ln(1+t)$. $\varphi'(t)=1-2t-3t^{2}+\tfrac{2}{1+t}$,
+        $\varphi'(0)=3$; $\varphi''(t)=-2-6t-\tfrac{2}{(1+t)^{2}}$,
+        $\varphi''(0)=-4$. \checkmark\ Concave in this direction.
+  \item At $(1,2)$: $\grad f=(2xy,x^{2})=(4,1)$ and
+        $H=\begin{pmatrix}2y&2x\\2x&0\end{pmatrix}=\begin{pmatrix}4&2\\2&0
+        \end{pmatrix}$. With $\mathbf{h}=(3,4)$:
+        $\grad f\cdot\mathbf{h}=12+4=16$ and
+        $\mathbf{h}^{T}H\mathbf{h}=4\cdot9+2\cdot2\cdot12+0=84$. Profile:
+        $\varphi(t)=(1+3t)^{2}(2+4t)=2+16t+42t^{2}+36t^{3}$, so
+        $\varphi'(0)=16$ and $\varphi''(0)=84$. \checkmark\ Practice
+        problem 15 found $D_{\mathbf{u}}f=\tfrac{16}{5}$ and
+        $D^{2}_{\mathbf{u}}f=\tfrac{84}{25}$ with $\mathbf{u}=\mathbf{h}/5$:
+        moving along $\mathbf{h}$ covers $5$ units of distance per unit of
+        $t$, so first derivatives scale by $|\mathbf{h}|=5$ and second
+        derivatives by $|\mathbf{h}|^{2}=25$. The sign, and so the
+        convexity verdict, is the same either way.
+  \item $\grad f=(3x^{2}-3,\;2y)$, $H=\begin{pmatrix}6x&0\\0&2\end{pmatrix}$.
+        At $Q=(-1,1)$: $\grad f=(0,2)$, $|\mathbf{h}|=5$,
+        $\mathbf{u}=(\tfrac35,\tfrac45)$, so $D_{\mathbf{u}}f=\tfrac85$;
+        $H=\begin{pmatrix}-6&0\\0&2\end{pmatrix}$ and
+        $D^{2}_{\mathbf{u}}f=\dfrac{-6\cdot9+2\cdot16}{25}=-\dfrac{22}{25}<0$:
+        rising, but concave in this direction at $Q$. At $(1,0)$ the
+        gradient is $\mathbf{0}$ and $H=\begin{pmatrix}6&0\\0&2\end{pmatrix}$
+        is PD: a strict local minimum, with positive curvature in every
+        direction. Negative curvature somewhere rules out convexity,
+        positive curvature somewhere rules out concavity: $f$ is
+        \textbf{neither}.
+  \item $f_{x}=4x^{3}-4y$, $f_{y}=-4x+2y$. From $f_{y}=0$: $y=2x$; then
+        $4x^{3}=8x$, so $x=0$ or $x^{2}=2$. Critical points $(0,0)$ and
+        $\pm(\sqrt2,2\sqrt2)$. $H=\begin{pmatrix}12x^{2}&-4\\-4&2\end{pmatrix}$.
+        At $\pm(\sqrt2,2\sqrt2)$: $\begin{pmatrix}24&-4\\-4&2\end{pmatrix}$,
+        $D_{1}=24$, $D_{2}=48-16=32$: PD, strict local minima, with value
+        $4-16+8=-4$. At $(0,0)$: $\begin{pmatrix}0&-4\\-4&2\end{pmatrix}$,
+        $D_{2}=-16$: a saddle. There, for $\mathbf{u}=(1,1)/\sqrt2$,
+        $D^{2}_{\mathbf{u}}f=\tfrac{0-8+2}{2}=-3<0$ (concave that way), and
+        for $\mathbf{u}=(0,1)$, $D^{2}_{\mathbf{u}}f=2>0$ (convex that way).
+        Globally: negative curvature at the origin and positive definite
+        Hessians at the minima, so $f$ is neither convex nor concave.
+  \item $\grad f=(\ln y,\;x/y)=(0,1)$ and
+        $H=\begin{pmatrix}0&1/y\\1/y&-x/y^{2}\end{pmatrix}=
+        \begin{pmatrix}0&1\\1&-1\end{pmatrix}$ at $P$.
+        \begin{itemize}[leftmargin=1.2em,itemsep=0.2ex]
+          \item $\mathbf{u}=(1,0)$: $D_{\mathbf{u}}f=0$,
+                $D^{2}_{\mathbf{u}}f=0$. In fact $f(x,1)=0$: flat, no
+                verdict beyond ``linear''.
+          \item $\mathbf{u}=(0,1)$: $D_{\mathbf{u}}f=1$,
+                $D^{2}_{\mathbf{u}}f=-1$: concave in this direction.
+          \item $\mathbf{u}=(1,1)/\sqrt2$: $D_{\mathbf{u}}f=\tfrac{1}{\sqrt2}$,
+                $D^{2}_{\mathbf{u}}f=\tfrac12(0+2-1)=\tfrac12$: convex in
+                this direction.
+        \end{itemize}
+        Both signs at one point already decide it: $f$ is neither convex
+        nor concave. Indeed $\det H=-1/y^{2}<0$ everywhere.
+  \item (a) True: along the contour $f$ is constant; equivalently the
+        tangent $\mathbf{u}$ is perpendicular to $\grad f$, so
+        $D_{\mathbf{u}}f=0$. (b) True when $\grad f(P)\neq\mathbf{0}$: the
+        unit vector $-\grad f/|\grad f|$ gives the most negative rate,
+        $-|\grad f|$. (c) False: $f=xy$ has $\grad f(0,0)=\mathbf{0}$ at a
+        saddle. (d) True: the largest directional derivative is
+        $|\grad f(P)|$. (e) False: it is perpendicular (normal) to the level
+        curve.
+  \item She walks a short way in the direction in which she neither climbs
+        nor descends: she is following the contour line. The gradient
+        points at right angles to that path, on the uphill side. Its
+        direction is the steepest one; in a direction at angle $\theta$ to
+        it the slope is $|\grad f|\cos\theta$: smaller, zero along the
+        contour, and negative once she turns downhill.
+  \item (a) True: $\grad f\cdot\mathbf{u}_{1}=\grad f\cdot\mathbf{u}_{2}=0$
+        with $\mathbf{u}_{1},\mathbf{u}_{2}$ independent forces $\grad f$ to
+        be perpendicular to the whole plane, hence $\mathbf{0}$. With three
+        variables two directions are not enough: $f(x,y,z)=z$ has
+        $D_{\mathbf{e}_{1}}f=D_{\mathbf{e}_{2}}f=0$ but $\grad f=(0,0,1)$.
+        (b) True:
+        $D_{-\mathbf{u}}f=\grad f\cdot(-\mathbf{u})=-D_{\mathbf{u}}f$.
+        (c) False: by Cauchy--Schwarz,
+        $D_{\mathbf{u}}f=\grad f\cdot\mathbf{u}\le|\grad f|\,|\mathbf{u}|=4$.
+  \item $Y=10\cdot64\cdot216=138240$. In output-ratio form
+        $Y_{K}=0.4\,Y/K=\tfrac{27}{16}=1.6875$ and
+        $Y_{L}=0.6\,Y/L=\tfrac{32}{3}\approx10.667$. Best ratio
+        $\mathrm{d}K:\mathrm{d}L=Y_{K}:Y_{L}=81:512$.
+        $|\grad Y|=\sqrt{1.6875^{2}+10.667^{2}}\approx10.7993$, so
+        \[
+          (\mathrm{d}K,\mathrm{d}L)=\frac{100}{10.7993}(1.6875,\;10.667)
+          \approx(15.63,\;98.77),
+          \qquad \mathrm{d}Y\approx100\cdot10.7993\approx1079.9 .
+        \]
+        Exactly, $Y(32783.63,\;7874.77)-Y\approx1077.5$. A budget
+        $\mathrm{d}K+\mathrm{d}L=100$ is maximised in the linear estimate by
+        spending everything on labour, the input with the larger marginal
+        product: $\mathrm{d}Y\approx1066.7$ (exactly $1063.9$). That is
+        less, but it also uses less: the steepest-ascent vector has
+        $\mathrm{d}K+\mathrm{d}L\approx114.4$.
+  \item $Y=\sqrt{400\cdot900}=600$, $Y_{K}=\dfrac{Y}{2K}=0.75$,
+        $Y_{L}=\dfrac{Y}{2L}=\tfrac13$. Ratio $\mathrm{d}K:\mathrm{d}L=
+        0.75:\tfrac13=9:4$. $|\grad Y|=\sqrt{0.5625+0.1111}\approx0.82074$,
+        so $(\mathrm{d}K,\mathrm{d}L)\approx\tfrac{20}{0.82074}(0.75,\;0.3333)
+        \approx(18.28,\;8.12)$ and $\mathrm{d}Y\approx20\cdot0.82074\approx
+        16.41$; exactly $16.32$. A budget $\mathrm{d}K+\mathrm{d}L=20$ would
+        go entirely into capital: $\mathrm{d}Y\approx15$ (exactly $14.82$).
 \end{solutions}

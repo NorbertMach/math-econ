@@ -175,6 +175,31 @@ To \emph{disprove} convexity: exhibit two points of $S$ whose midpoint
 violates the defining condition, a single counterexample suffices.
 \end{rulebox}
 
+\begin{rulebox}{Strictly convex sets}
+A convex set $S\subseteq\R^{n}$ is \emph{strictly convex}
+\de{streng konvex} if for all $x\neq y$ in $S$ and all $\lambda\in(0,1)$
+the point $\lambda x+(1-\lambda)y$ lies in the \emph{interior} of $S$:
+every chord, apart from its two endpoints, runs strictly inside the set.
+For a closed convex set this says that the boundary contains no straight
+piece: no flat edges, no flat faces.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Strictly convex:} discs and balls, filled ellipses, the
+        region $\{y\ge g(x)\}$ above a strictly convex curve, the region
+        $\{xy\ge c,\ x>0\}$ beyond a hyperbola branch ($c>0$).
+  \item \textbf{Convex, not strictly:} every polygon and polyhedron
+        (triangle, square, cube), half-planes, a half-disc (its diameter is
+        flat), a cylinder or a cone (straight lines on the surface). Test:
+        two points on the same flat piece of boundary have their midpoint on
+        the boundary, not in the interior.
+  \item \textbf{Not convex at all:} a notched or dented body, an annulus,
+        a torus.
+\end{itemize}
+In consumer theory an upper contour set $\{u\ge c\}$ is strictly convex
+exactly when the indifference curve $u=c$ has no straight segment; this is
+what ``strictly convex preferences'' means, and it is the geometric reason
+why the utility-maximising bundle on a budget line is unique.
+\end{rulebox}
+
 \section{Worked Example}
 
 \begin{worked}{Which of these are convex? The budget set, the circle $x^{2}+y^{2}=1$, the region $\{xy\ge1,\ x>0\}$, and a union of two discs}
@@ -543,6 +568,30 @@ what economics actually assumes about preferences.
         is the entire plane.
   \item Show that the diamond $\{(x,y): |x|+|y|\le 1\}$ is convex by
         writing it as an intersection of four half-planes.
+
+  \item Classify each plane figure as \emph{strictly convex},
+        \emph{convex but not strictly convex}, or \emph{not convex}:
+        (a) the closed disc $x^{2}+y^{2}\le4$;
+        (b) the square $[0,1]\times[0,1]$;
+        (c) the filled ellipse $\tfrac{x^{2}}{9}+\tfrac{y^{2}}{4}\le1$;
+        (d) the half-disc $\{x^{2}+y^{2}\le1,\ y\ge0\}$;
+        (e) the notched disc
+        $\{x^{2}+y^{2}\le4\}\setminus\{(x,y): x>1,\ |y|<\tfrac12\}$;
+        (f) the region $\{(x,y): y\ge x^{2}\}$.
+  \item Classify the solids in $\R^{3}$ in the same way:
+        (a) the ball $x^{2}+y^{2}+z^{2}\le1$;
+        (b) the cube $[0,1]^{3}$;
+        (c) the cylinder $\{x^{2}+y^{2}\le1,\ 0\le z\le2\}$;
+        (d) the solid cone $\{\sqrt{x^{2}+y^{2}}\le z\le1\}$;
+        (e) a solid torus (a ring doughnut).
+  \item Prove that the closed disc $D=\{p\in\R^{2}: \|p\|\le r\}$ is
+        strictly convex. (Hint: expand
+        $\|\lambda p+(1-\lambda)q\|^{2}$.)
+  \item Show that $U=\{(x,y): x>0,\ xy\ge4\}$ is strictly convex, whereas
+        $V=\{(x,y): x\ge0,\ y\ge0,\ x+y\ge4\}$ is convex but not strictly
+        convex. Which utility functions have these two sets as upper contour
+        sets, and what does the difference mean for the uniqueness of the
+        optimal bundle on a budget line?
 \end{problems}
 
 \section{Additional Solutions}
@@ -661,4 +710,81 @@ what economics actually assumes about preferences.
         diamond is the intersection of the four. Intersections of convex
         sets are convex, so the diamond is convex, the square with
         vertices $(1,0)$, $(0,1)$, $(-1,0)$, $(0,-1)$.
+
+  \item (a) \textbf{Strictly convex}: the boundary circle contains no
+        segment (proof in Additional Problem~13).
+        (b) \textbf{Convex, not strictly}: $(0,0)$ and $(1,0)$ lie in the
+        square, but their midpoint $(\tfrac12,0)$ lies on the bottom edge,
+        not in the interior.
+        (c) \textbf{Strictly convex}: the ellipse is the image of a disc
+        under the stretch $(u,v)\mapsto(3u,2v)$, which maps chords to chords
+        and interior points to interior points.
+        (d) \textbf{Convex, not strictly}: $(-1,0)$ and $(1,0)$ belong to it
+        and their midpoint $(0,0)$ sits on the flat diameter, a boundary
+        point.
+        (e) \textbf{Not convex}: $(1.5,\,0.6)$ and $(1.5,\,-0.6)$ satisfy
+        $2.25+0.36=2.61\le4$ and $|y|=0.6\ge\tfrac12$, so both belong to the
+        set, but their midpoint $(1.5,0)$ lies in the removed notch.
+        (f) \textbf{Strictly convex}: take two different points
+        $(a,s)$, $(b,t)$ with $s\ge a^{2}$, $t\ge b^{2}$ and
+        $\lambda\in(0,1)$. If $a\neq b$, the square inequality is strict,
+        $\bigl(\lambda a+(1-\lambda)b\bigr)^{2}<\lambda a^{2}+(1-\lambda)b^{2}
+        \le\lambda s+(1-\lambda)t$; if $a=b$ then $s\neq t$, so
+        $\lambda s+(1-\lambda)t>\min\{s,t\}\ge a^{2}$. Either way the
+        combination satisfies $y>x^{2}$ strictly, which describes an open
+        region, hence an interior point.
+  \item (a) \textbf{Strictly convex}: the same norm argument as for the
+        disc (Additional Problem~13) works in any dimension.
+        (b) \textbf{Convex, not strictly}: the midpoint of $(0,0,0)$ and
+        $(1,0,0)$ lies on an edge.
+        (c) \textbf{Convex, not strictly}: it is the intersection of the
+        convex set $\{x^{2}+y^{2}\le1\}$ with two half-spaces, but
+        $(1,0,0)$ and $(1,0,2)$ lie on the side wall and so does their
+        midpoint $(1,0,1)$; the top and bottom discs are flat as well.
+        (d) \textbf{Convex, not strictly}: $\sqrt{x^{2}+y^{2}}$ is a convex
+        function (a norm), so $\{\sqrt{x^{2}+y^{2}}\le z\}$ is convex, and
+        intersecting with $z\le1$ keeps convexity. But the segment from the
+        tip $(0,0,0)$ to $(1,0,1)$ lies on the mantle: its midpoint
+        $(\tfrac12,0,\tfrac12)$ satisfies $\sqrt{x^{2}+y^{2}}=z$, a boundary
+        point.
+        (e) \textbf{Not convex}: two points on opposite sides of the ring
+        have their midpoint in the hole.
+  \item Let $p\neq q$ with $\|p\|\le r$, $\|q\|\le r$ and
+        $\lambda\in(0,1)$. Expanding the inner product,
+        \[
+          \|\lambda p+(1-\lambda)q\|^{2}
+          =\lambda\|p\|^{2}+(1-\lambda)\|q\|^{2}
+           -\lambda(1-\lambda)\|p-q\|^{2},
+        \]
+        which is the vector form of the square inequality. The first two
+        terms are at most $\lambda r^{2}+(1-\lambda)r^{2}=r^{2}$, and the
+        last term is strictly positive because $p\neq q$. Hence
+        $\|\lambda p+(1-\lambda)q\|<r$: the combination lies in the open
+        disc, i.e.\ in the interior of $D$. So $D$ is \textbf{strictly
+        convex}.
+  \item \emph{$U$.} Write $U=\{x>0,\ y\ge g(x)\}$ with $g(x)=4/x$,
+        $g''(x)=8/x^{3}>0$: $g$ is strictly convex. Take
+        $P=(x_1,y_1)\neq Q=(x_2,y_2)$ in $U$ and $\lambda\in(0,1)$. Then
+        \[
+          \lambda y_1+(1-\lambda)y_2
+          \;\ge\;\lambda g(x_1)+(1-\lambda)g(x_2)
+          \;\ge\; g\bigl(\lambda x_1+(1-\lambda)x_2\bigr).
+        \]
+        If $x_1\neq x_2$ the second inequality is strict ($g$ strictly
+        convex); if $x_1=x_2$ then $y_1\neq y_2$ and the first is strict
+        unless $y_1=y_2=g(x_1)$, which is excluded. So the combination
+        satisfies $xy>4$ strictly, an open condition: it is an interior
+        point and $U$ is \textbf{strictly convex}.
+
+        \emph{$V$.} It is an intersection of three half-planes, so convex.
+        But $(4,0)$ and $(0,4)$ lie on the boundary line $x+y=4$ and so does
+        their midpoint $(2,2)$: \textbf{not strictly convex}.
+
+        $U$ is the upper contour set $\{u\ge4\}$ of $u(x,y)=xy$ (on $x>0$);
+        $V$ is $\{u\ge4\}$ of the perfect-substitutes utility $u=x+y$ on
+        the quadrant. On a budget line the optimum touches the highest
+        reachable upper contour set. A strictly convex set can touch a line
+        in only one point, so $xy$ has a unique optimal bundle; the flat
+        edge of $V$ can lie \emph{along} a budget line with $p_x=p_y$, and
+        then every bundle on the line is optimal.
 \end{solutions}

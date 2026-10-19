@@ -42,6 +42,37 @@ $f(\mathbf{x})=\mathbf{a}^{T}\mathbf{x}+b$ are both convex and concave, and
 neither strictly.
 \end{rulebox}
 
+\begin{rulebox}{Epigraph and hypograph}
+For $f:S\to\R$ on a convex $S\subseteq\R^{n}$ the \emph{epigraph}
+\de{Epigraph} and the \emph{hypograph} \de{Hypograph} are the regions on and
+above, and on and below, the graph:
+\[
+  \operatorname{epi}f=\{(\mathbf{x},z)\in S\times\R: z\ge f(\mathbf{x})\},
+  \qquad
+  \operatorname{hypo}f=\{(\mathbf{x},z)\in S\times\R: z\le f(\mathbf{x})\}.
+\]
+They are subsets of $\R^{n+1}$, and they turn the chord criterion into the
+line-segment test for sets:
+\[
+  f \text{ convex} \iff \operatorname{epi}f \text{ convex},
+  \qquad
+  f \text{ concave} \iff \operatorname{hypo}f \text{ convex}
+  \iff \operatorname{epi}(-f) \text{ convex}
+\]
+(the last step reflects the hypograph in the plane $z=0$).
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item To \emph{disprove} convexity, exhibit two points of
+        $\operatorname{epi}f$, typically two points of the graph, whose
+        midpoint lies strictly below the graph.
+  \item The epigraph decides \emph{convexity}, not quasiconvexity directly.
+        Its horizontal slice at height $c$ is the lower contour set
+        $L_c$, so a convex epigraph gives convex slices and hence
+        quasiconvexity; but a non-convex epigraph can still have convex
+        slices ($x^{3}$, or the hypograph of the bell
+        $\mathrm{e}^{-x^{2}}$ whose slices are intervals).
+\end{itemize}
+\end{rulebox}
+
 \begin{rulebox}{One variable: the second-derivative test}
 Let $f$ be twice differentiable on an interval $I$. Then
 \[
@@ -69,6 +100,76 @@ Let $S\subseteq\R^{n}$ be open and convex and $f\in C^{2}(S)$. Then
 The contrast with the local theory: definiteness \emph{at one critical
 point} classifies that point; semidefiniteness \emph{at every point of $S$}
 classifies the function.
+\end{rulebox}
+
+\begin{rulebox}{Curvature at a point and in a direction}
+Let $f\in C^{2}$ near $Q$ and let $\mathbf{h}\neq\mathbf{0}$ be a
+direction. The one-variable function $\varphi(t)=f(Q+t\mathbf{h})$ has
+\[
+  \varphi''(0)=\mathbf{h}^{T}\Hess_f(Q)\,\mathbf{h},
+\]
+the second directional derivative. Five rules read the Hessian at a single
+point.
+\begin{enumerate}[label=(\alph*),leftmargin=1.8em,itemsep=0.3ex]
+  \item $\mathbf{h}^{T}\Hess_f(Q)\mathbf{h}>0$ ($<0$): $f$ is
+        \emph{convex (concave) in direction $\mathbf{h}$ from $Q$}, i.e.\
+        $\varphi$ is strictly convex (concave) near $t=0$.
+  \item $\Hess_f(Q)$ positive (negative) definite: by continuity of the
+        second partials the leading minors keep their signs on a small ball
+        around $Q$, so $f$ is \emph{strictly convex (concave) on a
+        neighbourhood of $Q$}.
+  \item $\Hess_f(Q)$ indefinite: there are convex directions and concave
+        directions from $Q$, so $f$ is \emph{neither convex nor concave on
+        any neighbourhood of $Q$}.
+  \item $\Hess_f(Q)$ semidefinite and singular: \emph{no local
+        conclusion}. Both $y^{2}+x^{4}$ and $y^{2}+x^{3}$ have
+        $\Hess(0,0)=\operatorname{diag}(0,2)$; the first is convex near the
+        origin, the second is not (in direction $(1,0)$ it is $t^{3}$).
+  \item \emph{Local versus global:} one point with an indefinite Hessian
+        (or any point where $\Hess_f$ fails to be PSD) already proves that
+        $f$ is not convex on any convex domain containing a neighbourhood
+        of that point. Definiteness at one point never proves convexity on
+        the whole domain.
+\end{enumerate}
+\textbf{Where is $f$ convex?} Collecting the points where $\Hess_f$ is PSD
+(NSD) gives a region of the plane or space. If an open convex set lies
+inside that region, $f$ is convex (concave) on it; outside it $f$ is not
+convex (concave) near any point. Sketch the region as in the chapter on
+plane regions of Volume~2.
+\end{rulebox}
+
+\begin{rulebox}{The tangent-plane criterion}
+Let $f$ be differentiable on an open convex $S$. Then
+\[
+  f \text{ convex} \iff
+  f(\mathbf{x})\;\ge\; f(\mathbf{p})+\grad f(\mathbf{p})\cdot(\mathbf{x}-\mathbf{p})
+  \quad\text{for all } \mathbf{x},\mathbf{p}\in S,
+\]
+and $f$ concave $\iff$ the same with $\le$. Geometrically, the graph of a
+convex function lies on or above every tangent plane, the graph of a
+concave function on or below. With $\Delta\mathbf{x}=\mathbf{x}-\mathbf{p}$
+the right-hand side is the total-differential (linear) estimate
+$\mathrm{d}f=\grad f(\mathbf{p})\cdot\Delta\mathbf{x}$, so
+\[
+  f \text{ convex}\;\Rightarrow\;\Delta f\ge\mathrm{d}f,
+  \qquad
+  f \text{ concave}\;\Rightarrow\;\Delta f\le\mathrm{d}f :
+\]
+the linear estimate \emph{underestimates} the actual change of a convex
+function and \emph{overestimates} that of a concave one, whatever the
+direction of the move.
+
+\textbf{Application: bond prices.} A coupon bond paying $C$ at the end of
+years $1,\dots,T$ and the face value $N$ at $T$ has, at spot rates
+$r_1,\dots,r_T$, the price
+\[
+  P(r_1,\dots,r_T)=\sum_{t=1}^{T}\frac{C}{(1+r_t)^{t}}
+  +\frac{N}{(1+r_T)^{T}} .
+\]
+Each term depends on one rate only, so $\Hess_P$ is diagonal with entries
+$t(t+1)\,c_t/(1+r_t)^{t+2}>0$ ($c_t$ the payment at $t$): $P$ is convex.
+Hence $\mathrm{d}P$ overstates the price fall when rates rise and
+understates the price gain when rates fall (bond \emph{convexity}).
 \end{rulebox}
 
 \begin{rulebox}{Checking semidefiniteness: the minor trap}
@@ -142,6 +243,126 @@ chords), iff $-f$ is quasiconcave. Facts:
 \end{itemize}
 \end{rulebox}
 
+\begin{rulebox}{What one contour set tells you}
+Write $B(c)=U_c=\{f\ge c\}$ and $W(c)=L_c=\{f\le c\}$ (and $B(P)$, $W(P)$
+for the level $c=f(P)$ through a point $P$). The definitions say
+\emph{every} contour set, so a single picture can refute, never confirm:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item one \textbf{non-convex} $W(c)$ proves that $f$ is not
+        quasiconvex, hence not convex; one \textbf{non-convex} $B(c)$
+        proves that $f$ is not quasiconcave, hence not concave;
+  \item \textbf{convex} contour sets at one level (or at a few levels)
+        prove nothing; and even convexity at every level gives only the
+        quasi-property, never convexity or concavity itself.
+\end{itemize}
+\textbf{One variable.} For $f:I\to\R$ on an interval the contour sets are
+subsets of the axis, written in interval notation. A continuous $f$ is
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \emph{quasiconcave} iff it is monotone or single-peaked (first
+        non-decreasing, then non-increasing);
+  \item \emph{quasiconvex} iff it is monotone or valley-shaped (first
+        non-increasing, then non-decreasing).
+\end{itemize}
+So a $B(c)$ made of two or more disjoint pieces rules out quasiconcavity,
+and a $W(c)$ made of two or more pieces rules out quasiconvexity. An
+isolated point counts as a piece.
+
+\textbf{Reading a graph.} Draw the horizontal line at height $c$: $W(c)$ is
+the set of $x$ where the graph is on or below the line, $B(c)$ where it is
+on or above. Points where the graph touches the line belong to both.
+
+\textbf{The reverse task.} Given a drawn $W_f(c)$ or $B_f(c)$, sketch a
+graph that is $\le c$ (resp.\ $\ge c$) exactly on the drawn set and $>c$
+(resp.\ $<c$) off it. Then answer \emph{can}/\emph{must} questions:
+``can'' asks for one compatible function, ``must'' for a property of every
+compatible function. Two useful facts:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item for continuous $f$, every $B(c)$ and every $W(c)$ is
+        \emph{closed}; a drawn set with an open finite endpoint inside the
+        domain forces a discontinuity;
+  \item concave and convex functions on an open interval are continuous;
+        monotone functions are both quasiconcave and quasiconvex.
+\end{itemize}
+\end{rulebox}
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[fnaxis, xmin=-1.7, xmax=1.7, ymin=-0.4, ymax=2.6,
+      xtick={-1,1}, ytick={0.5,1,2}, title={(A) $f_A$, level $c=\tfrac12$}]
+    \addplot[domain=-1.62:1.62]{(x^2-1)^2};
+    \addplot[black, dashed, thin, domain=-1.7:1.7, samples=2]{0.5};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[fnaxis, xmin=-3.2, xmax=3.2, ymin=-0.2, ymax=1.25,
+      xtick={-1,1}, ytick={0.5,1}, title={(B) $f_B$, level $c=\tfrac12$}]
+    \addplot[domain=-3.2:3.2]{1/(1+x^2)};
+    \addplot[black, dashed, thin, domain=-3.2:3.2, samples=2]{0.5};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[fnaxis, xmin=-6.5, xmax=6.5, ymin=-6.5, ymax=6.5,
+      xtick={-3,3}, ytick={1}, title={(C) $f_C$, level $c=1$}]
+    \addplot[domain=-6.4:6.4]{x+sin(deg(x))};
+    \addplot[black, dashed, thin, domain=-6.5:6.5, samples=2]{1};
+  \end{axis}
+\end{tikzpicture}
+\gcap{Three graphs with a level line, for Additional Problem~17:
+$f_A(x)=(x^{2}-1)^{2}$, $f_B(x)=1/(1+x^{2})$, $f_C(x)=x+\sin x$.}
+\end{gallery}
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[contouraxis, xmin=-2.4, xmax=2.4, ymin=-2.4, ymax=2.4,
+      xtick={-2,-1,1,2}, ytick={-2,-1,1,2}, title={$xy=c$, $c=\pm1,\pm3$}]
+    \foreach \c/\a in {1/0.42, 3/1.25} {
+      \addplot[domain=\a:2.4]{\c/x};
+      \addplot[domain=-2.4:-\a]{\c/x};
+      \addplot[dashed, domain=\a:2.4]{-\c/x};
+      \addplot[dashed, domain=-2.4:-\a]{-\c/x}; }
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[surfaxis, title={$x^{3}-3x+y^{2}$}, z post scale=1.1]
+    \addplot3[surf, domain=-2:2, y domain=-1.5:1.5]{x^3-3*x+y^2};
+    \addplot3[only marks, mark=*, mark size=1.6pt, black]
+      coordinates {(-1,0,2) (0,0,0) (1,0,-2)};
+    \node[font=\tiny, anchor=south] at (axis cs:-1,0,2.3) {$P_{1}$};
+    \node[font=\tiny, anchor=south] at (axis cs:0,0,0.3) {$P_{2}$};
+    \node[font=\tiny, anchor=south] at (axis cs:1,0,-1.7) {$P_{3}$};
+  \end{axis}
+\end{tikzpicture}
+\gcap{Left: level curves of $xy$ on the whole plane (solid $c>0$, dashed
+$c<0$), for Additional Problem~24. Right: a surface with three marked
+points, for Additional Problem~27.}
+\end{gallery}
+
+\begin{rulebox}{Monotone functions of several variables}
+Order $\R^{n}$ componentwise: $\mathbf{x}\le\mathbf{y}$ means
+$x_i\le y_i$ for every $i$. A function $f:S\to\R$ is \emph{monotonically
+increasing} \de{monoton wachsend} if $\mathbf{x}\le\mathbf{y}$ implies
+$f(\mathbf{x})\le f(\mathbf{y})$, \emph{strictly} increasing if in addition
+$\mathbf{x}\le\mathbf{y}$, $\mathbf{x}\neq\mathbf{y}$ implies
+$f(\mathbf{x})<f(\mathbf{y})$; decreasing is the mirror image.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Partial-sign test.} On a convex domain with non-empty
+        interior, a differentiable $f$ is increasing iff
+        $\pd{f}{x_i}\ge0$ for every $i$ at every point (decreasing iff all
+        $\le0$). All partials $>0$ in the interior gives strictly
+        increasing there.
+  \item \textbf{Neither.} If one partial changes sign, or two partials have
+        opposite signs somewhere, $f$ is neither increasing nor decreasing:
+        exhibit two ordered points $\mathbf{x}\le\mathbf{y}$ with
+        $f(\mathbf{x})>f(\mathbf{y})$, and two with $f(\mathbf{x})<f(\mathbf{y})$.
+  \item In economics, ``more is better'' is exactly monotonicity of the
+        utility function; Cobb--Douglas utilities are increasing on the
+        closed quadrant and strictly increasing on its interior.
+\end{itemize}
+In one variable the order is total and monotone functions are both
+quasiconcave and quasiconvex. In several variables that fails: $xy$ is
+increasing on the quadrant but not quasiconvex there.
+\end{rulebox}
+
 \begin{rulebox}{Cobb--Douglas: the flagship example}
 For $f(x,y)=x^{\alpha}y^{\beta}$ with $\alpha,\beta>0$ on
 $\R^{2}_{++}=\{(x,y):x>0,\ y>0\}$,
@@ -199,6 +420,13 @@ Let $S\subseteq\R^{n}$ be open and convex and $f$ differentiable on $S$.
         quasiconcave with $f'(0)=0$, yet $0$ is no maximum at all
         (Problem~19). What strict quasiconcavity does guarantee: at most
         one maximizer, and any local maximizer is global.
+  \item Existence is a separate question. Concavity makes a stationary
+        point a global maximum; it does not produce one. On an open domain
+        a concave function whose gradient never vanishes has no maximum:
+        $-\mathrm{e}^{x}$ on $\R$, or $\ln(x+y)$ on $x+y>0$. Definiteness
+        of $\Hess_f$ at one point is local information and proves neither
+        concavity on the domain nor existence of a maximum (Additional
+        Problems~49--52).
 \end{itemize}
 \end{rulebox}
 
@@ -660,6 +888,174 @@ A second pass over the same rules, with fresh functions.
         must it be, and what do its level sets look like?
   \item Use the chord criterion to explain in one sentence why a saddle is
         neither convex nor concave.
+
+  \item (Reading contour sets off a graph.) For each graph (A), (B), (C) in
+        the first figure of the Core Rules, read off $B(c)$ and $W(c)$ at
+        the drawn level $c$ in interval notation (compute the endpoints
+        from the formula in the caption), and state what these two sets
+        alone let you conclude about convexity, concavity and the two
+        quasi-properties. Then settle the remaining properties from the
+        whole graph.
+  \item Let $f(x)=2x^{3}-3x^{2}$ on $\R$. Using the factorisations
+        $2x^{3}-3x^{2}=x^{2}(2x-3)$ and $2x^{3}-3x^{2}+1=(x-1)^{2}(2x+1)$,
+        determine $W(0)$, $B(0)$, $W(-1)$ and $B(-1)$. Which properties
+        among convex, concave, quasiconvex, quasiconcave do these four sets
+        rule out?
+  \item A function $f:\R\to\R$ has $W_f(2)=[-3,-1]\cup[1,3]$.
+        (a) Sketch a continuous graph compatible with this set and give a
+        formula for one. (b) Can $f$ be convex? Quasiconvex? Monotone?
+        (c) Can $f$ be quasiconcave? Concave? (d) Must $f$ be
+        discontinuous?
+  \item A function $f:\R\to\R$ has $B_f(0)=[0,2)$.
+        (a) Must $f$ be discontinuous? (b) Can $f$ be quasiconcave? Can it
+        be concave? (c) Can $f$ be quasiconvex or monotone?
+  \item A function $f:\R\to\R$ has $W_f(1)=(-\infty,4]$. Decide, with an
+        example or a reason each time: can $f$ be convex? Concave? Must $f$
+        be monotone? Must $f$ be quasiconvex?
+  \item Let $f(x,y)=x^{2}-y^{2}$ and $P=(2,1)$. Describe $B(P)$ and $W(P)$,
+        show with explicit points that neither is convex, and state the
+        conclusion.
+  \item Let $f(x,y)=x^{2}+y^{2}$ and $P=(1,1)$. Describe $B(P)$ and
+        $W(P)$. Which of the four properties do these two sets decide, and
+        which do they leave open? Settle the open ones by another argument.
+  \item (The function $xy$ by quadrant; see the level-curve figure.)
+        (a) Show with explicit points that $f(x,y)=xy$ is neither
+        quasiconcave nor quasiconvex on $\R^{2}$.
+        (b) Show that $f$ is quasiconvex on the mixed-sign quadrant
+        $\{x<0,\ y>0\}$.
+        (c) Show that $f$ is quasiconcave on the negative quadrant
+        $\{x<0,\ y<0\}$.
+  \item Let $f(x,y,z)=x^{3}+y^{2}+z^{2}+xz$.
+        (a) Compute $\Hess_f$ and decide its definiteness at
+        $Q_1=(1,0,0)$, $Q_2=(-1,0,0)$ and $Q_3=(\tfrac1{12},0,0)$.
+        (b) At $Q_2$ find one direction in which $f$ is convex and one in
+        which it is concave.
+        (c) Which local conclusion holds at each point? What follows for
+        $f$ on $\R^{3}$?
+        (d) Determine the set of points where $\Hess_f$ is positive
+        semidefinite and conclude where $f$ is convex.
+  \item Let $f(x,y,z)=xyz$ and $Q=(1,1,1)$. Decide, with reasons:
+        (a) $f$ is convex in direction $(1,1,1)$ from $Q$;
+        (b) $f$ is concave in direction $(1,-1,0)$ from $Q$;
+        (c) $f$ is concave on some neighbourhood of $Q$;
+        (d) $f$ is quasiconcave on $\R^{3}_{++}$.
+  \item The surface $f(x,y)=x^{3}-3x+y^{2}$ in the second figure carries
+        three marked points $P_1=(-1,0)$, $P_2=(0,0)$, $P_3=(1,0)$. Read
+        off the picture whether the surface curves up or down along the
+        $x$- and the $y$-direction at each point, guess the definiteness of
+        the Hessian, and confirm by computing it. What can be said about
+        $f$ near each point?
+  \item True or false? ``If $\Hess_f(Q)$ is positive semidefinite, then $f$
+        is convex on a small ball around $Q$.'' Decide using
+        $g(x,y)=y^{2}+x^{4}$ and $h(x,y)=y^{2}+x^{3}$ at $Q=(0,0)$.
+  \item Classify $f(x)=x^{2}+2\ln x$ on $(0,\infty)$: convex? concave?
+        quasiconvex? quasiconcave? monotone?
+  \item Classify $f(x)=3x-\mathrm{e}^{x}$ on $\R$ in the same five
+        respects.
+  \item Classify $f(x)=x\,\mathrm{e}^{-x}$ on $\R$ in the same five
+        respects.
+  \item Classify $f(x,y,z)=\sqrt{x}-y^{2}-(z-1)^{2}$ on
+        $\R_{+}\times\R\times\R$ (convex, concave, quasiconvex,
+        quasiconcave), using its diagonal Hessian.
+  \item Classify $g(x,y,z)=x^{3}+\mathrm{e}^{y}+z$ on
+        $\R_{+}\times\R\times\R$ in the same four respects.
+        (Hint for quasiconcavity: restrict $g$ to a line.)
+  \item Classify $f(x_1,\dots,x_n)=\sum_{i=1}^{n}(-1)^{i}\,i\,x_i$ on
+        $\R^{n}$, $n\ge2$: convex, concave, quasiconvex, quasiconcave,
+        strictly any of these, monotone increasing or decreasing?
+  \item Let $f(x)=4-x^{2}$. Show with two explicit points that
+        $\operatorname{epi}f$ is not convex, show that
+        $\operatorname{hypo}f$ is convex, and state what each fact says
+        about $f$. What is $\operatorname{epi}(-f)$?
+  \item Let $g(x,y)=\mathrm{e}^{-(x^{2}+y^{2})}$. Show that neither
+        $\operatorname{epi}g$ nor $\operatorname{hypo}g$ is convex. What
+        does that decide, and what does it leave open? Settle the open
+        question.
+  \item Decide which of $\operatorname{epi}f$, $\operatorname{hypo}f$ is
+        convex for (a) the Cobb--Douglas $f(x,y)=x^{1/3}y^{1/3}$ on
+        $\R^{2}_{++}$ (give two graph points whose midpoint lies outside
+        the epigraph), and (b) $f(x,y)=x^{2}+xy+y^{2}$ on $\R^{2}$.
+  \item (Bond price.) A two-year bond pays a coupon $5$ after one year and
+        $105$ (coupon plus face value $100$) after two years. Its price at
+        spot rates $r_1,r_2$ is $P(r_1,r_2)=\dfrac{5}{1+r_1}
+        +\dfrac{105}{(1+r_2)^{2}}$.
+        (a) Evaluate $P$ at $(r_1,r_2)=(0.03,0.04)$.
+        (b) Both rates rise by $0.005$. Estimate the price change with the
+        total differential, then compute the exact change.
+        (c) Show via the Hessian that $P$ is convex and explain the sign of
+        the error.
+  \item A three-year bond pays $4$, $4$ and $104$ at the ends of years
+        $1,2,3$. At spot rates $(0.02,\,0.03,\,0.035)$ all three rates fall
+        by $0.005$. Compare the total-differential estimate of the price
+        change with the exact change, and explain which one is larger.
+  \item Let $f(x,y)=6\sqrt{x}+3\ln y$ on $\R^{2}_{++}$. Estimate
+        $f(10.24,\,1.1)-f(9,1)$ by the total differential at $(9,1)$,
+        compute the exact change, and explain the sign of the error from
+        the curvature of $f$.
+  \item Let $f(x,y)=2\mathrm{e}^{x}-3x^{2}+y^{2}+5x-y$. Determine the set
+        of points where $\Hess_f$ is positive semidefinite, where it is
+        negative semidefinite, and sketch it. On which open convex set is
+        $f$ convex?
+  \item Let $f(x,y)=x^{3}+y^{3}-3xy$. Determine and sketch the set where
+        $\Hess_f$ is positive semidefinite and the set where it is
+        negative semidefinite. Is the first set convex? Name an open convex
+        region on which $f$ is convex.
+  \item (Normal density.) Let
+        $\varphi(x,y)=\dfrac{1}{4\pi}\exp\!\Bigl(-\dfrac{(x-1)^{2}}{8}
+        -\dfrac{(y-2)^{2}}{2}\Bigr)$, the bivariate normal density with
+        mean $(1,2)$ and standard deviations $2$ and $1$.
+        (a) Compute $\grad\varphi$ and show that the only critical point is
+        the mean, a maximum.
+        (b) Show that $\Hess_\varphi$ is negative definite exactly inside
+        the ellipse $\tfrac{(x-1)^{2}}{4}+(y-2)^{2}<1$ and indefinite
+        outside it.
+        (c) Is there any point where $\varphi$ is convex in every
+        direction?
+  \item (Trap.) Let $f(x,y)=3(x-y)^{2}-(x+y)^{2}$. Show that
+        $f_{xx}>0$ and $f_{yy}>0$ everywhere, yet $f$ is not convex: find
+        the Hessian, its definiteness, and a line along which $f$ is
+        concave.
+  \item (Property checklist.) Let $u(x_1,x_2)=x_1x_2^{2}$ on the closed
+        quadrant $\R^{2}_{+}=\{x_1\ge0,\ x_2\ge0\}$, axes included. Decide,
+        with reasons: concave, convex, quasiconcave, quasiconvex; has a
+        maximum, has a minimum (where?); monotone increasing, decreasing.
+  \item Run the same checklist for $v(x,y)=\sqrt{x}+\sqrt{y}$ on
+        $\R^{2}_{+}$.
+  \item Show that $f(x,y)=x^{0.3}y^{0.6}$ is monotonically increasing on
+        $\R^{2}_{+}$ and strictly increasing on $\R^{2}_{++}$, and that
+        $g(x,y)=\ln x+2\ln y$ is strictly increasing on $\R^{2}_{++}$.
+  \item Show that $f(x,y)=\sqrt{y-x^{2}}$ on $\{y\ge x^{2}\}$ is neither
+        increasing nor decreasing, by exhibiting ordered pairs of points.
+  \item (Judge the claim.) ``For $f(x,y)=\ln(x+y)$ on $x+y>0$ we get
+        $f_{xx}<0$ at every point, so the Hessian is negative definite, $f$
+        is concave and has a maximum.'' Which parts are right, which wrong?
+  \item (Judge the claim.) ``For $f(x,y)=\ln(x+y^{2})$ on its domain,
+        $f_{xx}<0$ everywhere, so $f$ is concave.'' Find the domain,
+        compute the Hessian, and judge. Does $f$ have extrema?
+  \item (Judge the claim.) ``At the critical point $Q=(-1,0)$ of
+        $f(x,y)=x^{3}-3x-y^{2}$ we find $D_1<0$, $D_2>0$, so the Hessian is
+        negative definite and $Q$ is the global maximum.''
+  \item (Judge the claim.) ``$f(x,y)=-\mathrm{e}^{x}-y^{2}$ is concave on
+        $\R^{2}$, so it attains a maximum.''
+  \item True or false? Justify each answer with a reason or a
+        counterexample.
+        (a) If both partial derivatives of $f$ exist at a point, $f$ is
+        differentiable there.
+        (b) A function differentiable at a point is continuous there.
+        (c) If $f$ is convex, then $-f$ is concave.
+        (d) If every lower contour set of $f$ is convex, then $f$ is
+        convex.
+        (e) $f$ is quasiconcave if and only if all its upper contour sets
+        are convex.
+  \item True or false? Justify each answer.
+        (a) Every concave function is quasiconcave.
+        (b) If $f$ is quasiconcave and $\grad f(\mathbf{x}^{*})=\mathbf{0}$,
+        then $\mathbf{x}^{*}$ is a maximiser.
+        (c) If $\Hess_f(Q)$ is negative definite at one point $Q$, then $f$
+        is concave on $\R^{n}$.
+        (d) The sum of two quasiconcave functions is quasiconcave.
+        (e) A strictly convex function on $\R^{n}$ has exactly one
+        minimiser.
 \end{problems}
 
 \section{Additional Solutions}
@@ -807,4 +1203,489 @@ A second pass over the same rules, with fresh functions.
         it --- along one axis the surface curves up, along the other it
         curves down --- so neither the convex nor the concave chord
         inequality can hold for all pairs of points.
+
+  \item \textbf{(A)} $f_A(x)=(x^{2}-1)^{2}\le\tfrac12$ means
+        $|x^{2}-1|\le1/\sqrt2$, i.e.\
+        $1-\tfrac{1}{\sqrt2}\le x^{2}\le1+\tfrac{1}{\sqrt2}$. With
+        $a=\sqrt{1-1/\sqrt2}\approx0.541$ and
+        $b=\sqrt{1+1/\sqrt2}\approx1.307$:
+        \[
+          W(\tfrac12)=[-b,-a]\cup[a,b],\qquad
+          B(\tfrac12)=(-\infty,-b]\cup[-a,a]\cup[b,\infty).
+        \]
+        $W$ has two pieces, so $f_A$ is \textbf{not quasiconvex}, hence
+        not convex; $B$ has three pieces, so $f_A$ is \textbf{not
+        quasiconcave}, hence not concave. This one level settles all four
+        properties: \textbf{none} holds (the W-shaped graph is neither
+        monotone, single-peaked nor valley-shaped).
+
+        \textbf{(B)} $\tfrac{1}{1+x^{2}}\ge\tfrac12\iff x^{2}\le1$, so
+        $B(\tfrac12)=[-1,1]$ (convex: proves nothing) and
+        $W(\tfrac12)=(-\infty,-1]\cup[1,\infty)$ (two pieces): $f_B$ is
+        \textbf{not quasiconvex, not convex}. From the whole graph: $f_B$
+        rises on $(-\infty,0]$ and falls on $[0,\infty)$, single-peaked,
+        so \textbf{quasiconcave}. Not concave:
+        $f_B''(x)=\dfrac{6x^{2}-2}{(1+x^{2})^{3}}$ is positive for
+        $x^{2}>\tfrac13$, e.g.\ $f_B''(1)=\tfrac12>0$.
+
+        \textbf{(C)} $f_C$ crosses the level $1$ once, at
+        $x_0\approx0.511$ (solution of $x+\sin x=1$), so
+        $W(1)=(-\infty,x_0]$ and $B(1)=[x_0,\infty)$: both convex, and one
+        level proves \textbf{nothing}. From the whole graph:
+        $f_C'(x)=1+\cos x\ge0$, zero only at isolated points, so $f_C$ is
+        strictly increasing, hence \textbf{both quasiconcave and
+        quasiconvex}. But $f_C''(x)=-\sin x$ changes sign
+        ($f_C''(-\tfrac{\pi}{2})=1$, $f_C''(\tfrac{\pi}{2})=-1$):
+        \textbf{neither convex nor concave}.
+
+  \item From $f(x)=x^{2}(2x-3)$ with $x^{2}\ge0$: $f(x)\le0$ iff $x=0$ or
+        $2x-3\le0$, so $W(0)=(-\infty,\tfrac32]$, convex; and $f(x)\ge0$
+        iff $x=0$ or $x\ge\tfrac32$, so
+        \[
+          B(0)=\{0\}\cup[\tfrac32,\infty),
+        \]
+        two pieces (the isolated point counts). From
+        $f(x)+1=(x-1)^{2}(2x+1)$: $f\le-1$ iff $x=1$ or $x\le-\tfrac12$,
+        and $f\ge-1$ iff $x\ge-\tfrac12$ (or $x=1$, already included):
+        \[
+          W(-1)=(-\infty,-\tfrac12]\cup\{1\},\qquad
+          B(-1)=[-\tfrac12,\infty).
+        \]
+        $B(0)$ not convex: \textbf{not quasiconcave}, so not concave.
+        $W(-1)$ not convex: \textbf{not quasiconvex}, so not convex. All
+        four properties are ruled out, by two of the four sets; the other
+        two sets are convex and add nothing.
+
+  \item (a) $f$ must be $\le2$ exactly on $[-3,-1]\cup[1,3]$ and $>2$ on
+        $(-\infty,-3)$, $(-1,1)$ and $(3,\infty)$: a W-shaped graph that
+        dips below the line $y=2$ over the two intervals. A formula:
+        \[
+          f(x)=2+(x^{2}-1)(x^{2}-9),
+        \]
+        since $(x^{2}-1)(x^{2}-9)\le0\iff1\le x^{2}\le9$.
+        (b) $W(2)$ is not convex, so $f$ is \textbf{not quasiconvex} and
+        therefore \textbf{not convex}, for every compatible $f$. Not
+        monotone either: a monotone function is quasiconvex.
+        (c) \textbf{Not quasiconcave}: $0$ and $4$ lie outside $W(2)$, so
+        $f(0)>2$ and $f(4)>2$, while $2$ lies between them with
+        $f(2)\le2<\min\{f(0),f(4)\}$, violating the min-inequality. Hence
+        not concave. (d) \textbf{No}: the formula in (a) is continuous.
+        (The drawn set is closed, as continuity requires.)
+
+  \item (a) \textbf{Yes, must.} If $f$ were continuous,
+        $B(0)=\{f\ge0\}$ would be closed. But $[0,2)$ is not closed: the
+        points $2-\tfrac1n$ belong to it and their limit $2$ does not. So
+        $f$ is discontinuous (at $x=2$, with $f(2)<0$ while values just to
+        the left are $\ge0$).
+        (b) Quasiconcave: \textbf{can}. Take $f=1$ on $[0,2)$ and $f=-1$
+        elsewhere; its upper contour sets are $\R$ ($c\le-1$), $[0,2)$
+        ($-1<c\le1$) or $\varnothing$ ($c>1$), all convex. Concave:
+        \textbf{cannot}, because a concave function on $\R$ is continuous.
+        (c) Quasiconvex: \textbf{cannot}. $-1$ and $3$ lie outside $B(0)$,
+        so $f(-1)<0$, $f(3)<0$, while $f(1)\ge0>\max\{f(-1),f(3)\}$,
+        violating $f(\text{between})\le\max$. Hence not monotone either.
+
+  \item Convex: \textbf{can}, e.g.\ $f(x)=\mathrm{e}^{x-4}$, convex with
+        $\mathrm{e}^{x-4}\le1\iff x\le4$. Concave: \textbf{can}, e.g.\
+        $f(x)=2-\mathrm{e}^{4-x}$, with $f''=-\mathrm{e}^{4-x}<0$ and
+        $2-\mathrm{e}^{4-x}\le1\iff\mathrm{e}^{4-x}\ge1\iff x\le4$.
+        Monotone: \textbf{not a must}. Take
+        $f(x)=1+(x-4)(x^{2}+1)$; since $x^{2}+1>0$, $f\le1\iff x\le4$, so
+        $W_f(1)=(-\infty,4]$. Yet $f'(x)=3x^{2}-8x+1$ has discriminant
+        $64-12=52>0$, two roots, so $f$ rises, falls, then rises again.
+        Quasiconvex: \textbf{not a must}, same $f$: $f(-2)=1-6\cdot5=-29$,
+        $f(2.5)=1-1.5\cdot7.25=-9.875$, but $f(0)=-3$. So $-2$ and $2.5$
+        lie in $W(-5)$ while $0$, between them, does not: $W(-5)$ is not
+        convex. One convex contour set at one level said nothing about the
+        other levels.
+
+  \item $f(P)=4-1=3$, so $B(P)=\{x^{2}-y^{2}\ge3\}$, the two regions
+        to the left and right of the hyperbola branches $x=\pm\sqrt{3+y^{2}}$,
+        and $W(P)=\{x^{2}-y^{2}\le3\}$, the region between them, containing
+        the $y$-axis. \emph{$B(P)$ not convex:} $(\sqrt3,0)$ and
+        $(-\sqrt3,0)$ lie in it, their midpoint $(0,0)$ has value
+        $0<3$. \emph{$W(P)$ not convex:} $(2,1)$ and $(2,-1)$ have value
+        $3$, but their midpoint $(2,0)$ has value $4>3$. Conclusion: $f$ is
+        \textbf{neither quasiconcave nor quasiconvex}, hence neither concave
+        nor convex.
+
+  \item $f(P)=2$: $W(P)=\{x^{2}+y^{2}\le2\}$ is the closed disc of radius
+        $\sqrt2$, convex; $B(P)=\{x^{2}+y^{2}\ge2\}$ is the plane minus the
+        open disc, not convex ($(\pm\sqrt2,0)\in B(P)$, midpoint $(0,0)$
+        has value $0<2$). \emph{Decided:} $f$ is \textbf{not quasiconcave}
+        and \textbf{not concave}. \emph{Open:} the convex disc $W(P)$ says
+        nothing about quasiconvexity or convexity. Settle it: $\Hess_f=2I$
+        is positive definite everywhere, so $f$ is \textbf{strictly
+        convex}, hence quasiconvex.
+
+  \item (a) $B(1)$ contains $(1,1)$ and $(-1,-1)$ (both $xy=1$) but not
+        their midpoint $(0,0)$ (value $0<1$): \textbf{not quasiconcave}.
+        $W(-1)$ contains $(1,-1)$ and $(-1,1)$ (both $xy=-1$) but not the
+        midpoint $(0,0)$ (value $0>-1$): \textbf{not quasiconvex}. In the
+        figure, each set with $c\ne0$ consists of two opposite regions.
+
+        (b) On $Q_2=\{x<0,\ y>0\}$ we have $xy<0$. For $c\ge0$,
+        $W(c)\cap Q_2=Q_2$, convex. For $c<0$: dividing $xy\le c$ by $x<0$
+        flips the inequality, $y\ge c/x$. The boundary
+        $\varphi(x)=c/x$ has $\varphi''(x)=2c/x^{3}>0$ for $c<0$, $x<0$,
+        so $\varphi$ is convex and the region on or above its graph (all
+        of whose points have $y>0$) is convex. Every lower contour set is
+        convex: \textbf{quasiconvex on $Q_2$}.
+
+        (c) On $Q_3=\{x<0,\ y<0\}$ put $u=-x>0$, $v=-y>0$; then $xy=uv$.
+        For $c\le0$ the upper contour set is all of $Q_3$; for $c>0$ it is
+        the image of the convex set $\{uv\ge c,\ u,v>0\}$ (Practice
+        Problem~18) under the linear map $(u,v)\mapsto(-u,-v)$, and linear
+        images of convex sets are convex. \textbf{Quasiconcave on $Q_3$.}
+
+  \item (a) $f_x=3x^{2}+z$, $f_y=2y$, $f_z=2z+x$, so
+        \[
+          \Hess_f=\begin{pmatrix}6x&0&1\\0&2&0\\1&0&2\end{pmatrix},
+          \qquad D_1=6x,\ D_2=12x,\ D_3=2(12x-1)=24x-2 .
+        \]
+        $Q_1$: $D_1=6$, $D_2=12$, $D_3=22$, \textbf{PD}. $Q_2$: the
+        principal minor $\det\begin{pmatrix}-6&0\\0&2\end{pmatrix}=-12<0$,
+        \textbf{indefinite}. $Q_3$: diagonal $\tfrac12,2,2\ge0$, $2\times2$
+        principal minors $1,\ 0,\ 4\ge0$, $\det=0$: \textbf{PSD and
+        singular}.
+        (b) At $Q_2$: $\mathbf{h}=(1,0,0)$ gives
+        $\mathbf{h}^{T}\Hess\mathbf{h}=-6<0$ (concave direction);
+        $\mathbf{h}=(0,1,0)$ gives $2>0$ (convex direction).
+        (c) $Q_1$: $f$ strictly convex on a neighbourhood. $Q_2$: neither
+        convex nor concave on any neighbourhood. $Q_3$: no local
+        conclusion. By rule (e), the point $Q_2$ alone shows that $f$ is
+        neither convex nor concave on $\R^{3}$.
+        (d) PSD needs all principal minors $\ge0$: $6x\ge0$, $12x\ge0$,
+        $12x-1\ge0$, $24x-2\ge0$, together just $x\ge\tfrac1{12}$. On the
+        open half-space $\{x>\tfrac1{12}\}$ all leading minors are positive
+        (PD), so $f$ is strictly convex there; it is concave nowhere, since
+        $f_{yy}=2>0$.
+
+  \item With $\Hess_f(Q)=\begin{pmatrix}0&1&1\\1&0&1\\1&1&0\end{pmatrix}$
+        ($f_{xy}=z$, $f_{xz}=y$, $f_{yz}=x$, zero diagonal):
+        (a) \textbf{True}: $\mathbf{h}^{T}\Hess\mathbf{h}
+        =2(1+1+1)=6>0$; directly, $f(Q+t\mathbf{h})=(1+t)^{3}$ has second
+        derivative $6(1+t)>0$ near $t=0$.
+        (b) \textbf{True}: $\mathbf{h}^{T}\Hess\mathbf{h}=2\cdot(1)(-1)\cdot1
+        =-2<0$; directly $f(Q+t\mathbf{h})=(1+t)(1-t)=1-t^{2}$.
+        (c) \textbf{False}: a convex and a concave direction make
+        $\Hess(Q)$ indefinite, so $f$ is not concave near $Q$.
+        (d) \textbf{True}: $xyz=\mathrm{e}^{\ln x+\ln y+\ln z}$ is an
+        increasing transform of a concave function on $\R^{3}_{++}$.
+
+  \item \emph{Picture.} At $P_3$ the surface sits in a hollow, curving up
+        in both directions; at $P_1$ it curves down along $x$ and up along
+        $y$, a pass; at $P_2$ it curves up along $y$ but along $x$ it bends
+        from concave to convex, flat in curvature. \emph{Computation:}
+        $f_x=3x^{2}-3$, $f_y=2y$,
+        $\Hess_f=\operatorname{diag}(6x,\,2)$.
+        $P_1$: $\operatorname{diag}(-6,2)$, \textbf{indefinite}: $f$ is
+        neither convex nor concave near $P_1$ (and $P_1$, a critical point,
+        is a saddle). $P_2$: $\operatorname{diag}(0,2)$, \textbf{PSD,
+        singular}: the Hessian decides nothing, and in fact $f$ is not
+        convex near $P_2$, since along the $x$-axis $f=x^{3}-3x$ has
+        $f''=6x<0$ for $x<0$. $P_3$: $\operatorname{diag}(6,2)$,
+        \textbf{PD}: $f$ is strictly convex near $P_3$, and $P_3$ is a
+        strict local minimum.
+
+  \item \textbf{False.} Both functions have
+        $\Hess(0,0)=\operatorname{diag}(0,2)$, PSD. $g$ has
+        $\Hess_g=\operatorname{diag}(12x^{2},2)$, PSD everywhere, so $g$ is
+        convex on every ball. $h$ has $\Hess_h=\operatorname{diag}(6x,2)$,
+        which fails to be PSD at every point with $x<0$; every ball around
+        the origin contains such points, so $h$ is convex on no ball around
+        $Q$. A singular semidefinite Hessian gives no local conclusion.
+
+  \item $f'(x)=2x+\tfrac2x>0$ on $(0,\infty)$: \textbf{strictly
+        increasing}, hence \textbf{quasiconvex and quasiconcave}.
+        $f''(x)=2-\tfrac{2}{x^{2}}$ is negative on $(0,1)$ and positive on
+        $(1,\infty)$: \textbf{neither convex nor concave}.
+
+  \item $f''(x)=-\mathrm{e}^{x}<0$: \textbf{strictly concave}, hence
+        \textbf{quasiconcave}; \textbf{not convex}. $f'(x)=3-\mathrm{e}^{x}$
+        vanishes at $\ln3$: $f$ rises, then falls, so it is \textbf{not
+        monotone}. \textbf{Not quasiconvex}: $f(0)=-1\le0$ and
+        $f(2)=6-\mathrm{e}^{2}\approx-1.39\le0$, but
+        $f(\ln3)=3\ln3-3\approx0.30>0$ with $\ln3\in(0,2)$, so $W(0)$ is
+        not convex.
+
+  \item $f'(x)=(1-x)\mathrm{e}^{-x}$: increasing on $(-\infty,1]$,
+        decreasing on $[1,\infty)$, single-peaked: \textbf{quasiconcave},
+        \textbf{not monotone}. \textbf{Not quasiconvex}: with
+        $c=f(2)=2\mathrm{e}^{-2}\approx0.271$, the points $0$ ($f=0$) and
+        $2$ lie in $W(c)$ but $1$ ($f=\mathrm{e}^{-1}\approx0.368$) does
+        not. $f''(x)=(x-2)\mathrm{e}^{-x}$ is negative for $x<2$ and
+        positive for $x>2$: \textbf{neither convex nor concave}. A
+        quasiconcave function that is not concave.
+
+  \item For $x>0$,
+        $\Hess_f=\operatorname{diag}\bigl(-\tfrac14x^{-3/2},\,-2,\,-2\bigr)$,
+        all diagonal entries negative: ND, so $f$ is strictly concave on
+        $\R_{++}\times\R\times\R$. On the closed domain it is a sum of the
+        concave functions $\sqrt{x}$ (concave on $[0,\infty)$), $-y^{2}$
+        and $-(z-1)^{2}$, so \textbf{concave}, hence \textbf{quasiconcave};
+        \textbf{not convex}. \textbf{Not quasiconvex}: on the line
+        $x=1$, $z=1$ the function is $1-y^{2}$, single-peaked, whose
+        $W(0)=\{|y|\ge1\}$ is not convex; a quasiconvex function would be
+        quasiconvex along every line.
+
+  \item $\Hess_g=\operatorname{diag}(6x,\,\mathrm{e}^{y},\,0)$, PSD on
+        $x\ge0$: \textbf{convex}, hence \textbf{quasiconvex}; \textbf{not
+        concave} ($g_{yy}=\mathrm{e}^{y}>0$). \textbf{Not quasiconcave}:
+        along the line $(0,t,-2t)$, $g=\mathrm{e}^{t}-2t$, a valley with
+        minimum at $t=\ln2$. Its $B(1)$ contains $t=0$ (value $1$) and
+        $t=2$ (value $\mathrm{e}^{2}-4\approx3.39$) but not $t=\ln2$ (value
+        $2-2\ln2\approx0.61$). A diagonal Hessian decides convexity and
+        concavity; quasiconcavity needed a look along a line.
+
+  \item $f$ is linear ($a_i=(-1)^{i}i$), so it is \textbf{convex,
+        concave, quasiconvex and quasiconcave}, and \textbf{none of them
+        strictly}: every chord lies on the graph, and for $n\ge2$ two
+        different points with the same value (e.g.\ $\mathbf{0}$ and
+        $2\mathbf{e}_1+\mathbf{e}_2$, value $-2+2=0$) have the same value
+        at their midpoint. \textbf{Neither increasing nor decreasing}: the
+        coefficients have mixed signs ($a_1=-1$, $a_2=2$). Indeed
+        $\mathbf{0}\le\mathbf{e}_2$ with $f(\mathbf{e}_2)=2>0$, and
+        $\mathbf{0}\le\mathbf{e}_1$ with $f(\mathbf{e}_1)=-1<0$.
+
+  \item $(-2,0)$ and $(2,0)$ lie on the graph, hence in
+        $\operatorname{epi}f$; their midpoint $(0,0)$ would need
+        $0\ge f(0)=4$: \textbf{epi $f$ not convex}, so $f$ is not convex.
+        $f''=-2<0$, $f$ is concave, which is the same as
+        $\operatorname{hypo}f=\{z\le4-x^{2}\}$ being \textbf{convex}
+        (directly: it is the region below a concave graph, by the graph
+        shortcut of Chapter~2). $\operatorname{epi}(-f)=\{z\ge x^{2}-4\}$,
+        the hypograph reflected in $z=0$: convex, i.e.\ $-f$ is convex.
+
+  \item \emph{Hypograph:} $(0,0,1)$ (graph point) and $(2,0,0)$
+        ($0\le\mathrm{e}^{-4}$) lie in $\operatorname{hypo}g$; the midpoint
+        $(1,0,\tfrac12)$ needs $\tfrac12\le\mathrm{e}^{-1}\approx0.368$,
+        false. \emph{Epigraph:} $(\pm2,0,\mathrm{e}^{-4})$ lie on the graph;
+        the midpoint $(0,0,\mathrm{e}^{-4})$ needs
+        $\mathrm{e}^{-4}\ge g(0,0)=1$, false. \emph{Decided:} $g$ is
+        \textbf{neither convex nor concave}. \emph{Open:} the
+        quasi-properties, which depend on the horizontal slices, not on the
+        whole epigraph. Settled in Practice Problem~17: the upper contour
+        sets are discs, so $g$ is \textbf{quasiconcave}; the lower ones are
+        disc complements, so \textbf{not quasiconvex}.
+
+  \item (a) $\alpha+\beta=\tfrac23<1$: $f$ is concave, so
+        $\operatorname{hypo}f$ is \textbf{convex}. Epigraph: $f(1,1)=1$ and
+        $f(8,8)=4$, so $(1,1,1)$ and $(8,8,4)$ lie in
+        $\operatorname{epi}f$; the midpoint $(4.5,4.5,2.5)$ has
+        $f(4.5,4.5)=4.5^{2/3}\approx2.726>2.5$, so it lies \emph{below} the
+        graph: \textbf{epi $f$ not convex}.
+        (b) $\Hess_f=\begin{pmatrix}2&1\\1&2\end{pmatrix}$ is PD, $f$ is
+        convex, so $\operatorname{epi}f$ is \textbf{convex}. The hypograph
+        is not: $(1,0,1)$ and $(-1,0,1)$ are graph points, their midpoint
+        $(0,0,1)$ needs $1\le f(0,0)=0$, false.
+
+  \item (a) $P(0.03,0.04)=\dfrac{5}{1.03}+\dfrac{105}{1.0816}
+        \approx4.85437+97.07840=101.93277$.
+        (b) $P_{r_1}=-\dfrac{5}{(1+r_1)^{2}}\approx-4.71298$,
+        $P_{r_2}=-\dfrac{210}{(1+r_2)^{3}}\approx-186.68924$. With
+        $\Delta r_1=\Delta r_2=0.005$:
+        \[
+          \mathrm{d}P=0.005\,(-4.71298-186.68924)\approx-0.95701 .
+        \]
+        Exactly, $P(0.035,0.045)=\dfrac{5}{1.035}+\dfrac{105}{1.092025}
+        \approx4.83092+96.15164=100.98256$, so
+        $\Delta P\approx-0.95021$.
+        (c) $P_{r_1r_1}=\dfrac{10}{(1+r_1)^{3}}>0$,
+        $P_{r_2r_2}=\dfrac{630}{(1+r_2)^{4}}>0$, $P_{r_1r_2}=0$: the
+        diagonal Hessian is PD, $P$ is convex, so
+        $\Delta P\ge\mathrm{d}P$. Here $-0.95021>-0.95701$: the linear
+        estimate overstates the fall by about $0.0068$.
+
+  \item $P=\dfrac{4}{1+r_1}+\dfrac{4}{(1+r_2)^{2}}+\dfrac{104}{(1+r_3)^{3}}$.
+        At $(0.02,0.03,0.035)$: $P\approx101.49399$, with partials
+        $P_{r_1}=-\tfrac{4}{1.02^{2}}\approx-3.84468$,
+        $P_{r_2}=-\tfrac{8}{1.03^{3}}\approx-7.32113$,
+        $P_{r_3}=-\tfrac{312}{1.035^{4}}\approx-271.88998$. With all
+        $\Delta r_t=-0.005$:
+        \[
+          \mathrm{d}P=0.005\,(3.84468+7.32113+271.88998)\approx1.41528 .
+        \]
+        Exactly, $P(0.015,0.025,0.030)\approx102.92288$, so
+        $\Delta P\approx1.42888$. The exact gain is \textbf{larger}: $P$ is
+        convex (diagonal Hessian with positive entries), so
+        $\Delta P\ge\mathrm{d}P$ for every move, falls in rates included.
+
+  \item $f(9,1)=18$. Partials $f_x=3/\sqrt{x}=1$, $f_y=3/y=3$ at $(9,1)$,
+        and $\Delta x=1.24$, $\Delta y=0.1$:
+        $\mathrm{d}f=1.24+0.3=1.54$. Exactly,
+        $f(10.24,1.1)=6\cdot3.2+3\ln1.1\approx19.2+0.28593=19.48593$, so
+        $\Delta f\approx1.48593<\mathrm{d}f$. Reason:
+        $\Hess_f=\operatorname{diag}\bigl(-\tfrac32x^{-3/2},\,-3/y^{2}\bigr)$
+        is ND, $f$ is concave, its graph lies below the tangent plane, and
+        the linear estimate overestimates.
+
+  \item $f_x=2\mathrm{e}^{x}-6x+5$, $f_y=2y-1$, so
+        $\Hess_f=\operatorname{diag}(2\mathrm{e}^{x}-6,\ 2)$. PSD iff
+        $2\mathrm{e}^{x}-6\ge0$, i.e.\ $x\ge\ln3\approx1.099$: the closed
+        half-plane to the right of the vertical line $x=\ln3$. NSD never,
+        since $f_{yy}=2>0$. On the open half-plane $\{x>\ln3\}$ the Hessian
+        is PD and $f$ is strictly convex; left of the line $f$ is concave in
+        the $x$-direction and convex in the $y$-direction, neither.
+
+  \item $\Hess_f=\begin{pmatrix}6x&-3\\-3&6y\end{pmatrix}$. PSD iff
+        $6x\ge0$, $6y\ge0$ and $36xy-9\ge0$, i.e.\ $x>0$, $y>0$,
+        $xy\ge\tfrac14$: the region on and above the branch $y=1/(4x)$ in
+        the first quadrant. NSD iff $x\le0$, $y\le0$, $xy\ge\tfrac14$: the
+        mirror region beyond the branch in the third quadrant. The PSD set
+        is convex: it is $\{x>0,\ y\ge g(x)\}$ with $g(x)=1/(4x)$ convex
+        (Chapter~2). On the open convex region $\{x>0,\ xy>\tfrac14\}$ the
+        Hessian is PD and $f$ is strictly convex; on
+        $\{x<0,\ xy>\tfrac14\}$ it is strictly concave.
+
+  \item Write $\varphi=\tfrac1{4\pi}\mathrm{e}^{-q}$ with
+        $q=\tfrac{(x-1)^{2}}{8}+\tfrac{(y-2)^{2}}{2}$, and put
+        $u=\tfrac{x-1}{4}$, $v=y-2$ (so $q_x=u$, $q_y=v$).
+        (a) $\grad\varphi=-\varphi\,(u,v)$. Since $\varphi>0$, the only
+        critical point is $u=v=0$, the mean $(1,2)$.
+        (b) Second partials:
+        \[
+          \varphi_{xx}=\bigl(u^{2}-\tfrac14\bigr)\varphi,\quad
+          \varphi_{yy}=(v^{2}-1)\varphi,\quad
+          \varphi_{xy}=uv\,\varphi .
+        \]
+        Then
+        $\det\Hess_\varphi=\varphi^{2}\bigl[(u^{2}-\tfrac14)(v^{2}-1)-u^{2}v^{2}\bigr]
+        =\varphi^{2}\bigl(\tfrac14-u^{2}-\tfrac{v^{2}}{4}\bigr)
+        =\tfrac{\varphi^{2}}{4}\Bigl(1-\tfrac{(x-1)^{2}}{4}-(y-2)^{2}\Bigr)$.
+        Inside the ellipse the determinant is positive, and
+        $\tfrac{(x-1)^{2}}{4}<1$ gives $u^{2}<\tfrac14$, so
+        $\varphi_{xx}<0$: \textbf{ND}. Outside it the determinant is
+        negative: \textbf{indefinite}. At the mean,
+        $\Hess=\tfrac{1}{4\pi}\operatorname{diag}(-\tfrac14,-1)$, ND, so the
+        mean is a strict local maximum, and the global one, as
+        $\varphi\le\tfrac{1}{4\pi}=\varphi(1,2)$.
+        (c) \textbf{No.} PSD would need $\det\ge0$ (on or inside the
+        ellipse) and $\varphi_{xx}\ge0$, i.e.\ $(x-1)^{2}\ge4$. Together
+        these force $(x-1)^{2}=4$, $y=2$, where
+        $\varphi_{yy}=-\varphi<0$. So $\varphi$ is convex in all directions
+        at no point: concave inside the ellipse, a saddle-type surface
+        outside.
+
+  \item Expanding, $f=3x^{2}-6xy+3y^{2}-x^{2}-2xy-y^{2}=2x^{2}-8xy+2y^{2}$,
+        so $f_{xx}=4>0$, $f_{yy}=4>0$, $f_{xy}=-8$ and
+        \[
+          \Hess_f=\begin{pmatrix}4&-8\\-8&4\end{pmatrix},\qquad
+          \det=16-64=-48<0 :
+        \]
+        \textbf{indefinite} everywhere, so $f$ is neither convex nor
+        concave. Along the line $y=x$ the first square vanishes and
+        $f=-(2x)^{2}=-4x^{2}$, a concave parabola. Positive pure second
+        partials only say the $x$- and $y$-directions are convex; the
+        mixed partial decides the diagonal directions.
+
+  \item $u_1=x_2^{2}\ge0$, $u_2=2x_1x_2\ge0$, and
+        $\Hess_u=\begin{pmatrix}0&2x_2\\2x_2&2x_1\end{pmatrix}$ with
+        $\det=-4x_2^{2}<0$ whenever $x_2>0$: indefinite, so \textbf{neither
+        concave nor convex}. \textbf{Quasiconcave}: for $c\le0$,
+        $B(c)=\R^{2}_{+}$; for $c>0$,
+        $B(c)=\{x_1>0,\ x_2\ge\sqrt{c}\,x_1^{-1/2}\}$, the region above a
+        convex curve ($\tfrac34\sqrt c\,x_1^{-5/2}>0$), convex.
+        \textbf{Not quasiconvex}: $(4,0)$ and $(0,4)$ lie in $W(1)$ (value
+        $0$), their midpoint $(2,2)$ has value $8>1$. \textbf{No maximum}:
+        $u(t,t)=t^{3}\to\infty$. \textbf{Minimum} $0$, attained at every
+        point of both axes, since $u\ge0$ and $u=0$ there: not unique.
+        \textbf{Monotone increasing} (both partials $\ge0$ on the convex
+        quadrant), strictly increasing on the interior, but not strictly on
+        the closed quadrant: $(0,1)\le(0,2)$ with equal values $0$.
+        \textbf{Not decreasing}.
+
+  \item $\sqrt{x}$ and $\sqrt{y}$ are concave, so $v$ is \textbf{concave},
+        hence \textbf{quasiconcave}; \textbf{not convex} ($v_{xx}<0$ for
+        $x>0$). \textbf{Not quasiconvex}: for $c>0$, $(c^{2},0)$ and
+        $(0,c^{2})$ lie in $W(c)$, but the midpoint
+        $(\tfrac{c^{2}}2,\tfrac{c^{2}}2)$ has
+        $v=2\cdot\tfrac{c}{\sqrt2}=\sqrt2\,c>c$. \textbf{No maximum}
+        (unbounded). \textbf{Minimum} $0$ at the origin only.
+        \textbf{Strictly increasing}: if $(x,y)\le(x',y')$ and the points
+        differ, one coordinate grows strictly, and $\sqrt{\cdot}$ is
+        strictly increasing on $[0,\infty)$. \textbf{Not decreasing}.
+
+  \item If $0\le x\le x'$ and $0\le y\le y'$, then $x^{0.3}\le x'^{0.3}$
+        and $y^{0.6}\le y'^{0.6}$ (power functions with positive exponent
+        are increasing on $[0,\infty)$), and a product of non-negative
+        non-decreasing factors does not decrease: $f$ is
+        \textbf{increasing} on $\R^{2}_{+}$. On $\R^{2}_{++}$ both partials
+        $f_x=0.3x^{-0.7}y^{0.6}$ and $f_y=0.6x^{0.3}y^{-0.4}$ are positive:
+        \textbf{strictly increasing}. For $g$: $g_x=1/x>0$, $g_y=2/y>0$ on
+        the convex set $\R^{2}_{++}$: \textbf{strictly increasing}.
+
+  \item $f_y=\dfrac{1}{2\sqrt{y-x^{2}}}>0$ but
+        $f_x=\dfrac{-x}{\sqrt{y-x^{2}}}$ changes sign with $x$. Explicit
+        pairs: $(0,1)\le(1,1)$ but $f(0,1)=1>f(1,1)=0$: \textbf{not
+        increasing}. $(-1,1)\le(0,1)$ and $f(-1,1)=0<f(0,1)=1$:
+        \textbf{not decreasing}. (All points lie in the domain.) The value
+        rises with $y$ and falls with $|x|$.
+
+  \item $f_x=f_y=\tfrac1{x+y}$, so
+        $\Hess_f=-\dfrac{1}{(x+y)^{2}}\begin{pmatrix}1&1\\1&1\end{pmatrix}$:
+        $D_1<0$ is right, but $D_2=0$, so the Hessian is negative
+        \emph{semi}definite, not definite. $f$ is concave (NSD everywhere),
+        not strictly. The claim of a maximum is \textbf{wrong}: the
+        gradient never vanishes, the domain is open, so there is no
+        interior extremum at all, and indeed $f\to\infty$ as $x+y\to\infty$.
+        Concavity makes a stationary point a global maximum; it does not
+        produce one.
+
+  \item Domain: $s=x+y^{2}>0$, the region to the right of the parabola
+        $x=-y^{2}$. Partials: $f_x=1/s$, $f_y=2y/s$,
+        \[
+          f_{xx}=-\frac{1}{s^{2}},\quad f_{xy}=-\frac{2y}{s^{2}},\quad
+          f_{yy}=\frac{2s-4y^{2}}{s^{2}}=\frac{2x-2y^{2}}{s^{2}},
+        \]
+        \[
+          \det\Hess_f=\frac{-(2x-2y^{2})-4y^{2}}{s^{4}}
+          =\frac{-2(x+y^{2})}{s^{4}}=-\frac{2}{s^{3}}<0 .
+        \]
+        Indefinite at \emph{every} point: $f$ is \textbf{neither concave
+        nor convex}; $f_{xx}<0$ alone proves nothing. Since $f_x=1/s\neq0$,
+        there is no critical point, so \textbf{no extrema} on the open
+        domain.
+
+  \item The local part is right: $f_x=3x^{2}-3$, $f_y=-2y$ vanish at
+        $(-1,0)$ and $\Hess=\operatorname{diag}(6x,-2)
+        =\operatorname{diag}(-6,-2)$ there, ND, a strict \emph{local}
+        maximum with $f(-1,0)=2$. The global claim is \textbf{wrong}:
+        $f(3,0)=27-9=18>2$. Definiteness at one point is local
+        information; $f$ is not concave on $\R^{2}$ (at $(1,0)$ the Hessian
+        $\operatorname{diag}(6,-2)$ is indefinite).
+
+  \item Concavity is right: $\Hess_f=\operatorname{diag}(-\mathrm{e}^{x},-2)$
+        is ND everywhere, $f$ strictly concave. The conclusion is
+        \textbf{wrong}: $\grad f=(-\mathrm{e}^{x},-2y)$ never vanishes, so
+        there is no stationary point and no maximum. The values approach
+        the supremum $0$ along $y=0$, $x\to-\infty$, without reaching it.
+
+  \item (a) \textbf{False.} $f(x,y)=\dfrac{xy}{x^{2}+y^{2}}$, $f(0,0)=0$:
+        $f$ vanishes on both axes, so $f_x(0,0)=f_y(0,0)=0$ exist; but
+        $f(t,t)=\tfrac12$ for $t\neq0$, so $f$ is not continuous at the
+        origin and cannot be differentiable there.
+        (b) \textbf{True.}
+        $f(\mathbf{p}+\mathbf{h})-f(\mathbf{p})
+        =\grad f(\mathbf{p})\cdot\mathbf{h}+o(\|\mathbf{h}\|)\to0$ as
+        $\mathbf{h}\to\mathbf{0}$.
+        (c) \textbf{True.} Multiply the convex chord inequality by $-1$.
+        (d) \textbf{False.} $x^{3}$ has convex lower contour sets
+        $(-\infty,c^{1/3}]$ but is not convex. Convex lower contour sets
+        mean quasiconvex only.
+        (e) \textbf{True}, by definition.
+
+  \item (a) \textbf{True.}
+        $f(\lambda\mathbf{x}+(1-\lambda)\mathbf{y})
+        \ge\lambda f(\mathbf{x})+(1-\lambda)f(\mathbf{y})
+        \ge\min\{f(\mathbf{x}),f(\mathbf{y})\}$.
+        (b) \textbf{False.} $x^{3}$ is quasiconcave with $f'(0)=0$, and $0$
+        is no maximiser.
+        (c) \textbf{False.} $f(x)=x^{3}$ has $f''(-1)=-6<0$ but is not
+        concave on $\R$; concavity needs NSD at every point.
+        (d) \textbf{False.} $x^{3}$ and $-3x$ are monotone, hence
+        quasiconcave, but $x^{3}-3x$ has
+        $B(0)=[-\sqrt3,0]\cup[\sqrt3,\infty)$, not convex.
+        (e) \textbf{False.} $\mathrm{e}^{x}$ is strictly convex on $\R$ and
+        has no minimiser. What is true: \emph{at most} one.
 \end{solutions}

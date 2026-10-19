@@ -121,6 +121,20 @@ A linear model is only an honest description of the economics if:
         random yields, uncertain prices — then one works with expected
         values plus sensitivity analysis, or stochastic models.
 \end{itemize}
+Behind all four sits a fifth, usually silent assumption: the model is
+\textbf{static}. It describes one planning period (a day, a week, a
+quarter), and every coefficient is taken to be constant over that horizon;
+nothing is carried over from one period to the next. Certainty is a matter
+of degree within that horizon: technical coefficients (hours per unit,
+kilograms per batch) are usually known almost exactly, while prices,
+demand ceilings and yields are only estimated, and sensitivity analysis
+should concentrate on the estimated ones. The horizon also decides how much
+a violation of divisibility matters: a weekly optimum of $1.5$ sheds is
+meaningless if every shed must be finished within the week, harmless as a
+rate if production runs on (three sheds per fortnight), and $1203.4$ litres
+can simply be rounded. When whole units are needed and the numbers are
+small, rounding a fractional optimum may be infeasible or clearly
+suboptimal, and an integer model is required.
 \end{rulebox}
 
 \begin{rulebox}{Classic model families}
@@ -138,11 +152,23 @@ Resource allocation & budget or effort per activity & max return;
   budget $\le$, policy limits\\
 Portfolio & money in each asset & max return; budget, risk,
   share limits\\
+Make-or-buy, hired inputs & output, plus units bought or & cost of
+  acquisition in the objective;\\
+ & hours rented or hired & linking row, cap on acquisition\\
 \hline
 \end{tabular}
 \end{center}
 Recognising the family tells you immediately which direction the
 inequalities point and whether to maximise or minimise.
+
+An input that can be \emph{acquired} (components bought in, machine hours
+rented, labour hours hired) gets a decision variable of its own, say $h$.
+Its price enters the objective with a minus sign, $-p\,h$; a
+\emph{linking row} adds it to the own stock,
+$\sum_j a_{j}x_{j}-h\le b$ (usage minus acquisition at most the own
+capacity $b$, with $b=0$ if the input must be acquired in full); and a cap
+$h\le H$ records how much can be acquired at most. The margins $c_j$ then
+exclude that input's cost, since the model charges it through $-p\,h$.
 \end{rulebox}
 
 \section{Worked Example}
@@ -754,6 +780,53 @@ conditions. Do \emph{not} solve — solving begins in the next chapter.
         than baking them separately;
         (d) next quarter's selling prices in the objective are estimates
         from the sales team.
+  \item (Make or buy.) A firm sells a garden pump at a margin of $50$ per
+        unit, not counting the motor. Every pump needs one motor. A motor
+        can be made in-house, which takes $2$ machine hours ($80$ machine
+        hours are available per week) and material worth $12$, or bought
+        from a supplier at $20$. Assembling a pump takes $1$ hour, with
+        $60$ assembly hours per week, and at most $55$ pumps can be sold
+        per week. Formulate the weekly profit-maximising LP with separate
+        variables for pumps, motors made and motors bought, and explain
+        why the motor balance may be written as an inequality.
+  \item (Rented capacity.) A workshop makes two products. Per unit,
+        product $1$ needs $0.4$ machine hours and $1$ labour hour, product
+        $2$ needs $0.25$ machine hours and $1.5$ labour hours. The workshop
+        owns $16$ machine hours and $120$ labour hours per day. Extra
+        machine hours can be rented at $5$ per hour, at most $24$ hours per
+        day. The margins, before any rent, are $8$ and $6$. Formulate the
+        LP with a variable $M$ for the rented hours. Which row links $M$
+        to production, and why does $M$ carry the coefficient $-1$ there?
+  \item (Hired labour.) A farm has $60$ hectares for two crops. A hectare
+        of crop $1$ needs $8$ hours of labour and earns a margin of $300$
+        (before hired labour); a hectare of crop $2$ needs $12$ hours and
+        earns $420$. The family supplies $400$ hours; further hours can be
+        hired at $9$ per hour, but at most $240$ hours are available.
+        (a)~Formulate the LP with a variable $h$ for the hired hours.
+        (b)~Reformulate it for a farm without own labour that must hire
+        every hour (at most $700$ hours), and compare the two linking
+        rows.
+  \item (Judging a fractional optimum.) A workshop plans its weekly output
+        of garden sheds ($x_1$) and greenhouses ($x_2$), both of which must
+        be finished within the week:
+        \[
+          \max\ z=7x_1+8x_2
+          \quad\text{s.t.}\quad
+          \begin{array}{rcll}
+            5x_1+3x_2 &\le& 18 & \text{(carpentry)}\\
+            4x_1+6x_2 &\le& 27 & \text{(glazing)}\\
+            x_1,x_2 &\ge& 0 .
+          \end{array}
+        \]
+        The LP optimum is $x^{*}=(1.5,\,3.5)$ with $z^{*}=38.5$.
+        (a)~Check that $x^{*}$ satisfies both constraints with equality.
+        (b)~Which of the four integer points obtained by rounding each
+        coordinate up or down are feasible, and what do they earn?
+        (c)~Find the best integer plan by checking every feasible integer
+        value of $x_1$, and compare it with (b) and with $z^{*}$.
+        (d)~Which assumption is violated, and why does the time horizon
+        matter for how serious the violation is? Which of the
+        coefficients are likely known exactly, and which are estimates?
 \end{problems}
 
 \section{Additional Solutions}
@@ -882,4 +955,114 @@ conditions. Do \emph{not} solve — solving begins in the next chapter.
         activities that a sum of individual terms cannot capture.
         (d) \textbf{Certainty}: the objective coefficients are estimates,
         not known constants; the LP treats them as if they were certain.
+
+  \item \textbf{Variables:} $x=$ pumps made and sold per week, $m=$ motors
+        made in-house, $q=$ motors bought. \textbf{Objective:} the pump
+        margin excludes the motor, so each motor is charged where it is
+        acquired: $z=50x-12m-20q$. \textbf{Constraints:} every pump needs a
+        motor, $x\le m+q$, i.e.\ $x-m-q\le 0$; machine hours $2m\le 80$;
+        assembly $x\le 60$; market $x\le 55$.
+        \[
+          \begin{aligned}
+            \max\quad & z=50x-12m-20q\\
+            \text{s.t.}\quad & x-m-q\le 0 &&\text{(motor balance)}\\
+            & 2m\le 80 &&\text{(machine hours)}\\
+            & x\le 60 &&\text{(assembly hours)}\\
+            & x\le 55 &&\text{(market)}\\
+            & x,\ m,\ q\ge 0 .
+          \end{aligned}
+        \]
+        The balance may be an inequality: a motor made or bought but not
+        used only costs money ($12$ or $20$) and earns nothing, so no
+        optimal plan holds spare motors, and $x=m+q$ holds at the optimum
+        anyway. Check of one feasible plan: $x=55$, $m=40$, $q=15$ uses
+        $80$ machine hours and $55\le 60$ assembly hours, with
+        $z=2750-480-300=1970$.
+
+  \item \textbf{Variables:} $x_1,x_2=$ units of the two products per
+        day, $M=$ machine hours rented per day. \textbf{Objective:} the
+        rent is charged through $M$: $z=8x_1+6x_2-5M$.
+        \textbf{Constraints:} machine usage $0.4x_1+0.25x_2$ may not exceed
+        the own $16$ hours plus the rented $M$ hours; labour; and the
+        rental cap.
+        \[
+          \begin{aligned}
+            \max\quad & z=8x_1+6x_2-5M\\
+            \text{s.t.}\quad & 0.4x_1+0.25x_2-M\le 16 &&\text{(machine hours, linking row)}\\
+            & x_1+1.5x_2\le 120 &&\text{(labour hours)}\\
+            & M\le 24 &&\text{(rental cap)}\\
+            & x_1,\ x_2,\ M\ge 0 .
+          \end{aligned}
+        \]
+        The first row links $M$ to production. It comes from
+        $0.4x_1+0.25x_2\le 16+M$: each rented hour \emph{adds} one hour of
+        capacity, and moving it to the left-hand side gives the
+        coefficient $-1$. (Multiplying by $20$ gives the integer form
+        $8x_1+5x_2-20M\le 320$.)
+
+  \item (a)~\textbf{Variables:} $x_1,x_2=$ hectares of crop $1$ and crop
+        $2$, $h=$ hours hired. \textbf{Objective:} $z=300x_1+420x_2-9h$.
+        \[
+          \begin{aligned}
+            \max\quad & z=300x_1+420x_2-9h\\
+            \text{s.t.}\quad & x_1+x_2\le 60 &&\text{(land, ha)}\\
+            & 8x_1+12x_2-h\le 400 &&\text{(labour: use}\le\text{own}+\text{hired)}\\
+            & h\le 240 &&\text{(hiring cap)}\\
+            & x_1,\ x_2,\ h\ge 0 .
+          \end{aligned}
+        \]
+        (b)~Without own labour every hour used must be hired:
+        $8x_1+12x_2\le h$, i.e.\ $8x_1+12x_2-h\le 0$, with the cap
+        $h\le 700$; objective and land row are unchanged. The two linking
+        rows have the same left-hand side and differ only in the
+        right-hand side, the own stock: $400$ in (a), $0$ in (b). In (b)
+        the hired hours equal the total labour used at any sensible plan,
+        so the objective charges $9$ for every hour.
+
+  \item (a)~$5(1.5)+3(3.5)=7.5+10.5=18$ and
+        $4(1.5)+6(3.5)=6+21=27$: both bind. Also
+        $z^{*}=7(1.5)+8(3.5)=10.5+28=38.5$.
+
+        (b)~The four neighbours:
+        \[
+          \begin{array}{c|c|c|c}
+            (x_1,x_2) & 5x_1+3x_2\le 18? & 4x_1+6x_2\le 27? & z\\\hline
+            (2,4) & 22\ \text{no} & 32\ \text{no} & \text{infeasible}\\
+            (2,3) & 19\ \text{no} & 26\ \text{yes} & \text{infeasible}\\
+            (1,4) & 17\ \text{yes} & 28\ \text{no} & \text{infeasible}\\
+            (1,3) & 14\ \text{yes} & 22\ \text{yes} & 31
+          \end{array}
+        \]
+        Rounding to the nearest integers (halves up) gives the infeasible
+        $(2,4)$; only rounding both down is feasible, worth $31$.
+
+        (c)~Carpentry gives $x_1\le 3$. For each $x_1$ take the largest
+        $x_2$ allowed by both rows:
+        \[
+          \begin{array}{c|c|c|c}
+            x_1 & x_2\le\frac{18-5x_1}{3} & x_2\le\frac{27-4x_1}{6} &
+              \text{best }x_2,\ z\\\hline
+            0 & 6 & 4.5 & 4,\ 32\\
+            1 & 4.33 & 3.83 & 3,\ 31\\
+            2 & 2.67 & 3.17 & 2,\ 30\\
+            3 & 1 & 2.5 & 1,\ 29
+          \end{array}
+        \]
+        The best integer plan is $(0,4)$ with $z=32$: it is not a rounding
+        of $(1.5,3.5)$ at all, it beats the rounded plan $(1,3)$ by $1$,
+        and it lies $6.5$ below the LP value $38.5$, which is only an
+        upper bound for integer plans.
+
+        (d)~\textbf{Divisibility} is violated: half a shed cannot be
+        delivered at the end of the week. The horizon decides how much
+        this matters. Because the model is static and each week stands
+        alone, $1.5$ sheds per week has no meaning here; if production ran
+        on continuously, it would be a perfectly good rate ($3$ sheds per
+        fortnight), and for output in the hundreds rounding would cost
+        almost nothing. With small numbers and a hard weekly deadline an
+        integer model is needed. \textbf{Certainty:} the carpentry and
+        glazing requirements per unit and the weekly capacities are
+        technical data, known fairly exactly; the margins $7$ and $8$
+        depend on prices and material costs and are estimates, so they
+        are the first candidates for a sensitivity analysis.
 \end{solutions}

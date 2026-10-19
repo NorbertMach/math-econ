@@ -50,7 +50,10 @@ $\{F(x,y)=0\}$. The recipe:
         closed disc; $\ge$ gives everything outside. Shifted:
         $(x-x_{0})^{2}+(y-y_{0})^{2}\le r^{2}$.
   \item \textbf{Ellipse interior:} $\dfrac{x^{2}}{a^{2}}
-        +\dfrac{y^{2}}{b^{2}}\le1$.
+        +\dfrac{y^{2}}{b^{2}}\le1$. Shifted:
+        $\dfrac{(x-u)^{2}}{a^{2}}+\dfrac{(y-v)^{2}}{b^{2}}\le1$, the
+        elliptical disc about $(u,v)$. Given in expanded form, complete the
+        square first (Chapter~2).
   \item \textbf{Above or below a parabola:} $y\ge x^{2}$ is the region
         \emph{inside} the parabola's opening; $y\le x^{2}$ is everything
         outside it. Rewriting an inequality as $y\ge\cdots$ or
@@ -59,6 +62,13 @@ $\{F(x,y)=0\}$. The recipe:
   \item \textbf{Between hyperbola branches:} $xy\ge c$ with $c>0$ is the
         pair of regions beyond the two branches --- and on the positive
         quadrant alone it is the convex ``better set'' of Cobb--Douglas.
+  \item \textbf{Shifted hyperbola:} for
+        $\dfrac{(x-u)^{2}}{a^{2}}-\dfrac{(y-v)^{2}}{b^{2}}\le1$ the region is
+        the connected piece \emph{between} the branches, containing the
+        centre $(u,v)$; it is not convex. With $\ge1$ it is the two pieces
+        \emph{beyond} the branches: each piece is convex, their union is
+        not. The centre is the natural test point, since it never lies on
+        the curve.
   \item \textbf{Strip:} $|x|\le a$ is the vertical strip $-a\le x\le a$;
         $|y|\le b$ a horizontal one.
 \end{itemize}
@@ -113,6 +123,39 @@ overlap. Two consequences:
 \end{itemize}
 \end{rulebox}
 
+\begin{rulebox}{Where two conics meet}
+Every corner of a region bounded by two curves is a common point of the
+two boundary equations. Before sketching, bring each boundary into
+standard form: solve a parabola for $y$ (so $x^{2}+4y\le12$ becomes
+$y\le3-\tfrac14x^{2}$), divide an ellipse by its right-hand side (so
+$4x^{2}+9y^{2}\le36$ becomes $\tfrac{x^{2}}{9}+\tfrac{y^{2}}{4}\le1$). To
+find the common points, use the forms in which $x^{2}$ and $y^{2}$ appear
+as whole blocks.
+\begin{enumerate}[leftmargin=1.8em,itemsep=0.3ex]
+  \item \textbf{Eliminate one square.} If both equations contain $x^{2}$
+        only as the block $x^{2}$ (no $x$ term), solve one of them for
+        $x^{2}$ and substitute, or subtract a multiple of one equation from
+        the other. What is left is an equation in $y$ alone, linear or
+        quadratic. (Eliminate $y^{2}$ instead if that is the clean block.)
+  \item \textbf{Solve it, then drop the impossible roots.} Substitute each
+        root back into the expression for $x^{2}$. A root that makes
+        $x^{2}<0$ gives no point at all and is discarded.
+  \item \textbf{Keep both signs.} $x^{2}=c>0$ gives \emph{two} points
+        $(\pm\sqrt{c},y)$, mirror images in the $y$-axis. $x^{2}=0$ gives a
+        single point on the axis, where the curves usually \emph{touch}
+        rather than cross.
+\end{enumerate}
+Two outcomes need a word. If every root is discarded, the curves do not
+meet: one lies entirely inside the other (\emph{nested}) or they are
+separate, and one test point settles which. If the leftover equation has a
+double root, or gives $x^{2}=0$, the curves are \emph{tangent} there.
+Example: $x^{2}+y^{2}=13$ and $4x^{2}+9y^{2}=72$. Subtracting four times the
+first from the second leaves $5y^{2}=20$, so $y^{2}=4$ and $x^{2}=9$: four
+points $(\pm3,\pm2)$. By contrast $x^{2}+y^{2}=16$ and $x^{2}+2y^{2}=8$ give
+$y^{2}=-8$: no common point. The ellipse's vertex $(2\sqrt2,0)$ satisfies
+$8<16$, so it lies inside the circle, and with it the whole ellipse.
+\end{rulebox}
+
 \begin{rulebox}{The reverse direction: from picture to inequalities}
 Given a shaded region, work boundary by boundary.
 \begin{enumerate}[leftmargin=1.8em,itemsep=0.3ex]
@@ -129,6 +172,18 @@ Given a shaded region, work boundary by boundary.
         exactly one condition. If it fails none, a condition is missing.
 \end{enumerate}
 Read the boundary style too: a dashed boundary means a strict inequality.
+
+Reading curved boundaries off a grid: a parabola with vertex $(h,k)$ is
+$y=a(x-h)^{2}+k$, and one more grid point $(x_{1},y_{1})$ on it gives
+$a=(y_{1}-k)/(x_{1}-h)^{2}$. A circle with centre $(u,v)$ through a grid
+point $(x_{1},y_{1})$ has $r^{2}=(x_{1}-u)^{2}+(y_{1}-v)^{2}$, which need
+not be a perfect square. An ellipse needs its centre and the two vertices
+that give $a$ and $b$. If the shaded part lies \emph{outside} a curve (below
+an upward parabola, outside a circle or ellipse), the inequality simply
+points the other way, and a region with such a curved piece on its
+boundary is not convex. And one system may
+describe \emph{two separate pieces}; to keep only one of them, add a
+condition that cuts the other away.
 \end{rulebox}
 
 \begin{rulebox}{Which of these regions are convex}
@@ -162,7 +217,7 @@ and exists only where $f(x)\ge0$. For $y\ge|x|$ it is the wedge above both
 lines $y=x$ and $y=-x$.
 \end{rulebox}
 
-\section{Worked Example}
+\section{Worked Examples}
 
 \begin{worked}{Sketch $S=\{(x,y):x^{2}+y^{2}\le16,\ y\ge0,\ x\le2\}$, then decide whether $\{(x,y):y\ge\sqrt{x}\}$ is convex}
 \wstep{Step 1. Take the constraints one at a time, and shade each.}
@@ -249,6 +304,79 @@ concave function with $\le$. Getting this backwards is the single most
 common mistake in the chapter, and it recurs in Volume~7 where the feasible
 set of a constrained problem must be convex for the first-order conditions
 to be sufficient.}
+\end{worked}
+
+\begin{worked}{Sketch $T=\{(x,y):x^{2}+4y\le12,\ x^{2}+2y^{2}\le18\}$ and find every point where the two boundaries meet}
+\wstep{Step 1. Rewrite each boundary in standard form.}
+The first inequality contains $y$ only linearly, so solve it for $y$:
+\[
+  x^{2}+4y\le12\iff y\le3-\tfrac14x^{2}.
+\]
+Its boundary is the downward parabola with vertex $(0,3)$ and roots
+$x=\pm2\sqrt3\approx\pm3.46$. The second is an ellipse; divide by $18$:
+\[
+  x^{2}+2y^{2}\le18\iff\frac{x^{2}}{18}+\frac{y^{2}}{9}\le1,
+\]
+centre $(0,0)$, semi-axes $a=\sqrt{18}=3\sqrt2\approx4.24$ and $b=3$.
+\wtrap{Dividing by $4$ to isolate $y$ keeps the direction of the inequality
+because $4>0$. Had the term been $-4y$, the sign would flip: $x^{2}-4y\le12$
+means $y\ge\tfrac14x^{2}-3$, the region \emph{above} an upward parabola.}
+
+\wstep{Step 2. Pick the side of each curve with a test point.}
+The origin lies on neither curve: $0\le12$ and $0\le18$ are both true. So
+$T$ lies \emph{below} the parabola and \emph{inside} the ellipse.
+
+\wstep{Step 3. Find the common points by eliminating $x^{2}$.}
+The parabola gives $x^{2}=12-4y$. Substitute into the ellipse equation:
+\[
+  (12-4y)+2y^{2}=18\iff 2y^{2}-4y-6=0\iff y^{2}-2y-3=0
+  \iff (y-3)(y+1)=0 .
+\]
+Back into $x^{2}=12-4y$: $y=-1$ gives $x^{2}=16$, so $x=\pm4$, two points
+$(\pm4,-1)$. And $y=3$ gives $x^{2}=0$, the single point $(0,3)$: the
+vertex of the parabola is also the top vertex of the ellipse, and there the
+two curves touch. Check on the ellipse: $16+2=18$ and $0+18=18$.
+\checkmark
+\wtrap{Keep both signs of $x=\pm\sqrt{16}$; dropping the minus sign loses
+half the corners. And always substitute back: had a root given $x^{2}<0$, it
+would be no point at all and would have to be discarded.}
+
+\wstep{Step 4. Decide which curve is on top in each $x$-range.}
+Compare at $x=2$: the parabola is at $y=2$, the ellipse runs from
+$-\sqrt7$ to $\sqrt7\approx2.65$, so the parabola cuts through the ellipse
+and $T$ is the vertical segment from $-\sqrt7$ up to $2$. At $x=4.1$,
+beyond the meeting points, the parabola is at $3-4.2025\approx-1.20$,
+below the ellipse's lowest point there, $-\sqrt{(18-16.81)/2}\approx-0.77$:
+nothing is left. So $T$ lives over $-4\le x\le4$ only:
+\[
+  T=\Bigl\{-4\le x\le4,\ \ -\sqrt{\tfrac{18-x^{2}}{2}}\le y\le
+  3-\tfrac14x^{2}\Bigr\} .
+\]
+
+\wstep{Step 5. Sketch.}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[geoaxis, width=6.6cm, height=6.6cm,
+             xmin=-5.2, xmax=5.2, ymin=-3.8, ymax=4.2,
+             xtick={-4,-2,2,4}, ytick={-2,2}]
+  \addplot[draw=none, name path=par, domain=-4:4, samples=161]{3-x^2/4};
+  \addplot[draw=none, name path=low, domain=-4:4, samples=161]{-sqrt(max(0,(18-x^2)/2))};
+  \region{par}{low}{}
+  \addplot[domain=0:360, samples=181]({4.2426*cos(x)},{3*sin(x)});
+  \addplot[domain=-4.8:4.8, samples=161]{3-x^2/4};
+  \addplot[only marks, mark=*, mark size=1.3pt] coordinates {(-4,-1)(4,-1)(0,3)};
+  \node[font=\scriptsize] at (axis cs:0,0.3) {$T$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+Corners $(\pm4,-1)$, where the curves cross, and the touching point
+$(0,3)$, which belongs to $T$ because both inequalities hold with equality.
+Interior check: $(0,-2)$ gives $-8\le12$ and $8\le18$. \checkmark
+
+\wstep{Step 6. Convexity comes free.}
+The ellipse interior is convex, and the region below the graph of the
+concave function $3-\tfrac14x^{2}$ is convex; their intersection $T$ is
+convex.
 \end{worked}
 
 \section{Practice Problems}
@@ -432,6 +560,64 @@ inequality there is strict.}
         supply price. Sketch it and find the largest $q$ in it.
 \end{problems}
 
+Problems 46--52 have shifted ellipses and hyperbolas as boundaries.
+Complete the square first (Chapter~2), so that centre, semi-axes and
+asymptotes can be read off before anything is shaded.
+
+\begin{problems}[resume]
+  \item Sketch $4x^{2}+9y^{2}-16x-18y\le11$. Give the centre and the
+        semi-axes of the boundary, and decide whether the region is convex.
+  \item Sketch $x^{2}-4y^{2}+4x+8y\ge4$. Does the region contain the
+        origin? Is it convex?
+  \item Sketch the region given by $9y^{2}-4x^{2}+8x+18y\le31$ and
+        $-2\le x\le4$, give its four corner points, and decide whether it is
+        convex.
+  \item Sketch the region given by $x^{2}+4y^{2}-2x+16y+1\le0$ and
+        $x+2y\le1$. Where does the line meet the ellipse, and is the region
+        convex?
+  \item Region (i) below is bounded by an ellipse through $(-4,1)$,
+        $(2,1)$, $(-1,3)$ and $(-1,-1)$, and by the line $y=1$. Give a
+        system of inequalities for it, once in standard form and once
+        expanded.
+  \item Region (j) below is bounded by the dashed hyperbola with vertices
+        $(-1,-1)$ and $(3,-1)$ and asymptotes of slope $\pm2$, and by the
+        solid lines $y=2$ and $y=-4$. Give a system of inequalities for it
+        and its four corner points.
+  \item A hyperbola has the vertices $(0,0)$ and $(4,0)$ and asymptotes of
+        slope $\pm\tfrac12$. Write (a) an inequality for the points
+        strictly between its two branches, and (b) a system for the closed
+        region on or beyond the right branch only. Which of the two sets is
+        convex?
+\end{problems}
+
+\begin{gallery}
+\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-5.2, xmax=3.2, ymin=-3.2, ymax=5.2,
+      xtick={-4,-1,2}, ytick={-1,1,3}, title={(i)}]
+    \addplot[draw=none, name path=eu, domain=-4:2, samples=201]{1+2*sqrt(1-(x+1)^2/9)};
+    \addplot[draw=none, name path=eb, domain=-4:2, samples=2]{1};
+    \region{eu}{eb}{}
+    \addplot[domain=0:360, samples=181]({-1+3*cos(x)},{1+2*sin(x)});
+    \addplot[domain=-4:2, samples=2]{1};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-3.5, xmax=5.5, ymin=-5.5, ymax=3.5,
+      xtick={-1,1,3}, ytick={-4,-1,2}, title={(j)}]
+    \addplot[draw=none, name path=hl, domain=-4:2, samples=121]({1-2*sqrt(1+(x+1)^2/16)},{x});
+    \addplot[draw=none, name path=hr, domain=-4:2, samples=121]({1+2*sqrt(1+(x+1)^2/16)},{x});
+    \region{hl}{hr}{reverse=true}
+    \addplot[dashed, domain=-0.95:0.95]({1+2*cosh(x)},{-1+4*sinh(x)});
+    \addplot[dashed, domain=-0.95:0.95]({1-2*cosh(x)},{-1+4*sinh(x)});
+    \addplot[domain=-3.4:5.4, samples=2]{2};
+    \addplot[domain=-3.4:5.4, samples=2]{-4};
+  \end{axis}
+\end{tikzpicture}\hfill\null
+\gcap{Regions (i) and (j) for problems 50 and 51. A dashed boundary means
+the inequality there is strict.}
+\end{gallery}
+
 \section{Solutions}
 
 \begin{solutions}
@@ -561,6 +747,114 @@ inequality there is strict.}
         quantity is $q=\tfrac{80}{3}\approx26.7$ --- beyond it no price
         satisfies both buyer and seller, which is exactly the competitive
         equilibrium quantity.
+  \item Complete the square:
+        $4(x^{2}-4x)+9(y^{2}-2y)\le11$, so
+        $4(x-2)^{2}-16+9(y-1)^{2}-9\le11$, i.e.
+        $4(x-2)^{2}+9(y-1)^{2}\le36$, and dividing by $36$,
+        \[
+          \frac{(x-2)^{2}}{9}+\frac{(y-1)^{2}}{4}\le1 .
+        \]
+        The boundary is the ellipse with centre $(2,1)$, $a=3$, $b=2$,
+        reaching from $x=-1$ to $x=5$ and from $y=-1$ to $y=3$. The centre
+        satisfies the inequality ($0\le1$), so the region is the
+        \textbf{closed elliptical disc}, boundary solid. (The origin is
+        inside as well: $0\le11$.) Convex, like every ellipse interior.
+  \item Complete the square: $(x^{2}+4x)-4(y^{2}-2y)\ge4$, so
+        $(x+2)^{2}-4-4(y-1)^{2}+4\ge4$, i.e.
+        $(x+2)^{2}-4(y-1)^{2}\ge4$, and dividing by $4$,
+        \[
+          \frac{(x+2)^{2}}{4}-(y-1)^{2}\ge1 .
+        \]
+        The boundary is a hyperbola opening left and right, with centre
+        $(-2,1)$, $a=2$, $b=1$, vertices $(-4,1)$ and $(0,1)$, asymptotes
+        $y-1=\pm\tfrac12(x+2)$. The centre gives $0\ge1$, false, so the
+        region is the pair of pieces \textbf{beyond} the branches: left of
+        the left branch and right of the right one, boundary solid. The
+        origin gives $0\ge4$, false: it lies between the branches (at
+        $y=0$ the right branch passes $x=-2+2\sqrt2\approx0.83$).
+        \textbf{Not} convex: the vertices $(-4,1)$ and $(0,1)$ belong to
+        the region, but their midpoint, the centre $(-2,1)$, does not.
+  \item Complete the square: $9(y^{2}+2y)-4(x^{2}-2x)\le31$, so
+        $9(y+1)^{2}-9-4(x-1)^{2}+4\le31$, i.e.
+        $9(y+1)^{2}-4(x-1)^{2}\le36$, and dividing by $36$,
+        \[
+          \frac{(y+1)^{2}}{4}-\frac{(x-1)^{2}}{9}\le1 .
+        \]
+        The boundary is a hyperbola opening up and down: centre $(1,-1)$,
+        $a=3$, $b=2$, vertices $(1,1)$ and $(1,-3)$, asymptotes
+        $y+1=\pm\tfrac23(x-1)$. The centre satisfies the inequality, so the
+        region lies \textbf{between} the two branches, cut off left and
+        right by the strip $-2\le x\le4$. Corners: at $x=-2$ and $x=4$,
+        $(x-1)^{2}=9$, so $\tfrac{(y+1)^{2}}{4}=2$ and $y=-1\pm2\sqrt2$.
+        The corners are $\bigl(-2,-1\pm2\sqrt2\bigr)$ and
+        $\bigl(4,-1\pm2\sqrt2\bigr)$, roughly at heights $1.83$ and
+        $-3.83$. \textbf{Not} convex: the two upper corners
+        $\bigl(-2,-1+2\sqrt2\bigr)$ and $\bigl(4,-1+2\sqrt2\bigr)$ belong
+        to the region, but their midpoint $\bigl(1,-1+2\sqrt2\bigr)$ gives
+        $\tfrac{(2\sqrt2)^{2}}{4}-0=2>1$; it lies above the upper vertex
+        $(1,1)$, outside. The upper branch is the graph of a strictly
+        convex function, and the region below such a graph is not convex.
+  \item Complete the square:
+        $(x-1)^{2}-1+4\bigl[(y+2)^{2}-4\bigr]\le-1$, so
+        $(x-1)^{2}+4(y+2)^{2}\le16$, i.e.
+        \[
+          \frac{(x-1)^{2}}{16}+\frac{(y+2)^{2}}{4}\le1 ,
+        \]
+        the closed elliptical disc with centre $(1,-2)$, $a=4$, $b=2$. On
+        the line, $y=\tfrac{1-x}{2}$ and so $y+2=\tfrac{5-x}{2}$.
+        Substituting:
+        $\tfrac{(x-1)^{2}}{16}+\tfrac{(5-x)^{2}}{16}=1$, i.e.
+        $(x-1)^{2}+(x-5)^{2}=16$, $2x^{2}-12x+26=16$, $x^{2}-6x+5=0$, so
+        $x=1$ or $x=5$. The line meets the ellipse at $(1,0)$ and
+        $(5,-2)$, its top and right-hand vertices. The centre gives
+        $1+2(-2)=-3\le1$, so the region is the part of the disc on the
+        centre's side of the chord: the whole disc minus the cap between
+        those two vertices. \textbf{Convex}, as the intersection of an
+        ellipse interior and a half-plane.
+  \item The ellipse's centre is the midpoint of $(-4,1)$ and $(2,1)$,
+        namely $(-1,1)$; then $a=3$ (half the horizontal width) and $b=2$
+        (from $(-1,1)$ up to $(-1,3)$). The shaded part is the upper half,
+        both boundaries solid:
+        \[
+          \frac{(x+1)^{2}}{9}+\frac{(y-1)^{2}}{4}\le1,\qquad y\ge1 .
+        \]
+        Expanded: multiply by $36$, $4(x+1)^{2}+9(y-1)^{2}\le36$, i.e.
+        $4x^{2}+9y^{2}+8x-18y-23\le0$, together with $y\ge1$. Check
+        inside: $(-1,2)$ gives $\tfrac14\le1$ and $2\ge1$. Check outside:
+        $(-1,0)$ fails only $y\ge1$, and $(-1,3.5)$ fails only the ellipse.
+  \item The centre is the midpoint of the vertices, $(1,-1)$, and
+        $a=2$. The asymptote slope is $\tfrac{b}{a}=2$, so $b=4$, and the
+        hyperbola is $\tfrac{(x-1)^{2}}{4}-\tfrac{(y+1)^{2}}{16}=1$. The
+        shaded region contains the centre, so it lies between the branches;
+        the hyperbola is dashed, so that inequality is strict:
+        \[
+          \frac{(x-1)^{2}}{4}-\frac{(y+1)^{2}}{16}<1,\qquad -4\le y\le2 .
+        \]
+        Corners: at $y=2$ and at $y=-4$, $(y+1)^{2}=9$, so
+        $\tfrac{(x-1)^{2}}{4}=1+\tfrac{9}{16}=\tfrac{25}{16}$ and
+        $x-1=\pm\tfrac52$. The corners are
+        $\bigl(-\tfrac32,2\bigr)$, $\bigl(\tfrac72,2\bigr)$,
+        $\bigl(-\tfrac32,-4\bigr)$, $\bigl(\tfrac72,-4\bigr)$. Because they
+        lie on the dashed curve, the corners themselves are not in the
+        region.
+  \item The centre is the midpoint $(2,0)$ and $a=2$; the slope gives
+        $\tfrac{b}{a}=\tfrac12$, so $b=1$. The hyperbola is
+        $\tfrac{(x-2)^{2}}{4}-y^{2}=1$.
+        (a) Between the branches lies the centre, which gives $0<1$:
+        \[
+          \frac{(x-2)^{2}}{4}-y^{2}<1 .
+        \]
+        (b) On or beyond either branch means
+        $\tfrac{(x-2)^{2}}{4}-y^{2}\ge1$, which forces $|x-2|\ge2$, i.e.
+        $x\le0$ or $x\ge4$. To keep only the right piece add $x\ge2$:
+        \[
+          \frac{(x-2)^{2}}{4}-y^{2}\ge1,\qquad x\ge2 .
+        \]
+        Set (b) is \textbf{convex}: it is $\{x\ge2+2\sqrt{1+y^{2}}\}$, the
+        region to the right of a convex function of $y$ (the epigraph rule
+        with the axes exchanged). Set (a) is \textbf{not}: $(4.8,1)$ and
+        $(4.8,-1)$ give $\tfrac{2.8^{2}}{4}-1=0.96<1$ and belong to it,
+        but their midpoint $(4.8,0)$ gives $1.96$, which is not below $1$.
 \end{solutions}
 
 \section{Additional Problems}
@@ -608,6 +902,163 @@ inequality there is strict.}
   \item \textbf{Minimum-wage wedge.} Sketch
         $\{(L,w): w\ge 10,\ w\le 30-L,\ L\ge0\}$ and interpret the region
         and its largest $L$.
+\end{problems}
+
+In problems 26--31, find all common points of the two curves by eliminating
+one square, and say whether the curves cross, touch, or do not meet at all.
+
+\begin{problems}[resume]
+  \item $x^{2}+y^{2}=25$ and $x^{2}+2y^{2}=34$.
+  \item $x^{2}+y^{2}=4$ and $9x^{2}+16y^{2}=144$. If they do not meet,
+        which curve lies inside the other?
+  \item $4x^{2}+9y^{2}=36$ and $x^{2}+y^{2}=9$.
+  \item $y=x^{2}-2$ and $x^{2}+y^{2}=4$.
+  \item $y^{2}=4x$ and $x^{2}+y^{2}=12$.
+  \item $y=x^{2}+2$ and $x^{2}+2y^{2}=1$.
+\end{problems}
+
+In problems 32--38, rewrite every boundary in standard form, decide with a
+test point which side of each curve is meant, compute all corner and
+intersection points, and sketch the region. Say whether it is bounded,
+whether it is convex, and whether it consists of one piece or several.
+
+\begin{problems}[resume]
+  \item $x^{2}+6y\le9$ \;and\; $4x^{2}+9y^{2}\le36$.
+  \item $x^{2}+4y\le16$ \;and\; $9x^{2}+16y^{2}\ge144$.
+  \item $x^{2}+2y^{2}\ge9$, \;$(x-2)^{2}+y^{2}\le5$, \;$y\ge0$.
+  \item $x^{2}+y^{2}\le13$, \;$x^{2}-y^{2}\ge5$, \;$x\ge0$, \;$y\ge0$.
+  \item $(x-3)^{2}+(y-3)^{2}\ge10$, \;$x\ge0$, \;$y\ge0$.
+  \item $y\ge(x-1)^{2}$, \;$0\le x\le3$, \;$y\le5$.
+  \item $0\le y\le(x-1)^{2}$, \;$-1\le x\le3$.
+\end{problems}
+
+Problems 39--45 refer to the regions (k)--(q) below. For each, read every
+boundary off the marked grid points, fix the direction of each inequality
+with a point inside the shaded region, write the system, and check a point
+just outside each boundary. Dotted grey lines are asymptotes, not
+boundaries; a dashed boundary is strict. The shading in (q) continues to
+the right.
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-1.6, xmax=4.4, ymin=-2.8, ymax=3.2,
+      xtick={-1,1,3}, ytick={-2,-1,2}, title={(k)}]
+    \addplot[draw=none, name path=par, domain=0:3, samples=121]{(x-1)^2-2};
+    \addplot[draw=none, name path=top, domain=0:3, samples=2]{2};
+    \region{par}{top}{}
+    \addplot[domain=-0.95:3.3, samples=121]{(x-1)^2-2};
+    \addplot[domain=-1.5:4.3, samples=2]{2};
+    \addplot[samples=2] coordinates {(0,-1)(0,2)};
+    \addplot[only marks, mark=*, mark size=1.3pt] coordinates {(1,-2)(3,2)};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-1.9, xmax=4.1, ymin=-1.9, ymax=4.1,
+      xtick={-1,1,3}, ytick={-1,1,3}, title={(l)}]
+    \addplot[draw=none, name path=up, domain=0:3.2361, samples=201]{1+sqrt(max(0,5-(x-1)^2))};
+    \addplot[draw=none, name path=lo, domain=0:3.2361, samples=201]{max(0,1-sqrt(max(0,5-(x-1)^2)))};
+    \region{up}{lo}{}
+    \addplot[domain=0:360, samples=181]({1+2.2361*cos(x)},{1+2.2361*sin(x)});
+    \addplot[samples=2] coordinates {(0,0)(3,0)};
+    \addplot[samples=2] coordinates {(0,0)(0,3)};
+    \addplot[only marks, mark=*, mark size=1.3pt] coordinates {(1,1)(3,2)};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-4.7, xmax=4.7, ymin=-4.7, ymax=4.7,
+      xtick={-4,-2,2,4}, ytick={-2,2,4}, title={(m)}]
+    \addplot[draw=none, name path=ell, domain=-3.035:2, samples=161]{sqrt(max(0,4-x^2/4))};
+    \addplot[draw=none, name path=par, domain=-3.035:2, samples=161]{x^2/4-1};
+    \region{ell}{par}{}
+    \addplot[domain=0:360, samples=181]({4*cos(x)},{2*sin(x)});
+    \addplot[domain=-4.6:4.6, samples=121]{x^2/4-1};
+    \addplot[dashed, samples=2] coordinates {(2,-4.7)(2,4.7)};
+    \addplot[only marks, mark=*, mark size=1.3pt] coordinates {(0,-1)(2,0)(4,0)(0,2)};
+  \end{axis}
+\end{tikzpicture}
+\end{gallery}
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-0.9, xmax=5.9, ymin=-0.9, ymax=5.9,
+      xtick={1,2,3,4,5}, ytick={1,2,3,4,5}, title={(n)}]
+    \addplot[draw=none, name path=lo, domain=0:5, samples=201]{sqrt(max(0,4-x^2))};
+    \addplot[draw=none, name path=up, domain=0:5, samples=2]{5-x};
+    \region{lo}{up}{}
+    \addplot[domain=0:360, samples=181]({2*cos(x)},{2*sin(x)});
+    \addplot[domain=-0.8:5.8, samples=2]{5-x};
+    \addplot[samples=2] coordinates {(2,0)(5,0)};
+    \addplot[samples=2] coordinates {(0,2)(0,5)};
+    \addplot[only marks, mark=*, mark size=1.3pt] coordinates {(2,0)(5,0)(0,5)(0,2)};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-1.8, xmax=4.8, ymin=-0.6, ymax=6.0,
+      xtick={-1,1,3,4}, ytick={1,3,5}, title={(o)}]
+    \addplot[draw=none, name path=par, domain=-1:4, samples=161]{0.5*(x-1)^2+1};
+    \addplot[draw=none, name path=ax, domain=-1:4, samples=2]{0};
+    \region{par}{ax}{}
+    \addplot[domain=-1.7:4.4, samples=161]{0.5*(x-1)^2+1};
+    \addplot[samples=2] coordinates {(-1,-0.6)(-1,6)};
+    \addplot[samples=2] coordinates {(4,-0.6)(4,6)};
+    \addplot[samples=2] coordinates {(-1,0)(4,0)};
+    \addplot[only marks, mark=*, mark size=1.3pt] coordinates {(1,1)(3,3)};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-4.8, xmax=4.8, ymin=-4.8, ymax=4.8,
+      xtick={-4,-2,2,4}, ytick={-2,2}, title={(p)}]
+    \addplot[draw=none, name path=ru, domain=2:4, samples=121]{sqrt(max(0,x^2/4-1))};
+    \addplot[draw=none, name path=rl, domain=2:4, samples=121]{-sqrt(max(0,x^2/4-1))};
+    \region{ru}{rl}{}
+    \addplot[draw=none, name path=lu, domain=-4:-2, samples=121]{sqrt(max(0,x^2/4-1))};
+    \addplot[draw=none, name path=ll, domain=-4:-2, samples=121]{-sqrt(max(0,x^2/4-1))};
+    \region{lu}{ll}{}
+    \addplot[gray, densely dotted, thin, samples=2, domain=-4.8:4.8]{x/2};
+    \addplot[gray, densely dotted, thin, samples=2, domain=-4.8:4.8]{-x/2};
+    \addplot[domain=-1.6:1.6]({2*cosh(x)},{sinh(x)});
+    \addplot[domain=-1.6:1.6]({-2*cosh(x)},{sinh(x)});
+    \addplot[samples=2] coordinates {(4,-4.8)(4,4.8)};
+    \addplot[samples=2] coordinates {(-4,-4.8)(-4,4.8)};
+    \addplot[only marks, mark=*, mark size=1.3pt] coordinates {(-2,0)(2,0)};
+  \end{axis}
+\end{tikzpicture}
+\end{gallery}
+
+\begin{gallery}
+\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-3.6, xmax=5.4, ymin=-3.2, ymax=5.8,
+      xtick={-3,3}, ytick={-1,1,2,3}, title={(q)}]
+    \addplot[draw=none, name path=ea, domain=0:2, samples=121]({3*sqrt(max(0,1-(x-1)^2/4))},{x});
+    \addplot[draw=none, name path=eb, domain=0:2, samples=2]({5.4},{x});
+    \region{ea}{eb}{reverse=true}
+    \addplot[domain=0:360, samples=181]({3*cos(x)},{1+2*sin(x)});
+    \addplot[domain=-3.6:5.4, samples=2]{2};
+    \addplot[domain=-3.6:5.4, samples=2]{0};
+    \addplot[only marks, mark=*, mark size=1.3pt] coordinates {(-3,1)(3,1)(0,3)(0,-1)};
+  \end{axis}
+\end{tikzpicture}\hfill\null
+\gcap{Regions (k)--(q) for problems 39--45.}
+\end{gallery}
+
+\begin{problems}[resume]
+  \item Region (k): a parabola with the marked vertex through the second
+        marked point, a horizontal line and a piece of the $y$-axis.
+  \item Region (l): a circle with the marked centre through the second
+        marked point, cut by both axes.
+  \item Region (m): an ellipse, a parabola with vertex $(0,-1)$, and a
+        dashed vertical line.
+  \item Region (n): four boundaries. Is the region convex?
+  \item Region (o): a parabola with the marked vertex through the second
+        marked point, and three straight lines. Is the region convex?
+  \item Region (p): a hyperbola with the marked vertices and the dotted
+        asymptotes, and two vertical lines. How many pieces does your
+        system describe?
+  \item Region (q): an ellipse with the marked vertices and two horizontal
+        lines. The unshaded mirror piece on the left satisfies the ellipse
+        condition and both line conditions as well; which extra condition
+        removes it?
 \end{problems}
 
 \section{Additional Solutions}
@@ -701,4 +1152,294 @@ inequality there is strict.}
         with a wage floor of $10$ when labour demand is $w=30-L$: the
         largest feasible $L$ is $20$, the employment the floor permits.
         Any $L$ beyond that would require a wage below the minimum.
+  \item Both equations contain $x^{2}$ and $y^{2}$ as plain blocks.
+        Subtract the first from the second: $y^{2}=34-25=9$, so $y=\pm3$.
+        Back into the first: $x^{2}=25-9=16$, so $x=\pm4$. Four common
+        points, $(4,3)$, $(-4,3)$, $(4,-3)$, $(-4,-3)$, one in each
+        quadrant; the roots are simple, so the curves cross there. Check
+        on the ellipse: $16+2\cdot9=34$. \checkmark
+  \item Subtract $9$ times the first equation from the second:
+        $7y^{2}=144-36=108$, so $y^{2}=\tfrac{108}{7}$. Then
+        $x^{2}=4-\tfrac{108}{7}=-\tfrac{80}{7}<0$: discarded. There is
+        \textbf{no} common point. The curves are nested: the circle's point
+        $(2,0)$ gives $9\cdot4=36<144$, so it lies inside the ellipse, and
+        hence so does the whole circle (radius $2$, smaller than both
+        semi-axes $4$ and $3$).
+  \item Subtract $4$ times the second from the first: $5y^{2}=36-36=0$, so
+        $y=0$, a double root, and $x^{2}=9$. The curves meet only at
+        $(\pm3,0)$, and there they \textbf{touch}. Indeed, on the ellipse
+        $y^{2}=\tfrac{36-4x^{2}}{9}$, so
+        $x^{2}+y^{2}=4+\tfrac59x^{2}<9$ whenever $x^{2}<9$: the ellipse lies
+        inside the circle and reaches it only at its two side vertices.
+  \item The parabola gives $x^{2}=y+2$. Substitute:
+        $(y+2)+y^{2}=4$, i.e. $y^{2}+y-2=0$, $(y+2)(y-1)=0$. For $y=1$:
+        $x^{2}=3$, two points $(\pm\sqrt3,1)$, where the curves cross. For
+        $y=-2$: $x^{2}=0$, the single point $(0,-2)$, the vertex of the
+        parabola and the lowest point of the circle; there they touch.
+        Three common points in all.
+  \item Here $y^{2}$ is the clean block: substitute $y^{2}=4x$ into the
+        circle, $x^{2}+4x-12=0$, $(x+6)(x-2)=0$. For $x=-6$:
+        $y^{2}=-24<0$, discarded. For $x=2$: $y^{2}=8$, $y=\pm2\sqrt2$.
+        Two crossing points, $\bigl(2,\pm2\sqrt2\bigr)$. Check:
+        $4+8=12$. \checkmark
+  \item The parabola gives $x^{2}=y-2$. Substitute:
+        $(y-2)+2y^{2}=1$, i.e. $2y^{2}+y-3=0$, $(2y+3)(y-1)=0$. For $y=1$:
+        $x^{2}=-1$; for $y=-\tfrac32$: $x^{2}=-\tfrac72$. Both discarded, so
+        the curves do \textbf{not} meet. They are separate rather than
+        nested: the parabola has $y\ge2$ everywhere, while the ellipse
+        $x^{2}+\tfrac{y^{2}}{1/2}=1$ stays within
+        $|y|\le\tfrac{1}{\sqrt2}$.
+  \item Standard forms: $x^{2}+6y\le9\iff y\le\tfrac32-\tfrac16x^{2}$,
+        below the downward parabola with vertex $(0,\tfrac32)$ and roots
+        $\pm3$; and $4x^{2}+9y^{2}\le36\iff\tfrac{x^{2}}{9}+\tfrac{y^{2}}{4}
+        \le1$, the elliptical disc with $a=3$, $b=2$. The origin satisfies
+        both ($0\le9$, $0\le36$): below the parabola, inside the ellipse.
+        Intersections: $x^{2}=9-6y$ gives $4(9-6y)+9y^{2}=36$, i.e.
+        $9y^{2}-24y=0$, $y=0$ or $y=\tfrac83$. For $y=\tfrac83$,
+        $x^{2}=9-16=-7$: discarded. For $y=0$, $x=\pm3$. The curves cross
+        only at $(\pm3,0)$, the side vertices of the ellipse. Between them
+        the parabola runs inside the ellipse (its vertex $\tfrac32$ is
+        below the top vertex $2$). The region is the lower half of the
+        elliptical disc together with the cap between the $x$-axis and the
+        parabola:
+        $\bigl\{-3\le x\le3,\ -2\sqrt{1-x^{2}/9}\le y\le\tfrac32-\tfrac16
+        x^{2}\bigr\}$. Corners $(\pm3,0)$. Bounded, one piece,
+        \textbf{convex} (ellipse interior and the region below a concave
+        function). Outside check: $(0,1.8)$ is inside the ellipse but gives
+        $10.8>9$, so it fails only the parabola condition.
+  \item Standard forms: $y\le4-\tfrac14x^{2}$ (downward parabola, vertex
+        $(0,4)$, roots $\pm4$) and $\tfrac{x^{2}}{16}+\tfrac{y^{2}}{9}\ge1$
+        (on or \emph{outside} the ellipse with $a=4$, $b=3$). The origin
+        satisfies the first but gives $0\ge144$, false: it lies inside the
+        ellipse, so the region is below the parabola and outside the
+        ellipse. Intersections: $x^{2}=16-4y$ gives
+        $9(16-4y)+16y^{2}=144$, i.e. $16y^{2}-36y=0$, $y=0$ or
+        $y=\tfrac94$. For $y=0$: $x=\pm4$. For $y=\tfrac94$:
+        $x^{2}=16-9=7$, $x=\pm\sqrt7\approx\pm2.65$. Four crossing points
+        $(\pm4,0)$ and $\bigl(\pm\sqrt7,\tfrac94\bigr)$; check
+        $9\cdot7+16\cdot\tfrac{81}{16}=63+81=144$. \checkmark\ The region
+        falls into \textbf{two pieces}. Over $|x|\le\sqrt7$ the parabola
+        is above the ellipse (at $x=0$: $4>3$), leaving a bounded lens
+        between the ellipse's upper arc and the parabola, with corners
+        $\bigl(\pm\sqrt7,\tfrac94\bigr)$; $(0,3.5)$ lies in it. Over
+        $\sqrt7<|x|<4$ the parabola runs inside the ellipse, so nothing
+        above the ellipse qualifies. Below, everything under the ellipse's
+        lower arc (for $|x|\le4$) and under the parabola (for $|x|\ge4$)
+        belongs: an unbounded piece with corners $(\pm4,0)$, containing
+        $(0,-4)$. \textbf{Not convex}: $(0,3.5)$ and $(0,-4)$ are in the
+        region, their midpoint $(0,-0.25)$ is inside the ellipse. (First
+        picture below.)
+  \item Standard forms: $\tfrac{x^{2}}{9}+\tfrac{y^{2}}{9/2}\ge1$, on or
+        outside the ellipse with $a=3$, $b=\tfrac{3}{\sqrt2}\approx2.12$;
+        the disc of radius $\sqrt5\approx2.24$ about $(2,0)$, meeting the
+        $x$-axis at $2\pm\sqrt5$; and the upper half-plane. The circle's
+        centre $(2,0)$ gives $4\ge9$, false, so it is not in the region;
+        $(4,0)$ satisfies all three ($16\ge9$, $4\le5$, $0\ge0$).
+        Intersections: the circle contains $y$ only as $y^{2}$, so take
+        $y^{2}=5-(x-2)^{2}=1+4x-x^{2}$ and substitute:
+        $x^{2}+2(1+4x-x^{2})=9$, i.e. $x^{2}-8x+7=0$, $x=1$ or $x=7$. For
+        $x=7$: $y^{2}=-20$, discarded. For $x=1$: $y^{2}=4$, and $y\ge0$
+        keeps $(1,2)$. The ellipse meets $y=0$ at $(3,0)$, the circle at
+        $(2+\sqrt5,0)$. The region is bounded by the ellipse arc from
+        $(1,2)$ down to $(3,0)$, the $x$-axis from $(3,0)$ to
+        $(2+\sqrt5,0)$, and the circle arc back up to $(1,2)$. Corners
+        $(1,2)$, $(3,0)$, $(2+\sqrt5,0)$. Left of $x=1$ the circle runs
+        inside the ellipse, so nothing is left there. Bounded, one piece,
+        \textbf{not convex}: $(1,2)$ and $(3,0)$ belong, their midpoint
+        $(2,1)$ gives $4+2=6<9$. (Second picture below.)
+  \item Standard forms: the disc of radius $\sqrt{13}\approx3.61$, and
+        $\tfrac{x^{2}}{5}-\tfrac{y^{2}}{5}\ge1$, a hyperbola with vertices
+        $(\pm\sqrt5,0)$ and asymptotes $y=\pm x$. The origin gives
+        $0\ge5$, false, so the region lies beyond the branches; with
+        $x\ge0$, to the right of the right branch. Intersections: add the
+        equations, $2x^{2}=18$, $x^{2}=9$, $y^{2}=4$; in the first quadrant
+        $(3,2)$. The region is bounded by the $x$-axis from $(\sqrt5,0)$ to
+        $(\sqrt{13},0)$, the circle arc up to $(3,2)$, and the hyperbola
+        back down to $(\sqrt5,0)$. Corners $(\sqrt5,0)$, $(\sqrt{13},0)$,
+        $(3,2)$; $(3,0)$ is inside ($9\le13$, $9\ge5$). Bounded, one
+        piece, \textbf{convex}: the region right of the right branch is
+        $\{x\ge\sqrt{5+y^{2}}\}$, to the right of a convex function of
+        $y$, and it is intersected with a disc and a quadrant.
+  \item The circle has centre $(3,3)$ and radius $\sqrt{10}\approx3.16$.
+        The centre gives $0\ge10$, false, so the region is on or outside
+        the circle; the origin, with $9+9=18\ge10$, belongs. Axis points:
+        $y=0$ gives $(x-3)^{2}=1$, $x=2$ or $4$; $x=0$ gives $y=2$ or $4$.
+        So the disc covers the segments from $2$ to $4$ on both axes, and
+        the arc from $(2,0)$ to $(0,2)$ fences off the corner. The region
+        has \textbf{two pieces}: a bounded one with corners $(0,0)$,
+        $(2,0)$, $(0,2)$ (two straight edges and an arc), and an unbounded
+        one with corners $(4,0)$ and $(0,4)$, bounded by the $x$-axis from
+        $4$ on, the $y$-axis from $4$ up, and the far arc between them.
+        \textbf{Not convex}: $(0,0)$ and $(6,6)$ belong, their midpoint
+        $(3,3)$ is the centre. (Third picture below.)
+  \item The boundary $y=(x-1)^{2}$ is the upward parabola with vertex
+        $(1,0)$; $(1,2)$ satisfies $2\ge0$, so the region is above it.
+        Corners: at $x=0$ the parabola is at $y=1$, at $x=3$ at $y=4$; the
+        line $y=5$ meets the parabola only at $x=1\pm\sqrt5\approx-1.24$,
+        $3.24$, both outside $[0,3]$, so the whole top edge from $(0,5)$
+        to $(3,5)$ is boundary. Corners $(0,1)$, $(0,5)$, $(3,5)$, $(3,4)$,
+        with the bottom edge running along the parabola through the
+        vertex $(1,0)$. Bounded, one piece, \textbf{convex} (above a convex
+        function, inside a box).
+  \item Now the region is \emph{below} the same parabola and above the
+        $x$-axis, between $x=-1$ and $x=3$; $(0,0.5)$ satisfies
+        $0\le0.5\le1$. The parabola touches the $x$-axis at its vertex
+        $(1,0)$, so the region pinches there into two parts that share only
+        that point: a left part with corners $(-1,0)$, $(-1,4)$, $(1,0)$
+        and a right part with corners $(1,0)$, $(3,0)$, $(3,4)$. As a set
+        it is still \textbf{one piece}, but the two parts hang together
+        only through the single point $(1,0)$. Bounded,
+        \textbf{not convex}: $(-1,2)$ and $(3,2)$ belong, their midpoint
+        $(1,2)$ gives $2\le0$, false. This is the non-convex side of a
+        convex function.
+\end{solutions}
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-5.6, xmax=5.6, ymin=-5.2, ymax=6.0,
+      xtick={-4,4}, ytick={-3,3}, title={Problem 33}]
+    \addplot[draw=none, name path=pa, domain=-2.6458:2.6458, samples=121]{4-x^2/4};
+    \addplot[draw=none, name path=eu, domain=-2.6458:2.6458, samples=121]{3*sqrt(max(0,1-x^2/16))};
+    \region{pa}{eu}{}
+    \addplot[draw=none, name path=lt, domain=-5.6:5.6, samples=225]{(abs(x)<=4)*(-3*sqrt(max(0,1-x^2/16)))+(abs(x)>4)*(4-x^2/4)};
+    \addplot[draw=none, name path=bt, domain=-5.6:5.6, samples=2]{-5.2};
+    \region{lt}{bt}{}
+    \addplot[domain=0:360, samples=181]({4*cos(x)},{3*sin(x)});
+    \addplot[domain=-5.6:5.6, samples=161]{4-x^2/4};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-1, xmax=5, ymin=-1.6, ymax=4.4,
+      xtick={1,3}, ytick={2}, title={Problem 34}]
+    \addplot[draw=none, name path=el, domain=1:4.2361, samples=161]{sqrt(max(0,(9-x^2)/2))};
+    \addplot[draw=none, name path=ci, domain=1:4.2361, samples=161]{sqrt(max(0,5-(x-2)^2))};
+    \region{ci}{el}{}
+    \addplot[domain=0:360, samples=181]({3*cos(x)},{2.1213*sin(x)});
+    \addplot[domain=0:360, samples=181]({2+2.2361*cos(x)},{2.2361*sin(x)});
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-0.8, xmax=7.2, ymin=-0.8, ymax=7.2,
+      xtick={2,4,6}, ytick={2,4,6}, title={Problem 36}]
+    \addplot[draw=none, name path=c1, domain=0:2, samples=81]{3-sqrt(max(0,10-(x-3)^2))};
+    \addplot[draw=none, name path=a1, domain=0:2, samples=2]{0};
+    \region{c1}{a1}{}
+    \addplot[draw=none, name path=c2, domain=4:6.1623, samples=81]{3-sqrt(max(0,10-(x-3)^2))};
+    \addplot[draw=none, name path=a2, domain=4:6.1623, samples=2]{0};
+    \region{c2}{a2}{}
+    \addplot[draw=none, name path=c3, domain=0:6.1623, samples=161]{3+sqrt(max(0,10-(x-3)^2))};
+    \addplot[draw=none, name path=t3, domain=0:6.1623, samples=2]{7.2};
+    \region{c3}{t3}{}
+    \addplot[draw=none, name path=b4, domain=6.1623:7.2, samples=2]{0};
+    \addplot[draw=none, name path=t4, domain=6.1623:7.2, samples=2]{7.2};
+    \region{b4}{t4}{}
+    \addplot[domain=0:360, samples=181]({3+3.1623*cos(x)},{3+3.1623*sin(x)});
+  \end{axis}
+\end{tikzpicture}
+\gcap{Solutions 33, 34 and 36: two pieces, one non-convex piece, two
+pieces again.}
+\end{gallery}
+
+\begin{solutions}[resume]
+  \item \emph{Parabola:} vertex $(1,-2)$, so $y=a(x-1)^{2}-2$; the point
+        $(3,2)$ gives $2=4a-2$, $a=1$: $y=(x-1)^{2}-2=x^{2}-2x-1$.
+        \emph{Line:} $y=2$. \emph{Left edge:} the $y$-axis, $x=0$. The
+        interior point $(1,0)$ gives $0\ge-2$, $0\le2$, $1\ge0$, so
+        \[
+          y\ge(x-1)^{2}-2,\qquad y\le2,\qquad x\ge0 .
+        \]
+        Corners: the parabola meets $y=2$ where $(x-1)^{2}=4$, at $(3,2)$
+        (the root $x=-1$ is cut off), and meets $x=0$ at $(0,-1)$; the
+        third corner is $(0,2)$. Outside checks: $(1,-2.5)$ fails only the
+        parabola, $(1,2.5)$ only $y\le2$, and $(-0.2,1)$ only $x\ge0$
+        (the parabola there is at $-0.56\le1$).
+  \item \emph{Circle:} centre $(1,1)$ through $(3,2)$, so
+        $r^{2}=(3-1)^{2}+(2-1)^{2}=5$ and the boundary is
+        $(x-1)^{2}+(y-1)^{2}=5$. The centre is inside, so
+        \[
+          (x-1)^{2}+(y-1)^{2}\le5,\qquad x\ge0,\qquad y\ge0 ;
+        \]
+        expanded, $x^{2}+y^{2}-2x-2y-3\le0$. Corners: $y=0$ gives
+        $(x-1)^{2}=4$, the corner $(3,0)$; $x=0$ gives $(0,3)$; and
+        $(0,0)$. Note that the region bulges past $x=3$ to
+        $x=1+\sqrt5\approx3.24$: the rightmost point of the region need
+        not be a corner.
+        Outside checks: $(2,-0.3)$ fails only $y\ge0$, $(-0.3,2)$ only
+        $x\ge0$, $(3,3)$ only the circle ($4+4=8>5$).
+  \item \emph{Ellipse:} centre $(0,0)$, vertices $(\pm4,0)$ and $(0,\pm2)$,
+        so $\tfrac{x^{2}}{16}+\tfrac{y^{2}}{4}=1$. \emph{Parabola:} vertex
+        $(0,-1)$ through $(2,0)$, so $y=ax^{2}-1$ with $0=4a-1$,
+        $a=\tfrac14$. \emph{Line:} $x=2$, dashed. The interior point
+        $(0,0)$ gives $0\le1$, $0\ge-1$, $0<2$, so
+        \[
+          \frac{x^{2}}{16}+\frac{y^{2}}{4}\le1,\qquad
+          y\ge\tfrac14x^{2}-1,\qquad x<2 ;
+        \]
+        expanded, $x^{2}+4y^{2}\le16$ and $x^{2}\le4y+4$. Outside checks:
+        $(0,2.1)$ fails only the ellipse, $(0,-1.2)$ only the parabola,
+        and $(2.2,0.5)$ only $x<2$ (it gives $0.365\le1$ and
+        $0.5\ge0.21$).
+  \item The two straight boundaries on the axes are $x\ge0$ and $y\ge0$;
+        the line through $(5,0)$ and $(0,5)$ is $x+y=5$; the arc is the
+        circle of radius $2$ about the origin. The interior point $(2,2)$
+        gives $4\le5$ and $8\ge4$: the region is on or \emph{outside} the
+        circle.
+        \[
+          x\ge0,\qquad y\ge0,\qquad x+y\le5,\qquad x^{2}+y^{2}\ge4 .
+        \]
+        Corners $(2,0)$, $(5,0)$, $(0,5)$, $(0,2)$. Outside checks:
+        $(1,1)$ fails only the circle, $(3,3)$ only the line,
+        $(-0.2,3)$ only $x\ge0$, $(3,-0.2)$ only $y\ge0$. \textbf{Not
+        convex}: $(2,0)$ and $(0,2)$ belong, their midpoint $(1,1)$ does
+        not.
+  \item \emph{Parabola:} vertex $(1,1)$ through $(3,3)$, so
+        $3=a\cdot2^{2}+1$, $a=\tfrac12$:
+        $y=\tfrac12(x-1)^{2}+1=\tfrac12x^{2}-x+\tfrac32$. \emph{Lines:}
+        $x=-1$, $x=4$ and $y=0$. The interior point $(1,0.5)$ gives
+        $0.5\le1$, so the region lies \emph{below} the upward parabola:
+        \[
+          0\le y\le\tfrac12(x-1)^{2}+1,\qquad -1\le x\le4 .
+        \]
+        Corners $(-1,0)$, $(4,0)$, $(4,5.5)$, $(-1,3)$. Outside checks:
+        $(1,1.2)$ fails only the parabola, $(1,-0.2)$ only $y\ge0$,
+        $(-1.2,1)$ only $x\ge-1$, $(4.2,1)$ only $x\le4$. \textbf{Not
+        convex}: $(-1,3)$ and $(4,5.5)$ belong, but their midpoint
+        $(1.5,4.25)$ lies above the parabola, which is only at $1.125$
+        there.
+  \item \emph{Hyperbola:} centre $(0,0)$ midway between the vertices, so
+        $a=2$; the asymptotes pass through $(2,1)$ and $(4,2)$, slope
+        $\tfrac{b}{a}=\tfrac12$, so $b=1$:
+        $\tfrac{x^{2}}{4}-y^{2}=1$. The centre is \emph{not} shaded
+        ($0\ge1$ is false), so the shading lies beyond the branches.
+        \emph{Lines:} $x=\pm4$. Interior points $(\pm3,0)$ give
+        $\tfrac94\ge1$:
+        \[
+          \frac{x^{2}}{4}-y^{2}\ge1,\qquad -4\le x\le4 .
+        \]
+        Corners: $x=\pm4$ gives $y^{2}=3$, so $(\pm4,\pm\sqrt3)$; plus the
+        vertices $(\pm2,0)$ on the curved edges. This single system
+        describes \textbf{two} separate pieces, because the hyperbola
+        inequality alone already does ($|x|\ge2\sqrt{1+y^{2}}$). Outside
+        checks: $(0,0)$ fails only the hyperbola, $(4.2,0)$ only
+        $x\le4$. Each piece is convex; their union is not.
+  \item \emph{Ellipse:} centre $(0,1)$, the midpoint of $(-3,1)$ and
+        $(3,1)$; $a=3$ and $b=2$ (from $(0,1)$ to $(0,3)$), so
+        $\tfrac{x^{2}}{9}+\tfrac{(y-1)^{2}}{4}=1$. The interior point
+        $(4,1)$ gives $\tfrac{16}{9}\ge1$: the region is outside.
+        \emph{Lines:} $y=0$ and $y=2$. These three conditions also hold at
+        $(-4,1)$, in the unshaded left piece, so a fourth condition is
+        needed to cut it away, for instance $x\ge0$:
+        \[
+          \frac{x^{2}}{9}+\frac{(y-1)^{2}}{4}\ge1,\qquad 0\le y\le2,
+          \qquad x\ge0 .
+        \]
+        Corners: $y=0$ or $y=2$ gives $\tfrac{x^{2}}{9}=\tfrac34$, so
+        $\bigl(\tfrac32\sqrt3,0\bigr)$ and $\bigl(\tfrac32\sqrt3,2\bigr)$,
+        $\tfrac32\sqrt3\approx2.60$. The line $x=0$ is not part of the
+        drawn boundary; any $x\ge c$ with $-\tfrac32\sqrt3<c\le
+        \tfrac32\sqrt3$ would do as well. Outside checks: $(2,1)$ fails
+        only the ellipse ($\tfrac49<1$), $(4,2.2)$ only $y\le2$, and
+        $(-4,1)$ only $x\ge0$. Unbounded and \textbf{not convex}: the two
+        corners belong, their midpoint $\bigl(\tfrac32\sqrt3,1\bigr)$ gives
+        $\tfrac34<1$.
 \end{solutions}

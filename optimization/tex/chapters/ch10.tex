@@ -207,6 +207,194 @@ global maximum; otherwise compare $f$ across all surviving candidates.
 with four test points.}
 \end{gallery}
 
+\begin{rulebox}{Four sign cases at a glance}
+Write each constraint with its \emph{slack} $s_i\ge0$ when feasible
+($s=b-g$ for $g\le b$, $s=g-b$ for $g\ge b$). For a maximum \emph{add}
+$\lambda_is_i$, for a minimum \emph{subtract} it; then every multiplier is
+$\ge0$ and complementary slackness reads $\lambda_is_i=0$.
+\begin{center}\footnotesize
+\begin{tabular}{llll}
+  \hline
+  problem & Lagrangian & stationarity & folded $x_j\ge0$\\
+  \hline
+  $\max f$, $g\le b$ & $f+\lambda(b-g)$ & $\grad f=\lambda\grad g$ & $\mathcal{L}_{x_j}\le0$\\
+  $\max f$, $g\ge b$ & $f+\lambda(g-b)$ & $\grad f=-\lambda\grad g$ & $\mathcal{L}_{x_j}\le0$\\
+  $\min f$, $g\ge b$ & $f+\lambda(b-g)$ & $\grad f=\lambda\grad g$ & $\mathcal{L}_{x_j}\ge0$\\
+  $\min f$, $g\le b$ & $f+\lambda(g-b)$ & $\grad f=-\lambda\grad g$ & $\mathcal{L}_{x_j}\ge0$\\
+  \hline
+\end{tabular}
+\end{center}
+In the folded form, $x_j\ge0$ and $x_j\,\mathcal{L}_{x_j}=0$ complete the
+conditions. Alternatively convert everything to ``$\max$ with $\le$''
+($\min f=-\max(-f)$, $g\ge b\iff-g\le-b$) and use the first row only; both
+routes give the same points and the same multipliers.
+\end{rulebox}
+
+\begin{rulebox}{Equality and inequality constraints together}
+For $\max f$ s.t.\ $g_i\le b_i$ ($i\le m$) and $h_k=c_k$ ($k\le p$) use
+\[
+  \mathcal{L}=f+\sum_i\lambda_i(b_i-g_i)+\sum_k\mu_k(c_k-h_k),
+  \qquad \lambda_i\ge0,\quad \lambda_i(b_i-g_i)=0,\quad
+  \mu_k\ \text{free in sign},
+\]
+with stationarity $\grad f=\sum\lambda_i\grad g_i+\sum\mu_k\grad h_k$ and
+\emph{no} complementary slackness for the equalities (they always bind).
+Equivalent formulations of the same problem:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item an equality as two inequalities $h\le c$, $-h\le-c$ with
+        multipliers $\mu^{+},\mu^{-}\ge0$: then $\mu=\mu^{+}-\mu^{-}$, and the
+        pair is not unique (the two gradients are dependent);
+  \item non-negativity folded into stationarity ($\mathcal{L}_{x_j}\le0$,
+        $x_j\mathcal{L}_{x_j}=0$) or written as $-x_j\le0$ with multipliers
+        $\nu_j\ge0$: then $\nu_j=-\mathcal{L}_{x_j}$ at the solution.
+\end{itemize}
+\end{rulebox}
+
+\begin{rulebox}{Is the programme regular? A checking procedure}
+A programme is \emph{regular} if a constraint qualification holds at
+every feasible point; then every optimum is a KKT point. Check in this
+order:
+\begin{enumerate}[leftmargin=1.8em,itemsep=0.3ex]
+  \item \textbf{Only linear constraints:} regular.
+  \item \textbf{Convex constraint set} (each $g_i$ convex for $g_i\le b_i$):
+        find one \textbf{Slater point} with every inequality strict; then
+        regular.
+  \item \textbf{Otherwise, LICQ pattern by pattern.} List every possible
+        active set: each boundary curve on its own, and each corner where
+        two (or more) boundaries meet. Compute the active gradients there
+        and look for points where they vanish or are linearly dependent.
+        If there are none, the programme is regular.
+\end{enumerate}
+\textbf{When it fails.} At a \emph{cusp} the active gradients are
+dependent and the optimum may satisfy no KKT system. Example: on
+$\{y\le(1-x)^{3},\ y\ge0\}$ the point $(1,0)$ maximises $x$, but there
+$\grad\bigl(y-(1-x)^{3}\bigr)=(0,1)$ and $\grad(-y)=(0,-1)$ are parallel,
+and $(1,0)=\lambda_1(0,1)+\lambda_2(0,-1)$ is impossible.
+
+\textbf{Uniqueness of multipliers.} If the active gradients are linearly
+independent, the stationarity equation
+$\grad f=\sum\lambda_i\grad g_i$ has at most one solution: the multipliers
+are unique. If they are dependent (for instance three active constraints at
+a corner in the plane, or an equality written as two inequalities), the
+multipliers form a whole family, typically a one-parameter set, and the
+shadow-price reading of each single $\lambda_i$ is lost.
+\end{rulebox}
+
+\begin{rulebox}{Convex programmes in minimisation form}
+$\min f$ s.t.\ $g_i\le b_i$, $h_k\ge c_k$, $e_l=d_l$ is a \emph{convex
+programme} if $f$ is \textbf{convex}, each $g_i$ (in a $\le$ constraint) is
+\textbf{convex}, each $h_k$ (in a $\ge$ constraint) is \textbf{concave},
+and each $e_l$ is \textbf{affine}. Then the feasible set is convex and every
+KKT point is a global minimum. For a maximum, $f$ must be concave instead,
+with the same conditions on the constraints. Consequences:
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item non-convexity can come from the \emph{feasible set} (outside a
+        circle: $x^{2}+y^{2}\ge1$ has a convex, not concave, left side; a
+        hyperbola region $x^{2}-y^{2}\ge1$; the region under a convex
+        parabola $y\le x^{2}$) or from the \emph{objective};
+  \item the same feasible set can give a convex programme for $\min f$ and
+        a non-convex one for $\max f$: minimising $x^{2}+y^{2}$ on a disc
+        is convex, maximising it is not;
+  \item to show convexity of a non-quadratic objective, check that its
+        Hessian is PSD everywhere (Chapter~3).
+\end{itemize}
+In a non-convex programme KKT points are only candidates: some may be
+saddle points, local optima or even the opposite extremum, so compare the
+objective at all of them (and at points where regularity fails).
+\end{rulebox}
+
+\begin{rulebox}{Graphical solution of a nonlinear programme}
+In two variables:
+\begin{enumerate}[leftmargin=1.8em,itemsep=0.3ex]
+  \item Draw the feasible set: each boundary curve, and shade where all
+        constraints hold.
+  \item Draw level curves of $f$: circles around the unconstrained optimum
+        for a distance objective, parallel lines for a linear one,
+        parabolas or hyperbolas otherwise.
+  \item Move the level in the improving direction until the last contact
+        with the feasible set. The contact is a \emph{tangency} with one
+        boundary curve or a \emph{corner} where two meet.
+  \item Read off which constraints bind there, set the others' multipliers
+        to zero, and solve the reduced KKT system for the point and the
+        multipliers; check their signs.
+\end{enumerate}
+Do it twice, for the minimum and for the maximum: on a compact feasible set
+both exist (Weierstrass), and they usually sit on different parts of the
+boundary. The figure below shows both for a distance objective on a quarter
+disc.
+\end{rulebox}
+
+\begin{gallery}
+\hspace*{\fill}%
+\begin{tikzpicture}
+  \begin{axis}[contouraxis, width=6.4cm, height=6.4cm,
+      xmin=-0.6, xmax=4.4, ymin=-0.6, ymax=4.4, xtick={1,2,3}, ytick={1,2,3}]
+    \addplot[draw=none, name path=arc, domain=0:2.8284, samples=101]{sqrt(8-x^2)};
+    \addplot[draw=none, name path=ax, domain=0:2.8284, samples=2]{0};
+    \region{arc}{ax}{}
+    \addplot[black, thick, domain=0:2.8284, samples=101]{sqrt(8-x^2)};
+    \addplot[black, thick, samples=2] coordinates {(0,0)(2.8284,0)};
+    \addplot[black, thick, samples=2] coordinates {(0,0)(0,2.8284)};
+    \foreach \r in {1.4142, 2.8284, 4.2426} {
+      \addplot[dashed, domain=0:360, samples=121]({3+\r*cos(x)},{3+\r*sin(x)}); }
+    \addplot[only marks, mark=*, mark size=1.4pt, black, forget plot]
+      coordinates {(2,2) (0,0) (3,3)};
+    \node[font=\tiny, anchor=south west] at (axis cs:2.02,2.02) {min};
+    \node[font=\tiny, anchor=north west] at (axis cs:0.03,-0.03) {max};
+    \node[font=\tiny, anchor=south west] at (axis cs:3.02,3.02) {$(3,3)$};
+  \end{axis}
+\end{tikzpicture}%
+\hspace*{\fill}
+\gcap{$f=(x-3)^{2}+(y-3)^{2}$ on the quarter disc
+$\{x^{2}+y^{2}\le8,\ x\ge0,\ y\ge0\}$: level circles around $(3,3)$ of
+radius $\sqrt2$, $2\sqrt2$, $3\sqrt2$. The smallest touching circle gives
+the minimum $2$ at the tangency point $(2,2)$ (only the arc binds); the
+largest one gives the maximum $18$ at the corner $(0,0)$ (both axes bind).}
+\end{gallery}
+
+\begin{rulebox}{Testing whether a given point can be optimal}
+\begin{enumerate}[leftmargin=1.8em,itemsep=0.3ex]
+  \item \textbf{Feasibility:} check every constraint. An infeasible point
+        is out.
+  \item \textbf{Active set:} note which constraints hold with equality.
+        Set the multipliers of all slack constraints to zero.
+  \item \textbf{Stationarity:} solve for the active multipliers. No
+        solution: not a KKT point (if the programme is regular there, not
+        optimal either).
+  \item \textbf{Signs:} a negative multiplier rules the point out; all
+        $\ge0$ makes it a KKT point.
+  \item \textbf{Optimal?} In a convex programme a KKT point is a global
+        optimum. Otherwise it is only a candidate: compare with the other
+        candidates.
+\end{enumerate}
+\end{rulebox}
+
+\begin{rulebox}{Standard forms and variable substitutions}
+Besides the constraint rewrites above, variables can be brought to sign
+form, as for linear programmes (Volume~8, Chapter~3):
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item a \textbf{non-positive} variable $z\le0$: substitute $z=-z'$,
+        $z'\ge0$;
+  \item a \textbf{free} variable $x$: substitute $x=x^{+}-x^{-}$ with
+        $x^{+},x^{-}\ge0$, everywhere it occurs, also inside a nonlinear
+        objective or constraint.
+\end{itemize}
+Two common target forms: ``$\max F$ s.t.\ $G_i(\mathbf{x})\ge0$,
+$\mathbf{x}\ge\mathbf{0}$'' and ``$\min F$ s.t.\ $G_i(\mathbf{x})\le0$,
+$\mathbf{x}\ge\mathbf{0}$''. An equality becomes two inequalities.
+\end{rulebox}
+
+\begin{rulebox}{Lagrange versus Kuhn--Tucker; existence}
+On a feasible set with bounds, the Lagrange method applied to the equality
+part alone finds only tangency points: it can deliver the minimum and miss
+a maximum that sits at a bound (a corner), where the KKT conditions hold
+with positive bound multipliers. A complete solution therefore checks the
+corners as well. On an \emph{unbounded} feasible set an optimum need not
+exist. If the programme is regular, an optimum must be a KKT point, so
+\emph{showing that no point satisfies the KKT system proves that no optimum
+exists}.
+\end{rulebox}
+
 \section{Worked Example}
 
 \begin{worked}{Maximise $f(x,y)=xy$ subject to $x+y\le10$, $x\le4$, $x\ge0$, $y\ge0$}
@@ -713,6 +901,12 @@ saddle-point condition.
 
 \section{Additional Problems}
 
+Problems 1--13 repeat the case analysis. Problems 14--58 drill feasibility
+and regularity, the graphical method, mixed equality and inequality
+constraints, the test of given points, convexity, three variables, economic
+programmes with several constraints, standard forms, and non-convex
+programmes.
+
 \begin{problems}
   \item Maximise $f(x, y) = x y$ on $x + 2 y \leq 12$, $x \geq 0$,
         $y \geq 0$.
@@ -744,6 +938,177 @@ saddle-point condition.
         figure and read off, without computing, at which corner of $C$ it
         is maximised. Then confirm the answer with the Kuhn--Tucker
         conditions.
+
+  \item Let $S=\{(x,y): y\ge(x-1)^{2},\ y\le3,\ x+y\le4\}$. For each of
+        $(1,0)$, $(0,1)$, $(2,2)$, $(1,3)$, $(3,1)$, $(-1,3)$ and
+        $(1-\sqrt3,\,3)$ decide whether it lies in $S$, and for the feasible
+        ones name the binding and the slack constraints.
+  \item Let $S=\{(x,y): x^{2}+y^{2}\le25,\ x-y\le1,\ y\le4\}$. Classify the
+        points $(3,4)$, $(4,3)$, $(0,0)$, $(5,0)$, $(-3,4)$, $(1,5)$,
+        $(-5,0)$ in the same way.
+  \item (Regularity.) Show that the programme with feasible set
+        $\{x^{2}+y^{2}\le4,\ y\ge0,\ x\le1\}$ is regular, (a) by Slater,
+        (b) by checking LICQ at every corner and on every boundary piece.
+  \item Is the programme with feasible set $\{y\le4-x^{2},\ y\ge0\}$
+        regular? Check the corners where the parabola meets the axis.
+  \item (Cusp.) Let $S=\{(x,y): y\le(2-x)^{3},\ y\ge0\}$. (a) Sketch $S$
+        near $(2,0)$ and show that $S$ lies in $x\le2$. (b) Show that LICQ
+        fails at $(2,0)$. (c) Show that $(2,0)$ maximises $f=x$ on $S$ but
+        is not a KKT point.
+  \item Show that the programme in $\R^{3}$ with constraints
+        $x^{2}+y^{2}+z^{2}\le9$, $x+y+z\ge3$, $z\ge0$ is regular.
+  \item The set $\{x^{2}+y^{2}\ge1,\ 0\le x\le2,\ 0\le y\le2\}$ (a square
+        with a quarter disc removed) is not convex. Show that the programme
+        is nevertheless regular.
+  \item (Graphical.) Let $S=\{(x,y): x^{2}\le y\le2\}$ and $f=x+y$. Sketch
+        $S$ and the level lines, find the minimum and the maximum of $f$ on
+        $S$ graphically, and confirm each with the KKT conditions, including
+        the multiplier signs.
+  \item On the upper half annulus $\{1\le x^{2}+y^{2}\le4,\ y\ge0\}$ find
+        the minimum and the maximum of $f=x+2y$ graphically and confirm
+        with KKT. Is the feasible set convex?
+  \item On $\{xy\ge4,\ x+y\le5,\ x>0\}$ find the minimum and the maximum
+        of $f=x^{2}+y^{2}$ graphically (level circles) and confirm both with
+        KKT. How many maximisers are there?
+  \item On the disc $x^{2}+y^{2}\le4$ find the maximum and the minimum of
+        $f=y-x^{2}$ (level curves are parabolas). Find \emph{all} KKT points
+        of the minimisation and explain why one of them is not a minimiser.
+  \item Let $S=\{(x,y): 0\le x\le2,\ 0\le y\le x^{2}\}$, the region under a
+        convex parabola, and minimise the squared distance
+        $f=x^{2}+(y-3)^{2}$ to $(0,3)$. (a) Is this a convex programme?
+        (b) Find all KKT points. (c) Show that at $(0,0)$ the multipliers
+        are not unique, and explain why. (d) Which KKT point is the
+        minimiser?
+  \item Minimise $f=xy$ on $\{x+y\le4,\ x\ge0,\ y\ge0\}$. Show that the set
+        of minimisers is a union of two segments, and that every point of it
+        satisfies the KKT conditions.
+  \item (Testing points.) For $\max f=x+2y$ s.t.\ $x^{2}+y^{2}\le5$,
+        $y\le1$, test each of $P=(1,2)$, $Q=(2,1)$, $R=(0,1)$, $S=(-2,1)$,
+        $T=(0,0)$: feasible? active set? KKT point (with multipliers)? Is the
+        surviving point optimal?
+  \item For $\max f=\ln(1+x)+\ln(1+y)+z$ s.t.\ $x+y+z\le4$,
+        $x,y,z\ge0$, test the points $(1,1,2)$, $(0,0,4)$, $(2,2,0)$ and
+        $(1,1,1)$. Does optimality follow for the KKT point?
+  \item For $\max f=x^{2}+y^{2}$ s.t.\ $x+2y\le4$, $x,y\ge0$, show that
+        $(4,0)$, $(0,2)$, $(0,0)$ and $(0.8,1.6)$ all satisfy the KKT
+        conditions. Which is optimal, and why does KKT not decide it here?
+  \item (Equality and inequality.) Maximise $f=xy-\tfrac12y^{2}$ s.t.\
+        $x+y=6$, $y\ge3$, $x,y\ge0$. (a) Solve with a free multiplier for
+        the equality. (b) Redo with the equality as two inequalities and
+        show that the two multipliers are not unique. (c) Interpret the
+        multiplier of $y\ge3$.
+  \item Minimise $x^{2}+y^{2}+z^{2}$ s.t.\ $x+y+z=3$ and $x\ge2$.
+  \item Maximise $\ln x+\ln y$ s.t.\ $x+2y=10$ and $x\ge6$.
+  \item Maximise $f=-(x-1)^{2}-(y-1)^{2}$ s.t.\ $x+y=4$, $y\le1.5$,
+        $x,y\ge0$. Why is a negative multiplier for the equality not an
+        error?
+  \item (Min with $\ge$, then max.) Write the full KKT system, in folded
+        form, for $\min f=x^{2}+2y^{2}$ s.t.\ $x+y\ge3$, $x,y\ge0$, and solve
+        it. Then write the system for the maximisation of the same $f$ on
+        the same set and show that it has no solution. What does that prove?
+  \item For $f=(x-1)^{2}+(y-2)^{2}$ on $\{x+2y\ge6,\ x\le3,\ y\le3\}$:
+        write the KKT system for the minimum and solve it; then write the
+        system for the maximum and verify it at the optimal corner.
+  \item (Convex or not?) Decide which programmes are convex:
+        (a) $\min(x-2)^{2}+(y-1)^{2}$ s.t.\ $x^{2}+y^{2}\le1$;
+        (b) $\min x+y$ s.t.\ $x^{2}+y^{2}\ge1$;
+        (c) $\min x^{2}+y^{2}$ s.t.\ $x^{2}-y^{2}\ge1$;
+        (d) $\min -x-y$ s.t.\ $y\le x^{2}$, $0\le x\le2$, $y\ge0$;
+        (e) $\min x^{4}+x^{2}-2xy+y^{2}$ s.t.\ $x+y\ge3$;
+        (f) $\max x^{2}+y^{2}$ s.t.\ $x^{2}+y^{2}\le1$.
+  \item Solve programme (c) of the previous problem. How many minimisers
+        are there?
+  \item Solve programme (e) of Additional Problem~36, after checking with
+        the Hessian that the objective is convex.
+  \item (Three variables.) Minimise $(x-2)^{2}+(y-2)^{2}+(z-2)^{2}$ s.t.\
+        $x+y+z\le3$ and $x+2y\le2$ by case analysis, and certify the
+        answer.
+  \item Maximise $f=xy+yz+zx$ on the ball $x^{2}+y^{2}+z^{2}\le3$ (no sign
+        restrictions). Use symmetry to reduce the cases. Is $f$ concave?
+        How many maximisers are there?
+  \item Maximise $U=x+2\sqrt{y}+\ln(1+z)$ s.t.\ $x+y+z\le1.5$, $x\ge1$,
+        $y,z\ge0$.
+  \item (Two budgets.) A consumer with $U=x^{1/2}y^{1/2}$ has $40$ euros,
+        prices $p_x=2$, $p_y=1$, and $40$ ration coupons; each unit of $x$
+        needs one coupon, each unit of $y$ two. (a) Formulate with
+        inequalities. (b) Show that the optimum of either budget alone
+        violates the other. (c) Verify the point where both bind and
+        interpret the multipliers. Would the consumer pay $1.50$ euros for an
+        extra coupon?
+  \item A firm makes products $x,y$ with profit
+        $\pi=20x-x^{2}+16y-y^{2}$, using raw material $A$ ($x+y\le10$) and
+        $B$ ($2x+y\le15$). Show that the unconstrained optimum and the
+        single-constraint optima are infeasible, find the optimum where both
+        bind, and interpret $\lambda_A$, $\lambda_B$.
+  \item (Budget left unspent.) Advertising $a_1,a_2\ge0$ in two channels
+        yields profit
+        $\pi=60(1-\mathrm{e}^{-a_1/20})+40(1-\mathrm{e}^{-a_2/10})-a_1-a_2$,
+        and at most $B$ may be spent. Solve for $B=50$ and for $B=30$, and
+        interpret the multiplier in each case.
+  \item Maximise and minimise $f=xy$ s.t.\ $x+y=10$ and $2\le x\le6$, with
+        the KKT conditions. Which bound binds at which optimum?
+  \item (Standard form.) Rewrite
+        $\max xy-z^{2}+2z$ s.t.\ $x^{2}+y\le5$, $x-y\ge-1$, $y\ge0$,
+        $z\le0$, $x$ free, (a) as ``$\max F$ s.t.\ $G_i\ge0$, all variables
+        $\ge0$'', (b) as ``$\min F$ s.t.\ $G_i\le0$, all variables $\ge0$''.
+  \item Rewrite $\min(x-1)^{2}+\mathrm{e}^{w}$ s.t.\ $x+w=2$, $w\le0$, $x$
+        free, in both target forms, and solve the problem.
+  \item (Lagrange versus KKT.) A wire of length $20$ is cut; a piece of
+        length $x$ is bent into a square, the rest $y=20-x$ into a circle.
+        (a) Minimise and maximise the total area by substitution on
+        $[0,20]$. (b) Solve with Lagrange on $x+y=20$ and classify with the
+        bordered Hessian. (c) Use KKT on $\{x+y=20,\ x,y\ge0\}$ to explain
+        why Lagrange finds the minimum but misses the maximum.
+  \item Show that $\max x^{2}+xy+y^{2}$ s.t.\ $x+y\ge2$, $x,y\ge0$ has no
+        solution, by showing that no point satisfies the KKT conditions.
+        Then solve the minimisation.
+  \item (Modelling.) A firm will place a warehouse at a point $p$ inside a
+        zoning area, the disc $\|p\|\le5$, and wants to minimise the sum of
+        squared distances to two shops at $(6,0)$ and $(6,4)$.
+        (a) Name the objective and say what the constraint function
+        describes. (b) Is the feasible set convex? Is the programme convex,
+        regular? (c) Without computing: are the KKT conditions necessary,
+        sufficient? If Lagrange gives a point on the boundary circle with a
+        non-negative multiplier, what follows? (d) Find the optimum.
+  \item For each programme decide whether the KKT conditions are necessary
+        and whether they are sufficient, with a reason:
+        (a) $\max\ln x+\ln y$ s.t.\ $x+y\le10$;
+        (b) $\max x^{2}+y^{2}$ s.t.\ $x+y\le1$, $x,y\ge0$;
+        (c) $\max x$ s.t.\ $y\le(1-x)^{3}$, $y\ge0$;
+        (d) $\min x^{2}+y^{2}$ s.t.\ $x^{2}+y^{2}\ge1$.
+  \item Explain in a few lines why the multipliers at a regular optimum are
+        unique, and what non-unique multipliers signal. Give an example of
+        each from this chapter.
+  \item (Portfolio, Kuhn--Tucker.) Three uncorrelated assets have expected
+        returns $8\%$, $5\%$, $3\%$ and variances $100$, $36$, $16$. With
+        shares $x_1,x_2$ and $x_3=1-x_1-x_2$, minimise the variance subject
+        to an expected return of at least $6\%$, without short sales
+        ($x_1,x_2\ge0$, $x_1+x_2\le1$). (a) Write the programme and its KKT
+        conditions. (b) Taking the return constraint as binding and the
+        others as slack, solve and verify every condition. (c) Argue global
+        optimality.
+  \item Repeat the previous problem with a target return of $7.5\%$. Show
+        that the guess ``only the return constraint binds'' now fails, find
+        the correct active set and verify all conditions.
+  \item (Non-convex profit.) A firm earns $\pi=6\ln(1+x_1x_2)-x_1-x_2$
+        from inputs $x_1,x_2\ge0$ and may spend at most $B$, i.e.\
+        $x_1+x_2\le B$. (a) Find the interior critical points of $\pi$ and
+        classify them. (b) For $B=20$ show that the saddle point satisfies
+        all KKT conditions with $\lambda=0$, yet is not optimal; find the
+        optimum. (c) Solve for $B=4$ and for $B=0.5$, interpreting
+        $\lambda$ in each case.
+  \item (Revenue instead of profit.) Maximise revenue $R=6\ln(1+x_1x_2)$
+        s.t.\ $x_1+x_2\le B$, $x_1,x_2\ge0$. Why does the budget always
+        bind, so that it may be written as an equality? Give the optimum and
+        $\lambda$ for $B=4$ and $B=20$ and compare with the previous
+        problem.
+  \item (Domain as constraint.) Maximise $f=x+2y+\sqrt{5-x^{2}-y^{2}}$
+        over its natural domain, with no sign restrictions. Write the domain
+        as an explicit inequality constraint and show that the maximiser
+        satisfies the KKT conditions with a slack domain constraint.
+  \item Consider $\max f=x+y+(y-x^{2})^{3/2}$ on its domain $y\ge x^{2}$,
+        $x$ and $y$ unrestricted. Show that no point satisfies the KKT
+        conditions and conclude that no maximum exists.
 \end{problems}
 
 \section{Additional Solutions}
@@ -895,4 +1260,513 @@ saddle-point condition.
         the multiplier on $x+y\ge1$ is zero; solving the stationarity
         conditions confirms non-negative multipliers, so the Kuhn--Tucker
         conditions hold.
+
+  \item Constraints: (i) $y\ge(x-1)^{2}$, (ii) $y\le3$, (iii) $x+y\le4$.
+        $(1,0)$: $0\ge0$ \textbf{binds}, (ii), (iii) slack. $(0,1)$:
+        $1\ge1$ \textbf{binds}, others slack. $(2,2)$: (i) $2\ge1$ slack,
+        (ii) slack, $2+2=4$ \textbf{binds}. $(1,3)$: (i) slack, (ii) and
+        (iii) \textbf{both bind}, a corner. $(3,1)$: $1\ge4$ fails,
+        \textbf{infeasible}. $(-1,3)$: $3\ge4$ fails, \textbf{infeasible}.
+        $(1-\sqrt3,3)$: $(-\sqrt3)^{2}=3\le3$, so (i) and (ii) \textbf{both
+        bind}; $x+y=4-\sqrt3\approx2.27$, (iii) slack: the left corner where
+        the parabola meets $y=3$.
+  \item Constraints: (i) $x^{2}+y^{2}\le25$, (ii) $x-y\le1$, (iii)
+        $y\le4$. $(3,4)$: (i) and (iii) bind, (ii) slack ($-1$). $(4,3)$:
+        (i) and (ii) bind, (iii) slack. $(0,0)$: all slack, an interior
+        point. $(5,0)$: $x-y=5>1$, \textbf{infeasible}. $(-3,4)$: (i) and
+        (iii) bind, (ii) slack. $(1,5)$: $26>25$ (and $5>4$),
+        \textbf{infeasible}. $(-5,0)$: (i) binds, (ii), (iii) slack.
+  \item (a) $x^{2}+y^{2}$ is convex, $-y$ and $x$ are linear, so the
+        constraint set is convex, and $(0,1)$ satisfies every inequality
+        strictly ($1<4$, $1>0$, $0<1$): Slater holds, the programme is
+        regular. (b) Gradients: circle $(2x,2y)$, never zero on the circle;
+        $y\ge0$: $(0,-1)$; $x\le1$: $(1,0)$. Corners in the set:
+        circle $\cap\ \{y=0\}$ at $(-2,0)$ (the point $(2,0)$ violates
+        $x\le1$): $(-4,0)$, $(0,-1)$ independent. Circle $\cap\ \{x=1\}$ at
+        $(1,\sqrt3)$: $(2,2\sqrt3)$, $(1,0)$, determinant $-2\sqrt3\neq0$.
+        $\{y=0\}\cap\{x=1\}$ at $(1,0)$: $(0,-1)$, $(1,0)$ independent. No
+        three constraints meet. LICQ holds everywhere: regular.
+  \item $g_1=y+x^{2}-4\le0$ has $\grad g_1=(2x,1)\neq0$; $g_2=-y\le0$ has
+        $(0,-1)$. They meet at $(\pm2,0)$, where $(\pm4,1)$ and $(0,-1)$ have
+        determinant $\mp4\neq0$: independent. \textbf{Regular} (also by
+        Slater: the set is convex and $(0,1)$ is strictly inside).
+  \item (a) $y\ge0$ and $y\le(2-x)^{3}$ require $(2-x)^{3}\ge0$, i.e.\
+        $x\le2$. Near $(2,0)$ the set is squeezed between $y=0$ and the curve
+        $y=(2-x)^{3}$, which touches the axis at $x=2$: a cusp pointing
+        right. (b) At $(2,0)$ both constraints are active,
+        $\grad\bigl(y-(2-x)^{3}\bigr)=(3(2-x)^{2},1)=(0,1)$ and
+        $\grad(-y)=(0,-1)$: parallel, LICQ fails. (c) $x\le2$ on $S$ and
+        $(2,0)\in S$, so $(2,0)$ maximises $f=x$. KKT would need
+        $(1,0)=\lambda_1(0,1)+\lambda_2(0,-1)$, whose first component reads
+        $1=0$: \textbf{not a KKT point}. The optimum escapes the conditions
+        because the programme is not regular there.
+  \item The ball constraint $x^{2}+y^{2}+z^{2}\le9$ is convex, the others
+        are linear, so the feasible set is convex. Slater point
+        $(1,1,1.5)$: $1+1+2.25=4.25<9$, $3.5>3$, $1.5>0$. Hence
+        \textbf{regular}.
+  \item Write $1-x^{2}-y^{2}\le0$, gradient $(-2x,-2y)$, zero only at the
+        origin, which is not feasible. The circle meets $x=0$ at $(0,1)$:
+        gradients $(0,-2)$ and $(-1,0)$, independent; it meets $y=0$ at
+        $(1,0)$: $(-2,0)$ and $(0,-1)$, independent; it does not reach $x=2$
+        or $y=2$. The remaining corners $(2,0)$, $(2,2)$, $(0,2)$ involve two
+        independent linear constraints. LICQ holds at every feasible point:
+        \textbf{regular}, although the set is not convex. Regularity and
+        convexity are different questions.
+  \item $S$ is the region between the parabola and the line $y=2$, convex.
+        Level lines $x+y=k$ move up-right as $k$ grows.
+        \emph{Minimum:} the lowest line touching $S$ is tangent to the
+        parabola, slope $-1=2x$: $(-\tfrac12,\tfrac14)$, $f=-\tfrac14$. KKT
+        (min, $g=x^{2}-y\le0$): $\mathcal{L}=x+y+\lambda(x^{2}-y)$,
+        $1+2\lambda x=0$, $1-\lambda=0$: $\lambda=1\ge0$, $x=-\tfrac12$.
+        \checkmark\ \emph{Maximum:} the last contact is the right corner
+        $(\sqrt2,2)$, $f=2+\sqrt2\approx3.41$. KKT (max, both bind):
+        $(1,1)=\lambda_1(0,1)+\lambda_2(2\sqrt2,-1)$ gives
+        $\lambda_2=\tfrac{\sqrt2}{4}$, $\lambda_1=1+\tfrac{\sqrt2}4$, both
+        positive. \checkmark\ (A linear objective on a convex set: both
+        problems are convex programmes, so both KKT points are global.)
+  \item The set is not convex: $(-1.5,0)$ and $(1.5,0)$ belong to it, their
+        midpoint $(0,0)$ does not. \emph{Maximum:} level lines $x+2y=k$
+        last touch the outer arc where it is tangent, at
+        $2\cdot\tfrac{(1,2)}{\sqrt5}=(\tfrac2{\sqrt5},\tfrac4{\sqrt5})$,
+        $f=2\sqrt5\approx4.47$. KKT: $(1,2)=\lambda(2x,2y)=\lambda(\tfrac4{\sqrt5},\tfrac8{\sqrt5})$,
+        $\lambda=\tfrac{\sqrt5}{4}>0$. \emph{Minimum:} the tangency with the
+        inner arc would be at $-\tfrac{(1,2)}{\sqrt5}$, which has $y<0$:
+        infeasible. The lowest contact is the corner $(-2,0)$, $f=-2$
+        (along the arcs $2\cos\theta+4\sin\theta\ge-2$ and
+        $\cos\theta+2\sin\theta\ge-1$ for $\theta\in[0,\pi]$). KKT (min,
+        $x^{2}+y^{2}\le4$ with $\mu_1$, $-y\le0$ with $\mu_2$):
+        $(1,2)+\mu_1(-4,0)+\mu_2(0,-1)=0$, so $\mu_1=\tfrac14$, $\mu_2=2$,
+        both $\ge0$. \checkmark
+  \item Level circles around the origin. \emph{Minimum:} the smallest
+        circle reaching $xy\ge4$ touches the hyperbola at $(2,2)$, $f=8$,
+        and $x+y=4\le5$ there. KKT (min, $g=4-xy\le0$):
+        $(4,4)+\lambda(-y,-x)=(4,4)-2\lambda(1,1)=0$, $\lambda=2$.
+        \emph{Maximum:} the farthest feasible points are the corners where
+        $xy=4$ meets $x+y=5$: $(1,4)$ and $(4,1)$, $f=17$, \textbf{two
+        maximisers}. KKT at $(4,1)$ (max, both bind):
+        $(8,2)=\lambda_1(1,1)+\lambda_2(-1,-4)$, so $8=\lambda_1-\lambda_2$,
+        $2=\lambda_1-4\lambda_2$: $\lambda_2=2$, $\lambda_1=10$; at $(1,4)$
+        the same by symmetry. (The set is convex, so the minimisation is a
+        convex programme; the maximisation of a convex $f$ is not.)
+  \item \emph{Maximum:} level curves $y=x^{2}+k$ are upward parabolas;
+        raising $k$, the last contact is $(0,2)$, $f=2$. KKT: $(0,1)=\lambda(0,4)$,
+        $\lambda=\tfrac14$. $f$ is concave and the disc convex: a convex
+        programme, so this is the global maximum. \emph{Minimum:}
+        $\mathcal{L}=y-x^{2}+\lambda(x^{2}+y^{2}-4)$, stationarity
+        $2x(\lambda-1)=0$ and $1+2\lambda y=0$. $\lambda=0$ is impossible
+        ($1=0$), so the circle binds. Either $\lambda=1$, $y=-\tfrac12$,
+        $x=\pm\tfrac{\sqrt{15}}{2}$, $f=-\tfrac{17}{4}$; or $x=0$, $y=\pm2$:
+        $y=2$ needs $\lambda=-\tfrac14<0$ (out), $y=-2$ gives
+        $\lambda=\tfrac14\ge0$, $f=-2$. So the KKT points are
+        $(\pm\tfrac{\sqrt{15}}2,-\tfrac12)$ and $(0,-2)$. The minimum is
+        $-\tfrac{17}{4}$ at the two symmetric points; $(0,-2)$ is \textbf{not}
+        a minimiser. Minimising a concave function is not a convex
+        programme: at $(0,-2)$ the first-order conditions hold, but moving
+        along the circle ($f=y^{2}+y-4$ there) lowers $f$, a second-order
+        effect KKT cannot see.
+  \item (a) The objective is convex, but the feasible set is not:
+        $(0,0)$ and $(2,4)$ lie in $S$, the midpoint $(1,2)$ violates
+        $y\le x^{2}$. \textbf{Not} a convex programme.
+        (b) Min form, $\mathcal{L}=f+\lambda_1(y-x^{2})+\mu_1(x-2)-\mu_2x-\mu_3y$.
+        Interior: $\grad f=0$ at $(0,3)\notin S$. Only the parabola active:
+        $(2x-2\lambda_1x,\ 2(y-3)+\lambda_1)=0$ gives $\lambda_1=1$,
+        $y=\tfrac52$, $x=\sqrt{5/2}\approx1.58\in(0,2)$: a KKT point, $f=\tfrac52+\tfrac14=\tfrac{11}4$.
+        Only $x\le2$ active (points $(2,y)$, $0<y<4$): $(4,\,2(y-3))+\mu_1(1,0)=0$
+        needs $\mu_1=-4$: out. Only $y\ge0$ active with $x>0$:
+        $2x=0$, impossible. Corner $(2,4)$: $(4,2)+\lambda_1(-4,1)+\mu_1(1,0)=0$
+        gives $\lambda_1=-2$: out. Corner $(2,0)$: $\mu_1=-4$: out. Corner
+        $(0,0)$: see (c), a KKT point with $f=9$.
+        (c) At $(0,0)$ three constraints are active ($y\le x^{2}$, $x\ge0$,
+        $y\ge0$) with gradients $(0,1)$, $(-1,0)$, $(0,-1)$: three vectors
+        in the plane, necessarily dependent. Stationarity
+        $(0,-6)+\lambda_1(0,1)+\mu_2(-1,0)+\mu_3(0,-1)=0$ gives $\mu_2=0$
+        and $\lambda_1-\mu_3=6$: the one-parameter family
+        $(\lambda_1,\mu_3)=(6+t,\,t)$, $t\ge0$. Not unique, because LICQ
+        fails.
+        (d) Compare: $f(0,0)=9>\tfrac{11}4$. The minimiser is
+        $(\sqrt{5/2},\tfrac52)$; the corner is a KKT point that is not
+        optimal, possible because the programme is not convex.
+  \item On the triangle $f=xy\ge0$, and $f=0$ exactly when $x=0$ or
+        $y=0$: the minimisers are the segments $\{(0,y):0\le y\le4\}$ and
+        $\{(x,0):0\le x\le4\}$. Folded KKT for the minimum with
+        $\mathcal{L}=xy+\lambda(x+y-4)$: $\mathcal{L}_x=y+\lambda\ge0$,
+        $x\mathcal{L}_x=0$; $\mathcal{L}_y=x+\lambda\ge0$, $y\mathcal{L}_y=0$;
+        $\lambda\ge0$, $\lambda(x+y-4)=0$. At $(0,y_0)$ take $\lambda=0$:
+        $\mathcal{L}_x=y_0\ge0$ with $x=0$, and $\mathcal{L}_y=0$:
+        satisfied (also at $y_0=4$, where the budget binds with
+        $\lambda=0$). By symmetry the same on the other axis. A non-convex
+        objective with a continuum of optima, all of them KKT points.
+  \item Constraints (i) $x^{2}+y^{2}\le5$ ($\lambda_1$), (ii) $y\le1$
+        ($\lambda_2$); stationarity $(1,2)=\lambda_1(2x,2y)+\lambda_2(0,1)$.
+        $P=(1,2)$: $y=2>1$, \textbf{infeasible}. $Q=(2,1)$: both bind;
+        $1=4\lambda_1$, $2=2\lambda_1+\lambda_2$: $\lambda_1=\tfrac14$,
+        $\lambda_2=\tfrac32$, both positive: \textbf{KKT point}.
+        $R=(0,1)$: only (ii) active, $(1,2)=\lambda_2(0,1)$ impossible:
+        not KKT. $S=(-2,1)$: both bind, $1=-4\lambda_1$ gives
+        $\lambda_1=-\tfrac14<0$: \textbf{fails the sign test}. $T=(0,0)$:
+        nothing active, $\grad f\neq0$: not KKT. The programme is convex
+        (linear objective, convex constraints), so $Q$ is the global
+        maximum, $f=4$.
+  \item $\mathcal{L}=\ln(1+x)+\ln(1+y)+z+\lambda(4-x-y-z)$, folded
+        conditions $\mathcal{L}_{x}=\tfrac1{1+x}-\lambda\le0$,
+        $\mathcal{L}_y=\tfrac1{1+y}-\lambda\le0$, $\mathcal{L}_z=1-\lambda\le0$,
+        each with equality when the variable is positive.
+        $(1,1,2)$: budget binds, all variables positive, so $\lambda=\tfrac12$
+        (from $x$) and $\lambda=1$ (from $z$): contradiction, not KKT.
+        $(0,0,4)$: $z>0$ gives $\lambda=1$; then
+        $\mathcal{L}_x=\mathcal{L}_y=0\le0$; budget binds, $\lambda\ge0$:
+        \textbf{KKT point}. $(2,2,0)$: $x>0$ gives $\lambda=\tfrac13$, but
+        $\mathcal{L}_z=1-\tfrac13>0$: not KKT. $(1,1,1)$: budget slack, so
+        $\lambda=0$, but $\mathcal{L}_x=\tfrac12\neq0$: not KKT. The
+        objective is concave and the constraints linear: a convex
+        programme, so $(0,0,4)$ is the \textbf{global maximum}, $f=4$
+        (directly: $\ln(1+t)\le t$ gives $f\le x+y+z\le4$).
+  \item $\mathcal{L}=x^{2}+y^{2}+\lambda(4-x-2y)$, folded:
+        $\mathcal{L}_x=2x-\lambda\le0$, $\mathcal{L}_y=2y-2\lambda\le0$.
+        $(4,0)$: $x>0$ gives $\lambda=8$; $\mathcal{L}_y=-16\le0$: KKT,
+        $f=16$. $(0,2)$: $y>0$ gives $\lambda=2$; $\mathcal{L}_x=-2\le0$:
+        KKT, $f=4$. $(0,0)$: budget slack, $\lambda=0$,
+        $\mathcal{L}_x=\mathcal{L}_y=0$: KKT, $f=0$. $(0.8,1.6)$: budget
+        binds, $1.6=\lambda$ and $3.2=2\lambda$: KKT with $\lambda=1.6$,
+        $f=3.2$. The maximum of a convex function over the triangle sits at
+        a vertex: $f(4,0)=16$ is \textbf{optimal}. Linear constraints make
+        KKT necessary, but the programme is not convex (a convex objective
+        is maximised), so KKT is not sufficient: here it lets through the
+        global minimum $(0,0)$, a boundary minimum and a weaker vertex.
+  \item (a) $\mathcal{L}=xy-\tfrac12y^{2}+\mu(6-x-y)+\lambda(y-3)$ with
+        $\mu$ free, $\lambda\ge0$. For $x,y>0$: $y-\mu=0$ and
+        $x-y-\mu+\lambda=0$. If $\lambda=0$: $\mu=y$, $x=2y$, $3y=6$, $y=2<3$,
+        infeasible. So $y=3$, $x=3$, $\mu=3$, and $3-3-3+\lambda=0$ gives
+        $\lambda=3\ge0$: the KKT point $(3,3)$, $f=4.5$. It is global: on
+        the line $f=(6-y)y-\tfrac12y^{2}=6y-\tfrac32y^{2}$, decreasing for
+        $y>2$, so on $3\le y\le6$ the best is $y=3$ (the objective itself is
+        not concave, its Hessian has determinant $-1$).
+        (b) With $x+y\le6$ ($\mu^{+}\ge0$) and $-x-y\le-6$ ($\mu^{-}\ge0$),
+        stationarity contains $\mu^{+}-\mu^{-}$ where (a) had $\mu$, so
+        $\mu^{+}-\mu^{-}=3$: every pair $(3+t,t)$, $t\ge0$, works. The
+        gradients $(1,1)$ and $(-1,-1)$ are dependent, so LICQ fails and the
+        multipliers are not unique; their difference is the free $\mu$ of
+        (a). (Non-negativity written as $-x\le0$, $-y\le0$ adds multipliers
+        $\nu_x=\nu_y=0$, since both variables are positive.)
+        (c) $\lambda=3$ is the cost of the floor: with $y\ge b$ the value is
+        $V(b)=6b-\tfrac32b^{2}$, and $V'(3)=-3=-\lambda$: raising the floor by
+        $0.1$ costs about $0.3$.
+  \item On the plane the unconstrained minimiser is $(1,1,1)$, which
+        violates $x\ge2$, so $x\ge2$ binds. $\mathcal{L}=x^{2}+y^{2}+z^{2}
+        +\mu(3-x-y-z)+\lambda(2-x)$ (min, $\ge$): $2x=\mu+\lambda$,
+        $2y=\mu$, $2z=\mu$. With $x=2$: $y=z$, $2+2y=3$, $y=z=\tfrac12$,
+        $\mu=1$, $\lambda=4-1=3\ge0$. Minimum $4+\tfrac14+\tfrac14=4.5$ at
+        $(2,\tfrac12,\tfrac12)$, global (convex objective, linear
+        constraints).
+  \item Without the bound, $x=5$, $y=2.5$ (half the budget on each), which
+        violates $x\ge6$. So $x=6$, $y=2$. $\mathcal{L}=\ln x+\ln y
+        +\mu(10-x-2y)+\lambda(x-6)$: $\tfrac1y=2\mu$ gives $\mu=\tfrac14$;
+        $\tfrac1x-\mu+\lambda=0$ gives $\lambda=\tfrac14-\tfrac16=\tfrac1{12}\ge0$.
+        Maximum $\ln12\approx2.485$; global (concave objective, linear
+        constraints).
+  \item Without $y\le1.5$: $x=y=2$ (closest point of the line to $(1,1)$),
+        which violates the bound. So $y=1.5$, $x=2.5$.
+        $\mathcal{L}=f+\mu(4-x-y)+\lambda(1.5-y)$: $-2(x-1)-\mu=0$ gives
+        $\mu=-3$; $-2(y-1)-\mu-\lambda=0$ gives $-1+3-\lambda=0$, $\lambda=2\ge0$.
+        $f=-2.25-0.25=-2.5$. The equality multiplier has no sign
+        restriction: $\mu=\mathrm{d}V/\mathrm{d}c$ for the total $c=4$, and
+        raising $c$ pushes the bundle further from the bliss point $(1,1)$,
+        so the value falls. Indeed $V(c)=-(c-2.5)^{2}-0.25$, $V'(4)=-3$.
+  \item \emph{Min.} $\mathcal{L}=x^{2}+2y^{2}+\lambda(3-x-y)$; conditions:
+        $\mathcal{L}_x=2x-\lambda\ge0$, $x\ge0$, $x\mathcal{L}_x=0$;
+        $\mathcal{L}_y=4y-\lambda\ge0$, $y\ge0$, $y\mathcal{L}_y=0$;
+        $x+y\ge3$, $\lambda\ge0$, $\lambda(3-x-y)=0$. $\lambda=0$ would force
+        $x=y=0$, infeasible, so $x+y=3$. With $x,y>0$: $x=\tfrac\lambda2$,
+        $y=\tfrac\lambda4$, $\tfrac{3\lambda}4=3$: $\lambda=4$, $(2,1)$,
+        $f=6$, global (convex programme).
+        \emph{Max.} $\mathcal{L}=x^{2}+2y^{2}+\lambda(x+y-3)$; conditions
+        $\mathcal{L}_x=2x+\lambda\le0$, $\mathcal{L}_y=4y+\lambda\le0$ with
+        $x,y,\lambda\ge0$. Both sums of non-negative terms must be $\le0$,
+        so $x=y=\lambda=0$, which violates $x+y\ge3$: \textbf{no KKT point}.
+        The constraints are linear, hence the programme is regular and any
+        maximum would be a KKT point: so \textbf{no maximum exists} (indeed
+        $f\to\infty$ along $x+y\ge3$).
+  \item The set is the triangle with vertices $(0,3)$, $(3,3)$, $(3,1.5)$
+        ($x\ge0$ is implied).
+        \emph{Min.} $\mathcal{L}=f+\lambda(6-x-2y)+\mu_1(x-3)+\mu_2(y-3)$,
+        all multipliers $\ge0$ with complementary slackness, stationarity
+        $2(x-1)-\lambda+\mu_1=0$, $2(y-2)-2\lambda+\mu_2=0$. $(1,2)$ violates
+        $x+2y\ge6$, so try $x+2y=6$ alone: $x-1=\tfrac\lambda2$,
+        $y-2=\lambda$, $1+\tfrac\lambda2+4+2\lambda=6$, $\lambda=0.4$:
+        $(1.2,2.4)$, inside the other bounds, $f=0.2$. Convex programme:
+        global.
+        \emph{Max.} $\mathcal{L}=f+\lambda(x+2y-6)+\mu_1(3-x)+\mu_2(3-y)$,
+        stationarity $2(x-1)+\lambda-\mu_1=0$, $2(y-2)+2\lambda-\mu_2=0$. The
+        largest value among the vertices is $f(3,3)=5$ (against $2$ and
+        $4.25$). There $x+2y=9>6$, so $\lambda=0$, and $\mu_1=4$, $\mu_2=2$,
+        both $\ge0$: the KKT system holds at the optimal corner.
+  \item (a) \textbf{Convex}: convex objective, convex $g=x^{2}+y^{2}$ in a
+        $\le$ constraint. (b) \textbf{Not}: a $\ge$ constraint needs a
+        concave function, $x^{2}+y^{2}$ is convex; the set outside the disc
+        is not convex. (c) \textbf{Not}: $x^{2}-y^{2}$ is not concave; the
+        set consists of two separate pieces. (d) \textbf{Not}: $y-x^{2}\le0$
+        has a concave, not convex, left side; the region under a convex
+        parabola is not convex (the objective is fine). (e)
+        \textbf{Convex}: the objective has Hessian
+        $\begin{pmatrix}12x^{2}+2&-2\\-2&2\end{pmatrix}$, PSD everywhere
+        (Additional Problem~38), and the constraint is linear. (f)
+        \textbf{Not}: maximising requires a concave objective; this is
+        the disc of (a) with a convex objective maximised.
+  \item On the feasible set $x^{2}\ge1+y^{2}$, so
+        $f=x^{2}+y^{2}\ge1+2y^{2}\ge1$, with equality iff $y=0$, $x^{2}=1$:
+        \textbf{two minimisers} $(\pm1,0)$, $f=1$. KKT check:
+        $\mathcal{L}=x^{2}+y^{2}+\lambda(1-x^{2}+y^{2})$: $2x(1-\lambda)=0$,
+        $2y(1+\lambda)=0$. So $y=0$ ($\lambda\ge0$), and $x\neq0$ forces
+        $\lambda=1$: both points with $\lambda=1$. Two optima are possible
+        because the programme is not convex.
+  \item Convexity: $f_{xx}=12x^{2}+2>0$, $f_{yy}=2>0$,
+        $\det=24x^{2}+4-4=24x^{2}\ge0$: PSD everywhere. Unconstrained,
+        $\grad f=(4x^{3}+2x-2y,\ -2x+2y)=0$ gives $y=x$, $4x^{3}=0$: the
+        origin, which violates $x+y\ge3$. So the constraint binds:
+        $\mathcal{L}=f+\lambda(3-x-y)$, $4x^{3}+2x-2y=\lambda$,
+        $-2x+2y=\lambda$, $y=3-x$. From the second, $\lambda=6-4x$; the
+        first becomes $4x^{3}+2x-6+2x=6-4x$, i.e.\ $x^{3}+2x-3=0
+        =(x-1)(x^{2}+x+3)$, so $x=1$, $y=2$, $\lambda=2\ge0$. Minimum
+        $f(1,2)=1+1-4+4=2$, global (convex programme).
+  \item Min form: stationarity $2(x-2)+\mu_1+\mu_2=0$,
+        $2(y-2)+\mu_1+2\mu_2=0$, $2(z-2)+\mu_1=0$. Cases: none active,
+        $(2,2,2)$: sum $6>3$, infeasible. Only $g_1$: $(1,1,1)$ violates
+        $x+2y\le2$. Only $g_2$: $(\tfrac65,\tfrac25,2)$, sum $3.6>3$,
+        infeasible. Both: $x=2-\tfrac{\mu_1+\mu_2}2$,
+        $y=2-\tfrac{\mu_1+2\mu_2}2$, $z=2-\tfrac{\mu_1}2$; the constraints
+        give $\mu_1+\mu_2=2$ and $\mu_1+2\mu_2=3$, so $\mu_1=\mu_2=1$ and
+        $(x,y,z)=(1,\tfrac12,\tfrac32)$, $f=1+\tfrac94+\tfrac14=\tfrac72$.
+        Multipliers positive, convex programme: \textbf{global minimum}.
+  \item $\grad f=(y+z,\,x+z,\,x+y)=H\mathbf{v}$ with
+        $H=\begin{pmatrix}0&1&1\\1&0&1\\1&1&0\end{pmatrix}$, which has
+        eigenvalues $2$ (eigenvector $(1,1,1)$) and $-1$ (twice): $f$ is
+        \textbf{not concave}. KKT: $H\mathbf{v}=2\lambda\mathbf{v}$,
+        $\lambda\ge0$, $\lambda(3-\|\mathbf{v}\|^{2})=0$. $\lambda=0$: $H$ is
+        invertible, so $\mathbf{v}=0$, $f=0$. Ball boundary: $\mathbf{v}$ is
+        an eigenvector with $2\lambda\in\{2,-1\}$; only $\lambda=1$ is
+        allowed, with $\mathbf{v}\parallel(1,1,1)$, $\|\mathbf{v}\|^{2}=3$:
+        $\pm(1,1,1)$, $f=3$. Symmetry explains the shortcut: $f$ is
+        unchanged by permuting coordinates and by $\mathbf{v}\mapsto-\mathbf{v}$,
+        so try $x=y=z$ and expect solutions in pairs. The ball is compact
+        and the programme regular (Slater: the origin), so the maximum is
+        among the KKT points: $f=3$ at the \textbf{two maximisers}
+        $(1,1,1)$ and $(-1,-1,-1)$.
+  \item $U$ is increasing, so the budget binds:
+        $\mathcal{L}=U+\lambda(1.5-x-y-z)+\mu(x-1)$, with
+        $\mathcal{L}_x=1-\lambda+\mu=0$, $\mathcal{L}_y=\tfrac1{\sqrt y}-\lambda$
+        ($=0$ if $y>0$), $\mathcal{L}_z=\tfrac1{1+z}-\lambda\le0$ ($=0$ if
+        $z>0$). Case $x>1$: $\mu=0$, $\lambda=1$, $y=1$, and $z=0$; then
+        $x=0.5<1$: infeasible. So $x=1$ and $y+z=0.5$. If $z>0$:
+        $\sqrt y=1+z$, so $(1+z)^{2}+z=0.5$, $z^{2}+3z+0.5=0$, both roots
+        negative: impossible. Hence $z=0$, $y=0.5$, $\lambda=\sqrt2$;
+        $\mathcal{L}_z=1-\sqrt2\le0$ \checkmark, $\mu=\sqrt2-1\approx0.414\ge0$
+        \checkmark. Optimum $(1,\tfrac12,0)$, $U=1+\sqrt2\approx2.414$,
+        global (concave $U$, linear constraints).
+  \item (a) $\max x^{1/2}y^{1/2}$ s.t.\ $2x+y\le40$ (money), $x+2y\le40$
+        (coupons), $x,y\ge0$. (b) Money alone: half on each good,
+        $x=10$, $y=20$, needing $10+40=50>40$ coupons. Coupons alone: half
+        of the coupons on each, $x=20$, $y=10$, costing $40+10=50>40$ euros.
+        (c) Both binding: $2x+y=40$, $x+2y=40$ give $x=y=\tfrac{40}3$. There
+        $U_x=U_y=\tfrac12$, and
+        $(\tfrac12,\tfrac12)=\lambda_m(2,1)+\lambda_c(1,2)$ gives
+        $\lambda_m=\lambda_c=\tfrac16>0$: KKT, and global (concave $U$,
+        linear constraints). An extra euro and an extra coupon are each
+        worth $\tfrac16$ util, so one coupon is worth
+        $\lambda_c/\lambda_m=1$ euro: paying $1.50$ is \textbf{not}
+        worthwhile.
+  \item Unconstrained: $x=10$, $y=8$, needing $18>10$ units of $A$. Only
+        $A$: $20-2x=16-2y$ and $x+y=10$ give $(6,4)$, but $2\cdot6+4=16>15$.
+        Only $B$: $20-2x=2\lambda$, $16-2y=\lambda$, so $x=2y-6$, and
+        $2x+y=15$ gives $(4.8,5.4)$, but $4.8+5.4=10.2>10$. Both binding:
+        $x+y=10$, $2x+y=15$, so $(5,5)$, with $\grad\pi=(10,6)
+        =\lambda_A(1,1)+\lambda_B(2,1)$: $\lambda_B=4$, $\lambda_A=2$, both
+        positive. Profit $100-25+80-25=130$, global (concave, linear
+        constraints). One more unit of $A$ raises profit by about $2$, one
+        more unit of $B$ by about $4$: $B$ is the scarcer resource.
+  \item Unconstrained, $3\mathrm{e}^{-a_1/20}=1$ and $4\mathrm{e}^{-a_2/10}=1$:
+        $a_1=20\ln3\approx21.97$, $a_2=10\ln4\approx13.86$, total
+        $\approx35.84$. \emph{$B=50$:} the budget is slack, $\lambda=0$, and
+        $\pi=40+30-35.84\approx34.16$; $14.16$ of the budget is left
+        unspent, because beyond that point an extra euro of advertising
+        earns less than a euro. \emph{$B=30$:} the budget binds,
+        $3\mathrm{e}^{-a_1/20}-1=\lambda=4\mathrm{e}^{-a_2/10}-1$, so
+        $a_1=20\ln\tfrac{3}{1+\lambda}$, $a_2=10\ln\tfrac{4}{1+\lambda}$, and
+        $a_1+a_2=30$ gives $\ln(1+\lambda)=\tfrac{20\ln3+10\ln4-30}{30}$,
+        $\lambda\approx0.215$, $a_1\approx18.08$, $a_2\approx11.92$,
+        $\pi\approx33.56$. Now an extra euro of budget would raise profit by
+        about $0.21$. ($\pi$ is concave, so both answers are global.)
+  \item On the line $f=x(10-x)$ for $x\in[2,6]$. $\mathcal{L}$ for the max:
+        $xy+\mu(10-x-y)+\lambda_1(x-2)+\lambda_2(6-x)$: at $(5,5)$ both
+        bounds slack, $\mu=5$, \textbf{maximum} $25$. For the min,
+        $\mathcal{L}=xy+\mu(10-x-y)+\lambda_1(2-x)+\lambda_2(x-6)$,
+        stationarity $y-\mu-\lambda_1+\lambda_2=0$, $x-\mu=0$. At $(2,8)$:
+        $\mu=2$, $\lambda_1=6\ge0$ (the lower bound binds), $f=16$. At
+        $(6,4)$: $\mu=6$, $\lambda_2=2\ge0$ (the upper bound binds), $f=24$:
+        also a KKT point, a local minimum only. \textbf{Minimum} $16$ at
+        $(2,8)$; the lower bound binds at the minimum, no bound at the
+        maximum.
+  \item Substitute $x=u-v$ ($u,v\ge0$, $x$ free) and $z=-w$ ($w\ge0$).
+        (a) $\max\,(u-v)y-w^{2}-2w$ s.t.\ $5-(u-v)^{2}-y\ge0$,
+        $(u-v)-y+1\ge0$, $u,v,y,w\ge0$.
+        (b) $\min\,-(u-v)y+w^{2}+2w$ s.t.\ $(u-v)^{2}+y-5\le0$,
+        $-(u-v)+y-1\le0$, $u,v,y,w\ge0$.
+        (In the chapter's own form, $\max f$ s.t.\ $g_i\le b_i$, keep
+        $x$ free and write $-y\le0$, $z\le0$, $-x+y\le1$.)
+  \item Substitute $x=u-v$, $w=-s$ ($u,v,s\ge0$) and split the equality.
+        Form ``$\max$, $\ge0$'': $\max\,-(u-v-1)^{2}-\mathrm{e}^{-s}$ s.t.\
+        $u-v-s-2\ge0$, $-u+v+s+2\ge0$, $u,v,s\ge0$. Form ``$\min$, $\le0$'':
+        $\min\,(u-v-1)^{2}+\mathrm{e}^{-s}$ s.t.\ $u-v-s-2\le0$,
+        $-u+v+s+2\le0$, $u,v,s\ge0$. Solution: $x=2-w$ gives
+        $\varphi(w)=(1-w)^{2}+\mathrm{e}^{w}$ on $w\le0$, with
+        $\varphi'(w)=-2(1-w)+\mathrm{e}^{w}\le-2+1<0$ there: decreasing, so
+        the bound binds, $w^*=0$, $x^*=2$, minimum $2$.
+  \item (a) Side $\tfrac x4$, radius $\tfrac{20-x}{2\pi}$:
+        $A(x)=\tfrac{x^{2}}{16}+\tfrac{(20-x)^{2}}{4\pi}$ on $[0,20]$, with
+        $A''=\tfrac18+\tfrac1{2\pi}>0$, convex. $A'(x)=\tfrac x8-\tfrac{20-x}{2\pi}=0$
+        gives $x=\tfrac{80}{4+\pi}\approx11.20$, the \textbf{minimum}
+        $A=\tfrac{100}{4+\pi}\approx14.00$. The maximum of a convex function
+        sits at an endpoint: $A(0)=\tfrac{100}{\pi}\approx31.83$ (all circle)
+        beats $A(20)=25$, so the \textbf{maximum} is at $x=0$.
+        (b) $\mathcal{L}=\tfrac{x^{2}}{16}+\tfrac{y^{2}}{4\pi}+\lambda(20-x-y)$:
+        $\tfrac x8=\lambda=\tfrac{y}{2\pi}$, so $y=\tfrac{\pi}{4}x$ and the
+        same $x=\tfrac{80}{4+\pi}$. $\det\overline{H}=-\mathcal{L}_{yy}-\mathcal{L}_{xx}
+        =-\tfrac1{2\pi}-\tfrac18<0$: a \textbf{minimum}, the only Lagrange
+        point. (c) On $\{x+y=20,\ x,y\ge0\}$ the corners carry
+        bound multipliers: with
+        $\mathcal{L}=A+\mu(20-x-y)+\nu_xx+\nu_yy$, at $(0,20)$:
+        $\mu=\tfrac{20}{2\pi}=\tfrac{10}\pi$ and $\nu_x=\mu>0$; at $(20,0)$:
+        $\mu=\tfrac52=\nu_y$. Both corners are KKT points of the maximisation,
+        and the better one, $(0,20)$, is the maximum. Lagrange looks only for
+        tangencies on the line and never sees the bounds $x,y\ge0$.
+  \item Max: $\mathcal{L}=x^{2}+xy+y^{2}+\lambda(x+y-2)$, folded
+        $\mathcal{L}_x=2x+y+\lambda\le0$, $\mathcal{L}_y=x+2y+\lambda\le0$
+        with $x,y,\lambda\ge0$: only $x=y=\lambda=0$, which is infeasible.
+        No KKT point; the constraints are linear, so the programme is
+        regular and \textbf{no maximum exists} ($f\to\infty$).
+        Min: $\mathcal{L}=f+\lambda(2-x-y)$, $2x+y=\lambda=x+2y$ for
+        $x,y>0$, so $x=y=1$, $\lambda=3\ge0$, $f=3$; convex objective
+        ($\Hess=\begin{pmatrix}2&1\\1&2\end{pmatrix}$ PD), global.
+  \item (a) Objective $f(p)=\|p-a\|^{2}+\|p-b\|^{2}$, total squared
+        distance to the shops; the constraint function $\|p\|^{2}$ measures
+        the squared distance from the centre of the zone, and
+        $\|p\|^{2}\le25$ says the warehouse lies in the zone. (b) A disc is
+        convex; $f$ is a convex quadratic and $\|p\|^{2}$ convex: a
+        \textbf{convex programme}; Slater holds at the origin:
+        \textbf{regular}. (c) Regular, so KKT is \textbf{necessary}; convex,
+        so it is \textbf{sufficient}. A Lagrange point on the circle with
+        $\lambda\ge0$ is therefore the global optimum, and it is unique
+        because $f$ is strictly convex. (d) $f=2\|p-m\|^{2}+8$ with midpoint
+        $m=(6,2)$, $\|m\|=\sqrt{40}>5$: the unconstrained optimum lies
+        outside, so the circle binds, and the optimum is the point of the
+        disc nearest to $m$: $p^*=\tfrac{5}{\sqrt{40}}m\approx(4.743,\,1.581)$,
+        $f^*=2(\sqrt{40}-5)^{2}+8\approx11.51$, with
+        $\lambda=0.4(\sqrt{40}-5)\approx0.53\ge0$.
+  \item (a) Linear constraint: necessary; concave objective: a convex
+        programme, so also \textbf{sufficient}. (b) Linear constraints:
+        \textbf{necessary}; a convex objective is maximised, so
+        \textbf{not sufficient} ($(0,0)$ is a KKT point and the minimum).
+        (c) Not regular at the cusp $(1,0)$, and that is the optimum:
+        \textbf{not necessary} (no point at all satisfies KKT here); the
+        feasible set is not convex, so no sufficiency either. (d)
+        $\grad(x^{2}+y^{2})\neq0$ on the circle: regular, \textbf{necessary};
+        a $\ge$ constraint with a convex function makes the programme
+        non-convex, so sufficiency is \textbf{not guaranteed} by the theorem
+        (here every KKT point, the whole unit circle, happens to be optimal).
+  \item If $\grad f=\sum\lambda_i\grad g_i=\sum\lambda_i'\grad g_i$ over the
+        active constraints, then $\sum(\lambda_i-\lambda_i')\grad g_i=0$, and
+        linear independence forces $\lambda_i=\lambda_i'$: at a regular point
+        the multipliers are unique, and each is the shadow price of its own
+        constraint. Non-unique multipliers signal dependent active
+        gradients: a corner with more active constraints than dimensions
+        (the origin in Additional Problem~25, three constraints in the
+        plane), or an equality written as two inequalities (Additional
+        Problem~30(b)). Then a single $\lambda_i$ no longer measures the
+        value of relaxing constraint $i$ alone.
+  \item (a) $V(x_1,x_2)=100x_1^{2}+36x_2^{2}+16(1-x_1-x_2)^{2}$, return
+        $8x_1+5x_2+3(1-x_1-x_2)\ge6$, i.e.\ $5x_1+2x_2\ge3$, and $x_1,x_2\ge0$,
+        $x_1+x_2\le1$. $\mathcal{L}=V+\lambda(3-5x_1-2x_2)-\nu_1x_1-\nu_2x_2+\nu_3(x_1+x_2-1)$,
+        all multipliers $\ge0$ with complementary slackness, and
+        $V_{x_1}-5\lambda-\nu_1+\nu_3=0$, $V_{x_2}-2\lambda-\nu_2+\nu_3=0$,
+        where $V_{x_1}=200x_1-32x_3$, $V_{x_2}=72x_2-32x_3$.
+        (b) With $\nu_1=\nu_2=\nu_3=0$: $200x_1-32x_3=5\lambda$,
+        $72x_2-32x_3=2\lambda$, $5x_1+2x_2=3$. Solving,
+        $x_1=\tfrac{147}{361}\approx0.407$, $x_2=\tfrac{174}{361}\approx0.482$,
+        $x_3=\tfrac{40}{361}\approx0.111$, $\lambda=\tfrac{296}{19}\approx15.58\ge0$.
+        Checks: $x_1,x_2>0$ and $x_1+x_2<1$, so the slack constraints are
+        indeed slack, as their zero multipliers require. Minimal variance
+        $\tfrac{9076}{361}\approx25.14$, $\sigma\approx5.01\%$.
+        (c) $\Hess V=\begin{pmatrix}232&32\\32&104\end{pmatrix}$ is PD, the
+        constraints linear: a convex programme, so the KKT point is the
+        unique global minimum. $\lambda\approx15.6$ is the extra variance per
+        extra percentage point of required return.
+  \item With target $7.5\%$, i.e.\ $5x_1+2x_2\ge4.5$, the same guess gives
+        $x_1\approx0.644$, $x_2\approx0.640$, $x_3\approx-0.284<0$: short
+        selling, infeasible. So also $x_1+x_2\le1$ binds ($x_3=0$):
+        $5x_1+2x_2=4.5$, $x_1+x_2=1$ give $x_1=\tfrac56$, $x_2=\tfrac16$.
+        Stationarity with $x_3=0$: $200\cdot\tfrac56-5\lambda+\nu_3=0$,
+        $72\cdot\tfrac16-2\lambda+\nu_3=0$; subtracting,
+        $3\lambda=\tfrac{1000}{6}-12$, $\lambda=\tfrac{464}9\approx51.6$,
+        $\nu_3=2\lambda-12=\tfrac{820}9\approx91.1$, both $\ge0$; $\nu_1=\nu_2=0$
+        with $x_1,x_2>0$. All conditions hold; variance
+        $\tfrac{2500}{36}+1=\tfrac{634}9\approx70.4$. Global by the same
+        convexity argument.
+  \item (a) $\pi_{x_1}=\tfrac{6x_2}{1+x_1x_2}-1$,
+        $\pi_{x_2}=\tfrac{6x_1}{1+x_1x_2}-1$: both zero gives $x_1=x_2=t$
+        with $6t=1+t^{2}$, $t=3\pm2\sqrt2$. At $(t,t)$,
+        $\Hess\pi=\tfrac{6}{(1+t^{2})^{2}}\begin{pmatrix}-t^{2}&1\\1&-t^{2}\end{pmatrix}$,
+        with determinant of the sign of $t^{4}-1$: $t_0=3-2\sqrt2\approx0.172$
+        gives a \textbf{saddle} ($\pi\approx-0.169$), $t_1=3+2\sqrt2\approx5.83$
+        a \textbf{local maximum} ($\pi\approx9.670$).
+        (b) $B=20$: $(t_0,t_0)$ is feasible with slack budget; $\lambda=0$
+        and $\grad\pi=0$ satisfy every KKT condition, but it is a saddle. The
+        candidates: $(t_1,t_1)$ with $2t_1\approx11.66<20$, $\pi\approx9.67$;
+        the origin, $\pi=0$; on the budget line the best point is
+        $(10,10)$ (symmetry), $\pi=6\ln101-20\approx7.69$, and its multiplier
+        $\tfrac{12B}{4+B^{2}}-1<0$ rules it out anyway; on the axes
+        $\pi=-x_i\le0$. Optimum $(t_1,t_1)$, budget slack, $\lambda=0$:
+        $8.34$ of the budget stays unspent.
+        (c) $B=4<2t_1$: on the budget line $x_1x_2$ is largest at $(2,2)$,
+        $\pi=6\ln5-4\approx5.66$, with
+        $\lambda=\tfrac{6x_2}{1+x_1x_2}-1=\tfrac{12}{5}-1=1.4>0$: an extra
+        euro of budget is worth $1.40$. This beats the origin and the
+        saddle, so it is the optimum. $B=0.5$: the budget point
+        $(0.25,0.25)$ is a KKT point ($\lambda\approx0.41$) but
+        $\pi=6\ln1.0625-0.5\approx-0.14<0$; the origin is a KKT point too
+        (budget slack, $\lambda=0$, $\pi_{x_i}=-1\le0$) with $\pi=0$:
+        \textbf{shut down}. The switch happens where
+        $6\ln(1+B^{2}/4)=B$, at $B\approx0.71$. A non-convex programme: several
+        KKT points, and the regime depends on $B$.
+  \item $R$ increases in $x_1$ whenever $x_2>0$ (and vice versa), and
+        $R=0$ on the axes, so any unspent budget can raise revenue: the
+        budget binds and may be written as $x_1+x_2=B$. Then $x_1x_2$ is
+        maximal at $x_1=x_2=\tfrac B2$, $R=6\ln(1+\tfrac{B^{2}}4)$ and
+        $\lambda=R_{x_1}=\tfrac{12B}{4+B^{2}}$. $B=4$: $(2,2)$,
+        $R\approx9.66$, $\lambda=2.4$. $B=20$: $(10,10)$, $R=6\ln101\approx27.69$,
+        $\lambda\approx0.594$. Unlike the profit problem, where input costs
+        enter the objective and the budget is left partly unspent for large
+        $B$ (and $\lambda=0$), revenue maximisation always exhausts the
+        budget with $\lambda>0$.
+  \item Domain constraint $g=x^{2}+y^{2}\le5$; KKT for the maximum:
+        $\grad f=\lambda\grad g$, $\lambda\ge0$, $\lambda(5-g)=0$. Try the
+        domain constraint slack, $\lambda=0$: with $R=\sqrt{5-x^{2}-y^{2}}$,
+        $f_x=1-\tfrac xR=0$, $f_y=2-\tfrac yR=0$, so $x=R$, $y=2R$ and
+        $R^{2}=5-5R^{2}$, $R=\sqrt{5/6}$: $(x,y)\approx(0.913,\,1.826)$ with
+        $x^{2}+y^{2}=\tfrac{25}6<5$, slack indeed. All KKT conditions hold
+        with $\lambda=0$, and $f^*=6R=\sqrt{30}\approx5.477$. Global: $x+2y$
+        is linear and $\sqrt{5-x^{2}-y^{2}}$ is concave (an increasing
+        concave function of a concave function), so $f$ is concave on the
+        convex domain. Near the boundary the square root's slope blows up,
+        which keeps the optimum away from it.
+  \item Constraint $g=x^{2}-y\le0$ with $\grad g=(2x,-1)\neq0$: LICQ holds
+        everywhere, the programme is regular. KKT for the maximum:
+        $\grad f=\lambda\grad g$,
+        \[
+          \Bigl(1-3x\sqrt{y-x^{2}},\ \ 1+\tfrac32\sqrt{y-x^{2}}\Bigr)
+          =\lambda\,(2x,\,-1).
+        \]
+        The second components give $\lambda=-1-\tfrac32\sqrt{y-x^{2}}\le-1<0$,
+        violating $\lambda\ge0$ (and $\lambda=0$, the interior case, is
+        excluded too). No point satisfies the KKT conditions; by regularity
+        a maximum would have to, so \textbf{no maximum exists}. Directly:
+        $f(0,y)=y+y^{3/2}\to\infty$.
 \end{solutions}

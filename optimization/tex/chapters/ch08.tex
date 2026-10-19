@@ -60,6 +60,41 @@ theorem allows the derivative $\mathrm{d}V/\mathrm{d}\alpha$ to be computed
 \emph{without} solving for $x^*(\alpha)$ explicitly.
 \end{rulebox}
 
+\begin{rulebox}{Duality: output maximisation and cost minimisation}
+Consider the pair
+\[
+  \text{(P)}\ \max_{\mathbf{x}}F(\mathbf{x})\ \text{s.t.}\ \mathbf{w}\cdot\mathbf{x}=B,
+  \qquad
+  \text{(D)}\ \min_{\mathbf{x}}\mathbf{w}\cdot\mathbf{x}\ \text{s.t.}\ F(\mathbf{x})=\bar Q .
+\]
+Both have the same tangency conditions
+$F_{x_i}/F_{x_j}=w_i/w_j$, hence the same \emph{expansion path}; they differ
+only in which constraint fixes the point on it.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item If $\bar Q=Q^*$, the maximal output of (P), then the bundle
+        $\mathbf{x}^*$ of (P) also solves (D), the minimal cost is exactly
+        $B$, and the multipliers are reciprocal:
+        $\mu_{\text{cost}}=1/\lambda_{\text{output}}$. ($\lambda$ is output
+        per extra euro, $\mu$ is euros per extra unit of output: the
+        marginal cost.)
+  \item If $\bar Q\neq Q^*$, the answer moves along the expansion path. For
+        $F$ homogeneous of degree $r$, scale the bundle by
+        $t=(\bar Q/Q^*)^{1/r}$: inputs and cost are multiplied by $t$.
+  \item The same duality holds in geometry: the shape with the largest
+        volume for a given surface is the shape with the smallest surface
+        for a given volume, and again the two multipliers are reciprocal.
+\end{itemize}
+In consumer theory the same pair is utility maximisation and expenditure
+minimisation (Chapter~1).
+
+\textbf{Monotone transformations.} Replacing the objective $f$ by $G\circ f$
+with $G$ strictly increasing \emph{on the range of values $f$ takes on the
+constraint set} leaves the optimiser unchanged (an ordinal property,
+Chapter~3) and multiplies the multiplier by $G'(f^*)$. If $G$ is increasing
+only on part of that range ($G(t)=t^{2}$ where $f$ can be negative), new
+critical points and new optima may appear.
+\end{rulebox}
+
 \section{Worked Example}
 
 \begin{worked}{$U=x^{0.4}y^{0.6}$, $p_{x}=2$, $p_{y}=3$, $M=100$: find the optimum, the multiplier, and verify $\lambda^{*}=\mathrm{d}V/\mathrm{d}M$}
@@ -396,6 +431,37 @@ whole content of complementary slackness in Chapter~10.
         $p_x = 1, p_y = 1, M = 10$, suppose a per-unit tax raises $p_x$
         from $1$ to $1.5$. Use envelope for a first-order estimate of
         $\Delta V$, then compute exact $\Delta V$ and compare.
+
+  \item (Duality, constant returns.) A firm with $Q=K^{1/2}L^{1/2}$,
+        $r=4$, $w=1$ maximises output with the budget $4K+L=80$.
+        (a) Solve and find $\lambda^*$. (b) \emph{Without solving}, state
+        the solution of $\min 4K+L$ s.t.\ $Q=20$, including its multiplier.
+        (c) Still without solving, give the cost-minimising bundle for
+        $Q=30$. (d) Confirm (b) and (c) by Lagrange.
+  \item (Duality, decreasing returns.) $Q=K^{1/3}L^{1/3}$, $r=2$, $w=1$,
+        budget $B=60$. (a) Find $\mathbf{x}^*$, $Q^*$ and $\lambda^*$.
+        (b) Answer without solving: the minimal cost of producing $Q^*$, and
+        its multiplier. (c) How do inputs and cost change if the target is
+        $2Q^*$? Confirm with the cost function.
+  \item (Geometric dual pair.) A closed box has a square base of side $a$
+        and height $h$. (a) Maximise its volume for a surface area of $24$.
+        (b) Minimise its surface for a volume of $8$. (c) Show that both
+        give the same shape and that the two multipliers are reciprocal.
+  \item (Cylinder.) A closed cylinder has radius $r$ and height $h$.
+        (a) Maximise the volume for a surface of $54\pi$. (b) State, without
+        solving, the solution of minimising the surface for the volume found
+        in (a), then confirm by Lagrange and check $\lambda\mu=1$.
+  \item (Monotone transformations.) On the constraint $x+y=10$ with
+        $x,y>0$, compare the maximisers of $f=xy$, $\sqrt{f}$, $f^{2}$,
+        $\mathrm{e}^{f}$ and $\ln f$, and the multipliers. Which of the five
+        objectives are concave on $\R^{2}_{++}$? What changes for $f^{2}$
+        if $x$ and $y$ may be negative?
+  \item (Three inputs.) Maximise $Q=x_1^{0.2}x_2^{0.3}x_3^{0.5}$ subject
+        to $2x_1+3x_2+5x_3=100$. Use the expenditure-share rule, then check
+        the FOCs and interpret $\lambda^*$.
+  \item Maximise $Q=(x_1x_2x_3)^{1/4}$ subject to $x_1+2x_2+4x_3=48$.
+        Find $\mathbf{x}^*$, $Q^*$ and $\lambda^*$, and verify
+        $\lambda^*=\tfrac34Q^*/B$.
 \end{problems}
 
 \section{Additional Solutions}
@@ -520,4 +586,83 @@ whole content of complementary slackness in Chapter~10.
         $\Delta V = 4.082 - 5 = -0.918$. The approximation overshoots in
         magnitude because $p_x$ changes by a large $50\%$; first-order
         accurate only for small changes.
+
+  \item (a) Exponents $\tfrac12,\tfrac12$: equal cost shares, $4K=40$,
+        $L=40$, so $K^*=10$, $L^*=40$, $Q^*=\sqrt{400}=20$.
+        $\lambda^*=\dfrac{Q_K}{r}=\dfrac{\tfrac12\sqrt{L/K}}{4}=\dfrac{1}{4}$
+        (also $Q^*/B=\tfrac{20}{80}$, constant returns).
+        (b) The target equals $Q^*$, so the same bundle $(10,40)$ is cost
+        minimising, the minimal cost is the budget $80$, and
+        $\mu^*=1/\lambda^*=4$, the marginal cost of output.
+        (c) Degree of homogeneity $1$: scale by $t=\tfrac{30}{20}=1.5$, giving
+        $(15,60)$ at cost $120$.
+        (d) $\mathcal{L}=4K+L+\mu(\bar Q-\sqrt{KL})$:
+        $4=\tfrac{\mu}{2}\sqrt{L/K}$, $1=\tfrac{\mu}{2}\sqrt{K/L}$; dividing,
+        $L=4K$, and $\sqrt{4K^{2}}=2K=\bar Q$. For $\bar Q=20$: $(10,40)$,
+        and $1=\tfrac{\mu}{2}\cdot\tfrac12$ gives $\mu=4$. For $\bar Q=30$:
+        $(15,60)$, cost $120$, $\mu=4$ again (constant marginal cost).
+  \item (a) Equal exponents, equal spending: $2K=30$, $L=30$, so
+        $K^*=15$, $L^*=30$, $Q^*=450^{1/3}\approx7.663$, and
+        $\lambda^*=\dfrac{Q_L}{w}=\dfrac{Q^*}{3L^*}\approx0.0851$.
+        (b) Minimal cost of $Q^*$: $60$, with $\mu^*=1/\lambda^*\approx11.74$.
+        (c) $F$ is homogeneous of degree $\tfrac23$ (not to be confused with
+        the input price $r=2$), so doubling output
+        needs $t=2^{3/2}\approx2.828$: $K\approx42.43$, $L\approx84.85$, cost
+        $60\cdot2^{3/2}\approx169.7$. Check: in general $K=B/4$, $L=B/2$, so
+        $Q^*(B)=(B^{2}/8)^{1/3}=\tfrac12B^{2/3}$; inverting,
+        $C(Q)=(2Q)^{3/2}$, and $C(2Q^*)=(4Q^*)^{3/2}\approx169.7$. Also
+        $C'(Q^*)=3\sqrt{2Q^*}\approx11.74=\mu^*$. \checkmark
+  \item (a) $\mathcal{L}=a^{2}h+\lambda(24-2a^{2}-4ah)$:
+        $2ah=\lambda(4a+4h)$, $a^{2}=4\lambda a$, so $\lambda=\tfrac a4$ and
+        $2ah=a^{2}+ah$, i.e.\ $h=a$. Then $6a^{2}=24$: $a=h=2$, volume $8$,
+        $\lambda^*=\tfrac12$.
+        (b) $\mathcal{L}=2a^{2}+4ah+\mu(8-a^{2}h)$: $4a+4h=2\mu ah$,
+        $4a=\mu a^{2}$, so $\mu=\tfrac4a$ and $4a+4h=8h$, $h=a$. Then
+        $a^{3}=8$: $a=h=2$, surface $24$, $\mu^*=2$.
+        (c) Both give the cube of side $2$, and $\lambda^*\mu^*=1$: $\lambda$
+        is extra volume per unit of surface, $\mu$ extra surface per unit of
+        volume.
+  \item (a) $\mathcal{L}=\pi r^{2}h+\lambda(54\pi-2\pi r^{2}-2\pi rh)$:
+        $2\pi rh=\lambda(4\pi r+2\pi h)$ and $\pi r^{2}=2\pi\lambda r$, so
+        $\lambda=\tfrac r2$ and $2\pi rh=2\pi r^{2}+\pi rh$, i.e.\ $h=2r$
+        (height equals diameter). Then $6\pi r^{2}=54\pi$: $r=3$, $h=6$,
+        $V=54\pi$, $\lambda^*=\tfrac32$.
+        (b) By duality the same can, $r=3$, $h=6$, surface $54\pi$, with
+        $\mu^*=\tfrac23$. Lagrange:
+        $\mathcal{L}=2\pi r^{2}+2\pi rh+\mu(54\pi-\pi r^{2}h)$:
+        $\mathcal{L}_h=2\pi r-\mu\pi r^{2}=0$ gives $\mu=\tfrac2r$;
+        $\mathcal{L}_r=4\pi r+2\pi h-2\mu\pi rh=0$ gives $4r+2h=4h$, $h=2r$;
+        then $2\pi r^{3}=54\pi$, $r=3$, $\mu=\tfrac23$, and
+        $\lambda\mu=\tfrac32\cdot\tfrac23=1$.
+  \item On the constraint with $x,y>0$, $f=xy$ takes values in $(0,25]$,
+        and all four transforms $\sqrt t$, $t^{2}$, $\mathrm{e}^{t}$,
+        $\ln t$ are strictly increasing on $(0,\infty)$: every objective has
+        the same maximiser $(5,5)$. For $G\circ f$ the FOC reads
+        $G'(xy)\,y=\lambda=G'(xy)\,x$, so $x=y=5$ and
+        $\lambda=5G'(25)$: $\lambda=5$ for $f$, $\tfrac12$ for $\sqrt f$,
+        $250$ for $f^{2}$, $5\mathrm{e}^{25}$ for $\mathrm{e}^{f}$, $\tfrac15$
+        for $\ln f$. Concave on $\R^{2}_{++}$: $\sqrt{xy}$ (Cobb--Douglas of
+        degree $1$) and $\ln f=\ln x+\ln y$; not $xy$, $(xy)^{2}$ or
+        $\mathrm{e}^{xy}$ (their Hessians are indefinite, e.g.\ along $y=x$
+        they grow like $t^{2}$, $t^{4}$, $\mathrm{e}^{t^{2}}$). If $x,y$ may
+        be negative, $xy=x(10-x)$ takes every value $\le25$, and $t^{2}$ is
+        decreasing for $t<0$. The FOC for $(xy)^{2}$, $2xy\cdot y=\lambda
+        =2xy\cdot x$, now also holds at $(0,10)$ and $(10,0)$, where
+        $(xy)^{2}=0$ is a minimum, and $(xy)^{2}=x^{2}(10-x)^{2}\to\infty$ as
+        $x\to\pm\infty$: no maximum exists at all.
+  \item Exponents sum to $1$; the expenditure on $x_i$ is its exponent
+        times $B$: $2x_1=20$, $3x_2=30$, $5x_3=50$, so
+        $\mathbf{x}^*=(10,10,10)$ and $Q^*=10^{0.2+0.3+0.5}=10$. FOCs
+        $Q_{x_i}=\lambda w_i$: $0.2\cdot\tfrac{Q}{x_1}=0.2=2\lambda$,
+        $0.3=3\lambda$, $0.5=5\lambda$, all with $\lambda^*=0.1$. One more
+        euro of budget buys $0.1$ units of output; with constant returns
+        $\lambda^*=Q^*/B$.
+  \item Equal exponents $\tfrac14$: equal spending $16$ on each input,
+        $\mathbf{x}^*=(16,8,4)$, $Q^*=(512)^{1/4}\approx4.757$. FOC:
+        $\tfrac14\tfrac{Q}{x_1}=\lambda\cdot1$ gives
+        $\lambda^*=\tfrac{Q^*}{64}\approx0.0743$ (the same from $x_2$, $x_3$:
+        $\tfrac{Q}{4\cdot8\cdot2}$, $\tfrac{Q}{4\cdot4\cdot4}$). With
+        $B=48$: $\tfrac34\cdot\tfrac{Q^*}{48}=\tfrac{Q^*}{64}$. \checkmark\
+        (Homogeneity of degree $\tfrac34$ makes $Q^*(B)\propto B^{3/4}$, so
+        $\mathrm{d}Q^*/\mathrm{d}B=\tfrac34Q^*/B$.)
 \end{solutions}

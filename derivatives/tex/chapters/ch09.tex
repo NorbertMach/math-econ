@@ -39,7 +39,9 @@ $f(x,y)$ to each point of a \textbf{region} $D$ in the plane.
         $\{(x,y,f(x,y)) : (x,y)\in D\}$ in $\R^{3}$: above each point of
         the domain, a single height.
   \item The \textbf{range} is the set of heights attained, exactly as
-        before.
+        before. For a composite $h(g(x,y))$ it is found in two steps, the
+        values of $g$ on $D$ first and then their images under $h$; the
+        box on composite functions below gives the method.
 \end{itemize}
 Economic domains are usually the non-negative quadrant $K,L\ge0$, and often
 its interior.
@@ -143,6 +145,118 @@ signature contour map.
 Circles alone do not identify the surface --- bowl, cone and dome all have
 circular contours. The \emph{spacing} and the direction in which the labels
 grow settle it.
+\end{rulebox}
+
+\begin{rulebox}{Shifts and tilts}
+The standard shapes rarely appear in their home position. Three moves
+produce almost everything else, and each changes the contour map in a
+predictable way.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Shift.} $g(x,y)=f(x-x_{0},\,y-y_{0})+c$ is the surface of
+        $f$ moved so that what sat above the origin now sits above
+        $(x_{0},y_{0})$, and lifted by $c$. The contour map is that of $f$,
+        recentred at $(x_{0},y_{0})$, with every label raised by $c$. So
+        $(x-2)^{2}+(y+1)^{2}+5$ is a bowl with its bottom at $(2,-1,5)$ and
+        circles centred at $(2,-1)$. A shift is often hidden and comes out
+        by completing the square:
+        $x^{2}-4x+y^{2}=(x-2)^{2}+y^{2}-4$.
+  \item \textbf{Shifted saddle.} $(x-x_{0})^{2}-(y-y_{0})^{2}$ has its
+        saddle point at $(x_{0},y_{0})$. The level $0$ is the crossing pair
+        of lines $y-y_{0}=\pm(x-x_{0})$, and the other levels are
+        hyperbolas with these two lines as asymptotes. In the same way
+        $(x-x_{0})(y-y_{0})$ is the rotated saddle with the lines $x=x_{0}$
+        and $y=y_{0}$ as asymptotes.
+  \item \textbf{Tilt: one linear combination.} If $f(x,y)=g(ax+by)$, then
+        $f$ is constant wherever $ax+by$ is constant. Every contour is
+        therefore a union of \emph{parallel straight lines}
+        $ax+by=t$, one for each solution $t$ of $g(t)=c$. For
+        $f=(3x-2y)^{2}$ the level $c>0$ gives $3x-2y=\pm\sqrt{c}$, a
+        \emph{pair} of parallel lines; $c=0$ gives the single line
+        $3x-2y=0$; $c<0$ gives nothing. The surface is a parabolic trough
+        whose floor runs along the line $3x=2y$, a tilted copy of the
+        cylinder $x^{2}$. With a minus sign, $4-(3x-2y)^{2}$ is a
+        \textbf{ridge} instead. How the lines are spaced is decided by $g$
+        alone.
+  \item \textbf{Cylinder.} $f(x,y)=g(y)$, with no $x$ at all, is the case
+        $a=0$. The surface is the graph of $g$ drawn in the $yz$-plane and
+        dragged along the $x$-axis, so it is a cylinder whose rulings run
+        parallel to the $x$-axis; its contours are horizontal lines $y=t$
+        with $g(t)=c$. A function $g(x)$ alone gives vertical lines.
+\end{itemize}
+Reading order for an unfamiliar formula: complete the squares to expose a
+shift; check whether $x$ and $y$ enter only through one combination
+$ax+by$; then match what is left to the standard list.
+\end{rulebox}
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[contouraxis, xmin=-2.4, xmax=2.4, ymin=-2.4, ymax=2.4,
+      xtick={-2,2}, ytick={-2,2}, title={$(3x-2y)^{2}=c$, $c=0,1,4,9$}]
+    \foreach \t in {-3,-2,-1,0,1,2,3} {
+      \addplot[domain=-2.3:2.3, samples=2]{(3*x-\t)/2}; }
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[contouraxis, xmin=-1.4, xmax=3.4, ymin=-1.4, ymax=3.4,
+      xtick={1}, ytick={1}, title={$(x-1)^{2}-(y-1)^{2}=c$}]
+    \addplot[domain=-1.3:3.3, samples=2]{x};
+    \addplot[domain=-1.3:3.3, samples=2]{2-x};
+    \foreach \s in {1,-1} {
+      \addplot[domain=-1.4:1.4, samples=81]({1+\s*cosh(x)},{1+sinh(x)});
+      \addplot[domain=-1.4:1.4, samples=81]({1+sinh(x)},{1+\s*cosh(x)}); }
+  \end{axis}
+\end{tikzpicture}
+\gcap{A tilted trough, whose contours are parallel lines, and a shifted
+saddle, whose level $0$ is the crossing pair $y=x$, $y=2-x$ through
+$(1,1)$.}
+\end{gallery}
+
+\begin{rulebox}{Composite functions: level curves and range}
+Many functions are an outer function of one variable applied to an inner
+expression: $f(x,y)=h\bigl(g(x,y)\bigr)$, such as
+$\mathrm{e}^{x^{2}+y^{2}}$, $\ln(x^{2}+y^{2}-4)$ or $2+\sqrt{y-x^{2}}$.
+Let $h$ be \textbf{continuous and strictly monotone} on the values that $g$
+takes.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Same contours, new labels.} $h$ is invertible, so
+        \[
+          f(x,y)=c\iff g(x,y)=h^{-1}(c) .
+        \]
+        The level curves of $f$ are exactly the level curves of $g$; only
+        their labels change. For $f=\mathrm{e}^{x^{2}+y^{2}}$ the level $c$
+        is the circle $x^{2}+y^{2}=\ln c$, of radius $\sqrt{\ln c}$. For
+        $f=\ln(x^{2}+y^{2}-4)$ it is $x^{2}+y^{2}=4+\mathrm{e}^{c}$, a
+        circle of radius $\sqrt{4+\mathrm{e}^{c}}$, for every real $c$.
+  \item \textbf{Meaningful levels.} $f=c$ has a solution only if
+        $h^{-1}(c)$ is a value that $g$ actually takes on $D$. So first
+        find the \textbf{range} of $f$, and only those levels give
+        non-empty curves; all others are empty. For
+        $\mathrm{e}^{x^{2}+y^{2}}$ that is $c\ge1$ (with $c=1$ the single
+        point at the origin); for $\ln(x^{2}+y^{2}-4)$ it is every $c$.
+  \item \textbf{The range in two steps.} (1) Find the set $g(D)$ of
+        values of the inner expression on the domain. (2) Push it through
+        $h$: an interval $[m,M]$ goes to the interval between $h(m)$ and
+        $h(M)$, reversed if $h$ is decreasing, with each endpoint included
+        exactly when it was included before.
+\end{itemize}
+Typical inner ranges: a linear $ax+by+c$ (not both coefficients $0$) takes
+all of $\R$; $x^{2}+y^{2}$ takes $[0,\infty)$; $y-x^{2}+k$ on its domain
+$\{y-x^{2}+k\ge0\}$ takes $[0,\infty)$, because $y$ is free; $16-x^{2}-y^{2}$
+on the open disc $x^{2}+y^{2}<16$ takes $(0,16]$; $x^{a}y^{b}$ with
+$a,b>0$ on the closed quadrant $x,y\ge0$ takes $[0,\infty)$. Then
+$\sqrt{t}-1$ turns $[0,\infty)$ into $[-1,\infty)$; $3-\sqrt t$ turns it
+into $(-\infty,3]$; $\ln t$ turns $(0,\infty)$ into $\R$ and $(0,16]$ into
+$(-\infty,\ln16]$.
+
+\textbf{Powers with unequal exponents.} For $f=x^{a}y^{b}$ on $x,y>0$, the
+level $c>0$ solved for $y$ is
+\[
+  y=\Bigl(\frac{c}{x^{a}}\Bigr)^{1/b}=c^{1/b}\,x^{-a/b},
+\]
+a hyperbola-like curve falling towards both axes, steeper than
+$y=c/x$ when $a>b$. On the \emph{closed} quadrant the level $0$ is the
+union of the two half-axes, since $x^{a}y^{b}=0$ exactly when $x=0$ or
+$y=0$.
 \end{rulebox}
 
 \begin{rulebox}{Reading curvature off the picture}
@@ -571,8 +685,8 @@ and say whether it is convex.
         \;$f(P_{6})=-8+6+1=-1$.
   \item None of them share a level: the six values
         $0,-2,2,3,4,-1$ are distinct. $P_{3}$ lies on the drawn contour
-        $c=2$, $P_{5}$ on $c=4$ and $P_{6}$ on $c=-1$; $P_{1}$, $P_{2}$ and
-        $P_{4}$ lie between drawn contours.
+        $c=2$, $P_{5}$ on $c=4$, $P_{6}$ on $c=-1$ and $P_{1}$ on $c=0$;
+        $P_{2}$ and $P_{4}$ lie between drawn contours.
   \item The contour $c=2$ crosses itself at $P_{3}=(-1,0)$. A
         self-crossing level curve marks a \textbf{saddle point}: from
         $(-1,0)$ the surface rises in two opposite directions and falls in
@@ -728,10 +842,224 @@ and say whether it is convex.
   \item An indifference map consists of circles centred at $(4,4)$, with
         utility \emph{increasing} inwards. Interpret the point $(4,4)$
         economically and say why such preferences are unusual.
-  \item On the contour map of problem 21, a walker starts at $P_{6}=(-2,1)$
+  \item On the contour map of practice problem 21, a walker starts at $P_{6}=(-2,1)$
         and always walks perpendicular to the contours, downhill. Describe
         where they end up and why the answer is not the minimum at
         $(1,0)$.
+\end{problems}
+
+In problems 26--32, identify the surface (bowl, cone, saddle, trough,
+ridge, plane), locate it, and describe its contour map. Problem 33 is a
+matching exercise.
+
+\begin{problems}[resume]
+  \item Complete the squares in $f(x,y)=x^{2}-6x+y^{2}+4y+10$, describe the
+        surface, and give the level curve at $c=1$.
+  \item $f(x,y)=(2x-y)^{2}$: give the level curves at $c=0$, $c=1$ and
+        $c=4$ solved for $y$, and say where the minimum is attained.
+  \item $f(x,y)=5-(x+3y)^{2}$: describe the surface, give the level curve
+        at $c=1$, and describe the superlevel set $B(1)$.
+  \item $f(x,y)=(x+1)^{2}-(y-2)^{2}$: locate the saddle point and give the
+        level curves at $c=0$, $c=4$ and $c=-4$.
+  \item $f(x,y)=y^{2}-4y+7$: describe the surface and give the level curves
+        at $c=3$ and $c=7$, and say which levels are empty.
+  \item $f(x,y)=\sqrt{(x-1)^{2}+(y-4)^{2}}$ and
+        $g(x,y)=(x-1)^{2}+(y-4)^{2}$: give the radii of the contours at the
+        levels $1,2,3$ for each, and say how the two contour maps differ.
+  \item $f(x,y)=(x-2)(y+3)$: locate the saddle point, give the level curve
+        at $c=0$, and give the level curve at $c=6$ solved for $y$.
+  \item Match each formula to its contour description, and name each
+        surface. Formulas: (A) $(x-y)^{2}$; (B) $(x-1)^{2}+(y+1)^{2}$;
+        (C) $x+2y$; (D) $(x-2)(y-1)$; (E) $(y+1)^{2}$;
+        (F) $(x-1)^{2}-(y+1)^{2}$. Descriptions: (i) pairs of horizontal
+        lines, symmetric about $y=-1$; (ii) hyperbolas, the level $0$ being
+        the two crossing lines $y=x-2$ and $y=-x$; (iii) single straight
+        lines of slope $-\tfrac12$, equally spaced for equally spaced
+        levels; (iv) pairs of parallel lines of slope $1$, symmetric about
+        the line $y=x$; (v) hyperbolas whose asymptotes are the lines $x=2$
+        and $y=1$; (vi) concentric circles about $(1,-1)$.
+\end{problems}
+
+In problems 34--38, (a) give the domain in set notation and sketch it,
+(b) give the range, and (c) describe the level curves for every meaningful
+level $c$, then draw three of them.
+
+\begin{problems}[resume]
+  \item $f(x,y)=\mathrm{e}^{x^{2}+4y^{2}}$.
+  \item $f(x,y)=\ln(x^{2}+2y^{2}-1)$.
+  \item $f(x,y)=2+\sqrt{y-x^{2}+1}$.
+  \item $f(x,y)=5-\sqrt{2x-y+3}$.
+  \item $f(x,y)=\ln(9-x^{2}-4y^{2})$.
+  \item $f(x,y)=x^{2}y$ on the closed quadrant $x,y\ge0$: give the range,
+        the level $0$, and the levels $1$ and $4$ solved for $y$; sketch
+        them.
+  \item $f(x,y)=x^{1/3}y^{2/3}$ on $x,y\ge0$: the same questions for the
+        levels $0$, $1$ and $2$, and compare the shape with the isoquants
+        of $\sqrt{xy}$.
+  \item Give the range of each function and say which levels are
+        meaningful: (a) $3-\mathrm{e}^{x-2y}$; (b) $\dfrac{1}{1+x^{2}+y^{2}}$;
+        (c) $\sqrt{x^{2}+y^{2}}-1$; (d) $\ln(x+2y)$.
+  \item On the contour map of practice problem 21, give the signs of $f_{x}$ and
+        $f_{y}$ at $P_{1}$, $P_{4}$, $P_{5}$ and $P_{6}$, reading them from
+        the picture: for each, say whether moving right, and moving up,
+        takes you to a higher or a lower contour. Then check with the
+        formula.
+  \item At which of the six points of practice problem 21 is the tangent of the
+        contour vertical, and what does that say about $f_{y}$ there?
+        Sketch the direction of $\grad f$ at $P_{4}$ and $P_{5}$ from the
+        picture, and compare with the computed gradient.
+\end{problems}
+
+Problems 44--46 refer to the surface and contour map below. No formula is
+given. The four drawn levels are $0$, $2$, $3$ and $3.5$, in some order,
+and the two highest points of the surface have height $4$.
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[surfaxis, z post scale=1.1]
+    \addplot3[surf, domain=-1.8:1.8, y domain=-1.8:1.8]{4-y^2-(x^2-1)^2};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[contouraxis, width=6.2cm, height=6.2cm,
+      xmin=-2.2, xmax=2.2, ymin=-2.2, ymax=2.2,
+      xtick={-2,-1,1,2}, ytick={-2,-1,1,2}]
+    \addplot[domain=-1.7320:1.7320]{ sqrt(4-(x^2-1)^2)};
+    \addplot[domain=-1.7320:1.7320]{-sqrt(4-(x^2-1)^2)};
+    \addplot[domain=-1.5537:1.5537]{ sqrt(2-(x^2-1)^2)};
+    \addplot[domain=-1.5537:1.5537]{-sqrt(2-(x^2-1)^2)};
+    \addplot[domain=-1.4142:1.4142]{ sqrt(1-(x^2-1)^2)};
+    \addplot[domain=-1.4142:1.4142]{-sqrt(1-(x^2-1)^2)};
+    \addplot[domain=0.5413:1.3065, samples=101]{ sqrt(0.5-(x^2-1)^2)};
+    \addplot[domain=0.5413:1.3065, samples=101]{-sqrt(0.5-(x^2-1)^2)};
+    \addplot[domain=-1.3065:-0.5413, samples=101]{ sqrt(0.5-(x^2-1)^2)};
+    \addplot[domain=-1.3065:-0.5413, samples=101]{-sqrt(0.5-(x^2-1)^2)};
+    \addplot[only marks, mark=*, mark size=1.3pt, black, forget plot]
+      coordinates {(0,1) (1.7321,0) (-1.4142,1) (0,0) (1,0) (1,0.7071)};
+    \node[font=\tiny, anchor=south] at (axis cs:0,1.05) {$Q_{1}$};
+    \node[font=\tiny, anchor=west] at (axis cs:1.78,0.12) {$Q_{2}$};
+    \node[font=\tiny, anchor=south east] at (axis cs:-1.45,1.02) {$Q_{3}$};
+    \node[font=\tiny, anchor=north] at (axis cs:0,-0.08) {$Q_{4}$};
+    \node[font=\tiny, anchor=north] at (axis cs:1,-0.08) {$Q_{5}$};
+    \node[font=\tiny, anchor=south west] at (axis cs:1.02,0.72) {$R$};
+  \end{axis}
+\end{tikzpicture}
+\gcap{A surface with two peaks of height $4$ and its contour map at four
+levels, with marked points $Q_{1}=(0,1)$, $Q_{2}=(\sqrt3,0)$,
+$Q_{3}=(-\sqrt2,1)$, $Q_{4}=(0,0)$, $Q_{5}=(1,0)$ and $R$.}
+\end{gallery}
+
+\begin{problems}[resume]
+  \item Match each drawn curve to its level. Which level consists of two
+        separate pieces, which curve crosses itself, and what are the
+        points $Q_{4}$ and $Q_{5}$ on the surface?
+  \item Read off the signs of $f_{x}$ and $f_{y}$ at $Q_{1}$, $Q_{2}$,
+        $Q_{3}$, $Q_{4}$ and $Q_{5}$, with a reason for each.
+  \item From the picture alone, decide whether the sets $B(Q_{1})$,
+        $B(R)$, $W(Q_{2})$ and $W(R)$ are convex, and conclude whether the
+        function can be quasiconcave or quasiconvex.
+\end{problems}
+
+Problem 47 is a matching exercise for shifted and tilted surfaces. The
+formulas are (A) $(x-1)^{2}+3(y+1)^{2}$, (B) $4-(x+1)^{2}-(y-1)^{2}$,
+(C) $(2y-x)^{2}$, (D) $3-(y+1)^{2}$, (E) $2(x-1)^{2}-y^{2}$ and
+(F) $2x+y$. All surfaces are drawn over the square $-2\le x,y\le2$.
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[surfaxis, title={(a)}, z post scale=1.1]
+    \addplot3[surf, domain=-2:2, y domain=-2:2]{(2*y-x)^2};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[surfaxis, title={(b)}, z post scale=1.1]
+    \addplot3[surf, domain=-2:2, y domain=-2:2]{(x-1)^2+3*(y+1)^2};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[surfaxis, title={(c)}, z post scale=1.1]
+    \addplot3[surf, domain=-2:2, y domain=-2:2]{2*(x-1)^2-y^2};
+  \end{axis}
+\end{tikzpicture}
+\end{gallery}
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[surfaxis, title={(d)}]
+    \addplot3[surf, domain=-2:2, y domain=-2:2]{2*x+y};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[surfaxis, title={(e)}, z post scale=1.1]
+    \addplot3[surf, domain=-2:2, y domain=-2:2]{4-(x+1)^2-(y-1)^2};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[surfaxis, title={(f)}, z post scale=1.1]
+    \addplot3[surf, domain=-2:2, y domain=-2:2]{3-(y+1)^2};
+  \end{axis}
+\end{tikzpicture}
+\end{gallery}
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[contouraxis, xmin=-1.4, xmax=3.4, ymin=-2.4, ymax=2.4,
+      xtick={1}, ytick={-2,2}, title={(1)}]
+    \addplot[domain=-1.4:3.4, samples=2]{1.4142*(x-1)};
+    \addplot[domain=-1.4:3.4, samples=2]{-1.4142*(x-1)};
+    \foreach \s in {1,-1} {
+      \addplot[domain=-1.2:1.2, samples=81]({1+\s*cosh(x)},{1.4142*sinh(x)});
+      \addplot[domain=-1.2:1.2, samples=81]({1+sinh(x)},{\s*1.4142*cosh(x)}); }
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[contouraxis, xmin=-1.4, xmax=3.4, ymin=-3.4, ymax=1.4,
+      xtick={1}, ytick={-1}, title={(2)}]
+    \foreach \c in {0.5,1,2,3,4} {
+      \addplot[domain=0:360, samples=121]
+        ({1+sqrt(\c)*cos(x)},{-1+sqrt(\c/3)*sin(x)}); }
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[contouraxis, xmin=-2.4, xmax=2.4, ymin=-2.4, ymax=2.4,
+      xtick={-2,2}, ytick={-2,2}, title={(3)}]
+    \foreach \c in {-4,-2,0,2,4} {
+      \addplot[domain=-2.4:2.4, samples=2]{\c-2*x}; }
+  \end{axis}
+\end{tikzpicture}
+\end{gallery}
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[contouraxis, xmin=-2.4, xmax=2.4, ymin=-3.4, ymax=1.4,
+      xtick={-2,2}, ytick={-1}, title={(4)}]
+    \foreach \d in {0,1,-1,1.414,-1.414,1.732,-1.732,2,-2} {
+      \addplot[domain=-2.4:2.4, samples=2]{-1+\d}; }
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[contouraxis, xmin=-3.4, xmax=1.4, ymin=-1.4, ymax=3.4,
+      xtick={-1}, ytick={1}, title={(5)}]
+    \foreach \r in {1,1.414,1.732,2,2.236} {
+      \addplot[domain=0:360, samples=121]({-1+\r*cos(x)},{1+\r*sin(x)}); }
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[contouraxis, xmin=-2.4, xmax=2.4, ymin=-2.4, ymax=2.4,
+      xtick={-2,2}, ytick={-2,2}, title={(6)}]
+    \foreach \d in {0,1,-1,2,-2,3,-3} {
+      \addplot[domain=-2.4:2.4, samples=2]{(x+\d)/2}; }
+  \end{axis}
+\end{tikzpicture}
+\gcap{Contour maps (1)--(6). In (4) and (5) the levels are equally spaced;
+in (6) they are $0,1,4,9$.}
+\end{gallery}
+
+\begin{problems}[resume]
+  \item Match each surface (a)--(f) to its formula (A)--(F) and to its
+        contour map (1)--(6). For each, name the feature that decides the
+        match: the location of the centre, the direction of the floor or
+        crest line, the asymptotes of the level $0$.
 \end{problems}
 
 \section{Additional Solutions}
@@ -827,4 +1155,270 @@ and say whether it is convex.
         descent never ends: the walker never reaches the local minimum at
         $(1,0)$, because gradient descent finds a \emph{local} basin only
         if it starts in one.
+  \item Complete each square separately:
+        $x^{2}-6x=(x-3)^{2}-9$ and $y^{2}+4y=(y+2)^{2}-4$, so
+        \[
+          f(x,y)=(x-3)^{2}-9+(y+2)^{2}-4+10=(x-3)^{2}+(y+2)^{2}-3 .
+        \]
+        This is the paraboloid $x^{2}+y^{2}$ shifted to the point $(3,-2)$
+        and lowered by $3$: a bowl with its bottom at $(3,-2,-3)$, convex,
+        with range $[-3,\infty)$. The level $c$ is
+        $(x-3)^{2}+(y+2)^{2}=c+3$, a circle centred at $(3,-2)$ with radius
+        $\sqrt{c+3}$ for $c>-3$, the single point $(3,-2)$ for $c=-3$, and
+        empty below. At $c=1$: radius $\sqrt4=2$, the circle
+        $(x-3)^{2}+(y+2)^{2}=4$.
+  \item The variables enter only through $t=2x-y$, and $g(t)=t^{2}$: a
+        tilted parabolic trough. Level $c=0$: $2x-y=0$, the single line
+        $y=2x$. Level $c=1$: $2x-y=\pm1$, the two lines $y=2x-1$ and
+        $y=2x+1$. Level $c=4$: $2x-y=\pm2$, the lines $y=2x-2$ and
+        $y=2x+2$. All contours are parallel lines of slope $2$. The minimum
+        value $0$ is attained along the \emph{whole line} $y=2x$, the floor
+        of the trough, so the minimiser is not unique. The levels $0,1,4$
+        sit at $t=0,1,2$, equally spaced in $t$: for equally spaced
+        \emph{levels} the lines would crowd outwards, as the walls of the
+        trough steepen.
+  \item With $t=x+3y$ the function is $g(t)=5-t^{2}$, a downward parabola:
+        the surface is a \textbf{ridge} whose crest, at height $5$, runs
+        along the line $x+3y=0$. It is concave. The level $c<5$ is
+        $(x+3y)^{2}=5-c$, i.e.\ $x+3y=\pm\sqrt{5-c}$. At $c=1$:
+        $x+3y=\pm2$, so $y=\dfrac{-x+2}{3}$ and $y=\dfrac{-x-2}{3}$, two
+        parallel lines of slope $-\tfrac13$. The superlevel set is
+        $B(1)=\{(x+3y)^{2}\le4\}=\{-2\le x+3y\le2\}$: the closed strip
+        between those two lines, which is convex (an intersection of two
+        half-planes), as it must be for a concave function.
+  \item This is the saddle $x^{2}-y^{2}$ shifted to $(-1,2)$, so the saddle
+        point is $(-1,2)$ with value $0$. Level $c=0$:
+        $(x+1)^{2}=(y-2)^{2}\iff y-2=\pm(x+1)$, the crossing lines
+        $y=x+3$ and $y=-x+1$. Level $c=4$:
+        $(x+1)^{2}-(y-2)^{2}=4$, a hyperbola opening left and right; on
+        $y=2$ it gives $(x+1)^{2}=4$, so its vertices are $(1,2)$ and
+        $(-3,2)$. Level $c=-4$: $(y-2)^{2}-(x+1)^{2}=4$, a hyperbola
+        opening up and down with vertices $(-1,4)$ and $(-1,0)$. Both
+        hyperbolas have the two lines of level $0$ as asymptotes.
+  \item Complete the square: $y^{2}-4y+7=(y-2)^{2}+3$. No $x$ appears, so
+        the surface is a \textbf{cylinder} with rulings parallel to the
+        $x$-axis: the parabola $z=(y-2)^{2}+3$ dragged along $x$, a trough
+        whose floor is the horizontal line $y=2$ at height $3$. The level
+        $c$ is $(y-2)^{2}=c-3$. At $c=3$: the single line $y=2$. At $c=7$:
+        $y-2=\pm2$, the pair of horizontal lines $y=0$ and $y=4$. All
+        levels $c<3$ are empty, since $f\ge3$ everywhere.
+  \item Both maps consist of circles centred at $(1,4)$. For the cone $f$,
+        the level $c$ has radius $c$: radii $1,2,3$, equally spaced. For
+        the bowl $g$, the level $c$ has radius $\sqrt{c}$: radii
+        $1,\ \sqrt2\approx1.414,\ \sqrt3\approx1.732$, crowding together
+        outwards. Both surfaces have their lowest point above $(1,4)$ at
+        height $0$; the cone rises with constant slope $1$, the bowl ever
+        more steeply.
+  \item This is the rotated saddle $xy$ shifted to $(2,-3)$: the saddle
+        point is $(2,-3)$, with value $0$. Level $c=0$: $(x-2)(y+3)=0$, so
+        $x=2$ or $y=-3$, the vertical and the horizontal line through the
+        saddle point, crossing there. Level $c=6$: $y+3=\dfrac{6}{x-2}$,
+        i.e.
+        \[
+          y=-3+\frac{6}{x-2},\qquad x\neq2,
+        \]
+        a hyperbola with the lines $x=2$ and $y=-3$ as asymptotes, its
+        branches lying up-right and down-left of $(2,-3)$.
+  \item (A)$\to$(iv): only $t=x-y$ matters, and $t^{2}=c$ gives the pair
+        $y=x\mp\sqrt{c}$, symmetric about $y=x$; a tilted trough.
+        (B)$\to$(vi): a bowl shifted to $(1,-1)$.
+        (C)$\to$(iii): $y=\tfrac{c-x}{2}$, lines of slope $-\tfrac12$ with
+        intercepts $c/2$, equally spaced; a plane.
+        (D)$\to$(v): the rotated saddle shifted to $(2,1)$.
+        (E)$\to$(i): no $x$, and $(y+1)^{2}=c$ gives $y=-1\pm\sqrt{c}$; a
+        trough (cylinder) along the $x$-axis direction.
+        (F)$\to$(ii): the saddle shifted to $(1,-1)$; its level $0$ is
+        $y+1=\pm(x-1)$, i.e.\ $y=x-2$ and $y=-x$.
+  \item (a) $D=\R^{2}=\{(x,y):x,y\in\R\}$, the whole plane.
+        (b) The inner $g=x^{2}+4y^{2}$ takes every value in $[0,\infty)$,
+        and $\mathrm{e}^{t}$ is increasing, so the range is
+        $[\mathrm{e}^{0},\infty)=[1,\infty)$.
+        (c) Meaningful levels are $c\ge1$. Then
+        $x^{2}+4y^{2}=\ln c$: for $c=1$ the single point $(0,0)$, the bottom
+        of the bowl; for $c>1$ an ellipse with semi-axes $\sqrt{\ln c}$
+        along $x$ and $\tfrac12\sqrt{\ln c}$ along $y$. Levels below $1$ are
+        empty. Three of them: $c=\mathrm{e}$ (semi-axes $1$ and
+        $\tfrac12$), $c=\mathrm{e}^{4}$ ($2$ and $1$), $c=\mathrm{e}^{9}$
+        ($3$ and $\tfrac32$). Equal steps in the radius need rapidly
+        growing levels: the surface steepens violently.
+  \item (a) $D=\{(x,y):x^{2}+2y^{2}>1\}$, the plane outside the ellipse
+        with semi-axes $1$ and $1/\sqrt2$, which itself is excluded (an
+        open set).
+        (b) On $D$ the inner $x^{2}+2y^{2}-1$ takes every value in
+        $(0,\infty)$: close to the ellipse it is near $0$, far away it is
+        huge. The logarithm maps $(0,\infty)$ onto $\R$, so the range is
+        $\R$.
+        (c) Every level is meaningful:
+        $x^{2}+2y^{2}=1+\mathrm{e}^{c}$, an ellipse with semi-axes
+        $\sqrt{1+\mathrm{e}^{c}}$ and $\sqrt{(1+\mathrm{e}^{c})/2}$. For
+        $c=0$: $\sqrt2$ and $1$; for $c=\ln3$: $2$ and $\sqrt2$; for
+        $c=\ln8$: $3$ and $3/\sqrt2\approx2.12$. As $c\to-\infty$ the
+        ellipses shrink towards the excluded boundary ellipse.
+  \item (a) $D=\{(x,y):y\ge x^{2}-1\}$: the closed region on and above the
+        parabola $y=x^{2}-1$ with vertex $(0,-1)$.
+        (b) For fixed $x$, $y$ can be any number $\ge x^{2}-1$, so the inner
+        $y-x^{2}+1$ takes all of $[0,\infty)$. The root maps this onto
+        $[0,\infty)$ and adding $2$ gives the range $[2,\infty)$.
+        (c) Levels $c\ge2$: $y-x^{2}+1=(c-2)^{2}$, i.e.
+        \[
+          y=x^{2}-1+(c-2)^{2},
+        \]
+        upward parabolas, each a vertical translate of the boundary. $c=2$:
+        the boundary $y=x^{2}-1$ itself; $c=3$: $y=x^{2}$; $c=4$:
+        $y=x^{2}+3$. The shifts $0,1,4,9,\ldots$ grow, so the contours thin
+        out: the surface flattens as one moves up.
+  \item (a) $D=\{(x,y):2x-y+3\ge0\}=\{y\le2x+3\}$: the closed half-plane
+        on and below the line $y=2x+3$.
+        (b) The inner $2x-y+3$ takes all of $[0,\infty)$ on $D$, the root
+        the same, and $5-\sqrt t$ turns it into $(-\infty,5]$.
+        (c) Levels $c\le5$: $2x-y+3=(5-c)^{2}$, i.e.
+        $y=2x+3-(5-c)^{2}$, straight lines of slope $2$ parallel to the
+        boundary. $c=5$: the boundary $y=2x+3$; $c=4$: $y=2x+2$; $c=3$:
+        $y=2x-1$. The surface is highest, $5$, along the boundary line and
+        falls away from it, ever more gently.
+  \item (a) $D=\{(x,y):x^{2}+4y^{2}<9\}$: the open elliptic disc with
+        semi-axes $3$ (along $x$) and $\tfrac32$ (along $y$).
+        (b) On $D$ the inner $9-x^{2}-4y^{2}$ takes $(0,9]$: $9$ at the
+        origin, and values close to $0$ near the boundary, which is not
+        part of $D$. The logarithm is increasing, so the range is
+        $(-\infty,\ln9]$.
+        (c) Levels $c\le\ln9$: $x^{2}+4y^{2}=9-\mathrm{e}^{c}$. For
+        $c=\ln9$ the single point $(0,0)$, the top of the dome; for $c<\ln9$
+        an ellipse with semi-axes $\sqrt{9-\mathrm{e}^{c}}$ and half of
+        that. $c=\ln8$: semi-axes $1$, $\tfrac12$; $c=\ln5$: $2$, $1$;
+        $c=0$: $2\sqrt2$, $\sqrt2$. Levels above $\ln9$ are empty.
+  \item On the closed quadrant $x^{2}y\ge0$, and $f(1,c)=c$ shows that
+        every $c\ge0$ is attained: the range is $[0,\infty)$. Level $0$:
+        $x^{2}y=0$ exactly when $x=0$ or $y=0$, so $N_{0}$ is the union of
+        the two half-axes. Level $c>0$ (then $x>0$): $y=c/x^{2}$. For
+        $c=1$: $y=1/x^{2}$, through $(1,1)$ and $(2,\tfrac14)$; for $c=4$:
+        $y=4/x^{2}$, through $(1,4)$ and $(2,1)$. Compared with $y=c/x$
+        these curves drop to the $x$-axis much faster: $x$ carries the
+        larger exponent, so a little more $x$ replaces a lot of $y$.
+  \item The range is again $[0,\infty)$ (take $x=1$, $y=c^{3/2}$) and
+        $N_{0}$ is the union of the two half-axes. For $c>0$, raise
+        $x^{1/3}y^{2/3}=c$ to the power $\tfrac32$: $x^{1/2}y=c^{3/2}$, so
+        \[
+          y=c^{3/2}x^{-1/2}=\frac{c^{3/2}}{\sqrt x} .
+        \]
+        $c=1$: $y=1/\sqrt x$; $c=2$: $y=2\sqrt2/\sqrt x\approx2.83/\sqrt x$.
+        The isoquants of $\sqrt{xy}$ are $y=c^{2}/x$. Here the exponent
+        $-\tfrac12$ makes the curves fall towards the $x$-axis more
+        slowly, while they hug the $y$-axis more closely
+        ($x=c^{3}/y^{2}$): $y$ has the larger exponent, so giving up $y$
+        costs a lot of $x$.
+  \item (a) $x-2y$ takes all of $\R$, $\mathrm{e}^{t}$ maps $\R$ onto
+        $(0,\infty)$, and $3-s$ maps that onto $(-\infty,3)$. Levels $c<3$
+        are meaningful (the lines $x-2y=\ln(3-c)$); $c\ge3$ is empty.
+        (b) $1+x^{2}+y^{2}$ takes $[1,\infty)$ and $1/t$ is
+        \emph{decreasing}, so the order flips: range $(0,1]$. Levels
+        $0<c\le1$: circles $x^{2}+y^{2}=1/c-1$, the origin for $c=1$.
+        (c) $\sqrt{x^{2}+y^{2}}$ takes $[0,\infty)$, so the range is
+        $[-1,\infty)$; levels $c\ge-1$ are circles of radius $c+1$.
+        (d) The domain is the open half-plane $x+2y>0$, on which $x+2y$
+        takes $(0,\infty)$, so the range is $\R$ and every level is
+        meaningful: the lines $x+2y=\mathrm{e}^{c}$.
+  \item The rule: moving right (or up) to a higher contour means $f_{x}>0$
+        (or $f_{y}>0$); to a lower one, negative; along a tangent of the
+        contour, zero.
+        \begin{itemize}[leftmargin=1.2em,itemsep=0.2ex]
+          \item $P_{1}=(0,0)$ lies on the level $0$, where the loop around
+                the minimum begins with a vertical tangent. Moving right
+                enters the loop, towards the level $-1$: $f_{x}<0$. Moving
+                up runs along the tangent: $f_{y}=0$.
+          \item $P_{4}=(2,1)$, height $3$, lies between the levels $2$ and
+                $4$. Moving right or up heads for the level $4$:
+                $f_{x}>0$, $f_{y}>0$.
+          \item $P_{5}=(0,2)$ lies on the level $4$, which rises to the
+                right there. Moving up leaves the curve outwards, to higher
+                values: $f_{y}>0$. Moving right crosses into its inside,
+                towards the level $2$: $f_{x}<0$.
+          \item $P_{6}=(-2,1)$ lies on the left piece of the level $-1$;
+                lower values lie to its left, nearer the $x$-axis. Moving
+                right heads for the levels $0$ and $2$: $f_{x}>0$. Moving
+                up leaves the low region: $f_{y}>0$.
+        \end{itemize}
+        Check with $f_{x}=3x^{2}-3$, $f_{y}=2y$: $P_{1}$: $(-3,0)$;
+        $P_{4}$: $(9,2)$; $P_{5}$: $(-3,4)$; $P_{6}$: $(9,2)$. All signs
+        agree.
+  \item The contour has a vertical tangent at $P_{1}$, so the gradient,
+        which is perpendicular to the contour, is horizontal there:
+        $f_{y}(P_{1})=0$. At $P_{2}$ and $P_{3}$ the gradient is zero, and
+        at the other points the tangents are slanted. At $P_{4}$ the
+        gradient points across the contours towards the level $4$, mostly
+        to the right and a little upwards; computed, $(9,2)$. At $P_{5}$ the
+        contour has slope $\tfrac34$ (implicitly, $-f_{x}/f_{y}=3/4$), and
+        the gradient is the outward normal, up and to the left; computed,
+        $(-3,4)$, which is indeed perpendicular to the tangent direction
+        $(4,3)$, since $-12+12=0$.
+  \item The labels must increase towards the peaks. From the outside in:
+        the single large oval is the level $0$; the curve with a waist (a
+        peanut) is the level $2$; the figure-eight that crosses itself at
+        $Q_{4}$ is the level $3$; the two small separate ovals around the
+        peaks are the level $3.5$, the only level with two pieces. $Q_{5}$
+        and its mirror image are the two peaks, at height $4$ (local and
+        global maxima). $Q_{4}$, where the contour crosses itself, is the
+        saddle, the lowest point of the pass between the peaks, at height
+        $3$.
+  \item Read each point off the picture.
+        \begin{itemize}[leftmargin=1.2em,itemsep=0.2ex]
+          \item $Q_{1}=(0,1)$ is the top of the waist of the level $2$. By
+                symmetry the tangent there is horizontal, so $f_{x}=0$;
+                moving up leaves the curve outwards, to lower values:
+                $f_{y}<0$.
+          \item $Q_{2}=(\sqrt3,0)$ is the rightmost point of the level $0$.
+                The tangent is vertical, so $f_{y}=0$; moving right goes
+                outwards and down: $f_{x}<0$.
+          \item $Q_{3}=(-\sqrt2,1)$ is on the upper left of the level $2$.
+                Moving right enters the lobe, towards the left peak:
+                $f_{x}>0$. Moving up leaves it: $f_{y}<0$.
+          \item $Q_{4}$ (saddle) and $Q_{5}$ (peak) are critical points:
+                $f_{x}=f_{y}=0$.
+        \end{itemize}
+  \item Each set is judged from the picture.
+        \begin{itemize}[leftmargin=1.2em,itemsep=0.2ex]
+          \item $B(Q_{1})=B(2)$ is the peanut together with its inside.
+                It is \emph{not} convex: the tops of the two lobes, near
+                $(\pm1,1.4)$, belong to it, but the midpoint $(0,1.4)$ of
+                the segment joining them lies above the waist, outside.
+          \item $B(R)=B(3.5)$ consists of the two small ovals with their
+                insides. Each oval is convex, but the union is not: the
+                segment from one peak to the other passes through $Q_{4}$,
+                at height $3<3.5$.
+          \item $W(Q_{2})=W(0)$ is everything outside the large oval,
+                including the oval. It contains $(-2,0)$ and $(2,0)$, but
+                not their midpoint $Q_{4}$: not convex.
+          \item $W(R)=W(3.5)$ is everything except the insides of the two
+                small ovals. It contains $Q_{4}$ and $(2,0)$ but not their
+                midpoint $Q_{5}$, a peak: not convex.
+        \end{itemize}
+        A non-convex superlevel set rules out quasiconcavity, a non-convex
+        sublevel set rules out quasiconvexity: the function is neither. For
+        the record, the picture shows
+        $f(x,y)=4-y^{2}-(x^{2}-1)^{2}$; with it, $f(\pm1,1.4)=2.04\ge2$
+        while $f(0,1.4)=1.04<2$, confirming the first point.
+  \item The matches, with the deciding feature:
+        \begin{itemize}[leftmargin=1.2em,itemsep=0.2ex]
+          \item (a) $\to$ (C) $\to$ (6): a trough whose floor runs along a
+                slanted line, $2y=x$; the contours are pairs of parallel
+                lines of slope $\tfrac12$, symmetric about the floor line.
+          \item (b) $\to$ (A) $\to$ (2): a bowl with its bottom over
+                $(1,-1)$, stretched along $x$; the contours are ellipses
+                centred at $(1,-1)$, $\sqrt3$ times as wide in $x$ as in
+                $y$.
+          \item (c) $\to$ (E) $\to$ (1): a saddle centred over $(1,0)$; the
+                level $0$ is the crossing pair $y=\pm\sqrt2\,(x-1)$, steeper
+                than the diagonals because of the factor $2$.
+          \item (d) $\to$ (F) $\to$ (3): a tilted plane; equally spaced
+                parallel lines $y=c-2x$ of slope $-2$.
+          \item (e) $\to$ (B) $\to$ (5): a dome over $(-1,1)$ with top
+                height $4$; circles centred at $(-1,1)$, crowding outwards.
+          \item (f) $\to$ (D) $\to$ (4): a ridge, constant in $x$, with
+                its crest along $y=-1$; horizontal lines symmetric about
+                $y=-1$, crowding away from the crest.
+        \end{itemize}
+        The centre (a tick at $1$ or $-1$ on the contour map) separates
+        the shifted shapes from one another, the slope of the lines
+        separates the trough from the plane, and single lines versus
+        symmetric pairs separate the plane from the trough and the ridge.
 \end{solutions}

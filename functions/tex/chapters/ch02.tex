@@ -14,7 +14,8 @@ without any calculus: intercepts, roots, symmetry, poles and asymptotes,
 and the behaviour at the far ends of the axis. The last block leaves the
 world of $y=f(x)$ and sketches curves given by an \emph{equation} in $x$
 and $y$: circles, ellipses, hyperbolas, budget lines and indifference
-curves.
+curves, including the shifted conics that only show their shape once the
+square has been completed.
 
 \section{Core Rules}
 
@@ -193,7 +194,101 @@ curve into \textbf{two branches} $y=\pm\sqrt{\cdots}$, or read off centre,
 radius and intercepts directly.
 \end{rulebox}
 
-\section{Worked Example}
+\begin{rulebox}{Shifted conics: completing the square}
+Moving the centre to $(u,v)$ does not change a conic's shape: $x$ is
+replaced by $x-u$ and $y$ by $y-v$, and everything else stays.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Circle:} $(x-u)^{2}+(y-v)^{2}=r^{2}$, centre $(u,v)$,
+        radius $r$.
+  \item \textbf{Ellipse:} $\dfrac{(x-u)^{2}}{a^{2}}+\dfrac{(y-v)^{2}}{b^{2}}=1$,
+        centre $(u,v)$, horizontal semi-axis $a$ and vertical semi-axis $b$
+        \de{(Halbachsen)}, vertices $(u\pm a,v)$ and $(u,v\pm b)$. With
+        $a=b$ it is a circle.
+  \item \textbf{Hyperbola opening left and right:}
+        $\dfrac{(x-u)^{2}}{a^{2}}-\dfrac{(y-v)^{2}}{b^{2}}=1$, vertices
+        $(u\pm a,v)$. \textbf{Opening up and down:}
+        $-\dfrac{(x-u)^{2}}{a^{2}}+\dfrac{(y-v)^{2}}{b^{2}}=1$, vertices
+        $(u,v\pm b)$. The variable whose square carries the plus sign is the
+        direction in which the branches open. Both have the
+        \textbf{asymptotes} $y-v=\pm\dfrac{b}{a}(x-u)$: the diagonals of
+        the box with corners $(u\pm a,v\pm b)$, extended.
+\end{itemize}
+\textbf{From $Ax^{2}+Cy^{2}+Dx+Ey+F=0$ to standard form:}
+\begin{enumerate}[leftmargin=1.8em,itemsep=0.3ex]
+  \item If there are terms on both sides, bring them to one side first.
+        Group the $x$-terms and the $y$-terms, and move $F$ to the right.
+  \item Factor out the leading coefficients:
+        $A\bigl(x^{2}+\tfrac{D}{A}x\bigr)+C\bigl(y^{2}+\tfrac{E}{C}y\bigr)=-F$.
+  \item Complete the square in each bracket,
+        $x^{2}+px=\bigl(x+\tfrac{p}{2}\bigr)^{2}-\tfrac{p^{2}}{4}$, and
+        multiply the subtracted constant by the factor in front of its
+        bracket.
+  \item Move all constants to the right, $A(x-u)^{2}+C(y-v)^{2}=k$, and
+        divide by $k$ to get $1$ on the right.
+  \item Classify by the signs of $A$ and $C$: the \textbf{same sign} gives
+        an ellipse (a circle if $A=C$), \textbf{opposite signs} a
+        hyperbola, and \textbf{one of them zero} a parabola. For a
+        parabola there is no square to complete in that variable: solve
+        for it instead.
+\end{enumerate}
+\textbf{Degenerate outcomes.} With $A$ and $C$ of the same sign (multiply
+by $-1$ first if both are negative): $k=0$ leaves the \textbf{single
+point} $(u,v)$, and $k<0$ gives the \textbf{empty set}, because a sum of
+non-negative terms cannot be negative. With opposite signs, $k=0$ is a
+difference of squares and factors into a \textbf{pair of lines} through
+$(u,v)$, the would-be asymptotes; a negative $k$ is not degenerate there,
+since dividing by $k$ swaps the two signs and the hyperbola simply opens the
+other way.
+
+Example: $4x^{2}+9y^{2}-16x+18y-11=0$ becomes
+$4(x^{2}-4x)+9(y^{2}+2y)=11$, then
+$4(x-2)^{2}-16+9(y+1)^{2}-9=11$, so $4(x-2)^{2}+9(y+1)^{2}=36$ and
+$\dfrac{(x-2)^{2}}{9}+\dfrac{(y+1)^{2}}{4}=1$: the ellipse on the left
+below.
+\end{rulebox}
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-1.8, xmax=5.8, ymin=-4.8, ymax=2.8,
+      xtick={-1,2,5}, ytick={-3,-1,1},
+      title={$\frac{(x-2)^{2}}{9}+\frac{(y+1)^{2}}{4}=1$}]
+    \addplot[gray, dashed, thin, forget plot, samples=2] coordinates {(-1,-1)(5,-1)};
+    \addplot[gray, dashed, thin, forget plot, samples=2] coordinates {(2,-3)(2,1)};
+    \addplot[domain=0:360, samples=181]({2+3*cos(x)},{-1+2*sin(x)});
+    \addplot[only marks, mark=*, mark size=1.3pt, forget plot] coordinates {(2,-1)};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-6.5, xmax=4.5, ymin=-4.5, ymax=6.5,
+      xtick={-3,1}, ytick={-2,1,4},
+      title={$\frac{(x+1)^{2}}{4}-\frac{(y-1)^{2}}{9}=1$}]
+    \addplot[gray, dashed, thin, forget plot, samples=2, domain=-6.3:4.3]{1+1.5*(x+1)};
+    \addplot[gray, dashed, thin, forget plot, samples=2, domain=-6.3:4.3]{1-1.5*(x+1)};
+    \addplot[gray, dashed, thin, forget plot, sharp plot] coordinates {(-3,-2)(1,-2)(1,4)(-3,4)(-3,-2)};
+    \addplot[domain=-1.32:1.32]({-1+2*cosh(x)},{1+3*sinh(x)});
+    \addplot[domain=-1.32:1.32]({-1-2*cosh(x)},{1+3*sinh(x)});
+    \addplot[only marks, mark=*, mark size=1.3pt, forget plot] coordinates {(-1,1)};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-4, xmax=6, ymin=-6, ymax=4,
+      xtick={-1,1,3}, ytick={-2,0,2},
+      title={$-\frac{(x-1)^{2}}{4}+(y+1)^{2}=1$}]
+    \addplot[gray, dashed, thin, forget plot, samples=2, domain=-3.8:5.8]{-1+0.5*(x-1)};
+    \addplot[gray, dashed, thin, forget plot, samples=2, domain=-3.8:5.8]{-1-0.5*(x-1)};
+    \addplot[gray, dashed, thin, forget plot, sharp plot] coordinates {(-1,-2)(3,-2)(3,0)(-1,0)(-1,-2)};
+    \addplot[domain=-1.6:1.6]({1+2*sinh(x)},{-1+cosh(x)});
+    \addplot[domain=-1.6:1.6]({1+2*sinh(x)},{-1-cosh(x)});
+    \addplot[only marks, mark=*, mark size=1.3pt, forget plot] coordinates {(1,-1)};
+  \end{axis}
+\end{tikzpicture}
+\gcap{A shifted ellipse with its semi-axes \quad\textbullet\quad a hyperbola
+opening left and right \quad\textbullet\quad one opening up and down. The
+dashed box has corners $(u\pm a,v\pm b)$, and its diagonals are the
+asymptotes.}
+\end{gallery}
+
+\section{Worked Examples}
 
 \begin{worked}{Sketch $f(x)=\dfrac{2x+1}{x-3}$ and $g(x)=(x-1)^{2}(x+3)$ from the formulas alone, and say what $h(x)=\dfrac{x^{2}-1}{x-1}$ really is}
 \wstep{Step 1. The rational function: find the poles.}
@@ -254,6 +349,58 @@ a hole, not a pole.
 factor numerator and denominator first: a shared factor gives a hole, an
 unshared one gives a pole. This is the same distinction that decides whether
 a limit in Volume~4 exists or diverges.}
+\end{worked}
+
+\begin{worked}{Identify the curve $9x^{2}-4y^{2}+18x+8y-31=0$: type, centre, semi-axes, vertices and asymptotes}
+\wstep{Step 1. Classify before computing.}
+The squares carry the coefficients $A=9$ and $C=-4$, of opposite sign, so
+the curve is a \textbf{hyperbola} (or, if the constant works out to zero, a
+pair of lines). Knowing the target keeps the algebra honest.
+
+\wstep{Step 2. Group, and move the constant across.}
+\[
+  (9x^{2}+18x)+(-4y^{2}+8y)=31 .
+\]
+
+\wstep{Step 3. Factor out the leading coefficients.}
+\[
+  9(x^{2}+2x)-4(y^{2}-2y)=31 .
+\]
+\wtrap{Factoring $-4$ out of $-4y^{2}+8y$ leaves $y^{2}-2y$, not
+$y^{2}+2y$. A minus sign in front of the bracket flips the sign of every
+term inside it.}
+
+\wstep{Step 4. Complete the square inside each bracket.}
+$x^{2}+2x=(x+1)^{2}-1$ and $y^{2}-2y=(y-1)^{2}-1$, so
+\[
+  9(x+1)^{2}-9-4(y-1)^{2}+4=31 .
+\]
+\wtrap{The $-1$ that completes each square sits \emph{inside} a bracket,
+so it is multiplied by the factor in front: it becomes $-9$ in the first
+group and $+4$ in the second. Moving a bare $-1$ and $+1$ across is the
+classic error, and it shifts every semi-axis.}
+
+\wstep{Step 5. Collect the constants and divide.}
+$9(x+1)^{2}-4(y-1)^{2}=31+9-4=36$, and dividing by $36$,
+\[
+  \boxed{\frac{(x+1)^{2}}{4}-\frac{(y-1)^{2}}{9}=1 .}
+\]
+
+\wstep{Step 6. Read everything off the standard form.}
+The positive square belongs to $x$, so the branches open \textbf{left and
+right}. Centre $(u,v)=(-1,1)$; $a^{2}=4$, $b^{2}=9$, so $a=2$, $b=3$.
+Vertices $(u\pm a,v)$: $(-3,1)$ and $(1,1)$. Asymptotes
+$y-1=\pm\tfrac32(x+1)$, that is
+\[
+  y=\tfrac32x+\tfrac52\qquad\text{and}\qquad y=-\tfrac32x-\tfrac12 .
+\]
+
+\wstep{Step 7. Sketch and check.}
+Mark the centre, draw the box with corners $(-3,-2)$, $(1,-2)$, $(1,4)$,
+$(-3,4)$, extend its diagonals as the asymptotes, and draw one branch
+through each vertex, bending towards the asymptotes: the middle picture
+in the figure above. Check a vertex in the original equation: at $(1,1)$,
+$9-4+18+8-31=0$. \checkmark
 \end{worked}
 
 \section{Practice Problems}
@@ -397,6 +544,28 @@ In problems 37--45, identify the curve, and sketch it.
         the indifference curve.
 \end{problems}
 
+In problems 46--57, complete the square and bring each equation to
+standard form. Name the curve, give its centre and its semi-axes $a$ and
+$b$ (the radius for a circle; for a hyperbola also the vertices and both
+asymptotes), and sketch it. Some of the equations describe no proper
+curve at all: say what they describe instead. For a parabola, give the
+vertex and the direction of opening.
+
+\begin{problems}[resume]
+  \item $x^{2}+4y^{2}-6x+16y+9=0$
+  \item $9x^{2}+4y^{2}+36x-24y+36=0$
+  \item $4x^{2}-9y^{2}-16x-18y-29=0$
+  \item $4y^{2}-x^{2}+2x+24y+19=0$
+  \item $16x^{2}+16y^{2}+32x-24y-75=0$
+  \item $4x^{2}+4y^{2}-12x+8y-3=0$
+  \item $x^{2}+4x+2y^{2}=8y-4$
+  \item $9x^{2}+54x=4y^{2}-8y-113$
+  \item $4x^{2}+9y^{2}-8x+36y+40=0$
+  \item $x^{2}+3y^{2}+2x-6y+10=0$
+  \item $x^{2}-4y^{2}-6x-8y+5=0$
+  \item $2y^{2}-8y-x+5=0$
+\end{problems}
+
 \section{Solutions}
 
 \begin{solutions}
@@ -525,7 +694,161 @@ In problems 37--45, identify the curve, and sketch it.
   \item Budget line: $y=20-2x$, slope $-2$ (the price ratio
         $-p_{x}/p_{y}=-4/2$), intercepts $(10,0)$ and $(0,20)$.
         Indifference curve: $y=50/x$, a hyperbola in the first quadrant.
+  \item Same signs ($1$ and $4$): an ellipse. Group:
+        $(x^{2}-6x)+4(y^{2}+4y)=-9$. Complete:
+        $(x-3)^{2}-9+4\bigl[(y+2)^{2}-4\bigr]=-9$, so
+        $(x-3)^{2}+4(y+2)^{2}=-9+9+16=16$. Dividing by $16$:
+        \[
+          \frac{(x-3)^{2}}{16}+\frac{(y+2)^{2}}{4}=1 .
+        \]
+        Ellipse with centre $(3,-2)$, $a=4$, $b=2$; vertices $(-1,-2)$,
+        $(7,-2)$, $(3,0)$, $(3,-4)$. Twice as wide as tall, it just touches
+        the $x$-axis at $(3,0)$ (first picture below).
+  \item Same signs: an ellipse. $9(x^{2}+4x)+4(y^{2}-6y)=-36$, then
+        $9\bigl[(x+2)^{2}-4\bigr]+4\bigl[(y-3)^{2}-9\bigr]=-36$, so
+        $9(x+2)^{2}+4(y-3)^{2}=-36+36+36=36$. Dividing by $36$:
+        \[
+          \frac{(x+2)^{2}}{4}+\frac{(y-3)^{2}}{9}=1 .
+        \]
+        Centre $(-2,3)$, $a=2$, $b=3$: this time taller than wide.
+        Vertices $(-4,3)$, $(0,3)$, $(-2,0)$, $(-2,6)$, so the curve
+        touches the $y$-axis at $(0,3)$ and the $x$-axis at $(-2,0)$.
+  \item Opposite signs: a hyperbola. $4(x^{2}-4x)-9(y^{2}+2y)=29$, then
+        $4\bigl[(x-2)^{2}-4\bigr]-9\bigl[(y+1)^{2}-1\bigr]=29$, so
+        $4(x-2)^{2}-9(y+1)^{2}=29+16-9=36$. Dividing by $36$:
+        \[
+          \frac{(x-2)^{2}}{9}-\frac{(y+1)^{2}}{4}=1 .
+        \]
+        The $x$-square is positive, so it opens \textbf{left and right}.
+        Centre $(2,-1)$, $a=3$, $b=2$, vertices $(-1,-1)$ and $(5,-1)$.
+        Asymptotes $y+1=\pm\tfrac23(x-2)$, i.e.
+        $y=\tfrac23x-\tfrac73$ and $y=-\tfrac23x+\tfrac13$. Sketch: box with
+        corners $(-1,-3)$ and $(5,1)$, its diagonals, and one branch
+        through each vertex (second picture below).
+  \item Opposite signs: a hyperbola. Factor $-1$ out of the $x$-group:
+        $-(x^{2}-2x)+4(y^{2}+6y)=-19$. Complete:
+        $-\bigl[(x-1)^{2}-1\bigr]+4\bigl[(y+3)^{2}-9\bigr]=-19$, so
+        $-(x-1)^{2}+4(y+3)^{2}=-19-1+36=16$. Dividing by $16$:
+        \[
+          -\frac{(x-1)^{2}}{16}+\frac{(y+3)^{2}}{4}=1 .
+        \]
+        The $y$-square is positive: it opens \textbf{up and down}. Centre
+        $(1,-3)$, $a=4$, $b=2$, vertices $(1,-1)$ and $(1,-5)$. Asymptotes
+        $y+3=\pm\tfrac12(x-1)$, i.e. $y=\tfrac12x-\tfrac72$ and
+        $y=-\tfrac12x-\tfrac52$. Note the sign: the $-1$ completing the
+        square inside $-[\,\cdots]$ turns into $+1$ on the left, hence
+        $-1$ on the right.
+  \item Both squares carry $16$: divide by it first,
+        $x^{2}+y^{2}+2x-\tfrac32y=\tfrac{75}{16}$. Complete:
+        $(x+1)^{2}-1+\bigl(y-\tfrac34\bigr)^{2}-\tfrac{9}{16}=\tfrac{75}{16}$,
+        so
+        \[
+          (x+1)^{2}+\bigl(y-\tfrac34\bigr)^{2}
+          =\tfrac{75+16+9}{16}=\tfrac{100}{16}=\tfrac{25}{4} .
+        \]
+        A \textbf{circle} with centre $\bigl(-1,\tfrac34\bigr)$ and radius
+        $\tfrac52$ (an ellipse with $a=b=\tfrac52$).
+  \item Divide by $4$: $x^{2}-3x+y^{2}+2y=\tfrac34$. Complete:
+        $\bigl(x-\tfrac32\bigr)^{2}-\tfrac94+(y+1)^{2}-1=\tfrac34$, so
+        $\bigl(x-\tfrac32\bigr)^{2}+(y+1)^{2}=\tfrac34+\tfrac94+1=4$. A
+        \textbf{circle} with centre $\bigl(\tfrac32,-1\bigr)$ and radius
+        $2$.
+  \item Bring everything to the left first: $x^{2}+4x+2y^{2}-8y=-4$. Same
+        signs, an ellipse. Complete:
+        $(x+2)^{2}-4+2\bigl[(y-2)^{2}-4\bigr]=-4$, so
+        $(x+2)^{2}+2(y-2)^{2}=8$. Dividing by $8$:
+        \[
+          \frac{(x+2)^{2}}{8}+\frac{(y-2)^{2}}{4}=1 .
+        \]
+        Centre $(-2,2)$, $a=\sqrt8=2\sqrt2\approx2.83$, $b=2$; vertices
+        $(-2\pm2\sqrt2,\,2)$, $(-2,4)$ and $(-2,0)$, the last one on the
+        $x$-axis.
+  \item Everything to the left: $9x^{2}+54x-4y^{2}+8y+113=0$. Opposite
+        signs, a hyperbola. Group: $9(x^{2}+6x)-4(y^{2}-2y)=-113$.
+        Complete: $9\bigl[(x+3)^{2}-9\bigr]-4\bigl[(y-1)^{2}-1\bigr]=-113$,
+        so $9(x+3)^{2}-4(y-1)^{2}=-113+81-4=-36$. The right side is
+        negative; dividing by $-36$ swaps the signs:
+        \[
+          -\frac{(x+3)^{2}}{4}+\frac{(y-1)^{2}}{9}=1 .
+        \]
+        So it opens \textbf{up and down}, although the $x$-term looked
+        dominant in the given form. Centre $(-3,1)$, $a=2$, $b=3$, vertices
+        $(-3,-2)$ and $(-3,4)$. Asymptotes $y-1=\pm\tfrac32(x+3)$, i.e.
+        $y=\tfrac32x+\tfrac{11}{2}$ and $y=-\tfrac32x-\tfrac72$ (third
+        picture below).
+  \item Same signs. $4(x^{2}-2x)+9(y^{2}+4y)=-40$, then
+        $4(x-1)^{2}-4+9(y+2)^{2}-36=-40$, so
+        \[
+          4(x-1)^{2}+9(y+2)^{2}=0 .
+        \]
+        A sum of two non-negative terms vanishes only if both do:
+        $x=1$ and $y=-2$. The ``ellipse'' has shrunk to the
+        \textbf{single point} $(1,-2)$, its centre.
+  \item Same signs. $(x^{2}+2x)+3(y^{2}-2y)=-10$, then
+        $(x+1)^{2}-1+3(y-1)^{2}-3=-10$, so
+        \[
+          (x+1)^{2}+3(y-1)^{2}=-6 .
+        \]
+        The left side is never negative, so no point satisfies the
+        equation: the solution set is \textbf{empty}. There is nothing to
+        sketch.
+  \item Opposite signs. $(x^{2}-6x)-4(y^{2}+2y)=-5$, then
+        $(x-3)^{2}-9-4(y+1)^{2}+4=-5$, so $(x-3)^{2}-4(y+1)^{2}=0$. The
+        right side is zero, so factor the difference of squares:
+        \[
+          \bigl(x-3-2(y+1)\bigr)\bigl(x-3+2(y+1)\bigr)=0
+          \iff x-2y-5=0\ \text{ or }\ x+2y-1=0 .
+        \]
+        A \textbf{pair of lines}, $y=\tfrac12x-\tfrac52$ and
+        $y=-\tfrac12x+\tfrac12$, crossing at the would-be centre
+        $(3,-1)$. They are the asymptotes $y+1=\pm\tfrac12(x-3)$ that the
+        hyperbolas $(x-3)^{2}-4(y+1)^{2}=k$, $k\neq0$, would have.
+  \item There is no $x^{2}$ term ($A=0$), so this is a \textbf{parabola}.
+        Solve for the variable that appears only linearly:
+        $x=2y^{2}-8y+5=2(y^{2}-4y)+5=2\bigl[(y-2)^{2}-4\bigr]+5$, so
+        \[
+          x=2(y-2)^{2}-3 .
+        \]
+        A parabola opening to the \textbf{right} (positive coefficient),
+        vertex $(-3,2)$, axis of symmetry $y=2$. It meets the $x$-axis at
+        $(5,0)$ and the $y$-axis where $(y-2)^{2}=\tfrac32$, i.e.
+        $y=2\pm\sqrt{1.5}\approx2\pm1.22$. A parabola has no centre and no
+        semi-axes.
 \end{solutions}
+
+\begin{gallery}
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-2, xmax=8, ymin=-7, ymax=3,
+      xtick={-1,3,7}, ytick={-4,-2}, title={Problem 46}]
+    \addplot[domain=0:360, samples=181]({3+4*cos(x)},{-2+2*sin(x)});
+    \addplot[only marks, mark=*, mark size=1.3pt, forget plot] coordinates {(3,-2)};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-4.5, xmax=8.5, ymin=-7.5, ymax=5.5,
+      xtick={-1,5}, ytick={-3,1}, title={Problem 48}]
+    \addplot[gray, dashed, thin, forget plot, samples=2, domain=-4.3:8.3]{-1+(2/3)*(x-2)};
+    \addplot[gray, dashed, thin, forget plot, samples=2, domain=-4.3:8.3]{-1-(2/3)*(x-2)};
+    \addplot[gray, dashed, thin, forget plot, sharp plot] coordinates {(-1,-3)(5,-3)(5,1)(-1,1)(-1,-3)};
+    \addplot[domain=-1.3:1.3]({2+3*cosh(x)},{-1+2*sinh(x)});
+    \addplot[domain=-1.3:1.3]({2-3*cosh(x)},{-1+2*sinh(x)});
+    \addplot[only marks, mark=*, mark size=1.3pt, forget plot] coordinates {(2,-1)};
+  \end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+  \begin{axis}[geoaxis, xmin=-8.5, xmax=2.5, ymin=-4.5, ymax=6.5,
+      xtick={-5,-3,-1}, ytick={-2,1,4}, title={Problem 53}]
+    \addplot[gray, dashed, thin, forget plot, samples=2, domain=-8.3:2.3]{1+1.5*(x+3)};
+    \addplot[gray, dashed, thin, forget plot, samples=2, domain=-8.3:2.3]{1-1.5*(x+3)};
+    \addplot[gray, dashed, thin, forget plot, sharp plot] coordinates {(-5,-2)(-1,-2)(-1,4)(-5,4)(-5,-2)};
+    \addplot[domain=-1.2:1.2]({-3+2*sinh(x)},{1+3*cosh(x)});
+    \addplot[domain=-1.2:1.2]({-3+2*sinh(x)},{1-3*cosh(x)});
+    \addplot[only marks, mark=*, mark size=1.3pt, forget plot] coordinates {(-3,1)};
+  \end{axis}
+\end{tikzpicture}
+\gcap{Sketches for problems 46, 48 and 53: centre, box and asymptotes
+first, then the curve.}
+\end{gallery}
 
 \section{Additional Problems}
 

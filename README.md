@@ -5,6 +5,7 @@ I have compiled these exercise books because I needed a refresher in university-
 Nine LaTeX training books plus a combined compendium, covering the mathematics an economics or business degree expects: from algebra, sequences and financial mathematics, through single- and multivariable calculus and linear algebra, to constrained optimization and linear programming. The emphasis throughout is on drill, with a fully worked solution for every single problem.
 
 Every chapter has the same shape: **Core Rules** state the rules compactly, a **Worked Example** solves one representative problem end to end — narrated step by step, with the standard traps called out where they occur and every result checked — **Practice Problems** drill the technique, **Solutions** work every problem through in full, and most chapters close with an extra block of additional problems for a second pass. One deliberate exception: Volume 9 has worked examples but no rules section, since the point there is that you are not told which method to reach for.
+Its fourth set, the full investigations, is the one place it states rules: a short section listing the chain of steps every investigation follows.
 
 ## What's inside
 
@@ -16,18 +17,18 @@ the later volumes assumes you can already picture a function.
 | Vol. | Document | Chapters | Problems | Pages |
 |---|---|---|---|---|
 | 1 | Algebraic Foundations: exponents, logarithms, factoring, inequalities, systems, summation, partial fractions, first-order conditions | 9 | 275 | 51 |
-| 2 | Functions and Their Graphs: domain and range, the standard graphs, transformations and inverses, regions in the plane, trigonometry | 5 | 350 | 57 |
-| 3 | Matrix Algebra: vectors, determinants, Gaussian elimination, inverses, eigenvalues, definiteness | 10 | 512 | 90 |
+| 2 | Functions and Their Graphs: domain and range, the standard graphs, transformations and inverses, shifted conics, regions in the plane, trigonometry | 5 | 400 | 73 |
+| 3 | Matrix Algebra: vectors, determinants, Gaussian elimination, inverses, eigenvalues, definiteness | 10 | 525 | 94 |
 | 4 | Foundations of Analysis: sequences, series, financial mathematics, limits & continuity | 4 | 120 | 44 |
-| 5 | Derivatives & Partial Derivatives: differentiation rules, L'Hôpital, curve discussion, surfaces and level curves, gradient, Hessian, inverse and implicit function theorems | 14 | 975 | 180 |
+| 5 | Derivatives & Partial Derivatives: differentiation rules, L'Hôpital, curve discussion, surfaces and level curves, differentiability and tangent planes, gradient, Hessian, Jacobians, inverse and implicit function theorems | 14 | 1133 | 228 |
 | 6 | Integration: substitution, parts, partial fractions, improper and double integrals | 8 | 345 | 71 |
-| 7 | Static Optimization: convexity, Lagrange, Kuhn–Tucker | 10 | 352 | 105 |
-| 8 | Linear Programming: simplex, duality, sensitivity | 8 | 182 | 102 |
-| 9 | Mixed Problems: three cross-chapter sets, no method announced | 3 | 60 | 18 |
-|   | **Total** | **71** | **3171** | **718** |
+| 7 | Static Optimization: convexity, Lagrange, Kuhn–Tucker | 10 | 513 | 145 |
+| 8 | Linear Programming: simplex, duality, sensitivity | 8 | 208 | 125 |
+| 9 | Mixed Problems: three cross-chapter sets with no method announced, plus full investigations of single functions | 4 | 65 | 28 |
+|   | **Total** | **72** | **3584** | **859** |
 
 The compendium, *Basic Mathematics for Economics*, binds all nine volumes
-into one 713-page book, in the same order. It opens with **How to Work This
+into one 855-page book, in the same order. It opens with **How to Work This
 Book** — a diagnostic and a ten-stage study plan that reorders the material
 into the sequence a business or economics mathematics course actually needs
 it in, with a mastery
@@ -103,7 +104,8 @@ Chapter skeleton: `\chapter` → intro prose → `\section{Core Rules}` →
 `\section{Worked Example}` → `\section{Practice Problems}` →
 `\section{Solutions}` → `\section{Additional Problems}` →
 `\section{Additional Solutions}` (the Additional pair is present in most,
-not all, chapters; Volume 9 has no Core Rules by design).
+not all, chapters; Volume 9 has no Core Rules by design, except for the
+chain-of-steps section that opens its fourth set).
 
 **Invariants worth keeping**: every chapter carries exactly one
 `\section{Worked Example}` (plural title where it holds two boxes), and the
