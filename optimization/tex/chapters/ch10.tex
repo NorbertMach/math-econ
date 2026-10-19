@@ -118,7 +118,12 @@ $g_i$ is convex, so that the feasible set is convex. Then:
   \item if $f$ is strictly concave, the maximiser is unique.
 \end{itemize}
 Linear objectives and linear constraints always qualify (linear functions
-are both concave and convex). \textbf{Warning:} if the objective is convex
+are both concave and convex). For a linear programme the Kuhn--Tucker
+multipliers of the resource constraints are exactly its \textbf{dual
+variables}, the shadow prices of the resources, and the KKT system is
+primal feasibility, dual feasibility and complementary slackness side by
+side: see the box ``LP duality and the Kuhn--Tucker conditions'' in
+\chref{linprog}{7}. \textbf{Warning:} if the objective is convex
 (Problem~4), maxima sit at vertices of the feasible set and stationary
 points of the Lagrangian may be minima: KKT stationarity is then the wrong
 tool.
@@ -296,7 +301,7 @@ with the same conditions on the constraints. Consequences:
         a non-convex one for $\max f$: minimising $x^{2}+y^{2}$ on a disc
         is convex, maximising it is not;
   \item to show convexity of a non-quadratic objective, check that its
-        Hessian is PSD everywhere (Chapter~3).
+        Hessian is PSD everywhere (\chref{optimization}{3}).
 \end{itemize}
 In a non-convex programme KKT points are only candidates: some may be
 saddle points, local optima or even the opposite extremum, so compare the
@@ -371,7 +376,7 @@ largest one gives the maximum $18$ at the corner $(0,0)$ (both axes bind).}
 
 \begin{rulebox}{Standard forms and variable substitutions}
 Besides the constraint rewrites above, variables can be brought to sign
-form, as for linear programmes (Volume~8, Chapter~3):
+form, as for linear programmes (\chref{linprog}{3}):
 \begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
   \item a \textbf{non-positive} variable $z\le0$: substitute $z=-z'$,
         $z'\ge0$;
@@ -480,7 +485,7 @@ $\lambda^{*}=4$: relaxing the budget from $10$ to $11$ raises $f$ by about
 $4$. $\mu^{*}=2$: relaxing $x\le4$ to $x\le5$ raises $f$ by about $2$.
 Check the first directly --- with $x+y\le11$ and $x\le4$ the optimum is
 $(4,7)$ with $f=28$, exactly $4$ more. \checkmark\ Shadow prices work in the
-inequality-constrained world exactly as they did in Chapter~8.
+inequality-constrained world exactly as they did in \chref{optimization}{8}.
 
 \wstep{Step 10. The recipe.}
 \begin{center}\footnotesize

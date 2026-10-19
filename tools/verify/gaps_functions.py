@@ -3,7 +3,8 @@ ch02 rule box example, second worked example, problems 46-57 and the figure
 parametrisations; ch04 problems 46-52 (regions bounded by shifted ellipses
 and hyperbolas). Every claim is retyped by hand; no LaTeX parsing."""
 from sympy import (symbols, Rational, sqrt, expand, simplify, solve, cosh,
-                   sinh, cos, sin, factor, Eq, S)
+                   sinh, cos, sin, factor, Eq, S, hessian,
+                   discriminant, Poly)
 
 x, y, t = symbols("x y t", real=True)
 results = []
@@ -126,7 +127,20 @@ check("54: only point (1,-2)", solve([4*(x - 1)**2, 9*(y + 2)**2], [x, y], dict=
       == [{x: 1, y: -2}])
 P55 = x**2 + 3*y**2 + 2*x - 6*y + 10
 same("55: (x+1)^2+3(y-1)^2+6", P55, (x + 1)**2 + 3*(y - 1)**2 + 6)
-check("55: empty (sum of squares + 6 > 0)", True)
+# Empty set, checked for real: the only stationary point of P55 is (-1,1),
+# P55 is 6 there, and its Hessian is positive definite, so P55 >= 6 > 0 on
+# all of R^2 and no real point satisfies P55 = 0.
+_crit55 = solve([P55.diff(x), P55.diff(y)], [x, y], dict=True)
+check("55: unique stationary point (-1,1)", _crit55 == [{x: -1, y: 1}])
+check("55: minimum value 6 > 0", val(P55, (-1, 1)) == 6)
+_H55 = hessian(P55, (x, y))
+check("55: Hessian positive definite", _H55[0, 0] > 0 and _H55.det() > 0)
+# Independent second route: as a quadratic in x, P55 has discriminant
+# -12((y-1)^2+2), negative for every real y, so no real x exists for any y.
+_disc55 = discriminant(Poly(P55, x))
+same("55: x-discriminant = -12((y-1)^2+2)", _disc55, -12*((y - 1)**2 + 2))
+check("55: x-discriminant < 0 for all real y",
+      (-12*((y - 1)**2 + 2)).is_negative is True)
 P56 = x**2 - 4*y**2 - 6*x - 8*y + 5
 same("56: (x-3)^2-4(y+1)^2", P56, (x - 3)**2 - 4*(y + 1)**2)
 same("56: factors (x-2y-5)(x+2y-1)", P56, (x - 2*y - 5)*(x + 2*y - 1))

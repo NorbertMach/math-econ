@@ -9,7 +9,7 @@ method over. Every serious solver prints the answers in a standard
 \emph{sensitivity report}, and reading that
 report (the interpretation of a computer solution) is a skill tested in its
 own right. This chapter builds the report line by line from the machinery
-of Chapters~4--7: the end tableau supplies the numbers, duality explains
+of Chapters~\chnum{linprog}{4}--\chnum{linprog}{7}: the end tableau supplies the numbers, duality explains
 what they mean.
 
 \section{Core Rules}
@@ -140,7 +140,7 @@ objective counts as row~1, so the constraints are rows $2,3,\dots$
 senses, the sign of a dual price depends on the row type only: raising
 $b_{i}$ loosens a $\le$ row, so its dual price is $\ge 0$; it tightens a
 $\ge$ row, so its dual price is $\le 0$; an equality row can have either
-sign. Link to Chapter~7: for a max problem the dual price is $y_{i}$; for
+sign. Link to \chref{linprog}{7}: for a max problem the dual price is $y_{i}$; for
 a min problem it is $-u_{i}$, where $u_{i}=\partial C^{*}/\partial b_{i}$
 is the dual variable of the min problem. Rewriting $\min C$ as
 $\max\,(-C)$ leaves every dual price and reduced cost unchanged and only
@@ -162,12 +162,15 @@ flips the sign of the objective value.
         (allowable increase of a $\ge$ row). The converse can fail, since
         a binding row may also show \texttt{INFINITY} on one side; when
         the slack is blank, count: a nondegenerate optimum has exactly as
-        many positive basic variables as there are rows.
+        many positive basic variables as there are rows. The report
+        shows nondegeneracy: a basic variable at $0$ would make some
+        right-hand-side range $0$ on one side, so if no allowable
+        increase or decrease is $0$, every basic variable is positive.
   \item \textbf{Primal.} Set the nonbasic variables to $0$, solve the
         binding rows for the basic ones, then compute the missing slacks
         and the objective value.
   \item \textbf{Dual.} Write the dual of the LP as stated (sign rules of
-        Chapter~7). Nonbinding rows get dual value $0$; the dual
+        \chref{linprog}{7}). Nonbinding rows get dual value $0$; the dual
         constraint of every basic variable becomes an equation. Solve, check
         the signs, and check that the dual slack of each nonbasic variable
         equals its printed reduced cost.
@@ -259,7 +262,7 @@ minimum), inside the range with equality, outside it as a bound.
 
 \begin{worked}{Sensitivity analysis on the running example: how far can $100$ machine hours and the profit $40$ move before the answer changes?}
 \wstep{Step 1. Recall what stays fixed.}
-From Chapter~5 the optimal basis is $\{x_{1},x_{2}\}$ with
+From \chref{linprog}{5} the optimal basis is $\{x_{1},x_{2}\}$ with
 \[
   B=\begin{pmatrix}2&1\\1&1\end{pmatrix},
   \qquad
@@ -326,7 +329,7 @@ $-2$ (machine) and $-1$ (labour):
   30\le c_{1}\le60 . \checkmark
 \]
 At the endpoints the objective becomes parallel to one of the constraints
-and multiple optima appear --- precisely the situation of Chapter~6.
+and multiple optima appear, precisely the situation of \chref{linprog}{6}.
 \wtrap{Within this range the optimal \emph{plan} $(20,60)$ does not change
 at all; only the optimal \emph{value} does, at $20$ euros per unit of
 $c_{1}$. Right-hand-side changes move the plan and keep the price;
@@ -337,7 +340,7 @@ which is the chapter's main hazard.}
 Both $x_{1}$ and $x_{2}$ are basic, so both have reduced cost $0$: they are
 already in the plan. A \emph{non-basic} variable's reduced cost says how
 much its profit coefficient would have to improve before it enters. For the
-hypothetical product~3 of Chapter~5 (one hour of each resource, margin
+hypothetical product~3 of \chref{linprog}{5} (one hour of each resource, margin
 $35$):
 \[
   35-\mathbf y^{\!\top}\mathbf a_{3}=35-(10+20)=5>0 ,
@@ -437,9 +440,15 @@ ranges: basic.
 
 \wstep{Step 4. Which rows bind?}
 Rows 3 and 4 show slack $0$: binding. Rows 2 and 5 are blank, so count:
-four rows mean four basic variables, $x_{2}$ and $x_{3}$ are two of them,
-and (the optimum being nondegenerate) the other two are the slacks of
-rows 2 and 5, which are therefore nonbinding. Their ranges fit this:
+four rows mean four basic variables, and $x_{2}$ and $x_{3}$ are two of
+them. The count rests on one assumption: the optimum is
+\emph{nondegenerate}, that is, every basic variable is positive. It holds
+for these data. A basic variable at $0$ would make some right-hand-side
+range $0$ on one side, since moving that right-hand side the wrong way
+would push the variable below $0$ at once; none of the eight printed
+allowable changes is $0$. So the zero slacks of rows 3 and 4 are
+nonbasic, and the other two basic variables are the slacks of rows 2 and
+5, which are therefore nonbinding. Their ranges fit this:
 \texttt{INFINITY} on the loosening side, and on the other side the room
 left. Row~2 ($\ge$) has allowable increase $2$, so its surplus should be
 $2$; row~5 ($\le$) has allowable decrease $5$, so its slack should be $5$.
@@ -456,7 +465,9 @@ Subtracting: $3x_{3}=15$, so $x_{3}=5$ and $x_{2}=1$. Then
   \text{row 5: } 10-5=5\ \text{(slack)},\qquad
   C^{*}=0-2-25=-27 .
 \]
-Both values agree with the ranges. \checkmark
+Both values agree with the ranges. \checkmark\ All four basic values,
+$x_{2}=1$, $x_{3}=5$ and the slacks $2$ and $5$, are positive: the optimum
+is nondegenerate, as Step~4 assumed.
 
 \wstep{Step 6. Solve the dual by complementary slackness.}
 By the sign rules for a min problem, the $\ge$ rows get $u_{1},u_{3}\ge 0$
@@ -1085,7 +1096,7 @@ Problems 1--5 refer to the LP
   \item Rebuild the end tableau of the solver-report LP of Problems
         10--15 (slacks $s_{1},s_{2},s_{3}$ for machine, labour, demand)
         from its report alone, then complete the body using the end
-        tableau of the two-constraint running example (Chapter~4, worked
+        tableau of the two-constraint running example (\chref{linprog}{4}, worked
         example, Step~6) and $s_{3}=40-x_{A}$.
   \item The farm model with hired labour,
         \[
@@ -1437,5 +1448,10 @@ Problems 1--5 refer to the LP
 
         (e)~\textbf{True.} Raising the requirement by up to the surplus $4$
         keeps the row nonbinding and the basis unchanged; lowering it only
-        loosens a row that already has room, without limit.
+        loosens a row that already has room, without limit. This needs
+        no nondegeneracy assumption: the row's surplus is basic at $4$,
+        and changing this right-hand side moves only that surplus (the
+        column of $B^{-1}$ belonging to the row is a unit vector), so the
+        range is $4$ and \texttt{INFINITY} even if some other basic
+        variable is $0$.
 \end{solutions}

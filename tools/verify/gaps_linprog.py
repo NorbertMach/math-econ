@@ -428,6 +428,31 @@ check("A13(e) pattern on W2 row 2", rhs_ranges(w2())[0] == (2, oo))
 Smax = solve([-4, 2, 5], W2, 'max')
 check("A13(d) max(-C) same dual prices", dual_prices(Smax) == dual_prices(w2()) and Smax['z'] == 27)
 
+# Nondegeneracy statements (W2 Step 4/5, rulebox, A13(e))
+S = w2()
+rr = rhs_ranges(S)
+check("W2 nondegenerate: basic values (1,5,2,5) all > 0",
+      sorted(S['xB']) == [1, 2, 5, 5] and all(v > 0 for v in S['xB']))
+check("W2 no printed rhs allowable change is 0", all(v != 0 for pair in rr for v in pair))
+check("W2 slacks of rows 3,4 nonbasic, of rows 2,5 basic",
+      3 in S['basis'] and 6 in S['basis'] and 4 not in S['basis'] and 5 not in S['basis'])
+# a degenerate variant (row 5 tightened to x3 <= 5) shows a zero range entry
+Sd = solve([4, -2, -5], [W2[0], W2[1], W2[2], ([0, 0, 1], '<=', 5)], 'min')
+check("degenerate variant: a basic variable is 0",
+      xs(Sd) == [0, 1, 5] and any(v == 0 for v in Sd['xB']))
+check("degenerate variant: some rhs range entry is 0",
+      any(v == 0 for pair in rhs_ranges(Sd) for v in pair))
+# lemma: zero basic variable k and B^-1 row k nonzero -> zero ratio on one side
+k0 = [k for k in range(Sd['m']) if Sd['xB'][k] == 0][0]
+check("degenerate variant: B^-1 row of the zero basic variable is nonzero",
+      any(Sd['Bi'][k0, i] != 0 for i in range(Sd['m'])))
+# A13(e) holds at a degenerate optimum too: row 2 surplus 2 -> (2, oo)
+check("A13(e) at degenerate optimum: row 2 range (surplus, oo)",
+      slack_surplus(Sd)[0] == 2 and rhs_ranges(Sd)[0] == (2, oo))
+kk = list(Sd['basis']).index(3)
+check("A13(e) column of B^-1 for the slack-basic row is a unit vector",
+      Sd['Bi'][:, 0] == eye(Sd['m'])[:, kk])
+
 print()
 n, p = len(results), sum(results)
 print(f"SUMMARY: {p}/{n} passed" + ("" if p == n else f", {n - p} FAILED"))

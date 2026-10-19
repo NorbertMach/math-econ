@@ -30,8 +30,8 @@ $x_1-3x_2\ge -8$ into $-x_1+3x_2\le 8$. A $\le$ row with a negative
 right-hand side cannot be repaired that way: multiplying by $-1$ makes the
 right-hand side positive but turns the row into a $\ge$ row, and the origin
 stays infeasible. Such rows, $\ge$ rows with positive right-hand side, and
-$=$ rows with nonzero right-hand side need the two-phase method (its phase
-one is used in Chapter~6) and are not treated here.
+$=$ rows with nonzero right-hand side need the two-phase method (sketched in \chref{linprog}{5}; its phase
+one is used in \chref{linprog}{6}) and are not treated here.
 \end{rulebox}
 
 \begin{rulebox}{Is it a standard maximum problem? The origin test}
@@ -182,7 +182,7 @@ the feasible polytope without ever decreasing $z$.
 
 \begin{worked}{Run the simplex method on the running example, from the initial tableau to the optimum}
 \wstep{Step 1. The initial tableau.}
-With the standard form of Chapter~3 and the objective written as
+With the standard form of \chref{linprog}{3} and the objective written as
 $z-40x_{1}-30x_{2}=0$:
 \begin{center}\footnotesize
 \begin{tabular}{c|rrrr|r}
@@ -222,7 +222,7 @@ first, so $s_{1}$ \textbf{leaves}. The pivot element is the $2$.
 or negative entry imposes no limit --- increasing the entering variable
 never drives that basic variable negative --- and including it produces a
 nonsensical ratio and an infeasible next tableau. If \emph{no} entry is
-positive, the problem is unbounded (Chapter~6).}
+positive, the problem is unbounded (\chref{linprog}{6}).}
 
 \wstep{Step 4. Pivot: make the pivot element $1$ and clear its column.}
 Divide the pivot row by $2$, then subtract multiples of it from the others:
@@ -276,13 +276,13 @@ No negative entry remains in the $z$-row, so no variable can improve $z$:
 \[
   \boxed{x_{1}^{*}=20,\quad x_{2}^{*}=60,\quad s_{1}^{*}=s_{2}^{*}=0,\quad z^{*}=2600 .}
 \]
-This matches the graphical answer of Chapter~2 exactly. \checkmark\ The path
+This matches the graphical answer of \chref{linprog}{2} exactly. \checkmark\ The path
 taken was $(0,0)\to(50,0)\to(20,60)$: two pivots, two edges, three corners.
 
 \wstep{Step 8. The $z$-row entries under the slacks are not decoration.}
 The $10$ under $s_{1}$ and $20$ under $s_{2}$ are the \textbf{shadow
 prices}: one more machine hour is worth $10$ euros, one more labour hour
-$20$. Chapter~5 reads them systematically and Chapter~7 proves they are the
+$20$. \chref{linprog}{5} reads them systematically and \chref{linprog}{7} proves they are the
 dual solution.
 
 \wstep{Step 9. The algorithm in five lines.}

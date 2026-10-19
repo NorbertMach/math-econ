@@ -128,8 +128,8 @@ list of partials arranged as a $1\times n$ \textbf{row}:
 Same numbers, different shape. The row is the form that multiplies a column
 of changes $\mathbf{h}$:
 $Df(\mathbf{x})\,\mathbf{h}=\grad f(\mathbf{x})\cdot\mathbf{h}
-=\sum_{i}f_{x_i}h_{i}$, which is the total differential of Chapter~12 and
-the linear part of the tangent plane below. In Chapter~13 these rows are
+=\sum_{i}f_{x_i}h_{i}$, which is the total differential of \chref{derivatives}{12} and
+the linear part of the tangent plane below. In \chref{derivatives}{13} these rows are
 stacked into the Jacobian matrix.
 \end{rulebox}
 
@@ -255,6 +255,52 @@ being parallel --- and that is the Lagrange condition.
 \end{itemize}
 \end{rulebox}
 
+\begin{rulebox}{Monotonicity in several variables}
+\textbf{The componentwise order.} For $\mathbf{x},\mathbf{y}\in\R^{n}$,
+\[
+  \mathbf{x}\le\mathbf{y}
+  \quad:\Longleftrightarrow\quad
+  x_{i}\le y_{i}\ \text{for every } i=1,\ldots,n .
+\]
+Not every pair is comparable: neither $(1,2)\le(2,1)$ nor $(2,1)\le(1,2)$.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item $f\colon D\to\R$ is \textbf{increasing} (non-decreasing) if
+        $\mathbf{x}\le\mathbf{y}$ implies $f(\mathbf{x})\le f(\mathbf{y})$,
+        and \textbf{strictly increasing} if $\mathbf{x}\le\mathbf{y}$,
+        $\mathbf{x}\neq\mathbf{y}$ implies $f(\mathbf{x})<f(\mathbf{y})$.
+        For pairs that are not comparable the definition says nothing.
+  \item $f$ is \textbf{increasing in the variable $x_{i}$} if it is
+        increasing as a function of $x_{i}$ alone, the other variables held
+        fixed at any admissible values.
+  \item \textbf{Gradient test.} Let $D$ be open and convex and $f\in C^{1}$.
+        Then $f$ is non-decreasing on $D$ if and only if
+        $f_{x_{i}}(\mathbf{x})\ge0$ for every $i$ and every
+        $\mathbf{x}\in D$. Reason: for $\mathbf{x}\le\mathbf{y}$ the profile
+        $\varphi(t)=f(\mathbf{x}+t(\mathbf{y}-\mathbf{x}))$ stays in $D$
+        and has $\varphi'(t)=\grad f\cdot(\mathbf{y}-\mathbf{x})\ge0$,
+        because every entry of $\mathbf{y}-\mathbf{x}$ is $\ge0$; conversely
+        $f_{x_{i}}$ is a limit of difference quotients that are all $\ge0$.
+  \item \textbf{Strict versions.} If $f_{x_{i}}>0$ on $D$, then $f$ is
+        strictly increasing in $x_{i}$. If all partials are $>0$ on $D$,
+        then $f$ is strictly increasing on $D$. Positive partials are
+        sufficient, not necessary: $t^{3}$ is strictly increasing although
+        its derivative vanishes at $0$.
+  \item On an open convex domain, a $C^{1}$ function is non-decreasing for
+        $\le$ exactly when it is non-decreasing in every variable
+        separately. One partial that is negative at one point refutes
+        that $f$ is increasing on $D$; when a partial changes sign across
+        $D$, $f$ is increasing only on open convex parts of $D$ where all
+        partials are $\ge0$.
+  \item \textbf{Economic reading.} A production function with
+        $F_{K},F_{L}\ge0$ is non-decreasing: more of every input never
+        lowers output. A utility function with all marginal utilities
+        $\ge0$ represents \textbf{monotone preferences} (more of every good
+        is never worse), and with all marginal utilities $>0$ strictly
+        monotone ones; then $\mathrm{MRS}_{xy}=U_{x}/U_{y}>0$ and the
+        indifference curves slope downward.
+\end{itemize}
+\end{rulebox}
+
 \begin{rulebox}{Directional derivative}
 Let $\mathbf{u}\in\R^n$ be a \emph{unit} vector ($\|\mathbf{u}\|=1$). The
 directional derivative of $f$ at $\mathbf{x}_0$ in the direction
@@ -370,7 +416,7 @@ work with the remainder directly. At a point $\mathbf{x}^{*}$:
   \item \textbf{Transcendental factors.} Replace them by their linear part
         plus a remainder: $\mathrm{e}^{t}=1+t+R(t)$ with $|R(t)|\le2t^{2}$
         for $|t|\le1$, and $\ln(1+t)=t+R(t)$ with $|R(t)|\le2t^{2}$ for
-        $|t|\le\tfrac12$ (both from the Lagrange remainder of Chapter~4).
+        $|t|\le\tfrac12$ (both from the Lagrange remainder of \chref{derivatives}{4}).
         The quadratic bound on $R$ is what makes $R/\|\mathbf{h}\|\to0$.
 \end{enumerate}
 \textbf{Roots at the origin.} For $f=(x^{2}+y^{2})^{p}$ with $p>0$,
@@ -395,7 +441,7 @@ In $n$ variables, with $P=\mathbf{p}=(p_{1},\ldots,p_{n})$, the
 \begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
   \item The right-hand side is the \textbf{linearisation} $L(\mathbf{x})$
         of $f$ at $\mathbf{p}$, the multivariable version of the tangent
-        line $f(a)+f'(a)(x-a)$ of Chapter~6. With
+        line $f(a)+f'(a)(x-a)$ of \chref{derivatives}{6}. With
         $\mathrm{d}x_{i}=x_{i}-p_{i}$ it reads $L=f(\mathbf{p})+\mathrm{d}f$:
         the old value plus the total differential.
   \item The partials are evaluated \emph{at the point} $\mathbf{p}$; they
@@ -1238,6 +1284,31 @@ around its special point.
         difference quotient at $(1,0)$.
 \end{problems}
 
+Problems 57--60 use the box ``Monotonicity in several variables'': decide
+monotonicity for the componentwise order from the signs of the partials.
+
+\begin{problems}[resume]
+  \item $F(K,L)=6K^{1/3}L^{1/2}$ on $D=\{K>0,\ L>0\}$. (a) Show that $F$
+        is strictly increasing on $D$. (b) Which of the pairs
+        $(1,4),(8,9)$ and $(8,4),(1,9)$ are comparable in the componentwise
+        order? Compute $F$ at all four points and say what monotonicity
+        predicts in each case.
+  \item $f(x,y)=x^{3}+x+\cos y$ on $\R^{2}$. (a) Show that $f$ is strictly
+        increasing in $x$ for every fixed $y$. (b) Show with two comparable
+        points that $f$ is not increasing in $y$, and hence not increasing
+        on $\R^{2}$. (c) Find the largest open interval $I$ containing
+        $-\pi/2$ such that $f$ is increasing on the strip $\R\times I$.
+  \item $F(K,L)=10K+8L-K^{2}-L^{2}+KL$ on $D=\{K>0,\ L>0\}$.
+        (a) Compute $\grad F$. (b) Show that $F$ is not increasing on $D$,
+        with a point where a partial is negative and two comparable input
+        bundles. (c) Show that $F$ is strictly increasing on the open
+        square $(0,4)\times(0,4)$. (d) Describe the region of $D$ where
+        $F_{K}\ge0$ and find the point where both marginal products vanish.
+  \item $f(x,y)=(x+y)^{3}$ on $\R^{2}$. (a) Show that $f$ is
+        increasing. (b) Find where $\grad f=\mathbf{0}$, and decide whether
+        $f$ is nevertheless strictly increasing.
+\end{problems}
+
 \section{Additional Solutions}
 
 \begin{solutions}
@@ -1519,7 +1590,7 @@ around its special point.
         it, although $f$ is continuous everywhere. \textbf{Graph:} a
         V-shaped valley whose crease, at height $0$, runs along the line
         $y=x$; the contours are pairs of parallel lines $y=x\pm c$, the
-        tilted-trough picture of Chapter~9 with a sharp floor.
+        tilted-trough picture of \chref{derivatives}{9} with a sharp floor.
 
   \item $f(P)=\ln(0+1)=0$. Chain rule:
         $f_{x}=\dfrac{2}{2x+y^{2}}$, $f_{y}=\dfrac{2y}{2x+y^{2}}$, so at
@@ -1822,4 +1893,39 @@ around its special point.
         $f(1+h,0)-f(1,0)=\sqrt{h^{2}}=|h|$, and $|h|/h=\pm1$ has no limit;
         likewise $f(1,h)-f(1,0)=2|h|$. Neither partial exists, so $f$ is
         not differentiable at the tip, as the picture said.
+  \item (a) $F_{K}=2K^{-2/3}L^{1/2}>0$ and $F_{L}=3K^{1/3}L^{-1/2}>0$ on
+        the open convex set $D$, so $F$ is strictly increasing there.
+        (b) $(1,4)\le(8,9)$, since $1\le8$ and $4\le9$: monotonicity
+        predicts $F(1,4)<F(8,9)$, and indeed $F(1,4)=6\cdot1\cdot2=12$,
+        $F(8,9)=6\cdot2\cdot3=36$. The pair $(8,4),(1,9)$ is not comparable
+        ($8>1$ but $4<9$), so monotonicity predicts nothing; the values are
+        $F(8,4)=6\cdot2\cdot2=24$ and $F(1,9)=6\cdot1\cdot3=18$.
+  \item (a) $f_{x}=3x^{2}+1\ge1>0$ everywhere, so $f$ is strictly
+        increasing in $x$ whatever $y$ is. (b) $f_{y}=-\sin y$, which is
+        negative for $0<y<\pi$. The points $(0,0)\le(0,\pi)$ are comparable,
+        yet $f(0,0)=1>f(0,\pi)=-1$. So $f$ is not increasing in $y$ and not
+        increasing on $\R^{2}$. (c) On the open convex strip $\R\times I$,
+        $f$ is increasing if and only if $f_{y}=-\sin y\ge0$, that is
+        $\sin y\le0$, for all $y\in I$. The largest open interval around
+        $-\pi/2$ with this property is $I=(-\pi,0)$: just beyond either end
+        $\sin y>0$. On this strip both partials are $>0$, so $f$ is even
+        strictly increasing there.
+  \item (a) $\grad F=(10-2K+L,\ 8-2L+K)^{T}$. (b) $F_{K}(10,1)=10-20+1=-9<0$,
+        so $F$ is not increasing on $D$. Concretely $(6,1)\le(10,1)$, but
+        $F(6,1)=60+8-36-1+6=37$ and $F(10,1)=100+8-100-1+10=17$.
+        (c) For $0<K<4$ and $0<L<4$: $F_{K}=10-2K+L>10-8+0=2>0$ and
+        $F_{L}=(8-2L)+K>0$ because $8-2L>0$ and $K>0$. Both partials are
+        positive on the open convex square, so $F$ is strictly increasing
+        there. (d) $F_{K}\ge0$ exactly where $L\ge2K-10$: on and above
+        that line extra capital never lowers output, below it (much
+        capital, little labour) it does. Both partials vanish where
+        $2K-L=10$ and $-K+2L=8$; adding twice the first to the second gives
+        $3K=28$, so $K=\tfrac{28}{3}$ and $L=2K-10=\tfrac{26}{3}$.
+  \item (a) $f_{x}=f_{y}=3(x+y)^{2}\ge0$ on the open convex set $\R^{2}$,
+        so $f$ is increasing. (b) $\grad f=\mathbf{0}$ exactly on the line
+        $x+y=0$. Still, $f$ is strictly increasing: if
+        $(x_{1},y_{1})\le(x_{2},y_{2})$ and the points differ, then
+        $x_{1}+y_{1}<x_{2}+y_{2}$, and $s\mapsto s^{3}$ is strictly
+        increasing, so $f(x_{1},y_{1})<f(x_{2},y_{2})$. Positive partials
+        are sufficient for strictness, not necessary.
 \end{solutions}

@@ -15,7 +15,7 @@ concavity, concavity decides quasiconcavity, the domain and the range
 decide whether a maximum exists. A slip early in the chain propagates,
 and a good investigation catches it, because the later answers stop
 fitting together. Target time: twenty to twenty-five minutes per
-function. The solutions tag every step with the volume and chapter whose
+function. The solutions tag every step with the chapter whose
 rule it uses, so that a weak link can be traced back and repaired.
 
 \section{The Investigation Chain}
@@ -25,35 +25,35 @@ rule it uses, so that a weak link can be traced back and repaired.
   \item \textbf{Domain.} Collect the obstructions (roots need a
         nonnegative radicand, logarithms a positive argument,
         denominators must not vanish), sketch the set, and say whether it
-        is closed, bounded and convex. (Vol.~2, Ch.~1 and Ch.~4;
-        Vol.~5, Ch.~10; Vol.~7, Ch.~2.)
+        is closed, bounded and convex. (\chrefs{functions}{1} and \chrefs{functions}{4};
+        \chrefs{derivatives}{10}; \chrefs{optimization}{2}.)
   \item \textbf{Range.} Find the smallest and largest values, or show that
         there are none, and use continuity on a connected domain to fill
-        in everything between. (Vol.~2, Ch.~1; Vol.~5, Ch.~9.)
+        in everything between. (\chrefs{functions}{1}; \chrefs{derivatives}{9}.)
   \item \textbf{Derivative.} Compute $f_{x}$, $f_{y}$ and say where they
         exist and are continuous: on that open set $f$ is differentiable
         (continuous partials are sufficient, not necessary). Where a
         partial fails to exist, $f$ is not differentiable. Roots are the
-        usual offenders on the boundary. (Vol.~5, Ch.~10.)
+        usual offenders on the boundary. (\chrefs{derivatives}{10}.)
   \item \textbf{Level curves.} Solve $f(x,y)=c$ for one variable and
-        sketch several values of $c$. (Vol.~5, Ch.~9.)
+        sketch several values of $c$. (\chrefs{derivatives}{9}.)
   \item \textbf{Gradient at a point.} Evaluate $\grad f$, draw it, check
         that it is orthogonal to the level curve through the point, and
         read it: it points in the direction of steepest ascent, and its
         norm $\lVert\grad f\rVert$ is the slope in that direction.
-        (Vol.~5, Ch.~10 and Ch.~13.)
+        (\chrefs{derivatives}{10} and \chrefs{derivatives}{13}.)
   \item \textbf{Hessian.} Second partials, Young's theorem, and the
-        definiteness by Sylvester's criterion. (Vol.~5, Ch.~11.)
+        definiteness by Sylvester's criterion. (\chrefs{derivatives}{11}.)
   \item \textbf{Critical points.} Solve $\grad f=\mathbf{0}$ \emph{inside
         the domain}, or explain why there is no solution; classify with the
-        Hessian. (Vol.~7, Ch.~5.)
+        Hessian. (\chrefs{optimization}{5}.)
   \item \textbf{Contour sets.} Mark an upper set $\{f\ge c\}$ and a lower
         set $\{f\le c\}$ and decide whether each is convex.
-        (Vol.~5, Ch.~9; Vol.~7, Ch.~2.)
+        (\chrefs{derivatives}{9}; \chrefs{optimization}{2}.)
   \item \textbf{Checklist.} Concave, convex, quasiconcave, quasiconvex,
         has a maximum, has a minimum, increasing, decreasing, epigraph
         convex: each answered with a proof or a counterexample.
-        (Vol.~7, Ch.~1 and Ch.~3.)
+        (\chrefs{optimization}{1} and \chrefs{optimization}{3}.)
 \end{enumerate}
 \end{rulebox}
 
@@ -67,17 +67,19 @@ rule it uses, so that a weak link can be traced back and repaired.
         On a convex domain with interior points, a continuous $f$ with
         $f_{x}\ge0$ and $f_{y}\ge0$ at every interior point is increasing.
         To refute it, exhibit two ordered points whose values are in the
-        wrong order.
+        wrong order. (Full treatment in \chref{derivatives}{10};
+        \chref{optimization}{3} links monotonicity to quasiconcavity.)
   \item \textbf{Epigraph and hypograph.} The \emph{epigraph}
         \de{Epigraph} of $f$ is the set of points on or above its graph,
         $\{(x,y,z): (x,y)\in D,\ z\ge f(x,y)\}$; the \emph{hypograph} is
         the set on or below it. On a convex domain, the epigraph is a convex
         set exactly when $f$ is convex, and the hypograph exactly when $f$
         is concave. So the epigraph question is the convexity question
-        asked again, and the two answers must agree.
+        asked again, and the two answers must agree. (Both sets are treated
+        in full in \chref{optimization}{3}.)
   \item \textbf{Existence of extrema.} A continuous function on a closed
         and bounded domain attains a maximum and a minimum (Weierstrass,
-        Vol.~7, Ch.~1). On an unbounded or open domain, look at the range
+        \chrefs{optimization}{1}). On an unbounded or open domain, look at the range
         first: if $f$ grows without bound there is no maximum, and if the
         infimum is approached but never reached there is no minimum.
         Extrema on the boundary of the domain are not found by
@@ -104,14 +106,14 @@ rule it uses, so that a weak link can be traced back and repaired.
         refute quasiconcavity or quasiconvexity.
   \item Cobb--Douglas $x^{a}y^{b}$ ($a,b>0$) on $\R^{2}_{+}$: always
         quasiconcave; concave iff $a+b\le1$; never convex.
-        (Vol.~7, Ch.~3.)
+        (\chrefs{optimization}{3}.)
 \end{itemize}
 \end{rulebox}
 
 \section{Worked Example}
 
 \begin{worked}{Investigate $f(x,y)=\sqrt{8-2x^{2}-y^{2}}$ completely: domain, range, derivative, level curves, gradient at $(1,2)$, Hessian, critical points, contour sets, and the full property checklist}
-\wstep{Step 1. Domain (Vol.~2, Ch.~1; Vol.~2, Ch.~4).}
+\wstep{Step 1. Domain (\chrefs{functions}{1}; \chrefs{functions}{4}).}
 The only obstruction is the root: $8-2x^{2}-y^{2}\ge0$, that is
 \[
   D=\{(x,y): 2x^{2}+y^{2}\le8\}
@@ -120,12 +122,12 @@ The only obstruction is the root: $8-2x^{2}-y^{2}\ge0$, that is
 the filled ellipse with semi-axes $2$ along $x$ and $2\sqrt2$ along $y$,
 boundary included. It is \textbf{closed} (the inequality is weak),
 \textbf{bounded}, and \textbf{convex}: it is a lower contour set of the
-convex function $2x^{2}+y^{2}$ (Vol.~7, Ch.~2).
+convex function $2x^{2}+y^{2}$ (\chrefs{optimization}{2}).
 \wtrap{Writing $2x^{2}+y^{2}<8$ loses the boundary. The root of zero is
 zero, so the boundary ellipse belongs to the domain, and it will carry the
 minimum.}
 
-\wstep{Step 2. Range (Vol.~2, Ch.~1).}
+\wstep{Step 2. Range (\chrefs{functions}{1}).}
 The radicand is largest at the origin, where it equals $8$, and smallest
 ($0$) on the boundary. Since $\sqrt{\cdot}$ is increasing,
 $0\le f\le\sqrt8=2\sqrt2$. $f$ is continuous on the connected set $D$, so
@@ -134,7 +136,7 @@ every value in between is taken:
   f(D)=[\,0,\,2\sqrt2\,].
 \]
 
-\wstep{Step 3. Derivative, and where it exists (Vol.~5, Ch.~10).}
+\wstep{Step 3. Derivative, and where it exists (\chrefs{derivatives}{10}).}
 By the chain rule,
 \[
   f_{x}=\frac{-4x}{2\sqrt{8-2x^{2}-y^{2}}}=-\frac{2x}{f},\qquad
@@ -147,7 +149,7 @@ $\bigl(f(2-h,0)-f(2,0)\bigr)/h=\sqrt{8h-2h^{2}}/h\to\infty$ as
 $h\to0^{+}$. The surface meets the plane $z=0$ vertically, like the edge
 of a dome.
 
-\wstep{Step 4. Level curves (Vol.~5, Ch.~9).}
+\wstep{Step 4. Level curves (\chrefs{derivatives}{9}).}
 For $0\le c\le2\sqrt2$, $f=c$ means $2x^{2}+y^{2}=8-c^{2}$: concentric
 ellipses with the same shape as the boundary, shrinking to the origin as
 $c\to2\sqrt2$. The values $c=0,1,\sqrt2,2,\sqrt7$ give
@@ -155,7 +157,7 @@ $2x^{2}+y^{2}=8,7,6,4,1$ (left panel below). The level $c=0$ is the
 boundary of the domain; the level $c=2\sqrt2$ is the single point
 $(0,0)$.
 
-\wstep{Step 5. Gradient at $(1,2)$ (Vol.~5, Ch.~10).}
+\wstep{Step 5. Gradient at $(1,2)$ (\chrefs{derivatives}{10}).}
 Here $f(1,2)=\sqrt{8-2-4}=\sqrt2$, so
 \[
   \grad f(1,2)=\begin{pmatrix}-2/\sqrt2\\-2/\sqrt2\end{pmatrix}
@@ -170,7 +172,7 @@ $(-\sqrt2)(1)+(-\sqrt2)(-1)=0$ \checkmark.
 \emph{Direction.} The gradient points into the ellipse, towards higher
 levels: the direction of steepest ascent. \emph{Norm.} $2$ is the slope of
 the surface in that direction, the largest directional derivative at
-$(1,2)$ (Vol.~5, Ch.~13). In every direction along the level curve the
+$(1,2)$ (\chrefs{derivatives}{13}). In every direction along the level curve the
 slope is $0$.
 
 \begin{gallery}
@@ -223,7 +225,7 @@ filled ellipse; the lower set $\{f\le2\}$ is the ring between the two
 curves, which contains $(0,\pm2)$ but not their midpoint.}
 \end{gallery}
 
-\wstep{Step 6. Hessian (Vol.~5, Ch.~11).}
+\wstep{Step 6. Hessian (\chrefs{derivatives}{11}).}
 Differentiate $f_{x}=-2xf^{-1}$ and $f_{y}=-yf^{-1}$ once more, using
 $f_{x}$, $f_{y}$ from Step 3:
 \[
@@ -253,14 +255,14 @@ $f^{3}=2\sqrt2$:
 every entry over the common denominator $f^{3}$ and replacing $f^{2}$ by
 $8-2x^{2}-y^{2}$ is what makes the sign visible.}
 
-\wstep{Step 7. Critical points (Vol.~7, Ch.~5).}
+\wstep{Step 7. Critical points (\chrefs{optimization}{5}).}
 $f_{x}=0\iff x=0$ and $f_{y}=0\iff y=0$, so the only candidate is
 $(0,0)$, which lies in the interior. There
 $\Hess f(0,0)=\begin{pmatrix}-1/\sqrt2&0\\0&-1/(2\sqrt2)\end{pmatrix}$ is
 negative definite: a strict local maximum, with value $2\sqrt2$. The
 boundary points are not critical points; $f$ is not differentiable there.
 
-\wstep{Step 8. Contour sets (Vol.~5, Ch.~9; Vol.~7, Ch.~2).}
+\wstep{Step 8. Contour sets (\chrefs{derivatives}{9}; \chrefs{optimization}{2}).}
 Take $c=2$. The upper set $\{f\ge2\}=\{2x^{2}+y^{2}\le4\}$ is a filled
 ellipse: \textbf{convex}. The lower set
 $\{f\le2\}=\{4\le2x^{2}+y^{2}\le8\}$ is an elliptical ring: it contains
@@ -271,7 +273,7 @@ $(0,2)$ and $(0,-2)$ but not their midpoint $(0,0)$, so it is
 \begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
   \item \emph{Concave: yes.} The radicand $8-2x^{2}-y^{2}$ is concave and
         $\sqrt{\cdot}$ is increasing and concave, so the composition is
-        concave on $D$ (Vol.~7, Ch.~3). Step 6 confirms it, even strictly,
+        concave on $D$ (\chrefs{optimization}{3}). Step 6 confirms it, even strictly,
         on the interior.
   \item \emph{Convex: no.} The Hessian is negative definite; concretely,
         $f(0,0)=2\sqrt2$ lies above the chord value
@@ -281,7 +283,7 @@ $(0,2)$ and $(0,-2)$ but not their midpoint $(0,0)$, so it is
   \item \emph{Quasiconvex: no.} The lower set $\{f\le2\}$ is not convex
         (Step 8).
   \item \emph{Maximum: yes}, $2\sqrt2$ at $(0,0)$, unique; global because
-        $f$ is concave and $(0,0)$ is a critical point (Vol.~7, Ch.~5).
+        $f$ is concave and $(0,0)$ is a critical point (\chrefs{optimization}{5}).
   \item \emph{Minimum: yes}, $0$, attained at \emph{every} point of the
         boundary ellipse. Weierstrass guarantees it (continuous on a closed
         bounded set); the first-order condition could never find it, since
@@ -403,27 +405,27 @@ every item of the checklist.
 \begin{solutions}
   \item \textbf{Root of a concave expression on an unbounded closed domain.}
         \begin{enumerate}[label=(\alph*),leftmargin=1.8em,itemsep=0.4ex]
-          \item \emph{Domain (Vol.~2, Ch.~1 and Ch.~4).} Radicand
+          \item \emph{Domain (\chrefs{functions}{1} and \chrefs{functions}{4}).} Radicand
                 $\ge0$: $D=\{x\le6-y^{2}\}$, the region on and to the left of
                 the parabola $x=6-y^{2}$ (vertex $(6,0)$, opening to the
                 left). Closed (weak inequality), unbounded (it contains the
                 whole ray $y=0$, $x\le6$), and convex: it is
                 the upper set $\{g\ge0\}$ of the concave function
-                $g=6-x-y^{2}$ (Vol.~7, Ch.~2). \emph{Range
-                (Vol.~2, Ch.~1):} $f=0$ on the parabola and
+                $g=6-x-y^{2}$ (\chrefs{optimization}{2}). \emph{Range
+                (\chrefs{functions}{1}):} $f=0$ on the parabola and
                 $f(x,0)=\sqrt{6-x}\to\infty$ as $x\to-\infty$; by
                 continuity $f(D)=[0,\infty)$.
-          \item \emph{Derivative (Vol.~5, Ch.~10).}
+          \item \emph{Derivative (\chrefs{derivatives}{10}).}
                 $f_{x}=\dfrac{-1}{2\sqrt{6-x-y^{2}}}=-\dfrac{1}{2f}$,
                 \;$f_{y}=\dfrac{-2y}{2f}=-\dfrac{y}{f}$, continuous where
                 $f>0$. So $f$ is differentiable on the interior
                 $x<6-y^{2}$ only. On the parabola the partials blow up:
                 at $(6,0)$, $\bigl(f(6-h,0)-0\bigr)/h=\sqrt h/h\to\infty$.
-          \item \emph{Level curves (Vol.~5, Ch.~9).} $f=c\ge0$ gives
+          \item \emph{Level curves (\chrefs{derivatives}{9}).} $f=c\ge0$ gives
                 $x=6-c^{2}-y^{2}$: copies of the boundary parabola, shifted
                 left by $c^{2}$. For $c=0,1,2,3$ the vertices sit at
                 $x=6,5,2,-3$; higher levels lie further left.
-          \item \emph{Gradient (Vol.~5, Ch.~10).} $f(1,1)=\sqrt4=2$, so
+          \item \emph{Gradient (\chrefs{derivatives}{10}).} $f(1,1)=\sqrt4=2$, so
                 \[
                   \grad f(1,1)=\begin{pmatrix}-1/4\\-1/2\end{pmatrix},\qquad
                   \lVert\grad f(1,1)\rVert=\sqrt{\tfrac1{16}+\tfrac14}
@@ -435,8 +437,8 @@ every item of the checklist.
                 direction. $(-\tfrac14)(2)+(-\tfrac12)(-1)=0$ \checkmark.
                 The gradient points left and down, towards the inside of the
                 parabolas where the levels rise: steepest ascent, with slope
-                $\sqrt5/4$ in that direction (Vol.~5, Ch.~13).
-          \item \emph{Hessian (Vol.~5, Ch.~11).} From $f_{x}=-\tfrac12f^{-1}$
+                $\sqrt5/4$ in that direction (\chrefs{derivatives}{13}).
+          \item \emph{Hessian (\chrefs{derivatives}{11}).} From $f_{x}=-\tfrac12f^{-1}$
                 and $f_{y}=-yf^{-1}$:
                 \[
                   f_{xx}=\tfrac12f^{-2}f_{x}=-\frac{1}{4f^{3}},\qquad
@@ -452,15 +454,15 @@ every item of the checklist.
                 $(1,1)$: $\Hess f=\begin{pmatrix}-1/32&-1/16\\-1/16&-5/8
                 \end{pmatrix}$, $\det=\tfrac{5}{256}-\tfrac{1}{256}
                 =\tfrac1{64}=\tfrac{1}{4\cdot2^{4}}$ \checkmark.
-          \item \emph{Critical points (Vol.~7, Ch.~5).} None:
+          \item \emph{Critical points (\chrefs{optimization}{5}).} None:
                 $f_{x}=-1/(2f)$ is never $0$. Moving left always raises $f$.
-          \item \emph{Contour sets (Vol.~5, Ch.~9; Vol.~7, Ch.~2).}
+          \item \emph{Contour sets (\chrefs{derivatives}{9}; \chrefs{optimization}{2}).}
                 $\{f\ge2\}=\{x\le2-y^{2}\}$, the inside of a parabola:
                 \textbf{convex}. $\{f\le2\}=\{2-y^{2}\le x\le6-y^{2}\}$, a
                 curved band between two parabolas: it contains $(-2,2)$ and
                 $(-2,-2)$ (check: $-2\le-2\le2$) but not their midpoint
                 $(-2,0)$ (since $2\le-2$ fails). \textbf{Not convex.}
-          \item \emph{Checklist (Vol.~7, Ch.~1 and Ch.~3).}
+          \item \emph{Checklist (\chrefs{optimization}{1} and \chrefs{optimization}{3}).}
                 \emph{Concave: yes}, $\sqrt{\cdot}$ increasing and concave
                 applied to the concave $6-x-y^{2}$ (and (e) confirms it).
                 \emph{Convex: no}, negative definite Hessian.
@@ -478,20 +480,20 @@ every item of the checklist.
         \end{enumerate}
   \item \textbf{Log-Cobb--Douglas.}
         \begin{enumerate}[label=(\alph*),leftmargin=1.8em,itemsep=0.4ex]
-          \item \emph{Logarithm rules (Vol.~1, Ch.~2).}
+          \item \emph{Logarithm rules (\chrefs{algebra}{2}).}
                 $u=\tfrac13\ln x+\tfrac12\ln y$. \emph{Domain
-                (Vol.~5, Ch.~10):} the open quadrant $\R^{2}_{++}$, open
+                (\chrefs{derivatives}{10}):} the open quadrant $\R^{2}_{++}$, open
                 (not closed), unbounded, convex. \emph{Range:}
                 $u(t,1)=\tfrac13\ln t$ runs through all of $\R$ as $t$
                 runs through $(0,\infty)$, so $u(\R^{2}_{++})=\R$.
-          \item \emph{Level curves (Vol.~5, Ch.~9).}
+          \item \emph{Level curves (\chrefs{derivatives}{9}).}
                 $\tfrac13\ln x+\tfrac12\ln y=c\iff\ln y=2c-\tfrac23\ln x
                 \iff y=\mathrm{e}^{2c}x^{-2/3}$: decreasing, convex curves
                 asymptotic to both axes, moving outwards as $c$ grows. They
                 are exactly the level curves of $x^{1/3}y^{1/2}$, relabelled
                 ($u=\ln v$ with $v$ the Cobb--Douglas): an increasing
                 transform changes the labels, not the curves.
-          \item \emph{Gradient (Vol.~5, Ch.~10).} $u_{x}=\dfrac{1}{3x}$,
+          \item \emph{Gradient (\chrefs{derivatives}{10}).} $u_{x}=\dfrac{1}{3x}$,
                 $u_{y}=\dfrac{1}{2y}$, so $\grad u(1,1)=(\tfrac13,\tfrac12)$
                 with norm $\sqrt{\tfrac19+\tfrac14}=\tfrac{\sqrt{13}}{6}
                 \approx0.60$. The level curve through $(1,1)$ is $u=0$, i.e.
@@ -500,13 +502,13 @@ every item of the checklist.
                 \checkmark. The gradient points up and to the right, the
                 direction in which utility rises fastest, at rate
                 $\sqrt{13}/6$.
-          \item \emph{Hessian (Vol.~5, Ch.~11).}
+          \item \emph{Hessian (\chrefs{derivatives}{11}).}
                 $\Hess u=\begin{pmatrix}-\frac{1}{3x^{2}}&0\\0&-\frac{1}{2y^{2}}
                 \end{pmatrix}$. $u_{xx}<0$ and $u_{yy}<0$: each marginal
                 utility $u_{x}=1/(3x)$, $u_{y}=1/(2y)$ falls as its own good
                 increases. Diagonal with negative entries: \textbf{negative
                 definite} everywhere.
-          \item \emph{Critical points (Vol.~7, Ch.~5).} None: $u_{x}=1/(3x)>0$.
+          \item \emph{Critical points (\chrefs{optimization}{5}).} None: $u_{x}=1/(3x)>0$.
           \item \emph{Contour sets.} $u\le0\iff x^{1/3}y^{1/2}\le1\iff
                 x^{2}y^{3}\le1$. The upper set $\{u\ge0\}=\{y\ge x^{-2/3}\}$
                 lies above a convex curve: \textbf{convex}. The lower set is
@@ -514,7 +516,7 @@ every item of the checklist.
                 $x^{2}y^{3}=1$, but at the midpoint
                 $(\tfrac{65}{16},\tfrac{17}{8})$ the product is far above
                 $1$ (already $x^{2}>16$ and $y^{3}>8$).
-          \item \emph{Checklist (Vol.~7, Ch.~3).}
+          \item \emph{Checklist (\chrefs{optimization}{3}).}
                 \emph{Concave: yes}, strictly, by the negative definite
                 Hessian (or as a positive sum of the concave $\ln x$,
                 $\ln y$).
@@ -531,13 +533,13 @@ every item of the checklist.
         \end{enumerate}
   \item \textbf{Cobb--Douglas with exponent sum above $1$.}
         \begin{enumerate}[label=(\alph*),leftmargin=1.8em,itemsep=0.4ex]
-          \item \emph{Name (Vol.~5, Ch.~14).} A Cobb--Douglas function,
+          \item \emph{Name (\chrefs{derivatives}{14}).} A Cobb--Douglas function,
                 homogeneous of degree $\tfrac34+\tfrac12=\tfrac54>1$:
                 $f(tx,ty)=t^{5/4}f(x,y)$, \textbf{increasing returns to
                 scale}. Domain $\R^{2}_{+}$: closed, unbounded, convex.
                 Range $[0,\infty)$: $f=0$ on the axes and $f(t,t)=t^{5/4}$
                 is unbounded.
-          \item \emph{Derivative (Vol.~5, Ch.~10).}
+          \item \emph{Derivative (\chrefs{derivatives}{10}).}
                 \[
                   f_{x}=\tfrac34x^{-1/4}y^{1/2},\qquad
                   f_{y}=\tfrac12x^{3/4}y^{-1/2},
@@ -554,7 +556,7 @@ every item of the checklist.
                 $f_{xx}=-\tfrac{3}{16}x^{-5/4}y^{1/2}<0$,
                 $f_{yy}=-\tfrac14x^{3/4}y^{-3/2}<0$: both marginal products
                 \textbf{diminish}.
-          \item \emph{Hessian (Vol.~5, Ch.~11).}
+          \item \emph{Hessian (\chrefs{derivatives}{11}).}
                 $f_{xy}=\tfrac38x^{-1/4}y^{-1/2}$, and
                 \[
                   \det\Hess f=\tfrac{3}{64}x^{-1/2}y^{-1}
@@ -567,7 +569,7 @@ every item of the checklist.
                 the cross effect $f_{xy}$ is too strong. Along the diagonal
                 the function is $f(t,t)=t^{5/4}$, strictly convex in $t$,
                 which refutes concavity directly.
-          \item \emph{Level curves and gradient (Vol.~5, Ch.~9, Ch.~10).}
+          \item \emph{Level curves and gradient (\chrefs{derivatives}{9}; \chrefs{derivatives}{10}).}
                 $x^{3/4}y^{1/2}=c$ gives $y=c^{2}x^{-3/2}$: decreasing convex
                 isoquants. $\grad f(1,1)=(\tfrac34,\tfrac12)$, norm
                 $\sqrt{\tfrac{9}{16}+\tfrac{4}{16}}=\tfrac{\sqrt{13}}{4}
@@ -577,7 +579,7 @@ every item of the checklist.
                 points to the upper right, towards higher output, and
                 $\sqrt{13}/4$ is the output gain per unit step in that best
                 direction.
-          \item \emph{Critical points (Vol.~7, Ch.~5).} None in the
+          \item \emph{Critical points (\chrefs{optimization}{5}).} None in the
                 interior, since $f_{x}>0$. The minimum value $0$ is attained
                 on the two axes, boundary points of the domain, which the
                 first-order condition does not see. (At the corner $(0,0)$
@@ -589,7 +591,7 @@ every item of the checklist.
                 not: $(4,\tfrac18)$ and $(\tfrac14,8)$ lie on $f=1$, but the
                 midpoint $(\tfrac{17}{8},\tfrac{65}{16})$ has
                 $f>1$ (both coordinates exceed $1$).
-          \item \emph{Checklist (Vol.~7, Ch.~3).}
+          \item \emph{Checklist (\chrefs{optimization}{3}).}
                 \emph{Concave: no}, $f(t,t)=t^{5/4}$ is strictly convex.
                 \emph{Convex: no}, $f(t,1)=t^{3/4}$ is strictly concave.
                 \emph{Quasiconcave: yes}, all upper sets lie above convex
@@ -605,11 +607,11 @@ every item of the checklist.
         \end{enumerate}
   \item \textbf{Cobb--Douglas with constant returns.}
         \begin{enumerate}[label=(\alph*),leftmargin=1.8em,itemsep=0.4ex]
-          \item \emph{Name (Vol.~5, Ch.~14).} Cobb--Douglas, homogeneous of
+          \item \emph{Name (\chrefs{derivatives}{14}).} Cobb--Douglas, homogeneous of
                 degree $\tfrac13+\tfrac23=1$: \textbf{constant returns to
                 scale}. Domain $\R^{2}_{+}$ (closed, convex, unbounded),
                 range $[0,\infty)$, since $f(t,t)=t$.
-          \item \emph{Derivative and Hessian (Vol.~5, Ch.~10, Ch.~11).}
+          \item \emph{Derivative and Hessian (\chrefs{derivatives}{10}; \chrefs{derivatives}{11}).}
                 On $x,y>0$:
                 $f_{x}=\tfrac13x^{-2/3}y^{2/3}$,
                 $f_{y}=\tfrac23x^{1/3}y^{-1/3}$, and
@@ -626,8 +628,8 @@ every item of the checklist.
                 $\tfrac29\bigl(-x^{-2/3}y^{2/3}+x^{-2/3}y^{2/3}\bigr)=0$,
                 and likewise the second. Along a ray $f(tx,ty)=tf(x,y)$ is
                 linear, so it has no curvature there.
-          \item \emph{Level curves, gradient, Euler (Vol.~5, Ch.~9,
-                Ch.~10, Ch.~14).} $x^{1/3}y^{2/3}=c\iff y=c^{3/2}x^{-1/2}$.
+          \item \emph{Level curves, gradient, Euler (\chrefs{derivatives}{9};
+                \chrefs{derivatives}{10}; \chrefs{derivatives}{14}).} $x^{1/3}y^{2/3}=c\iff y=c^{3/2}x^{-1/2}$.
                 $f(1,8)=1\cdot4=4$, so the isoquant is $y=8x^{-1/2}$, slope
                 $-4x^{-3/2}=-4$ at $x=1$. $\grad f(1,8)=
                 (\tfrac13\cdot4,\ \tfrac23\cdot\tfrac12)=(\tfrac43,\tfrac13)$,
@@ -643,7 +645,7 @@ every item of the checklist.
                 lie on $f=4$, the midpoint $(\tfrac{65}{8},9)$ gives
                 $f=(\tfrac{65}{8})^{1/3}\cdot9^{2/3}\approx8.7>4$.
                 \textbf{Not convex.}
-          \item \emph{Checklist (Vol.~7, Ch.~3).}
+          \item \emph{Checklist (\chrefs{optimization}{3}).}
                 \emph{Concave: yes}, the Hessian is negative semidefinite
                 on the interior, and concavity carries over to the axes by
                 continuity (Cobb--Douglas with $a+b\le1$).
@@ -659,15 +661,15 @@ every item of the checklist.
         \end{enumerate}
   \item \textbf{Logarithm of a positive quadratic.}
         \begin{enumerate}[label=(\alph*),leftmargin=1.8em,itemsep=0.4ex]
-          \item \emph{Domain and range (Vol.~2, Ch.~1).}
+          \item \emph{Domain and range (\chrefs{functions}{1}).}
                 $q=4+x^{2}+y^{2}\ge4>0$ always, so $D=\R^{2}$. $q$ takes
                 every value in $[4,\infty)$ and $\ln$ is increasing, so
                 $f(\R^{2})=[\ln4,\infty)$.
-          \item \emph{Gradient (Vol.~5, Ch.~10).}
+          \item \emph{Gradient (\chrefs{derivatives}{10}).}
                 $\grad f=\Bigl(\dfrac{2x}{q},\dfrac{2y}{q}\Bigr)$,
                 continuous everywhere since $q\ne0$: differentiable on all
                 of $\R^{2}$.
-          \item \emph{Level curves and gradient (Vol.~5, Ch.~9).}
+          \item \emph{Level curves and gradient (\chrefs{derivatives}{9}).}
                 $f=c\iff x^{2}+y^{2}=\mathrm{e}^{c}-4$: circles about the
                 origin for $c>\ln4$, the origin itself for $c=\ln4$, empty
                 below. Through $(1,1)$ runs the circle $x^{2}+y^{2}=2$
@@ -677,7 +679,7 @@ every item of the checklist.
                 orthogonal to a circle: tangent $(1,-1)$,
                 $\tfrac13-\tfrac13=0$ \checkmark. It points outwards,
                 towards larger circles and higher values.
-          \item \emph{Hessian (Vol.~5, Ch.~11).} Quotient rule:
+          \item \emph{Hessian (\chrefs{derivatives}{11}).} Quotient rule:
                 \[
                   f_{xx}=\frac{2(4-x^{2}+y^{2})}{q^{2}},\quad
                   f_{yy}=\frac{2(4+x^{2}-y^{2})}{q^{2}},\quad
@@ -695,14 +697,14 @@ every item of the checklist.
                 $(2,2)$ ($q=12$):
                 $\begin{pmatrix}1/18&-1/9\\-1/9&1/18\end{pmatrix}$,
                 $\det=-\tfrac{1}{108}<0$: indefinite.
-          \item \emph{Critical points (Vol.~7, Ch.~5).} $2x/q=0$ and
+          \item \emph{Critical points (\chrefs{optimization}{5}).} $2x/q=0$ and
                 $2y/q=0$ give only $(0,0)$; positive definite Hessian: strict
                 local minimum $\ln4$, and global, since $f\ge\ln4$ by (a).
           \item \emph{Contour sets.} $\{f\le\ln8\}=\{x^{2}+y^{2}\le4\}$, a
                 disk: \textbf{convex}. $\{f\ge\ln8\}=\{x^{2}+y^{2}\ge4\}$,
                 the outside of the disk: it contains $(2,0)$ and $(-2,0)$
                 but not their midpoint $(0,0)$. \textbf{Not convex.}
-          \item \emph{Checklist (Vol.~7, Ch.~3).}
+          \item \emph{Checklist (\chrefs{optimization}{3}).}
                 \emph{Concave: no}, the Hessian is positive definite at the
                 origin.
                 \emph{Convex: no}, it is indefinite at $(2,2)$; along the

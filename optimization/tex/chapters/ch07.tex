@@ -182,10 +182,10 @@ side lowers it.
 \hspace*{\fill}%
 \begin{tikzpicture}
   \begin{axis}[contouraxis, width=7.4cm, height=5.4cm,
-      xmin=0, xmax=8.6, ymin=0, ymax=5.2, xtick={2,4,6,8}, ytick={1,2,3,4}]
+      xmin=0, xmax=8.6, ymin=0, ymax=5.2, xtick={2,4,6,8}, ytick={1,2,3,4}, clip=false]
     \foreach \k in {4,8,12} {
       \addplot[domain=\k/5.1:8.6]{\k/x}; }
-    \addplot[black, thick, domain=0:8.4, samples=2]{4-x/2};
+    \addplot[black, thick, domain=0:8, samples=2]{4-x/2};
     \draw[-{Stealth[length=4pt]}, black, thick] (axis cs:4,2) -- (axis cs:4.8,3.6);
     \draw[-{Stealth[length=4pt]}, black, dashed, thick] (axis cs:4,2) -- (axis cs:4.4,2.8);
     \addplot[only marks, mark=*, mark size=1.4pt, black, forget plot]
@@ -193,8 +193,9 @@ side lowers it.
     \node[font=\tiny, anchor=north east] at (axis cs:3.95,1.95) {$P$};
     \node[font=\tiny, anchor=west] at (axis cs:4.85,3.6) {$\grad f$};
     \node[font=\tiny, anchor=west] at (axis cs:4.45,2.75) {$\grad g$};
-    \node[font=\tiny, anchor=south] at (axis cs:7.6,0.5) {$xy=4$};
-    \node[font=\tiny, anchor=south] at (axis cs:7.6,1.55) {$xy=12$};
+    \node[font=\tiny, anchor=west] at (axis cs:8.6,4/8.6) {$xy=4$};
+    \node[font=\tiny, anchor=west] at (axis cs:8.6,8/8.6) {$xy=8$};
+    \node[font=\tiny, anchor=west] at (axis cs:8.6,12/8.6) {$xy=12$};
   \end{axis}
 \end{tikzpicture}%
 \hspace*{\fill}
@@ -218,7 +219,7 @@ $p_xx+p_yy\le M$. Three questions belong to every such problem.
   \item \textbf{Does an optimum exist?} With $p_x,p_y,M>0$ the budget set
         $\{p_xx+p_yy\le M,\ x,y\ge0\}$ is closed and bounded (a triangle);
         a continuous objective attains its maximum there (Weierstrass,
-        Chapter~1). A zero price or a missing sign restriction makes the
+        \chref{optimization}{1}). A zero price or a missing sign restriction makes the
         set unbounded, and existence must be argued separately.
   \item \textbf{What is unrealistic?} Typical idealisations: goods and
         inputs perfectly divisible; prices independent of the quantity
@@ -266,7 +267,7 @@ covariance $\sigma_{AB}$. The portfolio has
 \end{enumerate}
 \end{rulebox}
 
-\section{Worked Example}
+\section{Worked Examples}
 
 \begin{worked}{Cost minimisation: minimise $wL+rK$ subject to $K^{1/2}L^{1/2}=\bar Q$}
 \wstep{Step 1. Set up the Lagrangian --- and mind the sign convention for a minimum.}
@@ -362,8 +363,8 @@ convex), and the feasible set $\{K^{1/2}L^{1/2}\ge\bar Q\}$ is convex,
 because $K^{1/2}L^{1/2}$ is concave and this is a superlevel set. A convex
 objective over a convex set has its stationary point as a global minimum.
 \wtrap{Lagrange finds stationary points of $\mathcal L$, which include
-maxima, minima and saddles alike. Some argument --- a bordered Hessian
-(Chapter~9), or convexity as here --- is always required. And check the
+maxima, minima and saddles alike. Some argument (a bordered Hessian,
+\chref{optimization}{9}, or convexity as here) is always required. And check the
 constraint qualification: $\grad g=(\tfrac12K^{-1/2}L^{1/2},
 \tfrac12K^{1/2}L^{-1/2})\neq\mathbf0$ for $K,L>0$, so the method is
 licensed.}
@@ -379,6 +380,115 @@ licensed.}
   \hline
 \end{tabular}
 \end{center}
+\end{worked}
+
+\begin{worked}{Mean--variance portfolio: minimise the variance of three uncorrelated assets for a target return of $4\%$, then let an investor choose the target}
+\wstep{Step 1. The data and the problem.}
+Three assets $A,B,C$ have expected returns $\mu=(2,4,8)$ (in \%),
+variances $\sigma^{2}=(2,8,16)$ (in $\%^{2}$) and zero covariances. With
+portfolio weights $w_A,w_B,w_C$ the portfolio variance is
+$V=2w_A^{2}+8w_B^{2}+16w_C^{2}$. The investor wants the safest portfolio
+with expected return $4\%$:
+\[
+  \min V \quad\text{s.t.}\quad 2w_A+4w_B+8w_C=4
+  \quad\text{(target return)},\qquad
+  w_A+w_B+w_C=1 \quad\text{(budget)} .
+\]
+With two assets the two constraints would already fix the weights (the
+opportunity curve of the portfolio box). With three, a whole line of
+portfolios meets both, and the variance picks one of them.
+
+\wstep{Step 2. One multiplier per constraint.}
+Keep the convention ``constant minus left-hand side'':
+\[
+  \mathcal L=2w_A^{2}+8w_B^{2}+16w_C^{2}
+  +\lambda\bigl(4-2w_A-4w_B-8w_C\bigr)
+  +\gamma\bigl(1-w_A-w_B-w_C\bigr).
+\]
+A second constraint simply brings a second multiplier and a second
+$\partial\mathcal L/\partial(\cdot)=0$ equation; \chref{optimization}{9}
+develops this in general.
+
+\wstep{Step 3. First-order conditions: each weight in terms of the multipliers.}
+\[
+  4w_A-2\lambda-\gamma=0,\qquad
+  16w_B-4\lambda-\gamma=0,\qquad
+  32w_C-8\lambda-\gamma=0,
+\]
+so
+\[
+  w_A=\frac{2\lambda+\gamma}{4},\qquad
+  w_B=\frac{4\lambda+\gamma}{16},\qquad
+  w_C=\frac{8\lambda+\gamma}{32}.
+\]
+In general $w_i=(\lambda\mu_i+\gamma)/(2\sigma_i^{2})$: a high return
+attracts weight, a high variance repels it.
+
+\wstep{Step 4. Substitute into the two constraints.}
+Return (multiply by $4$): $(4\lambda+2\gamma)+(4\lambda+\gamma)
++(8\lambda+\gamma)=16$, i.e.\ $4\lambda+\gamma=4$. Budget (multiply by
+$32$): $(16\lambda+8\gamma)+(8\lambda+2\gamma)+(8\lambda+\gamma)=32$, i.e.\
+$32\lambda+11\gamma=32$. With $\gamma=4-4\lambda$: $32\lambda+44-44\lambda=32$,
+so
+\[
+  \lambda^{*}=1,\qquad \gamma^{*}=0,\qquad
+  (w_A^{*},w_B^{*},w_C^{*})=\Bigl(\tfrac12,\tfrac14,\tfrac14\Bigr),
+\]
+\[
+  V^{*}=2\cdot\tfrac14+8\cdot\tfrac1{16}+16\cdot\tfrac1{16}=2,
+  \qquad \sigma^{*}=\sqrt2\approx1.41\% .
+\]
+Check: $\tfrac12+\tfrac14+\tfrac14=1$ and $1+1+2=4$. \checkmark\ Asset $B$
+alone also returns $4\%$, but with variance $8$: diversification cuts the
+variance to a quarter.
+
+\wstep{Step 5. The whole frontier, and what $\lambda$ measures.}
+Repeat Step~4 with a general target $m$ in place of $4$:
+$4\lambda+\gamma=m$ and $32\lambda+11\gamma=32$ give
+\[
+  \lambda=\frac{11m-32}{12},\qquad \gamma=\frac{32-8m}{3},\qquad
+  V^{*}(m)=\frac{11}{24}m^{2}-\frac83m+\frac{16}{3}.
+\]
+This is the opportunity curve $\sigma^{2}=am^{2}+bm+c$ of the portfolio box,
+now for three assets. Its vertex, the minimum-variance portfolio, is at
+$m=\tfrac{32}{11}\approx2.91\%$ with $V=\tfrac{16}{11}\approx1.45$. And
+$\mathrm{d}V^{*}/\mathrm{d}m=\tfrac{11}{12}m-\tfrac83$ equals $1$ at $m=4$:
+the multiplier is the marginal variance of the target, as
+$\partial\mathcal L/\partial m=\lambda$ predicts. Raising the target from
+$4\%$ to $4.1\%$ costs about $0.1$ units of variance.
+\wtrap{The sign of $\lambda$ carries information. For a target below
+$\tfrac{32}{11}\%$ the formula gives $\lambda<0$: tightening the return
+requirement would \emph{lower} the variance. Such a portfolio lies on the
+inefficient lower branch, dominated by the minimum-variance portfolio,
+which has a higher return and a lower variance. Before reporting a
+frontier portfolio, check $\lambda\ge0$.}
+
+\wstep{Step 6. Global, not just stationary.}
+$V$ has the diagonal Hessian $\operatorname{diag}(4,16,32)$, positive
+definite, so $V$ is strictly convex; both constraints are linear, so the
+feasible set is a line, a convex set. A strictly convex objective on a
+convex set has its stationary point as the unique global minimum: no
+bordered Hessian is needed.
+
+\wstep{Step 7. Which target? The investor's choice (box item 2).}
+An investor with $\Phi(m,s)=m-s$ (here $k=1$, $s=\sigma^{2}$) maximises
+$\Phi$ along the frontier:
+\[
+  \mathcal L=m-s+\nu\Bigl(s-\tfrac{11}{24}m^{2}+\tfrac83m-\tfrac{16}{3}\Bigr),
+  \qquad
+  \pd{\mathcal L}{s}=-1+\nu=0,\qquad
+  \pd{\mathcal L}{m}=1-\nu\Bigl(\tfrac{11}{12}m-\tfrac83\Bigr)=0 .
+\]
+So $\nu=1$ and $\tfrac{11}{12}m=\tfrac{11}{3}$: $m^{*}=4$, the target of
+Step~1, with $s^{*}=2$ and $\Phi^{*}=2$. This is MRS $=$ MRT: the frontier
+slope $\mathrm{d}s/\mathrm{d}m=1$ equals the investor's exchange rate
+$1/k=1$ between return and variance. The substituted objective
+$m-V^{*}(m)$ is concave, so this is the global maximum.
+
+\wstep{Step 8. Back out the money amounts (box item 3).}
+With wealth $W=10\,000$ euros: $5\,000$ in $A$, $2\,500$ in $B$,
+$2\,500$ in $C$, for an expected return of $400$ euros and a standard
+deviation of about $141$ euros.
 \end{worked}
 
 \section{Practice Problems}
@@ -744,7 +854,7 @@ constrained problem for $(x^*, y^*)$ and $\lambda^*$.
         \[
           =54\,000-150\,000=-96\,000 .
         \]
-        Negative, so by the sign rule of Chapter~9 this is a constrained
+        Negative, so by the sign rule of \chref{optimization}{9} this is a constrained
         \textbf{minimum}.
 
         (d) (i) Straight from $V$ to $H$: $100\cdot500=50\,000$.

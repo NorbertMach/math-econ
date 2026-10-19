@@ -129,7 +129,7 @@ tangent line to the surface in that direction is a line in $\R^{3}$:
         $\bigl(P+t\mathbf{h},\;f(P)+t\,\grad f(P)\cdot\mathbf{h}\bigr)$ is
         the \emph{same} line, run through at a different speed. Only the
         slope, rise per unit of horizontal distance, needs the unit vector.
-  \item All these lines lie in the tangent plane of Chapter~10.
+  \item All these lines lie in the tangent plane of \chref{derivatives}{10}.
 \end{itemize}
 \end{rulebox}
 
@@ -147,7 +147,7 @@ direction $\mathbf{u}$ gives
 It is the second derivative at $t=0$ of the profile
 $t\mapsto f(\mathbf{x}_{0}+t\mathbf{u})$: the curvature of $f$ along the
 line through $\mathbf{x}_{0}$ in direction $\mathbf{u}$. Definiteness of
-the Hessian (Chapter 7) is exactly the statement that
+the Hessian (\chref{derivatives}{11}) is exactly the statement that
 $D^{2}_{\mathbf{u}}f$ has one sign for \emph{every} direction
 $\mathbf{u}$.
 \end{rulebox}
@@ -182,6 +182,12 @@ point and direction with $D^{2}_{\mathbf{u}}f<0$ shows that $f$ is not
 convex, and one with $D^{2}_{\mathbf{v}}f>0$ (for example at a strict local
 minimum with PD Hessian) shows that $f$ is not concave. Both together prove
 that $f$ is \textbf{neither}.
+
+\textbf{Where this goes next.} The box ``Curvature at a point and in a
+direction'' in \chref{optimization}{3} turns these directional verdicts into
+statements about convexity near a point and on a whole domain, including
+the case of a semidefinite, singular Hessian where no local conclusion is
+possible.
 \end{rulebox}
 
 \begin{rulebox}{Vector-Valued Functions and the Jacobian Matrix}
@@ -229,7 +235,7 @@ The ``$\approx$'' of the Jacobian box is made exact by the remainder.
         $f_{i}$ is: the remainder vector tends to $0$ faster than
         $\|\mathbf{h}\|$ exactly when each of its entries does.
   \item Existence of all partials is \emph{necessary} but not sufficient
-        (Chapter~10's $xy/(x^{2}+y^{2})$ is a single component that fails).
+        (the function $xy/(x^{2}+y^{2})$ of \chref{derivatives}{10} is a single component that fails).
         Continuous partials on an open set are sufficient: a $C^{1}$ map is
         differentiable.
   \item Geometry: for $n=m=1$ the linear part is the tangent line; for
@@ -276,7 +282,7 @@ differentiable and
 \]
 Evaluate the \emph{outer} Jacobian at the \emph{inner value}
 $\mathbf{f}(\mathbf{x})$; the order of the factors is fixed by the matrix
-shapes. Every chain rule of Chapter 8 is the case $p=1$: for
+shapes. Every chain rule of \chref{derivatives}{12} is the case $p=1$: for
 $z=f(\mathbf{r}(t))$,
 \[
   \dd{z}{t} \;=\; \grad f\bigl(\mathbf{r}(t)\bigr)\cdot\mathbf{r}'(t),
@@ -370,7 +376,7 @@ $(1,2)$: the system
   x^{2}-y=u,\qquad xy=v
 \]
 can be solved for $(x,y)$ in terms of $(u,v)$ near that point. That is the
-Implicit Function Theorem of Chapter~14 in its multivariate form, and
+Implicit Function Theorem of \chref{derivatives}{14} in its multivariate form, and
 $\det J$ is the condition it turns on.
 
 \wstep{Step 7. Why the Jacobian is the right generalisation.}
@@ -643,7 +649,7 @@ $1\times1$ case.
         Both are positive, the surface curves upward in both
         directions. Indeed $D_{1}=6>0$ and
         $D_{2}=36-9=27>0$, so the Hessian is positive definite and
-        $(1,1)$ is a strict local minimum (Chapter 7).
+        $(1,1)$ is a strict local minimum (\chref{derivatives}{11}).
 
   \item $f_{xx}=\mathrm{e}^{x}\cos y$, $f_{xy}=-\mathrm{e}^{x}\sin y$,
         $f_{yy}=-\mathrm{e}^{x}\cos y$. At $(0,0)$: $f_{xx}=1$,

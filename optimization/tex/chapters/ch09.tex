@@ -134,9 +134,30 @@ $k=2m+1,\ 2m+2,\ \dots,\ m+n$ (the first checked order is always odd).
   \item All checked minors \emph{non-zero} but fitting neither pattern:
         the tangent-plane quadratic form is indefinite, a
         \textbf{saddle point} on the constraint set.
-  \item Some checked minor \emph{zero}: the test is
+  \item The \textbf{last} minor $\det\overline{H}$ \emph{zero}: the test is
         \textbf{inconclusive}; argue directly (substitution, comparison of
         values).
+  \item $\det\overline{H}\neq0$ but an \textbf{intermediate} checked minor
+        zero: again a \textbf{saddle point} on the constraint set, provided
+        the border is in standard position (the first $m$ columns of $J$
+        form an invertible $m\times m$ matrix $J_{1}$; for one constraint,
+        $g_{x_1}\neq0$). Reason: solve $J\mathbf{h}=\mathbf{0}$ for
+        $h_{1},\dots,h_{m}$ and let $Q$ be the $(n-m)\times(n-m)$ matrix of
+        the quadratic form $\mathbf{h}^{T}\Hess_{\mathbf{x}}\mathcal{L}\,\mathbf{h}$
+        on this tangent space, written in the free coordinates
+        $h_{m+1},\dots,h_{n}$. Then the checked minor $\overline{H}_{2m+j}$
+        ($j=1,\dots,n-m$) equals $(-1)^{m}(\det J_{1})^{2}$ times the
+        $j$-th leading principal minor of $Q$. A zero leading minor
+        with $\det Q\neq0$ means $Q$ is non-singular but not definite,
+        hence indefinite: there are tangent directions in which
+        $\mathcal L$ curves up and others in which it curves down, so the
+        point is neither a constrained maximum nor a constrained minimum.
+        Example: $f=yz$ on the plane $x=1$, candidate $(1,0,0)$,
+        $\lambda^*=0$, border $(1,0,0)$: the minors of orders $3,4$ are
+        $0$ and $1$, and $yz$ is indeed a saddle in the plane. If the first
+        $m$ columns of $J$ are dependent, an intermediate zero can be an
+        artefact of the variable order: renumber the variables and
+        recompute.
 \end{itemize}
 \begin{center}\footnotesize
 \begin{tabular}{cccll}
@@ -349,7 +370,7 @@ $3-2=1$ degree of freedom: the feasible set is a curve, and one minor
 decides. Each constraint brings its own multiplier and its own border row
 and column, and the constraint qualification becomes the requirement that
 the constraint gradients be \emph{linearly independent} at the candidate
-point --- a rank condition, checked with the tools of Volume~3.
+point: a rank condition, checked with the tools of \chref{matrices}{7}.
 \end{worked}
 
 
@@ -1242,7 +1263,7 @@ prices with several constraints.
         $U^*=\sqrt8\cdot2^{1/4}\approx3.364$,
         $\lambda^*=\tfrac34U^*/12\approx0.210$. The constraint is linear, so
         $\Hess\mathcal{L}=\Hess U$, and $U$ is concave on $\R^{2}_{++}$
-        (Cobb--Douglas with exponent sum $<1$, Chapter~3). Route (a):
+        (Cobb--Douglas with exponent sum $<1$, \chref{optimization}{3}). Route (a):
         \textbf{global maximum}.
   \item Equal exponents: $2x=4$, $y=4$, so $(2,4)$, $U^*=64$;
         $U_x=2xy^{2}=64=2\lambda$, $\lambda^*=32$. $\Hess\mathcal{L}=\Hess U

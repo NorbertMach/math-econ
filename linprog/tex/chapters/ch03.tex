@@ -133,7 +133,7 @@ method.
 
 \section{Worked Example}
 
-\begin{worked}{Put the running example in standard form, list every basic solution, and match them to the corners of Chapter~2}
+\begin{worked}{Put the running example in standard form, list every basic solution, and match them to the corners of \chref{linprog}{2}}
 \wstep{Step 1. Turn each inequality into an equation with a slack variable.}
 \[
   2x_{1}+x_{2}\le100
@@ -205,7 +205,7 @@ $x_{2}=100$, and labour gives $s_{2}=80-100=-20<0$.
 \[
   \boxed{\text{basic \emph{feasible} solutions}\ \longleftrightarrow\ \text{corners of the feasible region.}}
 \]
-Four of the six bases are feasible, and the graph in Chapter~2 had exactly
+Four of the six bases are feasible, and the graph in \chref{linprog}{2} had exactly
 four corners --- the same four points. The infeasible pair are the
 intersections $(80,0)$ and $(0,100)$ that the graph showed lying outside the
 region.
@@ -221,7 +221,7 @@ Every corner is a basic feasible solution and vice versa, and the corner
 point theorem puts an optimum at a corner. So the simplex method can restrict
 itself to basic feasible solutions --- moving from one to an
 \emph{adjacent} better one --- and never look at the interior. That is
-Chapter~4.
+\chref{linprog}{4}.
 
 \wstep{Step 7. Degeneracy, defined here so it is recognisable later.}
 A basic feasible solution is \textbf{degenerate} if some \emph{basic}
@@ -229,7 +229,7 @@ variable equals zero. None of the four above is: at $(20,60)$ the basic
 variables $x_{1},x_{2}$ are $20$ and $60$, both positive. Degeneracy means
 more than $m$ constraints pass through one corner, so several different
 bases describe the same point --- and the simplex method can then pivot
-without moving. Chapter~6 shows what that looks like in a tableau.
+without moving. \chref{linprog}{6} shows what that looks like in a tableau.
 \end{worked}
 
 \section{Practice Problems}

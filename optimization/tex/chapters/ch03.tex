@@ -5,8 +5,8 @@ its points. This chapter transfers that idea from sets to functions. A
 function is \emph{concave} if every chord of its graph lies on or below the
 graph, \emph{convex} if every chord lies on or above it, the graph bends
 consistently one way. The technical engine, the Hessian and its
-definiteness, was drilled in the companion volumes (\emph{Derivatives \&
-Partial Derivatives} and \emph{Matrix Algebra}); what is new here is
+definiteness, was drilled in \volref{derivatives} (\emph{Derivatives \&
+Partial Derivatives}) and \volref{matrices} (\emph{Matrix Algebra}); what is new here is
 \emph{where} we evaluate it. Definiteness at a single critical point
 classifies that point locally; semidefiniteness at \emph{every} point of the
 domain classifies the whole function globally.
@@ -73,6 +73,45 @@ line-segment test for sets:
 \end{itemize}
 \end{rulebox}
 
+\begin{rulebox}{Epigraphs in several variables: reading the definition}
+For $f(x,y)$ the graph is a surface in space, $\operatorname{epi}f$ is the
+solid on and above it (for $x^{2}+y^{2}$ the inside of the bowl, extending
+upwards without end) and $\operatorname{hypo}f$ the solid on and below it (for
+$8-x^{2}-y^{2}$ the hill together with everything beneath it). In $n$
+variables the same holds in $\R^{n+1}$.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item \textbf{Why the two definitions agree.} Take
+        $(\mathbf{x},s)$ and $(\mathbf{y},t)$ in $\operatorname{epi}f$, so
+        $s\ge f(\mathbf{x})$, $t\ge f(\mathbf{y})$. Their convex combination
+        $\bigl(\lambda\mathbf{x}+(1-\lambda)\mathbf{y},\
+        \lambda s+(1-\lambda)t\bigr)$ lies in $\operatorname{epi}f$ iff
+        $\lambda s+(1-\lambda)t\ge f(\lambda\mathbf{x}+(1-\lambda)\mathbf{y})$.
+        For two graph points ($s=f(\mathbf{x})$, $t=f(\mathbf{y})$) this is
+        the chord inequality word for word, and points higher up only make
+        the left side larger. So $\operatorname{epi}f$ is convex iff every
+        chord between two graph points stays in the solid, iff $f$ is
+        convex. Likewise $\operatorname{hypo}f$ is convex iff $f$ is
+        concave.
+  \item \textbf{The domain must be convex.} Dropping the last coordinate
+        maps $\operatorname{epi}f$ onto the domain $S$, and the image of a
+        convex set under this projection is convex. A function on a
+        non-convex domain never has a convex epigraph, however its Hessian
+        looks.
+  \item \textbf{Vertical slices are one-variable epigraphs.} Cutting
+        $\operatorname{epi}f$ with the vertical plane over the line
+        $\mathbf{p}+\tau\mathbf{h}$ gives the epigraph of
+        $\varphi(\tau)=f(\mathbf{p}+\tau\mathbf{h})$. Hence $f$ is convex iff
+        its restriction to every line is convex, and one line with a
+        non-convex profile refutes convexity. (Horizontal slices are the
+        lower contour sets, as in the box above.)
+  \item \textbf{Strictness.} A convex $f$ is \emph{strictly} convex iff its
+        graph contains no line segment. Equality in the chord inequality at
+        one $\lambda\in(0,1)$ forces the whole chord onto the graph. The
+        Cobb--Douglas $\sqrt{xy}$ of the Worked Example has rays through
+        the origin in its graph: concave, but not strictly.
+\end{itemize}
+\end{rulebox}
+
 \begin{rulebox}{One variable: the second-derivative test}
 Let $f$ be twice differentiable on an interval $I$. Then
 \[
@@ -134,8 +173,31 @@ point.
 \textbf{Where is $f$ convex?} Collecting the points where $\Hess_f$ is PSD
 (NSD) gives a region of the plane or space. If an open convex set lies
 inside that region, $f$ is convex (concave) on it; outside it $f$ is not
-convex (concave) near any point. Sketch the region as in the chapter on
-plane regions of Volume~2.
+convex (concave) near any point. Sketch the region as in \chref{functions}{4}
+on plane regions.
+\end{rulebox}
+
+\begin{rulebox}{One definite Hessian is local; convexity is global}
+A Hessian that is positive definite at one point $Q$, for instance at a
+critical point, is \emph{local} information: $f$ is strictly convex on some
+small ball around $Q$, and a critical $Q$ is a strict local minimum.
+Convexity on a convex domain $S$ needs $\Hess_f$ positive semidefinite at
+\emph{every} point of $S$; one point where it fails refutes it.
+
+\textbf{Refutation example.} $f(x,y)=x^{2}+y^{2}-x^{4}$ has
+\[
+  \Hess_f(x,y)=\begin{pmatrix}2-12x^{2}&0\\0&2\end{pmatrix},
+  \qquad \Hess_f(0,0)=\begin{pmatrix}2&0\\0&2\end{pmatrix}\ \text{PD},
+\]
+so the origin is a strict local minimum and $f$ is strictly convex near
+it. But $\Hess_f(1,0)=\operatorname{diag}(-10,2)$ is indefinite, so $f$ is
+not convex on $\R^{2}$. The chord confirms it: $f(0,0)=0$, $f(2,0)=-12$,
+and at the midpoint $f(1,0)=0>\tfrac12(0-12)=-6$, the graph above the
+chord. Nor is the local minimum global: $f(2,0)=-12<0$. The Hessian is PSD
+exactly on the strip $|x|\le1/\sqrt6$, a convex set: $f$ is convex
+there, and on no open convex set that reaches beyond it. The same two-sided reading of the Hessian is in
+\chref{derivatives}{11} (necessary versus sufficient conditions) and
+\chref{derivatives}{13} (refuting global convexity with one direction).
 \end{rulebox}
 
 \begin{rulebox}{The tangent-plane criterion}
@@ -287,22 +349,25 @@ compatible function. Two useful facts:
 
 \begin{gallery}
 \begin{tikzpicture}
-  \begin{axis}[fnaxis, xmin=-1.7, xmax=1.7, ymin=-0.4, ymax=2.6,
-      xtick={-1,1}, ytick={0.5,1,2}, title={(A) $f_A$, level $c=\tfrac12$}]
-    \addplot[domain=-1.62:1.62]{(x^2-1)^2};
-    \addplot[black, dashed, thin, domain=-1.7:1.7, samples=2]{0.5};
+  \begin{axis}[fnaxis, xmin=-1.6, xmax=1.6, ymin=-0.3, ymax=1.75,
+      xtick={-1,1}, ytick={0.5,1.5}, axis on top, yticklabel style={fill=white, inner sep=0.8pt},
+      title={(A) $f_A$, level $c=\tfrac12$}]
+    \addplot[domain=-1.53:1.53]{(x^2-1)^2};
+    \addplot[black, dashed, thin, domain=-1.6:1.6, samples=2]{0.5};
   \end{axis}
 \end{tikzpicture}\hfill
 \begin{tikzpicture}
   \begin{axis}[fnaxis, xmin=-3.2, xmax=3.2, ymin=-0.2, ymax=1.25,
-      xtick={-1,1}, ytick={0.5,1}, title={(B) $f_B$, level $c=\tfrac12$}]
+      xtick={-1,1}, ytick={0.5}, axis on top, yticklabel style={fill=white, inner sep=0.8pt},
+      title={(B) $f_B$, level $c=\tfrac12$}]
     \addplot[domain=-3.2:3.2]{1/(1+x^2)};
     \addplot[black, dashed, thin, domain=-3.2:3.2, samples=2]{0.5};
   \end{axis}
 \end{tikzpicture}\hfill
 \begin{tikzpicture}
   \begin{axis}[fnaxis, xmin=-6.5, xmax=6.5, ymin=-6.5, ymax=6.5,
-      xtick={-3,3}, ytick={1}, title={(C) $f_C$, level $c=1$}]
+      xtick={-3,3}, ytick={1}, axis on top, yticklabel style={fill=white, inner sep=0.8pt},
+      title={(C) $f_C$, level $c=1$}]
     \addplot[domain=-6.4:6.4]{x+sin(deg(x))};
     \addplot[black, dashed, thin, domain=-6.5:6.5, samples=2]{1};
   \end{axis}
@@ -452,7 +517,7 @@ here $(0,0)$.
 $\begin{pmatrix}2&1\\0&2\end{pmatrix}$: the cross term $xy$ contributes
 \emph{half} of its coefficient to each off-diagonal entry, because
 $f_{xy}=f_{yx}=1$. This is the same halving as in the quadratic forms of
-Volume~3, and it changes the answer.}
+\chref{matrices}{9}, and it changes the answer.}
 
 \wstep{Step 3. Second function: the partials.}
 \[
@@ -1056,6 +1121,29 @@ A second pass over the same rules, with fresh functions.
         (d) The sum of two quasiconcave functions is quasiconcave.
         (e) A strictly convex function on $\R^{n}$ has exactly one
         minimiser.
+  \item (Epigraph by the definition.) Let $f(x,y)=x^{2}+y^{2}$.
+        (a) Using the identity
+        $\lambda a^{2}+(1-\lambda)b^{2}-\bigl(\lambda a+(1-\lambda)b\bigr)^{2}
+        =\lambda(1-\lambda)(a-b)^{2}$, show without the Hessian that
+        $\operatorname{epi}f$ is convex.
+        (b) $P=(1,1,2)$ and $Q=(3,-1,10)$ are graph points. How far above
+        the graph does the midpoint of $PQ$ lie, and how does this match
+        the gap in (a)?
+  \item Let $f(x,y)=x^{2}+4xy+y^{2}$.
+        (a) Restrict $f$ to the line through the origin in direction
+        $(1,-1)$ and give two points of $\operatorname{epi}f$ whose midpoint
+        is not in $\operatorname{epi}f$.
+        (b) Do the same for $\operatorname{hypo}f$, using the direction
+        $(1,0)$.
+        (c) What do (a) and (b) decide about $f$? Confirm with the Hessian.
+  \item (a) Let $f(x,y)=x^{2}+y^{2}$ on the ring
+        $S=\{1\le x^{2}+y^{2}\le4\}$. Its Hessian is positive definite at
+        every point of $S$. Show with two explicit points that
+        $\operatorname{epi}f$ is not convex, and explain why this does not
+        contradict the Hessian test.
+        (b) Let $g(x,y)=(x+y)^{2}$ on $\R^{2}$. Show that $g$ is convex,
+        find a line segment contained in its graph, and conclude whether
+        $g$ is strictly convex.
 \end{problems}
 
 \section{Additional Solutions}
@@ -1454,7 +1542,7 @@ A second pass over the same rules, with fresh functions.
         $f''=-2<0$, $f$ is concave, which is the same as
         $\operatorname{hypo}f=\{z\le4-x^{2}\}$ being \textbf{convex}
         (directly: it is the region below a concave graph, by the graph
-        shortcut of Chapter~2). $\operatorname{epi}(-f)=\{z\ge x^{2}-4\}$,
+        shortcut of \chref{optimization}{2}). $\operatorname{epi}(-f)=\{z\ge x^{2}-4\}$,
         the hypograph reflected in $z=0$: convex, i.e.\ $-f$ is convex.
 
   \item \emph{Hypograph:} $(0,0,1)$ (graph point) and $(2,0,0)$
@@ -1534,7 +1622,7 @@ A second pass over the same rules, with fresh functions.
         the first quadrant. NSD iff $x\le0$, $y\le0$, $xy\ge\tfrac14$: the
         mirror region beyond the branch in the third quadrant. The PSD set
         is convex: it is $\{x>0,\ y\ge g(x)\}$ with $g(x)=1/(4x)$ convex
-        (Chapter~2). On the open convex region $\{x>0,\ xy>\tfrac14\}$ the
+        (\chref{optimization}{2}). On the open convex region $\{x>0,\ xy>\tfrac14\}$ the
         Hessian is PD and $f$ is strictly convex; on
         $\{x<0,\ xy>\tfrac14\}$ it is strictly concave.
 
@@ -1578,6 +1666,22 @@ A second pass over the same rules, with fresh functions.
         $f=-(2x)^{2}=-4x^{2}$, a concave parabola. Positive pure second
         partials only say the $x$- and $y$-directions are convex; the
         mixed partial decides the diagonal directions.
+        \begin{gallery}
+        \hfill
+        \begin{tikzpicture}
+          \begin{axis}[surfaxis, view={15}{28}, title={$2x^{2}-8xy+2y^{2}$}]
+            \addplot3[surf, samples=25, domain=-1:1, y domain=-1:1]
+              {2*x^2-8*x*y+2*y^2};
+            \addplot3[black, thick, samples=25, samples y=0, domain=-1:1]
+              ({x},{x},{-4*x^2});
+            \addplot3[black, dashed, thick, samples=25, samples y=0,
+              domain=-1:1] ({x},{-x},{12*x^2});
+          \end{axis}
+        \end{tikzpicture}
+        \hfill\null
+        \gcap{The saddle: along $y=x$ (solid) the profile $-4t^{2}$ bends
+        down, along $y=-x$ (dashed) the profile $12t^{2}$ bends up.}
+        \end{gallery}
 
   \item $u_1=x_2^{2}\ge0$, $u_2=2x_1x_2\ge0$, and
         $\Hess_u=\begin{pmatrix}0&2x_2\\2x_2&2x_1\end{pmatrix}$ with
@@ -1688,4 +1792,47 @@ A second pass over the same rules, with fresh functions.
         $B(0)=[-\sqrt3,0]\cup[\sqrt3,\infty)$, not convex.
         (e) \textbf{False.} $\mathrm{e}^{x}$ is strictly convex on $\R$ and
         has no minimiser. What is true: \emph{at most} one.
+
+  \item (a) Let $(x_1,y_1,s)$ and $(x_2,y_2,t)$ lie in
+        $\operatorname{epi}f$, so $s\ge x_1^{2}+y_1^{2}$ and
+        $t\ge x_2^{2}+y_2^{2}$. For the combination with weight
+        $\lambda\in[0,1]$, apply the identity to each coordinate:
+        \[
+          \lambda s+(1-\lambda)t-f\bigl(\lambda x_1+(1-\lambda)x_2,\,
+          \lambda y_1+(1-\lambda)y_2\bigr)
+          \ge\lambda(1-\lambda)\bigl[(x_1-x_2)^{2}+(y_1-y_2)^{2}\bigr]\ge0 .
+        \]
+        So the combination lies in $\operatorname{epi}f$:
+        \textbf{epi $f$ is convex}, and $f$ is convex.
+        (b) $f(1,1)=2$ and $f(3,-1)=10$, so $P,Q$ are graph points. The
+        midpoint is $(2,0,6)$ and $f(2,0)=4$: it lies $\mathbf{2}$ above the
+        graph. With $\lambda=\tfrac12$ the gap in (a) is
+        $\tfrac14\bigl[(1-3)^{2}+(1+1)^{2}\bigr]=\tfrac14\cdot8=2$,
+        with equality because $P$ and $Q$ are on the graph.
+
+  \item (a) $\varphi(\tau)=f(\tau,-\tau)=\tau^{2}-4\tau^{2}+\tau^{2}=-2\tau^{2}$,
+        a concave profile. The graph points $(1,-1,-2)$ and $(-1,1,-2)$ lie
+        in $\operatorname{epi}f$; their midpoint $(0,0,-2)$ would need
+        $-2\ge f(0,0)=0$, false.
+        (b) $f(\tau,0)=\tau^{2}$, a convex profile. The graph points
+        $(1,0,1)$ and $(-1,0,1)$ lie in $\operatorname{hypo}f$; the midpoint
+        $(0,0,1)$ would need $1\le f(0,0)=0$, false.
+        (c) Neither solid is convex, so $f$ is \textbf{neither convex nor
+        concave}. Hessian: $\begin{pmatrix}2&4\\4&2\end{pmatrix}$ with
+        $\det=4-16=-12<0$, indefinite at every point. \checkmark
+
+  \item (a) $(1,0,1)$ and $(-1,0,1)$ lie in $\operatorname{epi}f$ (graph
+        points, and $(\pm1,0)\in S$). Their midpoint $(0,0,1)$ is not in
+        $\operatorname{epi}f$ at all, because $(0,0)\notin S$: the solid
+        sits over the ring and has a hole above the inner disc. No
+        contradiction: the Hessian test assumes an open \emph{convex}
+        domain, and the ring is not convex. Since the solid projects onto
+        the ring, no function on $S$ has a convex epigraph, and convexity
+        of $f$ on $S$ is not even defined.
+        (b) $\Hess_g=\begin{pmatrix}2&2\\2&2\end{pmatrix}$ has $2\ge0$ on the
+        diagonal and $\det=0$: PSD everywhere, so $g$ is
+        \textbf{convex}. On the line $y=-x$, $g=0$: the segment from
+        $(1,-1,0)$ to $(-1,1,0)$ lies in the graph. By the strictness
+        criterion $g$ is \textbf{not strictly convex}: the chord between
+        these two graph points has the same values as the graph.
 \end{solutions}

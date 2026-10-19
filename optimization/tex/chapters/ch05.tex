@@ -34,6 +34,34 @@ $\mathbf{x}^*$. The SOC reads:
 \end{itemize}
 \end{rulebox}
 
+\begin{rulebox}{The necessary side: semidefinite Hessians}
+The box above lists \emph{sufficient} conditions. The converse direction gives only weaker,
+\emph{necessary} ones (definite becomes semidefinite). Let $f$ be $C^2$ and $\mathbf{x}^*$ an interior
+point.
+\begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
+  \item Local \textbf{minimum} at $\mathbf{x}^*$ $\Rightarrow$
+        $\grad f(\mathbf{x}^*)=\mathbf{0}$ and $H_f(\mathbf{x}^*)$
+        \textbf{positive semidefinite}. Local \textbf{maximum}
+        $\Rightarrow$ gradient zero and $H_f(\mathbf{x}^*)$
+        \textbf{negative semidefinite}. Reason: along every line
+        $\varphi(t)=f(\mathbf{x}^*+t\mathbf{h})$ has a local minimum at
+        $t=0$, so $\varphi''(0)=\mathbf{h}^{T}H_f(\mathbf{x}^*)\mathbf{h}\ge0$.
+  \item Only semidefinite, not definite: $x^{4}+y^{4}$ has a strict
+        minimum at the origin with $H=0$.
+  \item Contrapositive: a Hessian that is not PSD rules out a minimum, one
+        that is not NSD rules out a maximum, and an indefinite one rules out
+        both, which is why it proves a saddle.
+  \item A \textbf{semidefinite but singular} Hessian at a critical point
+        decides nothing by itself. $x^{2}+y^{4}$ (minimum) and $x^{2}-y^{4}$
+        (saddle) both have $H(0,0)=\operatorname{diag}(2,0)$, PSD and
+        singular. All it does is rule out the opposite extremum unless
+        $H=0$: a PSD $H\neq0$ excludes a maximum. Settle the case with the
+        box on singular Hessians below.
+\end{itemize}
+Sufficient (definite) and necessary (semidefinite) differ exactly by the
+singular case; \chref{derivatives}{11} draws the same line.
+\end{rulebox}
+
 \begin{rulebox}{Sylvester's criterion ($2\times2$)}
 For
 \[
@@ -153,7 +181,7 @@ $D_1=2n>0$ and $D_2=4\bigl(n\sum x_i^{2}-(\sum x_i)^{2}\bigr)=4nS_{xx}>0$:
 $S$ is strictly convex and the critical point is the unique global minimum.
 In matrix form ($X$ with rows $(1,x_i)$) the normal equations read
 $X^{T}X\,\mathbf{b}=X^{T}\mathbf{y}$, so $\mathbf{b}=(X^{T}X)^{-1}X^{T}\mathbf{y}$,
-the formula of Volume~3, and $H_S=2X^{T}X$. Residuals are squared so that
+the formula of \chref{matrices}{10}, and $H_S=2X^{T}X$. Residuals are squared so that
 positive and negative errors cannot cancel, large errors weigh more, and $S$
 is differentiable (absolute values would leave kinks).
 \end{rulebox}
@@ -252,7 +280,7 @@ and the classification uses the $n$ leading principal minors
 $D_{1},\dots,D_{n}$ --- all positive for a minimum, alternating
 $-,+,-,\dots$ for a maximum, and any other pattern with all $D_{i}\neq0$
 means a saddle. When some $D_{i}=0$ the test is silent and you must argue
-directly, as in Volume~5.
+directly, as in \chref{derivatives}{11}.
 \end{worked}
 
 \section{Practice Problems}

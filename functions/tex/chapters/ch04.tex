@@ -1,6 +1,6 @@
 \chapter{Inequalities in Two Variables: Regions in the Plane}
 
-The algebra volume solved inequalities in one variable, where the answer is
+\chref{algebra}{5} solved inequalities in one variable, where the answer is
 a set of points on a line --- an interval, or a union of a few. With two variables
 the same question has a two-dimensional answer: the solution set of
 $2x+3y\le12$ is not a list of numbers but a \emph{region} of the plane, and
@@ -28,7 +28,7 @@ For an expression $F(x,y)$, the set $\{F(x,y)<0\}$ is bounded by the curve
 $\{F(x,y)=0\}$. The recipe:
 \begin{enumerate}[leftmargin=1.8em,itemsep=0.3ex]
   \item \textbf{Draw the boundary} $F(x,y)=0$. It is one of the curves of
-        Chapter~2: a line, circle, ellipse, parabola or hyperbola.
+        \chref{functions}{2}: a line, circle, ellipse, parabola or hyperbola.
   \item \textbf{Note which pieces it creates.} A line makes two half-planes;
         a circle makes an inside and an outside; a parabola makes an
         ``above'' and a ``below''.
@@ -53,7 +53,7 @@ $\{F(x,y)=0\}$. The recipe:
         +\dfrac{y^{2}}{b^{2}}\le1$. Shifted:
         $\dfrac{(x-u)^{2}}{a^{2}}+\dfrac{(y-v)^{2}}{b^{2}}\le1$, the
         elliptical disc about $(u,v)$. Given in expanded form, complete the
-        square first (Chapter~2).
+        square first (\chref{functions}{2}).
   \item \textbf{Above or below a parabola:} $y\ge x^{2}$ is the region
         \emph{inside} the parabola's opening; $y\le x^{2}$ is everything
         outside it. Rewriting an inequality as $y\ge\cdots$ or
@@ -190,10 +190,15 @@ condition that cuts the other away.
 One rule settles almost every case. For a function $f$ of one variable:
 \begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
   \item $f$ \textbf{convex} $\Longrightarrow$ the region \emph{above} it,
-        $\{y\ge f(x)\}$ (its \de{Epigraph}), is a convex set. The region
-        \emph{below} it is then not convex.
+        $\{y\ge f(x)\}$ (its \de{Epigraph}), is a convex set.
   \item $f$ \textbf{concave} $\Longrightarrow$ the region \emph{below} it,
-        $\{y\le f(x)\}$, is convex. The region above it is then not.
+        $\{y\le f(x)\}$ (its \de{Hypograph}), is a convex set.
+  \item Both rules work in reverse: the region below is convex
+        \emph{exactly} when $f$ is concave, the region above exactly when
+        $f$ is convex. A function that is both is a straight line. So the
+        region below the graph of a convex function that is not a straight
+        line is not convex, and neither is the region above a concave
+        function that is not a straight line.
 \end{itemize}
 The proof is one line: if $y_{i}\ge f(x_{i})$ and $f$ is convex then
 $ty_{1}+(1-t)y_{2}\ge tf(x_{1})+(1-t)f(x_{2})\ge f(tx_{1}+(1-t)x_{2})$.
@@ -301,7 +306,7 @@ succeeds, and $\{y\ge x^{2}\}$ succeeds while $\{y\le x^{2}\}$ fails.
 \wtrap{``Above'' is not a synonym for ``convex''. Match the direction of the
 inequality to the curvature of the function: convex function with $\ge$, or
 concave function with $\le$. Getting this backwards is the single most
-common mistake in the chapter, and it recurs in Volume~7 where the feasible
+common mistake in the chapter, and it recurs in \volref{optimization} where the feasible
 set of a constrained problem must be convex for the first-order conditions
 to be sufficient.}
 \end{worked}
@@ -561,7 +566,7 @@ inequality there is strict.}
 \end{problems}
 
 Problems 46--52 have shifted ellipses and hyperbolas as boundaries.
-Complete the square first (Chapter~2), so that centre, semi-axes and
+Complete the square first (\chref{functions}{2}), so that centre, semi-axes and
 asymptotes can be read off before anything is shaded.
 
 \begin{problems}[resume]
@@ -1078,12 +1083,13 @@ the right.
         $(0,-4)$ and which crosses the axis at $x=\pm2$. Convex.
   \item Everything on or below the increasing curve $y=2^{x}$, which
         passes through $(0,1)$ and hugs the $x$-axis to the left. Since
-        $2^{x}$ is \emph{convex}, the region below it is \textbf{not}
-        convex: $(-3,\tfrac18)$ and $(3,8)$ both satisfy the inequality,
+        $2^{x}$ is \emph{convex} and not a straight line, the region below
+        it is \textbf{not} convex: $(-3,\tfrac18)$ and $(3,8)$ both satisfy the inequality,
         but their midpoint $(0,4.0625)$ does not, since $2^{0}=1<4.0625$.
   \item The region on or above $y=\ln x$; the logarithm's domain confines
         it to the open right half-plane $x>0$. Since $\ln x$ is
-        \emph{concave}, the region above it is \textbf{not} convex: the
+        \emph{concave} and not a straight line, the region above it is
+        \textbf{not} convex: the
         boundary points $(0.1,\ln 0.1)$ and $(10,\ln 10)$ have midpoint
         $(5.05,0)$, and $0<\ln 5.05\approx1.62$, so the midpoint is
         outside.
@@ -1091,7 +1097,7 @@ the right.
         --- the sublevel set $\{xy\le4\}$. \textbf{Not} convex: $(0.5,8)$
         and $(8,0.5)$ both lie on the boundary, but their midpoint
         $(4.25,4.25)$ has $xy\approx18.1>4$. (Equivalently: $4/x$ is convex
-        on $x>0$, so the region below it is not.)
+        on $x>0$ and not a straight line, so the region below it is not.)
   \item $-2\le x-1\le2$, i.e. the closed vertical strip $-1\le x\le3$.
         Convex.
   \item Everything on or outside the diamond $|x|+|y|=1$. Not convex ---
@@ -1132,8 +1138,8 @@ the right.
           \ \ge\ \mathrm{e}^{tx_{1}+(1-t)x_{2}},
         \]
         the last step being exactly convexity of $\mathrm{e}^{x}$.
-  \item $\sqrt{x}$ is \emph{concave}, so the region \emph{above} it is
-        not convex. Concretely, $(0,0)$ and $(4,2)$ both lie on the
+  \item $\sqrt{x}$ is \emph{concave} and not a straight line, so the
+        region \emph{above} it is not convex. Concretely, $(0,0)$ and $(4,2)$ both lie on the
         boundary and so belong to the set, but their midpoint $(2,1)$ does
         not, since $\sqrt2\approx1.414>1$. The set that \emph{is} convex is
         the one below the curve, $\{y\le\sqrt{x},\ x\ge0\}$ --- the

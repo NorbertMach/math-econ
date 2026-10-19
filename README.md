@@ -20,15 +20,15 @@ the later volumes assumes you can already picture a function.
 | 2 | Functions and Their Graphs: domain and range, the standard graphs, transformations and inverses, shifted conics, regions in the plane, trigonometry | 5 | 400 | 73 |
 | 3 | Matrix Algebra: vectors, determinants, Gaussian elimination, inverses, eigenvalues, definiteness | 10 | 525 | 94 |
 | 4 | Foundations of Analysis: sequences, series, financial mathematics, limits & continuity | 4 | 120 | 44 |
-| 5 | Derivatives & Partial Derivatives: differentiation rules, L'Hôpital, curve discussion, surfaces and level curves, differentiability and tangent planes, gradient, Hessian, Jacobians, inverse and implicit function theorems | 14 | 1133 | 228 |
+| 5 | Derivatives & Partial Derivatives: differentiation rules, L'Hôpital, curve discussion, surfaces and level curves, differentiability and tangent planes, gradient, Hessian, Jacobians, inverse and implicit function theorems | 14 | 1137 | 228 |
 | 6 | Integration: substitution, parts, partial fractions, improper and double integrals | 8 | 345 | 71 |
-| 7 | Static Optimization: convexity, Lagrange, Kuhn–Tucker | 10 | 513 | 145 |
+| 7 | Static Optimization: convexity, Lagrange, Kuhn–Tucker | 10 | 516 | 147 |
 | 8 | Linear Programming: simplex, duality, sensitivity | 8 | 208 | 125 |
 | 9 | Mixed Problems: three cross-chapter sets with no method announced, plus full investigations of single functions | 4 | 65 | 28 |
-|   | **Total** | **72** | **3584** | **859** |
+|   | **Total** | **72** | **3591** | **861** |
 
 The compendium, *Basic Mathematics for Economics*, binds all nine volumes
-into one 855-page book, in the same order. It opens with **How to Work This
+into one 857-page book, in the same order. It opens with **How to Work This
 Book** — a diagnostic and a ten-stage study plan that reorders the material
 into the sequence a business or economics mathematics course actually needs
 it in, with a mastery
@@ -99,6 +99,13 @@ computational answers.
   `\region{pathA}{pathB}{}`. Do not use pgfplots' `soft clip`; it fills the
   complement
 - `\mathrm{e}` for Euler's number, `\mathrm{d}x` for differentials
+- chapter references: never write "Chapter 6" by hand, because the same
+  chapter file is numbered differently in its volume and in the compendium.
+  Use `\chref{derivatives}{6}` ("Chapter 6" in the same volume, "Volume 5,
+  Chapter 6" from another one, "Chapter 34" in the compendium), `\chrefs`
+  for the abbreviated "Ch." form, `\chnum` for a bare number (ranges), and
+  `\volref{derivatives}` for a whole volume ("Volume 5", or "Part V" in the
+  compendium). The volume key is its directory name
 
 Chapter skeleton: `\chapter` → intro prose → `\section{Core Rules}` →
 `\section{Worked Example}` → `\section{Practice Problems}` →

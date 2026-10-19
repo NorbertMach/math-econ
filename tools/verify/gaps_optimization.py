@@ -16,6 +16,10 @@ ch09: second worked example and Additional 21-48 (large bordered Hessians,
 ch10: Additional 14-58 (regularity, graphical NLP, mixed constraints, tests
       of given points, convexity, 3 variables, word problems, standard form,
       portfolio and non-convex KKT, domain constraints).
+Later additions: ch03 local-versus-global box, epigraph box and Additional
+55-57, the surface in Additional Solution 44; ch05 necessary-conditions
+box; ch07 second worked example (three-asset frontier); ch09 intermediate
+zero bordered minor (restricted-form identity, example, ordering artefact).
 
 Every claim is retyped by hand from the book; nothing is parsed from LaTeX.
 Run with a Python that has sympy installed.
@@ -870,6 +874,133 @@ ok("(-1/3,1/3): D1=2/3, D2=1/3, min, f=-1/27",
    Hm[0, 0] == R(2, 3) and Hm[0, 1] == R(-1, 3) and Hm.det() == R(1, 3)
    and fpr.subs({x: R(-1, 3), y: R(1, 3)}) == R(-1, 27))
 ok("no critical point with x,y>0", all(not (a > 0 and b > 0) for a, b in cpr))
+
+print("--- ch03: local definiteness box, epigraph box, Additional 55-57 ---")
+fg = x**2 + y**2 - x**4
+Hg = hessian(fg, (x, y))
+ok("box: H=diag(2-12x^2,2); PD at 0; diag(-10,2) at (1,0)",
+   zero(Hg[0, 0] - (2 - 12*x**2)) and Hg[0, 1] == 0 and Hg[1, 1] == 2
+   and Hg.subs({x: 0, y: 0}) == Matrix([[2, 0], [0, 2]])
+   and Hg.subs({x: 1, y: 0}) == Matrix([[-10, 0], [0, 2]]))
+ok("box: origin critical; f(0,0)=0, f(2,0)=-12, f(1,0)=0 > -6",
+   grad(fg, (x, y)).subs({x: 0, y: 0}) == Matrix([0, 0])
+   and fg.subs({x: 0, y: 0}) == 0 and fg.subs({x: 2, y: 0}) == -12
+   and fg.subs({x: 1, y: 0}) == 0 and 0 > R(1, 2)*(0 - 12))
+ok("box: PSD iff x^2<=1/6 (boundary 2-12x^2=0 at 1/sqrt6)",
+   set(solve(2 - 12*x**2, x)) == {1/sqrt(6), -1/sqrt(6)})
+a_, b_, l_ = symbols("a_ b_ l_", real=True)
+ok("55 identity", zero(l_*a_**2 + (1 - l_)*b_**2 - (l_*a_ + (1 - l_)*b_)**2
+                       - l_*(1 - l_)*(a_ - b_)**2))
+f55 = x**2 + y**2
+ok("55b P,Q graph points; midpoint (2,0,6) is 2 above; gap 1/4*8=2",
+   f55.subs({x: 1, y: 1}) == 2 and f55.subs({x: 3, y: -1}) == 10
+   and R(2 + 10, 2) - f55.subs({x: 2, y: 0}) == 2
+   and R(1, 4)*((1 - 3)**2 + (1 + 1)**2) == 2)
+f56 = x**2 + 4*x*y + y**2
+ok("56a f(t,-t)=-2t^2; f(1,-1)=f(-1,1)=-2; f(0,0)=0>-2",
+   zero(f56.subs({x: t, y: -t}) + 2*t**2) and f56.subs({x: 1, y: -1}) == -2
+   and f56.subs({x: -1, y: 1}) == -2 and f56.subs({x: 0, y: 0}) == 0)
+ok("56b f(t,0)=t^2; f(+-1,0)=1; midpoint needs 1<=0",
+   zero(f56.subs({x: t, y: 0}) - t**2) and f56.subs({x: 1, y: 0}) == 1
+   and f56.subs({x: -1, y: 0}) == 1)
+ok("56c Hessian [[2,4],[4,2]], det -12",
+   hessian(f56, (x, y)) == Matrix([[2, 4], [4, 2]]) and hessian(f56, (x, y)).det() == -12)
+ok("57a (+-1,0) in ring, f=1; (0,0) not in ring; H=2I PD",
+   1 <= 1 <= 4 and not (1 <= 0 <= 4) and f55.subs({x: 1, y: 0}) == 1
+   and hessian(f55, (x, y)) == 2*eye(2))
+g57 = (x + y)**2
+ok("57b H=[[2,2],[2,2]] PSD, det 0; g(t,-t)=0",
+   hessian(g57, (x, y)) == Matrix([[2, 2], [2, 2]]) and hessian(g57, (x, y)).det() == 0
+   and zero(g57.subs({x: t, y: -t})))
+f44 = 2*x**2 - 8*x*y + 2*y**2
+ok("44 plot: f(t,t)=-4t^2, f(t,-t)=12t^2, equals 3(x-y)^2-(x+y)^2",
+   zero(f44.subs({x: t, y: t}) + 4*t**2) and zero(f44.subs({x: t, y: -t}) - 12*t**2)
+   and zero(f44 - (3*(x - y)**2 - (x + y)**2)))
+
+print("--- ch05: second-order necessary conditions box ---")
+ok("x^4+y^4: H(0,0)=0", hessian(x**4 + y**4, (x, y)).subs({x: 0, y: 0}) == zeros(2, 2))
+ok("x^2+y^4 and x^2-y^4: H(0,0)=diag(2,0)",
+   hessian(x**2 + y**4, (x, y)).subs({x: 0, y: 0}) == Matrix([[2, 0], [0, 0]])
+   and hessian(x**2 - y**4, (x, y)).subs({x: 0, y: 0}) == Matrix([[2, 0], [0, 0]]))
+ok("x^2-y^4 saddle: <0 on y-axis, >0 on x-axis",
+   (x**2 - y**4).subs({x: 0, y: R(1, 10)}) < 0 and (x**2 - y**4).subs({x: R(1, 10), y: 0}) > 0)
+
+print("--- ch07: second worked example (three-asset frontier) ---")
+wa, wb, wc, gm, mm, ss, nu = symbols("wa wb wc gm mm ss nu", real=True)
+Vp = 2*wa**2 + 8*wb**2 + 16*wc**2
+Lp = Vp + lam*(mm - 2*wa - 4*wb - 8*wc) + gm*(1 - wa - wb - wc)
+foc = [diff(Lp, s) for s in (wa, wb, wc, lam, gm)]
+ok("FOC: 4wA-2lam-gam, 16wB-4lam-gam, 32wC-8lam-gam",
+   zero(foc[0] - (4*wa - 2*lam - gm)) and zero(foc[1] - (16*wb - 4*lam - gm))
+   and zero(foc[2] - (32*wc - 8*lam - gm)))
+s4 = solve([f.subs(mm, 4) for f in foc], [wa, wb, wc, lam, gm], dict=True)[0]
+ok("m=4: lam=1, gam=0, w=(1/2,1/4,1/4), V=2",
+   s4[lam] == 1 and s4[gm] == 0 and (s4[wa], s4[wb], s4[wc]) == (R(1, 2), R(1, 4), R(1, 4))
+   and Vp.subs(s4) == 2)
+ok("step 4 reduced equations 4lam+gam=4, 32lam+11gam=32 at (1,0)",
+   4*1 + 0 == 4 and 32*1 + 11*0 == 32
+   and zero(expand(4*(2*(2*lam + gm)/4 + 4*(4*lam + gm)/16 + 8*(8*lam + gm)/32)) - (16*lam + 4*gm))
+   and zero(expand(32*((2*lam + gm)/4 + (4*lam + gm)/16 + (8*lam + gm)/32)) - (32*lam + 11*gm)))
+ok("asset B alone: variance 8 = 4 x 2", 8 == 4*2)
+sm = solve(foc, [wa, wb, wc, lam, gm], dict=True)[0]
+Vm = expand(Vp.subs(sm))
+ok("frontier V*(m)=11/24 m^2-8/3 m+16/3, lam=(11m-32)/12, gam=(32-8m)/3",
+   zero(Vm - (R(11, 24)*mm**2 - R(8, 3)*mm + R(16, 3)))
+   and zero(sm[lam] - (11*mm - 32)/12) and zero(sm[gm] - (32 - 8*mm)/3))
+ok("vertex m=32/11, V=16/11 (~2.91, ~1.45); lam=0 there",
+   solve(diff(Vm, mm), mm) == [R(32, 11)] and Vm.subs(mm, R(32, 11)) == R(16, 11)
+   and close(R(32, 11), 2.91, 0.006) and close(R(16, 11), 1.45, 0.006)
+   and sm[lam].subs(mm, R(32, 11)) == 0)
+ok("dV*/dm = lam(m) (envelope), =1 at m=4; 0.1 step ~0.1",
+   zero(diff(Vm, mm) - sm[lam]) and diff(Vm, mm).subs(mm, 4) == 1
+   and close(Vm.subs(mm, R(41, 10)) - 2, 0.1, 0.006))
+ok("lam<0 iff m<32/11", sm[lam].subs(mm, 2) < 0 and sm[lam].subs(mm, 3) > 0)
+ok("Hessian of V diag(4,16,32)", hessian(Vp, (wa, wb, wc)) == Matrix([[4, 0, 0], [0, 16, 0], [0, 0, 32]]))
+Lphi = mm - ss + nu*(ss - (R(11, 24)*mm**2 - R(8, 3)*mm + R(16, 3)))
+sphi = solve([diff(Lphi, mm), diff(Lphi, ss), diff(Lphi, nu)], [mm, ss, nu], dict=True)
+ok("step 7: nu=1, m*=4, s*=2, Phi*=2; m-V concave",
+   sphi == [{mm: 4, ss: 2, nu: 1}] and 4 - 2 == 2 and diff(mm - Vm, mm, 2) < 0)
+ok("step 8: 5000/2500/2500, 400 euros, sd ~141",
+   (10000*R(1, 2), 10000*R(1, 4)) == (5000, 2500) and 10000*R(4, 100) == 400
+   and close(sqrt(2)/100*10000, 141, 0.5))
+
+print("--- ch09: intermediate zero bordered minor => restricted form indefinite ---")
+
+
+def restricted_identity(J, H):
+    """check det Hbar_{m+k} = (-1)^m det(J1)^2 * D_{k-m}(Q) for k=m+1..n."""
+    m, n = J.shape
+    J1, J2 = J[:, :m], J[:, m:]
+    Z = (-J1.inv()*J2).col_join(eye(n - m))
+    Q = Z.T*H*Z
+    Hb = zeros(m, m).row_join(J).col_join(J.T.row_join(H))
+    return all(simplify(Hb[:m + k, :m + k].det()
+                        - (-1)**m*J1.det()**2*Q[:k - m, :k - m].det()) == 0
+               for k in range(m + 1, n + 1))
+
+
+syms = symbols("h0:16 j0:8", real=True)
+hs, js = syms[:16], syms[16:]
+H3 = Matrix(3, 3, lambda i, j: hs[3*min(i, j) + max(i, j)])
+ok("identity, m=1, n=3, symbolic H, border (j0,j1,j2)",
+   restricted_identity(Matrix([[js[0], js[1], js[2]]]), H3))
+H4 = Matrix(4, 4, lambda i, j: hs[4*min(i, j) + max(i, j)])
+ok("identity, m=2, n=4, numeric border, symbolic H",
+   restricted_identity(Matrix([[1, 2, 0, 3], [0, 1, 1, -1]]), H4))
+Hb_ex = Matrix([[0, 1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0]])
+Lex = y*z + lam*(1 - x)
+sex = solve([diff(Lex, s) for s in (x, y, z, lam)], [x, y, z, lam], dict=True)
+ok("example yz on x=1: candidate (1,0,0), lam=0; minors 3,4 = 0, 1",
+   sex == [{x: 1, y: 0, z: 0, lam: 0}]
+   and Hb_ex[1:, 1:] == hessian(Lex, (x, y, z)) and Hb_ex[:3, :3].det() == 0
+   and Hb_ex.det() == 1)
+ok("example: yz takes both signs near (0,0) in the plane",
+   (y*z).subs({y: R(1, 10), z: R(1, 10)}) > 0 and (y*z).subs({y: R(1, 10), z: -R(1, 10)}) < 0)
+Jdep = Matrix([[0, 0, 1]])
+Hdep = Matrix([[-1, 0, 0], [0, -1, 0], [0, 0, 5]])
+Hbd = zeros(1, 1).row_join(Jdep).col_join(Jdep.T.row_join(Hdep))
+ok("artefact: border (0,0,1), minors 0 and -1 (max pattern needs +,-) though Q=-I is ND",
+   Hbd[:3, :3].det() == 0 and Hbd.det() == -1)
 
 print(f"\n{count - bad}/{count} PASS, {bad} FAIL")
 raise SystemExit(1 if bad else 0)

@@ -8,8 +8,15 @@ bad = 0
 
 def chk(label, expr, claimed, pt=0, direction="+-"):
     global bad
-    got = limit(expr, x, pt, direction) if direction != "+-" else limit(expr, x, pt)
-    ok = simplify(got - claimed) == 0
+    # sympy's default direction is "+", so pass "+-" explicitly for a genuine
+    # two-sided limit at a finite point; at +-oo the direction is implied
+    got = limit(expr, x, pt) if pt in (oo, -oo) else limit(expr, x, pt, direction)
+    # oo - oo is nan, so compare infinities (and zoo) by identity first
+    infinities = (oo, -oo, zoo)
+    if got in infinities or claimed in infinities:
+        ok = got == claimed
+    else:
+        ok = simplify(got - claimed) == 0
     if not ok:
         bad += 1
     print(f"{'ok ' if ok else 'BAD'} {label:<34} got {got}   claimed {claimed}")
@@ -60,8 +67,10 @@ chk("34 (1-1/x)^x", (1 - 1/x)**x, exp(-1), oo)
 print("--- conditions ---")
 chk("36 (x+sin x)/x", (x + sin(x)) / x, 1, oo)
 chk("37 (e^x-e^-x)/(e^x+e^-x)", (exp(x) - exp(-x)) / (exp(x) + exp(-x)), 1, oo)
-print(f"    40 sin x/x^2 one-sided: right {limit(sin(x)/x**2, x, 0, '+')}, "
-      f"left {limit(sin(x)/x**2, x, 0, '-')}  (claimed +oo / -oo, no 2-sided limit)")
+chk("40 sin x/x^2 at 0+", sin(x) / x**2, oo, 0, "+")
+chk("40 sin x/x^2 at 0-", sin(x) / x**2, -oo, 0, "-")
+# one-sided limits differ, so no two-sided limit: sympy returns zoo for "+-"
+chk("40 sin x/x^2 two-sided (none)", sin(x) / x**2, zoo, 0, "+-")
 
 print("--- additional ---")
 chk("A1 sin3x/x", sin(3*x) / x, 3)

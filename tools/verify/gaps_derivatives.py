@@ -2,7 +2,8 @@
 
 ch09: Additional problems 26-33 (shifts and tilts of the standard surfaces).
 ch10: second worked example (tangent plane) and Additional problems 22-46
-      (differentiability, tangent planes, sums / row derivative / a^x).
+      (differentiability, tangent planes, sums / row derivative / a^x),
+      and Additional problems 57-60 (monotonicity in several variables).
 
 Every claim is retyped by hand from the book; nothing is parsed from LaTeX.
 Run with a Python that has sympy installed.
@@ -1047,6 +1048,47 @@ Ginv = [sqrt(up/vq), sqrt(up*vq), exp(ww - sqrt(up/vq))]
 ok("47 F(G(u,v,w)) = (u,v,w), det = 2y/(xz)",
    simplify(Fv.subs({x: Ginv[0], y: Ginv[1], z: Ginv[2]}, simultaneous=True) - Matrix([up, vq, ww])) == zeros(3, 1)
    and zero(simplify(Fv.jacobian([x, y, z]).det() - 2*y/(x*z))))
+
+# ------------------------------------------- ch10 monotonicity 57-60 ----
+print("--- ch10 Additional 57-60: monotonicity in several variables ---")
+Kp, Lp = symbols("Kp Lp", positive=True)
+F = 6*Kp**R(1, 3)*Lp**R(1, 2)
+ok("57 F_K = 2K^(-2/3)L^(1/2)", zero(diff(F, Kp) - 2*Kp**R(-2, 3)*Lp**R(1, 2)))
+ok("57 F_L = 3K^(1/3)L^(-1/2)", zero(diff(F, Lp) - 3*Kp**R(1, 3)*Lp**R(-1, 2)))
+ok("57 partials positive on D", diff(F, Kp).is_positive and diff(F, Lp).is_positive)
+ok("57 F(1,4)=12, F(8,9)=36, F(8,4)=24, F(1,9)=18",
+   F.subs({Kp: 1, Lp: 4}) == 12 and F.subs({Kp: 8, Lp: 9}) == 36
+   and F.subs({Kp: 8, Lp: 4}) == 24 and F.subs({Kp: 1, Lp: 9}) == 18)
+
+from sympy import pi, Interval, solveset
+f = x**3 + x + cos(y)
+ok("58 f_x = 3x^2+1 >= 1", zero(diff(f, x) - (3*x**2 + 1)))
+ok("58 f_y = -sin y", zero(diff(f, y) + sin(y)))
+ok("58 f(0,0)=1 > f(0,pi)=-1", f.subs({x: 0, y: 0}) == 1 and f.subs({x: 0, y: pi}) == -1)
+zs = sorted(solveset(sin(y), y, Interval(-2*pi, pi)), key=lambda v: float(v))
+ok("58 zeros of sin in [-2pi,pi] are -2pi,-pi,0,pi", zs == [-2*pi, -pi, 0, pi])
+# sin is continuous, so its sign is constant between consecutive zeros
+ok("58 -sin y > 0 on (-pi,0), < 0 on (-2pi,-pi) and (0,pi): I = (-pi,0) maximal",
+   (-sin(y)).subs(y, -pi/2) > 0 and (-sin(y)).subs(y, -3*pi/2) < 0
+   and (-sin(y)).subs(y, pi/2) < 0)
+
+F = 10*K + 8*L - K**2 - L**2 + K*L
+FK, FL = diff(F, K), diff(F, L)
+ok("59 grad = (10-2K+L, 8-2L+K)", zero(FK - (10 - 2*K + L)) and zero(FL - (8 - 2*L + K)))
+ok("59 F_K(10,1) = -9", FK.subs({K: 10, L: 1}) == -9)
+ok("59 F(6,1)=37, F(10,1)=17", F.subs({K: 6, L: 1}) == 37 and F.subs({K: 10, L: 1}) == 17)
+# on (0,4)^2: F_K = 10-2K+L is linear, its infimum over the closed square is at K=4,L=0
+ok("59 inf F_K on [0,4]^2 = 2, inf F_L = 0 only at the excluded corner (K,L)=(0,4)",
+   min(FK.subs({K: a, L: b}) for a in (0, 4) for b in (0, 4)) == 2
+   and min(FL.subs({K: a, L: b}) for a in (0, 4) for b in (0, 4)) == 0
+   and FL.subs({K: 0, L: 4}) == 0)
+ok("59 F_K >= 0 iff L >= 2K-10", zero(FK - (L - (2*K - 10))))
+sol = solve([FK, FL], [K, L], dict=True)
+ok("59 both partials vanish at (28/3, 26/3)", sol == [{K: R(28, 3), L: R(26, 3)}])
+
+f = (x + y)**3
+ok("60 f_x = f_y = 3(x+y)^2", zero(diff(f, x) - 3*(x + y)**2) and zero(diff(f, y) - 3*(x + y)**2))
+ok("60 grad zero exactly on x+y=0", solve([diff(f, x), diff(f, y)], [x, y], dict=True) == [{x: -y}])
 
 print(f"\n{count - bad}/{count} PASS, {bad} FAIL")
 raise SystemExit(1 if bad else 0)

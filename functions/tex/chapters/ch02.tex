@@ -348,7 +348,7 @@ a hole, not a pole.
 \wtrap{A zero denominator does not by itself make an asymptote. Always
 factor numerator and denominator first: a shared factor gives a hole, an
 unshared one gives a pole. This is the same distinction that decides whether
-a limit in Volume~4 exists or diverges.}
+a limit in \chref{foundations}{4} exists or diverges.}
 \end{worked}
 
 \begin{worked}{Identify the curve $9x^{2}-4y^{2}+18x+8y-31=0$: type, centre, semi-axes, vertices and asymptotes}
@@ -819,14 +819,21 @@ vertex and the direction of opening.
 \begin{gallery}
 \begin{tikzpicture}
   \begin{axis}[geoaxis, xmin=-2, xmax=8, ymin=-7, ymax=3,
-      xtick={-1,3,7}, ytick={-4,-2}, title={Problem 46}]
+      xtick={-1,3,7}, ytick={-4}, extra y ticks={-2},
+      extra y tick style={yticklabel style={anchor=west, xshift=1pt}},
+      title={Problem 46}]
     \addplot[domain=0:360, samples=181]({3+4*cos(x)},{-2+2*sin(x)});
     \addplot[only marks, mark=*, mark size=1.3pt, forget plot] coordinates {(3,-2)};
   \end{axis}
 \end{tikzpicture}\hfill
 \begin{tikzpicture}
   \begin{axis}[geoaxis, xmin=-4.5, xmax=8.5, ymin=-7.5, ymax=5.5,
-      xtick={-1,5}, ytick={-3,1}, title={Problem 48}]
+      xtick={5}, ytick={1}, extra x ticks={-1}, extra y ticks={-3},
+      xticklabel style={anchor=north east},
+      yticklabel style={anchor=south west, xshift=1pt},
+      extra x tick style={xticklabel style={anchor=north west}},
+      extra y tick style={yticklabel style={anchor=north west, xshift=1pt}},
+      title={Problem 48}]
     \addplot[gray, dashed, thin, forget plot, samples=2, domain=-4.3:8.3]{-1+(2/3)*(x-2)};
     \addplot[gray, dashed, thin, forget plot, samples=2, domain=-4.3:8.3]{-1-(2/3)*(x-2)};
     \addplot[gray, dashed, thin, forget plot, sharp plot] coordinates {(-1,-3)(5,-3)(5,1)(-1,1)(-1,-3)};
@@ -837,7 +844,10 @@ vertex and the direction of opening.
 \end{tikzpicture}\hfill
 \begin{tikzpicture}
   \begin{axis}[geoaxis, xmin=-8.5, xmax=2.5, ymin=-4.5, ymax=6.5,
-      xtick={-5,-3,-1}, ytick={-2,1,4}, title={Problem 53}]
+      xtick={-3}, ytick={-2,1,4}, extra x ticks={-5,-1},
+      extra x tick style={xticklabel style={anchor=north west}},
+      yticklabel style={anchor=west, xshift=1pt},
+      title={Problem 53}]
     \addplot[gray, dashed, thin, forget plot, samples=2, domain=-8.3:2.3]{1+1.5*(x+3)};
     \addplot[gray, dashed, thin, forget plot, samples=2, domain=-8.3:2.3]{1-1.5*(x+3)};
     \addplot[gray, dashed, thin, forget plot, sharp plot] coordinates {(-5,-2)(-1,-2)(-1,4)(-5,4)(-5,-2)};
