@@ -145,3 +145,46 @@
 
 % German gloss, used on first mention of a technical term
 \newcommand{\de}[1]{\emph{#1}}
+
+% --- cross-references to chapters ------------------------------------------
+% Chapter files are shared by the standalone volumes and the compendium, so a
+% hard-coded "Chapter 6" is wrong in one of them. Write \chref{derivatives}{6}
+% instead: it prints "Chapter 6" inside the same volume, "Volume 5, Chapter 6"
+% from another volume, and the running number ("Chapter 34") in the
+% compendium. \chrefs{vol}{n} is the abbreviated form (Ch. / Vol., Ch.),
+% \chnum{vol}{n} the bare number in the current build, and \volref{vol} names
+% the volume ("Volume 5", or "Part V" in the compendium). Each volume's
+% main.tex sets \thisvolume; the compendium's sets \incompendiumtrue.
+\newif\ifincompendium
+\newcommand*{\thisvolume}{}
+\makeatletter
+\@namedef{chref@vol@algebra}{1}\@namedef{chref@off@algebra}{0}
+\@namedef{chref@vol@functions}{2}\@namedef{chref@off@functions}{9}
+\@namedef{chref@vol@matrices}{3}\@namedef{chref@off@matrices}{14}
+\@namedef{chref@vol@foundations}{4}\@namedef{chref@off@foundations}{24}
+\@namedef{chref@vol@derivatives}{5}\@namedef{chref@off@derivatives}{28}
+\@namedef{chref@vol@integrals}{6}\@namedef{chref@off@integrals}{42}
+\@namedef{chref@vol@optimization}{7}\@namedef{chref@off@optimization}{50}
+\@namedef{chref@vol@linprog}{8}\@namedef{chref@off@linprog}{60}
+\@namedef{chref@vol@mixed}{9}\@namedef{chref@off@mixed}{68}
+\newcommand*{\chref@check}[1]{%
+  \@ifundefined{chref@vol@#1}{\PackageError{chref}{Unknown volume `#1'}{}}{}}
+\newcommand*{\chnum}[2]{\chref@check{#1}%
+  \ifincompendium\the\numexpr\csname chref@off@#1\endcsname+#2\relax
+  \else#2\fi}
+% \chref@same{vol}{same volume}{other volume}
+\newcommand*{\chref@same}[3]{\def\chref@tmp{#1}%
+  \ifx\chref@tmp\thisvolume\expandafter\@firstoftwo
+  \else\expandafter\@secondoftwo\fi{#2}{#3}}
+\newcommand*{\chref}[2]{\chref@check{#1}%
+  \ifincompendium Chapter~\chnum{#1}{#2}%
+  \else\chref@same{#1}{Chapter~#2}%
+    {Volume~\csname chref@vol@#1\endcsname, Chapter~#2}\fi}
+\newcommand*{\chrefs}[2]{\chref@check{#1}%
+  \ifincompendium Ch.~\chnum{#1}{#2}%
+  \else\chref@same{#1}{Ch.~#2}%
+    {Vol.~\csname chref@vol@#1\endcsname, Ch.~#2}\fi}
+\newcommand*{\volref}[1]{\chref@check{#1}%
+  \ifincompendium Part~\@Roman{\csname chref@vol@#1\endcsname}%
+  \else Volume~\csname chref@vol@#1\endcsname\fi}
+\makeatother
