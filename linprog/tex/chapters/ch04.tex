@@ -2,8 +2,8 @@
 
 The graphical method solves linear programmes in two variables, but real
 planning problems involve many more. The simplex method, devised by George Dantzig in 1947, solves LPs of
-any size: it hops from vertex to vertex of the feasible polytope, improving
-the objective at every step, and every hop is nothing more than a round of
+any size: it moves from vertex to vertex of the feasible polytope, improving
+the objective at every step, and every move is a round of
 elementary row operations on a tableau. This chapter drills the standard
 maximum case (all constraints of type $\le$ with non-negative right-hand
 sides) until choosing the pivot, carrying out the row operations, and
@@ -279,7 +279,7 @@ No negative entry remains in the $z$-row, so no variable can improve $z$:
 This matches the graphical answer of \chref{linprog}{2} exactly. \checkmark\ The path
 taken was $(0,0)\to(50,0)\to(20,60)$: two pivots, two edges, three corners.
 
-\wstep{Step 8. The $z$-row entries under the slacks are not decoration.}
+\wstep{Step 8. The $z$-row entries under the slacks have a meaning.}
 The $10$ under $s_{1}$ and $20$ under $s_{2}$ are the \textbf{shadow
 prices}: one more machine hour is worth $10$ euros, one more labour hour
 $20$. \chref{linprog}{5} reads them systematically and \chref{linprog}{7} proves they are the

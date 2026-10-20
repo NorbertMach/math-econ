@@ -71,8 +71,8 @@ $f(x)g(y)$, the double integral splits into a product of single ones:
   =2\cdot4=\boxed{8}.
 \]
 \wtrap{Both conditions are required. Over a non-rectangular region, or for
-an integrand like $x+y$ that is not a product, the split is invalid. It is
-worth the two seconds to confirm both before using it.}
+an integrand like $x+y$ that is not a product, the split is invalid. Confirm
+both conditions before using it.}
 
 \wstep{Step 2. For the second region, sketch first --- always.}
 $y=x^{2}$ and $y=2x$ meet where $x^{2}=2x$, i.e.\ $x=0$ and $x=2$. Between
@@ -100,7 +100,7 @@ boundary and the parabola the lower.
 \wtrap{The \emph{inner} limits may depend on the outer variable; the
 \emph{outer} limits must be constants. An $x$ surviving in the outer limits
 means the two integrals were set up in the wrong order, and the final answer
-will still contain a variable --- which is the tell.}
+will still contain a variable, which reveals the error.}
 
 \wstep{Step 4. Inner integral: $x$ is a constant here.}
 \[
@@ -141,10 +141,10 @@ $x$: $y=2x$ gives $x=y/2$ (the left edge), and $y=x^{2}$ gives $x=\sqrt y$
 \wtrap{Do not simply swap the limits and the differentials. The new limits
 must be read off the region again --- here $[y/2,\sqrt y]$ for $x$ and
 $[0,4]$ for $y$, which look nothing like the old ones. Reversing an
-iterated integral mechanically is wrong essentially always, and the sketch
+iterated integral mechanically is almost always wrong, and the sketch
 is what prevents it.}
 
-\wstep{Step 7. Why anyone would bother reversing.}
+\wstep{Step 7. Why reverse the order at all.}
 Because one order may be impossible. $\int_{0}^{1}\int_{x}^{1}
 \mathrm{e}^{-y^{2}}\mathrm{d}y\,\mathrm{d}x$ cannot be started, since
 $\mathrm{e}^{-y^{2}}$ has no elementary antiderivative. Reversed, the same

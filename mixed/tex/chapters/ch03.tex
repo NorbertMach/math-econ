@@ -4,7 +4,7 @@ Twenty problems, no order, no announced methods. Target time: 75 minutes.
 
 \section{Worked Example}
 
-The last specimen is an applied one, of the kind that hides three techniques
+The last example is an applied one, of the kind that hides three techniques
 inside a sentence of prose. As before it is not among the twenty.
 
 \begin{worked}{A machine yields a net flow of $D(t)=8000\,\mathrm{e}^{-0.1t}$ euros per year, discounted continuously at $r=5\%$. Find (a) the present value over ten years, (b) over an infinite horizon, (c) the time at which half the infinite value has accrued}
@@ -34,7 +34,7 @@ The two rates \emph{add}, because $\mathrm{e}^{a}\mathrm{e}^{b}
 \]
 \wtrap{The factor $1/(-0.15)$ turns $\mathrm{e}^{-0.15T}-1$ into
 $1-\mathrm{e}^{-0.15T}$. Get this backwards and the present value comes out
-negative --- which is the alarm, since a positive flow cannot have a
+negative, which signals an error: a positive flow cannot have a
 negative value.}
 
 \wstep{Step 4. Part (a): ten years.}
@@ -76,7 +76,7 @@ $\mathrm{e}^{-kT}=\tfrac12\Rightarrow T=\ln2/k$ saves the whole
 manipulation.}
 
 \wstep{Step 7. Sanity-check all three answers together.}
-$41\,433<53\,333$ \checkmark --- ten years cannot beat for ever. The ten-year
+$41\,433<53\,333$ \checkmark: ten years cannot be worth more than the infinite horizon. The ten-year
 figure is $77.7\%$ of the total, and $4.62$ years already delivers $50\%$
 \checkmark --- consistent with a flow that decays. And $53\,333=8000/0.15$
 \checkmark, the perpetuity formula with the combined rate.

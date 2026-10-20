@@ -109,7 +109,7 @@ and $\varepsilon^{1-p}\to0$ requires $1-p>0$:
   \boxed{\int_{0}^{1}x^{-p}\,\mathrm{d}x\ \text{converges}\iff p<1 .}
 \]
 \wtrap{The two criteria are \emph{opposite}, and confusing them is the
-chapter's signature error. At infinity the tail must be \emph{thin}, so a
+most common error in this chapter. At infinity the tail must be \emph{thin}, so a
 large $p$ helps; at zero the spike must be \emph{narrow}, so a small $p$
 helps. Note the consequence: $\int_{0}^{\infty}x^{-p}\mathrm{d}x$ diverges
 for \emph{every} $p$ --- no exponent works at both ends.}
@@ -134,7 +134,7 @@ but the substance of the result.
   =0+\frac{1}{r}\cdot\frac1r=\boxed{\frac{1}{r^{2}}}
 \]
 The boundary term vanishes because $t\mathrm{e}^{-rt}\to0$: the exponential
-beats the linear factor, by the growth hierarchy of \chref{derivatives}{7}.
+dominates the linear factor, by the growth hierarchy of \chref{derivatives}{7}.
 \wtrap{Always check that the boundary term vanishes rather than assuming it.
 Here it does, and the whole calculation depends on it. In
 $\int_{1}^{\infty}\frac{\ln x}{x}\mathrm{d}x$ the analogous term does not,
@@ -190,7 +190,7 @@ Decide whether each integral converges; if it does, evaluate it.
   \item $\displaystyle\int_{0}^{\infty} x\,\mathrm{e}^{-x^{2}}\,\mathrm{d}x$
   \item $\displaystyle\int_{1}^{\infty} \frac{1}{x^{2}-x}\,\mathrm{d}x
         = \int_{1}^{\infty} \frac{1}{x(x-1)}\,\mathrm{d}x$
-        \quad (careful! asymptote at $x=1$)
+        \quad (note the asymptote at $x=1$)
 \end{problems}
 
 \section{Solutions}
@@ -280,7 +280,7 @@ Decide whether each integral converges; if it does, evaluate it.
         \[
           \bigl[\ln\ln x\bigr]_{2}^{b}=\ln\ln b-\ln\ln 2\to\infty .
         \]
-        Diverges (just barely).
+        Diverges (only slowly).
 
   \item $u=1+x$. Antiderivative $-\dfrac{1}{1+x}$.
         \[

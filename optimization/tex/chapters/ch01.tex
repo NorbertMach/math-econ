@@ -99,7 +99,7 @@ remarks:
         unconstrained.
   \item A single equality constraint can often be \emph{substituted} into
         the objective, converting a constrained problem into an
-        unconstrained one with fewer variables. This is the workhorse
+        unconstrained one with fewer variables. This is the main
         method of this chapter.
 \end{itemize}
 \end{rulebox}
@@ -152,7 +152,7 @@ Work through five questions, in order:
         If one equality constraint appears, plan the substitution.
 \end{enumerate}
 Parameters (prices, income, technology coefficients) are \emph{not}
-decision variables: they are along for the ride.
+decision variables: they are held fixed.
 \end{rulebox}
 
 \begin{rulebox}{First-order thinking in one variable}
@@ -223,7 +223,7 @@ maxima, minima and inflections alike. Reporting $q^{*}=20$ without checking
 $\pi''$ is an incomplete solution, and on a cubic cost function it can be
 the wrong one.}
 
-\wstep{Step 5. Check the constraint you were about to ignore.}
+\wstep{Step 5. Check the sign constraint.}
 $q^{*}=20>0$, so $q\ge0$ is slack and the interior solution stands. Then
 \[
   p^{*}=120-40=80,

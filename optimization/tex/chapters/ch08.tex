@@ -145,8 +145,8 @@ small changes.
 \wtrap{The approximation is local. For a large parameter change the
 underlying solution may move to a different regime --- a constraint that was
 slack becomes binding, or a variable hits zero --- and the multiplier
-computed at the old optimum no longer applies. ``Small change'' is a real
-qualification, not a politeness.}
+computed at the old optimum no longer applies. ``Small change'' is a genuine
+restriction on the estimate.}
 
 \wstep{Step 6. Units, which are how you check any shadow price.}
 $\lambda$ has the units of \emph{objective per unit of constraint}. Here:
@@ -212,7 +212,7 @@ whole content of complementary slackness in \chref{optimization}{10}.
         with direct differentiation.
   \item Maximise $f(x, y) = 2 x + 3 y$ on $x^2 + y^2 = r^2$ for $r > 0$.
         Find $V(r) = f^*(r)$ and $\lambda^*(r)$. Verify $V'(r) = ?$:
-        careful, the constraint is $g = r^2$, so the multiplier corresponds
+        note that the constraint is $g = r^2$, so the multiplier corresponds
         to changes in $r^2$, not $r$.
   \item In problem 1, suppose the budget changes from $12$ to
         $12 + \varepsilon$. Use $\lambda^*$ to estimate the new $V$ for
@@ -308,7 +308,7 @@ whole content of complementary slackness in \chref{optimization}{10}.
   \item $\mathcal{L} = K^{1/2} L^{1/2} + \lambda(TC - r K - w L)$. By
         envelope, $\partial Q^*/\partial TC = \lambda^*$ and
         $\partial Q^*/\partial r = -\lambda^* K^*$. From problem 11 of the
-        previous chapter: $K^* = TC/(2 r)$, $\lambda^* = $ ? From FOC
+        previous chapter: $K^* = TC/(2 r)$. To find $\lambda^*$, the FOC
         $\tfrac{1}{2} K^{-1/2} L^{1/2} = \lambda r$, with $L^*/K^* = r/w$
         gives $\lambda^* = \tfrac{1}{2 r} \sqrt{r/w} = 1/(2 \sqrt{r w})$.
         Then $\partial Q^*/\partial TC = 1/(2 \sqrt{r w})$, matches
@@ -336,7 +336,7 @@ whole content of complementary slackness in \chref{optimization}{10}.
         = \sqrt{13}/(2 r) = \lambda^*$. \checkmark
 
   \item $V(12.4) \approx V(12) + \lambda^* \cdot 0.4 = 6 + 0.4 = 6.4$.
-        Exact: $V(b) = (b/(2 \cdot 2))(b/(3 \cdot 2)) \cdot ?$ Let's redo:
+        Exact:
         FOCs $y = 2 \lambda$, $x = 3 \lambda$, $2 x + 3 y = b$,
         $6 \lambda + 6 \lambda = 12 \lambda = b$, $\lambda = b/12$,
         $x = b/4$, $y = b/6$, $V(b) = b^2/24$. So
@@ -489,7 +489,7 @@ whole content of complementary slackness in \chref{optimization}{10}.
         $\alpha/x = \lambda p_x$ for the form
         $U = \alpha \ln x + (1 - \alpha) \ln y$, but here
         $U = x^\alpha y^{1 - \alpha}$. Use
-        $\lambda^* = V/M \cdot (\alpha + (1-\alpha))/1$. Actually, for
+        $\lambda^* = V/M$, valid because for
         Cobb--Douglas $V$ is linear in $M$:
         $V(M) = \alpha^\alpha (1 - \alpha)^{1 - \alpha} M /
         (p_x^\alpha p_y^{1 - \alpha})$. At our parameters

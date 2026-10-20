@@ -65,8 +65,8 @@ functions, and the matrix $X^{T} X$ in regression are all symmetric.
 \wstep{Step 1. Check the shapes before writing anything down.}
 $A$ is $2\times3$ and $B$ is $3\times2$, so $A-B$ is \textbf{undefined}:
 addition requires identical shapes. But $B^{\!\top}$ is $2\times3$, which
-matches $A$. That is why the expression was written with a transpose --- and
-noticing this is half the exercise.
+matches $A$. That is why the expression was written with a transpose, and
+noticing this is the first step of the exercise.
 \wtrap{Addition needs \emph{equal} dimensions; multiplication needs
 \emph{matching} inner dimensions. These are different requirements, and the
 first thing to do with any matrix expression is to verify that every
@@ -92,8 +92,8 @@ Entry $(i,j)$ of $B^{\!\top}$ is entry $(j,i)$ of $B$: the first
   =\begin{pmatrix}2-3&4-6&6-0\\8-0&10-(-3)&12-9\end{pmatrix}
   =\boxed{\begin{pmatrix}-1&-2&6\\8&13&3\end{pmatrix}}
 \]
-\wtrap{$10-(-3)=13$. Every sign error in this chapter is a subtraction of a
-negative entry. Scalar multiplication touches \emph{every} entry --- a
+\wtrap{$10-(-3)=13$. Most sign errors in this chapter come from subtracting
+a negative entry. Scalar multiplication touches \emph{every} entry; a
 frequent slip is to multiply only the first row.}
 
 \wstep{Step 4. The rules that hold, and the one that does not.}

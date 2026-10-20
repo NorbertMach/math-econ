@@ -12,7 +12,7 @@ does it settle down to a limit, or does it run off beyond every bound?
 This chapter builds the toolkit. We state once, informally, what
 convergence means, and then compute limits the practical way: with the
 limit rules and a short list of standard limits that cover almost every
-sequence met in economics. The star among them, $(1+x/n)^{n}\to\mathrm{e}^{x}$,
+sequence met in economics. The most important of them, $(1+x/n)^{n}\to\mathrm{e}^{x}$,
 is exactly the step from period-by-period to \emph{continuous} compounding
 and will carry the financial mathematics of a later chapter.
 
@@ -99,7 +99,7 @@ mathematics.
 \begin{rulebox}{Monotone convergence principle}
 \textbf{Bounded $+$ monotone $\Rightarrow$ convergent.} An increasing
 sequence that is bounded above converges; a decreasing sequence that is
-bounded below converges. This is the workhorse for recursive sequences:
+bounded below converges. This is the standard tool for recursive sequences:
 first establish monotonicity and boundedness, then find the candidate
 limit $a$ from the \emph{fixed-point equation} obtained by letting
 $n\to\infty$ in the recursion (e.g.\ $a=1.02\,a+100$ for
@@ -117,14 +117,14 @@ For every $k>0$ and every $q>1$,
 \]
 Every power beats every logarithm, and every exponential with base $q>1$
 beats every power. A useful consequence: $n^{k}q^{n}\to 0$ whenever
-$|q|<1$, geometric decay swallows polynomial growth.
+$|q|<1$, geometric decay dominates polynomial growth.
 \end{rulebox}
 
 \section{Worked Example}
 
 \begin{worked}{Evaluate $\lim\dfrac{2n^{3}-5n}{3n^{3}+n^{2}+1}$ and $\lim\dfrac{n^{2}}{2^{n}}$, then show that $a_{n+1}=\tfrac12 a_{n}+3$, $a_{1}=1$, converges and find its limit}
 \wstep{Step 1. A ratio of polynomials: divide by the highest power present.}
-Both numerator and denominator blow up, so the expression is $\infty/\infty$
+Both numerator and denominator grow without bound, so the expression is $\infty/\infty$
 and says nothing as it stands. Divide top and bottom by $n^{3}$ --- the
 highest power occurring \emph{anywhere}:
 \[
@@ -139,7 +139,7 @@ lower degree the limit would be $0$; if higher, the sequence would diverge.
 ``Ratio of leading coefficients'' is not a universal rule --- it is the rule
 for the equal-degree case, and checking the degrees takes one glance.}
 
-\wstep{Step 2. A polynomial against an exponential: no algebra will do it.}
+\wstep{Step 2. A polynomial against an exponential: algebra alone does not settle it.}
 Dividing by $n^{2}$ turns $n^{2}/2^{n}$ into $1/(2^{n}/n^{2})$, which is no
 better. What settles it is the \textbf{growth hierarchy}:
 \[
@@ -167,7 +167,7 @@ recursion converge to the same thing:
 \wtrap{This calculation is conditional. It says what the limit \emph{must}
 be if one exists --- nothing more. The recursion $a_{n+1}=2a_{n}$ with
 $a_{1}=1$ yields the same style of equation, $L=2L$, hence $L=0$, which is
-absurd for a sequence marching off to infinity. You must establish
+impossible for a sequence that diverges to infinity. You must establish
 convergence separately, and that is what Steps~4 and~5 are for.}
 
 \wstep{Step 4. Show the sequence is increasing.}
@@ -205,7 +205,7 @@ $a_{4}=6-0.625=5.375$ \checkmark. The term $\bigl(\tfrac12\bigr)^{n-1}\to0$,
 confirming the limit $6$ and showing the convergence is geometric --- the
 gap to the limit halves each period.
 
-\wstep{Step 8. Why economists care.}
+\wstep{Step 8. The economic interpretation.}
 This is the adjustment path of any linear difference equation
 $a_{n+1}=\alpha a_{n}+\beta$: a capital stock with depreciation and constant
 investment, an adaptive-expectations price, a cobweb model. The steady state

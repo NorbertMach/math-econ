@@ -4,8 +4,8 @@ A square matrix $A \in \R^{n \times n}$ is \emph{invertible} (or
 \emph{nonsingular}) if there exists a matrix $A^{-1}$ with
 $A A^{-1} = A^{-1} A = I_{n}$. Equivalent statements: $\det A \neq 0$; the
 columns of $A$ are linearly independent; the system $A x = b$ has a unique
-solution for every $b$. The inverse is the workhorse for solving systems by
-hand and theoretically (think $\hat{\beta} = (X^{T} X)^{-1} X^{T} y$ or
+solution for every $b$. The inverse is the standard tool for solving systems,
+by hand and in theory (think $\hat{\beta} = (X^{T} X)^{-1} X^{T} y$ or
 $x = (I - A)^{-1} d$ in input-output models).
 
 \section{Core Rules}
@@ -122,8 +122,8 @@ $\det A$:
 \]
 \wtrap{Cramer replaces the column matching the variable you want ---
 column~$k$ for $x_{k}$ --- and the denominator is always $\det A$, never the
-determinant of the modified matrix. It is elegant for one component of a
-small system and hopeless beyond $3\times3$: solving a $10\times10$ system
+determinant of the modified matrix. It is convenient for one component of a
+small system and impractical beyond $3\times3$: solving a $10\times10$ system
 this way needs eleven $10\times10$ determinants.}
 
 \wstep{Step 7. Which method, when.}

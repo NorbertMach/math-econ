@@ -82,7 +82,7 @@ comes from the model, not from the formula:
 quantities and inputs satisfy $q\geq 0$, $K,L\geq 0$; a price must satisfy
 $p\geq 0$; a share or probability lives in $[0,1]$; an average cost
 $AC(q)=C(q)/q$ needs $q>0$. State the economic domain explicitly, because
-the formula will happily return values outside it: the linear demand
+the formula also returns values outside it: the linear demand
 $p=120-3q$ is defined for every real $q$, but only $q\in[0,40]$ keeps both
 $q\geq0$ and $p\geq 0$.
 \end{rulebox}
@@ -154,7 +154,7 @@ Three of them appear here, which is why this example was chosen:
 A square root sitting in a denominator is not allowed to be zero, so the
 usual ``$\ge$'' for an even root tightens to ``$>$''. Handling the root and
 the denominator as separate conditions and then forgetting to intersect them
-is the standard way to hand in $[-2,2]$ instead of the right answer.}
+is the usual way to arrive at $[-2,2]$ instead of the right answer.}
 
 \wstep{Step 2. Solve each condition separately.}
 \[
@@ -340,7 +340,7 @@ one unless stated otherwise.
         would be meaningless anyway.
   \item $D=(0,\infty)$: consumption must be strictly positive, since
         $\ln 0$ is undefined. As $x\to0^{+}$, $U(x)\to-\infty$: the
-        logarithmic utility punishes zero consumption infinitely hard,
+        logarithmic utility penalises zero consumption without bound,
         which is exactly why interior solutions appear in Cobb--Douglas
         problems.
   \item $x^{2}\geq0$, so $x^{2}+4\geq4$: \;$W=[4,\infty)$.

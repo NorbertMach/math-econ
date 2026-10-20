@@ -3,7 +3,7 @@
 Equality constraints assume the constraint always binds. In reality a budget
 may be left unspent, a quota may not be reached, and consumption or input
 levels must be non-negative. The Karush--Kuhn--Tucker (KKT) conditions generalise the method of Lagrange to
-inequality constraints (the setting of nonlinear programming) and crucially they admit corner solutions
+inequality constraints (the setting of nonlinear programming) and in particular they admit corner solutions
 where some constraints are slack and the corresponding multiplier is zero.
 
 Two ideas organise the chapter. \emph{Complementary slackness} couples each constraint to its multiplier:
@@ -66,7 +66,7 @@ Rules of thumb:
   \item a ``$\geq$'' constraint $g \geq b$ becomes $-g \leq -b$;
   \item for a \textbf{minimisation} $\min f$ s.t.\ $g \leq b$, the
         multipliers in $\mathcal{L} = f - \lambda(b - g)$ should also be
-        $\geq 0$, careful with the sign! Many textbooks write all problems
+        $\geq 0$; note the sign. Many textbooks write all problems
         as maxima after flipping signs.
 \end{itemize}
 \end{rulebox}
@@ -424,7 +424,7 @@ with equality wherever the corresponding variable is positive, together with
 The last two are \textbf{complementary slackness}: a constraint that is not
 binding has a zero multiplier, and a positive multiplier forces its
 constraint to bind.
-\wtrap{Signs are everything here. For a maximum with $g(\mathbf x)\le b$ the
+\wtrap{The signs matter here. For a maximum with $g(\mathbf x)\le b$ the
 multipliers are $\ge0$; flip to $\ge$ constraints or to minimisation and
 they flip too. Fix one convention --- ``maximise, all constraints written as
 $\le$, multipliers $\ge0$'' --- and convert every problem into it rather
@@ -485,7 +485,7 @@ $\lambda^{*}=4$: relaxing the budget from $10$ to $11$ raises $f$ by about
 $4$. $\mu^{*}=2$: relaxing $x\le4$ to $x\le5$ raises $f$ by about $2$.
 Check the first directly --- with $x+y\le11$ and $x\le4$ the optimum is
 $(4,7)$ with $f=28$, exactly $4$ more. \checkmark\ Shadow prices work in the
-inequality-constrained world exactly as they did in \chref{optimization}{8}.
+inequality-constrained case exactly as they did in \chref{optimization}{8}.
 
 \wstep{Step 10. The recipe.}
 \begin{center}\footnotesize
@@ -518,7 +518,7 @@ saddle-point condition.
   \item Maximise $U(x, y) = x + \ln(1 + y)$ on $x + y \leq 10$,
         $x, y \geq 0$. \emph{Test:} is the budget tight?
   \item Maximise $f(x, y) = x^2 + y^2$ on $x + y \leq 1$, $x, y \geq 0$.
-        \emph{Careful:} the objective is convex; maxima are at vertices.
+        \emph{Note:} the objective is convex; maxima are at vertices.
   \item Minimise $f(x, y) = (x - 3)^2 + (y - 4)^2$ on $x + y \leq 5$,
         $x, y \geq 0$.
   \item Maximise $U(x, y) = \ln(x) + \ln(y)$ on $x + y \leq 10$,
@@ -1760,7 +1760,7 @@ programmes.
         with $\lambda=0$, and $f^*=6R=\sqrt{30}\approx5.477$. Global: $x+2y$
         is linear and $\sqrt{5-x^{2}-y^{2}}$ is concave (an increasing
         concave function of a concave function), so $f$ is concave on the
-        convex domain. Near the boundary the square root's slope blows up,
+        convex domain. Near the boundary the slope of the square root becomes unbounded,
         which keeps the optimum away from it.
   \item Constraint $g=x^{2}-y\le0$ with $\grad g=(2x,-1)\neq0$: LICQ holds
         everywhere, the programme is regular. KKT for the maximum:

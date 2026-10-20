@@ -15,7 +15,7 @@ $\binom{n}{m}$ candidate points, and the corners of the feasible region are
 exactly the feasible ones among them. Everything the simplex method does in
 later chapters is bookkeeping on this correspondence, so the hand skills
 drilled here (converting, enumerating, checking feasibility, matching
-corners) pay off on every exam problem that follows.
+corners) are used in every problem that follows.
 
 \section{Core Rules}
 
@@ -212,7 +212,7 @@ region.
 \wtrap{$\binom{n}{m}$ counts \emph{candidates}, not corners. Some bases are
 infeasible (negative variables) and some column pairs are not even
 independent, in which case no basic solution exists at all. The count is an
-upper bound --- but it does show why enumeration is hopeless at scale: a
+upper bound, but it does show why enumeration is impractical at scale: a
 modest $50\times100$ problem has about $10^{29}$ candidate bases, which is
 the entire motivation for the simplex method.}
 
@@ -453,8 +453,8 @@ basic ones.
             & x_{1},x_{2},s_{1}\ge 0 .
           \end{aligned}
         \]
-        Note: no new variable for the equation: a common exam mistake is
-        to add one anyway.
+        Note: the equation receives no new variable; adding one anyway is
+        a common mistake.
 
   \item The free variable is split: $x_{2}=x_{2}^{+}-x_{2}^{-}$ with
         $x_{2}^{+},x_{2}^{-}\ge 0$. Substituting everywhere and adding
@@ -919,9 +919,9 @@ basic ones.
           \hline
           $\{s_{1},s_{2}\}$ & $(0,0,6,6)$ & yes & $(0,0)$ & $0$\\
           $\{x_{1},s_{2}\}$ & $(3,0,0,3)$ & yes & $(3,0)$ & $3$\\
-          $\{x_{1},s_{1}\}$ & $(6,0,-6,0)$ & no & (&) \\
+          $\{x_{1},s_{1}\}$ & $(6,0,-6,0)$ & no & & \\
           $\{x_{2},s_{1}\}$ & $(0,3,3,0)$ & yes & $(0,3)$ & $3$\\
-          $\{x_{2},s_{2}\}$ & $(0,6,0,-6)$ & no & (&) \\
+          $\{x_{2},s_{2}\}$ & $(0,6,0,-6)$ & no & & \\
           $\{x_{1},x_{2}\}$ & $(2,2,0,0)$ & yes & $(2,2)$ & $4$\\
           \hline
         \end{tabular}

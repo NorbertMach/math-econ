@@ -305,7 +305,7 @@ which is the point of differentiating with respect to $\lambda$.
 \[
   \boxed{\frac{K}{L}=\frac{w}{r}}
 \]
-\wtrap{The exponent arithmetic is where this dies: $\tfrac12-(-\tfrac12)=1$
+\wtrap{The exponent arithmetic is where errors occur: $\tfrac12-(-\tfrac12)=1$
 and $-\tfrac12-\tfrac12=-1$. Write both subtractions with brackets. The
 reward is that all the awkward powers collapse into the single ratio $K/L$
 --- which is what makes the rest of the problem easy.}
@@ -330,7 +330,7 @@ From $K=(w/r)L$,
   K^{*}=\bar Q\sqrt{\frac wr} .
 \]
 
-\wstep{Step 6. The cost function, and a satisfying cancellation.}
+\wstep{Step 6. The cost function.}
 \[
   C(\bar Q,w,r)=wL^{*}+rK^{*}
   =w\bar Q\sqrt{\tfrac rw}+r\bar Q\sqrt{\tfrac wr}
@@ -366,8 +366,8 @@ objective over a convex set has its stationary point as a global minimum.
 maxima, minima and saddles alike. Some argument (a bordered Hessian,
 \chref{optimization}{9}, or convexity as here) is always required. And check the
 constraint qualification: $\grad g=(\tfrac12K^{-1/2}L^{1/2},
-\tfrac12K^{1/2}L^{-1/2})\neq\mathbf0$ for $K,L>0$, so the method is
-licensed.}
+\tfrac12K^{1/2}L^{-1/2})\neq\mathbf0$ for $K,L>0$, so the method
+applies.}
 
 \wstep{Step 9. The four-step pipeline, for reuse.}
 \begin{center}\footnotesize
@@ -601,7 +601,7 @@ For Problems 1--15 we record $\mathcal{L}$ and the three FOCs.
   \item FOCs: $y = 2 \lambda$, $x = 3 \lambda$. Divide: $y/x = 2/3 \Rightarrow x = 3 y / 2$. Sub: $2 (3 y/2) + 3 y = 6 y = 12 \Rightarrow y^* = 2$, $x^* = 3$. $\lambda^* = y/2 = 1$. $U^* = 6$.
   \item FOCs: $\tfrac{1}{2} x^{-1/2} y^{1/2} = \lambda p_x$, $\tfrac{1}{2} x^{1/2} y^{-1/2} = \lambda p_y$. Divide: $y/x = p_x/p_y$. So $y = (p_x/p_y) x$. Budget: $p_x x + p_y (p_x/p_y) x = 2 p_x x = M \Rightarrow x^* = \dfrac{M}{2 p_x}$, $y^* = \dfrac{M}{2 p_y}$. Equal-share spending (since this is Cobb--Douglas with $\alpha = 1/2$). $\lambda^* = \dfrac{1}{2 p_x} \cdot \dfrac{y^{*1/2}}{x^{*1/2}} = \dfrac{1}{2 p_x} \sqrt{p_x/p_y} = \dfrac{1}{2\sqrt{p_x p_y}}$.
   \item FOCs: $1/x = \lambda$, $1/y = \lambda \Rightarrow x = y$. Constraint: $2 x = 10 \Rightarrow x^* = y^* = 5$. $\lambda^* = 1/5$.
-  \item FOCs: $1/x = \lambda$ and $2/y = 4 \lambda \Rightarrow y = 2/(4 \lambda) = 1/(2 \lambda) = x/2 \cdot ?$ Let's redo: from $1/x = \lambda$ we have $\lambda = 1/x$. Then $2/y = 4/x \Rightarrow y = x/2$. Sub into $x + 4 y = 24$: $x + 2 x = 3 x = 24 \Rightarrow x^* = 8$, $y^* = 4$. $\lambda^* = 1/8$.
+  \item FOCs: $1/x = \lambda$ and $2/y = 4 \lambda \Rightarrow y = 2/(4 \lambda) = 1/(2 \lambda)$. From $1/x = \lambda$ we have $\lambda = 1/x$. Then $2/y = 4/x \Rightarrow y = x/2$. Sub into $x + 4 y = 24$: $x + 2 x = 3 x = 24 \Rightarrow x^* = 8$, $y^* = 4$. $\lambda^* = 1/8$.
   \item FOCs: $y^2 = \lambda$, $2 x y = \lambda$. So $y^2 = 2 x y \Rightarrow y = 2 x$ (taking $y > 0$). Sub into $x + y = 9$: $3 x = 9 \Rightarrow x^* = 3$, $y^* = 6$. $\lambda^* = 36$. $U^* = 3 \cdot 36 = 108$.
   \item FOCs: $\alpha/x = \lambda p_x$, $\beta/y = \lambda p_y$. So $p_x x = \alpha/\lambda$ and $p_y y = \beta/\lambda$. Sum: $p_x x + p_y y = (\alpha + \beta)/\lambda = M \Rightarrow \lambda^* = (\alpha + \beta)/M$. Hence
   \[ x^* = \frac{\alpha}{\alpha + \beta} \cdot \frac{M}{p_x}, \quad y^* = \frac{\beta}{\alpha + \beta} \cdot \frac{M}{p_y}. \]
@@ -802,10 +802,10 @@ constrained problem for $(x^*, y^*)$ and $\lambda^*$.
   \item FOCs: $1/x = 2 \lambda$, $3/y = \lambda \Rightarrow y = 3/\lambda = 6 x$. Constraint: $2 x + 6 x = 8 x = 20 \Rightarrow x^* = 5/2$, $y^* = 15$. $\lambda^* = 1/(2 x^*) = 1/5$.
   \item FOCs: $5 = 2 \lambda x$, $2 = 8 \lambda y \Rightarrow x = 5/(2 \lambda)$, $y = 1/(4 \lambda)$. Constraint: $25/(4 \lambda^2) + 4/(16 \lambda^2) = 25/(4 \lambda^2) + 1/(4 \lambda^2) = 26/(4 \lambda^2) = 20 \Rightarrow \lambda^2 = 26/80 = 13/40 \Rightarrow \lambda^* = \sqrt{13/40} = \sqrt{13}/(2\sqrt{10})$. Then $x^* = 5/(2 \lambda^*) = 5 \sqrt{10}/\sqrt{13} \cdot 1 = 5\sqrt{10/13}$; $y^* = 1/(4 \lambda^*) = \sqrt{10/13}/2$. Verify: $x^{*2} + 4 y^{*2} = 25 \cdot 10/13 + 4 \cdot 10/(13 \cdot 4) = 250/13 + 10/13 = 260/13 = 20$. \checkmark
   \item FOCs: $2 x = 2 \lambda \Rightarrow x = \lambda$; $4 y = \lambda \Rightarrow y = \lambda/4$. Constraint: $2 \lambda + \lambda/4 = 9 \lambda/4 = 10 \Rightarrow \lambda^* = 40/9$. Then $x^* = 40/9$, $y^* = 10/9$. $f^* = (40/9)^2 + 2(10/9)^2 = (1600 + 200)/81 = 1800/81 = 200/9$.
-  \item FOCs: $\tfrac{2}{3} K^{-1/3} L^{1/3} = \lambda r$, $\tfrac{1}{3} K^{2/3} L^{-2/3} = \lambda w$. Divide: $2 L/K = r/w \Rightarrow w L = r K/2$, i.e.\ $r K = 2 w L$. Constraint: $r K + w L = 3 w L = TC$? Let's redo: $r K + w L = TC$ with $r K = 2 w L$ gives $3 w L = TC \Rightarrow L^* = TC/(3 w)$; then $r K = 2 TC/3 \Rightarrow K^* = 2 TC/(3 r)$. (Cobb--Douglas symmetric to Practice Problem 28.) $\lambda^* = \tfrac{2}{3 r}(L^*/K^*)^{1/3} = \tfrac{2}{3 r}\left(\dfrac{r}{2 w}\right)^{1/3}$.
+  \item FOCs: $\tfrac{2}{3} K^{-1/3} L^{1/3} = \lambda r$, $\tfrac{1}{3} K^{2/3} L^{-2/3} = \lambda w$. Divide: $2 L/K = r/w \Rightarrow w L = r K/2$, i.e.\ $r K = 2 w L$. Constraint: $r K + w L = TC$ with $r K = 2 w L$ gives $3 w L = TC \Rightarrow L^* = TC/(3 w)$; then $r K = 2 TC/3 \Rightarrow K^* = 2 TC/(3 r)$. (Cobb--Douglas symmetric to Practice Problem 28.) $\lambda^* = \tfrac{2}{3 r}(L^*/K^*)^{1/3} = \tfrac{2}{3 r}\left(\dfrac{r}{2 w}\right)^{1/3}$.
   \item FOCs: $2 x y = 3 \lambda$, $x^2 = 2 \lambda$. Eliminate: $\lambda = 2 x y/3 = x^2/2 \Rightarrow 4 x y = 3 x^2 \Rightarrow y = 3 x/4$ (for $x > 0$). Constraint: $3 x + 2(3 x/4) = 3 x + 3 x/2 = 9 x/2 = 24 \Rightarrow x^* = 16/3$, $y^* = 4$. $\lambda^* = x^{*2}/2 = 128/9$. $U^* = (16/3)^2 \cdot 4 = 1024/9$.
   \item FOCs: $1/(x + 1) = \lambda$, $1/(y + 1) = \lambda \Rightarrow x + 1 = y + 1 \Rightarrow x = y$. Constraint: $2 x = 6 \Rightarrow x^* = y^* = 3$. $\lambda^* = 1/4$. $U^* = 2 \ln 4$.
-  \item FOCs: $2(x - 2) = \lambda$, $2(y - 3) = 2 \lambda \Rightarrow y - 3 = \lambda = 2(x - 2) \Rightarrow y = 2 x - 1$. Constraint: $x + 2(2 x - 1) = 5 x - 2 = 8 \Rightarrow x^* = 2$, $y^* = 3$. Check: $2 + 6 = 8$. \checkmark $\lambda^* = 2(2 - 2) = 0$. $f^* = 0$ (the unconstrained min is feasible!).
+  \item FOCs: $2(x - 2) = \lambda$, $2(y - 3) = 2 \lambda \Rightarrow y - 3 = \lambda = 2(x - 2) \Rightarrow y = 2 x - 1$. Constraint: $x + 2(2 x - 1) = 5 x - 2 = 8 \Rightarrow x^* = 2$, $y^* = 3$. Check: $2 + 6 = 8$. \checkmark $\lambda^* = 2(2 - 2) = 0$. $f^* = 0$ (the unconstrained minimum is feasible).
   \item FOCs: $1/\sqrt{x} = \lambda$, $3/(2\sqrt{y}) = \lambda \Rightarrow \sqrt{y}/\sqrt{x} = 3/2 \Rightarrow y = 9 x/4$. Constraint: $x + 9 x/4 = 13 x/4 = 13 \Rightarrow x^* = 4$, $y^* = 9$. $\lambda^* = 1/\sqrt{4} = 1/2$. $U^* = 2 \cdot 2 + 3 \cdot 3 = 13$.
   \item \emph{(a) Substitution:} $y = 10 - x$, so maximise $h(x) = x(10 - x) = 10 x - x^2$. Then $h'(x) = 10 - 2 x = 0 \Rightarrow x^* = 5$, and $h''(x) = -2 < 0$ confirms a maximum. Hence $y^* = 10 - 5 = 5$ and $U^* = 25$.
   \emph{(b) Lagrange:} $\mathcal{L} = x y + \lambda(10 - x - y)$. FOCs: $y = \lambda$, $x = \lambda$, $10 - x - y = 0$. The first two give $x = y$, so $2 x = 10 \Rightarrow x^* = y^* = 5$, $\lambda^* = 5$, $U^* = 25$. Both methods agree on $(5, 5)$; the Lagrange route additionally delivers the shadow price $\lambda^* = 5$.
@@ -860,7 +860,7 @@ constrained problem for $(x^*, y^*)$ and $\lambda^*$.
         (d) (i) Straight from $V$ to $H$: $100\cdot500=50\,000$.
         (ii) Along the road to the foot of the perpendicular and then
         across: $60\cdot400+100\cdot300=24\,000+30\,000=54\,000$. The
-        optimum, $48\,000$, beats both --- and note that the naive
+        optimum, $48\,000$, is lower than both; note that the
         ``cheapest terrain crossing'' is the \emph{worst} of the three.
 
         (e) Substituting $y=\sqrt{(400-x)^{2}+90000}$ gives

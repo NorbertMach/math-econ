@@ -1,6 +1,6 @@
 \chapter{Financial Mathematics}
 
-Everything in this chapter is the geometric series earning its keep. A
+Everything in this chapter is an application of the geometric series. A
 capital under compound interest is a geometric sequence; a stream of equal
 payments, accumulated or discounted, is a geometric sum; and the central
 formula of the previous chapter,
@@ -202,7 +202,7 @@ earns interest:
 \]
 The gap of $7.4$ basis points is the compounding effect. Continuous
 compounding is the limiting case, $\mathrm{e}^{0.04}-1=4.0811\%$, and it is
-an upper bound: no compounding frequency can beat it.
+an upper bound: no compounding frequency can exceed it.
 \wtrap{Compare loans by EAR, never by nominal rate. And do not subtract the
 $1$ too early --- the ``$-1$'' converts a growth \emph{factor} into a
 \emph{rate}, and omitting it turns $4\%$ into $104\%$.}
@@ -214,8 +214,8 @@ Outlay $1000$ now, then $400$ at the end of each of three years, at $r=10\%$:
   =-1000+363.64+330.58+300.53=\boxed{-5.26\ \text{EUR}}
 \]
 Negative, so \textbf{reject}. Note how close to zero it is: the project
-almost pays for itself, which is why the eye is a poor judge here and the
-arithmetic is not optional.
+almost pays for itself, which is why inspection alone cannot decide here
+and the calculation is needed.
 \wtrap{The first flow is at $t=0$ and is \emph{not} discounted --- exponent
 $0$, not $1$. Discounting the outlay as well is the most common error in
 NPV, and it flatters every project.}
@@ -230,7 +230,7 @@ verdict as the NPV, reached independently.
 \]
 \wtrap{That equivalence needs the ``one sign change'' proviso. A cash flow
 that turns negative again later can have several IRRs or none, and then only
-the NPV is meaningful. When the two criteria disagree, believe the NPV.}
+the NPV is meaningful. When the two criteria disagree, rely on the NPV.}
 
 \wstep{Step 8. The three formulas this example used, in one place.}
 \[

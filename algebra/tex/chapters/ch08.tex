@@ -17,7 +17,7 @@ is that each piece on the right is something you can integrate, invert, or
 sum, while the left side is not.
 \end{rulebox}
 
-\begin{rulebox}{Step 0, which is skipped at your peril: make it proper}
+\begin{rulebox}{Step 0, which must not be skipped: make it proper}
 The method applies only when $\deg(\text{numerator})<\deg(\text{denominator})$.
 If not, \textbf{divide first}:
 \[
@@ -48,13 +48,13 @@ Multiply through by the full denominator to get a polynomial identity, then
 either
 \begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
   \item \textbf{substitute the roots} (the ``cover-up'' method) --- each root
-        of a linear factor kills every term but one, giving a constant
+        of a linear factor eliminates every term but one, giving a constant
         immediately; or
   \item \textbf{compare coefficients} of like powers, giving a small linear
         system.
 \end{itemize}
 Roots are faster and handle the simple constants; coefficient comparison
-mops up the ones the roots cannot reach, which is exactly the situation with
+supplies the ones the roots cannot reach, which is exactly the situation with
 a repeated factor.
 \end{rulebox}
 
@@ -82,7 +82,7 @@ Multiplying both sides by $x(x+1)^{2}$:
 This is an identity: it holds for \emph{every} $x$, which is what licenses
 the substitutions that follow.
 
-\wstep{Step 3. Substitute the roots to harvest the easy constants.}
+\wstep{Step 3. Substitute the roots to find the easy constants.}
 \[
   x=0:\quad -5=A(1)+0+0 \;\Longrightarrow\; A=-5 .
 \]

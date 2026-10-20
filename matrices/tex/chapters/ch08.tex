@@ -67,7 +67,7 @@ For triangular $A$, the eigenvalues are exactly the diagonal entries.
 \]
 \wtrap{Subtract $\lambda$ from the \emph{diagonal only}. Writing
 $\begin{pmatrix}4-\lambda&1-\lambda\\2-\lambda&3-\lambda\end{pmatrix}$ is a
-surprisingly common slip and produces nonsense.}
+common slip and gives the wrong polynomial.}
 
 \wstep{Step 2. Expand into the characteristic polynomial.}
 \[
@@ -144,7 +144,7 @@ of $D$. Swap one and you must swap the other; getting this wrong gives a
 $PDP^{-1}$ that is simply not $A$, and it is worth one multiplication to
 confirm.}
 
-\wstep{Step 8. Powers become trivial.}
+\wstep{Step 8. Powers become easy to compute.}
 $A^{k}=PD^{k}P^{-1}$, because the inner $P^{-1}P$ pairs all cancel. With
 $5^{5}=3125$ and $2^{5}=32$:
 \[
@@ -235,7 +235,7 @@ is below $1$ in modulus.
   \item $A - I = \bigl(\begin{smallmatrix} -0.2 & 0.3 \\ 0.2 & -0.3 \end{smallmatrix}\bigr)$. Set $-0.2 v_{1} + 0.3 v_{2} = 0 \Rightarrow v_{1} = 1.5 v_{2}$. Choose $v_{2} = 2$: $v = (3, 2)^{T}$. Normalised to a probability vector: $(3/5, 2/5)^{T} = (0.6, 0.4)^{T}$.
   \item $\lambda = 0$ is an eigenvalue $\Leftrightarrow$ there exists $v \neq 0$ with $A v = 0$ $\Leftrightarrow$ $\ker A \neq \{0\}$ $\Leftrightarrow$ $A$ is singular.
   \item $p_{A}(\lambda) = (7 - \lambda)(-3 - \lambda) + 24 = \lambda^{2} - 4 \lambda + 3 = (\lambda - 1)(\lambda - 3)$. Eigenvalues $1, 3$.
-  \item Expand $\det(A - \lambda I)$ along column 2: only the $(2, 2)$-entry is nonzero in that column (entries are $2, 3 - \lambda, 0$). Actually let's just expand directly.
+  \item Expand $\det(A - \lambda I)$ along row 2, whose only nonzero entry is the $(2, 2)$-entry $3 - \lambda$:
   \[
   \det\!\begin{pmatrix} 1 - \lambda & 2 & 0 \\ 0 & 3 - \lambda & 0 \\ 4 & 0 & 5 - \lambda \end{pmatrix} = (3 - \lambda) \det \begin{pmatrix} 1 - \lambda & 0 \\ 4 & 5 - \lambda \end{pmatrix} = (3 - \lambda)(1 - \lambda)(5 - \lambda).
   \]

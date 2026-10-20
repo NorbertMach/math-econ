@@ -4,12 +4,12 @@ A series adds up the terms of a sequence. Since infinitely many
 additions cannot be carried out one after another, the value of a series is
 \emph{defined} as the limit of its partial sums: series theory is sequence
 theory applied to one particular sequence. This chapter covers the
-convergence basics: the two sum formulas everyone must know (arithmetic and
+convergence basics: the two basic sum formulas (arithmetic and
 geometric), the necessary condition for convergence with the harmonic series
-as its famous counterexample, telescoping sums, and two light convergence
-tests. The star of the chapter is the geometric series: the entire financial
+as its standard counterexample, telescoping sums, and two light convergence
+tests. The central result is the geometric series: the financial
 mathematics of the next chapter (compound interest, present value,
-annuities) is the geometric series in a suit.
+annuities) is the geometric series applied to payment streams.
 
 \section{Core Rules}
 
@@ -118,7 +118,7 @@ $\dfrac{a_{k+1}}{a_k}\to L$. Then:
         $\sum 1/k^{2}$ (convergent) give $L=1$.
 \end{itemize}
 Example: for $a_k=k/2^{k}$ the ratio is
-$\dfrac{k+1}{2k}\to\dfrac12<1$, so $\sum k/2^{k}$ converges. The test shines when powers or factorials appear.
+$\dfrac{k+1}{2k}\to\dfrac12<1$, so $\sum k/2^{k}$ converges. The test is most useful when powers or factorials appear.
 \end{rulebox}
 
 \begin{rulebox}{Linearity}
@@ -196,10 +196,10 @@ blocks, so the partial sums exceed any bound:
 \wtrap{This is the chapter's most important negative result.
 $a_{k}\to0$ is \textbf{necessary but not sufficient}. The test is only ever
 useful in its contrapositive form: if the terms do \emph{not} tend to zero,
-the series definitely diverges. If they do, you have learned nothing and
-must apply a real test.}
+the series definitely diverges. If they do, the test gives no information
+and another test is needed.}
 
-\wstep{Step 6. Compare the three, and read the moral.}
+\wstep{Step 6. Compare the three series.}
 \begin{center}\footnotesize
 \begin{tabular}{lll}
   \hline
@@ -252,7 +252,7 @@ or divergence with a justified test. Problem 20 previews the next chapter.
   \item Does $\displaystyle\sum_{k=1}^{\infty}\frac{1}{2^{k}+1}$ converge?
   \item Does $\displaystyle\sum_{k=1}^{\infty}\frac{1}{\sqrt{k}}$ converge?
   \item Does $\displaystyle\sum_{k=1}^{\infty}\frac{k}{2^{k}}$ converge?
-  \item \emph{Perpetuity teaser.} A contract pays $100$ euros at the end of
+  \item \emph{Perpetuity preview.} A contract pays $100$ euros at the end of
         every year, forever. At an interest rate of $5\%$ per year, a
         payment $k$ years from now is worth $100\cdot(1/1.05)^{k}$ euros
         today. What is the total value of the contract today?

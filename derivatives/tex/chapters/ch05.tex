@@ -11,7 +11,7 @@ Implicit differentiation gets it without solving for $y$. The move rests on
 one idea, and the whole chapter is that idea applied repeatedly: pretend the
 equation has already been solved near the point of interest, so that $y$ is
 a function $y(x)$; substituting it makes the equation an identity in $x$;
-identities may be differentiated. Because every $y$ in sight is secretly the
+identities may be differentiated. Because every $y$ in the equation is in fact the
 composite $y(x)$, the chain rule leaves a factor $y'$ behind wherever a $y$
 was, and the resulting linear equation is solved for $y'$.
 
@@ -188,7 +188,7 @@ product rule applies:
 \[
   \frac{\mathrm{d}}{\mathrm{d}x}\bigl[6xy\bigr]=6y+6xy' .
 \]
-\wtrap{The right side is where this problem is lost. Writing $6y$ alone
+\wtrap{Most errors in this problem occur on the right side. Writing $6y$ alone
 (treating $y$ as a constant) or $6xy'$ alone (forgetting the product rule)
 are both common. Every occurrence of $y$ needs the chain rule, \emph{and}
 every product needs the product rule --- they compound rather than replace
@@ -232,7 +232,7 @@ apply $-F_{x}/F_{y}$ --- are the same computation; use whichever you find
 faster, but know that they must agree.
 
 \wstep{Step 6. Vertical tangents: where the denominator vanishes.}
-$y'$ blows up when $F_{y}=3y^{2}-6x=0$, i.e.\ $x=y^{2}/2$. Substituting into
+$y'$ is undefined when $F_{y}=3y^{2}-6x=0$, i.e.\ $x=y^{2}/2$. Substituting into
 the curve:
 \[
   \frac{y^{6}}{8}+y^{3}=6\cdot\frac{y^{2}}{2}\cdot y=3y^{3}

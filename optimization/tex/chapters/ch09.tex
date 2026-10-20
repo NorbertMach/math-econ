@@ -338,7 +338,7 @@ The constraint gives $y=10-x$, so
   h''=-2<0 .
 \]
 A maximum, value $25$. \checkmark\ When substitution is possible it is the
-faster route and the better check; the Lagrangian earns its keep when the
+faster route and the better check; the Lagrangian is needed when the
 constraint cannot be solved for a variable.
 
 \wstep{Step 6. Note what is \emph{not} true.}
@@ -632,7 +632,6 @@ $\det \overline{H}$, and classify.
         So $\lambda_1 = 1/\sqrt{2}$.
   \item Subtracting the first constraint from the second:
         $y + 2 z = 30$. Combined with $x + y + z = 30$ we get
-        $x = z + (y + 2 z) - (x + y + z) = \ldots$ More directly:
         $y = 30 - 2 z$ and $x = 30 - y - z = 30 - (30 - 2 z) - z = z$.
         So the constraint set is the 1-parameter line
         $\{(z, 30 - 2 z, z) : 0 < z < 15\}$. On this line,
@@ -1020,8 +1019,7 @@ prices with several constraints.
         2 c_2 = 3 c_1$. Constraint: $3 c_1 + 3 c_1 = 6 c_1 = 280
         \Rightarrow c_1^* = 140/3$; $c_2^* = 70$;
         $s^* = 80 - 140/3 = 100/3$. Two-multiplier form:
-        $\lambda_2 = (1/2) c_1^{1/2}/c_2^{1/2} \cdot (1/c_2) \cdot ?$
-        Better: FOCs $\tfrac{1}{2}\sqrt{c_2/c_1} = \lambda_1$,
+        FOCs $\tfrac{1}{2}\sqrt{c_2/c_1} = \lambda_1$,
         $\tfrac{1}{2}\sqrt{c_1/c_2} = \lambda_2$,
         $\lambda_1 = (3/2) \lambda_2$.
         $\lambda_2 = (1/2)\sqrt{(140/3)/70} = (1/2)\sqrt{2/3}$.
@@ -1029,7 +1027,7 @@ prices with several constraints.
   \item With $x = 2 z$ forced: $2 z + y + z = 3 z + y = 18$.
         $f = \ln(2 z) + \ln y + \ln z = \ln 2 + 2 \ln z + \ln y$.
         Maximise $2 \ln z + \ln y$ on $3 z + y = 18$. FOC:
-        $2/z = 3 \mu$, $1/y = \mu \Rightarrow y = z/(?) $ Carefully:
+        $2/z = 3 \mu$, $1/y = \mu$, so
         $\mu = 2/(3 z) = 1/y \Rightarrow y = 3 z/2$. Constraint:
         $3 z + 3 z/2 = 9 z/2 = 18 \Rightarrow z^* = 4$, $y^* = 6$,
         $x^* = 8$. $f^* = \ln 8 + \ln 6 + \ln 4 = \ln(192)$.

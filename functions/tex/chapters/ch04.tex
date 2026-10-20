@@ -233,8 +233,9 @@ lines $y=x$ and $y=-x$.
   \item $y\ge0$: the upper half-plane, boundary included.
   \item $x\le2$: everything to the left of the vertical line $x=2$.
 \end{itemize}
-\wtrap{Decide inside-versus-outside by testing one point, not by staring at
-the inequality sign. The origin is free and settles the disc immediately.
+\wtrap{Decide inside-versus-outside by testing one point, not by reading
+the inequality sign alone. The origin costs nothing and settles the disc
+immediately.
 For a line not through the origin, any convenient point does.}
 
 \wstep{Step 2. Intersect the three.}
@@ -273,13 +274,13 @@ $(-4,0)$, $(2,0)$, $(2,2\sqrt3)$.
 Test $(0,1)$: $0+1\le16$ \checkmark, $1\ge0$ \checkmark, $0\le2$
 \checkmark. Inside, as drawn.
 
-\wstep{Step 5. Note that $S$ is convex, and why you can say so instantly.}
+\wstep{Step 5. Note that $S$ is convex, and why no picture is needed.}
 Each of the three constraint sets is convex --- a disc, a half-plane, a
 half-plane --- and \textbf{an intersection of convex sets is convex}. No
-picture is needed for that conclusion, and no amount of picture-gazing
-substitutes for it.
+picture is needed for that conclusion, and a picture alone cannot replace
+it.
 
-\wstep{Step 6. The second region: $\{y\ge\sqrt{x}\}$. Do not trust the eye.}
+\wstep{Step 6. The second region: $\{y\ge\sqrt{x}\}$. Check the definition.}
 The boundary $y=\sqrt{x}$ is a smooth, gently bending curve, and the region
 above it looks perfectly well behaved. Test the definition instead. Take the
 two boundary points
@@ -305,8 +306,8 @@ below --- the hypograph --- is convex exactly when the function is
 succeeds, and $\{y\ge x^{2}\}$ succeeds while $\{y\le x^{2}\}$ fails.
 \wtrap{``Above'' is not a synonym for ``convex''. Match the direction of the
 inequality to the curvature of the function: convex function with $\ge$, or
-concave function with $\le$. Getting this backwards is the single most
-common mistake in the chapter, and it recurs in \volref{optimization} where the feasible
+concave function with $\le$. Getting this backwards is a common mistake,
+and it recurs in \volref{optimization} where the feasible
 set of a constrained problem must be convex for the first-order conditions
 to be sufficient.}
 \end{worked}
@@ -378,7 +379,7 @@ Corners $(\pm4,-1)$, where the curves cross, and the touching point
 $(0,3)$, which belongs to $T$ because both inequalities hold with equality.
 Interior check: $(0,-2)$ gives $-8\le12$ and $8\le18$. \checkmark
 
-\wstep{Step 6. Convexity comes free.}
+\wstep{Step 6. Convexity follows directly.}
 The ellipse interior is convex, and the region below the graph of the
 concave function $3-\tfrac14x^{2}$ is convex; their intersection $T$ is
 convex.
@@ -1082,7 +1083,7 @@ the right.
   \item The region on or above the parabola $y=x^{2}-4$, whose vertex is
         $(0,-4)$ and which crosses the axis at $x=\pm2$. Convex.
   \item Everything on or below the increasing curve $y=2^{x}$, which
-        passes through $(0,1)$ and hugs the $x$-axis to the left. Since
+        passes through $(0,1)$ and approaches the $x$-axis to the left. Since
         $2^{x}$ is \emph{convex} and not a straight line, the region below
         it is \textbf{not} convex: $(-3,\tfrac18)$ and $(3,8)$ both satisfy the inequality,
         but their midpoint $(0,4.0625)$ does not, since $2^{0}=1<4.0625$.

@@ -7,7 +7,7 @@ hardest limits into routine ones.
 
 The tool is \textbf{L'H\^opital's rule}: if a quotient tends to $0/0$ or to
 $\infty/\infty$, the limit is unchanged when numerator and denominator are
-\emph{each} differentiated. Two words in that sentence do all the damage in
+\emph{each} differentiated. Two words in that sentence account for most errors in
 practice. \emph{Each}: the rule is not the quotient rule, and the derivative
 of the quotient never appears. And the form must genuinely be
 indeterminate: applied to a quotient that is not, the rule quietly returns
@@ -16,7 +16,7 @@ the wrong number.
 Five further indeterminate forms --- $0\cdot\infty$, $\infty-\infty$,
 $0^{0}$, $1^{\infty}$, $\infty^{0}$ --- are not quotients at all, and the
 chapter's second skill is converting them into one. The last two rows of
-the toolkit are then worth the price of admission on their own: the
+the toolkit are of particular use in economics: the
 hierarchy of growth rates that decides which of two economic magnitudes
 eventually dominates, and the limit that turns a CES production function
 into a Cobb--Douglas one.
@@ -161,12 +161,12 @@ $\ln x$ for good --- however slow the start looks.}
 As $x\to0$: $\cos x\to1$ and $1/x^{2}\to+\infty$, so the expression has the
 form $1^{\infty}$. That is \textbf{indeterminate} --- it can be anything.
 Compare $1^{n}\to1$, but $(1+\tfrac1n)^{n}\to\mathrm{e}$ and
-$(1+\tfrac2n)^{n}\to\mathrm{e}^{2}$: the base creeps towards $1$ while the
-exponent races to infinity, and who wins depends on the rates.
+$(1+\tfrac2n)^{n}\to\mathrm{e}^{2}$: the base approaches $1$ while the
+exponent grows without bound, and the outcome depends on the relative rates.
 \wtrap{$1^{\infty}$, $0^{0}$ and $\infty^{0}$ are indeterminate;
 $0^{\infty}=0$ and $\infty^{\infty}=\infty$ are not. Deciding which case you
 are in is the first and most error-prone step, and answering ``$1$'' to
-$1^{\infty}$ is wrong roughly as often as it is right.}
+$1^{\infty}$ is a common error.}
 
 \wstep{Step 2. Take logarithms, which converts a power into a product.}
 Set $y=(\cos x)^{1/x^{2}}$, so
@@ -217,7 +217,7 @@ a formality, and stopping at $-\tfrac12$ is the way this problem is most
 often half-solved. Numerical check: at $x=0.1$ the expression is
 $0.60649$. \checkmark}
 
-\wstep{Step 6. Now a limit that L'H\^opital cannot touch.}
+\wstep{Step 6. Now a limit that L'H\^opital's rule cannot resolve.}
 \[
   \lim_{x\to\infty}\frac{x+\sin x}{x} .
 \]
@@ -490,7 +490,7 @@ Problems 35--40 are about the conditions of the rule.
         today.
   \item $\displaystyle\lim_{q\to0^{+}}\left(q+\frac4q\right)=+\infty$: as
         output shrinks, the fixed cost $4$ is spread over almost nothing,
-        so average cost explodes. And
+        so average cost grows without bound. And
         $\dfrac{AC(q)}{q}=1+\dfrac{4}{q^{2}}\to1$, so for large $q$ average
         cost grows essentially like $q$ itself: the fixed cost becomes
         irrelevant and $AC\approx q$.
@@ -573,7 +573,7 @@ Problems 35--40 are about the conditions of the rule.
   \item Not indeterminate as written from the right: $x\to0^{+}$ gives
         $0\cdot\infty$, so rewrite with $t=1/x\to\infty$ as
         $\dfrac{\mathrm{e}^{t}}{t}\to\infty$. The limit is $+\infty$ ---
-        the exponential blow-up beats the vanishing factor.
+        the exponential growth dominates the vanishing factor.
   \item Multiply by the conjugate:
         $\dfrac{4x}{\sqrt{x^{2}+3x}+\sqrt{x^{2}-x}}
         =\dfrac{4}{\sqrt{1+3/x}+\sqrt{1-1/x}}\to\dfrac{4}{2}=2$.

@@ -330,8 +330,8 @@ gives the response:
   \dd{p}{\alpha}=-\frac{F_{\alpha}}{F_{p}} ,
 \]
 and its \emph{sign} --- which is often all that is asked --- follows from
-the signs of two partials. This is the engine of every comparative-statics
-result in economics.
+the signs of two partials. Most comparative-statics results in economics
+rest on this formula.
 
 \wstep{Step 7. Homogeneity: check the degree by scaling.}
 $f$ is homogeneous of degree $r$ if $f(tK,tL)=t^{r}f(K,L)$ for all $t>0$.
@@ -391,7 +391,7 @@ We are asked about $y=4$, so we need the $x$ with $f(x)=4$:
 \wtrap{The formula needs $x_{0}=f^{-1}(y_{0})$, not $y_{0}$. Substituting
 $4$ into $f'$ gives $5\cdot4^{4}+2=1282$ and the wrong answer $1/1282$.
 Find the pre-image first; in an examination it is always a value you can
-guess and verify, because no one can invert a quintic either.}
+guess and verify, because there is no general solution formula for a quintic.}
 
 \wstep{Step 3. Apply the formula.}
 \[
@@ -442,7 +442,7 @@ Check by multiplying: $\begin{pmatrix}2&-2\\2&2\end{pmatrix}
 $\bigl[J\bigr]^{-1}$ is a matrix inverse, and the $2\times2$ rule swaps the
 diagonal and negates the off-diagonal before dividing by the determinant.
 Entrywise reciprocals would give $\begin{pmatrix}1/2&-1/2\\1/2&1/2
-\end{pmatrix}$, which is not the inverse of anything relevant.}
+\end{pmatrix}$, which is not the inverse matrix.}
 
 \wstep{Step 7. Now show the inverse is only local.}
 $\det J\neq0$ holds at every point except the origin, which invites the
@@ -456,7 +456,7 @@ Two different points share an image, so no global inverse exists. In general
 $\mathbf{f}(-x,-y)=\mathbf{f}(x,y)$: the map is two-to-one everywhere.
 \wtrap{``$\det J\neq0$ everywhere'' gives a local inverse \emph{at each
 point} and says nothing about fitting them together into one function. This
-is the chapter's sharpest trap, and the map above is the standard
+is easy to overlook, and the map above is the standard
 counterexample --- it is squaring, in disguise, and squaring is two-to-one.}
 
 \wstep{Step 8. What the two halves have in common.}
@@ -1411,7 +1411,7 @@ Problems 38--40: one equation in three unknowns.
         $z(x,y)$. What does the surface look like at the excluded points?
 \end{problems}
 
-Problems 41--45: the hypotheses fail, and yet.
+Problems 41--45: cases where the hypotheses fail.
 
 \begin{problems}[resume]
   \item $\mathbf{F}(x,y)=\bigl((x-1)^{3},\;x+y\bigr)$: find all points

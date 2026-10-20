@@ -428,7 +428,7 @@ quasiconcave and quasiconvex. In several variables that fails: $xy$ is
 increasing on the quadrant but not quasiconvex there.
 \end{rulebox}
 
-\begin{rulebox}{Cobb--Douglas: the flagship example}
+\begin{rulebox}{Cobb--Douglas: the standard example}
 For $f(x,y)=x^{\alpha}y^{\beta}$ with $\alpha,\beta>0$ on
 $\R^{2}_{++}=\{(x,y):x>0,\ y>0\}$,
 \[
@@ -618,10 +618,10 @@ model.
         point.
   \item Classify $f(x,y)=-x^{2}+xy-y^{2}$ on $\R^{2}$.
   \item Classify $f(x,y)=x^{2}-y^{2}$ on $\R^{2}$.
-  \item Classify $f(x,y)=x^{2}+2xy+y^{2}$ on $\R^{2}$. (Careful: this is a
+  \item Classify $f(x,y)=x^{2}+2xy+y^{2}$ on $\R^{2}$. (Note: this is a
         semidefinite case.)
   \item Classify $f(x,y)=xy$ on $\R^{2}_{++}$.
-  \item (Cobb--Douglas, flagship.) Let $f(x,y)=x^{\alpha}y^{\beta}$ with
+  \item (Cobb--Douglas.) Let $f(x,y)=x^{\alpha}y^{\beta}$ with
         $\alpha,\beta>0$ on $\R^{2}_{++}$. Compute the Hessian, show that
         \[
           \det\Hess_f=\alpha\beta(1-\alpha-\beta)\,x^{2\alpha-2}y^{2\beta-2},
@@ -869,9 +869,9 @@ model.
         convex. So $f$ is \textbf{both quasiconcave and quasiconvex}.
         Yet $f'(0)=3\cdot0^{2}=0$: the FOC holds at $x=0$, but $0$ is not
         even a local maximum ($f$ is strictly increasing, and $f$ is
-        unbounded above). Moral: for a merely quasiconcave function the
-        FOC is \emph{not} sufficient for a maximum, that privilege
-        belongs to concavity.
+        unbounded above). Hence for a merely quasiconcave function the
+        FOC is \emph{not} sufficient for a maximum; sufficiency
+        requires concavity.
 
   \item $f_x=2x-2y$, $f_y=4y-2x-2z$, $f_z=6z-2y$, so the (constant)
         Hessian is
@@ -1269,8 +1269,8 @@ A second pass over the same rules, with fresh functions.
         no single curvature holds.
   \item (a) is quasiconvex but not quasiconcave; (b) is concave, hence
         quasiconcave; (c) is neither; (d) \emph{is} quasiconcave on the
-        positive quadrant, which is the whole point of the Cobb--Douglas
-        picture --- its superlevel sets are the convex regions beyond the
+        positive quadrant, which is what the Cobb--Douglas
+        picture shows: its superlevel sets are the convex regions beyond the
         isoquants.
   \item $f_{xx}=0$, $f_{yy}=0$, $f_{xy}=1$, so
         $\Hess f=\begin{pmatrix}0&1\\1&0\end{pmatrix}$ with

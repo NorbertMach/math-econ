@@ -7,7 +7,7 @@ point $a$, or as $x$ grows beyond all bounds? The answer leads directly
 to \emph{continuity}, the property that makes a function
 graph drawable without lifting the pen, and to the Intermediate Value
 Theorem, the tool that guarantees roots and market equilibria exist and
-tells us how to hunt them down numerically.
+tells us how to locate them numerically.
 
 The treatment stays computational: limits are evaluated with the same
 limit rules as for sequences, and the indeterminate form $0/0$ is resolved
@@ -55,7 +55,7 @@ found by \textbf{direct substitution}: $\lim_{x\to a}f(x)=f(a)$.
 
 \begin{rulebox}{The indeterminate form $0/0$}
 If numerator and denominator both tend to $0$, the quotient rule does not
-apply: the limit can still be anything. Two algebraic escapes:
+apply: the limit can still be anything. Two algebraic remedies:
 \begin{itemize}[leftmargin=1.6em,itemsep=0.3ex]
   \item \textbf{Factor and cancel:} if a polynomial vanishes at $x=a$,
         then $(x-a)$ is one of its factors. Factor numerator and
@@ -251,14 +251,14 @@ differently. Decide by computing the two one-sided limits: equal and finite
 $\Rightarrow$ removable; finite but different $\Rightarrow$ jump; at least
 one infinite $\Rightarrow$ pole. Only the removable kind can be patched.}
 
-\wstep{Step 7. Continuity earns two theorems --- use them.}
+\wstep{Step 7. Two theorems that rest on continuity.}
 \emph{Intermediate Value Theorem.} $h(x)=x^{3}+x-1$ is continuous, with
 $h(0)=-1<0$ and $h(1)=1>0$. So $h$ takes the value $0$ somewhere in
 $(0,1)$: the equation has a root, proved without solving it. This is how
 every existence claim about an equilibrium price is made.
 
 \emph{Weierstrass.} A continuous function on a \textbf{closed and bounded}
-interval attains a maximum and a minimum. Both hypotheses are load-bearing:
+interval attains a maximum and a minimum. Both hypotheses are essential:
 $1/x$ on $(0,1]$ is continuous but unbounded, because the interval is not
 closed; $x$ on $[0,\infty)$ has no maximum, because the interval is not
 bounded.
