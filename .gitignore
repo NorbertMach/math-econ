@@ -21,3 +21,10 @@ TODO.md
 
 # Third-party course material saved for reference; never published
 temp/
+
+# E-reader build outputs: rebuild with `make kindle` in a volume's tex/
+# directory, or `python3 tools/ebook/latex2epub.py <volume>`
+/ebook/
+
+# Python bytecode
+__pycache__/

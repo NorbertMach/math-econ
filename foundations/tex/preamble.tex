@@ -2,7 +2,14 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{lmodern}
-\usepackage[a4paper,margin=2.4cm]{geometry}
+\ifdefined\KindleEdition
+  % 6-inch e-ink page (Kindle Paperwhite): the page *is* the screen, so the
+  % margins are only what the eye needs, not what a printer needs.
+  \usepackage[paperwidth=90mm,paperheight=122mm,
+              top=4mm,bottom=6mm,left=4.5mm,right=4.5mm]{geometry}
+\else
+  \usepackage[a4paper,margin=2.4cm]{geometry}
+\fi
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{microtype}
 \usepackage{enumitem}
@@ -188,3 +195,72 @@
   \ifincompendium Part~\@Roman{\csname chref@vol@#1\endcsname}%
   \else Volume~\csname chref@vol@#1\endcsname\fi}
 \makeatother
+
+% --- Kindle edition: compact layout for a 6-inch screen -------------------
+% Everything below applies only when \KindleEdition is defined on the
+% command line; the A4 edition is untouched.
+\ifdefined\KindleEdition
+  \usepackage{etoolbox}
+  \usepackage{adjustbox}
+  \usepackage{titlesec}
+
+  % The 8cm measure leaves few break points; let TeX loosen a tight line
+  % rather than push it into the margin.
+  \setlength{\emergencystretch}{1.5em}
+
+  % No running heads: on a 90mm page the header costs more than it gives.
+  % A centred page number in the foot is kept so the contents list means
+  % something.
+  \pagestyle{plain}
+  \fancypagestyle{plain}{\fancyhf{}\fancyfoot[C]{\small\thepage}%
+    \renewcommand{\headrulewidth}{0pt}}
+
+  % Compact headings: the book class leaves a third of a page above a
+  % chapter title, which is unaffordable here.
+  \titleformat{\chapter}[display]
+    {\normalfont\Large\bfseries\color{accent}}{\normalsize\chaptertitlename\ \thechapter}{0.4em}{\Large}
+  \titlespacing*{\chapter}{0pt}{0pt}{1.2em}
+  \titlespacing*{\section}{0pt}{1.4ex plus .3ex}{0.7ex}
+  \titlespacing*{\subsection}{0pt}{1.2ex plus .2ex}{0.5ex}
+
+  % Boxes: trim the padding, which was set for a 16cm measure.
+  \tcbset{left=3.5pt,right=3.5pt,top=3pt,bottom=3pt,
+          fonttitle=\bfseries\small,
+          halign title=flush left}
+
+  % Problem and solution lists: reclaim the wide left margin.
+  \setlist[problems]{label=\textbf{\arabic*.}, leftmargin=1.5em,
+    itemsep=0.45ex, parsep=0pt, topsep=0.6ex}
+  \setlist[solutions]{label=\textbf{\arabic*.}, leftmargin=1.5em,
+    itemsep=0.8ex, parsep=0pt, topsep=0.6ex}
+
+  % Figures and wide tables shrink to the measure instead of running off it.
+  % adjustbox only scales down: anything already narrow is left alone.
+  \BeforeBeginEnvironment{tikzpicture}{\begin{adjustbox}{max width=\linewidth}}
+  \AfterEndEnvironment{tikzpicture}{\end{adjustbox}}
+  \BeforeBeginEnvironment{tabular}{\begin{adjustbox}{max width=\linewidth}}
+  \AfterEndEnvironment{tabular}{\end{adjustbox}}
+
+  % Display maths was written for a 16cm measure. On 8cm the long chained
+  % equations would run off the screen, so any display wider than the text
+  % block is scaled down to fit; narrower ones are left at full size. The
+  % whole corpus uses \[ ... \] and no other display environment, so this
+  % one redefinition covers every case.
+  \newsavebox{\kndbox}
+  \renewcommand{\[}{\par\addvspace{0.7ex}%
+    \begin{lrbox}{\kndbox}$\displaystyle}
+  \renewcommand{\]}{$\end{lrbox}%
+    {\centering
+      \ifdim\wd\kndbox>\linewidth
+        \resizebox{\linewidth}{!}{\usebox{\kndbox}}%
+      \else
+        \usebox{\kndbox}%
+      \fi
+     \par}%
+    \addvspace{0.7ex}}
+
+  % A narrow measure makes perfect justification impossible; prefer a loose
+  % line to a line that runs into the margin.
+  \sloppy
+  \raggedbottom
+\fi

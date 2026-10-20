@@ -275,11 +275,13 @@ entirely on $\mathbf b$.}
     \item $\mathrm{rk}(A) = 3 = $ number of rows: full row rank, so $A x = b$ has a solution for every $b \in \R^{3}$. But $\mathrm{null}(A) = 5 - 3 = 2 > 0$, so the solution is not unique.
 
     \item Cofactor expansion along row 1:
-    \begin{align*}
+    \[
+\begin{aligned}
     \det A &= 1 \cdot (1 - a) - a \cdot (1 - a^{2}) + 1 \cdot (1 - a) \\
            &= 2(1 - a) - a(1 - a)(1 + a) \\
            &= (1 - a)\bigl[2 - a(1 + a)\bigr] = (1 - a)(2 - a - a^{2}).
-    \end{align*}
+    \end{aligned}
+\]
     Factor $2 - a - a^{2} = -(a + 2)(a - 1)$, so $\det A = (1 - a)^{2}(a + 2)$. Hence $\mathrm{rk}(A) < 3$ iff $a = 1$ or $a = -2$.
 
     \item Lower-triangular with nonzero diagonal: $\det = 1 \neq 0$, so rows are independent.
